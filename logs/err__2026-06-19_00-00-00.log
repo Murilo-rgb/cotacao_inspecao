@@ -1,0 +1,272 @@
+18/06/2026 17:35:55: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:35:55:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:35:55:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:35:55:     at Server.listen (node:net:2102:7)
+18/06/2026 17:35:55:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:35:55:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:35:55:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:35:55:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:35:55:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:35:55:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:35:55:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:35:55:   code: 'EADDRINUSE',
+18/06/2026 17:35:55:   errno: -4091,
+18/06/2026 17:35:55:   syscall: 'listen',
+18/06/2026 17:35:55:   address: '::',
+18/06/2026 17:35:55:   port: 3016
+18/06/2026 17:35:55: }
+18/06/2026 17:36:01: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:01:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:01:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:01:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:01:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:01:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:01:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:01:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:01:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:01:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:01:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:01:   code: 'EADDRINUSE',
+18/06/2026 17:36:01:   errno: -4091,
+18/06/2026 17:36:01:   syscall: 'listen',
+18/06/2026 17:36:01:   address: '::',
+18/06/2026 17:36:01:   port: 3016
+18/06/2026 17:36:01: }
+18/06/2026 17:36:07: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:07:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:07:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:07:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:07:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:07:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:07:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:07:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:07:   code: 'EADDRINUSE',
+18/06/2026 17:36:07:   errno: -4091,
+18/06/2026 17:36:07:   syscall: 'listen',
+18/06/2026 17:36:07:   address: '::',
+18/06/2026 17:36:07:   port: 3016
+18/06/2026 17:36:07: }
+18/06/2026 17:36:14: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:14:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:14:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:14:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:14:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:14:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:14:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:14:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:14:   code: 'EADDRINUSE',
+18/06/2026 17:36:14:   errno: -4091,
+18/06/2026 17:36:14:   syscall: 'listen',
+18/06/2026 17:36:14:   address: '::',
+18/06/2026 17:36:14:   port: 3016
+18/06/2026 17:36:14: }
+18/06/2026 17:36:20: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:20:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:20:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:20:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:20:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:20:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:20:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:20:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:20:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:20:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:20:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:20:   code: 'EADDRINUSE',
+18/06/2026 17:36:20:   errno: -4091,
+18/06/2026 17:36:20:   syscall: 'listen',
+18/06/2026 17:36:20:   address: '::',
+18/06/2026 17:36:20:   port: 3016
+18/06/2026 17:36:20: }
+18/06/2026 17:36:26: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:26:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:26:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:26:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:26:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:26:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:26:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:26:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:26:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:26:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:26:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:26:   code: 'EADDRINUSE',
+18/06/2026 17:36:26:   errno: -4091,
+18/06/2026 17:36:26:   syscall: 'listen',
+18/06/2026 17:36:26:   address: '::',
+18/06/2026 17:36:26:   port: 3016
+18/06/2026 17:36:26: }
+18/06/2026 17:36:32: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:32:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:32:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:32:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:32:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:32:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:32:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:32:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:32:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:32:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:32:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:32:   code: 'EADDRINUSE',
+18/06/2026 17:36:32:   errno: -4091,
+18/06/2026 17:36:32:   syscall: 'listen',
+18/06/2026 17:36:32:   address: '::',
+18/06/2026 17:36:32:   port: 3016
+18/06/2026 17:36:32: }
+18/06/2026 17:36:38: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:38:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:38:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:38:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:38:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:38:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:38:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:38:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:38:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:38:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:38:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:38:   code: 'EADDRINUSE',
+18/06/2026 17:36:38:   errno: -4091,
+18/06/2026 17:36:38:   syscall: 'listen',
+18/06/2026 17:36:38:   address: '::',
+18/06/2026 17:36:38:   port: 3016
+18/06/2026 17:36:38: }
+18/06/2026 17:36:45: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:45:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:45:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:45:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:45:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:45:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:45:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:45:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:45:   code: 'EADDRINUSE',
+18/06/2026 17:36:45:   errno: -4091,
+18/06/2026 17:36:45:   syscall: 'listen',
+18/06/2026 17:36:45:   address: '::',
+18/06/2026 17:36:45:   port: 3016
+18/06/2026 17:36:45: }
+18/06/2026 17:36:51: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:51:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:51:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:51:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:51:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:51:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:51:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:51:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:51:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:51:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:51:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:51:   code: 'EADDRINUSE',
+18/06/2026 17:36:51:   errno: -4091,
+18/06/2026 17:36:51:   syscall: 'listen',
+18/06/2026 17:36:51:   address: '::',
+18/06/2026 17:36:51:   port: 3016
+18/06/2026 17:36:51: }
+18/06/2026 17:36:57: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:36:57:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:36:57:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:36:57:     at Server.listen (node:net:2102:7)
+18/06/2026 17:36:57:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:36:57:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:36:57:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:36:57:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:36:57:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:36:57:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:36:57:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:36:57:   code: 'EADDRINUSE',
+18/06/2026 17:36:57:   errno: -4091,
+18/06/2026 17:36:57:   syscall: 'listen',
+18/06/2026 17:36:57:   address: '::',
+18/06/2026 17:36:57:   port: 3016
+18/06/2026 17:36:57: }
+18/06/2026 17:37:03: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:37:03:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:37:03:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:37:03:     at Server.listen (node:net:2102:7)
+18/06/2026 17:37:03:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:37:03:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:37:03:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:37:03:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:37:03:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:37:03:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:37:03:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:37:03:   code: 'EADDRINUSE',
+18/06/2026 17:37:03:   errno: -4091,
+18/06/2026 17:37:03:   syscall: 'listen',
+18/06/2026 17:37:03:   address: '::',
+18/06/2026 17:37:03:   port: 3016
+18/06/2026 17:37:03: }
+18/06/2026 17:37:09: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:37:09:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:37:09:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:37:09:     at Server.listen (node:net:2102:7)
+18/06/2026 17:37:09:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:37:09:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:37:09:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:37:09:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:37:09:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:37:09:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:37:09:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:37:09:   code: 'EADDRINUSE',
+18/06/2026 17:37:09:   errno: -4091,
+18/06/2026 17:37:09:   syscall: 'listen',
+18/06/2026 17:37:09:   address: '::',
+18/06/2026 17:37:09:   port: 3016
+18/06/2026 17:37:09: }
+18/06/2026 17:37:15: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:37:15:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:37:15:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:37:15:     at Server.listen (node:net:2102:7)
+18/06/2026 17:37:15:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:37:15:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:37:15:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:37:15:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:37:15:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:37:15:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:37:15:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:37:15:   code: 'EADDRINUSE',
+18/06/2026 17:37:15:   errno: -4091,
+18/06/2026 17:37:15:   syscall: 'listen',
+18/06/2026 17:37:15:   address: '::',
+18/06/2026 17:37:15:   port: 3016
+18/06/2026 17:37:15: }
+18/06/2026 17:37:21: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:37:21:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:37:21:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:37:21:     at Server.listen (node:net:2102:7)
+18/06/2026 17:37:21:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:37:21:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:37:21:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:37:21:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:37:21:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:37:21:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:37:21:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:37:21:   code: 'EADDRINUSE',
+18/06/2026 17:37:21:   errno: -4091,
+18/06/2026 17:37:21:   syscall: 'listen',
+18/06/2026 17:37:21:   address: '::',
+18/06/2026 17:37:21:   port: 3016
+18/06/2026 17:37:21: }
+18/06/2026 17:37:27: Error: listen EADDRINUSE: address already in use :::3016
+18/06/2026 17:37:27:     at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+18/06/2026 17:37:27:     at listenInCluster (node:net:1997:12)
+18/06/2026 17:37:27:     at Server.listen (node:net:2102:7)
+18/06/2026 17:37:27:     at app.listen (E:\projetos_hitss\geo-pme-notas\node_modules\express\lib\application.js:635:24)
+18/06/2026 17:37:27:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:425:5)
+18/06/2026 17:37:27:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+18/06/2026 17:37:27:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+18/06/2026 17:37:27:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+18/06/2026 17:37:27:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+18/06/2026 17:37:27:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23) {
+18/06/2026 17:37:27:   code: 'EADDRINUSE',
+18/06/2026 17:37:27:   errno: -4091,
+18/06/2026 17:37:27:   syscall: 'listen',
+18/06/2026 17:37:27:   address: '::',
+18/06/2026 17:37:27:   port: 3016
+18/06/2026 17:37:27: }

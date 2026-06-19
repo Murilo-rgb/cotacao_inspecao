@@ -9,14 +9,26 @@ const crypto = require('crypto');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-const PORT = 3000;
+const PORT = 3016;
 const JWT_SECRET = 'Lenovo!Hitss!Global';
 const LEGACY_SECRET = JWT_SECRET;
 const SENHA_PADRAO_TROCA = 'Hitss@2026';
 
 // Função para formatar data no formato brasileiro
 function formatDateBR(date) {
+    // Se já estiver no formato brasileiro (DD/MM/YYYY HH:MM), retorna como está
+    if (typeof date === 'string' && /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}$/.test(date)) {
+        return date;
+    }
+    // Se for null ou undefined, retorna '-'
+    if (!date) {
+        return '-';
+    }
+    // Converte de ISO para brasileiro
     const d = new Date(date);
+    if (isNaN(d.getTime())) {
+        return '-';
+    }
     const day = String(d.getDate()).padStart(2, '0');
     const month = String(d.getMonth() + 1).padStart(2, '0');
     const year = d.getFullYear();
@@ -39,6 +51,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
+// Serve static files when app is hosted under a subpath (example: /pme_notas)
+app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
 
 // Middleware de autenticação
 function authenticateToken(req, res, next) {
@@ -64,6 +78,14 @@ function authenticateToken(req, res, next) {
     if (!token) {
         return res.status(401).json({ error: 'Token não fornecido' });
     }
+    
+    
+    
+    
+    
+    
+    
+    
 
     jwt.verify(token, JWT_SECRET, (err, user) => {
         if (err) {
@@ -194,12 +216,12 @@ app.post('/api/login', async (req, res) => {
 app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { search } = req.query;
-    const usuarioLogin = req.user.username;
-    let query = 'SELECT * FROM db_bloco_de_notas.cotacao WHERE usuario_login = $1';
-    let params = [usuarioLogin];
+    const usuarioId = req.user.id;
+    let query = 'SELECT * FROM db_bloco_de_notas.cotacao WHERE usuario_id = $1 AND validacao = $2';
+    let params = [usuarioId, 'Ativo'];
 
     if (search) {
-      query += ' AND (cotacao ILIKE $2 OR anotacao ILIKE $2 OR status ILIKE $2)';
+      query += ' AND (cotacao ILIKE $3 OR anotacao ILIKE $3 OR status ILIKE $3)';
       params.push(`%${search}%`);
     }
 
@@ -210,8 +232,8 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
       cotacao: row.cotacao,
       anotacao: row.anotacao,
       status: row.status,
-      createdAt: row.data_de_criacao,
-      updatedAt: row.data_da_ultima_atualizacao,
+      createdAt: formatDateBR(row.data_de_criacao),
+      updatedAt: formatDateBR(row.data_da_ultima_atualizacao),
       usuarioLogin: row.usuario_login
     }));
 
@@ -253,6 +275,7 @@ app.post('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { cotacao, anotacao } = req.body;
     const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
 
     if (!cotacao) {
       return res.status(400).json({ error: 'Cotação é obrigatória' });
@@ -260,8 +283,8 @@ app.post('/api/quotations', authenticateToken, async (req, res) => {
 
     const now = formatDateBR(new Date());
     const result = await pool.query(
-      'INSERT INTO db_bloco_de_notas.cotacao (cotacao, anotacao, status, data_de_criacao, data_da_ultima_atualizacao, usuario_login) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [cotacao, anotacao || '', 'pendente', now, now, usuarioLogin]
+      'INSERT INTO db_bloco_de_notas.cotacao (cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [cotacao, anotacao || '', 'pendente', 'Ativo', now, now, usuarioLogin, usuarioId]
     );
 
     const row = result.rows[0];
@@ -269,8 +292,8 @@ app.post('/api/quotations', authenticateToken, async (req, res) => {
       cotacao: row.cotacao,
       anotacao: row.anotacao,
       status: row.status,
-      createdAt: row.data_de_criacao,
-      updatedAt: row.data_da_ultima_atualizacao,
+      createdAt: formatDateBR(row.data_de_criacao),
+      updatedAt: formatDateBR(row.data_da_ultima_atualizacao),
       usuarioLogin: row.usuario_login
     });
   } catch (error) {
@@ -284,6 +307,7 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
     const { anotacao, status } = req.body;
     const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
     const now = formatDateBR(new Date());
 
     console.log(`[PUT] Atualizando cotação: ${req.params.cotacao}`);
@@ -291,8 +315,8 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[PUT] Dados recebidos:`, { anotacao, status });
 
     const result = await pool.query(
-      'UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE cotacao = $4 AND usuario_login = $5 RETURNING *',
-      [anotacao, status, now, req.params.cotacao, usuarioLogin]
+      'UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE cotacao = $4 AND usuario_id = $5 RETURNING *',
+      [anotacao, status, now, req.params.cotacao, usuarioId]
     );
 
     console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
@@ -319,16 +343,17 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   }
 });
 
-// Delete quotation
+// Delete quotation (soft delete - update validacao to 'inativo')
 app.delete('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
     const usuarioLogin = req.user.username;
-    console.log(`[DELETE] Deletando cotação: ${req.params.cotacao}`);
+    const usuarioId = req.user.id;
+    console.log(`[DELETE] Soft delete cotação: ${req.params.cotacao}`);
     console.log(`[DELETE] Usuário: ${usuarioLogin}`);
 
     const result = await pool.query(
-      'DELETE FROM db_bloco_de_notas.cotacao WHERE cotacao = $1 AND usuario_login = $2 RETURNING *',
-      [req.params.cotacao, usuarioLogin]
+      'UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE cotacao = $3 AND usuario_id = $4 RETURNING *',
+      ['Inativo', formatDateBR(new Date()), req.params.cotacao, usuarioId]
     );
 
     console.log(`[DELETE] Linhas afetadas: ${result.rowCount}`);
@@ -351,6 +376,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
+
 // Serve login page
 app.get('/login.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
@@ -363,10 +389,37 @@ app.get('/cotacoes', (req, res) => {
   
   if (!token) {
     // Se não houver token, redirecionar para login
-    return res.redirect('/login.html');
+    return res.redirect('/pme_notas/login.html');
   }
   
   // Se houver token, servir index.html
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// If the app is mounted under /pme_notas, serve login page
+app.get('/pme_notas', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/pme_notas/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+// Serve quotations page under subpath
+app.get('/pme_notas/cotacoes', (req, res) => {
+  // Verificar token em cookie ou header
+  let token = req.cookies.token || req.headers['authorization']?.replace('Bearer ', '');
+  
+  if (!token) {
+    return res.redirect('/pme_notas/login.html');
+  }
+  
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// SPA fallback for /pme_notas subpaths (ignore requests for files with extensions)
+app.get('/pme_notas/*', (req, res, next) => {
+  if (path.extname(req.path)) return next();
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
