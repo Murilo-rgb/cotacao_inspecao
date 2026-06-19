@@ -10,6 +10,9 @@
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
     <div id="root"></div>
-    <script src="/pme_notas/dist/login.js"></script>
+    <script>
+        const basePath = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+        document.write('<script src="' + basePath + '/dist/login_new.js"><\/script>');
+    </script>
 </body>
 </html>

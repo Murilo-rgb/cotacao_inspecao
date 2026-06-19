@@ -16,15 +16,12 @@ const SENHA_PADRAO_TROCA = 'Hitss@2026';
 
 // Função para formatar data no formato brasileiro
 function formatDateBR(date) {
-    // Se já estiver no formato brasileiro (DD/MM/YYYY HH:MM), retorna como está
     if (typeof date === 'string' && /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}$/.test(date)) {
         return date;
     }
-    // Se for null ou undefined, retorna '-'
     if (!date) {
         return '-';
     }
-    // Converte de ISO para brasileiro
     const d = new Date(date);
     if (isNaN(d.getTime())) {
         return '-';
@@ -51,42 +48,24 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
-// Serve static files when app is hosted under a subpath (example: /pme_notas)
 app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
 
 // Middleware de autenticação
 function authenticateToken(req, res, next) {
-    // Verificar token em múltiplas fontes
     let token = null;
-    
-    // Header Authorization (mais comum)
     const authHeader = req.headers['authorization'];
     if (authHeader?.startsWith('Bearer ')) {
         token = authHeader.substring(7);
     }
-    
-    // Cookie
     if (!token && req.cookies?.token) {
         token = req.cookies.token;
     }
-    
-    // Query parameter
     if (!token && req.query.token) {
         token = req.query.token;
     }
-
     if (!token) {
         return res.status(401).json({ error: 'Token não fornecido' });
     }
-    
-    
-    
-    
-    
-    
-    
-    
-
     jwt.verify(token, JWT_SECRET, (err, user) => {
         if (err) {
             return res.status(403).json({ error: 'Token inválido' });
@@ -122,6 +101,45 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ error: 'Usuário inativo' });
     }
 
+    // Regra: usuários marcados para troca de senha só autenticam com a senha padrão
+    if (user.deve_trocar_senha) {
+      if (password !== SENHA_PADRAO_TROCA) {
+        return res.status(401).json({ error: 'Senha incorreta' });
+      }
+
+      const token = jwt.sign(
+        { username: user.login, id: user.id, nome: user.nome },
+        JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000
+      });
+
+      await pool.query(
+        'UPDATE db_automacao.usuarios SET data_ultimo_acesso = CURRENT_TIMESTAMP WHERE id = $1',
+        [user.id]
+      );
+
+      return res.json({
+        token,
+        username: user.login,
+        nome: user.nome,
+        deveTrocarSenha: true,
+        usuario: {
+          id: user.id,
+          login: user.login,
+          nome: user.nome,
+          sobrenome: user.sobrenome,
+          email: user.email,
+          deve_trocar_senha: true
+        }
+      });
+    }
+
     let senhaValida = false;
     try {
       senhaValida = await bcrypt.compare(password, user.senha);
@@ -133,7 +151,6 @@ app.post('/api/login', async (req, res) => {
       senhaValida = true;
     }
 
-    // Fallback: senha armazenada como hash hex (ex.: sha256 ou md5)
     if (!senhaValida && typeof user.senha === 'string') {
       const stored = user.senha.trim();
       const isHex = /^[0-9a-fA-F]+$/.test(stored);
@@ -141,7 +158,6 @@ app.post('/api/login', async (req, res) => {
       if (isHex && stored.length === 64) {
         const digestSha256 = (str) => crypto.createHash('sha256').update(str, 'utf8').digest('hex');
         const storedLower = stored.toLowerCase();
-
         const candidatos = [
           password,
           `${username}${password}`,
@@ -153,7 +169,6 @@ app.post('/api/login', async (req, res) => {
           `${LEGACY_SECRET}${username}${password}`,
           `${username}${password}${LEGACY_SECRET}`
         ];
-
         for (const c of candidatos) {
           if (digestSha256(c).toLowerCase() === storedLower) {
             senhaValida = true;
@@ -168,7 +183,6 @@ app.post('/api/login', async (req, res) => {
       }
     }
 
-    // Se validou por fallback (texto puro / hash) migrar para bcrypt
     if (senhaValida && typeof user.senha === 'string' && !user.senha.startsWith('$2')) {
       bcrypt.hash(password, 10)
         .then(hash => pool.query(
@@ -188,14 +202,12 @@ app.post('/api/login', async (req, res) => {
       { expiresIn: '24h' }
     );
 
-    // Definir cookie com o token
     res.cookie('token', token, {
       httpOnly: true,
       secure: false,
       maxAge: 24 * 60 * 60 * 1000
     });
 
-    // Atualizar último acesso
     await pool.query(
       'UPDATE db_automacao.usuarios SET data_ultimo_acesso = CURRENT_TIMESTAMP WHERE id = $1',
       [user.id]
@@ -204,7 +216,16 @@ app.post('/api/login', async (req, res) => {
     res.json({ 
       token, 
       username: user.login, 
-      nome: user.nome
+      nome: user.nome,
+      deveTrocarSenha: false,
+      usuario: {
+        id: user.id,
+        login: user.login,
+        nome: user.nome,
+        sobrenome: user.sobrenome,
+        email: user.email,
+        deve_trocar_senha: false
+      }
     });
   } catch (error) {
     console.error('Erro ao fazer login:', error);
@@ -371,28 +392,111 @@ app.delete('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   }
 });
 
+// Trocar senha endpoint
+app.post('/api/trocar-senha', async (req, res) => {
+  try {
+    const token = req.cookies?.token || req.headers?.authorization?.replace('Bearer ', '');
+    const { senhaAtual, novaSenha } = req.body;
+
+    if (!token || !senhaAtual || !novaSenha) {
+      return res.status(400).json({ success: false, message: 'Token, senha atual e nova senha são obrigatórios' });
+    }
+
+    // Verificar token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return res.status(401).json({ success: false, message: 'Token inválido ou expirado' });
+    }
+
+    // Buscar usuário
+    const userResult = await pool.query(
+      'SELECT id, login, nome, sobrenome, email, senha, ativo, deve_trocar_senha FROM db_automacao.usuarios WHERE id = $1',
+      [decoded.id]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(401).json({ success: false, message: 'Usuário não encontrado' });
+    }
+
+    const user = userResult.rows[0];
+
+    if (!user.ativo) {
+      return res.status(401).json({ success: false, message: 'Usuário inativo' });
+    }
+
+    // Verificar senha atual
+    let senhaValida = false;
+
+    // Se deve_trocar_senha, aceitar senha padrão como senha atual
+    if (user.deve_trocar_senha && senhaAtual === SENHA_PADRAO_TROCA) {
+      senhaValida = true;
+    }
+
+    if (!senhaValida) {
+      try {
+        senhaValida = await bcrypt.compare(senhaAtual, user.senha);
+      } catch (error) {
+        senhaValida = false;
+      }
+    }
+
+    if (!senhaValida && typeof user.senha === 'string' && user.senha === senhaAtual) {
+      senhaValida = true;
+    }
+
+    if (!senhaValida) {
+      return res.status(401).json({ success: false, message: 'Senha atual incorreta' });
+    }
+
+    // Hashear nova senha
+    const novaSenhaHash = await bcrypt.hash(novaSenha, 10);
+
+    // Atualizar senha no banco
+    await pool.query(
+      `UPDATE db_automacao.usuarios
+       SET senha = $1,
+           deve_trocar_senha = false,
+           data_ultima_troca_senha = CURRENT_TIMESTAMP
+       WHERE id = $2`,
+      [novaSenhaHash, user.id]
+    );
+
+    res.json({ success: true, message: 'Senha atualizada com sucesso' });
+
+  } catch (error) {
+    console.error('[TROCAR SENHA] Erro:', error.message);
+    res.status(500).json({ success: false, message: 'Erro interno ao trocar senha' });
+  }
+});
+
+// Serve trocar-senha page
+app.get('/trocar-senha', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
+});
+
+// Serve trocar-senha page under subpath
+app.get('/pme_notas/trocar-senha', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
+});
+
 // Serve the frontend
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
-
 
 // Serve login page
 app.get('/login.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-// Serve quotations page (requires authentication)
+// Serve quotations page
 app.get('/cotacoes', (req, res) => {
-  // Verificar token em cookie ou header
   let token = req.cookies.token || req.headers['authorization']?.replace('Bearer ', '');
-  
   if (!token) {
-    // Se não houver token, redirecionar para login
     return res.redirect('/pme_notas/login.html');
   }
-  
-  // Se houver token, servir index.html
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
@@ -405,19 +509,15 @@ app.get('/pme_notas/login.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-// Serve quotations page under subpath
 app.get('/pme_notas/cotacoes', (req, res) => {
-  // Verificar token em cookie ou header
   let token = req.cookies.token || req.headers['authorization']?.replace('Bearer ', '');
-  
   if (!token) {
     return res.redirect('/pme_notas/login.html');
   }
-  
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// SPA fallback for /pme_notas subpaths (ignore requests for files with extensions)
+// SPA fallback for /pme_notas subpaths
 app.get('/pme_notas/*', (req, res, next) => {
   if (path.extname(req.path)) return next();
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

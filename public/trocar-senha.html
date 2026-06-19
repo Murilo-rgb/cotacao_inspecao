@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trocar Senha - Gestão de Eficiência Operacional</title>
+    <link rel="stylesheet" href="/Login/style.css" />
+    <link rel="icon" href="/Login/img/globo-logo-vermelho 77.png" type="image/png" />
+    <style>
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #fff;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            background: #f8f9fa;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            background: #fff;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .message {
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .password-requirements {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .password-requirements h4 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .password-requirements ul {
+            color: #ccc;
+            font-size: 12px;
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .user-info {
+            background: rgba(0, 123, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .user-info p {
+            color: #fff;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .user-info strong {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="container">
+            <div class="header">
+                <h2>🔐 Trocar Senha</h2>
+                <p>Primeiro acesso - Altere sua senha</p>
+            </div>
+            
+            <div class="user-info">
+                <p><strong>Usuário:</strong> <span id="userLogin">Carregando...</span></p>
+                <p><strong>Nome:</strong> <span id="userNome">Carregando...</span></p>
+            </div>
+            
+            <form id="trocarSenhaForm" method="POST" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="senhaAtual">Senha Atual</label>
+                    <input type="password" id="senhaAtual" name="senhaAtual" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="novaSenha">Nova Senha</label>
+                    <input type="password" id="novaSenha" name="novaSenha" required minlength="6" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmarNovaSenha">Confirmar Nova Senha</label>
+                    <input type="password" id="confirmarNovaSenha" name="confirmarNovaSenha" required minlength="6" />
+                </div>
+                
+                <div class="password-requirements">
+                    <h4>Requisitos da Nova Senha:</h4>
+                    <ul>
+                        <li>Mínimo de 6 caracteres</li>
+                        <li>Use letras e números</li>
+                        <li>Evite senhas óbvias</li>
+                    </ul>
+                </div>
+                
+                <button type="submit" class="btn" id="btnTrocar">
+                    Trocar Senha
+                </button>
+                
+                <div id="message"></div>
+            </form>
+        </div>
+        
+        <img src="/Login/img/globo-logo-vermelho 77.png" alt="Logo" class="logo-fixed" />
+    </div>
+
+    <script>
+        // Função de inicialização
+        function initTrocarSenha() {
+            // Obter informações do usuário do localStorage
+            console.log('[TROCAR SENHA] Verificando localStorage...');
+            console.log('[TROCAR SENHA] localStorage completo:', localStorage);
+            
+            const token = localStorage.getItem('token');
+            const userStr = localStorage.getItem('user');
+            
+            // Corrigir encoding do token se necessário
+            let correctedToken = token;
+            if (token && token.includes('%')) {
+                correctedToken = decodeURIComponent(token);
+                console.log('[TROCAR SENHA] Token corrigido (decodificado):', correctedToken.substring(0, 20) + '...');
+            }
+            
+            console.log('[TROCAR SENHA] Token bruto:', token);
+            console.log('[TROCAR SENHA] Token corrigido:', correctedToken);
+            console.log('[TROCAR SENHA] User string bruto:', userStr);
+            
+            let user = {};
+            try {
+                user = JSON.parse(userStr || '{}');
+                console.log('[TROCAR SENHA] User parseado:', user);
+            } catch (error) {
+                console.error('[TROCAR SENHA] Erro ao parsear user:', error);
+                user = {};
+            }
+            
+            // Verificar se há dados básicos no localStorage
+            if (!correctedToken || !userStr) {
+                console.log('[TROCAR SENHA] Dados não encontrados, redirecionando para login');
+                document.body.innerHTML = `
+                    <div class="container">
+                        <div class="message" style="background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
+                            <h2>⚠️ Sessão Não Encontrada</h2>
+                            <p>Você precisa estar logado para acessar esta página.</p>
+                            <p>Redirecionando para o <a href="/Login" style="color: #007bff; text-decoration: underline;">login</a>...</p>
+                        </div>
+                    </div>
+                    <img src="/Login/img/globo-logo-vermelho 77.png" alt="Logo" class="logo-fixed" />
+                `;
+                setTimeout(() => {
+                    window.location.href = '/Login';
+                }, 3000);
+                return;
+            }
+        
+        console.log('[TROCAR SENHA] Dados do usuário:', {
+                login: user.login || 'N/A',
+                nome: user.nome || 'N/A',
+                sobrenome: user.sobrenome || 'N/A',
+                deve_trocar_senha: user.deve_trocar_senha || false,
+                token: correctedToken ? 'presente' : 'ausente'
+            });
+            
+            // Exibir informações do usuário
+            const userLoginElement = document.getElementById('userLogin');
+            const userNomeElement = document.getElementById('userNome');
+            
+            console.log('[TROCAR SENHA] Elementos encontrados:', {
+                userLoginElement: !!userLoginElement,
+                userNomeElement: !!userNomeElement
+            });
+            
+            if (userLoginElement) {
+                userLoginElement.textContent = user.login || 'N/A';
+            } else {
+                console.error('[TROCAR SENHA] Elemento userLogin não encontrado');
+            }
+            
+            if (userNomeElement) {
+                userNomeElement.textContent = `${user.nome || ''} ${user.sobrenome || ''}`.trim() || 'N/A';
+            } else {
+                console.error('[TROCAR SENHA] Elemento userNome não encontrado');
+            }
+            
+            // Verificar se o usuário precisa trocar senha
+            if (!user.deve_trocar_senha) {
+                document.getElementById('message').innerHTML = 
+                    '<div class="message">Você não precisa trocar a senha no momento. <a href="/" style="color: #007bff;">Ir para o sistema</a></div>';
+                document.getElementById('trocarSenhaForm').style.display = 'none';
+            }
+            
+            // Registrar evento do formulário
+            const formElement = document.getElementById('trocarSenhaForm');
+            console.log('[TROCAR SENHA] Elemento do formulário:', !!formElement);
+            
+            if (formElement) {
+                // Adicionar listener de clique no botão como backup
+                const btnElement = document.getElementById('btnTrocar');
+                if (btnElement) {
+                    btnElement.addEventListener('click', async function(event) {
+                    console.log('[TROCAR SENHA] === BOTÃO CLICADO ===');
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    // Disparar o submit do formulário
+                    formElement.dispatchEvent(new Event('submit'));
+                });
+            }
+                
+                formElement.addEventListener('submit', async function(event) {
+                    console.log('[TROCAR SENHA] === FORMULÁRIO SUBMETIDO ===');
+                    event.preventDefault();
+                    event.stopPropagation();
+                    console.log('[TROCAR SENHA] Prevenção aplicada com sucesso');
+                    
+                    const btn = document.getElementById('btnTrocar');
+                    const messageDiv = document.getElementById('message');
+                    
+                    if (!btn || !messageDiv) {
+                        console.error('[TROCAR SENHA] Elementos não encontrados:', {btn: !!btn, messageDiv: !!messageDiv});
+                        return;
+                    }
+                    
+                    // Desabilitar botão
+                    btn.disabled = true;
+                    btn.textContent = 'Processando...';
+                    
+                    const senhaAtual = document.getElementById('senhaAtual').value;
+                    const novaSenha = document.getElementById('novaSenha').value;
+                    const confirmarNovaSenha = document.getElementById('confirmarNovaSenha').value;
+                    
+                    console.log('[TROCAR SENHA] Valores dos campos:', {
+                        senhaAtual: senhaAtual ? '***' : 'vazio',
+                        novaSenha: novaSenha ? '***' : 'vazio',
+                        confirmarNovaSenha: confirmarNovaSenha ? '***' : 'vazio'
+                    });
+                    
+                    // Validações no cliente
+                    if (novaSenha !== confirmarNovaSenha) {
+                        console.log('[TROCAR SENHA] Senhas não coincidem');
+                        showMessage('A nova senha e a confirmação não coincidem!', 'error');
+                        btn.disabled = false;
+                        btn.textContent = 'Trocar Senha';
+                        return;
+                    }
+                    
+                    if (novaSenha.length < 6) {
+                        console.log('[TROCAR SENHA] Senha muito curta');
+                        showMessage('A nova senha deve ter pelo menos 6 caracteres!', 'error');
+                        btn.disabled = false;
+                        btn.textContent = 'Trocar Senha';
+                        return;
+                    }
+                    
+                    console.log('[TROCAR SENHA] Validações passaram, enviando requisição...');
+                    
+                    try {
+                        console.log('[TROCAR SENHA] URL da requisição:', '/api/auth/trocar-senha');
+                        console.log('[TROCAR SENHA] Token:', correctedToken ? 'presente' : 'ausente');
+                        
+                        const response = await fetch('/api/auth/trocar-senha', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${correctedToken}`,
+                                'X-Force-Token': correctedToken
+                            },
+                            body: JSON.stringify({
+                                senhaAtual: senhaAtual,
+                                novaSenha: novaSenha,
+                                confirmarNovaSenha: confirmarNovaSenha
+                            })
+                        });
+                        
+                        console.log('[TROCAR SENHA] Resposta HTTP:', response.status, response.statusText);
+                        console.log('[TROCAR SENHA] Headers da resposta:', Object.fromEntries(response.headers.entries()));
+                        
+                        const data = await response.json();
+                        console.log('[TROCAR SENHA] Dados da resposta:', data);
+                        
+                        if (data.success) {
+                            showMessage('Senha alterada com sucesso! Redirecionando...', 'success');
+                            
+                            // Atualizar dados do usuário no localStorage
+                            const updatedUser = { ...user, deve_trocar_senha: false };
+                            localStorage.setItem('user', JSON.stringify(updatedUser));
+                            
+                            // Redirecionar para a página principal após 2 segundos
+                            setTimeout(() => {
+                                window.location.href = '/pme_notas';
+                            }, 2000);
+                            
+                        } else {
+                            showMessage(data.message || 'Erro ao alterar senha!', 'error');
+                            btn.disabled = false;
+                            btn.textContent = 'Trocar Senha';
+                        }
+                        
+                    } catch (error) {
+                        console.error('Erro:', error);
+                        showMessage('Erro de conexão. Tente novamente!', 'error');
+                        btn.disabled = false;
+                        btn.textContent = 'Trocar Senha';
+                    }
+                });
+                } else {
+                    console.error('[TROCAR SENHA] Elemento do formulário não encontrado');
+                }
+                
+                function showMessage(text, type) {
+                    const messageDiv = document.getElementById('message');
+                    messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+                    
+                    // Limpar mensagem após 5 segundos
+                    setTimeout(() => {
+                        messageDiv.innerHTML = '';
+                    }, 5000);
+                }
+                
+                // Verificar autenticação ao carregar a página
+                if (!token) {
+                    document.body.innerHTML = `
+                        <div class="container">
+                            <div class="message" style="background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
+                                <h2>⚠️ Acesso Negado</h2>
+                                <p>Você não está autenticado no sistema.</p>
+                                <p>Por favor, faça <a href="/Login" style="color: #007bff; text-decoration: underline;">login novamente</a>.</p>
+                            </div>
+                        </div>
+                        <img src="/Login/img/globo-logo-vermelho 77.png" alt="Logo" class="logo-fixed" />
+                    `;
+                    return;
+                }
+                
+                // Verificar se o token é válido (decodificar JWT simples)
+                try {
+                    console.log('[TROCAR SENHA] Token completo:', token);
+                    console.log('[TROCAR SENHA] Partes do token:', token.split('.'));
+                    
+                    const tokenData = JSON.parse(atob(token.split('.')[1]));
+                    console.log('[TROCAR SENHA] Dados decodificados do token:', tokenData);
+                    const nowMs = Date.now();
+                    const expMs = tokenData.exp ? tokenData.exp * 1000 : null;
+                    console.log('[TROCAR SENHA] Data atual (ms):', nowMs);
+                    console.log('[TROCAR SENHA] Data de expiração (s):', tokenData.exp);
+                    console.log('[TROCAR SENHA] Data de expiração (ms):', expMs);
+                    console.log('[TROCAR SENHA] Token expirado?', expMs ? nowMs > expMs : false);
+                    
+                    if (expMs && nowMs > expMs) {
+                        console.log('[TROCAR SENHA] Token expirado, redirecionando para login');
+                        document.body.innerHTML = `
+                            <div class="container">
+                                <div class="message" style="background: #fff3cd; color: #856404; border: 1px solid #ffeaa7;">
+                                    <h2>⏰ Sessão Expirada</h2>
+                                    <p>Sua sessão expirou por segurança.</p>
+                                    <p>Por favor, faça <a href="/Login" style="color: #007bff; text-decoration: underline;">login novamente</a>.</p>
+                                </div>
+                            </div>
+                            <img src="/Login/img/globo-logo-vermelho 77.png" alt="Logo" class="logo-fixed" />
+                        `;
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        return;
+                    }
+                } catch (error) {
+                    console.error('[TROCAR SENHA] Erro ao decodificar token:', error);
+                    document.body.innerHTML = `
+                        <div class="container">
+                            <div class="message" style="background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
+                                <h2>⚠️ Token Inválido</h2>
+                                <p>Seu token de acesso é inválido.</p>
+                                <p>Por favor, faça <a href="/Login" style="color: #007bff; text-decoration: underline;">login novamente</a>.</p>
+                            </div>
+                        </div>
+                        <img src="/Login/img/globo-logo-vermelho 77.png" alt="Logo" class="logo-fixed" />
+                    `;
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    return;
+                }
+                
+                console.log('[AUTH] Usuário autenticado:', user.login);
+                
+                // Testar se a API está respondendo
+                console.log('[TROCAR SENHA] Testando API /api/auth/me...');
+                fetch('/api/auth/me', {
+                    headers: {
+                        'Authorization': `Bearer ${correctedToken}`,
+                        'X-Force-Token': correctedToken
+                    }
+                })
+                .then(response => {
+                    console.log('[TROCAR SENHA] Teste API /api/auth/me - Status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('[TROCAR SENHA] Teste API /api/auth/me - Dados:', data);
+                })
+                .catch(error => {
+                    console.error('[TROCAR SENHA] Teste API /api/auth/me - Erro:', error);
+                });
+                
+                // Testar rota de debug
+                console.log('[TROCAR SENHA] Testando rota /debug-auth...');
+                fetch('/debug-auth', {
+                    headers: {
+                        'Authorization': `Bearer ${correctedToken}`,
+                        'X-Force-Token': correctedToken
+                    }
+                })
+                .then(response => {
+                    console.log('[TROCAR SENHA] Teste /debug-auth - Status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('[TROCAR SENHA] Teste /debug-auth - Dados:', data);
+                })
+                .catch(error => {
+                    console.error('[TROCAR SENHA] Teste /debug-auth - Erro:', error);
+                });
+        }
+        
+        // Inicializar quando o DOM estiver pronto
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTrocarSenha);
+        } else {
+            initTrocarSenha();
+        }
+    </script>
+</body>
+</html>
