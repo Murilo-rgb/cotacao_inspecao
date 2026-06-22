@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2563eb">
-    <title>Distribuição de Demandas - Inspeção</title>
+    <title>Distribuição de cotações</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
@@ -307,7 +307,8 @@
                 dat_historico: '',
                 qtd_linhas: '',
                 qtd_linhas_novas: '',
-                qtd_reprovacao: ''
+                qtd_reprovacao: '',
+                status_cotacao: '', // Pendente/Aprovado/Reprovado/Assumido/Não Assumido
             });
 
             const updateFilter = (key, value) => {
@@ -322,13 +323,31 @@
             };
 
             const filteredTarefas = tarefas.filter(t => {
-                return (
+                // Base text/number filters
+                if (!(
                     matches((t.dsc_cotacao ? t.dsc_cotacao + ' - ' : '') + t.cod_tarefa, filters.cod_tarefa) &&
                     matches(formatDate(t.dat_historico), filters.dat_historico) &&
                     matches(t.qtd_linhas, filters.qtd_linhas) &&
                     matches(t.qtd_linhas_novas, filters.qtd_linhas_novas) &&
                     matches(t.qtd_reprovacao, filters.qtd_reprovacao)
-                );
+                )) return false;
+
+                // Status Cotação filter
+                const sf = filters.status_cotacao;
+                if (sf && sf !== '') {
+                    if (sf === 'ASSUMIDO') {
+                        if (!t.assumido_por) return false;
+                    } else if (sf === 'NAO_ASSUMIDO') {
+                        if (t.assumido_por) return false;
+                    } else {
+                        // Match against cotacao_status (db_bloco_de_notas.cotacao.status)
+                        const cs = (t.cotacao_status || '').toString().trim();
+                        if (!cs) return false; // empty means Não Distribuido -> won't match Pendente/Aprovado/Reprovado
+                        if (cs.toLowerCase() !== sf.toLowerCase()) return false;
+                    }
+                }
+
+                return true;
             });
 
             // Histórico age indicator: returns color class for age in hours
@@ -349,26 +368,15 @@
                 // Prefer explicit cotacao.status when available
                 try {
                     if (!t) return '-';
-                    // nested object `cotacao`
-                    if (t.cotacao) {
-                        const c = t.cotacao;
-                        if (typeof c === 'string' && c.trim()) return c;
-                        if (Array.isArray(c) && c.length > 0) {
-                            const first = c[0];
-                            if (first) {
-                                if (first.status) return typeof first.status === 'string' ? first.status : (first.status.nome || first.status.dsc || first.status.descricao || first.status.description || first.status.label || first.status.text || '-');
-                                if (first.status_cotacao) return first.status_cotacao;
-                                if (first.dsc_status) return first.dsc_status;
-                            }
-                        } else if (typeof c === 'object') {
-                            if (c.status) return typeof c.status === 'string' ? c.status : (c.status.nome || c.status.dsc || c.status.descricao || c.status.description || c.status.label || c.status.text || '-');
-                            if (c.status_cotacao) return c.status_cotacao;
-                            if (c.dsc_status) return c.dsc_status;
-                        }
-                    }
+                    // prefer cotacao_status from backend (db_bloco_de_notas.cotacao.status)
+                    if (t.cotacao_status && String(t.cotacao_status).trim()) return String(t.cotacao_status);
 
-                    // common top-level fields
-                    return t.status_cotacao || t.dsc_statuscotacao || t.dsc_status_cotacao || t.nom_statuscotacao || t.nom_status_cotacao || t.dsc_status || t.status || '-';
+                    // fallback to other common fields if present
+                    const fallback = t.status_cotacao || t.dsc_statuscotacao || t.dsc_status_cotacao || t.nom_statuscotacao || t.nom_status_cotacao || t.dsc_status || t.status;
+                    if (fallback && String(fallback).trim()) return String(fallback);
+
+                    // if still empty, show 'Não Distribuido'
+                    return 'Não Distribuido';
                 } catch (e) { return '-'; }
             };
 
@@ -401,7 +409,7 @@
                                     )
                                 ),
                                 React.createElement('div', null,
-                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Gestão R_000250'),
+                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Distribuição de cotações'),
                                     React.createElement('p', { className: 'text-xs text-slate-500' }, 'Upload, visualização e distribuição de tarefas')
                                 )
                             ),
@@ -559,15 +567,18 @@
                                                     })
                                                 ),
                                                 React.createElement('th', { className: 'px-4 py-2' },
-                                                    React.createElement('select', {
-                                                        value: filters.pendente_exist,
-                                                        onChange: (e) => updateFilter('pendente_exist', e.target.value),
-                                                        className: 'w-36 px-2 py-1 text-xs border border-slate-200 rounded'
-                                                    },
-                                                        React.createElement('option', { value: '' }, 'Todos'),
-                                                        React.createElement('option', { value: 'com' }, 'Com Pendente'),
-                                                        React.createElement('option', { value: 'sem' }, 'Sem Pendente')
-                                                    )
+                                                                                    React.createElement('select', {
+                                                                                            value: filters.status_cotacao,
+                                                                                            onChange: (e) => updateFilter('status_cotacao', e.target.value),
+                                                                                            className: 'w-36 px-2 py-1 text-xs border border-slate-200 rounded'
+                                                                                        },
+                                                                                            React.createElement('option', { value: '' }, 'Todos'),
+                                                                                            React.createElement('option', { value: 'Pendente' }, 'Pendente'),
+                                                                                            React.createElement('option', { value: 'Aprovado' }, 'Aprovado'),
+                                                                                            React.createElement('option', { value: 'Reprovado' }, 'Reprovado'),
+                                                                                            React.createElement('option', { value: 'ASSUMIDO' }, 'Assumido'),
+                                                                                            React.createElement('option', { value: 'NAO_ASSUMIDO' }, 'Não Assumido')
+                                                                                        )
                                                 ),
                                                 React.createElement('th', { className: 'px-4 py-2' },
                                                     React.createElement('input', {

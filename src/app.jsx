@@ -538,7 +538,9 @@ function App() {
                                         return (
                                             <tr key={quotation.cotacao} className="hover:bg-slate-50/80 transition-colors duration-150">
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md">{quotation.cotacao}</span>
+                                                    <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md">
+                                                        {(quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}
+                                                    </span>
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <p className="text-sm text-slate-600 max-w-md truncate" title={quotation.anotacao}>

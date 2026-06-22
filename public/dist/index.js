@@ -865,7 +865,12 @@ function App() {
       className: "px-6 py-4 whitespace-nowrap"
     }, /*#__PURE__*/React.createElement("span", {
       className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md"
-    }, quotation.cotacao)), /*#__PURE__*/React.createElement("td", {
+    }, (function(){
+      try {
+        if (quotation && quotation.cotacao && quotation.cotacao.indexOf(' - ') !== -1) return quotation.cotacao;
+      } catch(e) {}
+      return (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao;
+    })())), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4"
     }, /*#__PURE__*/React.createElement("p", {
       className: "text-sm text-slate-600 max-w-md truncate",

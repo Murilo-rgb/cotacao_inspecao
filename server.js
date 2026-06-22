@@ -78,46 +78,10 @@ const upload = multer({
     limits: { fileSize: 100 * 1024 * 1024 } // 100MB
 });
 
-// Middleware de verificação de permissão (baseado no geo-web-app)
-async function verificarPermissao(usuarioId, rota) {
-    try {
-        const query = `
-            SELECT tem_acesso 
-            FROM db_automacao.usuario_permissoes 
-            WHERE usuario_id = $1 AND rota = $2
-        `;
-        const result = await pool.query(query, [usuarioId, rota]);
-        if (result.rows.length === 0) {
-            // Se não tiver registro, verifica se é admin
-            const adminQuery = `
-                SELECT login FROM db_automacao.usuarios 
-                WHERE id = $1 AND (login = 'admin' OR login = 'jose.faria')
-            `;
-            const adminResult = await pool.query(adminQuery, [usuarioId]);
-            return adminResult.rows.length > 0;
-        }
-        return result.rows[0].tem_acesso;
-    } catch (error) {
-        console.error('[PERMISSIONS] Erro:', error.message);
-        return false;
-    }
-}
-
-// Middleware de autorização por rota
-function authorizeRoute(rota) {
-    return async (req, res, next) => {
-        try {
-            const temAcesso = await verificarPermissao(req.user.id, rota);
-            if (!temAcesso) {
-                return res.status(403).json({ error: 'Acesso negado. Sem permissão para esta rota.' });
-            }
-            next();
-        } catch (error) {
-            console.error('[AUTH] Erro ao verificar permissão:', error);
-            res.status(500).json({ error: 'Erro ao verificar permissão' });
-        }
-    };
-}
+// Permissions module (copied from geo-web-app)
+const { createPermissions } = require('./app/auth/permissions');
+const permissions = createPermissions(pool);
+const authorizeRoute = permissions.authorizeRoute;
 
 // Middleware de autenticação
 function authenticateToken(req, res, next) {
@@ -185,6 +149,7 @@ app.post('/api/login', async (req, res) => {
       res.cookie('token', token, {
         httpOnly: true,
         secure: false,
+        path: '/',
         maxAge: 24 * 60 * 60 * 1000
       });
 
@@ -274,6 +239,7 @@ app.post('/api/login', async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: false,
+      path: '/',
       maxAge: 24 * 60 * 60 * 1000
     });
 
@@ -307,7 +273,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { search } = req.query;
     const usuarioId = req.user.id;
-    let query = 'SELECT * FROM db_bloco_de_notas.cotacao WHERE usuario_id = $1 AND validacao = $2';
+    let query = "SELECT c.*, r.dsc_cotacao FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON split_part(c.cotacao, ' - ', 2) = r.cod_tarefa WHERE c.usuario_id = $1 AND c.validacao = $2";
     let params = [usuarioId, 'Ativo'];
 
     if (search) {
@@ -320,6 +286,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
     const result = await pool.query(query, params);
     const serialized = result.rows.map(row => ({
       cotacao: row.cotacao,
+      dsc_cotacao: row.dsc_cotacao,
       anotacao: row.anotacao,
       status: row.status,
       createdAt: formatDateBR(row.data_de_criacao),
@@ -338,7 +305,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
 app.get('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM db_bloco_de_notas.cotacao WHERE cotacao = $1',
+      "SELECT * FROM db_bloco_de_notas.cotacao WHERE split_part(cotacao, ' - ', 2) = $1",
       [req.params.cotacao]
     );
 
@@ -372,9 +339,20 @@ app.post('/api/quotations', authenticateToken, async (req, res) => {
     }
 
     const now = formatDateBR(new Date());
+    // If cotacao corresponds to a cod_tarefa in r_000250, store as "dsc_cotacao - cod_tarefa"
+    let cotacaoValue = cotacao;
+    try {
+      const rRes = await pool.query('SELECT dsc_cotacao FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1', [cotacao]);
+      if (rRes.rows.length > 0 && rRes.rows[0].dsc_cotacao) {
+        cotacaoValue = `${rRes.rows[0].dsc_cotacao} - ${cotacao}`;
+      }
+    } catch (e) {
+      console.error('Erro ao buscar dsc_cotacao:', e.message);
+    }
+
     const result = await pool.query(
       'INSERT INTO db_bloco_de_notas.cotacao (cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-      [cotacao, anotacao || '', 'pendente', 'Ativo', now, now, usuarioLogin, usuarioId]
+      [cotacaoValue, anotacao || '', 'pendente', 'Ativo', now, now, usuarioLogin, usuarioId]
     );
 
     const row = result.rows[0];
@@ -405,7 +383,7 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[PUT] Dados recebidos:`, { anotacao, status });
 
     const result = await pool.query(
-      'UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE cotacao = $4 AND usuario_id = $5 RETURNING *',
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE split_part(cotacao, ' - ', 2) = $4 AND usuario_id = $5 RETURNING *",
       [anotacao, status, now, req.params.cotacao, usuarioId]
     );
 
@@ -442,7 +420,7 @@ app.delete('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[DELETE] Usuário: ${usuarioLogin}`);
 
     const result = await pool.query(
-      'UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE cotacao = $3 AND usuario_id = $4 RETURNING *',
+      "UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE split_part(cotacao, ' - ', 2) = $3 AND usuario_id = $4 RETURNING *",
       ['Inativo', formatDateBR(new Date()), req.params.cotacao, usuarioId]
     );
 
@@ -569,12 +547,30 @@ app.get('/cotacoes', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// If the app is mounted under /pme_notas, serve login page
+// If the app is mounted under /pme_notas, serve login page or redirect if already logged in
 app.get('/pme_notas', (req, res) => {
+  const token = req.cookies?.token;
+  if (token) {
+    try {
+      jwt.verify(token, JWT_SECRET);
+      return res.redirect('/pme_notas/cotacoes');
+    } catch (err) {
+      // Token inválido, continua para o login
+    }
+  }
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 app.get('/pme_notas/login.html', (req, res) => {
+  const token = req.cookies?.token;
+  if (token) {
+    try {
+      jwt.verify(token, JWT_SECRET);
+      return res.redirect('/pme_notas/cotacoes');
+    } catch (err) {
+      // Token inválido, continua para o login
+    }
+  }
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
@@ -625,10 +621,10 @@ app.post('/api/gestao/upload', authenticateToken, authorizeRoute('/pme_notas/ges
 app.get('/api/gestao/tarefas', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
   try {
     const query = `
-      SELECT r.*, 
+      SELECT r.*, c.status AS cotacao_status,
         CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao
       FROM db_bloco_de_notas.r_000250 r
-      LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.cotacao
+      LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = split_part(c.cotacao, ' - ', 2)
       ORDER BY r.dat_criacao DESC
     `;
     
@@ -652,7 +648,9 @@ app.get('/api/gestao/tarefas', authenticateToken, authorizeRoute('/pme_notas/ges
       nom_territorio: row.nom_territorio,
       ind_portabilidade: row.ind_portabilidade,
       qtd_reprovacao: row.qtd_reprovacao,
-      status_distribuicao: row.status_distribuicao
+      status_distribuicao: row.status_distribuicao,
+      cotacao_status: row.cotacao_status,
+      assumido_por: row.assumido_por
     }));
     
     res.json(tarefas);
@@ -701,7 +699,7 @@ app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas
       try {
         // Primeiro verificar se já não foi distribuída
         const check = await pool.query(
-          'SELECT cotacao FROM db_bloco_de_notas.cotacao WHERE cotacao = $1 AND validacao = $2',
+          "SELECT cotacao FROM db_bloco_de_notas.cotacao WHERE split_part(cotacao, ' - ', 2) = $1 AND validacao = $2",
           [item.cod_tarefa, 'Ativo']
         );
         
@@ -712,19 +710,22 @@ app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas
         
         // Buscar dados da tarefa para preencher anotação
         const tarefaResult = await pool.query(
-          'SELECT nom_tarefa, nom_fila FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1',
+          'SELECT nom_tarefa, nom_fila, dsc_cotacao FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1',
           [item.cod_tarefa]
         );
         
         let anotacao = '';
+        let cotacaoValue = item.cod_tarefa;
         if (tarefaResult.rows.length > 0) {
-          anotacao = `Tarefa: ${tarefaResult.rows[0].nom_tarefa || ''} | Fila: ${tarefaResult.rows[0].nom_fila || ''}`;
+          const tr = tarefaResult.rows[0];
+          anotacao = `Tarefa: ${tr.nom_tarefa || ''} | Fila: ${tr.nom_fila || ''}`;
+          if (tr.dsc_cotacao) cotacaoValue = `${tr.dsc_cotacao} - ${item.cod_tarefa}`;
         }
-        
+
         await pool.query(
           `INSERT INTO db_bloco_de_notas.cotacao (cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-          [item.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id]
+          [cotacaoValue, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id]
         );
         
         count++;

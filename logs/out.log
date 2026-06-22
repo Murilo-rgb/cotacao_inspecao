@@ -402,3 +402,80 @@
 22/06/2026 14:58:13:   validacao: 'Ativo',
 22/06/2026 14:58:13:   usuario_id: '50'
 22/06/2026 14:58:13: }
+22/06/2026 15:47:31: Servidor rodando em http://localhost:3016
+22/06/2026 16:25:51: Servidor rodando em http://localhost:3016
+22/06/2026 16:29:31: [PUT] Atualizando cotação: 22754421
+22/06/2026 16:29:31: [PUT] Usuário: murilo.trevisan.3
+22/06/2026 16:29:31: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 16:29:31: [PUT] Linhas afetadas: 1
+22/06/2026 16:29:31: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 16:29:31:   cotacao: '22754421',
+22/06/2026 16:29:31:   anotacao: 'Tarefa: E001 - PME - 47.537.741/0001-70 | Fila: CPC - PME',
+22/06/2026 16:29:31:   status: 'aprovado',
+22/06/2026 16:29:31:   data_de_criacao: '22/06/2026 16:28',
+22/06/2026 16:29:31:   data_da_ultima_atualizacao: '22/06/2026 16:29',
+22/06/2026 16:29:31:   usuario_login: 'murilo.trevisan.3',
+22/06/2026 16:29:31:   validacao: 'Ativo',
+22/06/2026 16:29:31:   usuario_id: '110'
+22/06/2026 16:29:31: }
+22/06/2026 16:53:22: [PUT] Atualizando cotação: 22754071
+22/06/2026 16:53:22: [PUT] Usuário: jose.faria
+22/06/2026 16:53:22: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+22/06/2026 16:53:22: [PUT] Linhas afetadas: 1
+22/06/2026 16:53:22: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 16:53:22:   cotacao: '22754071',
+22/06/2026 16:53:22:   anotacao: 'Tarefa: E001 - PME - 45.235.299/0001-00 | Fila: CPC - PME',
+22/06/2026 16:53:22:   status: 'reprovado',
+22/06/2026 16:53:22:   data_de_criacao: '22/06/2026 15:27',
+22/06/2026 16:53:22:   data_da_ultima_atualizacao: '22/06/2026 16:53',
+22/06/2026 16:53:22:   usuario_login: 'jose.faria',
+22/06/2026 16:53:22:   validacao: 'Ativo',
+22/06/2026 16:53:22:   usuario_id: '50'
+22/06/2026 16:53:22: }
+22/06/2026 16:59:08: [GESTAO] Upload recebido: R_000250_1379025.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 16:59:08: --- INICIANDO ETL R_000250 ---
+22/06/2026 16:59:08: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 16:59:08: Delimitador detectado: ";"
+22/06/2026 16:59:08: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 16:59:08: Tabela verificada/criada.
+22/06/2026 16:59:08: Dados antigos removidos.
+22/06/2026 16:59:08: Dados carregados com sucesso via COPY.
+22/06/2026 16:59:08: --- ETL R_000250 CONCLUÍDO: 425 registros ---
+22/06/2026 17:02:57: [GESTAO] Upload recebido: R_000250_1379025.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 17:02:57: --- INICIANDO ETL R_000250 ---
+22/06/2026 17:02:57: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 17:02:57: Delimitador detectado: ";"
+22/06/2026 17:02:57: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 17:02:57: Tabela verificada/criada.
+22/06/2026 17:02:57: Dados antigos removidos.
+22/06/2026 17:02:57: Dados carregados com sucesso via COPY.
+22/06/2026 17:02:57: --- ETL R_000250 CONCLUÍDO: 425 registros ---
+22/06/2026 17:32:25: [PUT] Atualizando cotação: 22435942
+22/06/2026 17:32:25: [PUT] Usuário: murilo.trevisan.3
+22/06/2026 17:32:25: [PUT] Dados recebidos: {
+22/06/2026 17:32:25:   anotacao: 'Tarefa: E001 - PME - 66.605.692/0001-00 | Fila: CPC - PME',
+22/06/2026 17:32:25:   status: 'pendente'
+22/06/2026 17:32:25: }
+22/06/2026 17:32:25: [PUT] Linhas afetadas: 1
+22/06/2026 17:32:25: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 17:32:25:   cotacao: '22435942',
+22/06/2026 17:32:25:   anotacao: 'Tarefa: E001 - PME - 66.605.692/0001-00 | Fila: CPC - PME',
+22/06/2026 17:32:25:   status: 'pendente',
+22/06/2026 17:32:25:   data_de_criacao: '22/06/2026 17:31',
+22/06/2026 17:32:25:   data_da_ultima_atualizacao: '22/06/2026 17:32',
+22/06/2026 17:32:25:   usuario_login: 'murilo.trevisan.3',
+22/06/2026 17:32:25:   validacao: 'Ativo',
+22/06/2026 17:32:25:   usuario_id: '110'
+22/06/2026 17:32:25: }
+22/06/2026 17:57:28: Servidor rodando em http://localhost:3016
+22/06/2026 18:04:37: Servidor rodando em http://localhost:3016
+22/06/2026 18:08:51: Servidor rodando em http://localhost:3016
+22/06/2026 18:11:10: [GESTAO] Upload recebido: R_000250.csv -> E:\projetos_hitss\geo-pme-notas\files\r_000250.csv
+22/06/2026 18:11:10: --- INICIANDO ETL R_000250 ---
+22/06/2026 18:11:11: Delimitador detectado: ";"
+22/06/2026 18:11:12: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 18:11:12: Tabela verificada/criada.
+22/06/2026 18:11:12: Dados antigos removidos.
+22/06/2026 18:11:13: Dados carregados com sucesso via COPY.
+22/06/2026 18:11:13: --- ETL R_000250 CONCLUÍDO: 28406 registros ---
+22/06/2026 18:12:02: Servidor rodando em http://localhost:3016

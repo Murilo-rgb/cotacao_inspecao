@@ -11,8 +11,14 @@
 <body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
     <div id="root"></div>
     <script>
+        // Se já estiver logado (token no localStorage), redireciona direto para cotações
         const basePath = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-        document.write('<script src="' + basePath + '/dist/login_new.js"><\/script>');
+        const existingToken = localStorage.getItem('token');
+        if (existingToken) {
+            window.location.href = basePath + '/cotacoes';
+        } else {
+            document.write('<script src="' + basePath + '/dist/login_new.js"><\/script>');
+        }
     </script>
 </body>
 </html>
