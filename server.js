@@ -7,6 +7,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const fs = require('fs');
+const { processarETL_250 } = require('./utils/etl_250');
 
 const app = express();
 const PORT = 3016;
@@ -49,6 +52,72 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
+
+// Configuração do multer para upload de arquivos
+const filesDir = path.join(__dirname, 'files');
+if (!fs.existsSync(filesDir)) {
+    fs.mkdirSync(filesDir, { recursive: true });
+}
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, filesDir),
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        cb(null, `r_000250${ext}`);
+    }
+});
+const upload = multer({
+    storage,
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        if (ext === '.csv' || ext === '.zip') {
+            cb(null, true);
+        } else {
+            cb(new Error('Apenas arquivos .csv ou .zip são permitidos'));
+        }
+    },
+    limits: { fileSize: 100 * 1024 * 1024 } // 100MB
+});
+
+// Middleware de verificação de permissão (baseado no geo-web-app)
+async function verificarPermissao(usuarioId, rota) {
+    try {
+        const query = `
+            SELECT tem_acesso 
+            FROM db_automacao.usuario_permissoes 
+            WHERE usuario_id = $1 AND rota = $2
+        `;
+        const result = await pool.query(query, [usuarioId, rota]);
+        if (result.rows.length === 0) {
+            // Se não tiver registro, verifica se é admin
+            const adminQuery = `
+                SELECT login FROM db_automacao.usuarios 
+                WHERE id = $1 AND (login = 'admin' OR login = 'jose.faria')
+            `;
+            const adminResult = await pool.query(adminQuery, [usuarioId]);
+            return adminResult.rows.length > 0;
+        }
+        return result.rows[0].tem_acesso;
+    } catch (error) {
+        console.error('[PERMISSIONS] Erro:', error.message);
+        return false;
+    }
+}
+
+// Middleware de autorização por rota
+function authorizeRoute(rota) {
+    return async (req, res, next) => {
+        try {
+            const temAcesso = await verificarPermissao(req.user.id, rota);
+            if (!temAcesso) {
+                return res.status(403).json({ error: 'Acesso negado. Sem permissão para esta rota.' });
+            }
+            next();
+        } catch (error) {
+            console.error('[AUTH] Erro ao verificar permissão:', error);
+            res.status(500).json({ error: 'Erro ao verificar permissão' });
+        }
+    };
+}
 
 // Middleware de autenticação
 function authenticateToken(req, res, next) {
@@ -515,6 +584,166 @@ app.get('/pme_notas/cotacoes', (req, res) => {
     return res.redirect('/pme_notas/login.html');
   }
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// ===== ROTAS DE GESTÃO (r_000250) =====
+
+// Serve gestao page
+app.get('/gestao', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao.html'));
+});
+
+app.get('/pme_notas/gestao', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao.html'));
+});
+
+// Upload CSV/ZIP e processar ETL
+app.post('/api/gestao/upload', authenticateToken, authorizeRoute('/pme_notas/gestao'), upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    }
+    
+    const filePath = req.file.path;
+    console.log(`[GESTAO] Upload recebido: ${req.file.originalname} -> ${filePath}`);
+    
+    const result = await processarETL_250(filePath, pool);
+    
+    res.json({
+      success: true,
+      message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`,
+      totalRows: result.totalRows
+    });
+    
+  } catch (error) {
+    console.error('[GESTAO] Erro no upload/ETL:', error);
+    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+  }
+});
+
+// Listar tarefas da r_000250
+app.get('/api/gestao/tarefas', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const query = `
+      SELECT r.*, 
+        CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao
+      FROM db_bloco_de_notas.r_000250 r
+      LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.cotacao
+      ORDER BY r.dat_criacao DESC
+    `;
+    
+    const result = await pool.query(query);
+    
+    // Formatar para o frontend
+    const tarefas = result.rows.map(row => ({
+      cod_tarefa: row.cod_tarefa,
+      dat_criacao: row.dat_criacao,
+      dat_historico: row.dat_historico,
+      criado_por: row.criado_por,
+      pendente_com: row.pendente_com,
+      nom_statuswf: row.nom_statuswf,
+      regional: row.regional,
+      nom_tarefa: row.nom_tarefa,
+      nom_fila: row.nom_fila,
+      dsc_cotacao: row.dsc_cotacao,
+      tipo_pedido: row.tipo_pedido,
+      qtd_linhas: row.qtd_linhas,
+      qtd_linhas_novas: row.qtd_linhas_novas,
+      nom_territorio: row.nom_territorio,
+      ind_portabilidade: row.ind_portabilidade,
+      qtd_reprovacao: row.qtd_reprovacao,
+      status_distribuicao: row.status_distribuicao
+    }));
+    
+    res.json(tarefas);
+    
+  } catch (error) {
+    console.error('[GESTAO] Erro ao buscar tarefas:', error);
+    res.status(500).json({ error: 'Erro ao buscar tarefas' });
+  }
+});
+
+// Listar usuários para distribuição
+app.get('/api/gestao/usuarios', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id, login, nome FROM db_automacao.usuarios WHERE ativo = true ORDER BY nome'
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error('[GESTAO] Erro ao buscar usuários:', error);
+    res.status(500).json({ error: 'Erro ao buscar usuários' });
+  }
+});
+
+// Distribuir tarefas para usuários (inserir em cotacao)
+app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const { distribuicoes } = req.body; // Array de { cod_tarefa, usuario_id }
+    
+    if (!distribuicoes || !Array.isArray(distribuicoes) || distribuicoes.length === 0) {
+      return res.status(400).json({ error: 'Lista de distribuições inválida' });
+    }
+    
+    const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
+    const now = formatDateBR(new Date());
+    
+    let count = 0;
+    let errors = [];
+    
+    for (const item of distribuicoes) {
+      if (!item.cod_tarefa || !item.usuario_id) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+        continue;
+      }
+      
+      try {
+        // Primeiro verificar se já não foi distribuída
+        const check = await pool.query(
+          'SELECT cotacao FROM db_bloco_de_notas.cotacao WHERE cotacao = $1 AND validacao = $2',
+          [item.cod_tarefa, 'Ativo']
+        );
+        
+        if (check.rows.length > 0) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
+          continue;
+        }
+        
+        // Buscar dados da tarefa para preencher anotação
+        const tarefaResult = await pool.query(
+          'SELECT nom_tarefa, nom_fila FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1',
+          [item.cod_tarefa]
+        );
+        
+        let anotacao = '';
+        if (tarefaResult.rows.length > 0) {
+          anotacao = `Tarefa: ${tarefaResult.rows[0].nom_tarefa || ''} | Fila: ${tarefaResult.rows[0].nom_fila || ''}`;
+        }
+        
+        await pool.query(
+          `INSERT INTO db_bloco_de_notas.cotacao (cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+          [item.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id]
+        );
+        
+        count++;
+      } catch (err) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+      }
+    }
+    
+    res.json({
+      success: true,
+      message: `${count} tarefa(s) distribuída(s) com sucesso`,
+      distribuidos: count,
+      erros: errors
+    });
+    
+  } catch (error) {
+    console.error('[GESTAO] Erro ao distribuir tarefas:', error);
+    res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+  }
 });
 
 // SPA fallback for /pme_notas subpaths

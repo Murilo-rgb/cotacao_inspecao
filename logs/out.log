@@ -1,49 +1,404 @@
-19/06/2026 11:33:16: Servidor rodando em http://localhost:3016
-19/06/2026 11:34:11: Servidor rodando em http://localhost:3016
-19/06/2026 11:42:26: Servidor rodando em http://localhost:3016
-19/06/2026 11:50:56: Servidor rodando em http://localhost:3016
-19/06/2026 12:08:31: [PUT] Atualizando cotação: Q1321321
-19/06/2026 12:08:31: [PUT] Usuário: jose.faria
-19/06/2026 12:08:31: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
-19/06/2026 12:08:31: [PUT] Linhas afetadas: 1
-19/06/2026 12:08:31: [PUT] Cotação atualizada com sucesso: {
-19/06/2026 12:08:31:   cotacao: 'Q1321321',
-19/06/2026 12:08:31:   anotacao: 'Teste2',
-19/06/2026 12:08:31:   status: 'reprovado',
-19/06/2026 12:08:31:   data_de_criacao: '19/06/2026 12:08',
-19/06/2026 12:08:31:   data_da_ultima_atualizacao: '19/06/2026 12:08',
-19/06/2026 12:08:31:   usuario_login: 'jose.faria',
-19/06/2026 12:08:31:   validacao: 'Ativo',
-19/06/2026 12:08:31:   usuario_id: '50'
-19/06/2026 12:08:31: }
-19/06/2026 12:46:34: Servidor rodando em http://localhost:3016
-19/06/2026 12:47:15: Servidor rodando em http://localhost:3016
-19/06/2026 12:49:06: [PUT] Atualizando cotação: Q123
-19/06/2026 12:49:06: [PUT] Usuário: jose.faria
-19/06/2026 12:49:06: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
-19/06/2026 12:49:06: [PUT] Linhas afetadas: 1
-19/06/2026 12:49:06: [PUT] Cotação atualizada com sucesso: {
-19/06/2026 12:49:06:   cotacao: 'Q123',
-19/06/2026 12:49:06:   anotacao: 'teste',
-19/06/2026 12:49:06:   status: 'reprovado',
-19/06/2026 12:49:06:   data_de_criacao: '18/06/2026 17:30',
-19/06/2026 12:49:06:   data_da_ultima_atualizacao: '19/06/2026 12:49',
-19/06/2026 12:49:06:   usuario_login: 'jose.faria',
-19/06/2026 12:49:06:   validacao: 'Ativo',
-19/06/2026 12:49:06:   usuario_id: '50'
-19/06/2026 12:49:06: }
-19/06/2026 12:49:24: [DELETE] Soft delete cotação: Teste
-19/06/2026 12:49:24: [DELETE] Usuário: jose.faria
-19/06/2026 12:49:24: [DELETE] Linhas afetadas: 1
-19/06/2026 12:49:24: [DELETE] Cotação deletada com sucesso: {
-19/06/2026 12:49:24:   cotacao: 'Teste',
-19/06/2026 12:49:24:   anotacao: 'asd',
-19/06/2026 12:49:24:   status: 'pendente',
-19/06/2026 12:49:24:   data_de_criacao: '19/06/2026 12:49',
-19/06/2026 12:49:24:   data_da_ultima_atualizacao: '19/06/2026 12:49',
-19/06/2026 12:49:24:   usuario_login: 'jose.faria',
-19/06/2026 12:49:24:   validacao: 'Inativo',
-19/06/2026 12:49:24:   usuario_id: '50'
-19/06/2026 12:49:24: }
-19/06/2026 12:56:52: Servidor rodando em http://localhost:3016
-19/06/2026 12:59:00: Servidor rodando em http://localhost:3016
+22/06/2026 09:40:29: [PUT] Atualizando cotação: Gshsh
+22/06/2026 09:40:29: [PUT] Usuário: jose.faria
+22/06/2026 09:40:29: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 09:40:29: [PUT] Linhas afetadas: 1
+22/06/2026 09:40:29: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:40:29:   cotacao: 'Gshsh',
+22/06/2026 09:40:29:   anotacao: 'Dhdhhd',
+22/06/2026 09:40:29:   status: 'aprovado',
+22/06/2026 09:40:29:   data_de_criacao: '22/06/2026 09:37',
+22/06/2026 09:40:29:   data_da_ultima_atualizacao: '22/06/2026 09:40',
+22/06/2026 09:40:29:   usuario_login: 'jose.faria',
+22/06/2026 09:40:29:   validacao: 'Ativo',
+22/06/2026 09:40:29:   usuario_id: '50'
+22/06/2026 09:40:29: }
+22/06/2026 09:44:47: [PUT] Atualizando cotação: Gshsh
+22/06/2026 09:44:47: [PUT] Usuário: jose.faria
+22/06/2026 09:44:47: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 09:44:47: [PUT] Atualizando cotação: Gshsh
+22/06/2026 09:44:47: [PUT] Usuário: jose.faria
+22/06/2026 09:44:47: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 09:44:47: [PUT] Atualizando cotação: Gshsh
+22/06/2026 09:44:47: [PUT] Usuário: jose.faria
+22/06/2026 09:44:47: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 09:44:47: [PUT] Atualizando cotação: Gshsh
+22/06/2026 09:44:47: [PUT] Usuário: jose.faria
+22/06/2026 09:44:47: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 09:44:47: [PUT] Atualizando cotação: Gshsh
+22/06/2026 09:44:47: [PUT] Usuário: jose.faria
+22/06/2026 09:44:47: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 09:44:47: [PUT] Atualizando cotação: Gshsh
+22/06/2026 09:44:47: [PUT] Usuário: jose.faria
+22/06/2026 09:44:47: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 09:44:47: [PUT] Linhas afetadas: 1
+22/06/2026 09:44:47: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:44:47:   cotacao: 'Gshsh',
+22/06/2026 09:44:47:   anotacao: 'Dhdhhd',
+22/06/2026 09:44:47:   status: 'pendente',
+22/06/2026 09:44:47:   data_de_criacao: '22/06/2026 09:37',
+22/06/2026 09:44:47:   data_da_ultima_atualizacao: '22/06/2026 09:44',
+22/06/2026 09:44:47:   usuario_login: 'jose.faria',
+22/06/2026 09:44:47:   validacao: 'Ativo',
+22/06/2026 09:44:47:   usuario_id: '50'
+22/06/2026 09:44:47: }
+22/06/2026 09:44:47: [PUT] Linhas afetadas: 1
+22/06/2026 09:44:47: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:44:47:   cotacao: 'Gshsh',
+22/06/2026 09:44:47:   anotacao: 'Dhdhhd',
+22/06/2026 09:44:47:   status: 'pendente',
+22/06/2026 09:44:47:   data_de_criacao: '22/06/2026 09:37',
+22/06/2026 09:44:47:   data_da_ultima_atualizacao: '22/06/2026 09:44',
+22/06/2026 09:44:47:   usuario_login: 'jose.faria',
+22/06/2026 09:44:47:   validacao: 'Ativo',
+22/06/2026 09:44:47:   usuario_id: '50'
+22/06/2026 09:44:47: }
+22/06/2026 09:44:47: [PUT] Linhas afetadas: 1
+22/06/2026 09:44:47: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:44:47:   cotacao: 'Gshsh',
+22/06/2026 09:44:47:   anotacao: 'Dhdhhd',
+22/06/2026 09:44:47:   status: 'pendente',
+22/06/2026 09:44:47:   data_de_criacao: '22/06/2026 09:37',
+22/06/2026 09:44:47:   data_da_ultima_atualizacao: '22/06/2026 09:44',
+22/06/2026 09:44:47:   usuario_login: 'jose.faria',
+22/06/2026 09:44:47:   validacao: 'Ativo',
+22/06/2026 09:44:47:   usuario_id: '50'
+22/06/2026 09:44:47: }
+22/06/2026 09:44:47: [PUT] Linhas afetadas: 1
+22/06/2026 09:44:47: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:44:47:   cotacao: 'Gshsh',
+22/06/2026 09:44:47:   anotacao: 'Dhdhhd',
+22/06/2026 09:44:47:   status: 'pendente',
+22/06/2026 09:44:47:   data_de_criacao: '22/06/2026 09:37',
+22/06/2026 09:44:47:   data_da_ultima_atualizacao: '22/06/2026 09:44',
+22/06/2026 09:44:47:   usuario_login: 'jose.faria',
+22/06/2026 09:44:47:   validacao: 'Ativo',
+22/06/2026 09:44:47:   usuario_id: '50'
+22/06/2026 09:44:47: }
+22/06/2026 09:44:47: [PUT] Linhas afetadas: 1
+22/06/2026 09:44:47: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:44:47:   cotacao: 'Gshsh',
+22/06/2026 09:44:47:   anotacao: 'Dhdhhd',
+22/06/2026 09:44:47:   status: 'pendente',
+22/06/2026 09:44:47:   data_de_criacao: '22/06/2026 09:37',
+22/06/2026 09:44:47:   data_da_ultima_atualizacao: '22/06/2026 09:44',
+22/06/2026 09:44:47:   usuario_login: 'jose.faria',
+22/06/2026 09:44:47:   validacao: 'Ativo',
+22/06/2026 09:44:47:   usuario_id: '50'
+22/06/2026 09:44:47: }
+22/06/2026 09:44:47: [PUT] Linhas afetadas: 1
+22/06/2026 09:44:47: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:44:47:   cotacao: 'Gshsh',
+22/06/2026 09:44:47:   anotacao: 'Dhdhhd',
+22/06/2026 09:44:47:   status: 'pendente',
+22/06/2026 09:44:47:   data_de_criacao: '22/06/2026 09:37',
+22/06/2026 09:44:47:   data_da_ultima_atualizacao: '22/06/2026 09:44',
+22/06/2026 09:44:47:   usuario_login: 'jose.faria',
+22/06/2026 09:44:47:   validacao: 'Ativo',
+22/06/2026 09:44:47:   usuario_id: '50'
+22/06/2026 09:44:47: }
+22/06/2026 09:44:50: [PUT] Atualizando cotação: Q1321321
+22/06/2026 09:44:50: [PUT] Usuário: jose.faria
+22/06/2026 09:44:50: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 09:44:50: [PUT] Linhas afetadas: 1
+22/06/2026 09:44:50: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:44:50:   cotacao: 'Q1321321',
+22/06/2026 09:44:50:   anotacao: 'Teste2',
+22/06/2026 09:44:50:   status: 'pendente',
+22/06/2026 09:44:50:   data_de_criacao: '19/06/2026 12:08',
+22/06/2026 09:44:50:   data_da_ultima_atualizacao: '22/06/2026 09:44',
+22/06/2026 09:44:50:   usuario_login: 'jose.faria',
+22/06/2026 09:44:50:   validacao: 'Ativo',
+22/06/2026 09:44:50:   usuario_id: '50'
+22/06/2026 09:44:50: }
+22/06/2026 09:45:04: [PUT] Atualizando cotação: Qasdgg
+22/06/2026 09:45:04: [PUT] Usuário: jose.faria
+22/06/2026 09:45:04: [PUT] Dados recebidos: { anotacao: 'Dydydydydbcbxbxbx', status: 'pendente' }
+22/06/2026 09:45:04: [PUT] Linhas afetadas: 1
+22/06/2026 09:45:04: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:45:04:   cotacao: 'Qasdgg',
+22/06/2026 09:45:04:   anotacao: 'Dydydydydbcbxbxbx',
+22/06/2026 09:45:04:   status: 'pendente',
+22/06/2026 09:45:04:   data_de_criacao: '22/06/2026 09:43',
+22/06/2026 09:45:04:   data_da_ultima_atualizacao: '22/06/2026 09:45',
+22/06/2026 09:45:04:   usuario_login: 'jose.faria',
+22/06/2026 09:45:04:   validacao: 'Ativo',
+22/06/2026 09:45:04:   usuario_id: '50'
+22/06/2026 09:45:04: }
+22/06/2026 09:45:07: [PUT] Atualizando cotação: Gshsh
+22/06/2026 09:45:07: [PUT] Usuário: jose.faria
+22/06/2026 09:45:07: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 09:45:07: [PUT] Linhas afetadas: 1
+22/06/2026 09:45:07: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:45:07:   cotacao: 'Gshsh',
+22/06/2026 09:45:07:   anotacao: 'Dhdhhd',
+22/06/2026 09:45:07:   status: 'aprovado',
+22/06/2026 09:45:07:   data_de_criacao: '22/06/2026 09:37',
+22/06/2026 09:45:07:   data_da_ultima_atualizacao: '22/06/2026 09:45',
+22/06/2026 09:45:07:   usuario_login: 'jose.faria',
+22/06/2026 09:45:07:   validacao: 'Ativo',
+22/06/2026 09:45:07:   usuario_id: '50'
+22/06/2026 09:45:07: }
+22/06/2026 09:45:15: [PUT] Atualizando cotação: Q1321321
+22/06/2026 09:45:15: [PUT] Usuário: jose.faria
+22/06/2026 09:45:15: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 09:45:15: [PUT] Linhas afetadas: 1
+22/06/2026 09:45:15: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 09:45:15:   cotacao: 'Q1321321',
+22/06/2026 09:45:15:   anotacao: 'Teste2',
+22/06/2026 09:45:15:   status: 'aprovado',
+22/06/2026 09:45:15:   data_de_criacao: '19/06/2026 12:08',
+22/06/2026 09:45:15:   data_da_ultima_atualizacao: '22/06/2026 09:45',
+22/06/2026 09:45:15:   usuario_login: 'jose.faria',
+22/06/2026 09:45:15:   validacao: 'Ativo',
+22/06/2026 09:45:15:   usuario_id: '50'
+22/06/2026 09:45:15: }
+22/06/2026 11:39:36: [PUT] Atualizando cotação: 1123
+22/06/2026 11:39:36: [PUT] Usuário: jose.faria
+22/06/2026 11:39:36: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 11:39:36: [PUT] Linhas afetadas: 1
+22/06/2026 11:39:36: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 11:39:36:   cotacao: '1123',
+22/06/2026 11:39:36:   anotacao: 'asdasd',
+22/06/2026 11:39:36:   status: 'pendente',
+22/06/2026 11:39:36:   data_de_criacao: '22/06/2026 11:39',
+22/06/2026 11:39:36:   data_da_ultima_atualizacao: '22/06/2026 11:39',
+22/06/2026 11:39:36:   usuario_login: 'jose.faria',
+22/06/2026 11:39:36:   validacao: 'Ativo',
+22/06/2026 11:39:36:   usuario_id: '50'
+22/06/2026 11:39:36: }
+22/06/2026 11:39:38: [PUT] Atualizando cotação: 1123
+22/06/2026 11:39:38: [PUT] Usuário: jose.faria
+22/06/2026 11:39:38: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 11:39:38: [PUT] Linhas afetadas: 1
+22/06/2026 11:39:38: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 11:39:38:   cotacao: '1123',
+22/06/2026 11:39:38:   anotacao: 'asdasd',
+22/06/2026 11:39:38:   status: 'aprovado',
+22/06/2026 11:39:38:   data_de_criacao: '22/06/2026 11:39',
+22/06/2026 11:39:38:   data_da_ultima_atualizacao: '22/06/2026 11:39',
+22/06/2026 11:39:38:   usuario_login: 'jose.faria',
+22/06/2026 11:39:38:   validacao: 'Ativo',
+22/06/2026 11:39:38:   usuario_id: '50'
+22/06/2026 11:39:38: }
+22/06/2026 11:39:40: [PUT] Atualizando cotação: 1123
+22/06/2026 11:39:40: [PUT] Usuário: jose.faria
+22/06/2026 11:39:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+22/06/2026 11:39:40: [PUT] Linhas afetadas: 1
+22/06/2026 11:39:40: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 11:39:40:   cotacao: '1123',
+22/06/2026 11:39:40:   anotacao: 'asdasd',
+22/06/2026 11:39:40:   status: 'reprovado',
+22/06/2026 11:39:40:   data_de_criacao: '22/06/2026 11:39',
+22/06/2026 11:39:40:   data_da_ultima_atualizacao: '22/06/2026 11:39',
+22/06/2026 11:39:40:   usuario_login: 'jose.faria',
+22/06/2026 11:39:40:   validacao: 'Ativo',
+22/06/2026 11:39:40:   usuario_id: '50'
+22/06/2026 11:39:40: }
+22/06/2026 11:40:05: [PUT] Atualizando cotação: 1123
+22/06/2026 11:40:05: [PUT] Usuário: jose.faria
+22/06/2026 11:40:05: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 11:40:05: [PUT] Linhas afetadas: 1
+22/06/2026 11:40:05: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 11:40:05:   cotacao: '1123',
+22/06/2026 11:40:05:   anotacao: 'asdasd',
+22/06/2026 11:40:05:   status: 'aprovado',
+22/06/2026 11:40:05:   data_de_criacao: '22/06/2026 11:39',
+22/06/2026 11:40:05:   data_da_ultima_atualizacao: '22/06/2026 11:40',
+22/06/2026 11:40:05:   usuario_login: 'jose.faria',
+22/06/2026 11:40:05:   validacao: 'Ativo',
+22/06/2026 11:40:05:   usuario_id: '50'
+22/06/2026 11:40:05: }
+22/06/2026 12:02:32: Servidor rodando em http://localhost:3016
+22/06/2026 12:07:42: [PUT] Atualizando cotação: sadasdsa
+22/06/2026 12:07:42: [PUT] Usuário: jose.faria
+22/06/2026 12:07:42: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 12:07:42: [PUT] Linhas afetadas: 1
+22/06/2026 12:07:42: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 12:07:42:   cotacao: 'sadasdsa',
+22/06/2026 12:07:42:   anotacao: 'asdasda',
+22/06/2026 12:07:42:   status: 'aprovado',
+22/06/2026 12:07:42:   data_de_criacao: '22/06/2026 12:07',
+22/06/2026 12:07:42:   data_da_ultima_atualizacao: '22/06/2026 12:07',
+22/06/2026 12:07:42:   usuario_login: 'jose.faria',
+22/06/2026 12:07:42:   validacao: 'Ativo',
+22/06/2026 12:07:42:   usuario_id: '50'
+22/06/2026 12:07:42: }
+22/06/2026 12:09:50: [PUT] Atualizando cotação: 22746744
+22/06/2026 12:09:50: [PUT] Usuário: jose.faria
+22/06/2026 12:09:50: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+22/06/2026 12:09:50: [PUT] Linhas afetadas: 1
+22/06/2026 12:09:50: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 12:09:50:   cotacao: '22746744',
+22/06/2026 12:09:50:   anotacao: 'Título: COBRAPE - CIA. BRASILEIRA DE PROJETOS E EMPREENDIMENTOS-58645219000128-CONSULTIVO REMOTO | Fila: Input de Pedidos PME',
+22/06/2026 12:09:50:   status: 'reprovado',
+22/06/2026 12:09:50:   data_de_criacao: '22/06/2026 12:09',
+22/06/2026 12:09:50:   data_da_ultima_atualizacao: '22/06/2026 12:09',
+22/06/2026 12:09:50:   usuario_login: 'jose.faria',
+22/06/2026 12:09:50:   validacao: 'Ativo',
+22/06/2026 12:09:50:   usuario_id: '50'
+22/06/2026 12:09:50: }
+22/06/2026 12:17:15: [GESTAO] Upload recebido: R_000250_1422874.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:17:15: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:17:15: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:17:15: Delimitador detectado: ";"
+22/06/2026 12:17:15: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:17:15: Tabela verificada/criada.
+22/06/2026 12:17:15: Dados antigos removidos.
+22/06/2026 12:19:57: [GESTAO] Upload recebido: R_000250_1422874.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:19:57: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:19:57: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:19:57: Delimitador detectado: ";"
+22/06/2026 12:19:57: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:19:57: Tabela verificada/criada.
+22/06/2026 12:19:57: Dados antigos removidos.
+22/06/2026 12:20:48: [GESTAO] Upload recebido: R_000250_1422874.csv -> E:\projetos_hitss\geo-pme-notas\files\r_000250.csv
+22/06/2026 12:20:48: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:20:48: Delimitador detectado: ";"
+22/06/2026 12:20:48: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:20:48: Tabela verificada/criada.
+22/06/2026 12:20:48: Dados antigos removidos.
+22/06/2026 12:21:05: [GESTAO] Upload recebido: R_000250_1422874.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:21:05: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:21:05: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:21:05: Delimitador detectado: ";"
+22/06/2026 12:21:05: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:21:05: Tabela verificada/criada.
+22/06/2026 12:21:06: Dados antigos removidos.
+22/06/2026 12:25:28: Servidor rodando em http://localhost:3016
+22/06/2026 12:25:51: Servidor rodando em http://localhost:3016
+22/06/2026 12:26:05: [GESTAO] Upload recebido: R_000250_1422874.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:26:05: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:26:05: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:26:05: Delimitador detectado: ";"
+22/06/2026 12:26:05: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:26:05: Tabela verificada/criada.
+22/06/2026 12:26:05: Dados antigos removidos.
+22/06/2026 12:26:05: Dados carregados com sucesso via COPY.
+22/06/2026 12:26:05: --- ETL R_000250 CONCLUÍDO: 150 registros ---
+22/06/2026 12:27:58: [GESTAO] Upload recebido: R_000250_1422874.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:27:58: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:27:58: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:27:58: Delimitador detectado: ";"
+22/06/2026 12:27:58: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:27:58: Tabela verificada/criada.
+22/06/2026 12:27:58: Dados antigos removidos.
+22/06/2026 12:27:58: Dados carregados com sucesso via COPY.
+22/06/2026 12:27:58: --- ETL R_000250 CONCLUÍDO: 150 registros ---
+22/06/2026 12:28:46: [GESTAO] Upload recebido: R_000250_1422874.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:28:46: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:28:46: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:28:46: Delimitador detectado: ";"
+22/06/2026 12:28:46: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:28:46: Tabela verificada/criada.
+22/06/2026 12:28:46: Dados antigos removidos.
+22/06/2026 12:28:46: Dados carregados com sucesso via COPY.
+22/06/2026 12:28:46: --- ETL R_000250 CONCLUÍDO: 150 registros ---
+22/06/2026 12:28:56: [GESTAO] Upload recebido: R_000250_1422874.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:28:56: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:28:56: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:28:56: Delimitador detectado: ";"
+22/06/2026 12:28:56: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:28:56: Tabela verificada/criada.
+22/06/2026 12:28:56: Dados antigos removidos.
+22/06/2026 12:28:56: Dados carregados com sucesso via COPY.
+22/06/2026 12:28:56: --- ETL R_000250 CONCLUÍDO: 150 registros ---
+22/06/2026 12:36:24: [GESTAO] Upload recebido: R_000250_1423172.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:36:24: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:36:24: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:36:24: Delimitador detectado: ";"
+22/06/2026 12:36:24: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:36:24: Tabela verificada/criada.
+22/06/2026 12:36:24: Dados antigos removidos.
+22/06/2026 12:36:24: Dados carregados com sucesso via COPY.
+22/06/2026 12:36:24: --- ETL R_000250 CONCLUÍDO: 195 registros ---
+22/06/2026 12:40:04: [GESTAO] Upload recebido: R_000250_1423172.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:40:04: --- INICIANDO ETL R_000250 ---
+22/06/2026 12:40:04: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 12:40:04: Delimitador detectado: ";"
+22/06/2026 12:40:04: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 12:40:05: Tabela verificada/criada.
+22/06/2026 12:40:05: Dados antigos removidos.
+22/06/2026 12:40:05: Dados carregados com sucesso via COPY.
+22/06/2026 12:40:05: --- ETL R_000250 CONCLUÍDO: 195 registros ---
+22/06/2026 13:21:47: [GESTAO] Upload recebido: R_000250_1423172.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 13:21:47: --- INICIANDO ETL R_000250 ---
+22/06/2026 13:21:47: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 13:21:47: Delimitador detectado: ";"
+22/06/2026 13:21:47: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 13:21:47: Tabela verificada/criada.
+22/06/2026 13:21:47: Coluna adicionada: codigo_tarefa
+22/06/2026 13:21:47: Coluna adicionada: data_de_criacao
+22/06/2026 13:21:47: Coluna adicionada: data_da_ultima_alteracao_etapa
+22/06/2026 13:21:47: Coluna adicionada: fila
+22/06/2026 13:21:47: Coluna adicionada: etapa
+22/06/2026 13:21:47: Coluna adicionada: titulo_tarefa
+22/06/2026 13:21:47: Coluna adicionada: descricao
+22/06/2026 13:21:47: Coluna adicionada: demandante
+22/06/2026 13:21:47: Coluna adicionada: responsavel_atual
+22/06/2026 13:21:47: Coluna adicionada: status
+22/06/2026 13:21:47: Coluna adicionada: pont
+22/06/2026 13:21:47: Coluna adicionada: leitura
+22/06/2026 13:21:47: Dados antigos removidos.
+22/06/2026 13:21:47: Dados carregados com sucesso via COPY.
+22/06/2026 13:21:47: --- ETL R_000250 CONCLUÍDO: 195 registros ---
+22/06/2026 13:22:08: [PUT] Atualizando cotação: 22746744
+22/06/2026 13:22:08: [PUT] Usuário: jose.faria
+22/06/2026 13:22:08: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 13:22:08: [PUT] Linhas afetadas: 1
+22/06/2026 13:22:08: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 13:22:08:   cotacao: '22746744',
+22/06/2026 13:22:08:   anotacao: 'Título: COBRAPE - CIA. BRASILEIRA DE PROJETOS E EMPREENDIMENTOS-58645219000128-CONSULTIVO REMOTO | Fila: Input de Pedidos PME',
+22/06/2026 13:22:08:   status: 'pendente',
+22/06/2026 13:22:08:   data_de_criacao: '22/06/2026 12:09',
+22/06/2026 13:22:08:   data_da_ultima_atualizacao: '22/06/2026 13:22',
+22/06/2026 13:22:08:   usuario_login: 'jose.faria',
+22/06/2026 13:22:08:   validacao: 'Ativo',
+22/06/2026 13:22:08:   usuario_id: '50'
+22/06/2026 13:22:08: }
+22/06/2026 13:33:35: Servidor rodando em http://localhost:3016
+22/06/2026 13:34:28: [GESTAO] Upload recebido: R_000250_1423172.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 13:34:28: --- INICIANDO ETL R_000250 ---
+22/06/2026 13:34:28: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 13:34:28: Delimitador detectado: ";"
+22/06/2026 13:34:28: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 13:34:28: Tabela verificada/criada.
+22/06/2026 13:34:28: Dados antigos removidos.
+22/06/2026 13:34:28: Dados carregados com sucesso via COPY.
+22/06/2026 13:34:28: --- ETL R_000250 CONCLUÍDO: 195 registros ---
+22/06/2026 13:38:55: Servidor rodando em http://localhost:3016
+22/06/2026 13:39:11: Servidor rodando em http://localhost:3016
+22/06/2026 13:41:28: Servidor rodando em http://localhost:3016
+22/06/2026 13:42:13: Servidor rodando em http://localhost:3016
+22/06/2026 13:45:35: Servidor rodando em http://localhost:3016
+22/06/2026 13:46:13: [GESTAO] Upload recebido: R_000250_1423172.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 13:46:13: --- INICIANDO ETL R_000250 ---
+22/06/2026 13:46:13: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 13:46:13: Delimitador detectado: ";"
+22/06/2026 13:46:13: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 13:46:13: Tabela verificada/criada.
+22/06/2026 13:46:13: Dados antigos removidos.
+22/06/2026 13:46:13: Dados carregados com sucesso via COPY.
+22/06/2026 13:46:13: --- ETL R_000250 CONCLUÍDO: 195 registros ---
+22/06/2026 14:42:55: [GESTAO] Upload recebido: R_000250_1423172.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 14:42:55: --- INICIANDO ETL R_000250 ---
+22/06/2026 14:42:55: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+22/06/2026 14:42:55: Delimitador detectado: ";"
+22/06/2026 14:42:55: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+22/06/2026 14:42:55: Tabela verificada/criada.
+22/06/2026 14:42:55: Dados antigos removidos.
+22/06/2026 14:42:55: Dados carregados com sucesso via COPY.
+22/06/2026 14:42:55: --- ETL R_000250 CONCLUÍDO: 195 registros ---
+22/06/2026 14:58:13: [PUT] Atualizando cotação: 22755510
+22/06/2026 14:58:13: [PUT] Usuário: jose.faria
+22/06/2026 14:58:13: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 14:58:13: [PUT] Linhas afetadas: 1
+22/06/2026 14:58:13: [PUT] Cotação atualizada com sucesso: {
+22/06/2026 14:58:13:   cotacao: '22755510',
+22/06/2026 14:58:13:   anotacao: 'Tarefa: E001 - PME - 59.632.732/0001-47 | Fila: CPC - PME',
+22/06/2026 14:58:13:   status: 'aprovado',
+22/06/2026 14:58:13:   data_de_criacao: '22/06/2026 14:57',
+22/06/2026 14:58:13:   data_da_ultima_atualizacao: '22/06/2026 14:58',
+22/06/2026 14:58:13:   usuario_login: 'jose.faria',
+22/06/2026 14:58:13:   validacao: 'Ativo',
+22/06/2026 14:58:13:   usuario_id: '50'
+22/06/2026 14:58:13: }
