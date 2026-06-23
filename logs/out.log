@@ -479,3 +479,803 @@
 22/06/2026 18:11:13: Dados carregados com sucesso via COPY.
 22/06/2026 18:11:13: --- ETL R_000250 CONCLUÍDO: 28406 registros ---
 22/06/2026 18:12:02: Servidor rodando em http://localhost:3016
+22/06/2026 18:27:41: Servidor rodando em http://localhost:3016
+22/06/2026 18:29:05: Servidor rodando em http://localhost:3016
+22/06/2026 20:44:06: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:06: [PUT] Usuário: jose.faria
+22/06/2026 20:44:06: [PUT] Dados recebidos: {
+22/06/2026 20:44:06:   anotacao: 'Tarefa: E001 - PME - 23.923.034/0001-53 | Fila: CPC - PME',
+22/06/2026 20:44:06:   status: 'pendente'
+22/06/2026 20:44:06: }
+22/06/2026 20:44:06: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:06: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:07: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:07: [PUT] Usuário: jose.faria
+22/06/2026 20:44:07: [PUT] Dados recebidos: {
+22/06/2026 20:44:07:   anotacao: 'Tarefa: E001 - PME - 23.923.034/0001-53 | Fila: CPC - PME',
+22/06/2026 20:44:07:   status: 'pendente'
+22/06/2026 20:44:07: }
+22/06/2026 20:44:07: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:07: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:12: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:12: [PUT] Usuário: jose.faria
+22/06/2026 20:44:12: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:12: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:12: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:13: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:13: [PUT] Usuário: jose.faria
+22/06/2026 20:44:13: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:13: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:13: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:13: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:13: [PUT] Usuário: jose.faria
+22/06/2026 20:44:13: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:13: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:13: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:15: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:15: [PUT] Usuário: jose.faria
+22/06/2026 20:44:15: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+22/06/2026 20:44:15: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:15: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:16: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:16: [PUT] Usuário: jose.faria
+22/06/2026 20:44:16: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:16: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:16: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:25: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:25: [PUT] Usuário: jose.faria
+22/06/2026 20:44:25: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:25: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:25: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:33: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:33: [PUT] Usuário: jose.faria
+22/06/2026 20:44:33: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:33: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:33: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:33: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:33: [PUT] Usuário: jose.faria
+22/06/2026 20:44:33: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:33: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:33: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:33: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:33: [PUT] Usuário: jose.faria
+22/06/2026 20:44:33: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:33: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:33: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:34: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:34: [PUT] Usuário: jose.faria
+22/06/2026 20:44:34: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+22/06/2026 20:44:34: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:34: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:36: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:36: [PUT] Usuário: jose.faria
+22/06/2026 20:44:36: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 20:44:36: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:36: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:37: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:37: [PUT] Usuário: jose.faria
+22/06/2026 20:44:37: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:37: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:37: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:38: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:38: [PUT] Usuário: jose.faria
+22/06/2026 20:44:38: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:38: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:38: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:39: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:39: [PUT] Usuário: jose.faria
+22/06/2026 20:44:39: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:39: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:39: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:40: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:40: [PUT] Usuário: jose.faria
+22/06/2026 20:44:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:40: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:40: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:44:40: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:44:40: [PUT] Usuário: jose.faria
+22/06/2026 20:44:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:44:40: [PUT] Linhas afetadas: 0
+22/06/2026 20:44:40: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:05: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:45:05: [PUT] Usuário: jose.faria
+22/06/2026 20:45:05: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:45:05: [PUT] Linhas afetadas: 0
+22/06/2026 20:45:05: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:05: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:45:05: [PUT] Usuário: jose.faria
+22/06/2026 20:45:05: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:45:05: [PUT] Linhas afetadas: 0
+22/06/2026 20:45:05: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:06: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:45:06: [PUT] Usuário: jose.faria
+22/06/2026 20:45:06: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:45:06: [PUT] Linhas afetadas: 0
+22/06/2026 20:45:06: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:08: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:45:08: [PUT] Usuário: jose.faria
+22/06/2026 20:45:08: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+22/06/2026 20:45:08: [PUT] Linhas afetadas: 0
+22/06/2026 20:45:08: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:08: [PUT] Atualizando cotação: Q6191291 - 22435971
+22/06/2026 20:45:08: [PUT] Usuário: jose.faria
+22/06/2026 20:45:08: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+22/06/2026 20:45:08: [PUT] Linhas afetadas: 0
+22/06/2026 20:45:08: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:16: [DELETE] Soft delete cotação: Q6191291 - 22435971
+22/06/2026 20:45:16: [DELETE] Usuário: jose.faria
+22/06/2026 20:45:16: [DELETE] Linhas afetadas: 0
+22/06/2026 20:45:16: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:19: [DELETE] Soft delete cotação: Q6191291 - 22435971
+22/06/2026 20:45:19: [DELETE] Usuário: jose.faria
+22/06/2026 20:45:19: [DELETE] Linhas afetadas: 0
+22/06/2026 20:45:19: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:22: [DELETE] Soft delete cotação: Q6191291 - 22435971
+22/06/2026 20:45:22: [DELETE] Usuário: jose.faria
+22/06/2026 20:45:22: [DELETE] Linhas afetadas: 0
+22/06/2026 20:45:22: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+22/06/2026 20:45:27: [DELETE] Soft delete cotação: Q6191291 - 22435971
+22/06/2026 20:45:27: [DELETE] Usuário: jose.faria
+22/06/2026 20:45:27: [DELETE] Linhas afetadas: 0
+22/06/2026 20:45:27: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:07:44: [GESTAO] Upload recebido: R_000250_1423871.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+23/06/2026 10:07:44: --- INICIANDO ETL R_000250 ---
+23/06/2026 10:07:44: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+23/06/2026 10:07:44: Delimitador detectado: ";"
+23/06/2026 10:07:44: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+23/06/2026 10:07:44: Tabela verificada/criada.
+23/06/2026 10:07:44: Dados antigos removidos.
+23/06/2026 10:07:44: Dados carregados com sucesso via COPY.
+23/06/2026 10:07:44: --- ETL R_000250 CONCLUÍDO: 372 registros ---
+23/06/2026 10:17:01: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:01: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:01: [PUT] Dados recebidos: {
+23/06/2026 10:17:01:   anotacao: 'Tarefa: E001 - PME - 38.276.022/0001-51 | Fila: CPC - PME',
+23/06/2026 10:17:01:   status: 'pendente'
+23/06/2026 10:17:01: }
+23/06/2026 10:17:01: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:01: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:02: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:02: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:02: [PUT] Dados recebidos: {
+23/06/2026 10:17:02:   anotacao: 'Tarefa: E001 - PME - 38.276.022/0001-51 | Fila: CPC - PME',
+23/06/2026 10:17:02:   status: 'pendente'
+23/06/2026 10:17:02: }
+23/06/2026 10:17:02: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:02: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:05: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:05: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:05: [PUT] Dados recebidos: {
+23/06/2026 10:17:05:   anotacao: 'Tarefa: E001 - PME - 38.276.022/0001-51 | Fila: CPC - PME',
+23/06/2026 10:17:05:   status: 'pendente'
+23/06/2026 10:17:05: }
+23/06/2026 10:17:05: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:05: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:05: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:05: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:05: [PUT] Dados recebidos: {
+23/06/2026 10:17:05:   anotacao: 'Tarefa: E001 - PME - 38.276.022/0001-51 | Fila: CPC - PME',
+23/06/2026 10:17:05:   status: 'pendente'
+23/06/2026 10:17:05: }
+23/06/2026 10:17:05: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:05: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:06: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:06: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:06: [PUT] Dados recebidos: {
+23/06/2026 10:17:06:   anotacao: 'Tarefa: E001 - PME - 38.276.022/0001-51 | Fila: CPC - PME',
+23/06/2026 10:17:06:   status: 'pendente'
+23/06/2026 10:17:06: }
+23/06/2026 10:17:06: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:06: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:06: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:06: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:06: [PUT] Dados recebidos: {
+23/06/2026 10:17:06:   anotacao: 'Tarefa: E001 - PME - 38.276.022/0001-51 | Fila: CPC - PME',
+23/06/2026 10:17:06:   status: 'pendente'
+23/06/2026 10:17:06: }
+23/06/2026 10:17:07: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:07: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:07: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:07: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:07: [PUT] Dados recebidos: {
+23/06/2026 10:17:07:   anotacao: 'Tarefa: E001 - PME - 38.276.022/0001-51 | Fila: CPC - PME',
+23/06/2026 10:17:07:   status: 'pendente'
+23/06/2026 10:17:07: }
+23/06/2026 10:17:07: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:07: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:11: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:11: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:11: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:17:11: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:11: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:12: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:12: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:12: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:17:12: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:12: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:13: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:13: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:13: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:17:13: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:13: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:13: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:13: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:13: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 10:17:13: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:13: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:17:14: [PUT] Atualizando cotação: Q6267967 - 22756382
+23/06/2026 10:17:14: [PUT] Usuário: carmen.castro
+23/06/2026 10:17:14: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:17:14: [PUT] Linhas afetadas: 0
+23/06/2026 10:17:14: [PUT] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:53: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:53: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:53: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:53: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:56: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:56: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:56: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:56: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:57: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:57: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:57: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:57: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:58: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:58: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:58: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:58: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:58: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:58: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:58: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:58: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:58: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:58: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:58: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:58: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:58: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:58: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:58: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:58: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:59: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:59: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:59: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:59: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:59: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:59: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:59: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:59: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:59: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:59: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:59: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:59: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:22:59: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:22:59: [DELETE] Usuário: carmen.castro
+23/06/2026 10:22:59: [DELETE] Linhas afetadas: 0
+23/06/2026 10:22:59: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:23:00: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:23:00: [DELETE] Usuário: carmen.castro
+23/06/2026 10:23:00: [DELETE] Linhas afetadas: 0
+23/06/2026 10:23:00: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:23:00: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:23:00: [DELETE] Usuário: carmen.castro
+23/06/2026 10:23:00: [DELETE] Linhas afetadas: 0
+23/06/2026 10:23:00: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:23:00: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:23:00: [DELETE] Usuário: carmen.castro
+23/06/2026 10:23:00: [DELETE] Linhas afetadas: 0
+23/06/2026 10:23:00: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:23:00: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:23:00: [DELETE] Usuário: carmen.castro
+23/06/2026 10:23:00: [DELETE] Linhas afetadas: 0
+23/06/2026 10:23:00: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:23:03: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:23:03: [DELETE] Usuário: carmen.castro
+23/06/2026 10:23:03: [DELETE] Linhas afetadas: 0
+23/06/2026 10:23:03: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:23:03: [DELETE] Soft delete cotação: Q6267967 - 22756382
+23/06/2026 10:23:03: [DELETE] Usuário: carmen.castro
+23/06/2026 10:23:03: [DELETE] Linhas afetadas: 0
+23/06/2026 10:23:03: [DELETE] Cotação não encontrada ou usuário não é dono: Q6267967 - 22756382
+23/06/2026 10:27:12: Servidor rodando em http://localhost:3016
+23/06/2026 10:27:39: [PUT] Atualizando cotação: Q6191291 - 22435971
+23/06/2026 10:27:39: [PUT] Usuário: jose.faria
+23/06/2026 10:27:39: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:27:39: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:39: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Atualizando cotação: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Usuário: jose.faria
+23/06/2026 10:27:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:27:40: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:40: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Atualizando cotação: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Usuário: jose.faria
+23/06/2026 10:27:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:27:40: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:40: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Atualizando cotação: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Usuário: jose.faria
+23/06/2026 10:27:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:27:40: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:40: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Atualizando cotação: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Usuário: jose.faria
+23/06/2026 10:27:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:27:40: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:40: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Atualizando cotação: Q6191291 - 22435971
+23/06/2026 10:27:40: [PUT] Usuário: jose.faria
+23/06/2026 10:27:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:27:40: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:40: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:41: [PUT] Atualizando cotação: Q6191291 - 22435971
+23/06/2026 10:27:41: [PUT] Usuário: jose.faria
+23/06/2026 10:27:41: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:27:41: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:41: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:41: [PUT] Atualizando cotação: Q6191291 - 22435971
+23/06/2026 10:27:41: [PUT] Usuário: jose.faria
+23/06/2026 10:27:41: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:27:41: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:41: [PUT] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:44: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:44: [PUT] Usuário: jose.faria
+23/06/2026 10:27:44: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 10:27:44: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:44: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:44: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:44: [PUT] Usuário: jose.faria
+23/06/2026 10:27:44: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 10:27:44: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:44: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:44: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:44: [PUT] Usuário: jose.faria
+23/06/2026 10:27:44: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 10:27:44: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:44: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:44: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:44: [PUT] Usuário: jose.faria
+23/06/2026 10:27:44: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:27:45: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:45: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Usuário: jose.faria
+23/06/2026 10:27:45: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:27:45: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:45: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Usuário: jose.faria
+23/06/2026 10:27:45: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:27:45: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:45: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Usuário: jose.faria
+23/06/2026 10:27:45: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:27:45: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:45: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Usuário: jose.faria
+23/06/2026 10:27:45: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:27:45: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:45: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:45: [PUT] Usuário: jose.faria
+23/06/2026 10:27:45: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:27:45: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:45: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:46: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:46: [PUT] Usuário: jose.faria
+23/06/2026 10:27:46: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:27:46: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:46: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:46: [PUT] Atualizando cotação: Q6187958 - 22435252
+23/06/2026 10:27:46: [PUT] Usuário: jose.faria
+23/06/2026 10:27:46: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:27:46: [PUT] Linhas afetadas: 0
+23/06/2026 10:27:46: [PUT] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:53: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:27:53: [DELETE] Usuário: jose.faria
+23/06/2026 10:27:53: [DELETE] Linhas afetadas: 0
+23/06/2026 10:27:53: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:54: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:27:54: [DELETE] Usuário: jose.faria
+23/06/2026 10:27:54: [DELETE] Linhas afetadas: 0
+23/06/2026 10:27:54: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:55: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:27:55: [DELETE] Usuário: jose.faria
+23/06/2026 10:27:55: [DELETE] Linhas afetadas: 0
+23/06/2026 10:27:55: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:55: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:27:55: [DELETE] Usuário: jose.faria
+23/06/2026 10:27:55: [DELETE] Linhas afetadas: 0
+23/06/2026 10:27:55: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:27:57: [DELETE] Soft delete cotação: Q6187958 - 22435252
+23/06/2026 10:27:57: [DELETE] Usuário: jose.faria
+23/06/2026 10:27:57: [DELETE] Linhas afetadas: 0
+23/06/2026 10:27:57: [DELETE] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:57: [DELETE] Soft delete cotação: Q6187958 - 22435252
+23/06/2026 10:27:57: [DELETE] Usuário: jose.faria
+23/06/2026 10:27:57: [DELETE] Linhas afetadas: 0
+23/06/2026 10:27:57: [DELETE] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:27:57: [DELETE] Soft delete cotação: Q6187958 - 22435252
+23/06/2026 10:27:57: [DELETE] Usuário: jose.faria
+23/06/2026 10:27:57: [DELETE] Linhas afetadas: 0
+23/06/2026 10:27:57: [DELETE] Cotação não encontrada ou usuário não é dono: Q6187958 - 22435252
+23/06/2026 10:28:36: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:36: [PUT] Usuário: jose.faria
+23/06/2026 10:28:36: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:28:36: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:36: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:38: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:38: [PUT] Usuário: jose.faria
+23/06/2026 10:28:38: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:28:38: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:38: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:38: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:38: [PUT] Usuário: jose.faria
+23/06/2026 10:28:38: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:28:38: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:38: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:38: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:38: [PUT] Usuário: jose.faria
+23/06/2026 10:28:38: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:28:38: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:38: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:38: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:38: [PUT] Usuário: jose.faria
+23/06/2026 10:28:38: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:28:38: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:38: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:39: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:39: [PUT] Usuário: jose.faria
+23/06/2026 10:28:39: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:28:39: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:39: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:39: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:39: [PUT] Usuário: jose.faria
+23/06/2026 10:28:39: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 10:28:39: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:39: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:40: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:40: [PUT] Usuário: jose.faria
+23/06/2026 10:28:40: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 10:28:40: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:40: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:41: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:41: [PUT] Usuário: jose.faria
+23/06/2026 10:28:41: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:28:41: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:41: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:28:41: [PUT] Atualizando cotação: Q6322703 - 22756435
+23/06/2026 10:28:41: [PUT] Usuário: jose.faria
+23/06/2026 10:28:41: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 10:28:41: [PUT] Linhas afetadas: 0
+23/06/2026 10:28:41: [PUT] Cotação não encontrada ou usuário não é dono: Q6322703 - 22756435
+23/06/2026 10:30:47: Servidor rodando em http://localhost:3016
+23/06/2026 10:31:45: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:31:45: [DELETE] Usuário: jose.faria
+23/06/2026 10:31:45: [DELETE] Linhas afetadas: 0
+23/06/2026 10:31:45: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Usuário: jose.faria
+23/06/2026 10:31:46: [DELETE] Linhas afetadas: 0
+23/06/2026 10:31:46: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Usuário: jose.faria
+23/06/2026 10:31:46: [DELETE] Linhas afetadas: 0
+23/06/2026 10:31:46: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Usuário: jose.faria
+23/06/2026 10:31:46: [DELETE] Linhas afetadas: 0
+23/06/2026 10:31:46: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Usuário: jose.faria
+23/06/2026 10:31:46: [DELETE] Linhas afetadas: 0
+23/06/2026 10:31:46: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Soft delete cotação: Q6191291 - 22435971
+23/06/2026 10:31:46: [DELETE] Usuário: jose.faria
+23/06/2026 10:31:46: [DELETE] Linhas afetadas: 0
+23/06/2026 10:31:46: [DELETE] Cotação não encontrada ou usuário não é dono: Q6191291 - 22435971
+23/06/2026 10:56:28: [PUT] Atualizando cotação: 12345
+23/06/2026 10:56:28: [PUT] Usuário: jose.faria
+23/06/2026 10:56:28: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:56:28: [PUT] Linhas afetadas: 0
+23/06/2026 10:56:28: [PUT] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:28: [PUT] Atualizando cotação: 12345
+23/06/2026 10:56:28: [PUT] Usuário: jose.faria
+23/06/2026 10:56:28: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:56:28: [PUT] Linhas afetadas: 0
+23/06/2026 10:56:28: [PUT] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:28: [PUT] Atualizando cotação: 12345
+23/06/2026 10:56:28: [PUT] Usuário: jose.faria
+23/06/2026 10:56:28: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:56:28: [PUT] Linhas afetadas: 0
+23/06/2026 10:56:28: [PUT] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:29: [PUT] Atualizando cotação: 12345
+23/06/2026 10:56:29: [PUT] Usuário: jose.faria
+23/06/2026 10:56:29: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:56:29: [PUT] Linhas afetadas: 0
+23/06/2026 10:56:29: [PUT] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:38: [PUT] Atualizando cotação: 12345
+23/06/2026 10:56:38: [PUT] Usuário: jose.faria
+23/06/2026 10:56:38: [PUT] Dados recebidos: { anotacao: 'rrrrre', status: 'pendente' }
+23/06/2026 10:56:38: [PUT] Linhas afetadas: 0
+23/06/2026 10:56:38: [PUT] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:38: [PUT] Atualizando cotação: 12345
+23/06/2026 10:56:38: [PUT] Usuário: jose.faria
+23/06/2026 10:56:38: [PUT] Dados recebidos: { anotacao: 'rrrrre', status: 'pendente' }
+23/06/2026 10:56:38: [PUT] Linhas afetadas: 0
+23/06/2026 10:56:38: [PUT] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:39: [PUT] Atualizando cotação: 12345
+23/06/2026 10:56:39: [PUT] Usuário: jose.faria
+23/06/2026 10:56:39: [PUT] Dados recebidos: { anotacao: 'rrrrre', status: 'pendente' }
+23/06/2026 10:56:39: [PUT] Linhas afetadas: 0
+23/06/2026 10:56:39: [PUT] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:42: [DELETE] Soft delete cotação: 12345
+23/06/2026 10:56:42: [DELETE] Usuário: jose.faria
+23/06/2026 10:56:42: [DELETE] Linhas afetadas: 0
+23/06/2026 10:56:42: [DELETE] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:42: [DELETE] Soft delete cotação: 12345
+23/06/2026 10:56:42: [DELETE] Usuário: jose.faria
+23/06/2026 10:56:42: [DELETE] Linhas afetadas: 0
+23/06/2026 10:56:42: [DELETE] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:42: [DELETE] Soft delete cotação: 12345
+23/06/2026 10:56:42: [DELETE] Usuário: jose.faria
+23/06/2026 10:56:42: [DELETE] Linhas afetadas: 0
+23/06/2026 10:56:42: [DELETE] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:56:58: [PUT] Atualizando cotação: 12345
+23/06/2026 10:56:58: [PUT] Usuário: jose.faria
+23/06/2026 10:56:58: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 10:56:58: [PUT] Linhas afetadas: 0
+23/06/2026 10:56:58: [PUT] Cotação não encontrada ou usuário não é dono: 12345
+23/06/2026 10:59:10: Servidor rodando em http://localhost:3016
+23/06/2026 11:00:54: Servidor rodando em http://localhost:3016
+23/06/2026 11:02:59: [PUT] Atualizando cotação: Q6312951 - 22755019
+23/06/2026 11:02:59: [PUT] Usuário: jose.faria
+23/06/2026 11:02:59: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 11:02:59: [PUT] Linhas afetadas: 1
+23/06/2026 11:02:59: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:02:59:   cotacao: 'Q6312951 - 22755019',
+23/06/2026 11:02:59:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:02:59:   status: 'aprovado',
+23/06/2026 11:02:59:   data_de_criacao: '23/06/2026 11:02',
+23/06/2026 11:02:59:   data_da_ultima_atualizacao: '23/06/2026 11:02',
+23/06/2026 11:02:59:   usuario_login: 'jose.faria',
+23/06/2026 11:02:59:   validacao: 'Ativo',
+23/06/2026 11:02:59:   usuario_id: '50'
+23/06/2026 11:02:59: }
+23/06/2026 11:03:04: [PUT] Atualizando cotação: Q6312951 - 22755019
+23/06/2026 11:03:04: [PUT] Usuário: jose.faria
+23/06/2026 11:03:04: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 11:03:04: [PUT] Linhas afetadas: 1
+23/06/2026 11:03:04: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:03:04:   cotacao: 'Q6312951 - 22755019',
+23/06/2026 11:03:04:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:03:04:   status: 'pendente',
+23/06/2026 11:03:04:   data_de_criacao: '23/06/2026 11:02',
+23/06/2026 11:03:04:   data_da_ultima_atualizacao: '23/06/2026 11:03',
+23/06/2026 11:03:04:   usuario_login: 'jose.faria',
+23/06/2026 11:03:04:   validacao: 'Ativo',
+23/06/2026 11:03:04:   usuario_id: '50'
+23/06/2026 11:03:04: }
+23/06/2026 11:03:10: [PUT] Atualizando cotação: Q6312951 - 22755019
+23/06/2026 11:03:10: [PUT] Usuário: jose.faria
+23/06/2026 11:03:10: [PUT] Dados recebidos: {
+23/06/2026 11:03:10:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:03:10:   status: 'pendente'
+23/06/2026 11:03:10: }
+23/06/2026 11:03:10: [PUT] Linhas afetadas: 1
+23/06/2026 11:03:10: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:03:10:   cotacao: 'Q6312951 - 22755019',
+23/06/2026 11:03:10:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:03:10:   status: 'pendente',
+23/06/2026 11:03:10:   data_de_criacao: '23/06/2026 11:02',
+23/06/2026 11:03:10:   data_da_ultima_atualizacao: '23/06/2026 11:03',
+23/06/2026 11:03:10:   usuario_login: 'jose.faria',
+23/06/2026 11:03:10:   validacao: 'Ativo',
+23/06/2026 11:03:10:   usuario_id: '50'
+23/06/2026 11:03:10: }
+23/06/2026 11:03:23: [DELETE] Soft delete cotação: Q6312951 - 22755019
+23/06/2026 11:03:23: [DELETE] Usuário: jose.faria
+23/06/2026 11:03:23: [DELETE] Linhas afetadas: 1
+23/06/2026 11:03:23: [DELETE] Cotação deletada com sucesso: {
+23/06/2026 11:03:23:   cotacao: 'Q6312951 - 22755019',
+23/06/2026 11:03:23:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:03:23:   status: 'pendente',
+23/06/2026 11:03:23:   data_de_criacao: '23/06/2026 11:02',
+23/06/2026 11:03:23:   data_da_ultima_atualizacao: '23/06/2026 11:03',
+23/06/2026 11:03:23:   usuario_login: 'jose.faria',
+23/06/2026 11:03:23:   validacao: 'Inativo',
+23/06/2026 11:03:23:   usuario_id: '50'
+23/06/2026 11:03:23: }
+23/06/2026 11:04:30: [DELETE] Soft delete cotação: rrrrrrr
+23/06/2026 11:04:30: [DELETE] Usuário: jose.faria
+23/06/2026 11:04:30: [DELETE] Linhas afetadas: 1
+23/06/2026 11:04:30: [DELETE] Cotação deletada com sucesso: {
+23/06/2026 11:04:30:   cotacao: 'rrrrrrr',
+23/06/2026 11:04:30:   anotacao: 'rrrrrr',
+23/06/2026 11:04:30:   status: 'pendente',
+23/06/2026 11:04:30:   data_de_criacao: '23/06/2026 11:03',
+23/06/2026 11:04:30:   data_da_ultima_atualizacao: '23/06/2026 11:04',
+23/06/2026 11:04:30:   usuario_login: 'jose.faria',
+23/06/2026 11:04:30:   validacao: 'Inativo',
+23/06/2026 11:04:30:   usuario_id: '50'
+23/06/2026 11:04:30: }
+23/06/2026 11:07:48: [PUT] Atualizando cotação: rrrrrrrrrrrr
+23/06/2026 11:07:48: [PUT] Usuário: jose.faria
+23/06/2026 11:07:48: [PUT] Dados recebidos: { anotacao: 'rrrrrrrrrrr', status: 'pendente' }
+23/06/2026 11:07:48: [PUT] Linhas afetadas: 1
+23/06/2026 11:07:48: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:07:48:   cotacao: 'rrrrrrrrrrrr',
+23/06/2026 11:07:48:   anotacao: 'rrrrrrrrrrr',
+23/06/2026 11:07:48:   status: 'pendente',
+23/06/2026 11:07:48:   data_de_criacao: '23/06/2026 11:07',
+23/06/2026 11:07:48:   data_da_ultima_atualizacao: '23/06/2026 11:07',
+23/06/2026 11:07:48:   usuario_login: 'jose.faria',
+23/06/2026 11:07:48:   validacao: 'Ativo',
+23/06/2026 11:07:48:   usuario_id: '50'
+23/06/2026 11:07:48: }
+23/06/2026 11:07:55: [PUT] Atualizando cotação: rrrrrrrrrrrr
+23/06/2026 11:07:55: [PUT] Usuário: jose.faria
+23/06/2026 11:07:55: [PUT] Dados recebidos: { anotacao: 'rrrrrrrrrrrrrrrrrrrrrrrrr', status: 'pendente' }
+23/06/2026 11:07:55: [PUT] Linhas afetadas: 1
+23/06/2026 11:07:55: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:07:55:   cotacao: 'rrrrrrrrrrrr',
+23/06/2026 11:07:55:   anotacao: 'rrrrrrrrrrrrrrrrrrrrrrrrr',
+23/06/2026 11:07:55:   status: 'pendente',
+23/06/2026 11:07:55:   data_de_criacao: '23/06/2026 11:07',
+23/06/2026 11:07:55:   data_da_ultima_atualizacao: '23/06/2026 11:07',
+23/06/2026 11:07:55:   usuario_login: 'jose.faria',
+23/06/2026 11:07:55:   validacao: 'Ativo',
+23/06/2026 11:07:55:   usuario_id: '50'
+23/06/2026 11:07:55: }
+23/06/2026 11:08:02: Servidor rodando em http://localhost:3016
+23/06/2026 11:08:02: [PUT] Atualizando cotação: rrrrrrrrrrrr
+23/06/2026 11:08:02: [PUT] Usuário: jose.faria
+23/06/2026 11:08:02: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 11:08:02: [PUT] Linhas afetadas: 1
+23/06/2026 11:08:02: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:08:02:   cotacao: 'rrrrrrrrrrrr',
+23/06/2026 11:08:02:   anotacao: 'rrrrrrrrrrrrrrrrrrrrrrrrr',
+23/06/2026 11:08:02:   status: 'reprovado',
+23/06/2026 11:08:02:   data_de_criacao: '23/06/2026 11:07',
+23/06/2026 11:08:02:   data_da_ultima_atualizacao: '23/06/2026 11:08',
+23/06/2026 11:08:02:   usuario_login: 'jose.faria',
+23/06/2026 11:08:02:   validacao: 'Ativo',
+23/06/2026 11:08:02:   usuario_id: '50'
+23/06/2026 11:08:02: }
+23/06/2026 11:08:09: [DELETE] Soft delete cotação: rrrrrrrrrrrr
+23/06/2026 11:08:09: [DELETE] Usuário: jose.faria
+23/06/2026 11:08:09: [DELETE] Linhas afetadas: 1
+23/06/2026 11:08:09: [DELETE] Cotação deletada com sucesso: {
+23/06/2026 11:08:09:   cotacao: 'rrrrrrrrrrrr',
+23/06/2026 11:08:09:   anotacao: 'rrrrrrrrrrrrrrrrrrrrrrrrr',
+23/06/2026 11:08:09:   status: 'reprovado',
+23/06/2026 11:08:09:   data_de_criacao: '23/06/2026 11:07',
+23/06/2026 11:08:09:   data_da_ultima_atualizacao: '23/06/2026 11:08',
+23/06/2026 11:08:09:   usuario_login: 'jose.faria',
+23/06/2026 11:08:09:   validacao: 'Inativo',
+23/06/2026 11:08:09:   usuario_id: '50'
+23/06/2026 11:08:09: }
+23/06/2026 11:13:17: Servidor rodando em http://localhost:3016
+23/06/2026 11:18:39: Servidor rodando em http://localhost:3016
+23/06/2026 11:19:51: Servidor rodando em http://localhost:3016
+23/06/2026 11:24:28: Servidor rodando em http://localhost:3016
+23/06/2026 11:39:01: [PUT] Atualizando cotação: 22756442
+23/06/2026 11:39:01: [PUT] Usuário: jose.faria
+23/06/2026 11:39:01: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 11:39:01: [PUT] Linhas afetadas: 1
+23/06/2026 11:39:01: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:39:01:   cotacao: 'Q6274436',
+23/06/2026 11:39:01:   anotacao: 'Tarefa: E001 - PME - 38.151.609/0001-34 | Fila: CPC - PME',
+23/06/2026 11:39:01:   status: 'aprovado',
+23/06/2026 11:39:01:   data_de_criacao: '23/06/2026 11:21',
+23/06/2026 11:39:01:   data_da_ultima_atualizacao: '23/06/2026 11:39',
+23/06/2026 11:39:01:   usuario_login: 'jose.faria',
+23/06/2026 11:39:01:   validacao: 'Ativo',
+23/06/2026 11:39:01:   usuario_id: '50',
+23/06/2026 11:39:01:   tarefa: '22756442'
+23/06/2026 11:39:01: }
+23/06/2026 11:39:04: [PUT] Atualizando cotação: 22756435
+23/06/2026 11:39:04: [PUT] Usuário: jose.faria
+23/06/2026 11:39:04: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 11:39:04: [PUT] Linhas afetadas: 1
+23/06/2026 11:39:04: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:39:04:   cotacao: 'Q6322703',
+23/06/2026 11:39:04:   anotacao: 'Tarefa: E001 - PME - 11.421.968/0001-08 | Fila: CPC - PME',
+23/06/2026 11:39:04:   status: 'pendente',
+23/06/2026 11:39:04:   data_de_criacao: '23/06/2026 11:21',
+23/06/2026 11:39:04:   data_da_ultima_atualizacao: '23/06/2026 11:39',
+23/06/2026 11:39:04:   usuario_login: 'jose.faria',
+23/06/2026 11:39:04:   validacao: 'Ativo',
+23/06/2026 11:39:04:   usuario_id: '50',
+23/06/2026 11:39:04:   tarefa: '22756435'
+23/06/2026 11:39:04: }
+23/06/2026 11:39:07: [PUT] Atualizando cotação: 22756442
+23/06/2026 11:39:07: [PUT] Usuário: jose.faria
+23/06/2026 11:39:07: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 11:39:07: [PUT] Linhas afetadas: 1
+23/06/2026 11:39:07: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:39:07:   cotacao: 'Q6274436',
+23/06/2026 11:39:07:   anotacao: 'Tarefa: E001 - PME - 38.151.609/0001-34 | Fila: CPC - PME',
+23/06/2026 11:39:07:   status: 'reprovado',
+23/06/2026 11:39:07:   data_de_criacao: '23/06/2026 11:21',
+23/06/2026 11:39:07:   data_da_ultima_atualizacao: '23/06/2026 11:39',
+23/06/2026 11:39:07:   usuario_login: 'jose.faria',
+23/06/2026 11:39:07:   validacao: 'Ativo',
+23/06/2026 11:39:07:   usuario_id: '50',
+23/06/2026 11:39:07:   tarefa: '22756442'
+23/06/2026 11:39:07: }
+23/06/2026 11:39:14: [PUT] Atualizando cotação: 22756382
+23/06/2026 11:39:14: [PUT] Usuário: jose.faria
+23/06/2026 11:39:14: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 11:39:14: [PUT] Linhas afetadas: 1
+23/06/2026 11:39:14: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:39:14:   cotacao: 'Q6267967',
+23/06/2026 11:39:14:   anotacao: 'Tarefa: E001 - PME - 38.276.022/0001-51 | Fila: CPC - PME',
+23/06/2026 11:39:14:   status: 'aprovado',
+23/06/2026 11:39:14:   data_de_criacao: '23/06/2026 11:21',
+23/06/2026 11:39:14:   data_da_ultima_atualizacao: '23/06/2026 11:39',
+23/06/2026 11:39:14:   usuario_login: 'jose.faria',
+23/06/2026 11:39:14:   validacao: 'Ativo',
+23/06/2026 11:39:14:   usuario_id: '50',
+23/06/2026 11:39:14:   tarefa: '22756382'
+23/06/2026 11:39:14: }
+23/06/2026 11:39:52: [PUT] Atualizando cotação: 22755019
+23/06/2026 11:39:52: [PUT] Usuário: jose.faria
+23/06/2026 11:39:52: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente' }
+23/06/2026 11:39:52: [PUT] Linhas afetadas: 1
+23/06/2026 11:39:52: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:39:52:   cotacao: 'Q6312951',
+23/06/2026 11:39:52:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:39:52:   status: 'pendente',
+23/06/2026 11:39:52:   data_de_criacao: '22/06/2026 11:20',
+23/06/2026 11:39:52:   data_da_ultima_atualizacao: '23/06/2026 11:39',
+23/06/2026 11:39:52:   usuario_login: 'jose.faria',
+23/06/2026 11:39:52:   validacao: 'Ativo',
+23/06/2026 11:39:52:   usuario_id: '50',
+23/06/2026 11:39:52:   tarefa: '22755019'
+23/06/2026 11:39:52: }
+23/06/2026 11:39:54: [PUT] Atualizando cotação: 22755019
+23/06/2026 11:39:54: [PUT] Usuário: jose.faria
+23/06/2026 11:39:54: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+23/06/2026 11:39:54: [PUT] Linhas afetadas: 1
+23/06/2026 11:39:54: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:39:54:   cotacao: 'Q6312951',
+23/06/2026 11:39:54:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:39:54:   status: 'reprovado',
+23/06/2026 11:39:54:   data_de_criacao: '22/06/2026 11:20',
+23/06/2026 11:39:54:   data_da_ultima_atualizacao: '23/06/2026 11:39',
+23/06/2026 11:39:54:   usuario_login: 'jose.faria',
+23/06/2026 11:39:54:   validacao: 'Ativo',
+23/06/2026 11:39:54:   usuario_id: '50',
+23/06/2026 11:39:54:   tarefa: '22755019'
+23/06/2026 11:39:54: }
+23/06/2026 11:39:56: [PUT] Atualizando cotação: 22755019
+23/06/2026 11:39:56: [PUT] Usuário: jose.faria
+23/06/2026 11:39:56: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+23/06/2026 11:39:56: [PUT] Linhas afetadas: 1
+23/06/2026 11:39:56: [PUT] Cotação atualizada com sucesso: {
+23/06/2026 11:39:56:   cotacao: 'Q6312951',
+23/06/2026 11:39:56:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:39:56:   status: 'aprovado',
+23/06/2026 11:39:56:   data_de_criacao: '22/06/2026 11:20',
+23/06/2026 11:39:56:   data_da_ultima_atualizacao: '23/06/2026 11:39',
+23/06/2026 11:39:56:   usuario_login: 'jose.faria',
+23/06/2026 11:39:56:   validacao: 'Ativo',
+23/06/2026 11:39:56:   usuario_id: '50',
+23/06/2026 11:39:56:   tarefa: '22755019'
+23/06/2026 11:39:56: }
+23/06/2026 11:40:00: [DELETE] Soft delete cotação: 22755019
+23/06/2026 11:40:00: [DELETE] Usuário: jose.faria
+23/06/2026 11:40:00: [DELETE] Linhas afetadas: 1
+23/06/2026 11:40:00: [DELETE] Cotação deletada com sucesso: {
+23/06/2026 11:40:00:   cotacao: 'Q6312951',
+23/06/2026 11:40:00:   anotacao: 'Tarefa: E001 - PME - 31.148.608/0001-91 | Fila: CPC - PME',
+23/06/2026 11:40:00:   status: 'aprovado',
+23/06/2026 11:40:00:   data_de_criacao: '22/06/2026 11:20',
+23/06/2026 11:40:00:   data_da_ultima_atualizacao: '23/06/2026 11:40',
+23/06/2026 11:40:00:   usuario_login: 'jose.faria',
+23/06/2026 11:40:00:   validacao: 'Inativo',
+23/06/2026 11:40:00:   usuario_id: '50',
+23/06/2026 11:40:00:   tarefa: '22755019'
+23/06/2026 11:40:00: }

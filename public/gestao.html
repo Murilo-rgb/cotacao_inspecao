@@ -322,10 +322,16 @@
                 } catch { return false; }
             };
 
+            const displayCodTarefa = (t) => {
+                try {
+                    return t?.dsc_cotacao ? `${t.dsc_cotacao} - ${t.cod_tarefa}` : t.cod_tarefa;
+                } catch { return t.cod_tarefa; }
+            };
+
             const filteredTarefas = tarefas.filter(t => {
                 // Base text/number filters
-                if (!(
-                    matches((t.dsc_cotacao ? t.dsc_cotacao + ' - ' : '') + t.cod_tarefa, filters.cod_tarefa) &&
+                    if (!(
+                    matches(displayCodTarefa(t), filters.cod_tarefa) &&
                     matches(formatDate(t.dat_historico), filters.dat_historico) &&
                     matches(t.qtd_linhas, filters.qtd_linhas) &&
                     matches(t.qtd_linhas_novas, filters.qtd_linhas_novas) &&
@@ -637,7 +643,7 @@
                                                                     className: 'text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md',
                                                                     title: tarefa.pendente_com || '-'
                                                                 },
-                                                                    (tarefa.dsc_cotacao ? `${tarefa.dsc_cotacao} - ` : '') + tarefa.cod_tarefa
+                                                                    displayCodTarefa(tarefa)
                                                                 )
                                                             ),
                                                             React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },

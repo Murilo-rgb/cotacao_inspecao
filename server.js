@@ -271,22 +271,33 @@ app.post('/api/login', async (req, res) => {
 // Get all quotations
 app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
-    const { search } = req.query;
+    const { search, dateStart } = req.query;
     const usuarioId = req.user.id;
-    let query = "SELECT c.*, r.dsc_cotacao FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON split_part(c.cotacao, ' - ', 2) = r.cod_tarefa WHERE c.usuario_id = $1 AND c.validacao = $2";
+    let query = "SELECT c.*, r.dsc_cotacao FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa WHERE c.usuario_id = $1 AND c.validacao = $2";
     let params = [usuarioId, 'Ativo'];
+    let paramIndex = 3;
 
     if (search) {
-      query += ' AND (cotacao ILIKE $3 OR anotacao ILIKE $3 OR status ILIKE $3)';
+      query += ` AND (cotacao ILIKE $${paramIndex} OR anotacao ILIKE $${paramIndex} OR status ILIKE $${paramIndex})`;
       params.push(`%${search}%`);
+      paramIndex++;
+    }
+
+    if (dateStart) {
+      // Converter de YYYY-MM-DD para DD/MM/YYYY e filtrar por data específica
+      const [year, month, day] = dateStart.split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
     }
 
     query += ' ORDER BY data_de_criacao DESC';
 
     const result = await pool.query(query, params);
     const serialized = result.rows.map(row => ({
-      cotacao: row.cotacao,
-      dsc_cotacao: row.dsc_cotacao,
+      cotacao: row.tarefa, // cod_tarefa (kept in `cotacao` field of API for compatibility)
+      dsc_cotacao: row.cotacao || row.dsc_cotacao,
       anotacao: row.anotacao,
       status: row.status,
       createdAt: formatDateBR(row.data_de_criacao),
@@ -305,7 +316,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
 app.get('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM db_bloco_de_notas.cotacao WHERE split_part(cotacao, ' - ', 2) = $1",
+      "SELECT * FROM db_bloco_de_notas.cotacao WHERE tarefa = $1",
       [req.params.cotacao]
     );
 
@@ -315,7 +326,8 @@ app.get('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
 
     const row = result.rows[0];
     res.json({
-      cotacao: row.cotacao,
+      cotacao: row.tarefa,
+      dsc_cotacao: row.cotacao,
       anotacao: row.anotacao,
       status: row.status,
       createdAt: row.data_de_criacao,
@@ -339,25 +351,27 @@ app.post('/api/quotations', authenticateToken, async (req, res) => {
     }
 
     const now = formatDateBR(new Date());
-    // If cotacao corresponds to a cod_tarefa in r_000250, store as "dsc_cotacao - cod_tarefa"
-    let cotacaoValue = cotacao;
+    // Store tarefa (code) and cotacao (dsc) separately. Try to fetch dsc from r_000250.
+    let tarefaValue = cotacao;
+    let cotacaoDsc = cotacao;
     try {
       const rRes = await pool.query('SELECT dsc_cotacao FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1', [cotacao]);
       if (rRes.rows.length > 0 && rRes.rows[0].dsc_cotacao) {
-        cotacaoValue = `${rRes.rows[0].dsc_cotacao} - ${cotacao}`;
+        cotacaoDsc = rRes.rows[0].dsc_cotacao;
       }
     } catch (e) {
       console.error('Erro ao buscar dsc_cotacao:', e.message);
     }
 
     const result = await pool.query(
-      'INSERT INTO db_bloco_de_notas.cotacao (cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-      [cotacaoValue, anotacao || '', 'pendente', 'Ativo', now, now, usuarioLogin, usuarioId]
+      'INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+      [tarefaValue, cotacaoDsc, anotacao || '', 'pendente', 'Ativo', now, now, usuarioLogin, usuarioId]
     );
 
     const row = result.rows[0];
     res.status(201).json({
-      cotacao: row.cotacao,
+      cotacao: row.tarefa,
+      dsc_cotacao: row.cotacao,
       anotacao: row.anotacao,
       status: row.status,
       createdAt: formatDateBR(row.data_de_criacao),
@@ -383,7 +397,7 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[PUT] Dados recebidos:`, { anotacao, status });
 
     const result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE split_part(cotacao, ' - ', 2) = $4 AND usuario_id = $5 RETURNING *",
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND usuario_id = $5 RETURNING *",
       [anotacao, status, now, req.params.cotacao, usuarioId]
     );
 
@@ -398,7 +412,8 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[PUT] Cotação atualizada com sucesso:`, row);
     
     res.json({
-      cotacao: row.cotacao,
+      cotacao: row.tarefa,
+      dsc_cotacao: row.cotacao,
       anotacao: row.anotacao,
       status: row.status,
       createdAt: row.data_de_criacao,
@@ -420,7 +435,7 @@ app.delete('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[DELETE] Usuário: ${usuarioLogin}`);
 
     const result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE split_part(cotacao, ' - ', 2) = $3 AND usuario_id = $4 RETURNING *",
+      "UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE tarefa = $3 AND usuario_id = $4 RETURNING *",
       ['Inativo', formatDateBR(new Date()), req.params.cotacao, usuarioId]
     );
 
@@ -624,7 +639,7 @@ app.get('/api/gestao/tarefas', authenticateToken, authorizeRoute('/pme_notas/ges
       SELECT r.*, c.status AS cotacao_status,
         CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao
       FROM db_bloco_de_notas.r_000250 r
-      LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = split_part(c.cotacao, ' - ', 2)
+      LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa
       ORDER BY r.dat_criacao DESC
     `;
     
@@ -699,7 +714,7 @@ app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas
       try {
         // Primeiro verificar se já não foi distribuída
         const check = await pool.query(
-          "SELECT cotacao FROM db_bloco_de_notas.cotacao WHERE split_part(cotacao, ' - ', 2) = $1 AND validacao = $2",
+          "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
           [item.cod_tarefa, 'Ativo']
         );
         
@@ -715,17 +730,18 @@ app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas
         );
         
         let anotacao = '';
-        let cotacaoValue = item.cod_tarefa;
+        const tarefaValue = item.cod_tarefa;
+        let cotacaoDsc = item.cod_tarefa;
         if (tarefaResult.rows.length > 0) {
           const tr = tarefaResult.rows[0];
           anotacao = `Tarefa: ${tr.nom_tarefa || ''} | Fila: ${tr.nom_fila || ''}`;
-          if (tr.dsc_cotacao) cotacaoValue = `${tr.dsc_cotacao} - ${item.cod_tarefa}`;
+          if (tr.dsc_cotacao) cotacaoDsc = tr.dsc_cotacao;
         }
 
         await pool.query(
-          `INSERT INTO db_bloco_de_notas.cotacao (cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-          [cotacaoValue, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id]
+          `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+          [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id]
         );
         
         count++;

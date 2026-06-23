@@ -136,6 +136,41 @@ var PlusIcon = function PlusIcon() {
     d: "M12 5v14"
   }));
 };
+var CalendarIcon = function CalendarIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "18",
+    height: "18",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("rect", {
+    x: "3",
+    y: "4",
+    width: "18",
+    height: "18",
+    rx: "2",
+    ry: "2"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "16",
+    y1: "2",
+    x2: "16",
+    y2: "6"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "8",
+    y1: "2",
+    x2: "8",
+    y2: "6"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "3",
+    y1: "10",
+    x2: "21",
+    y2: "10"
+  }));
+};
 var FileTextIcon = function FileTextIcon() {
   return /*#__PURE__*/React.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -290,6 +325,10 @@ function App() {
     _useState22 = _slicedToArray(_useState21, 2),
     toast = _useState22[0],
     setToast = _useState22[1];
+  var _useState23 = useState(''),
+    _useState24 = _slicedToArray(_useState23, 2),
+    dateStart = _useState24[0],
+    setDateStart = _useState24[1];
   useEffect(function () {
     var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
     var token = localStorage.getItem('token');
@@ -320,6 +359,9 @@ function App() {
   useEffect(function () {
     setCurrentPage(1);
   }, [searchTerm]);
+  useEffect(function () {
+    setCurrentPage(1);
+  }, [dateStart]);
   var showToast = function showToast(message) {
     var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
     setToast({
@@ -338,6 +380,7 @@ function App() {
             token = localStorage.getItem('token');
             params = new URLSearchParams();
             if (searchTerm) params.append('search', searchTerm);
+            if (dateStart) params.append('dateStart', dateStart);
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context.n = 1;
             return fetch("".concat(BASE_PATH, "/api/quotations?").concat(params), {
@@ -410,7 +453,7 @@ function App() {
             }
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context2.n = 2;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(editingQuotation.cotacao), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(editingQuotation.cotacao)), {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -519,7 +562,7 @@ function App() {
             _context3.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context3.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(deleteModal.cotacao), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(deleteModal.cotacao)), {
               method: 'DELETE',
               headers: {
                 'Authorization': "Bearer ".concat(token)
@@ -579,7 +622,7 @@ function App() {
             _context4.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context4.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(statusModal.cotacao), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(statusModal.cotacao)), {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -623,7 +666,25 @@ function App() {
     };
   }();
   var filteredQuotations = quotations.filter(function (q) {
-    return q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase());
+    // Text search filter
+    var matchesSearch = !searchTerm || q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase());
+    if (!matchesSearch) return false;
+
+    // Date filter - filter by specific creation date
+    if (dateStart) {
+      if (!q.createdAt || q.createdAt === '-') return false;
+
+      // Convert date from Brazilian format (DD/MM/YYYY HH:MM) to YYYY-MM-DD for comparison
+      var dateParts = q.createdAt.split(' ')[0].split('/');
+      if (dateParts.length !== 3) return false;
+      var _dateParts = _slicedToArray(dateParts, 3),
+        day = _dateParts[0],
+        month = _dateParts[1],
+        year = _dateParts[2];
+      var createdAtDate = "".concat(year, "-").concat(month, "-").concat(day);
+      if (createdAtDate !== dateStart) return false;
+    }
+    return true;
   });
   var indexOfLastItem = currentPage * itemsPerPage;
   var indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -792,7 +853,19 @@ function App() {
     className: "absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
   }, /*#__PURE__*/React.createElement("div", {
     className: "w-2 h-2 rounded-full bg-slate-300 group-hover:bg-red-500 transition-colors duration-200"
-  }))), /*#__PURE__*/React.createElement("button", {
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "relative group"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+  }, /*#__PURE__*/React.createElement(CalendarIcon, null)), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    placeholder: "Cria\xE7\xE3o",
+    value: dateStart,
+    onChange: function onChange(e) {
+      return setDateStart(e.target.value);
+    },
+    className: "w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
+  })), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       setEditingQuotation(null);
       setFormData({
@@ -844,7 +917,7 @@ function App() {
     className: "bg-slate-50"
   }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Cota\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
+  }, "Demanda"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Anota\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
@@ -865,12 +938,7 @@ function App() {
       className: "px-6 py-4 whitespace-nowrap"
     }, /*#__PURE__*/React.createElement("span", {
       className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md"
-    }, (function(){
-      try {
-        if (quotation && quotation.cotacao && quotation.cotacao.indexOf(' - ') !== -1) return quotation.cotacao;
-      } catch(e) {}
-      return (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao;
-    })())), /*#__PURE__*/React.createElement("td", {
+    }, quotation.dsc_cotacao ? quotation.dsc_cotacao + ' - ' + quotation.cotacao : quotation.cotacao)), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4"
     }, /*#__PURE__*/React.createElement("p", {
       className: "text-sm text-slate-600 max-w-md truncate",

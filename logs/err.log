@@ -2089,3 +2089,311 @@
 22/06/2026 13:45:46:   line: '1360',
 22/06/2026 13:45:46:   routine: 'parserOpenTable'
 22/06/2026 13:45:46: }
+23/06/2026 11:07:27: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:27:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:27:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:27:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:27:   length: 208,
+23/06/2026 11:07:27:   severity: 'ERROR',
+23/06/2026 11:07:27:   code: '23505',
+23/06/2026 11:07:27:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:27:   hint: undefined,
+23/06/2026 11:07:27:   position: undefined,
+23/06/2026 11:07:27:   internalPosition: undefined,
+23/06/2026 11:07:27:   internalQuery: undefined,
+23/06/2026 11:07:27:   where: undefined,
+23/06/2026 11:07:27:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:27:   table: 'cotacao',
+23/06/2026 11:07:27:   column: undefined,
+23/06/2026 11:07:27:   dataType: undefined,
+23/06/2026 11:07:27:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:27:   file: 'nbtinsert.c',
+23/06/2026 11:07:27:   line: '663',
+23/06/2026 11:07:27:   routine: '_bt_check_unique'
+23/06/2026 11:07:27: }
+23/06/2026 11:07:28: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:28:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:28:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:28:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:28:   length: 208,
+23/06/2026 11:07:28:   severity: 'ERROR',
+23/06/2026 11:07:28:   code: '23505',
+23/06/2026 11:07:28:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:28:   hint: undefined,
+23/06/2026 11:07:28:   position: undefined,
+23/06/2026 11:07:28:   internalPosition: undefined,
+23/06/2026 11:07:28:   internalQuery: undefined,
+23/06/2026 11:07:28:   where: undefined,
+23/06/2026 11:07:28:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:28:   table: 'cotacao',
+23/06/2026 11:07:28:   column: undefined,
+23/06/2026 11:07:28:   dataType: undefined,
+23/06/2026 11:07:28:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:28:   file: 'nbtinsert.c',
+23/06/2026 11:07:28:   line: '663',
+23/06/2026 11:07:28:   routine: '_bt_check_unique'
+23/06/2026 11:07:28: }
+23/06/2026 11:07:29: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:29:   length: 208,
+23/06/2026 11:07:29:   severity: 'ERROR',
+23/06/2026 11:07:29:   code: '23505',
+23/06/2026 11:07:29:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:29:   hint: undefined,
+23/06/2026 11:07:29:   position: undefined,
+23/06/2026 11:07:29:   internalPosition: undefined,
+23/06/2026 11:07:29:   internalQuery: undefined,
+23/06/2026 11:07:29:   where: undefined,
+23/06/2026 11:07:29:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:29:   table: 'cotacao',
+23/06/2026 11:07:29:   column: undefined,
+23/06/2026 11:07:29:   dataType: undefined,
+23/06/2026 11:07:29:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:29:   file: 'nbtinsert.c',
+23/06/2026 11:07:29:   line: '663',
+23/06/2026 11:07:29:   routine: '_bt_check_unique'
+23/06/2026 11:07:29: }
+23/06/2026 11:07:29: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:29:   length: 208,
+23/06/2026 11:07:29:   severity: 'ERROR',
+23/06/2026 11:07:29:   code: '23505',
+23/06/2026 11:07:29:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:29:   hint: undefined,
+23/06/2026 11:07:29:   position: undefined,
+23/06/2026 11:07:29:   internalPosition: undefined,
+23/06/2026 11:07:29:   internalQuery: undefined,
+23/06/2026 11:07:29:   where: undefined,
+23/06/2026 11:07:29:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:29:   table: 'cotacao',
+23/06/2026 11:07:29:   column: undefined,
+23/06/2026 11:07:29:   dataType: undefined,
+23/06/2026 11:07:29:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:29:   file: 'nbtinsert.c',
+23/06/2026 11:07:29:   line: '663',
+23/06/2026 11:07:29:   routine: '_bt_check_unique'
+23/06/2026 11:07:29: }
+23/06/2026 11:07:29: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:29:   length: 208,
+23/06/2026 11:07:29:   severity: 'ERROR',
+23/06/2026 11:07:29:   code: '23505',
+23/06/2026 11:07:29:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:29:   hint: undefined,
+23/06/2026 11:07:29:   position: undefined,
+23/06/2026 11:07:29:   internalPosition: undefined,
+23/06/2026 11:07:29:   internalQuery: undefined,
+23/06/2026 11:07:29:   where: undefined,
+23/06/2026 11:07:29:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:29:   table: 'cotacao',
+23/06/2026 11:07:29:   column: undefined,
+23/06/2026 11:07:29:   dataType: undefined,
+23/06/2026 11:07:29:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:29:   file: 'nbtinsert.c',
+23/06/2026 11:07:29:   line: '663',
+23/06/2026 11:07:29:   routine: '_bt_check_unique'
+23/06/2026 11:07:29: }
+23/06/2026 11:07:29: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:29:   length: 208,
+23/06/2026 11:07:29:   severity: 'ERROR',
+23/06/2026 11:07:29:   code: '23505',
+23/06/2026 11:07:29:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:29:   hint: undefined,
+23/06/2026 11:07:29:   position: undefined,
+23/06/2026 11:07:29:   internalPosition: undefined,
+23/06/2026 11:07:29:   internalQuery: undefined,
+23/06/2026 11:07:29:   where: undefined,
+23/06/2026 11:07:29:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:29:   table: 'cotacao',
+23/06/2026 11:07:29:   column: undefined,
+23/06/2026 11:07:29:   dataType: undefined,
+23/06/2026 11:07:29:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:29:   file: 'nbtinsert.c',
+23/06/2026 11:07:29:   line: '663',
+23/06/2026 11:07:29:   routine: '_bt_check_unique'
+23/06/2026 11:07:29: }
+23/06/2026 11:07:29: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:29:   length: 208,
+23/06/2026 11:07:29:   severity: 'ERROR',
+23/06/2026 11:07:29:   code: '23505',
+23/06/2026 11:07:29:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:29:   hint: undefined,
+23/06/2026 11:07:29:   position: undefined,
+23/06/2026 11:07:29:   internalPosition: undefined,
+23/06/2026 11:07:29:   internalQuery: undefined,
+23/06/2026 11:07:29:   where: undefined,
+23/06/2026 11:07:29:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:29:   table: 'cotacao',
+23/06/2026 11:07:29:   column: undefined,
+23/06/2026 11:07:29:   dataType: undefined,
+23/06/2026 11:07:29:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:29:   file: 'nbtinsert.c',
+23/06/2026 11:07:29:   line: '663',
+23/06/2026 11:07:29:   routine: '_bt_check_unique'
+23/06/2026 11:07:29: }
+23/06/2026 11:07:30: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:30:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:30:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:30:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:30:   length: 208,
+23/06/2026 11:07:30:   severity: 'ERROR',
+23/06/2026 11:07:30:   code: '23505',
+23/06/2026 11:07:30:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:30:   hint: undefined,
+23/06/2026 11:07:30:   position: undefined,
+23/06/2026 11:07:30:   internalPosition: undefined,
+23/06/2026 11:07:30:   internalQuery: undefined,
+23/06/2026 11:07:30:   where: undefined,
+23/06/2026 11:07:30:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:30:   table: 'cotacao',
+23/06/2026 11:07:30:   column: undefined,
+23/06/2026 11:07:30:   dataType: undefined,
+23/06/2026 11:07:30:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:30:   file: 'nbtinsert.c',
+23/06/2026 11:07:30:   line: '663',
+23/06/2026 11:07:30:   routine: '_bt_check_unique'
+23/06/2026 11:07:30: }
+23/06/2026 11:07:30: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:30:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:30:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:30:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:30:   length: 208,
+23/06/2026 11:07:30:   severity: 'ERROR',
+23/06/2026 11:07:30:   code: '23505',
+23/06/2026 11:07:30:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:30:   hint: undefined,
+23/06/2026 11:07:30:   position: undefined,
+23/06/2026 11:07:30:   internalPosition: undefined,
+23/06/2026 11:07:30:   internalQuery: undefined,
+23/06/2026 11:07:30:   where: undefined,
+23/06/2026 11:07:30:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:30:   table: 'cotacao',
+23/06/2026 11:07:30:   column: undefined,
+23/06/2026 11:07:30:   dataType: undefined,
+23/06/2026 11:07:30:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:30:   file: 'nbtinsert.c',
+23/06/2026 11:07:30:   line: '663',
+23/06/2026 11:07:30:   routine: '_bt_check_unique'
+23/06/2026 11:07:30: }
+23/06/2026 11:07:30: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:30:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:30:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:30:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:30:   length: 208,
+23/06/2026 11:07:30:   severity: 'ERROR',
+23/06/2026 11:07:30:   code: '23505',
+23/06/2026 11:07:30:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:30:   hint: undefined,
+23/06/2026 11:07:30:   position: undefined,
+23/06/2026 11:07:30:   internalPosition: undefined,
+23/06/2026 11:07:30:   internalQuery: undefined,
+23/06/2026 11:07:30:   where: undefined,
+23/06/2026 11:07:30:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:30:   table: 'cotacao',
+23/06/2026 11:07:30:   column: undefined,
+23/06/2026 11:07:30:   dataType: undefined,
+23/06/2026 11:07:30:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:30:   file: 'nbtinsert.c',
+23/06/2026 11:07:30:   line: '663',
+23/06/2026 11:07:30:   routine: '_bt_check_unique'
+23/06/2026 11:07:30: }
+23/06/2026 11:07:30: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:30:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:30:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:30:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:30:   length: 208,
+23/06/2026 11:07:30:   severity: 'ERROR',
+23/06/2026 11:07:30:   code: '23505',
+23/06/2026 11:07:30:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:30:   hint: undefined,
+23/06/2026 11:07:30:   position: undefined,
+23/06/2026 11:07:30:   internalPosition: undefined,
+23/06/2026 11:07:30:   internalQuery: undefined,
+23/06/2026 11:07:30:   where: undefined,
+23/06/2026 11:07:30:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:30:   table: 'cotacao',
+23/06/2026 11:07:30:   column: undefined,
+23/06/2026 11:07:30:   dataType: undefined,
+23/06/2026 11:07:30:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:30:   file: 'nbtinsert.c',
+23/06/2026 11:07:30:   line: '663',
+23/06/2026 11:07:30:   routine: '_bt_check_unique'
+23/06/2026 11:07:30: }
+23/06/2026 11:07:30: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:30:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:30:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:30:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:30:   length: 208,
+23/06/2026 11:07:30:   severity: 'ERROR',
+23/06/2026 11:07:30:   code: '23505',
+23/06/2026 11:07:30:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:30:   hint: undefined,
+23/06/2026 11:07:30:   position: undefined,
+23/06/2026 11:07:30:   internalPosition: undefined,
+23/06/2026 11:07:30:   internalQuery: undefined,
+23/06/2026 11:07:30:   where: undefined,
+23/06/2026 11:07:30:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:30:   table: 'cotacao',
+23/06/2026 11:07:30:   column: undefined,
+23/06/2026 11:07:30:   dataType: undefined,
+23/06/2026 11:07:30:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:30:   file: 'nbtinsert.c',
+23/06/2026 11:07:30:   line: '663',
+23/06/2026 11:07:30:   routine: '_bt_check_unique'
+23/06/2026 11:07:30: }
+23/06/2026 11:07:31: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:31:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:31:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:31:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:31:   length: 208,
+23/06/2026 11:07:31:   severity: 'ERROR',
+23/06/2026 11:07:31:   code: '23505',
+23/06/2026 11:07:31:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:31:   hint: undefined,
+23/06/2026 11:07:31:   position: undefined,
+23/06/2026 11:07:31:   internalPosition: undefined,
+23/06/2026 11:07:31:   internalQuery: undefined,
+23/06/2026 11:07:31:   where: undefined,
+23/06/2026 11:07:31:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:31:   table: 'cotacao',
+23/06/2026 11:07:31:   column: undefined,
+23/06/2026 11:07:31:   dataType: undefined,
+23/06/2026 11:07:31:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:31:   file: 'nbtinsert.c',
+23/06/2026 11:07:31:   line: '663',
+23/06/2026 11:07:31:   routine: '_bt_check_unique'
+23/06/2026 11:07:31: }
+23/06/2026 11:07:31: Erro ao criar cotação: error: duplicate key value violates unique constraint "cotacao_pkey"
+23/06/2026 11:07:31:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+23/06/2026 11:07:31:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+23/06/2026 11:07:31:     at async E:\projetos_hitss\geo-pme-notas\server.js:364:20 {
+23/06/2026 11:07:31:   length: 208,
+23/06/2026 11:07:31:   severity: 'ERROR',
+23/06/2026 11:07:31:   code: '23505',
+23/06/2026 11:07:31:   detail: 'Key (cotacao)=(rrrrrrr) already exists.',
+23/06/2026 11:07:31:   hint: undefined,
+23/06/2026 11:07:31:   position: undefined,
+23/06/2026 11:07:31:   internalPosition: undefined,
+23/06/2026 11:07:31:   internalQuery: undefined,
+23/06/2026 11:07:31:   where: undefined,
+23/06/2026 11:07:31:   schema: 'db_bloco_de_notas',
+23/06/2026 11:07:31:   table: 'cotacao',
+23/06/2026 11:07:31:   column: undefined,
+23/06/2026 11:07:31:   dataType: undefined,
+23/06/2026 11:07:31:   constraint: 'cotacao_pkey',
+23/06/2026 11:07:31:   file: 'nbtinsert.c',
+23/06/2026 11:07:31:   line: '663',
+23/06/2026 11:07:31:   routine: '_bt_check_unique'
+23/06/2026 11:07:31: }
