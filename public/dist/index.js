@@ -112,7 +112,7 @@ var UserIcon = function UserIcon() {
     strokeLinecap: "round",
     strokeLinejoin: "round"
   }, /*#__PURE__*/React.createElement("path", {
-    d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+    d: "M19 21v-2a4 4 0 0 0-4-4H9a2 2 0 0 0-4 4v2"
   }), /*#__PURE__*/React.createElement("circle", {
     cx: "12",
     cy: "7",
@@ -254,8 +254,6 @@ var AlertTriangleIcon = function AlertTriangleIcon() {
     d: "M12 17h.01"
   }));
 };
-
-// Toast component
 function Toast(_ref) {
   var message = _ref.message,
     type = _ref.type,
@@ -272,8 +270,6 @@ function Toast(_ref) {
     className: "font-medium text-sm"
   }, message));
 }
-
-// Main App Component
 function App() {
   var _useState = useState([]),
     _useState2 = _slicedToArray(_useState, 2),
@@ -337,34 +333,28 @@ function App() {
       return;
     }
     var storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
+    if (storedUsername) setUsername(storedUsername);
     fetchQuotations();
     var handlePopState = function handlePopState(event) {
       var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
       var currentToken = localStorage.getItem('token');
-      if (!currentToken) {
-        window.location.href = BASE_PATH + '/login.html';
-      } else {
-        window.history.pushState(null, '', window.location.href);
-      }
+      if (!currentToken) window.location.href = BASE_PATH + '/login.html';
     };
     window.history.pushState(null, '', window.location.href);
     window.addEventListener('popstate', handlePopState);
     return function () {
-      window.removeEventListener('popstate', handlePopState);
+      return window.removeEventListener('popstate', handlePopState);
     };
   }, []);
   useEffect(function () {
-    setCurrentPage(1);
+    return setCurrentPage(1);
   }, [searchTerm]);
   useEffect(function () {
-    setCurrentPage(1);
+    return setCurrentPage(1);
   }, [dateStart]);
   var showToast = function showToast(message) {
     var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
-    setToast({
+    return setToast({
       message: message,
       type: type
     });
@@ -425,9 +415,7 @@ function App() {
     };
   }();
   useEffect(function () {
-    var timer = setTimeout(function () {
-      fetchQuotations();
-    }, 300);
+    var timer = setTimeout(fetchQuotations, 300);
     return function () {
       return clearTimeout(timer);
     };
@@ -435,12 +423,11 @@ function App() {
   var handleLogout = function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-    window.location.href = BASE_PATH + '/login.html';
+    window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
   };
   var handleFormSubmit = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
-      var token, BASE_PATH, response, _BASE_PATH, _response, _t2;
+      var token, BASE_PATH, cotacaoCode, response, _BASE_PATH, _response, _t2;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
@@ -452,8 +439,9 @@ function App() {
               break;
             }
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
             _context2.n = 2;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(editingQuotation.cotacao)), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -544,11 +532,14 @@ function App() {
     setShowModal(true);
   };
   var handleDeleteClick = function handleDeleteClick(quotation) {
-    setDeleteModal(quotation);
+    return setDeleteModal(quotation);
+  };
+  var cancelDelete = function cancelDelete() {
+    return setDeleteModal(null);
   };
   var confirmDelete = /*#__PURE__*/function () {
     var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-      var token, BASE_PATH, response, _t3;
+      var token, BASE_PATH, cotacaoCode, response, _t3;
       return _regenerator().w(function (_context3) {
         while (1) switch (_context3.p = _context3.n) {
           case 0:
@@ -561,8 +552,9 @@ function App() {
             token = localStorage.getItem('token');
             _context3.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            cotacaoCode = deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao;
             _context3.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(deleteModal.cotacao)), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
               method: 'DELETE',
               headers: {
                 'Authorization': "Bearer ".concat(token)
@@ -600,15 +592,12 @@ function App() {
       return _ref4.apply(this, arguments);
     };
   }();
-  var cancelDelete = function cancelDelete() {
-    setDeleteModal(null);
-  };
   var handleStatusClick = function handleStatusClick(quotation) {
-    setStatusModal(quotation);
+    return setStatusModal(quotation);
   };
   var handleStatusChange = /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(newStatus) {
-      var token, BASE_PATH, response, _BASE_PATH2, _t4;
+      var token, BASE_PATH, response, _t4;
       return _regenerator().w(function (_context4) {
         while (1) switch (_context4.p = _context4.n) {
           case 0:
@@ -640,8 +629,7 @@ function App() {
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
-            _BASE_PATH2 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            window.location.href = _BASE_PATH2 + '/login.html';
+            window.location.href = BASE_PATH + '/login.html';
             return _context4.a(2);
           case 4:
             if (response.ok) {
@@ -666,15 +654,10 @@ function App() {
     };
   }();
   var filteredQuotations = quotations.filter(function (q) {
-    // Text search filter
     var matchesSearch = !searchTerm || q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase());
     if (!matchesSearch) return false;
-
-    // Date filter - filter by specific creation date
     if (dateStart) {
       if (!q.createdAt || q.createdAt === '-') return false;
-
-      // Convert date from Brazilian format (DD/MM/YYYY HH:MM) to YYYY-MM-DD for comparison
       var dateParts = q.createdAt.split(' ')[0].split('/');
       if (dateParts.length !== 3) return false;
       var _dateParts = _slicedToArray(dateParts, 3),
@@ -691,26 +674,54 @@ function App() {
   var currentQuotations = filteredQuotations.slice(indexOfFirstItem, indexOfLastItem);
   var totalPages = Math.ceil(filteredQuotations.length / itemsPerPage);
   var getStatusConfig = function getStatusConfig(status) {
-    switch (status) {
-      case 'aprovado':
-        return {
-          label: 'Aprovado',
-          className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
-          dotClass: 'bg-emerald-500'
-        };
-      case 'reprovado':
-        return {
-          label: 'Reprovado',
-          className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100',
-          dotClass: 'bg-red-500'
-        };
-      default:
-        return {
-          label: 'Pendente',
-          className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
-          dotClass: 'bg-amber-500'
-        };
+    var normalized = (status || '').trim().toLowerCase();
+    if (normalized === 'aprovado') {
+      return {
+        label: 'Aprovado',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
     }
+    if (normalized === 'reprovado') {
+      return {
+        label: 'Reprovado',
+        className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100',
+        dotClass: 'bg-red-500'
+      };
+    }
+    if (normalized === 'pendente-classificacao') {
+      return {
+        label: 'Pendente - Classificação',
+        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
+        dotClass: 'bg-amber-500'
+      };
+    }
+    if (normalized === 'pendente-iphone') {
+      return {
+        label: 'Pendente - iPhone',
+        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
+        dotClass: 'bg-amber-500'
+      };
+    }
+    if (normalized === 'pendente-qualidade') {
+      return {
+        label: 'Pendente - Qualidade',
+        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
+        dotClass: 'bg-amber-500'
+      };
+    }
+    if (normalized === 'pendente-suporte') {
+      return {
+        label: 'Pendente - Suporte',
+        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
+        dotClass: 'bg-amber-500'
+      };
+    }
+    return {
+      label: 'Pendente',
+      className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
+      dotClass: 'bg-amber-500'
+    };
   };
   var formatDate = function formatDate(dateString) {
     if (!dateString || dateString === '-') return '-';
@@ -859,7 +870,6 @@ function App() {
     className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
   }, /*#__PURE__*/React.createElement(CalendarIcon, null)), /*#__PURE__*/React.createElement("input", {
     type: "date",
-    placeholder: "Cria\xE7\xE3o",
     value: dateStart,
     onChange: function onChange(e) {
       return setDateStart(e.target.value);
@@ -875,7 +885,7 @@ function App() {
       setShowModal(true);
     },
     className: "inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 shadow-md hover:shadow-lg"
-  }, /*#__PURE__*/React.createElement(PlusIcon, null), "Nova cota\xE7\xE3o")), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(PlusIcon, null), " Nova cota\xE7\xE3o")), /*#__PURE__*/React.createElement("div", {
     className: "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
   }, loading ? /*#__PURE__*/React.createElement("div", {
     className: "overflow-x-auto"
@@ -885,7 +895,7 @@ function App() {
     className: "bg-slate-50"
   }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Cota\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
+  }, "Demanda"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Anota\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
@@ -938,7 +948,7 @@ function App() {
       className: "px-6 py-4 whitespace-nowrap"
     }, /*#__PURE__*/React.createElement("span", {
       className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md"
-    }, quotation.dsc_cotacao ? quotation.dsc_cotacao + ' - ' + quotation.cotacao : quotation.cotacao)), /*#__PURE__*/React.createElement("td", {
+    }, (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao)), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4"
     }, /*#__PURE__*/React.createElement("p", {
       className: "text-sm text-slate-600 max-w-md truncate",
@@ -1157,6 +1167,34 @@ function App() {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
   }), "Pendente"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
+      return handleStatusChange('pendente-classificacao');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
+  }), "Pendente - Classifica\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('pendente-iphone');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
+  }), "Pendente - iPhone"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('pendente-qualidade');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
+  }), "Pendente - Qualidade"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('pendente-suporte');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
+  }), "Pendente - Suporte"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
       return handleStatusChange('aprovado');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
@@ -1182,7 +1220,5 @@ function App() {
     }
   }));
 }
-
-// Render
 var root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(/*#__PURE__*/React.createElement(App, null));

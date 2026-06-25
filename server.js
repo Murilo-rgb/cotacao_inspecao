@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const fs = require('fs');
 const { processarETL_250 } = require('./utils/etl_250');
+const { classificarPendentes, STATUS_CLASSIFICACAO } = require('./scripts/classificar_cotacoes_pendentes');
 
 const app = express();
 const PORT = 3016;
@@ -396,6 +397,13 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[PUT] Usuário: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status });
 
+    // Buscar status anterior antes de atualizar
+    const beforeRes = await pool.query(
+      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND usuario_id = $2 AND validacao = 'Ativo'",
+      [req.params.cotacao, usuarioId]
+    );
+    const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
+
     const result = await pool.query(
       "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND usuario_id = $5 RETURNING *",
       [anotacao, status, now, req.params.cotacao, usuarioId]
@@ -409,6 +417,22 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     }
 
     const row = result.rows[0];
+
+    // Registrar auditoria de mudança de status
+    if (status && String(statusAnterior || '').toLowerCase() !== String(status).toLowerCase()) {
+        await registrarAuditoria(pool, {
+            tarefa: req.params.cotacao,
+            acao: 'status_alterado',
+            usuario_origem_id: usuarioId,
+            usuario_origem_nome: req.user.nome || usuarioLogin,
+            usuario_destino_id: null,
+            usuario_destino_nome: null,
+            status_anterior: statusAnterior || '-',
+            status_novo: status,
+            criado_por: usuarioLogin
+        });
+    }
+
     console.log(`[PUT] Cotação atualizada com sucesso:`, row);
     
     res.json({
@@ -576,7 +600,7 @@ app.get('/pme_notas', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-app.get('/pme_notas/login.html', (req, res) => {
+app.get('/pme_notas/login', (req, res) => {
   const token = req.cookies?.token;
   if (token) {
     try {
@@ -596,6 +620,11 @@ app.get('/pme_notas/cotacoes', (req, res) => {
   }
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+app.get('/pme_notas/reprova_padrao', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'reprova_padrao.html'));
+});
+
 
 // ===== ROTAS DE GESTÃO (r_000250) =====
 
@@ -619,6 +648,13 @@ app.post('/api/gestao/upload', authenticateToken, authorizeRoute('/pme_notas/ges
     console.log(`[GESTAO] Upload recebido: ${req.file.originalname} -> ${filePath}`);
     
     const result = await processarETL_250(filePath, pool);
+    
+    // Após ETL, classificar cotações pendentes que não existem mais em r_000250
+    try {
+      await classificarPendentes();
+    } catch (classErr) {
+      console.error('[GESTAO] Erro na classificação após ETL:', classErr.message);
+    }
     
     res.json({
       success: true,
@@ -689,7 +725,100 @@ app.get('/api/gestao/usuarios', authenticateToken, authorizeRoute('/pme_notas/ge
   }
 });
 
-// Distribuir tarefas para usuários (inserir em cotacao)
+// Função auxiliar para registrar auditoria
+async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
+    try {
+        await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao_audit 
+             (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+            [tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por]
+        );
+    } catch (err) {
+        console.error('[AUDIT] Erro ao registrar:', err.message);
+    }
+}
+
+// Redistribuir tarefas (atualizar usuário de tarefas já distribuídas) com auditoria
+app.post('/api/gestao/redistribuir', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const { redistribuicoes } = req.body; // Array de { cod_tarefa, usuario_id }
+
+    if (!redistribuicoes || !Array.isArray(redistribuicoes) || redistribuicoes.length === 0) {
+      return res.status(400).json({ error: 'Lista de redistribuições inválida' });
+    }
+
+    const usuarioLogin = req.user.username;
+    const now = formatDateBR(new Date());
+
+    let count = 0;
+    let errors = [];
+
+    for (const item of redistribuicoes) {
+      if (!item.cod_tarefa || !item.usuario_id) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+        continue;
+      }
+
+      try {
+        // Verificar se a tarefa já foi distribuída
+        const check = await pool.query(
+          "SELECT tarefa, usuario_id FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+          [item.cod_tarefa, 'Ativo']
+        );
+
+        if (check.rows.length === 0) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa não encontrada ou não está mais ativa' });
+          continue;
+        }
+
+        // Buscar nome do usuário destino
+        let destinoNome = String(item.usuario_id);
+        try {
+            const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+        } catch {}
+
+        // Registrar auditoria da redistribuição
+        await registrarAuditoria(pool, {
+            tarefa: item.cod_tarefa,
+            acao: 'redistribuido',
+            usuario_origem_id: req.user.id,
+            usuario_origem_nome: req.user.nome || usuarioLogin,
+            usuario_destino_id: item.usuario_id,
+            usuario_destino_nome: destinoNome,
+            status_anterior: null,
+            status_novo: null,
+            criado_por: usuarioLogin
+        });
+
+        // Atualizar o usuário da tarefa
+        await pool.query(
+          `UPDATE db_bloco_de_notas.cotacao 
+           SET usuario_id = $1, data_da_ultima_atualizacao = $2, usuario_login = $3
+           WHERE tarefa = $4 AND validacao = 'Ativo'`,
+          [item.usuario_id, now, usuarioLogin, item.cod_tarefa]
+        );
+
+        count++;
+      } catch (err) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+      }
+    }
+
+    res.json({
+      success: true,
+      message: `${count} tarefa(s) redistribuída(s) com sucesso`,
+      redistribuidos: count,
+      erros: errors
+    });
+
+  } catch (error) {
+    console.error('[GESTAO] Erro ao redistribuir tarefas:', error);
+    res.status(500).json({ error: `Erro ao redistribuir tarefas: ${error.message}` });
+  }
+});
+
 app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
   try {
     const { distribuicoes } = req.body; // Array de { cod_tarefa, usuario_id }
@@ -738,11 +867,31 @@ app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas
           if (tr.dsc_cotacao) cotacaoDsc = tr.dsc_cotacao;
         }
 
+        // Buscar nome do usuário destino
+        let destinoNome = String(item.usuario_id);
+        try {
+            const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+        } catch {}
+
         await pool.query(
           `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
           [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id]
         );
+
+        // Registrar auditoria da distribuição
+        await registrarAuditoria(pool, {
+            tarefa: item.cod_tarefa,
+            acao: 'distribuido',
+            usuario_origem_id: req.user.id,
+            usuario_origem_nome: req.user.nome || usuarioLogin,
+            usuario_destino_id: item.usuario_id,
+            usuario_destino_nome: destinoNome,
+            status_anterior: null,
+            status_novo: 'pendente',
+            criado_por: usuarioLogin
+        });
         
         count++;
       } catch (err) {
@@ -761,6 +910,273 @@ app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas
     console.error('[GESTAO] Erro ao distribuir tarefas:', error);
     res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
   }
+});
+
+// ===== ROTAS DE DASHBOARD E HISTÓRICO =====
+
+// Dashboard - Quantidade por colaborador e status
+app.get('/api/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        u.id AS usuario_id,
+        u.nome AS usuario_nome,
+        u.login AS usuario_login,
+        COUNT(c.tarefa) FILTER (WHERE c.status = 'pendente' OR c.status IS NULL OR c.status LIKE 'pendente-%' OR c.status = 'Pendente - Classificação') AS pendentes,
+        COUNT(c.tarefa) FILTER (WHERE c.status = 'aprovado') AS aprovados,
+        COUNT(c.tarefa) FILTER (WHERE c.status = 'reprovado') AS reprovados,
+        COUNT(c.tarefa) AS total
+      FROM db_automacao.usuarios u
+      INNER JOIN db_bloco_de_notas.cotacao c ON c.usuario_id = u.id::TEXT AND c.validacao = 'Ativo'
+      WHERE u.ativo = true
+      GROUP BY u.id, u.nome, u.login
+      ORDER BY u.nome
+    `;
+    
+    const result = await pool.query(query);
+    
+    // Calcular SLA para cada usuário
+    const colaboradores = [];
+    for (const row of result.rows) {
+      // Buscar SLA médio (diferença entre data de criação e última atualização)
+      // As datas estão em formato brasileiro DD/MM/YYYY HH24:MI, converter para timestamp
+      let slaHoras = null;
+      try {
+        const slaRes = await pool.query(`
+          SELECT AVG(
+            EXTRACT(EPOCH FROM (
+              TO_TIMESTAMP(data_da_ultima_atualizacao, 'DD/MM/YYYY HH24:MI') - 
+              TO_TIMESTAMP(data_de_criacao, 'DD/MM/YYYY HH24:MI')
+            )) / 3600
+          ) AS sla_medio
+          FROM db_bloco_de_notas.cotacao 
+          WHERE usuario_id = $1 
+            AND validacao = 'Ativo' 
+            AND status IS NOT NULL AND status != '' AND status != 'pendente' AND status NOT LIKE 'pendente-%'
+            AND data_de_criacao ~ '^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$'
+            AND data_da_ultima_atualizacao ~ '^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$'
+        `, [row.usuario_id]);
+        slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
+      } catch (slaErr) {
+        console.error('[DASHBOARD SLA] Erro para usuario', row.usuario_id, ':', slaErr.message);
+      }
+      
+      colaboradores.push({
+        usuario_id: row.usuario_id,
+        usuario_nome: row.usuario_nome,
+        usuario_login: row.usuario_login,
+        pendentes: parseInt(row.pendentes),
+        aprovados: parseInt(row.aprovados),
+        reprovados: parseInt(row.reprovados),
+        total: parseInt(row.total),
+        sla_medio: slaHoras ? slaHoras + 'h' : '-'
+      });
+    }
+    
+    res.json(colaboradores);
+  } catch (error) {
+    console.error('[DASHBOARD] Erro:', error);
+    res.status(500).json({ error: 'Erro ao carregar dashboard' });
+  }
+});
+
+// Histórico de movimentações
+app.get('/api/gestao/historico', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const { tarefa, limit = 100, offset = 0 } = req.query;
+    
+    let query = `
+      SELECT a.*, 
+        u_orig.nome AS origem_nome,
+        u_dest.nome AS destino_nome
+      FROM db_bloco_de_notas.cotacao_audit a
+      LEFT JOIN db_automacao.usuarios u_orig ON a.usuario_origem_id = u_orig.id
+      LEFT JOIN db_automacao.usuarios u_dest ON a.usuario_destino_id = u_dest.id
+    `;
+    let params = [];
+    let conditions = [];
+    
+    if (tarefa) {
+      params.push(tarefa);
+      conditions.push(`a.tarefa = $${params.length}`);
+    }
+    
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+    
+    query += ' ORDER BY a.data_criacao DESC';
+    params.push(parseInt(limit));
+    query += ` LIMIT $${params.length}`;
+    params.push(parseInt(offset));
+    query += ` OFFSET $${params.length}`;
+    
+    const result = await pool.query(query, params);
+    
+    const historico = result.rows.map(row => ({
+      id: row.id,
+      tarefa: row.tarefa,
+      acao: row.acao,
+      usuario_origem: row.origem_nome || row.usuario_origem_nome || '-',
+      usuario_destino: row.destino_nome || row.usuario_destino_nome || '-',
+      status_anterior: row.status_anterior || '-',
+      status_novo: row.status_novo || '-',
+      data: row.data_criacao,
+      criado_por: row.criado_por
+    }));
+    
+    res.json(historico);
+  } catch (error) {
+    console.error('[HISTORICO] Erro:', error);
+    res.status(500).json({ error: 'Erro ao carregar histórico' });
+  }
+});
+
+// Histórico de uma tarefa específica
+app.get('/api/gestao/historico/:tarefa', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT a.*,
+        u_orig.nome AS origem_nome,
+        u_dest.nome AS destino_nome
+      FROM db_bloco_de_notas.cotacao_audit a
+      LEFT JOIN db_automacao.usuarios u_orig ON a.usuario_origem_id = u_orig.id
+      LEFT JOIN db_automacao.usuarios u_dest ON a.usuario_destino_id = u_dest.id
+      WHERE a.tarefa = $1
+      ORDER BY a.data_criacao DESC
+    `, [req.params.tarefa]);
+    
+    res.json(result.rows.map(row => ({
+      id: row.id,
+      tarefa: row.tarefa,
+      acao: row.acao,
+      usuario_origem: row.origem_nome || row.usuario_origem_nome || '-',
+      usuario_destino: row.destino_nome || row.usuario_destino_nome || '-',
+      status_anterior: row.status_anterior || '-',
+      status_novo: row.status_novo || '-',
+      data: row.data_criacao,
+      criado_por: row.criado_por
+    })));
+  } catch (error) {
+    console.error('[HISTORICO TAREFA] Erro:', error);
+    res.status(500).json({ error: 'Erro ao carregar histórico da tarefa' });
+  }
+});
+
+// ===== ROTAS DE REPROVA PADRÃO (apenas banco) =====
+const { listarReprovas, inserirReprova, contarReprovas, verificarDuplicado } = require('./db');
+
+// Rotas de reprova padrão (raiz e sob /pme_notas)
+app.get('/api/reprovas', authenticateToken, async (req, res) => {
+  try {
+    const termo = req.query.termo || null;
+    const registros = await listarReprovas(termo);
+    res.json(registros);
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao listar:', error.message);
+    res.status(500).json({ error: 'Erro ao listar reprovas padrão' });
+  }
+});
+
+app.get('/pme_notas/api/reprovas', authenticateToken, async (req, res) => {
+  try {
+    const termo = req.query.termo || null;
+    const registros = await listarReprovas(termo);
+    res.json(registros);
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao listar:', error.message);
+    res.status(500).json({ error: 'Erro ao listar reprovas padrão' });
+  }
+});
+app.get('/pme_notas/api/reprovas/count', authenticateToken, async (req, res) => {
+  try {
+    const total = await contarReprovas();
+    res.json({ total });
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao contar:', error.message);
+    res.status(500).json({ error: 'Erro ao contar reprovas padrão' });
+  }
+});
+
+app.post('/pme_notas/api/reprovas', authenticateToken, async (req, res) => {
+  try {
+    const { motivo, cod_reprova, texto_reprova } = req.body;
+    if (!motivo || !cod_reprova || !texto_reprova) {
+      return res.status(400).json({ error: 'Todos os campos são obrigatórios: motivo, cod_reprova, texto_reprova' });
+    }
+    const duplicado = await verificarDuplicado(cod_reprova, motivo, texto_reprova);
+    if (duplicado) {
+      return res.status(409).json({ error: 'Registro duplicado já existe' });
+    }
+    const id = await inserirReprova(motivo, texto_reprova, cod_reprova);
+    res.status(201).json({ id, message: 'Reprova padrão inserida com sucesso' });
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao inserir:', error.message);
+    res.status(500).json({ error: 'Erro ao inserir reprova padrão' });
+  }
+});
+
+// Contar total de reprovas padrão
+app.get('/api/reprovas/count', authenticateToken, async (req, res) => {
+  try {
+    const total = await contarReprovas();
+    res.json({ total });
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao contar:', error.message);
+    res.status(500).json({ error: 'Erro ao contar reprovas padrão' });
+  }
+});
+
+app.post('/api/reprovas', authenticateToken, async (req, res) => {
+  try {
+    const { motivo, cod_reprova, texto_reprova } = req.body;
+    if (!motivo || !cod_reprova || !texto_reprova) {
+      return res.status(400).json({ error: 'Todos os campos são obrigatórios: motivo, cod_reprova, texto_reprova' });
+    }
+    const duplicado = await verificarDuplicado(cod_reprova, motivo, texto_reprova);
+    if (duplicado) {
+      return res.status(409).json({ error: 'Registro duplicado já existe' });
+    }
+    const id = await inserirReprova(motivo, texto_reprova, cod_reprova);
+    res.status(201).json({ id, message: 'Reprova padrão inserida com sucesso' });
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao inserir:', error.message);
+    res.status(500).json({ error: 'Erro ao inserir reprova padrão' });
+  }
+});
+
+// Classificar cotações pendentes manualmente
+app.post('/api/gestao/classificar-pendentes', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const result = await classificarPendentes();
+    
+    res.json({
+      success: true,
+      message: `${result.classificados} cotações classificadas como "Pendente - Classificação"`,
+      ...result
+    });
+  } catch (error) {
+    console.error('[GESTAO] Erro na classificação manual:', error);
+    res.status(500).json({ error: `Erro ao classificar cotações: ${error.message}` });
+  }
+});
+
+// Serve dashboard page
+app.get('/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+app.get('/pme_notas/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+// Serve devolucao padrao page
+app.get('/devolucoes-padrao', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao_web.html'));
+});
+
+app.get('/pme_notas/devolucoes-padrao', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao_web.html'));
 });
 
 // SPA fallback for /pme_notas subpaths

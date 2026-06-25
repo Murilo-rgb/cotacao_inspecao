@@ -11,13 +11,41 @@
 <body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
     <div id="root"></div>
     <script>
-        // Se já estiver logado (token no localStorage), redireciona direto para cotações
+        // Função para carregar o script de login
+        function loadLoginScript() {
+            const basePath = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            document.write('<script src="' + basePath + '/dist/login_new.js"><\/script>');
+        }
+
+        // Se já estiver logado (token no localStorage), verifica se o token ainda é válido antes de redirecionar
         const basePath = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
         const existingToken = localStorage.getItem('token');
         if (existingToken) {
-            window.location.href = basePath + '/cotacoes';
+            // Verificar se o token ainda é válido fazendo uma requisição de health check
+            fetch(basePath + '/api/quotations', {
+                headers: { 'Authorization': 'Bearer ' + existingToken }
+            })
+            .then(res => {
+                if (res.ok) {
+                    // Token válido - redireciona para cotações
+                    window.location.href = basePath + '/cotacoes';
+                } else {
+                    // Token inválido/expirado - limpar localStorage e carregar login
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('user');
+                    loadLoginScript();
+                }
+            })
+            .catch(() => {
+                // Erro de rede - limpar localStorage e carregar login
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                localStorage.removeItem('user');
+                loadLoginScript();
+            });
         } else {
-            document.write('<script src="' + basePath + '/dist/login_new.js"><\/script>');
+            loadLoginScript();
         }
     </script>
 </body>

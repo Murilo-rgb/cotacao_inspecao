@@ -37,6 +37,14 @@
             border-color: #10b981;
             background-color: #ecfdf5;
         }
+        .checkbox-cell input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .selected-row {
+            background-color: #eef2ff !important;
+        }
     </style>
 </head>
 <body>
@@ -75,6 +83,11 @@
             React.createElement('path', { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
             React.createElement('polyline', { points: "14 2 14 8 20 8" })
         );
+        const RedistributeIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('polyline', { points: "1 4 1 10 7 10" }),
+            React.createElement('polyline', { points: "23 20 23 14 17 14" }),
+            React.createElement('path', { d: "M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" })
+        );
 
         // ============== COMPONENTE PRINCIPAL ==============
         function App() {
@@ -89,6 +102,9 @@
             const [fileInfo, setFileInfo] = useState(null);
             const [toast, setToast] = useState(null);
             const [stats, setStats] = useState({ total: 0, fila: 0, enviado: 0 });
+            const [selectedIds, setSelectedIds] = useState(new Set());
+            const [massAssignUsuario, setMassAssignUsuario] = useState('');
+            const [redistribuirMode, setRedistribuirMode] = useState(false);
             const fileInputRef = useRef(null);
 
             const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
@@ -127,7 +143,6 @@
                     setTarefas(data);
                     const total = data.length;
                     const enviado = data.filter(t => t.status_distribuicao === 'Enviado').length;
-                    // 'Em Fila' should count only tasks with status 'Fila' AND empty pendiente_com or '-'
                     const fila = data.filter(t => t.status_distribuicao === 'Fila' && (!t.pendente_com || t.pendente_com === '-')).length;
                     setStats({ total, fila, enviado });
                 } catch (err) {
@@ -221,15 +236,88 @@
                 }
             };
 
-            // Distribuir selecionados
+            // ===== SELEÇÃO EM MASSA =====
+            const toggleSelect = (codTarefa) => {
+                setSelectedIds(prev => {
+                    const next = new Set(prev);
+                    if (next.has(codTarefa)) {
+                        next.delete(codTarefa);
+                    } else {
+                        next.add(codTarefa);
+                    }
+                    return next;
+                });
+            };
+
+            const toggleSelectAll = () => {
+                const visible = filteredTarefas;
+                if (selectedIds.size === visible.length) {
+                    setSelectedIds(new Set());
+                } else {
+                    setSelectedIds(new Set(visible.map(t => t.cod_tarefa)));
+                }
+            };
+
+            const handleMassAssign = (usuarioId) => {
+                let id = usuarioId;
+                if (typeof usuarioId === 'string') {
+                    const m = usuarioId.match(/^(\d+)\s*-/);
+                    if (m) id = m[1];
+                }
+                setMassAssignUsuario(id);
+                if (selectedIds.size === 0) {
+                    showToast('Selecione ao menos uma tarefa primeiro', 'error');
+                    return;
+                }
+                // Aplicar o usuário selecionado a todas as tarefas marcadas
+                setTarefas(prev => prev.map(t =>
+                    selectedIds.has(t.cod_tarefa)
+                        ? { ...t, usuarioSelecionado: id }
+                        : t
+                ));
+                showToast(`Usuário atribuído a ${selectedIds.size} tarefa(s)`, 'success');
+            };
+
+            // ===== DISTRIBUIR / REDISTRIBUIR =====
             const handleDistribuir = async () => {
-                const selecionadas = tarefas.filter(t => 
-                    t.status_distribuicao === 'Fila' && t.usuarioSelecionado
-                );
+                const podeDistribuir = (t) => {
+                    if (redistribuirMode) {
+                        // No modo redistribuir, aceita tarefas Fila OU Enviado com usuário selecionado
+                        return t.usuarioSelecionado;
+                    }
+                    return t.status_distribuicao === 'Fila' && t.usuarioSelecionado;
+                };
+
+                const selecionadas = tarefas.filter(podeDistribuir);
                 
                 if (selecionadas.length === 0) {
-                    showToast('Selecione usuários para as tarefas em "Fila"', 'error');
+                    showToast(
+                        redistribuirMode 
+                            ? 'Selecione tarefas e atribua um usuário para redistribuir' 
+                            : 'Selecione usuários para as tarefas em "Fila"',
+                        'error'
+                    );
                     return;
+                }
+
+                // Proteção: verificar se muitas tarefas vão para o mesmo usuário
+                const countPorUsuario = {};
+                selecionadas.forEach(t => {
+                    const uid = String(t.usuarioSelecionado);
+                    countPorUsuario[uid] = (countPorUsuario[uid] || 0) + 1;
+                });
+                const usuarioNome = (id) => {
+                    const u = usuarios.find(u => String(u.id) === String(id));
+                    return u ? u.nome : id;
+                };
+                const alertas = Object.entries(countPorUsuario)
+                    .filter(([uid, count]) => count > 10)
+                    .map(([uid, count]) => `${count} para ${usuarioNome(uid)}`);
+                
+                if (alertas.length > 0) {
+                    if (!window.confirm(`Muitas tarefas atribuídas para o mesmo usuário:\n${alertas.join('\n')}\n\nContinuar assim mesmo?`)) {
+                        return;
+                    }
                 }
                 
                 setDistribuindo(true);
@@ -238,20 +326,29 @@
                     cod_tarefa: t.cod_tarefa,
                     usuario_id: parseInt(t.usuarioSelecionado)
                 }));
+
+                const endpoint = redistribuirMode 
+                    ? `${getBasePath()}/api/gestao/redistribuir`
+                    : `${getBasePath()}/api/gestao/distribuir`;
+                const body = redistribuirMode
+                    ? JSON.stringify({ redistribuicoes: distribuicoes })
+                    : JSON.stringify({ distribuicoes });
                 
                 try {
-                    const res = await fetch(`${getBasePath()}/api/gestao/distribuir`, {
+                    const res = await fetch(endpoint, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
                         },
-                        body: JSON.stringify({ distribuicoes })
+                        body
                     });
                     
                     const data = await res.json();
                     if (res.ok) {
                         showToast(data.message, 'success');
+                        setSelectedIds(new Set());
+                        setMassAssignUsuario('');
                         fetchTarefas();
                     } else {
                         showToast(data.error || 'Erro ao distribuir', 'error');
@@ -270,7 +367,6 @@
             };
 
             const updateUsuarioSelecionado = (codTarefa, usuarioId) => {
-                // accept either an id or a datalist label like "<id> - Name (login)"
                 let id = usuarioId;
                 if (typeof usuarioId === 'string') {
                     const m = usuarioId.match(/^(\d+)\s*-/);
@@ -289,7 +385,7 @@
                 return u ? `${u.id} - ${u.nome} (${u.login})` : String(id);
             };
 
-            // Formatar data (moved above filters to avoid temporal dead zone)
+            // Formatar data
             const formatDate = (dateStr) => {
                 if (!dateStr || dateStr === '-') return '-';
                 try {
@@ -308,7 +404,7 @@
                 qtd_linhas: '',
                 qtd_linhas_novas: '',
                 qtd_reprovacao: '',
-                status_cotacao: '', // Pendente/Aprovado/Reprovado/Assumido/Não Assumido
+                status_cotacao: '',
             });
 
             const updateFilter = (key, value) => {
@@ -322,6 +418,22 @@
                 } catch { return false; }
             };
 
+            // Filtro por faixa de quantidade
+            const matchesQtd = (val, filter) => {
+                if (!filter || filter === '') return true;
+                const num = parseInt(val) || 0;
+                switch (filter) {
+                    case '0': return num === 0;
+                    case '1-5': return num >= 1 && num <= 5;
+                    case '6-10': return num >= 6 && num <= 10;
+                    case '11-20': return num >= 11 && num <= 20;
+                    case '21-50': return num >= 21 && num <= 50;
+                    case '51-100': return num >= 51 && num <= 100;
+                    case '100+': return num > 100;
+                    default: return String(num).includes(filter);
+                }
+            };
+
             const displayCodTarefa = (t) => {
                 try {
                     return t?.dsc_cotacao ? `${t.dsc_cotacao} - ${t.cod_tarefa}` : t.cod_tarefa;
@@ -329,26 +441,26 @@
             };
 
             const filteredTarefas = tarefas.filter(t => {
-                // Base text/number filters
-                    if (!(
+                if (!(
                     matches(displayCodTarefa(t), filters.cod_tarefa) &&
                     matches(formatDate(t.dat_historico), filters.dat_historico) &&
-                    matches(t.qtd_linhas, filters.qtd_linhas) &&
-                    matches(t.qtd_linhas_novas, filters.qtd_linhas_novas) &&
-                    matches(t.qtd_reprovacao, filters.qtd_reprovacao)
+                    matchesQtd(t.qtd_linhas, filters.qtd_linhas) &&
+                    matchesQtd(t.qtd_linhas_novas, filters.qtd_linhas_novas) &&
+                    matchesQtd(t.qtd_reprovacao, filters.qtd_reprovacao)
                 )) return false;
 
-                // Status Cotação filter
                 const sf = filters.status_cotacao;
                 if (sf && sf !== '') {
                     if (sf === 'ASSUMIDO') {
-                        if (!t.assumido_por) return false;
+                        const assumido = t.assumido_por || t.pendente_com;
+                        if (!assumido || String(assumido).trim() === '' || String(assumido).trim() === '-') return false;
+                        if (t.cotacao_status && String(t.cotacao_status).trim()) return false;
                     } else if (sf === 'NAO_ASSUMIDO') {
-                        if (t.assumido_por) return false;
+                        const assumido = t.assumido_por || t.pendente_com;
+                        if (assumido && String(assumido).trim() !== '' && String(assumido).trim() !== '-') return false;
                     } else {
-                        // Match against cotacao_status (db_bloco_de_notas.cotacao.status)
                         const cs = (t.cotacao_status || '').toString().trim();
-                        if (!cs) return false; // empty means Não Distribuido -> won't match Pendente/Aprovado/Reprovado
+                        if (!cs) return false;
                         if (cs.toLowerCase() !== sf.toLowerCase()) return false;
                     }
                 }
@@ -356,7 +468,6 @@
                 return true;
             });
 
-            // Histórico age indicator: returns color class for age in hours
             const historyColorClass = (dateStr) => {
                 if (!dateStr || dateStr === '-') return 'bg-slate-300';
                 try {
@@ -369,24 +480,22 @@
                 } catch { return 'bg-slate-300'; }
             };
 
-            // Get cotação status from possible fields
             const getCotacaoStatus = (t) => {
-                // Prefer explicit cotacao.status when available
                 try {
                     if (!t) return '-';
-                    // prefer cotacao_status from backend (db_bloco_de_notas.cotacao.status)
-                    if (t.cotacao_status && String(t.cotacao_status).trim()) return String(t.cotacao_status);
-
-                    // fallback to other common fields if present
-                    const fallback = t.status_cotacao || t.dsc_statuscotacao || t.dsc_status_cotacao || t.nom_statuscotacao || t.nom_status_cotacao || t.dsc_status || t.status;
-                    if (fallback && String(fallback).trim()) return String(fallback);
-
-                    // if still empty, show 'Não Distribuido'
+                    if (t.cotacao_status && String(t.cotacao_status).trim()) {
+                        return String(t.cotacao_status);
+                    }
+                    const assumido = t.assumido_por || t.pendente_com;
+                    if (assumido) {
+                        const valorLimpo = String(assumido).trim();
+                        if (valorLimpo !== '' && valorLimpo !== '-') {
+                            return 'Assumido';
+                        }
+                    }
                     return 'Não Distribuido';
                 } catch (e) { return '-'; }
             };
-
-            
 
             // Toast component
             const Toast = ({ toast }) => {
@@ -402,6 +511,8 @@
             };
 
             const tarefasFila = tarefas.filter(t => t.status_distribuicao === 'Fila');
+
+            const allSelected = filteredTarefas.length > 0 && selectedIds.size === filteredTarefas.length;
 
             return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
                 // Header
@@ -419,7 +530,18 @@
                                     React.createElement('p', { className: 'text-xs text-slate-500' }, 'Upload, visualização e distribuição de tarefas')
                                 )
                             ),
-                            React.createElement('div', { className: 'flex items-center gap-4' },
+                            React.createElement('div', { className: 'flex items-center gap-3' },
+                                React.createElement('a', {
+                                    href: `${getBasePath()}/gestao/dashboard`,
+                                    className: 'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors'
+                                },
+                                    React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                                        React.createElement('line', { x1: "18", y1: "20", x2: "18", y2: "10" }),
+                                        React.createElement('line', { x1: "12", y1: "20", x2: "12", y2: "4" }),
+                                        React.createElement('line', { x1: "6", y1: "20", x2: "6", y2: "14" })
+                                    ),
+                                    'Dashboard'
+                                ),
                                 React.createElement('div', { className: 'hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm' },
                                     React.createElement('span', { className: 'text-sm font-semibold text-white' }, username)
                                 ),
@@ -509,13 +631,48 @@
                     React.createElement('div', { className: 'bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden' },
                         // Header da tabela com ações
                         React.createElement('div', { className: 'flex items-center justify-between px-6 py-4 border-b border-slate-200' },
-                                React.createElement('div', { className: 'flex items-center gap-3' },
+                            React.createElement('div', { className: 'flex items-center gap-3' },
                                 React.createElement('h2', { className: 'text-lg font-semibold text-slate-800' }, 'Tarefas - Etapa 04'),
                                 !loading && React.createElement('span', { className: 'text-xs px-2 py-1 bg-slate-100 text-slate-500 rounded-full font-medium' },
                                     `${filteredTarefas.length} / ${tarefas.length} registros`
+                                ),
+                                // Indicador de seleção
+                                selectedIds.size > 0 && React.createElement('span', { className: 'text-xs px-2 py-1 bg-indigo-100 text-indigo-600 rounded-full font-medium' },
+                                    `${selectedIds.size} selecionada(s)`
                                 )
                             ),
                             React.createElement('div', { className: 'flex items-center gap-2' },
+                                // Seletor em massa
+                                selectedIds.size > 0 && React.createElement('div', { className: 'flex items-center gap-2 mr-2' },
+                                    React.createElement('span', { className: 'text-xs text-slate-500 font-medium' }, 'Atribuir p/:'),
+                                    React.createElement('input', {
+                                        list: 'mass-assign-list',
+                                        value: getUserLabel(massAssignUsuario),
+                                        onChange: (e) => handleMassAssign(e.target.value),
+                                        placeholder: 'Usuário...',
+                                        className: 'w-32 px-2 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all'
+                                    }),
+                                    React.createElement('datalist', { id: 'mass-assign-list' },
+                                        usuarios.map(u =>
+                                            React.createElement('option', { key: u.id, value: `${u.id} - ${u.nome} (${u.login})` })
+                                        )
+                                    )
+                                ),
+                                // Botão Redistribuir
+                                React.createElement('button', {
+                                    onClick: () => {
+                                        setRedistribuirMode(!redistribuirMode);
+                                        setSelectedIds(new Set());
+                                    },
+                                    className: `inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg border transition-all duration-200 ${
+                                        redistribuirMode
+                                            ? 'bg-amber-100 text-amber-700 border-amber-300'
+                                            : 'bg-white text-slate-600 border-slate-300 hover:bg-amber-50 hover:text-amber-600'
+                                    }`
+                                },
+                                    React.createElement(RedistributeIcon),
+                                    redistribuirMode ? 'Sair Redistrib.' : 'Redistribuir'
+                                ),
                                 React.createElement('button', {
                                     onClick: fetchTarefas,
                                     disabled: loading,
@@ -525,13 +682,19 @@
                                 ),
                                 React.createElement('button', {
                                     onClick: handleDistribuir,
-                                    disabled: distribuindo || tarefasFila.filter(t => t.usuarioSelecionado).length === 0,
-                                    className: 'inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-purple-600 text-white text-sm font-semibold rounded-xl hover:from-violet-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md'
+                                    disabled: distribuindo || tarefas.filter(t => t.usuarioSelecionado).length === 0,
+                                    className: `inline-flex items-center gap-2 px-5 py-2.5 text-white text-sm font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md ${
+                                        redistribuirMode
+                                            ? 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700'
+                                            : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700'
+                                    }`
                                 },
                                     distribuindo 
                                         ? React.createElement('div', { className: 'w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' })
                                         : React.createElement(SendIcon),
-                                    distribuindo ? 'Distribuindo...' : 'Distribuir Selecionados'
+                                    distribuindo 
+                                        ? (redistribuirMode ? 'Redistribuindo...' : 'Distribuindo...')
+                                        : (redistribuirMode ? 'Redistribuir Selecionados' : 'Distribuir Selecionados')
                                 )
                             )
                         ),
@@ -554,6 +717,15 @@
                                     React.createElement('table', { className: 'min-w-full divide-y divide-slate-200' },
                                         React.createElement('thead', { className: 'bg-slate-50' },
                                             React.createElement('tr', null,
+                                                // Checkbox coluna
+                                                React.createElement('th', { className: 'px-2 py-3.5 text-center' },
+                                                    React.createElement('input', {
+                                                        type: 'checkbox',
+                                                        checked: allSelected,
+                                                        onChange: toggleSelectAll,
+                                                        className: 'rounded border-slate-300'
+                                                    })
+                                                ),
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Cód. Tarefa'),
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Status Cotação'),
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Histórico'),
@@ -564,6 +736,7 @@
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Usuário')                                                
                                             ),
                                             React.createElement('tr', { className: 'bg-slate-50' },
+                                                React.createElement('th', { className: 'px-2 py-2' }, ''),
                                                 React.createElement('th', { className: 'px-4 py-2' },
                                                     React.createElement('input', {
                                                         value: filters.cod_tarefa,
@@ -595,29 +768,52 @@
                                                     })
                                                 ),
                                                 React.createElement('th', { className: 'px-4 py-2' },
-                                                    React.createElement('input', {
+                                                    React.createElement('select', {
                                                         value: filters.qtd_linhas,
                                                         onChange: (e) => updateFilter('qtd_linhas', e.target.value),
-                                                        placeholder: 'filtrar...',
-                                                        className: 'w-20 px-2 py-1 text-xs border border-slate-200 rounded'
-                                                    })
+                                                        className: 'w-24 px-2 py-1 text-xs border border-slate-200 rounded'
+                                                    },
+                                                        React.createElement('option', { value: '' }, 'Todas'),
+                                                        React.createElement('option', { value: '0' }, '0'),
+                                                        React.createElement('option', { value: '1-5' }, '1 a 5'),
+                                                        React.createElement('option', { value: '6-10' }, '6 a 10'),
+                                                        React.createElement('option', { value: '11-20' }, '11 a 20'),
+                                                        React.createElement('option', { value: '21-50' }, '21 a 50'),
+                                                        React.createElement('option', { value: '51-100' }, '51 a 100'),
+                                                        React.createElement('option', { value: '100+' }, 'Mais de 100')
+                                                    )
                                                 ),
                                                 React.createElement('th', { className: 'px-4 py-2' },
-                                                    React.createElement('input', {
+                                                    React.createElement('select', {
                                                         value: filters.qtd_linhas_novas,
                                                         onChange: (e) => updateFilter('qtd_linhas_novas', e.target.value),
-                                                        placeholder: 'filtrar...',
-                                                        className: 'w-20 px-2 py-1 text-xs border border-slate-200 rounded'
-                                                    })
+                                                        className: 'w-24 px-2 py-1 text-xs border border-slate-200 rounded'
+                                                    },
+                                                        React.createElement('option', { value: '' }, 'Todas'),
+                                                        React.createElement('option', { value: '0' }, '0'),
+                                                        React.createElement('option', { value: '1-5' }, '1 a 5'),
+                                                        React.createElement('option', { value: '6-10' }, '6 a 10'),
+                                                        React.createElement('option', { value: '11-20' }, '11 a 20'),
+                                                        React.createElement('option', { value: '21-50' }, '21 a 50'),
+                                                        React.createElement('option', { value: '51-100' }, '51 a 100'),
+                                                        React.createElement('option', { value: '100+' }, 'Mais de 100')
+                                                    )
                                                 ),
-                                                
                                                 React.createElement('th', { className: 'px-4 py-2' },
-                                                    React.createElement('input', {
+                                                    React.createElement('select', {
                                                         value: filters.qtd_reprovacao,
                                                         onChange: (e) => updateFilter('qtd_reprovacao', e.target.value),
-                                                        placeholder: 'filtrar...',
-                                                        className: 'w-20 px-2 py-1 text-xs border border-slate-200 rounded'
-                                                    })
+                                                        className: 'w-24 px-2 py-1 text-xs border border-slate-200 rounded'
+                                                    },
+                                                        React.createElement('option', { value: '' }, 'Todas'),
+                                                        React.createElement('option', { value: '0' }, '0'),
+                                                        React.createElement('option', { value: '1-5' }, '1 a 5'),
+                                                        React.createElement('option', { value: '6-10' }, '6 a 10'),
+                                                        React.createElement('option', { value: '11-20' }, '11 a 20'),
+                                                        React.createElement('option', { value: '21-50' }, '21 a 50'),
+                                                        React.createElement('option', { value: '51-100' }, '51 a 100'),
+                                                        React.createElement('option', { value: '100+' }, 'Mais de 100')
+                                                    )
                                                 ),
                                                 React.createElement('th', { className: 'px-4 py-2' }, ''),
                                                 React.createElement('th', { className: 'px-4 py-2' }, '')
@@ -631,79 +827,91 @@
                                                 if (ta === null) return 1;
                                                 if (tb === null) return -1;
                                                 return ta - tb;
-                                            }).map(tarefa =>
-                                                React.createElement('tr', {
+                                            }).map(tarefa => {
+                                                const isSelected = selectedIds.has(tarefa.cod_tarefa);
+                                                const showUserField = redistribuirMode || tarefa.status_distribuicao === 'Fila';
+                                                
+                                                return React.createElement('tr', {
                                                     key: tarefa.cod_tarefa,
                                                     className: `hover:bg-slate-50/80 transition-colors duration-150 ${
-                                                        tarefa.status_distribuicao === 'Enviado' ? 'bg-emerald-50/30' : ''
-                                                    }`
+                                                        tarefa.status_distribuicao === 'Enviado' && !redistribuirMode ? 'bg-emerald-50/30' : ''
+                                                    } ${isSelected ? 'selected-row' : ''}`
                                                 },
-                                                            React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
-                                                                React.createElement('span', {
-                                                                    className: 'text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md',
-                                                                    title: tarefa.pendente_com || '-'
-                                                                },
-                                                                    displayCodTarefa(tarefa)
-                                                                )
-                                                            ),
-                                                            React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
-                                                                React.createElement('span', { className: 'text-sm font-medium text-slate-700' }, getCotacaoStatus(tarefa))
-                                                            ),
-                                                            React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
-                                                                React.createElement('div', { className: 'flex items-center gap-3' },
-                                                                    React.createElement('span', { className: `w-3 h-3 rounded-full ${historyColorClass(tarefa.dat_historico)}` }),
-                                                                    React.createElement('span', { className: 'text-sm text-slate-500' }, formatDate(tarefa.dat_historico))
-                                                                )
-                                                            ),
-                                                            
-                                                            
-                                                            React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-600' },
-                                                                tarefa.qtd_linhas || '-'
-                                                            ),
-                                                            React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-600' },
-                                                                tarefa.qtd_linhas_novas || '-'
-                                                            ),
-                                                            
-                                                            React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-600' },
-                                                                tarefa.qtd_reprovacao || '-'
-                                                            ),
-                                                            React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
-                                                                React.createElement('span', {
-                                                                    className: `inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full border ${
-                                                                        tarefa.status_distribuicao === 'Enviado'
-                                                                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                                                            : 'bg-amber-50 text-amber-700 border-amber-200'
-                                                                    }`
-                                                                },
-                                                                    React.createElement('span', {
-                                                                        className: `w-1.5 h-1.5 rounded-full ${
-                                                                            tarefa.status_distribuicao === 'Enviado' ? 'bg-emerald-500' : 'bg-amber-500'
-                                                                        }`
-                                                                    }),
-                                                                    tarefa.status_distribuicao
-                                                                )
-                                                            ),
-                                                            React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
-                                                                tarefa.status_distribuicao === 'Fila'
-                                                                    ? React.createElement('div', null,
-                                                                        React.createElement('input', {
-                                                                            list: `usuarios-list-${tarefa.cod_tarefa}`,
-                                                                            value: getUserLabel(tarefa.usuarioSelecionado),
-                                                                            onChange: (e) => updateUsuarioSelecionado(tarefa.cod_tarefa, e.target.value),
-                                                                            placeholder: 'Selecione...',
-                                                                            className: 'w-24 px-2 py-1.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all duration-200'
-                                                                        }),
-                                                                        React.createElement('datalist', { id: `usuarios-list-${tarefa.cod_tarefa}` },
-                                                                            usuarios.map(u =>
-                                                                                React.createElement('option', { key: u.id, value: `${u.id} - ${u.nome} (${u.login})` })
-                                                                            )
-                                                                        )
-                                                                    )
-                                                                    : React.createElement('span', { className: 'text-sm text-slate-500' }, '-')
-                                                            ),
-                                                                                                                        
+                                                    // Checkbox
+                                                    React.createElement('td', { className: 'px-2 py-3 whitespace-nowrap text-center checkbox-cell' },
+                                                        React.createElement('input', {
+                                                            type: 'checkbox',
+                                                            checked: isSelected,
+                                                            onChange: () => toggleSelect(tarefa.cod_tarefa),
+                                                            className: 'rounded border-slate-300'
+                                                        })
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
+                                                        React.createElement('span', {
+                                                            className: 'text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md',
+                                                            title: tarefa.pendente_com || '-'
+                                                        },
+                                                            displayCodTarefa(tarefa)
                                                         )
-                                            )
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
+                                                        React.createElement('span', { className: 'text-sm font-medium text-slate-700' }, getCotacaoStatus(tarefa))
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
+                                                        React.createElement('div', { className: 'flex items-center gap-3' },
+                                                            React.createElement('span', { className: `w-3 h-3 rounded-full ${historyColorClass(tarefa.dat_historico)}` }),
+                                                            React.createElement('span', { className: 'text-sm text-slate-500' }, formatDate(tarefa.dat_historico))
+                                                        )
+                                                    ),
+                                                    
+                                                    
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-600' },
+                                                        tarefa.qtd_linhas || '-'
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-600' },
+                                                        tarefa.qtd_linhas_novas || '-'
+                                                    ),
+                                                    
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-600' },
+                                                        tarefa.qtd_reprovacao || '-'
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
+                                                        React.createElement('span', {
+                                                            className: `inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full border ${
+                                                                tarefa.status_distribuicao === 'Enviado'
+                                                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                                                    : 'bg-amber-50 text-amber-700 border-amber-200'
+                                                            }`
+                                                        },
+                                                            React.createElement('span', {
+                                                                className: `w-1.5 h-1.5 rounded-full ${
+                                                                    tarefa.status_distribuicao === 'Enviado' ? 'bg-emerald-500' : 'bg-amber-500'
+                                                                }`
+                                                            }),
+                                                            tarefa.status_distribuicao
+                                                        )
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
+                                                        showUserField
+                                                            ? React.createElement('div', null,
+                                                                React.createElement('input', {
+                                                                    list: `usuarios-list-${tarefa.cod_tarefa}`,
+                                                                    value: getUserLabel(tarefa.usuarioSelecionado),
+                                                                    onChange: (e) => updateUsuarioSelecionado(tarefa.cod_tarefa, e.target.value),
+                                                                    placeholder: 'Selecione...',
+                                                                    className: 'w-24 px-2 py-1.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all duration-200'
+                                                                }),
+                                                                React.createElement('datalist', { id: `usuarios-list-${tarefa.cod_tarefa}` },
+                                                                    usuarios.map(u =>
+                                                                        React.createElement('option', { key: u.id, value: `${u.id} - ${u.nome} (${u.login})` })
+                                                                    )
+                                                                )
+                                                            )
+                                                            : React.createElement('span', { className: 'text-sm text-slate-500' }, '-')
+                                                    ),
+                                                                                                                
+                                                );
+                                            })
                                         )
                                     )
                                 )
