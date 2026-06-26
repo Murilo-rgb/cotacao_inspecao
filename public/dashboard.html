@@ -59,6 +59,7 @@
             const [loading, setLoading] = useState(true);
             const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'historico'
             const [filtroTarefa, setFiltroTarefa] = useState('');
+            const [filtroDataDashboard, setFiltroDataDashboard] = useState('');
 
             const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
 
@@ -66,7 +67,14 @@
                 if (!token) return;
                 try {
                     setLoading(true);
-                    const res = await fetch(`${getBasePath()}/api/gestao/dashboard`, {
+                    const params = new URLSearchParams();
+                    if (filtroDataDashboard) {
+                        // Converter YYYY-MM-DD para DD/MM/YYYY
+                        const [year, month, day] = filtroDataDashboard.split('-');
+                        params.set('data', `${day}/${month}/${year}`);
+                    }
+                    const queryStr = params.toString() ? `?${params.toString()}` : '';
+                    const res = await fetch(`${getBasePath()}/api/gestao/dashboard${queryStr}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (res.status === 401 || res.status === 403) {
@@ -82,7 +90,7 @@
                 } finally {
                     setLoading(false);
                 }
-            }, [token]);
+            }, [token, filtroDataDashboard]);
 
             const fetchHistorico = useCallback(async () => {
                 if (!token) return;
@@ -148,10 +156,10 @@
                 }
             };
 
-            const totalPendentes = colaboradores.reduce((s, c) => s + c.pendentes, 0);
-            const totalAprovados = colaboradores.reduce((s, c) => s + c.aprovados, 0);
-            const totalReprovados = colaboradores.reduce((s, c) => s + c.reprovados, 0);
-            const totalGeral = colaboradores.reduce((s, c) => s + c.total, 0);
+            const totalPendentes = colaboradores.reduce((s, c) => s + (c.pendentes || 0), 0);
+            const totalAprovados = colaboradores.reduce((s, c) => s + (c.aprovados || 0), 0);
+            const totalReprovados = colaboradores.reduce((s, c) => s + (c.reprovados || 0), 0);
+            const totalGeral = colaboradores.reduce((s, c) => s + (c.total || 0), 0);
 
             return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
                 // Header
@@ -219,6 +227,21 @@
 
                     // Tab: Dashboard
                     activeTab === 'dashboard' && React.createElement('div', { className: 'animate-fadeIn' },
+                        // Filtro por data
+                        React.createElement('div', { className: 'flex items-center gap-3 mb-4' },
+                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Filtrar por data:'),
+                            React.createElement('input', {
+                                type: 'date',
+                                value: filtroDataDashboard,
+                                onChange: (e) => setFiltroDataDashboard(e.target.value),
+                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
+                            }),
+                            filtroDataDashboard && React.createElement('button', {
+                                onClick: () => setFiltroDataDashboard(''),
+                                className: 'px-3 py-2 text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors'
+                            }, 'Limpar')
+                        ),
+
                         // Stats Cards
                         React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6' },
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
@@ -234,8 +257,12 @@
                                 React.createElement('p', { className: 'text-2xl font-bold text-emerald-700 mt-1' }, totalAprovados)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-sm font-medium text-slate-500' }, 'Colaboradores'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, colaboradores.length)
+                                React.createElement('p', { className: 'text-sm font-medium text-red-600' }, 'Reprovados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-red-700 mt-1' }, totalReprovados)
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-sm font-medium text-indigo-600' }, 'Tratados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-indigo-700 mt-1' }, totalAprovados + totalReprovados)
                             )
                         ),
 
@@ -274,12 +301,15 @@
                                                 : colaboradores.map(col =>
                                                     React.createElement('tr', {
                                                         key: col.usuario_id,
-                                                        className: 'hover:bg-slate-50/80 transition-colors'
+                                                        className: `hover:bg-slate-50/80 transition-colors ${col.pendentes === 0 ? 'bg-emerald-50/20' : ''}`
                                                     },
                                                         React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
-                                                            React.createElement('div', null,
-                                                                React.createElement('p', { className: 'text-sm font-semibold text-slate-900' }, col.usuario_nome),
-                                                                React.createElement('p', { className: 'text-xs text-slate-400' }, col.usuario_login)
+                                                            React.createElement('div', { className: 'flex items-center gap-2' },
+                                                                col.pendentes === 0 && React.createElement('span', { className: 'text-lg', title: 'Disponível' }, '🟢'),
+                                                                React.createElement('div', null,
+                                                                    React.createElement('p', { className: `text-sm font-semibold ${col.pendentes === 0 ? 'text-emerald-700' : 'text-slate-900'}` }, col.usuario_nome),
+                                                                    React.createElement('p', { className: 'text-xs text-slate-400' }, col.usuario_login)
+                                                                )
                                                             )
                                                         ),
                                                         React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },

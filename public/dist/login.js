@@ -131,7 +131,12 @@ function Login() {
             if (response.ok) {
               localStorage.setItem('token', data.token);
               localStorage.setItem('username', data.username);
-              window.location.href = BASE_PATH + '/cotacoes';
+              localStorage.setItem('user', JSON.stringify(data.usuario || {}));
+              if (data.deveTrocarSenha) {
+                window.location.href = BASE_PATH + '/trocar-senha';
+              } else {
+                window.location.href = BASE_PATH + '/cotacoes';
+              }
             } else {
               showToast(data.error || 'Erro ao fazer login', 'error');
             }

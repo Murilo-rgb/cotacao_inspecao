@@ -668,14 +668,17 @@ app.post('/api/gestao/upload', authenticateToken, authorizeRoute('/pme_notas/ges
   }
 });
 
-// Listar tarefas da r_000250
+// Listar tarefas da r_000250 (com nome do usuário atribuído)
 app.get('/api/gestao/tarefas', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
   try {
     const query = `
-      SELECT r.*, c.status AS cotacao_status,
-        CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao
+      SELECT r.*, 
+        c.status AS cotacao_status,
+        CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao,
+        COALESCE(u_dist.nome, c.usuario_login) AS usuario_distribuido_nome
       FROM db_bloco_de_notas.r_000250 r
       LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa
+      LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
       ORDER BY r.dat_criacao DESC
     `;
     
@@ -701,7 +704,8 @@ app.get('/api/gestao/tarefas', authenticateToken, authorizeRoute('/pme_notas/ges
       qtd_reprovacao: row.qtd_reprovacao,
       status_distribuicao: row.status_distribuicao,
       cotacao_status: row.cotacao_status,
-      assumido_por: row.assumido_por
+      assumido_por: row.assumido_por,
+      usuario_distribuido_nome: row.usuario_distribuido_nome || '-'
     }));
     
     res.json(tarefas);
@@ -914,9 +918,26 @@ app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas
 
 // ===== ROTAS DE DASHBOARD E HISTÓRICO =====
 
-// Dashboard - Quantidade por colaborador e status
+// Dashboard - Quantidade por colaborador e status (com filtro opcional por dia e por fila/ilha)
 app.get('/api/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
   try {
+    const { data, fila } = req.query;
+    const conditions = ['u.ativo = true'];
+    const params = [];
+    let paramIndex = 1;
+
+    // Filtro por data (DD/MM/YYYY)
+    if (data && /^\d{2}\/\d{2}\/\d{4}$/.test(data)) {
+      conditions.push(`c.data_da_ultima_atualizacao LIKE $${paramIndex++}`);
+      params.push(`${data}%`);
+    }
+
+    // Filtro por fila/inspeção (nom_fila), normalizando acentos
+    if (fila) {
+      conditions.push(`translate(LOWER(r.nom_fila), 'ãáàâäéèêëíìîïóòôöõúùûüç', 'aaaaaeeeeiiiiooooouuuuc') LIKE $${paramIndex++}`);
+      params.push(`%${fila.toLowerCase()}%`);
+    }
+
     const query = `
       SELECT 
         u.id AS usuario_id,
@@ -928,12 +949,13 @@ app.get('/api/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/g
         COUNT(c.tarefa) AS total
       FROM db_automacao.usuarios u
       INNER JOIN db_bloco_de_notas.cotacao c ON c.usuario_id = u.id::TEXT AND c.validacao = 'Ativo'
-      WHERE u.ativo = true
+      LEFT JOIN db_bloco_de_notas.r_000250 r ON r.cod_tarefa = c.tarefa
+      WHERE ${conditions.join(' AND ')}
       GROUP BY u.id, u.nome, u.login
       ORDER BY u.nome
     `;
     
-    const result = await pool.query(query);
+    const result = await pool.query(query, params);
     
     // Calcular SLA para cada usuário
     const colaboradores = [];
@@ -972,6 +994,13 @@ app.get('/api/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/g
         sla_medio: slaHoras ? slaHoras + 'h' : '-'
       });
     }
+    
+    // Ordenar: pendentes primeiro, depois por nome
+    colaboradores.sort((a, b) => {
+      if (a.pendentes > 0 && b.pendentes === 0) return -1;
+      if (a.pendentes === 0 && b.pendentes > 0) return 1;
+      return a.usuario_nome.localeCompare(b.usuario_nome);
+    });
     
     res.json(colaboradores);
   } catch (error) {

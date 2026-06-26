@@ -227,3 +227,69 @@
 25/06/2026 18:36:01:   tarefa: '22769624'
 25/06/2026 18:36:01: }
 25/06/2026 18:43:34: Servidor rodando em http://localhost:3016
+25/06/2026 19:15:18: Servidor rodando em http://localhost:3016
+26/06/2026 11:35:53: Servidor rodando em http://localhost:3016
+26/06/2026 11:58:07: Servidor rodando em http://localhost:3016
+26/06/2026 12:27:45: [PUT] Atualizando cotação: 22772560
+26/06/2026 12:27:45: [PUT] Usuário: jose.faria
+26/06/2026 12:27:45: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+26/06/2026 12:27:45: [PUT] Linhas afetadas: 1
+26/06/2026 12:27:45: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 12:27:45:   cotacao: 'Q6332898',
+26/06/2026 12:27:45:   anotacao: 'Tarefa: E001 - PME - 21.544.918/0001-71 | Fila: CPC - PME',
+26/06/2026 12:27:45:   status: 'reprovado',
+26/06/2026 12:27:45:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 12:27:45:   data_da_ultima_atualizacao: '26/06/2026 12:27',
+26/06/2026 12:27:45:   usuario_login: 'jose.faria',
+26/06/2026 12:27:45:   validacao: 'Ativo',
+26/06/2026 12:27:45:   usuario_id: '50',
+26/06/2026 12:27:45:   tarefa: '22772560'
+26/06/2026 12:27:45: }
+26/06/2026 12:28:22: [PUT] Atualizando cotação: 22772560
+26/06/2026 12:28:22: [PUT] Usuário: jose.faria
+26/06/2026 12:28:22: [PUT] Dados recebidos: {
+26/06/2026 12:28:22:   anotacao: "> Renovações tratados posteriormente á uma transferência PJ/PJ  necessitam dos Print's de Relatório de Relacionamento CNPJ dos 2 clientes (cedente e cessionário), sendo que do cessionário deve estar com o total de linhas da base, cedidas + linhas que já estavam na base (se for o caso), também deve ser enviado o Anexo de Produtos instalados com todas as linhas, cedidas + linhas que já estavam na base (se for o caso). **Renovação/Transferência PJ/PJ sem Print e Planilha**",
+26/06/2026 12:28:22:   status: 'reprovado'
+26/06/2026 12:28:22: }
+26/06/2026 12:28:22: [PUT] Linhas afetadas: 1
+26/06/2026 12:28:22: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 12:28:22:   cotacao: 'Q6332898',
+26/06/2026 12:28:22:   anotacao: "> Renovações tratados posteriormente á uma transferência PJ/PJ  necessitam dos Print's de Relatório de Relacionamento CNPJ dos 2 clientes (cedente e cessionário), sendo que do cessionário deve estar com o total de linhas da base, cedidas + linhas que já estavam na base (se for o caso), também deve ser enviado o Anexo de Produtos instalados com todas as linhas, cedidas + linhas que já estavam na base (se for o caso). **Renovação/Transferência PJ/PJ sem Print e Planilha**",
+26/06/2026 12:28:22:   status: 'reprovado',
+26/06/2026 12:28:22:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 12:28:22:   data_da_ultima_atualizacao: '26/06/2026 12:28',
+26/06/2026 12:28:22:   usuario_login: 'jose.faria',
+26/06/2026 12:28:22:   validacao: 'Ativo',
+26/06/2026 12:28:22:   usuario_id: '50',
+26/06/2026 12:28:22:   tarefa: '22772560'
+26/06/2026 12:28:22: }
+26/06/2026 12:31:02: [GESTAO] Upload recebido: R_000250_1426239.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+26/06/2026 12:31:02: --- INICIANDO ETL R_000250 ---
+26/06/2026 12:31:02: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+26/06/2026 12:31:02: Delimitador detectado: ";"
+26/06/2026 12:31:02: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+26/06/2026 12:31:02: Tabela verificada/criada.
+26/06/2026 12:31:02: Dados antigos removidos.
+26/06/2026 12:31:02: Dados carregados com sucesso via COPY.
+26/06/2026 12:31:02: --- ETL R_000250 CONCLUÍDO: 451 registros ---
+26/06/2026 12:31:02: [CLASSIFICACAO] Conectado ao banco de dados.
+26/06/2026 12:31:02: [CLASSIFICACAO] 17 cotações classificadas.
+26/06/2026 12:31:02: [CLASSIFICACAO] Cotações atualizadas:
+26/06/2026 12:31:02:   - Tarefa: 22772911 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772814 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772784 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772778 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772676 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772514 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772488 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772348 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772333 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772461 | Usuário: yasmin.rodriguessilv
+26/06/2026 12:31:02:   - Tarefa: 22772357 | Usuário: yasmin.rodriguessilv
+26/06/2026 12:31:02:   - Tarefa: 22771545 | Usuário: carmen.castro
+26/06/2026 12:31:02:   - Tarefa: 22770979 | Usuário: carmen.castro
+26/06/2026 12:31:02:   - Tarefa: 22769624 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772667 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772648 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772643 | Usuário: jose.faria
+26/06/2026 12:31:02: [CLASSIFICACAO] Total "Pendente - Classificação": 84

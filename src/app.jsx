@@ -115,6 +115,10 @@ function App() {
     const [username, setUsername] = useState('');
     const [toast, setToast] = useState(null);
     const [dateStart, setDateStart] = useState('');
+    const [reprovaModalOpen, setReprovaModalOpen] = useState(false);
+    const [reprovaSearch, setReprovaSearch] = useState('');
+    const [reprovaResults, setReprovaResults] = useState([]);
+    const [reprovaLoading, setReprovaLoading] = useState(false);
 
     useEffect(() => {
         const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
@@ -291,6 +295,41 @@ function App() {
         }
     };
 
+    useEffect(() => {
+        let ignore = false;
+        let timer;
+        const loadReprovas = async () => {
+            if (!reprovaModalOpen) return;
+            const termo = reprovaSearch.trim();
+            if (!termo) {
+                setReprovaResults([]);
+                setReprovaLoading(false);
+                return;
+            }
+            setReprovaLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+                const url = `${BASE_PATH}/api/reprovas?termo=${encodeURIComponent(termo)}`;
+                const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (!response.ok) throw new Error('Falha ao buscar reprovas');
+                const data = await response.json();
+                if (!ignore) setReprovaResults(data);
+            } catch (error) {
+                if (!ignore) setReprovaResults([]);
+            } finally {
+                if (!ignore) setReprovaLoading(false);
+            }
+        };
+        if (reprovaModalOpen) {
+            timer = setTimeout(loadReprovas, 300);
+        }
+        return () => {
+            ignore = true;
+            if (timer) clearTimeout(timer);
+        };
+    }, [reprovaSearch, reprovaModalOpen]);
+
     const filteredQuotations = quotations.filter(q => {
         const matchesSearch = !searchTerm ||
             q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -364,7 +403,7 @@ function App() {
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 0 1-2 2z" />
                                 </svg>
                             </div>
                             <div>
@@ -425,6 +464,10 @@ function App() {
                     <button onClick={() => { setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setShowModal(true); }}
                         className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
                         <PlusIcon /> Nova cotação
+                    </button>
+                    <button onClick={() => { setReprovaModalOpen(true); setReprovaSearch(''); setReprovaResults([]); }}
+                        className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 focus:ring-4 focus:ring-amber-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
+                        <SearchIcon /> Reprova Padrão
                     </button>
                 </div>
 
@@ -579,6 +622,48 @@ function App() {
             )}
 
             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+
+            {reprovaModalOpen && (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) { setReprovaModalOpen(false); setReprovaSearch(''); setReprovaResults([]); } }}>
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-3xl shadow-2xl modal-content max-h-[75vh] flex flex-col">
+                        <div className="flex items-center justify-between mb-5">
+                            <h2 className="text-lg font-bold text-slate-800">Reprova Padrão</h2>
+                            <button onClick={() => { setReprovaModalOpen(false); setReprovaSearch(''); setReprovaResults([]); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
+                        </div>
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="relative flex-1 group">
+                                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"><SearchIcon /></div>
+                                <input type="text" value={reprovaSearch} onChange={(e) => setReprovaSearch(e.target.value)} placeholder="Buscar motivo ou texto de reprova..." autoFocus
+                                    className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
+                            </div>
+                        </div>
+                        <div className="overflow-y-auto flex-1 rounded-xl border border-slate-200">
+                            <table className="min-w-full divide-y divide-slate-200">
+                                <thead className="bg-slate-50">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Motivo</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Reprova</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-slate-100">
+                                    {reprovaLoading ? (
+                                        <tr><td className="px-4 py-4 text-sm text-slate-500" colSpan="2">Carregando...</td></tr>
+                                    ) : reprovaResults.length === 0 ? (
+                                        <tr><td className="px-4 py-8 text-sm text-slate-500 text-center" colSpan="2">{reprovaSearch ? 'Nenhum registro encontrado' : 'Digite para buscar motivos de reprova.'}</td></tr>
+                                    ) : (
+                                        reprovaResults.map((item, idx) => (
+                                            <tr key={item.id ?? idx} className="hover:bg-slate-50/80 transition-colors duration-150">
+                                                <td className="px-4 py-3 text-sm text-slate-900 font-semibold whitespace-nowrap">{item.motivo}</td>
+                                                <td className="px-4 py-3 text-sm text-slate-600 whitespace-pre-wrap break-words">{item.texto_reprova}</td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
