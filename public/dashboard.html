@@ -157,6 +157,7 @@
             };
 
             const totalPendentes = colaboradores.reduce((s, c) => s + (c.pendentes || 0), 0);
+            const totalTratados = colaboradores.reduce((s, c) => s + (c.tratados || 0), 0);
             const totalAprovados = colaboradores.reduce((s, c) => s + (c.aprovados || 0), 0);
             const totalReprovados = colaboradores.reduce((s, c) => s + (c.reprovados || 0), 0);
             const totalGeral = colaboradores.reduce((s, c) => s + (c.total || 0), 0);
@@ -253,16 +254,16 @@
                                 React.createElement('p', { className: 'text-2xl font-bold text-amber-700 mt-1' }, totalPendentes)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-sm font-medium text-indigo-600' }, 'Tratados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-indigo-700 mt-1' }, totalTratados)
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
                                 React.createElement('p', { className: 'text-sm font-medium text-emerald-600' }, 'Aprovados'),
                                 React.createElement('p', { className: 'text-2xl font-bold text-emerald-700 mt-1' }, totalAprovados)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
                                 React.createElement('p', { className: 'text-sm font-medium text-red-600' }, 'Reprovados'),
                                 React.createElement('p', { className: 'text-2xl font-bold text-red-700 mt-1' }, totalReprovados)
-                            ),
-                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-sm font-medium text-indigo-600' }, 'Tratados'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-indigo-700 mt-1' }, totalAprovados + totalReprovados)
                             )
                         ),
 
@@ -285,8 +286,7 @@
                                             React.createElement('tr', null,
                                                 React.createElement('th', { className: 'px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Colaborador'),
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-amber-600 uppercase tracking-wider' }, 'Pendente'),
-                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-emerald-600 uppercase tracking-wider' }, 'Aprovado'),
-                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-red-600 uppercase tracking-wider' }, 'Reprovado'),
+                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-indigo-600 uppercase tracking-wider' }, 'Tratados'),
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Total'),
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'SLA Médio')
                                             )
@@ -294,20 +294,21 @@
                                         React.createElement('tbody', { className: 'bg-white divide-y divide-slate-100' },
                                             colaboradores.length === 0
                                                 ? React.createElement('tr', null,
-                                                    React.createElement('td', { colSpan: 6, className: 'px-6 py-8 text-center text-sm text-slate-400' },
+                                                    React.createElement('td', { colSpan: 7, className: 'px-6 py-8 text-center text-sm text-slate-400' },
                                                         'Nenhum dado disponível'
                                                     )
                                                   )
-                                                : colaboradores.map(col =>
-                                                    React.createElement('tr', {
+                                                : colaboradores.map(col => {
+                                                    const precisaDistribuir = col.pendentes === 0 && (col.tratados || 0) === 0;
+                                                    return React.createElement('tr', {
                                                         key: col.usuario_id,
-                                                        className: `hover:bg-slate-50/80 transition-colors ${col.pendentes === 0 ? 'bg-emerald-50/20' : ''}`
+                                                        className: `hover:bg-slate-50/80 transition-colors ${precisaDistribuir ? 'bg-amber-50/30' : ''}`
                                                     },
                                                         React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
                                                             React.createElement('div', { className: 'flex items-center gap-2' },
                                                                 col.pendentes === 0 && React.createElement('span', { className: 'text-lg', title: 'Disponível' }, '🟢'),
                                                                 React.createElement('div', null,
-                                                                    React.createElement('p', { className: `text-sm font-semibold ${col.pendentes === 0 ? 'text-emerald-700' : 'text-slate-900'}` }, col.usuario_nome),
+                                                                    React.createElement('p', { className: `text-sm font-semibold ${precisaDistribuir ? 'text-amber-700' : col.pendentes === 0 ? 'text-emerald-700' : 'text-slate-900'}` }, col.usuario_nome),
                                                                     React.createElement('p', { className: 'text-xs text-slate-400' }, col.usuario_login)
                                                                 )
                                                             )
@@ -316,10 +317,7 @@
                                                             React.createElement('span', { className: 'text-sm font-bold text-amber-600' }, col.pendentes)
                                                         ),
                                                         React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
-                                                            React.createElement('span', { className: 'text-sm font-bold text-emerald-600' }, col.aprovados)
-                                                        ),
-                                                        React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
-                                                            React.createElement('span', { className: 'text-sm font-bold text-red-600' }, col.reprovados)
+                                                            React.createElement('span', { className: 'text-sm font-bold text-indigo-600' }, col.tratados || 0)
                                                         ),
                                                         React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
                                                             React.createElement('span', { className: 'text-sm font-bold text-slate-700' }, col.total)
@@ -327,8 +325,8 @@
                                                         React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
                                                             React.createElement('span', { className: 'text-sm font-medium text-slate-600' }, col.sla_medio)
                                                         )
-                                                    )
-                                                  )
+                                                    );
+                                                })
                                         )
                                     )
                                 )

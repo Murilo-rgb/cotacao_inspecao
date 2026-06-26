@@ -1,0 +1,575 @@
+26/06/2026 15:08:11: [DASHBOARD] Erro: error: relation "gp.listafuncionarios" does not exist
+26/06/2026 15:08:11:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:08:11:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:08:11:     at async E:\projetos_hitss\geo-pme-notas\server.js:959:20 {
+26/06/2026 15:08:11:   length: 120,
+26/06/2026 15:08:11:   severity: 'ERROR',
+26/06/2026 15:08:11:   code: '42P01',
+26/06/2026 15:08:11:   detail: undefined,
+26/06/2026 15:08:11:   hint: undefined,
+26/06/2026 15:08:11:   position: '323',
+26/06/2026 15:08:11:   internalPosition: undefined,
+26/06/2026 15:08:11:   internalQuery: undefined,
+26/06/2026 15:08:11:   where: undefined,
+26/06/2026 15:08:11:   schema: undefined,
+26/06/2026 15:08:11:   table: undefined,
+26/06/2026 15:08:11:   column: undefined,
+26/06/2026 15:08:11:   dataType: undefined,
+26/06/2026 15:08:11:   constraint: undefined,
+26/06/2026 15:08:11:   file: 'parse_relation.c',
+26/06/2026 15:08:11:   line: '1360',
+26/06/2026 15:08:11:   routine: 'parserOpenTable'
+26/06/2026 15:08:11: }
+26/06/2026 15:08:15: [DASHBOARD] Erro: error: relation "gp.listafuncionarios" does not exist
+26/06/2026 15:08:15:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:08:15:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:08:15:     at async E:\projetos_hitss\geo-pme-notas\server.js:959:20 {
+26/06/2026 15:08:15:   length: 120,
+26/06/2026 15:08:15:   severity: 'ERROR',
+26/06/2026 15:08:15:   code: '42P01',
+26/06/2026 15:08:15:   detail: undefined,
+26/06/2026 15:08:15:   hint: undefined,
+26/06/2026 15:08:15:   position: '323',
+26/06/2026 15:08:15:   internalPosition: undefined,
+26/06/2026 15:08:15:   internalQuery: undefined,
+26/06/2026 15:08:15:   where: undefined,
+26/06/2026 15:08:15:   schema: undefined,
+26/06/2026 15:08:15:   table: undefined,
+26/06/2026 15:08:15:   column: undefined,
+26/06/2026 15:08:15:   dataType: undefined,
+26/06/2026 15:08:15:   constraint: undefined,
+26/06/2026 15:08:15:   file: 'parse_relation.c',
+26/06/2026 15:08:15:   line: '1360',
+26/06/2026 15:08:15:   routine: 'parserOpenTable'
+26/06/2026 15:08:15: }
+26/06/2026 15:08:18: [DASHBOARD] Erro: error: relation "gp.listafuncionarios" does not exist
+26/06/2026 15:08:18:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:08:18:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:08:18:     at async E:\projetos_hitss\geo-pme-notas\server.js:959:20 {
+26/06/2026 15:08:18:   length: 120,
+26/06/2026 15:08:18:   severity: 'ERROR',
+26/06/2026 15:08:18:   code: '42P01',
+26/06/2026 15:08:18:   detail: undefined,
+26/06/2026 15:08:18:   hint: undefined,
+26/06/2026 15:08:18:   position: '323',
+26/06/2026 15:08:18:   internalPosition: undefined,
+26/06/2026 15:08:18:   internalQuery: undefined,
+26/06/2026 15:08:18:   where: undefined,
+26/06/2026 15:08:18:   schema: undefined,
+26/06/2026 15:08:18:   table: undefined,
+26/06/2026 15:08:18:   column: undefined,
+26/06/2026 15:08:18:   dataType: undefined,
+26/06/2026 15:08:18:   constraint: undefined,
+26/06/2026 15:08:18:   file: 'parse_relation.c',
+26/06/2026 15:08:18:   line: '1360',
+26/06/2026 15:08:18:   routine: 'parserOpenTable'
+26/06/2026 15:08:18: }
+26/06/2026 15:08:51: [DASHBOARD] Erro: error: relation "gp.listafuncionarios" does not exist
+26/06/2026 15:08:51:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:08:51:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:08:51:     at async E:\projetos_hitss\geo-pme-notas\server.js:959:20 {
+26/06/2026 15:08:51:   length: 120,
+26/06/2026 15:08:51:   severity: 'ERROR',
+26/06/2026 15:08:51:   code: '42P01',
+26/06/2026 15:08:51:   detail: undefined,
+26/06/2026 15:08:51:   hint: undefined,
+26/06/2026 15:08:51:   position: '323',
+26/06/2026 15:08:51:   internalPosition: undefined,
+26/06/2026 15:08:51:   internalQuery: undefined,
+26/06/2026 15:08:51:   where: undefined,
+26/06/2026 15:08:51:   schema: undefined,
+26/06/2026 15:08:51:   table: undefined,
+26/06/2026 15:08:51:   column: undefined,
+26/06/2026 15:08:51:   dataType: undefined,
+26/06/2026 15:08:51:   constraint: undefined,
+26/06/2026 15:08:51:   file: 'parse_relation.c',
+26/06/2026 15:08:51:   line: '1360',
+26/06/2026 15:08:51:   routine: 'parserOpenTable'
+26/06/2026 15:08:51: }
+26/06/2026 15:20:04: [DASHBOARD] Erro: error: relation "gp.listafuncionarios" does not exist
+26/06/2026 15:20:04:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:20:04:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:20:04:     at async E:\projetos_hitss\geo-pme-notas\server.js:959:20 {
+26/06/2026 15:20:04:   length: 120,
+26/06/2026 15:20:04:   severity: 'ERROR',
+26/06/2026 15:20:04:   code: '42P01',
+26/06/2026 15:20:04:   detail: undefined,
+26/06/2026 15:20:04:   hint: undefined,
+26/06/2026 15:20:04:   position: '323',
+26/06/2026 15:20:04:   internalPosition: undefined,
+26/06/2026 15:20:04:   internalQuery: undefined,
+26/06/2026 15:20:04:   where: undefined,
+26/06/2026 15:20:04:   schema: undefined,
+26/06/2026 15:20:04:   table: undefined,
+26/06/2026 15:20:04:   column: undefined,
+26/06/2026 15:20:04:   dataType: undefined,
+26/06/2026 15:20:04:   constraint: undefined,
+26/06/2026 15:20:04:   file: 'parse_relation.c',
+26/06/2026 15:20:04:   line: '1360',
+26/06/2026 15:20:04:   routine: 'parserOpenTable'
+26/06/2026 15:20:04: }
+26/06/2026 15:30:40: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:30:40:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:30:40:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:30:40:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:30:40:   length: 112,
+26/06/2026 15:30:40:   severity: 'ERROR',
+26/06/2026 15:30:40:   code: '42P01',
+26/06/2026 15:30:40:   detail: undefined,
+26/06/2026 15:30:40:   hint: undefined,
+26/06/2026 15:30:40:   position: '96',
+26/06/2026 15:30:40:   internalPosition: undefined,
+26/06/2026 15:30:40:   internalQuery: undefined,
+26/06/2026 15:30:40:   where: undefined,
+26/06/2026 15:30:40:   schema: undefined,
+26/06/2026 15:30:40:   table: undefined,
+26/06/2026 15:30:40:   column: undefined,
+26/06/2026 15:30:40:   dataType: undefined,
+26/06/2026 15:30:40:   constraint: undefined,
+26/06/2026 15:30:40:   file: 'parse_relation.c',
+26/06/2026 15:30:40:   line: '3599',
+26/06/2026 15:30:40:   routine: 'errorMissingRTE'
+26/06/2026 15:30:40: }
+26/06/2026 15:30:48: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:30:48:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:30:48:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:30:48:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:30:48:   length: 112,
+26/06/2026 15:30:48:   severity: 'ERROR',
+26/06/2026 15:30:48:   code: '42P01',
+26/06/2026 15:30:48:   detail: undefined,
+26/06/2026 15:30:48:   hint: undefined,
+26/06/2026 15:30:48:   position: '96',
+26/06/2026 15:30:48:   internalPosition: undefined,
+26/06/2026 15:30:48:   internalQuery: undefined,
+26/06/2026 15:30:48:   where: undefined,
+26/06/2026 15:30:48:   schema: undefined,
+26/06/2026 15:30:48:   table: undefined,
+26/06/2026 15:30:48:   column: undefined,
+26/06/2026 15:30:48:   dataType: undefined,
+26/06/2026 15:30:48:   constraint: undefined,
+26/06/2026 15:30:48:   file: 'parse_relation.c',
+26/06/2026 15:30:48:   line: '3599',
+26/06/2026 15:30:48:   routine: 'errorMissingRTE'
+26/06/2026 15:30:48: }
+26/06/2026 15:31:28: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:31:28:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:31:28:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:31:28:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:31:28:   length: 112,
+26/06/2026 15:31:28:   severity: 'ERROR',
+26/06/2026 15:31:28:   code: '42P01',
+26/06/2026 15:31:28:   detail: undefined,
+26/06/2026 15:31:28:   hint: undefined,
+26/06/2026 15:31:28:   position: '96',
+26/06/2026 15:31:28:   internalPosition: undefined,
+26/06/2026 15:31:28:   internalQuery: undefined,
+26/06/2026 15:31:28:   where: undefined,
+26/06/2026 15:31:28:   schema: undefined,
+26/06/2026 15:31:28:   table: undefined,
+26/06/2026 15:31:28:   column: undefined,
+26/06/2026 15:31:28:   dataType: undefined,
+26/06/2026 15:31:28:   constraint: undefined,
+26/06/2026 15:31:28:   file: 'parse_relation.c',
+26/06/2026 15:31:28:   line: '3599',
+26/06/2026 15:31:28:   routine: 'errorMissingRTE'
+26/06/2026 15:31:28: }
+26/06/2026 15:45:01: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:45:01:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:45:01:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:45:01:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:45:01:   length: 112,
+26/06/2026 15:45:01:   severity: 'ERROR',
+26/06/2026 15:45:01:   code: '42P01',
+26/06/2026 15:45:01:   detail: undefined,
+26/06/2026 15:45:01:   hint: undefined,
+26/06/2026 15:45:01:   position: '96',
+26/06/2026 15:45:01:   internalPosition: undefined,
+26/06/2026 15:45:01:   internalQuery: undefined,
+26/06/2026 15:45:01:   where: undefined,
+26/06/2026 15:45:01:   schema: undefined,
+26/06/2026 15:45:01:   table: undefined,
+26/06/2026 15:45:01:   column: undefined,
+26/06/2026 15:45:01:   dataType: undefined,
+26/06/2026 15:45:01:   constraint: undefined,
+26/06/2026 15:45:01:   file: 'parse_relation.c',
+26/06/2026 15:45:01:   line: '3599',
+26/06/2026 15:45:01:   routine: 'errorMissingRTE'
+26/06/2026 15:45:01: }
+26/06/2026 15:45:06: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:45:06:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:45:06:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:45:06:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:45:06:   length: 112,
+26/06/2026 15:45:06:   severity: 'ERROR',
+26/06/2026 15:45:06:   code: '42P01',
+26/06/2026 15:45:06:   detail: undefined,
+26/06/2026 15:45:06:   hint: undefined,
+26/06/2026 15:45:06:   position: '96',
+26/06/2026 15:45:06:   internalPosition: undefined,
+26/06/2026 15:45:06:   internalQuery: undefined,
+26/06/2026 15:45:06:   where: undefined,
+26/06/2026 15:45:06:   schema: undefined,
+26/06/2026 15:45:06:   table: undefined,
+26/06/2026 15:45:06:   column: undefined,
+26/06/2026 15:45:06:   dataType: undefined,
+26/06/2026 15:45:06:   constraint: undefined,
+26/06/2026 15:45:06:   file: 'parse_relation.c',
+26/06/2026 15:45:06:   line: '3599',
+26/06/2026 15:45:06:   routine: 'errorMissingRTE'
+26/06/2026 15:45:06: }
+26/06/2026 15:46:13: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:46:13:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:46:13:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:46:13:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:46:13:   length: 112,
+26/06/2026 15:46:13:   severity: 'ERROR',
+26/06/2026 15:46:13:   code: '42P01',
+26/06/2026 15:46:13:   detail: undefined,
+26/06/2026 15:46:13:   hint: undefined,
+26/06/2026 15:46:13:   position: '96',
+26/06/2026 15:46:13:   internalPosition: undefined,
+26/06/2026 15:46:13:   internalQuery: undefined,
+26/06/2026 15:46:13:   where: undefined,
+26/06/2026 15:46:13:   schema: undefined,
+26/06/2026 15:46:13:   table: undefined,
+26/06/2026 15:46:13:   column: undefined,
+26/06/2026 15:46:13:   dataType: undefined,
+26/06/2026 15:46:13:   constraint: undefined,
+26/06/2026 15:46:13:   file: 'parse_relation.c',
+26/06/2026 15:46:13:   line: '3599',
+26/06/2026 15:46:13:   routine: 'errorMissingRTE'
+26/06/2026 15:46:13: }
+26/06/2026 15:46:20: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:46:20:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:46:20:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:46:20:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:46:20:   length: 112,
+26/06/2026 15:46:20:   severity: 'ERROR',
+26/06/2026 15:46:20:   code: '42P01',
+26/06/2026 15:46:20:   detail: undefined,
+26/06/2026 15:46:20:   hint: undefined,
+26/06/2026 15:46:20:   position: '96',
+26/06/2026 15:46:20:   internalPosition: undefined,
+26/06/2026 15:46:20:   internalQuery: undefined,
+26/06/2026 15:46:20:   where: undefined,
+26/06/2026 15:46:20:   schema: undefined,
+26/06/2026 15:46:20:   table: undefined,
+26/06/2026 15:46:20:   column: undefined,
+26/06/2026 15:46:20:   dataType: undefined,
+26/06/2026 15:46:20:   constraint: undefined,
+26/06/2026 15:46:20:   file: 'parse_relation.c',
+26/06/2026 15:46:20:   line: '3599',
+26/06/2026 15:46:20:   routine: 'errorMissingRTE'
+26/06/2026 15:46:20: }
+26/06/2026 15:46:23: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:46:23:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:46:23:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:46:23:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:46:23:   length: 112,
+26/06/2026 15:46:23:   severity: 'ERROR',
+26/06/2026 15:46:23:   code: '42P01',
+26/06/2026 15:46:23:   detail: undefined,
+26/06/2026 15:46:23:   hint: undefined,
+26/06/2026 15:46:23:   position: '96',
+26/06/2026 15:46:23:   internalPosition: undefined,
+26/06/2026 15:46:23:   internalQuery: undefined,
+26/06/2026 15:46:23:   where: undefined,
+26/06/2026 15:46:23:   schema: undefined,
+26/06/2026 15:46:23:   table: undefined,
+26/06/2026 15:46:23:   column: undefined,
+26/06/2026 15:46:23:   dataType: undefined,
+26/06/2026 15:46:23:   constraint: undefined,
+26/06/2026 15:46:23:   file: 'parse_relation.c',
+26/06/2026 15:46:23:   line: '3599',
+26/06/2026 15:46:23:   routine: 'errorMissingRTE'
+26/06/2026 15:46:23: }
+26/06/2026 15:46:27: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:46:27:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:46:27:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:46:27:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:46:27:   length: 112,
+26/06/2026 15:46:27:   severity: 'ERROR',
+26/06/2026 15:46:27:   code: '42P01',
+26/06/2026 15:46:27:   detail: undefined,
+26/06/2026 15:46:27:   hint: undefined,
+26/06/2026 15:46:27:   position: '96',
+26/06/2026 15:46:27:   internalPosition: undefined,
+26/06/2026 15:46:27:   internalQuery: undefined,
+26/06/2026 15:46:27:   where: undefined,
+26/06/2026 15:46:27:   schema: undefined,
+26/06/2026 15:46:27:   table: undefined,
+26/06/2026 15:46:27:   column: undefined,
+26/06/2026 15:46:27:   dataType: undefined,
+26/06/2026 15:46:27:   constraint: undefined,
+26/06/2026 15:46:27:   file: 'parse_relation.c',
+26/06/2026 15:46:27:   line: '3599',
+26/06/2026 15:46:27:   routine: 'errorMissingRTE'
+26/06/2026 15:46:27: }
+26/06/2026 15:46:53: [DASHBOARD] Erro: error: missing FROM-clause entry for table "c"
+26/06/2026 15:46:53:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+26/06/2026 15:46:53:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+26/06/2026 15:46:53:     at async E:\projetos_hitss\geo-pme-notas\server.js:938:20 {
+26/06/2026 15:46:53:   length: 112,
+26/06/2026 15:46:53:   severity: 'ERROR',
+26/06/2026 15:46:53:   code: '42P01',
+26/06/2026 15:46:53:   detail: undefined,
+26/06/2026 15:46:53:   hint: undefined,
+26/06/2026 15:46:53:   position: '96',
+26/06/2026 15:46:53:   internalPosition: undefined,
+26/06/2026 15:46:53:   internalQuery: undefined,
+26/06/2026 15:46:53:   where: undefined,
+26/06/2026 15:46:53:   schema: undefined,
+26/06/2026 15:46:53:   table: undefined,
+26/06/2026 15:46:53:   column: undefined,
+26/06/2026 15:46:53:   dataType: undefined,
+26/06/2026 15:46:53:   constraint: undefined,
+26/06/2026 15:46:53:   file: 'parse_relation.c',
+26/06/2026 15:46:53:   line: '3599',
+26/06/2026 15:46:53:   routine: 'errorMissingRTE'
+26/06/2026 15:46:53: }
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+26/06/2026 15:52:57: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+26/06/2026 15:53:53: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+26/06/2026 15:53:53: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+26/06/2026 15:53:54: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+26/06/2026 15:53:57: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+26/06/2026 15:58:11: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+26/06/2026 16:16:46: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+26/06/2026 16:16:47: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+26/06/2026 16:16:57: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+26/06/2026 16:16:59: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text

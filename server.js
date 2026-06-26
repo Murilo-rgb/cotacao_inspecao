@@ -921,75 +921,57 @@ app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas
 // Dashboard - Quantidade por colaborador e status (com filtro opcional por dia e por fila/ilha)
 app.get('/api/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
   try {
-    const { data, fila } = req.query;
-    const conditions = ['u.ativo = true'];
-    const params = [];
-    let paramIndex = 1;
-
-    // Filtro por data (DD/MM/YYYY)
-    if (data && /^\d{2}\/\d{2}\/\d{4}$/.test(data)) {
-      conditions.push(`c.data_da_ultima_atualizacao LIKE $${paramIndex++}`);
-      params.push(`${data}%`);
-    }
-
-    // Filtro por fila/inspeção (nom_fila), normalizando acentos
-    if (fila) {
-      conditions.push(`translate(LOWER(r.nom_fila), 'ãáàâäéèêëíìîïóòôöõúùûüç', 'aaaaaeeeeiiiiooooouuuuc') LIKE $${paramIndex++}`);
-      params.push(`%${fila.toLowerCase()}%`);
-    }
-
     const query = `
       SELECT 
-        u.id AS usuario_id,
-        u.nome AS usuario_nome,
-        u.login AS usuario_login,
-        COUNT(c.tarefa) FILTER (WHERE c.status = 'pendente' OR c.status IS NULL OR c.status LIKE 'pendente-%' OR c.status = 'Pendente - Classificação') AS pendentes,
-        COUNT(c.tarefa) FILTER (WHERE c.status = 'aprovado') AS aprovados,
-        COUNT(c.tarefa) FILTER (WHERE c.status = 'reprovado') AS reprovados,
+        l.login AS usuario_login,
+        l.nome AS usuario_nome,
+        COUNT(c.tarefa) FILTER (WHERE c.status = 'pendente' OR c.status IS NULL) AS pendentes,
+        COUNT(c.tarefa) FILTER (WHERE c.status IS NOT NULL AND c.status != 'pendente') AS tratados,
         COUNT(c.tarefa) AS total
-      FROM db_automacao.usuarios u
-      INNER JOIN db_bloco_de_notas.cotacao c ON c.usuario_id = u.id::TEXT AND c.validacao = 'Ativo'
-      LEFT JOIN db_bloco_de_notas.r_000250 r ON r.cod_tarefa = c.tarefa
-      WHERE ${conditions.join(' AND ')}
-      GROUP BY u.id, u.nome, u.login
-      ORDER BY u.nome
+      FROM db_gp.listafuncionarios l
+      RIGHT JOIN db_automacao.usuarios u ON u.login = l.login
+      left join db_bloco_de_notas.cotacao c 
+      on c.usuario_id::text = u.id::text
+      WHERE l.ilha ILIKE '%ins%' AND l.ativo = true
+      GROUP BY l.login, l.nome
+      ORDER BY l.nome
     `;
     
-    const result = await pool.query(query, params);
+    const result = await pool.query(query);
     
-    // Calcular SLA para cada usuário
+    // Buscar SLA médio (considerando apenas tratados)
     const colaboradores = [];
     for (const row of result.rows) {
-      // Buscar SLA médio (diferença entre data de criação e última atualização)
-      // As datas estão em formato brasileiro DD/MM/YYYY HH24:MI, converter para timestamp
       let slaHoras = null;
       try {
         const slaRes = await pool.query(`
           SELECT AVG(
             EXTRACT(EPOCH FROM (
-              TO_TIMESTAMP(data_da_ultima_atualizacao, 'DD/MM/YYYY HH24:MI') - 
-              TO_TIMESTAMP(data_de_criacao, 'DD/MM/YYYY HH24:MI')
+              data_da_ultima_atualizacao - data_de_criacao
             )) / 3600
           ) AS sla_medio
-          FROM db_bloco_de_notas.cotacao 
-          WHERE usuario_id = $1 
-            AND validacao = 'Ativo' 
-            AND status IS NOT NULL AND status != '' AND status != 'pendente' AND status NOT LIKE 'pendente-%'
-            AND data_de_criacao ~ '^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$'
-            AND data_da_ultima_atualizacao ~ '^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$'
-        `, [row.usuario_id]);
+          FROM db_bloco_de_notas.cotacao c
+          INNER JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id
+          WHERE u.login = $1 
+            AND c.validacao = 'Ativo' 
+            AND c.status != 'pendente' AND c.status IS NOT NULL AND c.status != ''
+        `, [row.usuario_login]);
         slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
       } catch (slaErr) {
-        console.error('[DASHBOARD SLA] Erro para usuario', row.usuario_id, ':', slaErr.message);
+        console.error('[DASHBOARD SLA] Erro para usuario', row.usuario_login, ':', slaErr.message);
       }
       
+      const pendentes = parseInt(row.pendentes);
+      const tratados = parseInt(row.tratados);
+      
       colaboradores.push({
-        usuario_id: row.usuario_id,
+        usuario_id: null,
         usuario_nome: row.usuario_nome,
         usuario_login: row.usuario_login,
-        pendentes: parseInt(row.pendentes),
-        aprovados: parseInt(row.aprovados),
-        reprovados: parseInt(row.reprovados),
+        pendentes,
+        tratados,
+        aprovados: 0,
+        reprovados: 0,
         total: parseInt(row.total),
         sla_medio: slaHoras ? slaHoras + 'h' : '-'
       });
@@ -1206,6 +1188,162 @@ app.get('/devolucoes-padrao', authenticateToken, (req, res) => {
 
 app.get('/pme_notas/devolucoes-padrao', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao_web.html'));
+});
+
+// ===== ROTAS DE QUALIDADE (auditoria_qualidade) =====
+
+// API: Listar todas as cotações para auditoria de qualidade
+app.get('/api/qualidade', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart } = req.query;
+    let query = "SELECT c.* FROM db_bloco_de_notas.cotacao c WHERE c.validacao = 'Ativo'";
+    const params = [];
+    let paramIndex = 1;
+
+    if (search && search.trim()) {
+      query += ` AND LOWER(c.usuario_login) LIKE LOWER($${paramIndex})`;
+      params.push(`%${search.trim()}%`);
+      paramIndex++;
+    }
+
+    if (dateStart) {
+      const [year, month, day] = dateStart.split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
+
+    query += ' ORDER BY c.data_de_criacao DESC';
+
+    const result = await pool.query(query, params);
+
+    // Para cada cotação, verificar se já existe auditoria
+    const rows = await Promise.all(result.rows.map(async (row) => {
+      let auditoria = null;
+      try {
+        const auditRes = await pool.query(
+          'SELECT anotacao, status FROM db_bloco_de_notas.auditoria_qualidade WHERE cotacao = $1',
+          [row.cotacao]
+        );
+        if (auditRes.rows.length > 0) {
+          auditoria = {
+            anotacao: auditRes.rows[0].anotacao,
+            status: auditRes.rows[0].status
+          };
+        }
+      } catch (e) {
+        // Tabela pode não existir ainda
+      }
+
+      return {
+        tarefa: row.tarefa,
+        cotacao: row.cotacao,
+        anotacao: row.anotacao,
+        status: row.status,
+        validacao: row.validacao,
+        data_de_criacao: formatDateBR(row.data_de_criacao),
+        data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
+        usuario_login: row.usuario_login,
+        usuario_id: row.usuario_id,
+        auditoria
+      };
+    }));
+
+    res.json(rows);
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao listar cotações:', error);
+    res.status(500).json({ error: 'Erro ao listar cotações para auditoria' });
+  }
+});
+
+// API: Salvar auditoria de qualidade (insere ou atualiza na auditoria_qualidade)
+app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
+  try {
+    const { cotacao, anotacao, status } = req.body;
+
+    if (!cotacao) {
+      return res.status(400).json({ error: 'Cotação é obrigatória' });
+    }
+
+    if (!status) {
+      return res.status(400).json({ error: 'Status é obrigatório' });
+    }
+
+    const statusPermitidos = ['Aprovado', 'Reprova indevida', 'Reprovado'];
+    if (!statusPermitidos.includes(status)) {
+      return res.status(400).json({ error: 'Status inválido. Use: Aprovado, Reprova indevida ou Reprovado' });
+    }
+
+    // Verificar se já existe auditoria para esta cotação
+    const checkRes = await pool.query(
+      'SELECT 1 FROM db_bloco_de_notas.auditoria_qualidade WHERE cotacao = $1',
+      [cotacao]
+    );
+
+    if (checkRes.rows.length > 0) {
+      // Atualizar
+      await pool.query(
+        'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = $1, status = $2 WHERE cotacao = $3',
+        [anotacao || '', status, cotacao]
+      );
+    } else {
+      // Inserir
+      await pool.query(
+        'INSERT INTO db_bloco_de_notas.auditoria_qualidade (cotacao, anotacao, status) VALUES ($1, $2, $3)',
+        [cotacao, anotacao || '', status]
+      );
+    }
+
+    // Atualizar o status na tabela cotacao também
+    await pool.query(
+      "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE cotacao = $3 AND validacao = 'Ativo'",
+      [status.toLowerCase(), formatDateBR(new Date()), cotacao]
+    );
+
+    res.json({
+      success: true,
+      message: 'Auditoria salva com sucesso',
+      cotacao,
+      anotacao: anotacao || '',
+      status
+    });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
+    res.status(500).json({ error: 'Erro ao salvar auditoria' });
+  }
+});
+
+// API: Buscar auditoria de uma cotação específica
+app.get('/api/qualidade/auditoria/:cotacao', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM db_bloco_de_notas.auditoria_qualidade WHERE cotacao = $1',
+      [req.params.cotacao]
+    );
+
+    if (result.rows.length === 0) {
+      return res.json(null);
+    }
+
+    res.json({
+      cotacao: result.rows[0].cotacao,
+      anotacao: result.rows[0].anotacao,
+      status: result.rows[0].status
+    });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao buscar auditoria:', error);
+    res.status(500).json({ error: 'Erro ao buscar auditoria' });
+  }
+});
+
+// Serve qualidade page
+app.get('/qualidade', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
+});
+
+app.get('/pme_notas/qualidade', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
 // SPA fallback for /pme_notas subpaths
