@@ -591,3 +591,28 @@
 29/06/2026 17:38:09: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 14:01:00 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
 29/06/2026 17:38:09: [ATUALIZAR_R_000250] Tabela truncada
 29/06/2026 17:38:10: [ATUALIZAR_R_000250] Concluído em 1129ms
+29/06/2026 17:50:53: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:50:53: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:50:53: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 135ms
+29/06/2026 17:51:17: Servidor rodando em http://localhost:3016
+29/06/2026 17:53:38: Servidor rodando em http://localhost:3016
+29/06/2026 17:56:35: Servidor rodando em http://localhost:3016
+29/06/2026 17:56:41: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:56:41: [ATUALIZAR_R_000250] max_bloco=Mon Jan 01 1900 00:00:00 GMT-0306 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:56:41: [ATUALIZAR_R_000250] Tabela truncada
+29/06/2026 17:56:41: [ATUALIZAR_R_000250] Concluído em 192ms
+29/06/2026 17:57:25: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:57:25: [ATUALIZAR_R_000250] max_bloco=Mon Jan 01 1900 00:00:00 GMT-0306 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:57:25: [ATUALIZAR_R_000250] Tabela truncada
+29/06/2026 17:57:26: [ATUALIZAR_R_000250] Concluído em 173ms
+29/06/2026 17:57:32: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:57:32: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:57:32: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 46ms
+29/06/2026 17:57:38: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:57:38: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:57:38: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 58ms
+29/06/2026 18:03:02: Servidor rodando em http://localhost:3016
+29/06/2026 18:31:20: Servidor rodando em http://localhost:3016
+29/06/2026 18:31:43: Servidor rodando em http://localhost:3016
+29/06/2026 18:34:33: Servidor rodando em http://localhost:3016
+29/06/2026 18:37:19: Servidor rodando em http://localhost:3016

@@ -1734,3 +1734,300 @@
 29/06/2026 17:29:01:   line: '3647',
 29/06/2026 17:29:01:   routine: 'errorMissingColumn'
 29/06/2026 17:29:01: }
+29/06/2026 18:28:59: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:28:59:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:28:59:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:28:59:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:28:59:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:28:59:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:28:59:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:28:59:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:28:59:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:28:59:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:28:59:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:06: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:06:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:06:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:06:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:06:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:06:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:06:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:06:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:06:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:06:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:06:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:12: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:12:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:12:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:12:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:12:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:12:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:12:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:12:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:12:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:12:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:12:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:19: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:19:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:19:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:19:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:19:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:25: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:25:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:25:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:25:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:25:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:25:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:25:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:25:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:25:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:25:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:25:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:32: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:32:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:32:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:32:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:32:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:32:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:32:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:32:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:32:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:32:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:32:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:38: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:38:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:38:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:38:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:38:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:38:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:38:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:38:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:38:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:38:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:38:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:45: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:45:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:45:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:45:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:45:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:52: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:52:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:52:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:52:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:52:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:52:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:52:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:52:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:52:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:52:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:52:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:58: ReferenceError: Cannot access 'pool' before initialization
+29/06/2026 18:29:58:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:16:53)
+29/06/2026 18:29:58:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:58:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:58:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:58:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:29:58:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:29:58:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:29:58:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:29:58:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:29:58:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:05: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:30:05:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:30:05:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:05:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:05:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:05:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:05:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:30:05:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:05:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:05:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:05:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:12: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:30:12:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:30:12:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:12:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:12:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:12:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:12:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:30:12:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:12:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:12:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:12:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:19: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:30:19:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:30:19:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:19:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:30:19:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:26: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:30:26:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:30:26:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:26:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:26:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:26:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:26:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:30:26:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:26:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:26:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:26:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:33: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:30:33:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:30:33:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:33:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:33:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:33:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:33:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:30:33:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:33:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:33:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:33:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:40: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:30:40:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:30:40:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:40:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:40:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:40:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:40:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:30:40:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:40:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:40:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:40:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:47: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:30:47:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:30:47:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:47:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:47:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:47:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:47:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:30:47:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:47:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:47:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:47:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:54: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:30:54:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:30:54:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:30:54:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:30:54:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:30:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:30:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:30:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:31:00: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:31:00:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:31:00:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:31:00:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:31:00:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:31:00:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:31:00:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:31:00:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:31:00:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:31:00:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:31:00:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:31:07: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:31:07:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:31:07:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:31:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:31:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:31:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:31:07:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:31:07:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:31:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:31:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:31:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:31:14: ReferenceError: Cannot access 'inputUpload' before initialization
+29/06/2026 18:31:14:     at Object.<anonymous> (E:\projetos_hitss\geo-pme-notas\server.js:90:126)
+29/06/2026 18:31:14:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:31:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:31:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:31:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:31:14:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+29/06/2026 18:31:14:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+29/06/2026 18:31:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+29/06/2026 18:31:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+29/06/2026 18:31:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+29/06/2026 18:33:19: [GESTAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+29/06/2026 18:33:19:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+29/06/2026 18:33:19:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+29/06/2026 18:33:19:     at async E:\projetos_hitss\geo-pme-notas\server.js:1050:25 {
+29/06/2026 18:33:19:   length: 120,
+29/06/2026 18:33:19:   severity: 'ERROR',
+29/06/2026 18:33:19:   code: '42703',
+29/06/2026 18:33:19:   detail: undefined,
+29/06/2026 18:33:19:   hint: undefined,
+29/06/2026 18:33:19:   position: '662',
+29/06/2026 18:33:19:   internalPosition: undefined,
+29/06/2026 18:33:19:   internalQuery: undefined,
+29/06/2026 18:33:19:   where: undefined,
+29/06/2026 18:33:19:   schema: undefined,
+29/06/2026 18:33:19:   table: undefined,
+29/06/2026 18:33:19:   column: undefined,
+29/06/2026 18:33:19:   dataType: undefined,
+29/06/2026 18:33:19:   constraint: undefined,
+29/06/2026 18:33:19:   file: 'parse_relation.c',
+29/06/2026 18:33:19:   line: '3647',
+29/06/2026 18:33:19:   routine: 'errorMissingColumn'
+29/06/2026 18:33:19: }
+29/06/2026 18:33:26: [GESTAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+29/06/2026 18:33:26:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+29/06/2026 18:33:26:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+29/06/2026 18:33:26:     at async E:\projetos_hitss\geo-pme-notas\server.js:1050:25 {
+29/06/2026 18:33:26:   length: 120,
+29/06/2026 18:33:26:   severity: 'ERROR',
+29/06/2026 18:33:26:   code: '42703',
+29/06/2026 18:33:26:   detail: undefined,
+29/06/2026 18:33:26:   hint: undefined,
+29/06/2026 18:33:26:   position: '662',
+29/06/2026 18:33:26:   internalPosition: undefined,
+29/06/2026 18:33:26:   internalQuery: undefined,
+29/06/2026 18:33:26:   where: undefined,
+29/06/2026 18:33:26:   schema: undefined,
+29/06/2026 18:33:26:   table: undefined,
+29/06/2026 18:33:26:   column: undefined,
+29/06/2026 18:33:26:   dataType: undefined,
+29/06/2026 18:33:26:   constraint: undefined,
+29/06/2026 18:33:26:   file: 'parse_relation.c',
+29/06/2026 18:33:26:   line: '3647',
+29/06/2026 18:33:26:   routine: 'errorMissingColumn'
+29/06/2026 18:33:26: }
+29/06/2026 18:33:58: [GESTAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+29/06/2026 18:33:58:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+29/06/2026 18:33:58:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+29/06/2026 18:33:58:     at async E:\projetos_hitss\geo-pme-notas\server.js:1050:25 {
+29/06/2026 18:33:58:   length: 120,
+29/06/2026 18:33:58:   severity: 'ERROR',
+29/06/2026 18:33:58:   code: '42703',
+29/06/2026 18:33:58:   detail: undefined,
+29/06/2026 18:33:58:   hint: undefined,
+29/06/2026 18:33:58:   position: '662',
+29/06/2026 18:33:58:   internalPosition: undefined,
+29/06/2026 18:33:58:   internalQuery: undefined,
+29/06/2026 18:33:58:   where: undefined,
+29/06/2026 18:33:58:   schema: undefined,
+29/06/2026 18:33:58:   table: undefined,
+29/06/2026 18:33:58:   column: undefined,
+29/06/2026 18:33:58:   dataType: undefined,
+29/06/2026 18:33:58:   constraint: undefined,
+29/06/2026 18:33:58:   file: 'parse_relation.c',
+29/06/2026 18:33:58:   line: '3647',
+29/06/2026 18:33:58:   routine: 'errorMissingColumn'
+29/06/2026 18:33:58: }

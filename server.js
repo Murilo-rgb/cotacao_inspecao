@@ -56,7 +56,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
 
-// Configuração do multer para upload de arquivos
+// Configuração do multer para upload de arquivos r_000250
 const filesDir = path.join(__dirname, 'files');
 if (!fs.existsSync(filesDir)) {
     fs.mkdirSync(filesDir, { recursive: true });
@@ -70,6 +70,31 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
     storage,
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        if (ext === '.csv' || ext === '.zip') {
+            cb(null, true);
+        } else {
+            cb(new Error('Apenas arquivos .csv ou .zip são permitidos'));
+        }
+    },
+    limits: { fileSize: 100 * 1024 * 1024 } // 100MB
+});
+
+// Configuração do multer para upload de arquivos input (IW_CPC_975)
+const inputFilesDir = path.join(__dirname, 'files');
+if (!fs.existsSync(inputFilesDir)) {
+    fs.mkdirSync(inputFilesDir, { recursive: true });
+}
+const inputStorage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, inputFilesDir),
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        cb(null, `iw_cpc_975${ext}`);
+    }
+});
+const inputUpload = multer({
+    storage: inputStorage,
     fileFilter: (req, file, cb) => {
         const ext = path.extname(file.originalname).toLowerCase();
         if (ext === '.csv' || ext === '.zip') {
@@ -110,6 +135,9 @@ function authenticateToken(req, res, next) {
         next();
     });
 }
+
+// Inicializar rotas de inspeção após definir authenticateToken e authorizeRoute
+var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes);
 
 // API Routes
 
@@ -628,453 +656,6 @@ app.get('/reprova_padrao', (req, res) => {
 });
 
 
-// ===== ROTAS DE GESTÃO (r_000250) =====
-
-// Serve gestao page
-app.get('/inspecao', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'gestao.html'));
-});
-
-
-
-// Upload CSV/ZIP e processar ETL
-app.post('/api/gestao/upload', authenticateToken, authorizeRoute('/pme_notas/gestao'), upload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'Nenhum arquivo enviado' });
-    }
-    
-    const filePath = req.file.path;
-    console.log(`[GESTAO] Upload recebido: ${req.file.originalname} -> ${filePath}`);
-    
-    const result = await processarETL_250(filePath, pool);
-    
-    // Após ETL, classificar cotações pendentes que não existem mais em r_000250
-    try {
-      await classificarPendentes();
-    } catch (classErr) {
-      console.error('[GESTAO] Erro na classificação após ETL:', classErr.message);
-    }
-    
-    res.json({
-      success: true,
-      message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`,
-      totalRows: result.totalRows
-    });
-    
-  } catch (error) {
-    console.error('[GESTAO] Erro no upload/ETL:', error);
-    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
-  }
-});
-
-// Listar tarefas da r_000250 (com nome do usuário atribuído)
-app.get('/api/gestao/tarefas', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
-  try {
-    const query = `
-      SELECT r.*, 
-        c.status AS cotacao_status,
-        CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao,
-        COALESCE(u_dist.nome, c.usuario_login) AS usuario_distribuido_nome
-      FROM db_bloco_de_notas.r_000250 r
-      LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa
-      LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
-      ORDER BY r.dat_criacao DESC
-    `;
-    
-    const result = await pool.query(query);
-    
-    // Formatar para o frontend
-    const tarefas = result.rows.map(row => ({
-      cod_tarefa: row.cod_tarefa,
-      dat_criacao: row.dat_criacao,
-      dat_historico: row.dat_historico,
-      criado_por: row.criado_por,
-      pendente_com: row.pendente_com,
-      nom_statuswf: row.nom_statuswf,
-      regional: row.regional,
-      nom_tarefa: row.nom_tarefa,
-      nom_fila: row.nom_fila,
-      dsc_cotacao: row.dsc_cotacao,
-      tipo_pedido: row.tipo_pedido,
-      qtd_linhas: row.qtd_linhas,
-      qtd_linhas_novas: row.qtd_linhas_novas,
-      nom_territorio: row.nom_territorio,
-      ind_portabilidade: row.ind_portabilidade,
-      qtd_reprovacao: row.qtd_reprovacao,
-      status_distribuicao: row.status_distribuicao,
-      cotacao_status: row.cotacao_status,
-      assumido_por: row.assumido_por,
-      usuario_distribuido_nome: row.usuario_distribuido_nome || '-'
-    }));
-    
-    res.json(tarefas);
-    
-  } catch (error) {
-    console.error('[GESTAO] Erro ao buscar tarefas:', error);
-    res.status(500).json({ error: 'Erro ao buscar tarefas' });
-  }
-});
-
-// Listar usuários para distribuição
-app.get('/api/gestao/usuarios', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
-  try {
-    const result = await pool.query(
-      'SELECT id, login, nome FROM db_automacao.usuarios WHERE ativo = true ORDER BY nome'
-    );
-    res.json(result.rows);
-  } catch (error) {
-    console.error('[GESTAO] Erro ao buscar usuários:', error);
-    res.status(500).json({ error: 'Erro ao buscar usuários' });
-  }
-});
-
-// Função auxiliar para registrar auditoria
-async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
-    try {
-        await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao_audit 
-             (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-            [tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por]
-        );
-    } catch (err) {
-        console.error('[AUDIT] Erro ao registrar:', err.message);
-    }
-}
-
-// Redistribuir tarefas (atualizar usuário de tarefas já distribuídas) com auditoria
-app.post('/api/gestao/redistribuir', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
-  try {
-    const { redistribuicoes } = req.body; // Array de { cod_tarefa, usuario_id }
-
-    if (!redistribuicoes || !Array.isArray(redistribuicoes) || redistribuicoes.length === 0) {
-      return res.status(400).json({ error: 'Lista de redistribuições inválida' });
-    }
-
-    const usuarioLogin = req.user.username;
-    const now = formatDateBR(new Date());
-
-    let count = 0;
-    let errors = [];
-
-    for (const item of redistribuicoes) {
-      if (!item.cod_tarefa || !item.usuario_id) {
-        errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
-        continue;
-      }
-
-      try {
-        // Verificar se a tarefa já foi distribuída
-        const check = await pool.query(
-          "SELECT tarefa, usuario_id FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-          [item.cod_tarefa, 'Ativo']
-        );
-
-        if (check.rows.length === 0) {
-          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa não encontrada ou não está mais ativa' });
-          continue;
-        }
-
-        // Buscar nome do usuário destino
-        let destinoNome = String(item.usuario_id);
-        try {
-            const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
-            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
-        } catch {}
-
-        // Registrar auditoria da redistribuição
-        await registrarAuditoria(pool, {
-            tarefa: item.cod_tarefa,
-            acao: 'redistribuido',
-            usuario_origem_id: req.user.id,
-            usuario_origem_nome: req.user.nome || usuarioLogin,
-            usuario_destino_id: item.usuario_id,
-            usuario_destino_nome: destinoNome,
-            status_anterior: null,
-            status_novo: null,
-            criado_por: usuarioLogin
-        });
-
-        // Atualizar o usuário da tarefa
-        await pool.query(
-          `UPDATE db_bloco_de_notas.cotacao 
-           SET usuario_id = $1, data_da_ultima_atualizacao = $2, usuario_login = $3
-           WHERE tarefa = $4 AND validacao = 'Ativo'`,
-          [item.usuario_id, now, usuarioLogin, item.cod_tarefa]
-        );
-
-        count++;
-      } catch (err) {
-        errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
-      }
-    }
-
-    res.json({
-      success: true,
-      message: `${count} tarefa(s) redistribuída(s) com sucesso`,
-      redistribuidos: count,
-      erros: errors
-    });
-
-  } catch (error) {
-    console.error('[GESTAO] Erro ao redistribuir tarefas:', error);
-    res.status(500).json({ error: `Erro ao redistribuir tarefas: ${error.message}` });
-  }
-});
-
-app.post('/api/gestao/distribuir', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
-  try {
-    const { distribuicoes } = req.body; // Array de { cod_tarefa, usuario_id }
-    
-    if (!distribuicoes || !Array.isArray(distribuicoes) || distribuicoes.length === 0) {
-      return res.status(400).json({ error: 'Lista de distribuições inválida' });
-    }
-    
-    const usuarioLogin = req.user.username;
-    const usuarioId = req.user.id;
-    const now = formatDateBR(new Date());
-    
-    let count = 0;
-    let errors = [];
-    
-    for (const item of distribuicoes) {
-      if (!item.cod_tarefa || !item.usuario_id) {
-        errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
-        continue;
-      }
-      
-      try {
-        // Primeiro verificar se já não foi distribuída
-        const check = await pool.query(
-          "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-          [item.cod_tarefa, 'Ativo']
-        );
-        
-        if (check.rows.length > 0) {
-          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
-          continue;
-        }
-        
-        // Buscar dados da tarefa para preencher anotação
-        const tarefaResult = await pool.query(
-          'SELECT nom_tarefa, nom_fila, dsc_cotacao FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1',
-          [item.cod_tarefa]
-        );
-        
-        let anotacao = '';
-        const tarefaValue = item.cod_tarefa;
-        let cotacaoDsc = item.cod_tarefa;
-        if (tarefaResult.rows.length > 0) {
-          const tr = tarefaResult.rows[0];
-          anotacao = `Tarefa: ${tr.nom_tarefa || ''} | Fila: ${tr.nom_fila || ''}`;
-          if (tr.dsc_cotacao) cotacaoDsc = tr.dsc_cotacao;
-        }
-
-        // Buscar nome do usuário destino
-        let destinoNome = String(item.usuario_id);
-        try {
-            const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
-            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
-        } catch {}
-
-        await pool.query(
-          `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-          [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id]
-        );
-
-        // Registrar auditoria da distribuição
-        await registrarAuditoria(pool, {
-            tarefa: item.cod_tarefa,
-            acao: 'distribuido',
-            usuario_origem_id: req.user.id,
-            usuario_origem_nome: req.user.nome || usuarioLogin,
-            usuario_destino_id: item.usuario_id,
-            usuario_destino_nome: destinoNome,
-            status_anterior: null,
-            status_novo: 'pendente',
-            criado_por: usuarioLogin
-        });
-        
-        count++;
-      } catch (err) {
-        errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
-      }
-    }
-    
-    res.json({
-      success: true,
-      message: `${count} tarefa(s) distribuída(s) com sucesso`,
-      distribuidos: count,
-      erros: errors
-    });
-    
-  } catch (error) {
-    console.error('[GESTAO] Erro ao distribuir tarefas:', error);
-    res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
-  }
-});
-
-// ===== ROTAS DE DASHBOARD E HISTÓRICO =====
-
-// Dashboard - Quantidade por colaborador e status (com filtro opcional por dia e por fila/ilha)
-app.get('/api/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
-  try {
-    const query = `
-      SELECT 
-        l.login AS usuario_login,
-        l.nome AS usuario_nome,
-        COUNT(c.tarefa) FILTER (WHERE c.status = 'pendente' OR c.status IS NULL) AS pendentes,
-        COUNT(c.tarefa) FILTER (WHERE c.status IS NOT NULL AND c.status != 'pendente') AS tratados,
-        COUNT(c.tarefa) AS total
-      FROM db_gp.listafuncionarios l
-      RIGHT JOIN db_automacao.usuarios u ON u.login = l.login
-      left join db_bloco_de_notas.cotacao c 
-      on c.usuario_id::text = u.id::text
-      WHERE l.ilha ILIKE '%ins%' AND l.ativo = true
-      GROUP BY l.login, l.nome
-      ORDER BY l.nome
-    `;
-    
-    const result = await pool.query(query);
-    
-    // Buscar SLA médio (considerando apenas tratados)
-    const colaboradores = [];
-    for (const row of result.rows) {
-      let slaHoras = null;
-      try {
-        const slaRes = await pool.query(`
-          SELECT AVG(
-            EXTRACT(EPOCH FROM (
-              data_da_ultima_atualizacao - data_de_criacao
-            )) / 3600
-          ) AS sla_medio
-          FROM db_bloco_de_notas.cotacao c
-          INNER JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id
-          WHERE u.login = $1 
-            AND c.validacao = 'Ativo' 
-            AND c.status != 'pendente' AND c.status IS NOT NULL AND c.status != ''
-        `, [row.usuario_login]);
-        slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
-      } catch (slaErr) {
-        console.error('[DASHBOARD SLA] Erro para usuario', row.usuario_login, ':', slaErr.message);
-      }
-      
-      const pendentes = parseInt(row.pendentes);
-      const tratados = parseInt(row.tratados);
-      
-      colaboradores.push({
-        usuario_id: null,
-        usuario_nome: row.usuario_nome,
-        usuario_login: row.usuario_login,
-        pendentes,
-        tratados,
-        aprovados: 0,
-        reprovados: 0,
-        total: parseInt(row.total),
-        sla_medio: slaHoras ? slaHoras + 'h' : '-'
-      });
-    }
-    
-    // Ordenar: pendentes primeiro, depois por nome
-    colaboradores.sort((a, b) => {
-      if (a.pendentes > 0 && b.pendentes === 0) return -1;
-      if (a.pendentes === 0 && b.pendentes > 0) return 1;
-      return a.usuario_nome.localeCompare(b.usuario_nome);
-    });
-    
-    res.json(colaboradores);
-  } catch (error) {
-    console.error('[DASHBOARD] Erro:', error);
-    res.status(500).json({ error: 'Erro ao carregar dashboard' });
-  }
-});
-
-// Histórico de movimentações
-app.get('/api/gestao/historico', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
-  try {
-    const { tarefa, limit = 100, offset = 0 } = req.query;
-    
-    let query = `
-      SELECT a.*, 
-        u_orig.nome AS origem_nome,
-        u_dest.nome AS destino_nome
-      FROM db_bloco_de_notas.cotacao_audit a
-      LEFT JOIN db_automacao.usuarios u_orig ON a.usuario_origem_id = u_orig.id
-      LEFT JOIN db_automacao.usuarios u_dest ON a.usuario_destino_id = u_dest.id
-    `;
-    let params = [];
-    let conditions = [];
-    
-    if (tarefa) {
-      params.push(tarefa);
-      conditions.push(`a.tarefa = $${params.length}`);
-    }
-    
-    if (conditions.length > 0) {
-      query += ' WHERE ' + conditions.join(' AND ');
-    }
-    
-    query += ' ORDER BY a.data_criacao DESC';
-    params.push(parseInt(limit));
-    query += ` LIMIT $${params.length}`;
-    params.push(parseInt(offset));
-    query += ` OFFSET $${params.length}`;
-    
-    const result = await pool.query(query, params);
-    
-    const historico = result.rows.map(row => ({
-      id: row.id,
-      tarefa: row.tarefa,
-      acao: row.acao,
-      usuario_origem: row.origem_nome || row.usuario_origem_nome || '-',
-      usuario_destino: row.destino_nome || row.usuario_destino_nome || '-',
-      status_anterior: row.status_anterior || '-',
-      status_novo: row.status_novo || '-',
-      data: row.data_criacao,
-      criado_por: row.criado_por
-    }));
-    
-    res.json(historico);
-  } catch (error) {
-    console.error('[HISTORICO] Erro:', error);
-    res.status(500).json({ error: 'Erro ao carregar histórico' });
-  }
-});
-
-// Histórico de uma tarefa específica
-app.get('/api/gestao/historico/:tarefa', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT a.*,
-        u_orig.nome AS origem_nome,
-        u_dest.nome AS destino_nome
-      FROM db_bloco_de_notas.cotacao_audit a
-      LEFT JOIN db_automacao.usuarios u_orig ON a.usuario_origem_id = u_orig.id
-      LEFT JOIN db_automacao.usuarios u_dest ON a.usuario_destino_id = u_dest.id
-      WHERE a.tarefa = $1
-      ORDER BY a.data_criacao DESC
-    `, [req.params.tarefa]);
-    
-    res.json(result.rows.map(row => ({
-      id: row.id,
-      tarefa: row.tarefa,
-      acao: row.acao,
-      usuario_origem: row.origem_nome || row.usuario_origem_nome || '-',
-      usuario_destino: row.destino_nome || row.usuario_destino_nome || '-',
-      status_anterior: row.status_anterior || '-',
-      status_novo: row.status_novo || '-',
-      data: row.data_criacao,
-      criado_por: row.criado_por
-    })));
-  } catch (error) {
-    console.error('[HISTORICO TAREFA] Erro:', error);
-    res.status(500).json({ error: 'Erro ao carregar histórico da tarefa' });
-  }
-});
-
-// ===== ROTAS DE REPROVA PADRÃO (apenas banco) =====
 const { listarReprovas, inserirReprova, contarReprovas, verificarDuplicado } = require('./db');
 
 // Rotas de reprova padrão (raiz e sob /pme_notas)
@@ -1194,7 +775,7 @@ app.post('/api/gestao/atualizar_r_000250', authenticateToken, authorizeRoute('/p
           nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
           tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
           ind_portabilidade, qtd_reprovacao, CURRENT_DATE
-      FROM db_claro.r_000250
+      FROM db_claro.r_000250 where data_carga = CURRENT_DATE
     `);
 
     const elapsedTime = Date.now() - startTime;
@@ -1400,32 +981,6 @@ app.get('/pme_notas/qualidade', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
-// ===== ROTAS DE GESTÃO INPUT (IW_CPC_975) =====
-
-// Configuração do multer para upload de arquivos
-const inputFilesDir = path.join(__dirname, 'files');
-if (!fs.existsSync(inputFilesDir)) {
-  fs.mkdirSync(inputFilesDir, { recursive: true });
-}
-const inputStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, inputFilesDir),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    cb(null, `iw_cpc_975${ext}`);
-  }
-});
-const inputUpload = multer({
-  storage: inputStorage,
-  fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    if (ext === '.csv' || ext === '.zip') {
-      cb(null, true);
-    } else {
-      cb(new Error('Apenas arquivos .csv ou .zip são permitidos'));
-    }
-  },
-  limits: { fileSize: 100 * 1024 * 1024 } // 100MB
-});
 
 // Serve gestao_input page
 app.get('/gestao_input', authenticateToken, (req, res) => {
@@ -1451,6 +1006,9 @@ app.get('/pme_notas/input_top', authenticateToken, (req, res) => {
 app.get('/pme_notas/input_net', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao_input_net.html'));
 });
+
+// Usar rotas de inspeção
+app.use(inspecaoRoutes);
 
 // Bypass APIs under /pme_notas so SPA fallback doesn't swallow them
 app.get('/pme_notas/api/*', (req, res, next) => { next(); });
@@ -1784,6 +1342,174 @@ app.post('/api/gestao/atualizar_input_net', authenticateToken, async (req, res) 
   } catch (error) {
     console.error('[ATUALIZAR_INPUT_NET] Erro:', error);
     res.status(500).json({ error: 'Erro ao atualizar dados' });
+  }
+});
+
+// Distribuir tarefas input_net (iw_cpc_975_net)
+app.post('/api/gestao/distribuir_input_net', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const { distribuicoes } = req.body;
+    
+    if (!distribuicoes || !Array.isArray(distribuicoes) || distribuicoes.length === 0) {
+      return res.status(400).json({ error: 'Lista de distribuições inválida' });
+    }
+    
+    const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
+    const now = formatDateBR(new Date());
+    
+    let count = 0;
+    let errors = [];
+    
+    for (const item of distribuicoes) {
+      if (!item.cod_tarefa || !item.usuario_id) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+        continue;
+      }
+      
+      try {
+        // Verificar se já foi distribuída
+        const check = await pool.query(
+          "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+          [item.cod_tarefa, 'Ativo']
+        );
+        
+        if (check.rows.length > 0) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
+          continue;
+        }
+        
+        // Buscar nome da tarefa para anotação
+        const tarefaResult = await pool.query(
+          'SELECT codigo_da_tarefa, etapa_atual FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
+          [item.cod_tarefa]
+        );
+        
+        let anotacao = '';
+        let tarefaValue = item.cod_tarefa;
+        let cotacaoDsc = item.cod_tarefa;
+        if (tarefaResult.rows.length > 0) {
+          const tr = tarefaResult.rows[0];
+          anotacao = `Origem: iw_cpc_975_net | Etapa: ${tr.etapa_atual || ''}`;
+        }
+
+        // Buscar nome do usuário destino
+        let destinoNome = String(item.usuario_id);
+        try {
+            const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+        } catch {}
+
+        await pool.query(
+          `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem) 
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+          [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_net']
+        );
+
+        // Registrar auditoria
+        try {
+            await pool.query(
+                `INSERT INTO db_bloco_de_notas.cotacao_audit 
+                 (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+                [item.cod_tarefa, 'distribuido_input_net', usuarioId, usuarioLogin, item.usuario_id, destinoNome, '-', 'pendente', usuarioLogin]
+            );
+        } catch (auditErr) {
+            console.error('[DISTRIBUIR_INPUT_NET] Erro ao registrar auditoria:', auditErr.message);
+        }
+        
+        count++;
+      } catch (err) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+      }
+    }
+    
+    res.json({
+      success: true,
+      message: `${count} tarefa(s) distribuída(s) com sucesso`,
+      distribuidos: count,
+      erros: errors
+    });
+    
+  } catch (error) {
+    console.error('[DISTRIBUIR_INPUT_NET] Erro:', error);
+    res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+  }
+});
+
+// Redistribuir tarefas input_net (iw_cpc_975_net)
+app.post('/api/gestao/redistribuir_input_net', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const { redistribuicoes } = req.body;
+    
+    if (!redistribuicoes || !Array.isArray(redistribuicoes) || redistribuicoes.length === 0) {
+      return res.status(400).json({ error: 'Lista de redistribuições inválida' });
+    }
+    
+    const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
+    const now = formatDateBR(new Date());
+    
+    let count = 0;
+    let errors = [];
+    
+    for (const item of redistribuicoes) {
+      if (!item.cod_tarefa || !item.usuario_id) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+        continue;
+      }
+      
+      try {
+        // Verificar se a tarefa existe e está ativa
+        const check = await pool.query(
+          "SELECT tarefa, usuario_id FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2 AND origem = 'iw_cpc_975_net'",
+          [item.cod_tarefa, 'Ativo']
+        );
+        
+        if (check.rows.length === 0) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa não encontrada ou origem não é iw_cpc_975_net' });
+          continue;
+        }
+
+        // Buscar nome do usuário destino
+        let destinoNome = String(item.usuario_id);
+        try {
+            const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+        } catch {}
+
+        // Registrar auditoria
+        await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao_audit 
+             (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+            [item.cod_tarefa, 'redistribuido_input_net', usuarioId, usuarioLogin, item.usuario_id, destinoNome, null, null, usuarioLogin]
+        );
+
+        // Atualizar usuário
+        await pool.query(
+          `UPDATE db_bloco_de_notas.cotacao 
+           SET usuario_id = $1, data_da_ultima_atualizacao = $2, usuario_login = $3
+           WHERE tarefa = $4 AND validacao = 'Ativo' AND origem = 'iw_cpc_975_net'`,
+          [item.usuario_id, now, usuarioLogin, item.cod_tarefa]
+        );
+
+        count++;
+      } catch (err) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+      }
+    }
+    
+    res.json({
+      success: true,
+      message: `${count} tarefa(s) redistribuída(s) com sucesso`,
+      redistribuidos: count,
+      erros: errors
+    });
+    
+  } catch (error) {
+    console.error('[REDISTRIBUIR_INPUT_NET] Erro:', error);
+    res.status(500).json({ error: `Erro ao redistribuir tarefas: ${error.message}` });
   }
 });
 
