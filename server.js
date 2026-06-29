@@ -10,6 +10,8 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const fs = require('fs');
 const { processarETL_250 } = require('./utils/etl_250');
+const { processarETL_975_net } = require('./utils/etl_975_input_net');
+const { processarETL_975_top } = require('./utils/etl_975_input_top');
 const { classificarPendentes, STATUS_CLASSIFICACAO } = require('./scripts/classificar_cotacoes_pendentes');
 
 const app = express();
@@ -613,7 +615,7 @@ app.get('/pme_notas/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-app.get('/pme_notas/cotacoes', (req, res) => {
+app.get('/cotacoes', (req, res) => {
   let token = req.cookies.token || req.headers['authorization']?.replace('Bearer ', '');
   if (!token) {
     return res.redirect('/pme_notas/login.html');
@@ -621,7 +623,7 @@ app.get('/pme_notas/cotacoes', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/pme_notas/reprova_padrao', (req, res) => {
+app.get('/reprova_padrao', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'reprova_padrao.html'));
 });
 
@@ -629,13 +631,11 @@ app.get('/pme_notas/reprova_padrao', (req, res) => {
 // ===== ROTAS DE GESTÃO (r_000250) =====
 
 // Serve gestao page
-app.get('/gestao', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+app.get('/inspecao', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao.html'));
 });
 
-app.get('/pme_notas/gestao', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'gestao.html'));
-});
+
 
 // Upload CSV/ZIP e processar ETL
 app.post('/api/gestao/upload', authenticateToken, authorizeRoute('/pme_notas/gestao'), upload.single('file'), async (req, res) => {
@@ -1156,6 +1156,60 @@ app.post('/api/reprovas', authenticateToken, async (req, res) => {
   }
 });
 
+// Atualizar tabela r_000250 a partir do db_claro
+app.post('/api/gestao/atualizar_r_000250', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  try {
+    const startTime = Date.now();
+    console.log('[ATUALIZAR_R_000250] Iniciando atualização...');
+
+    // 1. Verificar datas máximas
+    const blocoRes = await pool.query("SELECT COALESCE(MAX(CAST(dat_historico AS TIMESTAMP)), '1900-01-01'::TIMESTAMP) AS max_data FROM db_bloco_de_notas.r_000250");
+    const claroRes = await pool.query("SELECT COALESCE(MAX(CAST(dat_historico AS TIMESTAMP)), '1900-01-01'::TIMESTAMP) AS max_data FROM db_claro.r_000250");
+
+    const maxBloco = blocoRes.rows[0]?.max_data;
+    const maxClaro = claroRes.rows[0]?.max_data;
+
+    console.log(`[ATUALIZAR_R_000250] max_bloco=${maxBloco}, max_claro=${maxClaro}`);
+
+    if (!maxClaro || maxClaro <= maxBloco) {
+      const elapsedTime = Date.now() - startTime;
+      console.log(`[ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em ${elapsedTime}ms`);
+      return res.json({ success: true, message: 'A tabela já está atualizada ou db_claro não possui dados mais recentes.' });
+    }
+
+    // 2. Truncar tabela
+    await pool.query('TRUNCATE TABLE db_bloco_de_notas.r_000250 RESTART IDENTITY CASCADE');
+    console.log('[ATUALIZAR_R_000250] Tabela truncada');
+
+    // 3. Inserir dados do db_claro
+    await pool.query(`
+      INSERT INTO db_bloco_de_notas.r_000250 (
+          cod_tarefa, dat_criacao, dat_historico, criado_por, pendente_com,
+          nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
+          tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
+          ind_portabilidade, qtd_reprovacao, data_carga
+      )
+      SELECT
+          cod_tarefa, dat_criacao, dat_historico, criado_por, pendente_com,
+          nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
+          tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
+          ind_portabilidade, qtd_reprovacao, CURRENT_DATE
+      FROM db_claro.r_000250
+    `);
+
+    const elapsedTime = Date.now() - startTime;
+    console.log(`[ATUALIZAR_R_000250] Concluído em ${elapsedTime}ms`);
+    res.json({ success: true, message: 'Tabela atualizada com sucesso.' });
+  } catch (error) {
+    console.error('[ATUALIZAR_R_000250] Erro:', error);
+    res.status(500).json({ 
+      error: 'Erro ao atualizar tabela',
+      details: error.message || 'Erro desconhecido',
+      code: error.code
+    });
+  }
+});
+
 // Classificar cotações pendentes manualmente
 app.post('/api/gestao/classificar-pendentes', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
   try {
@@ -1346,10 +1400,490 @@ app.get('/pme_notas/qualidade', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
+// ===== ROTAS DE GESTÃO INPUT (IW_CPC_975) =====
+
+// Configuração do multer para upload de arquivos
+const inputFilesDir = path.join(__dirname, 'files');
+if (!fs.existsSync(inputFilesDir)) {
+  fs.mkdirSync(inputFilesDir, { recursive: true });
+}
+const inputStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, inputFilesDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `iw_cpc_975${ext}`);
+  }
+});
+const inputUpload = multer({
+  storage: inputStorage,
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext === '.csv' || ext === '.zip') {
+      cb(null, true);
+    } else {
+      cb(new Error('Apenas arquivos .csv ou .zip são permitidos'));
+    }
+  },
+  limits: { fileSize: 100 * 1024 * 1024 } // 100MB
+});
+
+// Serve gestao_input page
+app.get('/gestao_input', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao_input.html'));
+});
+
+app.get('/input', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao_input.html'));
+});
+
+app.get('/input_top', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao_input_top.html'));
+});
+
+app.get('/input_net', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao_input_net.html'));
+});
+
+app.get('/pme_notas/input_top', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao_input_top.html'));
+});
+
+app.get('/pme_notas/input_net', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao_input_net.html'));
+});
+
+// Bypass APIs under /pme_notas so SPA fallback doesn't swallow them
+app.get('/pme_notas/api/*', (req, res, next) => { next(); });
+
 // SPA fallback for /pme_notas subpaths
 app.get('/pme_notas/*', (req, res, next) => {
   if (path.extname(req.path)) return next();
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// API Tarefas Input TOP (antes do fallback SPA)
+app.get('/api/gestao/tarefas_top', authenticateToken, async (req, res) => {
+  try {
+    const { search, limit = 100, offset = 0 } = req.query;
+    const params = [];
+    let query = `
+      SELECT DISTINCT ON (iw.codigo_da_tarefa)
+             iw.codigo_da_tarefa cod_tarefa,
+             iw.data_historico,
+             iw.para_usuario_nome assumido_por,
+             iw.*,
+             c.usuario_id,
+             u_dist.nome as usuario_distribuido_nome
+      FROM db_bloco_de_notas.iw_cpc_975_top iw
+      LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa
+      LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
+      WHERE etapa_atual ilike '%01%' or etapa_atual ilike '%02%'
+        AND situacao_sistema = 'ATIVO'
+        AND acao = 'Alterar Status'
+    `;
+    if (search) {
+      query += ` AND (fila ILIKE $1 OR codigo_da_tarefa ILIKE $1 OR razao_social_cliente ILIKE $1 OR situacao_sistema ILIKE $1)`;
+      params.push(`%${search}%`);
+    }
+    query += ` ORDER BY iw.codigo_da_tarefa, iw.data_historico::timestamp DESC`;
+    params.push(parseInt(limit), parseInt(offset));
+    query += ` LIMIT $${params.length - 1} OFFSET $${params.length}`;
+    const result = await pool.query(query, params);
+    const countResult = await pool.query(`
+      SELECT 
+        COUNT(DISTINCT CASE 
+          WHEN (da_etapa ILIKE '%01%' AND para_etapa ILIKE '%02%') THEN codigo_da_tarefa 
+        END) as em_tratamento,
+        COUNT(DISTINCT CASE 
+          WHEN (da_etapa ILIKE '%02%' AND para_etapa ILIKE '%04%') THEN codigo_da_tarefa 
+        END) as aprovado,
+        COUNT(DISTINCT CASE 
+          WHEN (da_etapa ILIKE '%02%' AND para_etapa ILIKE '%03%') THEN codigo_da_tarefa 
+        END) as reprovado,
+        COUNT(DISTINCT CASE 
+          WHEN (
+            (da_etapa ILIKE '%Abert%' AND para_etapa ILIKE '%01%')
+            OR (da_etapa ILIKE '%03%' AND para_etapa ILIKE '%01%')
+          ) AND COALESCE(qtd_producao_futura, 0) = 0 THEN codigo_da_tarefa 
+        END) as pendente,
+        COUNT(DISTINCT CASE 
+          WHEN (acao ILIKE 'Cancelar' OR situacao_sistema ILIKE 'CANCELADO') THEN codigo_da_tarefa 
+        END) as cancelado,
+        COUNT(DISTINCT CASE 
+          WHEN (da_etapa ILIKE '%04%' AND (para_etapa ILIKE '%01%' OR para_etapa ILIKE '%02%' OR para_etapa ILIKE '%03%' OR para_etapa ILIKE '%Admin%')) THEN codigo_da_tarefa 
+        END) as desconsiderar
+      FROM db_bloco_de_notas.iw_cpc_975_top 
+      WHERE etapa_atual = '04 - Inspeção' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
+    `);
+    const stats = countResult.rows[0] || {};
+    res.json({ 
+      data: result.rows, 
+      total: parseInt(countResult.rows[0].total || 0),
+      stats,
+      limit: parseInt(limit), 
+      offset: parseInt(offset) 
+    });
+  } catch (error) {
+    console.error('[GESTAO_TOP] Erro:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
+});
+
+// API Tarefas Input NET (antes do fallback SPA)
+app.get('/api/gestao/tarefas_net', authenticateToken, async (req, res) => {
+  try {
+    const { search, limit = 100, offset = 0 } = req.query;
+    const params = [];
+    const filters = [];
+    let paramIndex = 1;
+
+    let query = `
+      WITH historico_calculado AS (
+        SELECT 
+          iw.codigo_da_tarefa AS cod_tarefa,
+          iw.data_historico,
+          iw.para_usuario_nome AS assumido_por,
+          iw.da_etapa,
+          iw.para_etapa,
+          iw.acao,
+          iw.situacao_sistema,
+          iw.etapa_atual,
+          COUNT(*) FILTER (WHERE para_etapa LIKE '%02%') OVER (
+            PARTITION BY iw.codigo_da_tarefa 
+            ORDER BY iw.data_historico 
+            ROWS BETWEEN 1 PRECEDING AND UNBOUNDED FOLLOWING
+          ) AS qtd_producao_futura
+        FROM db_bloco_de_notas.iw_cpc_975_net iw
+      )
+      SELECT DISTINCT ON (hc.cod_tarefa)
+        hc.cod_tarefa,
+        hc.data_historico,
+        hc.assumido_por,
+        hc.etapa_atual,
+        c.usuario_id,
+        u_dist.nome AS usuario_distribuido_nome,
+        CASE WHEN (hc.da_etapa LIKE '%01%' AND hc.para_etapa LIKE '%02%') THEN 1 ELSE 0 END AS em_tratamento,
+        CASE WHEN (hc.da_etapa LIKE '%02%' AND hc.para_etapa LIKE '%04%') THEN 1 ELSE 0 END AS aprovado,
+        CASE WHEN (hc.da_etapa LIKE '%02%' AND hc.para_etapa LIKE '%03%') THEN 1 ELSE 0 END AS reprovado,
+        CASE 
+          WHEN (
+            (hc.da_etapa ILIKE '%Abert%' AND hc.para_etapa LIKE '%01%')
+            OR (hc.da_etapa LIKE '%03%' AND hc.para_etapa LIKE '%01%')
+          ) AND hc.qtd_producao_futura = 0 THEN 1 
+          ELSE 0 
+        END AS pendente,
+        CASE WHEN (hc.acao ILIKE 'Cancelar' OR hc.situacao_sistema ILIKE 'CANCELADO') THEN 1 ELSE 0 END AS cancelado,
+        CASE 
+          WHEN (
+            hc.da_etapa LIKE '%04%' AND (
+              hc.para_etapa LIKE '%01%' OR 
+              hc.para_etapa LIKE '%02%' OR 
+              hc.para_etapa LIKE '%03%' OR 
+              hc.para_etapa ILIKE '%Admin%'
+            )
+          ) THEN 1 ELSE 0 END AS desconsiderar,
+        hc.*
+      FROM historico_calculado hc
+      LEFT JOIN db_bloco_de_notas.cotacao c ON hc.cod_tarefa = c.tarefa
+      LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
+      WHERE 
+        hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
+        AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+    `;
+
+    if (search) {
+      query += ` AND (hc.fila ILIKE $${paramIndex} OR hc.codigo_da_tarefa ILIKE $${paramIndex} OR hc.razao_social_cliente ILIKE $${paramIndex} OR hc.situacao_sistema ILIKE $${paramIndex})`;
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+
+    query += ` ORDER BY hc.cod_tarefa, hc.data_historico DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(parseInt(limit), parseInt(offset));
+
+    const result = await pool.query(query, params);
+
+    const statsResult = await pool.query(`
+      WITH historico_calculado AS (
+        SELECT 
+          iw.codigo_da_tarefa AS cod_tarefa,
+          iw.data_historico,
+          iw.para_usuario_nome AS assumido_por,
+          iw.da_etapa,
+          iw.para_etapa,
+          iw.acao,
+          iw.situacao_sistema,
+          iw.etapa_atual,
+          COUNT(*) FILTER (WHERE para_etapa LIKE '%02%') OVER (
+            PARTITION BY iw.codigo_da_tarefa 
+            ORDER BY iw.data_historico 
+            ROWS BETWEEN 1 PRECEDING AND UNBOUNDED FOLLOWING
+          ) AS qtd_producao_futura
+        FROM db_bloco_de_notas.iw_cpc_975_net iw
+      ),
+      foto_recente AS (
+        SELECT DISTINCT ON (hc.cod_tarefa) hc.cod_tarefa, hc.data_historico, hc.assumido_por, hc.da_etapa, hc.para_etapa, hc.acao, hc.situacao_sistema, hc.etapa_atual, hc.qtd_producao_futura
+        FROM historico_calculado hc
+        WHERE hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
+          AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+        ORDER BY hc.cod_tarefa, hc.data_historico DESC
+      )
+      SELECT 
+        COUNT(DISTINCT CASE WHEN (foto_recente.da_etapa LIKE '%01%' AND foto_recente.para_etapa LIKE '%02%') THEN foto_recente.cod_tarefa END) as em_tratamento,
+        COUNT(DISTINCT CASE WHEN (foto_recente.da_etapa LIKE '%02%' AND foto_recente.para_etapa LIKE '%04%') THEN foto_recente.cod_tarefa END) as aprovado,
+        COUNT(DISTINCT CASE WHEN (foto_recente.da_etapa LIKE '%02%' AND foto_recente.para_etapa LIKE '%03%') THEN foto_recente.cod_tarefa END) as reprovado,
+        COUNT(DISTINCT CASE 
+          WHEN (
+            (foto_recente.da_etapa ILIKE '%Abert%' AND foto_recente.para_etapa LIKE '%01%')
+            OR (foto_recente.da_etapa LIKE '%03%' AND foto_recente.para_etapa LIKE '%01%')
+          ) AND foto_recente.qtd_producao_futura = 0 
+          THEN foto_recente.cod_tarefa 
+        END) as pendente,
+        COUNT(DISTINCT CASE WHEN (foto_recente.acao ILIKE 'Cancelar' OR foto_recente.situacao_sistema ILIKE 'CANCELADO') THEN foto_recente.cod_tarefa END) as cancelado,
+        COUNT(DISTINCT CASE 
+          WHEN (foto_recente.da_etapa LIKE '%04%' AND (foto_recente.para_etapa LIKE '%01%' OR foto_recente.para_etapa LIKE '%02%' OR foto_recente.para_etapa LIKE '%03%' OR foto_recente.para_etapa ILIKE '%Admin%'))
+          THEN foto_recente.cod_tarefa 
+        END) as desconsiderar,
+        COUNT(DISTINCT foto_recente.cod_tarefa) as total
+      FROM foto_recente
+    `);
+
+    const stats = statsResult.rows[0] || {};
+    res.json({ 
+      data: result.rows, 
+      total: parseInt(stats.total || 0),
+      stats,
+      limit: parseInt(limit), 
+      offset: parseInt(offset) 
+    });
+  } catch (error) {
+    console.error('[GESTAO_NET] Erro:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
+});
+
+// Upload CSV/ZIP e processar ETL para iw_cpc_975
+app.post('/api/gestao/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    const result = await processarETL_975_top(req.file.path, pool);
+    await pool.query(`UPDATE db_bloco_de_notas.iw_cpc_975_top SET fila = 'Input de Pedidos PME'`);
+    res.json({ success: true, message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`, totalRows: result.totalRows });
+  } catch (error) {
+    console.error('[INPUT_TOP] Erro:', error);
+    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+  }
+});
+
+// API Input NET
+app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
+  try {
+    const { search, limit = 100, offset = 0 } = req.query;
+    let query = `SELECT * FROM db_bloco_de_notas.iw_cpc_975_net WHERE 1=1`;
+    const params = [];
+    let paramIndex = 1;
+    query += ` AND etapa_atual = $${paramIndex}`;
+    params.push('04 - Inspeção');
+    paramIndex++;
+    query += ` AND situacao_sistema = $${paramIndex}`;
+    params.push('ATIVO');
+    paramIndex++;
+    query += ` AND acao = $${paramIndex}`;
+    params.push('Alterar Status');
+    paramIndex++;
+    if (search) {
+      query += ` AND (fila ILIKE $${paramIndex} OR codigo_da_tarefa ILIKE $${paramIndex} OR razao_social_cliente ILIKE $${paramIndex} OR situacao_sistema ILIKE $${paramIndex})`;
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+    query += ` ORDER BY data_historico DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(parseInt(limit), parseInt(offset));
+    const result = await pool.query(query, params);
+    const countResult = await pool.query('SELECT COUNT(*) as total FROM db_bloco_de_notas.iw_cpc_975_net WHERE etapa_atual = $1 AND situacao_sistema = $2 AND acao = $3', ['04 - Inspeção', 'ATIVO', 'Alterar Status']);
+    res.json({ data: result.rows, total: parseInt(countResult.rows[0].total), limit: parseInt(limit), offset: parseInt(offset) });
+  } catch (error) {
+    console.error('[INPUT_NET] Erro:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
+});
+
+app.post('/api/input_net/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    const result = await processarETL_975_net(req.file.path, pool);
+    res.json({ success: true, message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`, totalRows: result.totalRows });
+  } catch (error) {
+    console.error('[INPUT_NET] Erro:', error);
+    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+  }
+});
+
+// Upload CSV/ZIP e processar ETL para iw_cpc_975
+app.post('/api/gestao_input/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    }
+    
+    const filePath = req.file.path;
+    console.log(`[GESTAO_INPUT] Upload recebido: ${req.file.originalname} -> ${filePath}`);
+    
+    const result = await processarETL_975_net(filePath, pool);
+    
+    res.json({
+      success: true,
+      message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`,
+      totalRows: result.totalRows
+    });
+    
+  } catch (error) {
+    console.error('[GESTAO_INPUT] Erro no upload/ETL:', error);
+    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+  }
+});
+
+// Atualizar tabela iw_cpc_975_net a partir da esteira (somente dados do dia)
+app.post('/api/gestao/atualizar_input_net', authenticateToken, async (req, res) => {
+  try {
+    await pool.query(`
+      DO $$
+      DECLARE
+          v_max_esteira TIMESTAMP;
+          v_max_bloco   TIMESTAMP;
+      BEGIN
+          SELECT MAX(CAST(data_historico AS TIMESTAMP)) INTO v_max_esteira FROM db_esteira_gross.historico_input_pedido_pme_net;
+          SELECT MAX(CAST(data_historico AS TIMESTAMP)) INTO v_max_bloco FROM db_bloco_de_notas.iw_cpc_975_net;
+
+          IF v_max_esteira > COALESCE(v_max_bloco, '1900-01-01'::timestamp) THEN
+              EXECUTE 'TRUNCATE TABLE db_bloco_de_notas.iw_cpc_975_net';
+
+              INSERT INTO db_bloco_de_notas.iw_cpc_975_net (
+                  fila, codigo_da_tarefa, data_criacao, data_finalizacao, etapa_atual,
+                  data_historico, da_etapa, do_usuario_login, do_usuario_nome, para_etapa,
+                  para_usuario_login, para_usuario_nome, acao, canal_cliente, segmento_cliente,
+                  cnpj_cliente, razao_social_cliente, cliente_cpc, login_gerente_conta,
+                  nome_gerente_conta, id_cor, id_cotacao, id_ped, descricao, situacao_sistema,
+                  data_carga
+              )
+              SELECT
+                  fila, codigo_da_tarefa, data_criacao, data_finalizacao, etapa_atual,
+                  data_historico, da_etapa, do_usuario_login, do_usuario_nome, para_etapa,
+                  para_usuario_login, para_usuario_nome, acao, canal_cliente, segmento_cliente,
+                  cnpj_cliente, razao_social_cliente, cliente_cpc, login_gerente_conta,
+                  nome_gerente_conta, id_cor, id_cotacao, id_ped, descricao, situacao_sistema,
+                  CURRENT_DATE AS data_carga
+              FROM db_esteira_gross.historico_input_pedido_pme_net
+              WHERE CAST(data_historico AS TIMESTAMP)::date = CURRENT_DATE;
+
+              RAISE NOTICE 'Sucesso: Tabela truncada e dados atualizados para o dia %.', CURRENT_DATE;
+          ELSE
+              RAISE NOTICE 'Aviso: A tabela do bloco de notas já está atualizada ou a origem não possui dados mais recentes.';
+          END IF;
+      END $$;
+    `);
+    res.json({ success: true, message: 'Dados atualizados com sucesso.' });
+  } catch (error) {
+    console.error('[ATUALIZAR_INPUT_NET] Erro:', error);
+    res.status(500).json({ error: 'Erro ao atualizar dados' });
+  }
+});
+
+// Listar dados da iw_cpc_975
+app.get('/api/gestao_input/tarefas', authenticateToken, async (req, res) => {
+  try {
+    const { search, limit = 100, offset = 0 } = req.query;
+    
+    let query = `
+      SELECT * FROM db_bloco_de_notas.iw_cpc_975_net 
+      WHERE 1=1
+    `;
+    const params = [];
+    let paramIndex = 1;
+    
+    if (search) {
+      query += ` AND (
+        fila ILIKE $${paramIndex} OR 
+        codigo_da_tarefa ILIKE $${paramIndex} OR 
+        razao_social_cliente ILIKE $${paramIndex} OR
+        situacao_sistema ILIKE $${paramIndex}
+      )`;
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+    
+    query += ` ORDER BY data_historico DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(parseInt(limit), parseInt(offset));
+    
+    const result = await pool.query(query, params);
+    
+    // Contar total
+    const countResult = await pool.query('SELECT COUNT(*) as total FROM db_bloco_de_notas.iw_cpc_975_net');
+    const total = parseInt(countResult.rows[0].total);
+    
+    res.json({
+      data: result.rows,
+      total,
+      limit: parseInt(limit),
+      offset: parseInt(offset)
+    });
+    
+  } catch (error) {
+    console.error('[GESTAO_INPUT] Erro ao buscar dados:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
+});
+
+// ===== ROTA PÚBLICA: DEVOLUÇÃO PADRÃO INPUT =====
+
+// Página de visualização (pública)
+app.get('/devolucao-padrao', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao.html'));
+});
+
+app.get('/pme_notas/devolucao-padrao', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao.html'));
+});
+
+// API pública para listar dados da devolução padrão
+app.get('/api/devolucao-padrao', async (req, res) => {
+  try {
+    const { search, limit = 100, offset = 0 } = req.query;
+    
+    let query = 'SELECT * FROM db_qualidade.devolucao_padrao_input';
+    let countQuery = 'SELECT COUNT(*) as total FROM db_qualidade.devolucao_padrao_input';
+    let params = [];
+    let countParams = [];
+    let paramIndex = 1;
+
+    if (search) {
+      const whereClause = ` WHERE (motivo ILIKE $${paramIndex} OR codigo ILIKE $${paramIndex} OR descricao ILIKE $${paramIndex} OR reprova ILIKE $${paramIndex})`;
+      query += whereClause;
+      countQuery += whereClause;
+      const searchParam = `%${search}%`;
+      params.push(searchParam);
+      countParams.push(searchParam);
+      paramIndex++;
+    }
+
+    // Total count
+    const countResult = await pool.query(countQuery, countParams);
+    const total = parseInt(countResult.rows[0].total);
+
+    // Pagination
+    query += ` ORDER BY motivo, codigo LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(parseInt(limit), parseInt(offset));
+
+    const result = await pool.query(query, params);
+
+    res.json({
+      data: result.rows,
+      total,
+      limit: parseInt(limit),
+      offset: parseInt(offset)
+    });
+  } catch (error) {
+    console.error('[DEVOLUCAO_PADRAO] Erro ao buscar dados:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
 });
 
 app.listen(PORT, () => {

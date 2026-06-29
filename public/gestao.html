@@ -97,6 +97,7 @@
             const [usuarios, setUsuarios] = useState([]);
             const [loading, setLoading] = useState(false);
             const [uploading, setUploading] = useState(false);
+            const [atualizando, setAtualizando] = useState(false);
             const [distribuindo, setDistribuindo] = useState(false);
             const [dragActive, setDragActive] = useState(false);
             const [fileInfo, setFileInfo] = useState(null);
@@ -360,6 +361,27 @@
                 }
             };
 
+            const handleAtualizar = async () => {
+                try {
+                    setAtualizando(true);
+                    const res = await fetch(`${getBasePath()}/api/gestao/atualizar_r_000250`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        showToast(data.message || 'Tabela atualizada com sucesso!', 'success');
+                        fetchTarefas();
+                    } else {
+                        showToast(data.error || 'Erro ao atualizar tabela', 'error');
+                    }
+                } catch (err) {
+                    showToast('Erro ao atualizar: ' + err.message, 'error');
+                } finally {
+                    setAtualizando(false);
+                }
+            };
+
             const handleLogout = () => {
                 localStorage.removeItem('token');
                 localStorage.removeItem('username');
@@ -541,6 +563,16 @@
                                         React.createElement('line', { x1: "6", y1: "20", x2: "6", y2: "14" })
                                     ),
                                     'Dashboard'
+                                ),
+                                React.createElement('button', {
+                                    onClick: handleAtualizar,
+                                    disabled: atualizando,
+                                    className: 'p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors duration-200 disabled:opacity-50',
+                                    title: 'Atualizar dados'
+                                },
+                                    atualizando
+                                        ? React.createElement('div', { className: 'w-4 h-4 border-2 border-slate-500 border-t-transparent rounded-full animate-spin' })
+                                        : React.createElement(RefreshIcon)
                                 ),
                                 React.createElement('div', { className: 'hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm' },
                                     React.createElement('span', { className: 'text-sm font-semibold text-white' }, username)

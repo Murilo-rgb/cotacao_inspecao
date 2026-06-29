@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devolução Padrão Input</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .content { padding: 25px; }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 45px 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            outline: none;
+        }
+        
+        .search-box input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        }
+        
+        .search-box .clear-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            display: none;
+        }
+        
+        .search-box .clear-btn:hover { color: #333; }
+        .search-box .clear-btn.visible { display: block; }
+        
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pagination button {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            color: #555;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            border-color: #667eea;
+            color: #667eea;
+            background: #f5f6ff;
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .pagination .page-info {
+            font-size: 14px;
+            color: #666;
+            padding: 0 10px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 16px;
+        }
+        
+        .loading .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        thead {
+            background: #f8f9ff;
+        }
+        
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #444;
+            border-bottom: 2px solid #e0e0e0;
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            position: sticky;
+            top: 0;
+            background: #f8f9ff;
+        }
+        
+        th:hover { color: #667eea; }
+        
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        tr:hover td { background: #f8f9ff; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #999;
+        }
+        
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .empty-state h3 {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .counter {
+            font-size: 14px;
+            color: #888;
+            padding: 8px 0;
+        }
+        
+        .counter strong { color: #444; }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header { padding: 20px; }
+            .header h1 { font-size: 22px; }
+            .content { padding: 15px; }
+            .controls { flex-direction: column; }
+            .search-box { min-width: 100%; }
+            .pagination { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Devolução Padrão Input</h1>
+            <p>Tabela de motivos, códigos e descrições de devoluções padrão</p>
+        </div>
+        
+        <div class="content">
+            <div class="controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Buscar por motivo, código ou descrição..." oninput="debounceSearch()">
+                    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
+                </div>
+                <div class="pagination">
+                    <button id="prevBtn" onclick="changePage(-1)" disabled>← Anterior</button>
+                    <span class="page-info" id="pageInfo">Página 1</span>
+                    <button id="nextBtn" onclick="changePage(1)">Próximo →</button>
+                </div>
+            </div>
+            
+            <div class="counter" id="counter">Carregando...</div>
+            
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                Carregando dados...
+            </div>
+            
+            <div id="tableContainer" class="table-wrapper" style="display:none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th onclick="sortBy('motivo')">Motivo</th>
+                            <th onclick="sortBy('codigo')">Código</th>
+                            <th onclick="sortBy('descricao')">Descrição</th>
+                            <th onclick="sortBy('reprova')">Reprova</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="emptyState" class="empty-state" style="display:none;">
+                <div class="icon">📭</div>
+                <h3>Nenhum registro encontrado</h3>
+                <p>Tente alterar os termos da busca.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = '/api/devolucao-padrao';
+        let currentPage = 0;
+        let pageSize = 50;
+        let currentSearch = '';
+        let currentSort = 'motivo';
+        let totalRecords = 0;
+        let debounceTimer = null;
+        
+        async function loadData() {
+            const loading = document.getElementById('loading');
+            const tableContainer = document.getElementById('tableContainer');
+            const emptyState = document.getElementById('emptyState');
+            const tableBody = document.getElementById('tableBody');
+            const counter = document.getElementById('counter');
+            
+            loading.style.display = 'block';
+            tableContainer.style.display = 'none';
+            emptyState.style.display = 'none';
+            
+            try {
+                const offset = currentPage * pageSize;
+                let url = `${API_URL}?limit=${pageSize}&offset=${offset}`;
+                if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
+                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Erro ao carregar dados');
+                
+                const result = await response.json();
+                const data = result.data || [];
+                totalRecords = result.total || 0;
+                
+                loading.style.display = 'none';
+                
+                if (data.length === 0) {
+                    emptyState.style.display = 'block';
+                    return;
+                }
+                
+                tableBody.innerHTML = '';
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td title="${escapeHtml(row.motivo || '')}">${escapeHtml(row.motivo || '-')}</td>
+                        <td><strong>${escapeHtml(row.codigo || '-')}</strong></td>
+                        <td title="${escapeHtml(row.descricao || '')}">${escapeHtml(truncate(row.descricao || '-', 80))}</td>
+                        <td title="${escapeHtml(row.reprova || '')}">${escapeHtml(truncate(row.reprova || '-', 80))}</td>
+                        <td><span class="status-badge">${escapeHtml(row.status || 'Ativo')}</span></td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+                
+                tableContainer.style.display = 'block';
+                updatePagination();
+                updateCounter();
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                emptyState.style.display = 'block';
+                emptyState.querySelector('h3').textContent = 'Erro ao carregar dados';
+                emptyState.querySelector('p').textContent = error.message;
+            }
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function truncate(text, maxLength) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+        
+        function updatePagination() {
+            const totalPages = Math.ceil(totalRecords / pageSize);
+            const pageInfo = document.getElementById('pageInfo');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            pageInfo.textContent = `Página ${currentPage + 1} de ${totalPages || 1}`;
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage >= totalPages - 1;
+        }
+        
+        function updateCounter() {
+            const counter = document.getElementById('counter');
+            const start = currentPage * pageSize + 1;
+            const end = Math.min((currentPage + 1) * pageSize, totalRecords);
+            counter.innerHTML = `Mostrando <strong>${start}-${end}</strong> de <strong>${totalRecords}</strong> registros`;
+        }
+        
+        function changePage(delta) {
+            const totalPages = Math.ceil(totalRecords / pageSize);
+            const newPage = currentPage + delta;
+            if (newPage < 0 || newPage >= totalPages) return;
+            currentPage = newPage;
+            loadData();
+        }
+        
+        function debounceSearch() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const input = document.getElementById('searchInput');
+                const clearBtn = document.getElementById('clearBtn');
+                currentSearch = input.value;
+                clearBtn.classList.toggle('visible', currentSearch.length > 0);
+                currentPage = 0;
+                loadData();
+            }, 300);
+        }
+        
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearBtn').classList.remove('visible');
+            currentSearch = '';
+            currentPage = 0;
+            loadData();
+        }
+        
+        function sortBy(column) {
+            if (currentSort === column) {
+                currentSort = `-${column}`;
+            } else {
+                currentSort = column;
+            }
+            loadData();
+        }
+        
+        // Keyboard shortcut: Ctrl+F to focus search
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+            if (e.key === 'Escape') {
+                document.getElementById('searchInput').blur();
+            }
+        });
+        
+        // Initial load
+        loadData();
+    </script>
+</body>
+</html>
