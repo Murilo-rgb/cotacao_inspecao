@@ -21,7 +21,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
 
   // Serve inspecao page
   router.get('/inspecao', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'gestao.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'inspecao.html'));
   });
 
   // Upload CSV/ZIP e processar ETL r_000250
@@ -56,7 +56,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   });
 
   // Listar tarefas da r_000250 (com nome do usuário atribuído)
-  router.get('/api/gestao/tarefas', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  router.get('/api/inspecao/tarefas', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
       const query = `
         SELECT r.*, 
@@ -104,7 +104,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   });
 
   // Listar usuários para distribuição
-  router.get('/api/gestao/usuarios', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  router.get('/api/inspecao/usuarios', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
       const result = await pool.query(
         'SELECT id, login, nome FROM db_automacao.usuarios WHERE ativo = true ORDER BY nome'

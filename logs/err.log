@@ -2031,3 +2031,8 @@
 29/06/2026 18:33:58:   line: '3647',
 29/06/2026 18:33:58:   routine: 'errorMissingColumn'
 29/06/2026 18:33:58: }
+29/06/2026 18:50:18: Error: ENOENT: no such file or directory, stat 'E:\projetos_hitss\geo-pme-notas\public\gestao.html'
+29/06/2026 18:50:22: Error: ENOENT: no such file or directory, stat 'E:\projetos_hitss\geo-pme-notas\public\gestao.html'
+29/06/2026 18:50:24: Error: ENOENT: no such file or directory, stat 'E:\projetos_hitss\geo-pme-notas\public\gestao.html'
+29/06/2026 18:50:43: Error: ENOENT: no such file or directory, stat 'E:\projetos_hitss\geo-pme-notas\public\gestao.html'
+29/06/2026 18:50:44: Error: ENOENT: no such file or directory, stat 'E:\projetos_hitss\geo-pme-notas\public\gestao.html'

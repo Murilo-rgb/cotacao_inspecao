@@ -132,7 +132,7 @@
                 if (!token) return;
                 try {
                     setLoading(true);
-                    const res = await fetch(`${getBasePath()}/api/gestao/tarefas`, {
+                    const res = await fetch(`${getBasePath()}/api/inspecao/tarefas`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (res.status === 401 || res.status === 403) {
@@ -158,7 +158,7 @@
             const fetchUsuarios = useCallback(async () => {
                 if (!token) return;
                 try {
-                    const res = await fetch(`${getBasePath()}/api/gestao/usuarios`, {
+                    const res = await fetch(`${getBasePath()}/api/inspecao/usuarios`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     const data = await res.json();
@@ -191,7 +191,7 @@
                 formData.append('file', file);
                 
                 try {
-                    const res = await fetch(`${getBasePath()}/api/gestao/upload`, {
+                    const res = await fetch(`${getBasePath()}/api/inspecao/upload`, {
                         method: 'POST',
                         headers: { 'Authorization': `Bearer ${token}` },
                         body: formData
@@ -329,8 +329,8 @@
                 }));
 
                 const endpoint = redistribuirMode 
-                    ? `${getBasePath()}/api/gestao/redistribuir`
-                    : `${getBasePath()}/api/gestao/distribuir`;
+                    ? `${getBasePath()}/api/inspecao/redistribuir`
+                    : `${getBasePath()}/api/inspecao/distribuir`;
                 const body = redistribuirMode
                     ? JSON.stringify({ redistribuicoes: distribuicoes })
                     : JSON.stringify({ distribuicoes });
@@ -364,7 +364,7 @@
             const handleAtualizar = async () => {
                 try {
                     setAtualizando(true);
-                    const res = await fetch(`${getBasePath()}/api/gestao/atualizar_r_000250`, {
+                    const res = await fetch(`${getBasePath()}/api/inspecao/atualizar_r_000250`, {
                         method: 'POST',
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
@@ -554,7 +554,7 @@
                             ),
                             React.createElement('div', { className: 'flex items-center gap-3' },
                                 React.createElement('a', {
-                                    href: `${getBasePath()}/gestao/dashboard`,
+                                    href: `${getBasePath()}/inspecao/dashboard`,
                                     className: 'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors'
                                 },
                                     React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },

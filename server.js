@@ -738,7 +738,7 @@ app.post('/api/reprovas', authenticateToken, async (req, res) => {
 });
 
 // Atualizar tabela r_000250 a partir do db_claro
-app.post('/api/gestao/atualizar_r_000250', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+app.post('/api/inpecao/atualizar_r_000250', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
   try {
     const startTime = Date.now();
     console.log('[ATUALIZAR_R_000250] Iniciando atualização...');
@@ -792,7 +792,7 @@ app.post('/api/gestao/atualizar_r_000250', authenticateToken, authorizeRoute('/p
 });
 
 // Classificar cotações pendentes manualmente
-app.post('/api/gestao/classificar-pendentes', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+app.post('/api/inpecao/classificar-pendentes', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
   try {
     const result = await classificarPendentes();
     
@@ -808,11 +808,11 @@ app.post('/api/gestao/classificar-pendentes', authenticateToken, authorizeRoute(
 });
 
 // Serve dashboard page
-app.get('/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+app.get('/inpecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/inpecao'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
-app.get('/pme_notas/gestao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+app.get('/pme_notas/inpecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/inpecao'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
@@ -983,7 +983,7 @@ app.get('/pme_notas/qualidade', authenticateToken, (req, res) => {
 
 
 // Serve gestao_input page
-app.get('/gestao_input', authenticateToken, (req, res) => {
+app.get('/inpecao_input', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao_input.html'));
 });
 
@@ -1020,7 +1020,7 @@ app.get('/pme_notas/*', (req, res, next) => {
 });
 
 // API Tarefas Input TOP (antes do fallback SPA)
-app.get('/api/gestao/tarefas_top', authenticateToken, async (req, res) => {
+app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
   try {
     const { search, limit = 100, offset = 0 } = req.query;
     const params = [];
@@ -1088,7 +1088,7 @@ app.get('/api/gestao/tarefas_top', authenticateToken, async (req, res) => {
 });
 
 // API Tarefas Input NET (antes do fallback SPA)
-app.get('/api/gestao/tarefas_net', authenticateToken, async (req, res) => {
+app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
   try {
     const { search, limit = 100, offset = 0 } = req.query;
     const params = [];
@@ -1220,7 +1220,7 @@ app.get('/api/gestao/tarefas_net', authenticateToken, async (req, res) => {
 });
 
 // Upload CSV/ZIP e processar ETL para iw_cpc_975
-app.post('/api/gestao/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+app.post('/api/inpecao/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
     const result = await processarETL_975_top(req.file.path, pool);
@@ -1276,7 +1276,7 @@ app.post('/api/input_net/upload', authenticateToken, inputUpload.single('file'),
 });
 
 // Upload CSV/ZIP e processar ETL para iw_cpc_975
-app.post('/api/gestao_input/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+app.post('/api/inpecao_input/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'Nenhum arquivo enviado' });
@@ -1300,7 +1300,7 @@ app.post('/api/gestao_input/upload', authenticateToken, inputUpload.single('file
 });
 
 // Atualizar tabela iw_cpc_975_net a partir da esteira (somente dados do dia)
-app.post('/api/gestao/atualizar_input_net', authenticateToken, async (req, res) => {
+app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res) => {
   try {
     await pool.query(`
       DO $$
@@ -1346,7 +1346,7 @@ app.post('/api/gestao/atualizar_input_net', authenticateToken, async (req, res) 
 });
 
 // Distribuir tarefas input_net (iw_cpc_975_net)
-app.post('/api/gestao/distribuir_input_net', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
   try {
     const { distribuicoes } = req.body;
     
@@ -1438,7 +1438,7 @@ app.post('/api/gestao/distribuir_input_net', authenticateToken, authorizeRoute('
 });
 
 // Redistribuir tarefas input_net (iw_cpc_975_net)
-app.post('/api/gestao/redistribuir_input_net', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+app.post('/api/inpecao/redistribuir_input_net', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
   try {
     const { redistribuicoes } = req.body;
     
@@ -1514,7 +1514,7 @@ app.post('/api/gestao/redistribuir_input_net', authenticateToken, authorizeRoute
 });
 
 // Listar dados da iw_cpc_975
-app.get('/api/gestao_input/tarefas', authenticateToken, async (req, res) => {
+app.get('/api/inpecao_input/tarefas', authenticateToken, async (req, res) => {
   try {
     const { search, limit = 100, offset = 0 } = req.query;
     
