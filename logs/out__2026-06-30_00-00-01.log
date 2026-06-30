@@ -1,0 +1,757 @@
+25/06/2026 14:52:39: Servidor rodando em http://localhost:3016
+25/06/2026 15:16:57: [GESTAO] Upload recebido: R_000250.csv -> E:\projetos_hitss\geo-pme-notas\files\r_000250.csv
+25/06/2026 15:16:57: --- INICIANDO ETL R_000250 ---
+25/06/2026 15:16:58: Delimitador detectado: ";"
+25/06/2026 15:16:59: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+25/06/2026 15:16:59: Tabela verificada/criada.
+25/06/2026 15:16:59: Dados antigos removidos.
+25/06/2026 15:17:00: Dados carregados com sucesso via COPY.
+25/06/2026 15:17:00: --- ETL R_000250 CONCLUÍDO: 27964 registros ---
+25/06/2026 15:25:03: [GESTAO] Upload recebido: R_000250_1425715.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 15:25:03: --- INICIANDO ETL R_000250 ---
+25/06/2026 15:25:03: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 15:25:03: Delimitador detectado: ";"
+25/06/2026 15:25:03: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+25/06/2026 15:25:03: Tabela verificada/criada.
+25/06/2026 15:25:03: Dados antigos removidos.
+25/06/2026 15:25:03: Dados carregados com sucesso via COPY.
+25/06/2026 15:25:03: --- ETL R_000250 CONCLUÍDO: 364 registros ---
+25/06/2026 16:04:27: [DELETE] Soft delete cotação: 22769624
+25/06/2026 16:04:27: [DELETE] Usuário: jose.faria
+25/06/2026 16:04:27: [DELETE] Linhas afetadas: 1
+25/06/2026 16:04:27: [DELETE] Cotação deletada com sucesso: {
+25/06/2026 16:04:27:   cotacao: 'Q6313147',
+25/06/2026 16:04:27:   anotacao: 'Tarefa: E001 - PME - 16.602.053/0001-12 | Fila: CPC - PME',
+25/06/2026 16:04:27:   status: 'pendente',
+25/06/2026 16:04:27:   data_de_criacao: '25/06/2026 15:53',
+25/06/2026 16:04:27:   data_da_ultima_atualizacao: '25/06/2026 16:04',
+25/06/2026 16:04:27:   usuario_login: 'jose.faria',
+25/06/2026 16:04:27:   validacao: 'Inativo',
+25/06/2026 16:04:27:   usuario_id: '50',
+25/06/2026 16:04:27:   tarefa: '22769624'
+25/06/2026 16:04:27: }
+25/06/2026 16:08:48: Servidor rodando em http://localhost:3016
+25/06/2026 16:09:08: [GESTAO] Upload recebido: R_000250_1425715.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 16:09:08: --- INICIANDO ETL R_000250 ---
+25/06/2026 16:09:08: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 16:09:08: Delimitador detectado: ";"
+25/06/2026 16:09:08: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+25/06/2026 16:09:08: Tabela verificada/criada.
+25/06/2026 16:09:08: Dados antigos removidos.
+25/06/2026 16:09:08: Dados carregados com sucesso via COPY.
+25/06/2026 16:09:08: --- ETL R_000250 CONCLUÍDO: 364 registros ---
+25/06/2026 16:09:08: [CLASSIFICACAO] Conectado ao banco de dados.
+25/06/2026 16:09:08: [CLASSIFICACAO] 43 cotações classificadas.
+25/06/2026 16:09:08: [CLASSIFICACAO] Cotações atualizadas:
+25/06/2026 16:09:08:   - Tarefa: 22757680 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757663 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757549 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757382 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757283 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757196 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757136 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22755019 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22758287 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22758262 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22758180 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757969 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757814 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757800 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22757138 | Usuário: jose.faria
+25/06/2026 16:09:08:   - Tarefa: 22761468 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22761380 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22761367 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22761362 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22761133 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22761103 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760989 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760915 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760460 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760416 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760392 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760387 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760368 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760344 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760338 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760245 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760161 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760056 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22760027 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22759843 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22759823 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22758871 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22758858 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22758857 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22758849 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22758829 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22758395 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08:   - Tarefa: 22758340 | Usuário: yasmin.rodriguessilv
+25/06/2026 16:09:08: [CLASSIFICACAO] Total "Pendente - Classificação": 43
+25/06/2026 16:14:19: Servidor rodando em http://localhost:3016
+25/06/2026 16:20:10: [PUT] Atualizando cotação: 22769624
+25/06/2026 16:20:10: [PUT] Usuário: jose.faria
+25/06/2026 16:20:10: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-classificacao' }
+25/06/2026 16:20:10: [PUT] Linhas afetadas: 1
+25/06/2026 16:20:10: [PUT] Cotação atualizada com sucesso: {
+25/06/2026 16:20:10:   cotacao: 'Q6313147',
+25/06/2026 16:20:10:   anotacao: 'Tarefa: E001 - PME - 16.602.053/0001-12 | Fila: CPC - PME',
+25/06/2026 16:20:10:   status: 'pendente-classificacao',
+25/06/2026 16:20:10:   data_de_criacao: '25/06/2026 15:53',
+25/06/2026 16:20:10:   data_da_ultima_atualizacao: '25/06/2026 16:20',
+25/06/2026 16:20:10:   usuario_login: 'jose.faria',
+25/06/2026 16:20:10:   validacao: 'Ativo',
+25/06/2026 16:20:10:   usuario_id: '50',
+25/06/2026 16:20:10:   tarefa: '22769624'
+25/06/2026 16:20:10: }
+25/06/2026 16:43:03: Servidor rodando em http://localhost:3016
+25/06/2026 16:43:55: [GESTAO] Upload recebido: R_000250_1425715.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 16:43:55: --- INICIANDO ETL R_000250 ---
+25/06/2026 16:43:55: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 16:43:55: Delimitador detectado: ";"
+25/06/2026 16:43:56: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+25/06/2026 16:43:56: Tabela verificada/criada.
+25/06/2026 16:43:56: Dados antigos removidos.
+25/06/2026 16:43:56: Dados carregados com sucesso via COPY.
+25/06/2026 16:43:56: --- ETL R_000250 CONCLUÍDO: 364 registros ---
+25/06/2026 16:43:56: [CLASSIFICACAO] Conectado ao banco de dados.
+25/06/2026 16:43:56: [CLASSIFICACAO] 0 cotações classificadas.
+25/06/2026 16:43:56: [CLASSIFICACAO] Total "Pendente - Classificação": 43
+25/06/2026 17:23:42: [GESTAO] Upload recebido: R_000250_1425715.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 17:23:42: --- INICIANDO ETL R_000250 ---
+25/06/2026 17:23:42: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 17:23:42: Delimitador detectado: ";"
+25/06/2026 17:23:42: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+25/06/2026 17:23:42: Tabela verificada/criada.
+25/06/2026 17:23:42: Dados antigos removidos.
+25/06/2026 17:23:42: Dados carregados com sucesso via COPY.
+25/06/2026 17:23:42: --- ETL R_000250 CONCLUÍDO: 364 registros ---
+25/06/2026 17:23:42: [CLASSIFICACAO] Conectado ao banco de dados.
+25/06/2026 17:23:42: [CLASSIFICACAO] 0 cotações classificadas.
+25/06/2026 17:23:42: [CLASSIFICACAO] Total "Pendente - Classificação": 43
+25/06/2026 17:46:48: Servidor rodando em http://localhost:3016
+25/06/2026 17:50:44: Servidor rodando em http://localhost:3016
+25/06/2026 17:54:02: [GESTAO] Upload recebido: R_000250_1425715.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 17:54:02: --- INICIANDO ETL R_000250 ---
+25/06/2026 17:54:02: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 17:54:02: Delimitador detectado: ";"
+25/06/2026 17:54:02: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+25/06/2026 17:54:02: Tabela verificada/criada.
+25/06/2026 17:54:02: Dados antigos removidos.
+25/06/2026 17:54:02: Dados carregados com sucesso via COPY.
+25/06/2026 17:54:02: --- ETL R_000250 CONCLUÍDO: 364 registros ---
+25/06/2026 17:54:02: [CLASSIFICACAO] Conectado ao banco de dados.
+25/06/2026 17:54:02: [CLASSIFICACAO] 0 cotações classificadas.
+25/06/2026 17:54:02: [CLASSIFICACAO] Total "Pendente - Classificação": 43
+25/06/2026 18:08:25: [GESTAO] Upload recebido: R_000250_1425843 (2).zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 18:08:25: --- INICIANDO ETL R_000250 ---
+25/06/2026 18:08:25: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 18:08:25: Delimitador detectado: ";"
+25/06/2026 18:08:25: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+25/06/2026 18:08:25: Tabela verificada/criada.
+25/06/2026 18:08:25: Dados antigos removidos.
+25/06/2026 18:08:25: Dados carregados com sucesso via COPY.
+25/06/2026 18:08:25: --- ETL R_000250 CONCLUÍDO: 487 registros ---
+25/06/2026 18:08:25: [CLASSIFICACAO] Conectado ao banco de dados.
+25/06/2026 18:08:25: [CLASSIFICACAO] 25 cotações classificadas.
+25/06/2026 18:08:25: [CLASSIFICACAO] Cotações atualizadas:
+25/06/2026 18:08:25:   - Tarefa: 22772935 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22772542 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22772539 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22772534 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22772274 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22772254 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22772237 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22772211 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22771501 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22771442 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22771287 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22771243 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22771193 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22771122 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22771086 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22770907 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22770817 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22770712 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22770582 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22770024 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22769996 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22769926 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22769572 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22769298 | Usuário: yasmin.rodriguessilv
+25/06/2026 18:08:25:   - Tarefa: 22769624 | Usuário: jose.faria
+25/06/2026 18:08:25: [CLASSIFICACAO] Total "Pendente - Classificação": 68
+25/06/2026 18:12:38: Servidor rodando em http://localhost:3016
+25/06/2026 18:20:25: [PUT] Atualizando cotação: 22769624
+25/06/2026 18:20:25: [PUT] Usuário: jose.faria
+25/06/2026 18:20:25: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-suporte' }
+25/06/2026 18:20:25: [PUT] Linhas afetadas: 1
+25/06/2026 18:20:25: [PUT] Cotação atualizada com sucesso: {
+25/06/2026 18:20:25:   cotacao: 'Q6313147',
+25/06/2026 18:20:25:   anotacao: 'Tarefa: E001 - PME - 16.602.053/0001-12 | Fila: CPC - PME',
+25/06/2026 18:20:25:   status: 'pendente-suporte',
+25/06/2026 18:20:25:   data_de_criacao: '25/06/2026 15:53',
+25/06/2026 18:20:25:   data_da_ultima_atualizacao: '25/06/2026 18:20',
+25/06/2026 18:20:25:   usuario_login: 'jose.faria',
+25/06/2026 18:20:25:   validacao: 'Ativo',
+25/06/2026 18:20:25:   usuario_id: '50',
+25/06/2026 18:20:25:   tarefa: '22769624'
+25/06/2026 18:20:25: }
+25/06/2026 18:34:02: Servidor rodando em http://localhost:3016
+25/06/2026 18:35:07: [GESTAO] Upload recebido: R_000250_1425843 (1).zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 18:35:07: --- INICIANDO ETL R_000250 ---
+25/06/2026 18:35:07: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+25/06/2026 18:35:07: Delimitador detectado: ";"
+25/06/2026 18:35:07: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+25/06/2026 18:35:07: Tabela verificada/criada.
+25/06/2026 18:35:07: Dados antigos removidos.
+25/06/2026 18:35:07: Dados carregados com sucesso via COPY.
+25/06/2026 18:35:07: --- ETL R_000250 CONCLUÍDO: 487 registros ---
+25/06/2026 18:35:07: [CLASSIFICACAO] Conectado ao banco de dados.
+25/06/2026 18:35:07: [CLASSIFICACAO] 1 cotações classificadas.
+25/06/2026 18:35:07: [CLASSIFICACAO] Cotações atualizadas:
+25/06/2026 18:35:07:   - Tarefa: 22769624 | Usuário: jose.faria
+25/06/2026 18:35:07: [CLASSIFICACAO] Total "Pendente - Classificação": 68
+25/06/2026 18:36:01: [PUT] Atualizando cotação: 22769624
+25/06/2026 18:36:01: [PUT] Usuário: jose.faria
+25/06/2026 18:36:01: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+25/06/2026 18:36:01: [PUT] Linhas afetadas: 1
+25/06/2026 18:36:01: [PUT] Cotação atualizada com sucesso: {
+25/06/2026 18:36:01:   cotacao: 'Q6313147',
+25/06/2026 18:36:01:   anotacao: 'Tarefa: E001 - PME - 16.602.053/0001-12 | Fila: CPC - PME',
+25/06/2026 18:36:01:   status: 'pendente-iphone',
+25/06/2026 18:36:01:   data_de_criacao: '25/06/2026 15:53',
+25/06/2026 18:36:01:   data_da_ultima_atualizacao: '25/06/2026 18:36',
+25/06/2026 18:36:01:   usuario_login: 'jose.faria',
+25/06/2026 18:36:01:   validacao: 'Ativo',
+25/06/2026 18:36:01:   usuario_id: '50',
+25/06/2026 18:36:01:   tarefa: '22769624'
+25/06/2026 18:36:01: }
+25/06/2026 18:43:34: Servidor rodando em http://localhost:3016
+25/06/2026 19:15:18: Servidor rodando em http://localhost:3016
+26/06/2026 11:35:53: Servidor rodando em http://localhost:3016
+26/06/2026 11:58:07: Servidor rodando em http://localhost:3016
+26/06/2026 12:27:45: [PUT] Atualizando cotação: 22772560
+26/06/2026 12:27:45: [PUT] Usuário: jose.faria
+26/06/2026 12:27:45: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+26/06/2026 12:27:45: [PUT] Linhas afetadas: 1
+26/06/2026 12:27:45: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 12:27:45:   cotacao: 'Q6332898',
+26/06/2026 12:27:45:   anotacao: 'Tarefa: E001 - PME - 21.544.918/0001-71 | Fila: CPC - PME',
+26/06/2026 12:27:45:   status: 'reprovado',
+26/06/2026 12:27:45:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 12:27:45:   data_da_ultima_atualizacao: '26/06/2026 12:27',
+26/06/2026 12:27:45:   usuario_login: 'jose.faria',
+26/06/2026 12:27:45:   validacao: 'Ativo',
+26/06/2026 12:27:45:   usuario_id: '50',
+26/06/2026 12:27:45:   tarefa: '22772560'
+26/06/2026 12:27:45: }
+26/06/2026 12:28:22: [PUT] Atualizando cotação: 22772560
+26/06/2026 12:28:22: [PUT] Usuário: jose.faria
+26/06/2026 12:28:22: [PUT] Dados recebidos: {
+26/06/2026 12:28:22:   anotacao: "> Renovações tratados posteriormente á uma transferência PJ/PJ  necessitam dos Print's de Relatório de Relacionamento CNPJ dos 2 clientes (cedente e cessionário), sendo que do cessionário deve estar com o total de linhas da base, cedidas + linhas que já estavam na base (se for o caso), também deve ser enviado o Anexo de Produtos instalados com todas as linhas, cedidas + linhas que já estavam na base (se for o caso). **Renovação/Transferência PJ/PJ sem Print e Planilha**",
+26/06/2026 12:28:22:   status: 'reprovado'
+26/06/2026 12:28:22: }
+26/06/2026 12:28:22: [PUT] Linhas afetadas: 1
+26/06/2026 12:28:22: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 12:28:22:   cotacao: 'Q6332898',
+26/06/2026 12:28:22:   anotacao: "> Renovações tratados posteriormente á uma transferência PJ/PJ  necessitam dos Print's de Relatório de Relacionamento CNPJ dos 2 clientes (cedente e cessionário), sendo que do cessionário deve estar com o total de linhas da base, cedidas + linhas que já estavam na base (se for o caso), também deve ser enviado o Anexo de Produtos instalados com todas as linhas, cedidas + linhas que já estavam na base (se for o caso). **Renovação/Transferência PJ/PJ sem Print e Planilha**",
+26/06/2026 12:28:22:   status: 'reprovado',
+26/06/2026 12:28:22:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 12:28:22:   data_da_ultima_atualizacao: '26/06/2026 12:28',
+26/06/2026 12:28:22:   usuario_login: 'jose.faria',
+26/06/2026 12:28:22:   validacao: 'Ativo',
+26/06/2026 12:28:22:   usuario_id: '50',
+26/06/2026 12:28:22:   tarefa: '22772560'
+26/06/2026 12:28:22: }
+26/06/2026 12:31:02: [GESTAO] Upload recebido: R_000250_1426239.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+26/06/2026 12:31:02: --- INICIANDO ETL R_000250 ---
+26/06/2026 12:31:02: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+26/06/2026 12:31:02: Delimitador detectado: ";"
+26/06/2026 12:31:02: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+26/06/2026 12:31:02: Tabela verificada/criada.
+26/06/2026 12:31:02: Dados antigos removidos.
+26/06/2026 12:31:02: Dados carregados com sucesso via COPY.
+26/06/2026 12:31:02: --- ETL R_000250 CONCLUÍDO: 451 registros ---
+26/06/2026 12:31:02: [CLASSIFICACAO] Conectado ao banco de dados.
+26/06/2026 12:31:02: [CLASSIFICACAO] 17 cotações classificadas.
+26/06/2026 12:31:02: [CLASSIFICACAO] Cotações atualizadas:
+26/06/2026 12:31:02:   - Tarefa: 22772911 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772814 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772784 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772778 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772676 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772514 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772488 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772348 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772333 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772461 | Usuário: yasmin.rodriguessilv
+26/06/2026 12:31:02:   - Tarefa: 22772357 | Usuário: yasmin.rodriguessilv
+26/06/2026 12:31:02:   - Tarefa: 22771545 | Usuário: carmen.castro
+26/06/2026 12:31:02:   - Tarefa: 22770979 | Usuário: carmen.castro
+26/06/2026 12:31:02:   - Tarefa: 22769624 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772667 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772648 | Usuário: jose.faria
+26/06/2026 12:31:02:   - Tarefa: 22772643 | Usuário: jose.faria
+26/06/2026 12:31:02: [CLASSIFICACAO] Total "Pendente - Classificação": 84
+26/06/2026 13:49:01: Servidor rodando em http://localhost:3016
+26/06/2026 14:24:38: Servidor rodando em http://localhost:3016
+26/06/2026 14:32:08: Servidor rodando em http://localhost:3016
+26/06/2026 14:41:07: [PUT] Atualizando cotação: 22769624
+26/06/2026 14:41:07: [PUT] Usuário: jose.faria
+26/06/2026 14:41:07: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+26/06/2026 14:41:07: [PUT] Linhas afetadas: 1
+26/06/2026 14:41:07: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 14:41:07:   cotacao: 'Q6313147',
+26/06/2026 14:41:07:   anotacao: 'Tarefa: E001 - PME - 16.602.053/0001-12 | Fila: CPC - PME',
+26/06/2026 14:41:07:   status: 'pendente-iphone',
+26/06/2026 14:41:07:   data_de_criacao: '25/06/2026 15:53',
+26/06/2026 14:41:07:   data_da_ultima_atualizacao: '26/06/2026 14:41',
+26/06/2026 14:41:07:   usuario_login: 'jose.faria',
+26/06/2026 14:41:07:   validacao: 'Ativo',
+26/06/2026 14:41:07:   usuario_id: '50',
+26/06/2026 14:41:07:   tarefa: '22769624'
+26/06/2026 14:41:07: }
+26/06/2026 14:41:55: [PUT] Atualizando cotação: 22772667
+26/06/2026 14:41:55: [PUT] Usuário: jose.faria
+26/06/2026 14:41:55: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+26/06/2026 14:41:55: [PUT] Linhas afetadas: 1
+26/06/2026 14:41:55: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 14:41:55:   cotacao: 'Q6331762',
+26/06/2026 14:41:55:   anotacao: 'Tarefa: E001 - PME - 02.233.636/0001-09 | Fila: CPC - PME',
+26/06/2026 14:41:55:   status: 'reprovado',
+26/06/2026 14:41:55:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 14:41:55:   data_da_ultima_atualizacao: '26/06/2026 14:41',
+26/06/2026 14:41:55:   usuario_login: 'jose.faria',
+26/06/2026 14:41:55:   validacao: 'Ativo',
+26/06/2026 14:41:55:   usuario_id: '50',
+26/06/2026 14:41:55:   tarefa: '22772667'
+26/06/2026 14:41:55: }
+26/06/2026 14:42:30: [PUT] Atualizando cotação: 22772643
+26/06/2026 14:42:30: [PUT] Usuário: jose.faria
+26/06/2026 14:42:30: [PUT] Dados recebidos: {
+26/06/2026 14:42:30:   anotacao: '> No Relatório de Relacionamento CNPJ, a quantidade de linhas que informa [INTERVALO_2] está divergente em relação ao TCPJ/ Cotação e Planilha de Produtos Instalados,  onde informa [INTERVALO_4]. **Divergência Relatório de Relacionamento - Quantidade de linhas**',
+26/06/2026 14:42:30:   status: 'Pendente - Classificação'
+26/06/2026 14:42:30: }
+26/06/2026 14:42:30: [PUT] Linhas afetadas: 1
+26/06/2026 14:42:30: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 14:42:30:   cotacao: 'Q6303115',
+26/06/2026 14:42:30:   anotacao: '> No Relatório de Relacionamento CNPJ, a quantidade de linhas que informa [INTERVALO_2] está divergente em relação ao TCPJ/ Cotação e Planilha de Produtos Instalados,  onde informa [INTERVALO_4]. **Divergência Relatório de Relacionamento - Quantidade de linhas**',
+26/06/2026 14:42:30:   status: 'Pendente - Classificação',
+26/06/2026 14:42:30:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 14:42:30:   data_da_ultima_atualizacao: '26/06/2026 14:42',
+26/06/2026 14:42:30:   usuario_login: 'jose.faria',
+26/06/2026 14:42:30:   validacao: 'Ativo',
+26/06/2026 14:42:30:   usuario_id: '50',
+26/06/2026 14:42:30:   tarefa: '22772643'
+26/06/2026 14:42:30: }
+26/06/2026 14:47:09: [PUT] Atualizando cotação: 22772643
+26/06/2026 14:47:09: [PUT] Usuário: jose.faria
+26/06/2026 14:47:09: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+26/06/2026 14:47:09: [PUT] Linhas afetadas: 1
+26/06/2026 14:47:09: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 14:47:09:   cotacao: 'Q6303115',
+26/06/2026 14:47:09:   anotacao: '> No Relatório de Relacionamento CNPJ, a quantidade de linhas que informa [INTERVALO_2] está divergente em relação ao TCPJ/ Cotação e Planilha de Produtos Instalados,  onde informa [INTERVALO_4]. **Divergência Relatório de Relacionamento - Quantidade de linhas**',
+26/06/2026 14:47:09:   status: 'aprovado',
+26/06/2026 14:47:09:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 14:47:09:   data_da_ultima_atualizacao: '26/06/2026 14:47',
+26/06/2026 14:47:09:   usuario_login: 'jose.faria',
+26/06/2026 14:47:09:   validacao: 'Ativo',
+26/06/2026 14:47:09:   usuario_id: '50',
+26/06/2026 14:47:09:   tarefa: '22772643'
+26/06/2026 14:47:09: }
+26/06/2026 14:51:54: Servidor rodando em http://localhost:3016
+26/06/2026 15:04:07: [GESTAO] Upload recebido: R_000250_1426453.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+26/06/2026 15:04:07: --- INICIANDO ETL R_000250 ---
+26/06/2026 15:04:07: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+26/06/2026 15:04:07: Delimitador detectado: ";"
+26/06/2026 15:04:07: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+26/06/2026 15:04:07: Tabela verificada/criada.
+26/06/2026 15:04:07: Dados antigos removidos.
+26/06/2026 15:04:07: Dados carregados com sucesso via COPY.
+26/06/2026 15:04:07: --- ETL R_000250 CONCLUÍDO: 349 registros ---
+26/06/2026 15:04:07: [CLASSIFICACAO] Conectado ao banco de dados.
+26/06/2026 15:04:07: [CLASSIFICACAO] 46 cotações classificadas.
+26/06/2026 15:04:07: [CLASSIFICACAO] Cotações atualizadas:
+26/06/2026 15:04:07:   - Tarefa: 22775978 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22775530 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22775327 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22775212 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22775202 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22775158 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22775102 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773418 | Usuário: jose.faria
+26/06/2026 15:04:07:   - Tarefa: 22773388 | Usuário: jose.faria
+26/06/2026 15:04:07:   - Tarefa: 22774908 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22774845 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22774841 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22774836 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22774807 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22774787 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22774690 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22774670 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22774643 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773964 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773960 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773954 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773928 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773903 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773899 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773883 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773846 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773830 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22772995 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773768 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773745 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773713 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773668 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773637 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773575 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773572 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773546 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773509 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773397 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773371 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773299 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22773054 | Usuário: yasmin.rodriguessilv
+26/06/2026 15:04:07:   - Tarefa: 22769624 | Usuário: jose.faria
+26/06/2026 15:04:07:   - Tarefa: 22773376 | Usuário: jose.faria
+26/06/2026 15:04:07:   - Tarefa: 22773356 | Usuário: jose.faria
+26/06/2026 15:04:07:   - Tarefa: 22773186 | Usuário: jose.faria
+26/06/2026 15:04:07:   - Tarefa: 22773056 | Usuário: jose.faria
+26/06/2026 15:04:07: [CLASSIFICACAO] Total "Pendente - Classificação": 127
+26/06/2026 15:07:10: [PUT] Atualizando cotação: 22772648
+26/06/2026 15:07:10: [PUT] Usuário: jose.faria
+26/06/2026 15:07:10: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+26/06/2026 15:07:10: [PUT] Linhas afetadas: 1
+26/06/2026 15:07:10: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 15:07:10:   cotacao: 'Q6333454',
+26/06/2026 15:07:10:   anotacao: 'Tarefa: E001 - PME - 23.361.485/0001-44 | Fila: CPC - PME',
+26/06/2026 15:07:10:   status: 'reprovado',
+26/06/2026 15:07:10:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 15:07:10:   data_da_ultima_atualizacao: '26/06/2026 15:07',
+26/06/2026 15:07:10:   usuario_login: 'jose.faria',
+26/06/2026 15:07:10:   validacao: 'Ativo',
+26/06/2026 15:07:10:   usuario_id: '50',
+26/06/2026 15:07:10:   tarefa: '22772648'
+26/06/2026 15:07:10: }
+26/06/2026 15:08:44: Servidor rodando em http://localhost:3016
+26/06/2026 15:30:32: Servidor rodando em http://localhost:3016
+26/06/2026 15:44:42: Servidor rodando em http://localhost:3016
+26/06/2026 15:52:53: Servidor rodando em http://localhost:3016
+26/06/2026 16:16:16: [PUT] Atualizando cotação: 22769624
+26/06/2026 16:16:16: [PUT] Usuário: jose.faria
+26/06/2026 16:16:16: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+26/06/2026 16:16:16: [PUT] Linhas afetadas: 1
+26/06/2026 16:16:17: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 16:16:17:   cotacao: 'Q6313147',
+26/06/2026 16:16:17:   anotacao: 'Tarefa: E001 - PME - 16.602.053/0001-12 | Fila: CPC - PME',
+26/06/2026 16:16:17:   status: 'aprovado',
+26/06/2026 16:16:17:   data_de_criacao: '25/06/2026 15:53',
+26/06/2026 16:16:17:   data_da_ultima_atualizacao: '26/06/2026 16:16',
+26/06/2026 16:16:17:   usuario_login: 'jose.faria',
+26/06/2026 16:16:17:   validacao: 'Ativo',
+26/06/2026 16:16:17:   usuario_id: '50',
+26/06/2026 16:16:17:   tarefa: '22769624'
+26/06/2026 16:16:17: }
+26/06/2026 17:07:12: [PUT] Atualizando cotação: 22772667
+26/06/2026 17:07:12: [PUT] Usuário: jose.faria
+26/06/2026 17:07:12: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+26/06/2026 17:07:12: [PUT] Linhas afetadas: 1
+26/06/2026 17:07:12: [PUT] Cotação atualizada com sucesso: {
+26/06/2026 17:07:12:   cotacao: 'Q6331762',
+26/06/2026 17:07:12:   anotacao: 'Tarefa: E001 - PME - 02.233.636/0001-09 | Fila: CPC - PME',
+26/06/2026 17:07:12:   status: 'aprovado',
+26/06/2026 17:07:12:   data_de_criacao: '26/06/2026 12:27',
+26/06/2026 17:07:12:   data_da_ultima_atualizacao: '26/06/2026 17:07',
+26/06/2026 17:07:12:   usuario_login: 'jose.faria',
+26/06/2026 17:07:12:   validacao: 'Ativo',
+26/06/2026 17:07:12:   usuario_id: '50',
+26/06/2026 17:07:12:   tarefa: '22772667'
+26/06/2026 17:07:12: }
+26/06/2026 17:25:41: Servidor rodando em http://localhost:3016
+26/06/2026 17:53:59: Servidor rodando em http://localhost:3016
+26/06/2026 17:56:57: Servidor rodando em http://localhost:3016
+29/06/2026 09:31:02: [GESTAO] Upload recebido: R_000250_1427299.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+29/06/2026 09:31:02: --- INICIANDO ETL R_000250 ---
+29/06/2026 09:31:02: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+29/06/2026 09:31:02: Delimitador detectado: ";"
+29/06/2026 09:31:02: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+29/06/2026 09:31:02: Tabela verificada/criada.
+29/06/2026 09:31:02: Dados antigos removidos.
+29/06/2026 09:31:02: Dados carregados com sucesso via COPY.
+29/06/2026 09:31:02: --- ETL R_000250 CONCLUÍDO: 77 registros ---
+29/06/2026 09:31:02: [CLASSIFICACAO] Conectado ao banco de dados.
+29/06/2026 09:31:02: [CLASSIFICACAO] 32 cotações classificadas.
+29/06/2026 09:31:02: [CLASSIFICACAO] Cotações atualizadas:
+29/06/2026 09:31:02:   - Tarefa: 22776432 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776190 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22772926 | Usuário: jose.faria
+29/06/2026 09:31:02:   - Tarefa: 22774999 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22777208 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22777095 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776951 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776878 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776874 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776819 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776763 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776739 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776733 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776639 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776626 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776617 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776613 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776547 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776535 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776516 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776491 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776490 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776421 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776090 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776052 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776019 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22775893 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22775739 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22775491 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22775144 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22774943 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02:   - Tarefa: 22776740 | Usuário: yasmin.rodriguessilv
+29/06/2026 09:31:02: [CLASSIFICACAO] Total "Pendente - Classificação": 157
+29/06/2026 10:24:05: Servidor rodando em http://localhost:3016
+29/06/2026 11:15:52: Servidor rodando em http://localhost:3016
+29/06/2026 11:20:12: Servidor rodando em http://localhost:3016
+29/06/2026 11:29:07: [GESTAO] Upload recebido: R_000250_1427597.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+29/06/2026 11:29:07: --- INICIANDO ETL R_000250 ---
+29/06/2026 11:29:07: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+29/06/2026 11:29:07: Delimitador detectado: ";"
+29/06/2026 11:29:07: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+29/06/2026 11:29:07: Tabela verificada/criada.
+29/06/2026 11:29:07: Dados antigos removidos.
+29/06/2026 11:29:07: Dados carregados com sucesso via COPY.
+29/06/2026 11:29:07: --- ETL R_000250 CONCLUÍDO: 226 registros ---
+29/06/2026 11:29:07: [CLASSIFICACAO] Conectado ao banco de dados.
+29/06/2026 11:29:07: [CLASSIFICACAO] 1 cotações classificadas.
+29/06/2026 11:29:07: [CLASSIFICACAO] Cotações atualizadas:
+29/06/2026 11:29:07:   - Tarefa: 22776763 | Usuário: yasmin.rodriguessilv
+29/06/2026 11:29:07: [CLASSIFICACAO] Total "Pendente - Classificação": 157
+29/06/2026 11:37:14: Servidor rodando em http://localhost:3016
+29/06/2026 11:50:53: Servidor rodando em http://localhost:3016
+29/06/2026 12:07:41: Servidor rodando em http://localhost:3016
+29/06/2026 12:20:09: Servidor rodando em http://localhost:3016
+29/06/2026 12:21:38: Servidor rodando em http://localhost:3016
+29/06/2026 12:24:11: Servidor rodando em http://localhost:3016
+29/06/2026 12:26:05: Servidor rodando em http://localhost:3016
+29/06/2026 12:26:38: Servidor rodando em http://localhost:3016
+29/06/2026 12:27:26: Servidor rodando em http://localhost:3016
+29/06/2026 13:06:08: Servidor rodando em http://localhost:3016
+29/06/2026 13:09:14: Servidor rodando em http://localhost:3016
+29/06/2026 13:09:55: Servidor rodando em http://localhost:3016
+29/06/2026 13:10:40: Servidor rodando em http://localhost:3016
+29/06/2026 13:19:51: Servidor rodando em http://localhost:3016
+29/06/2026 13:22:30: Servidor rodando em http://localhost:3016
+29/06/2026 13:28:25: Servidor rodando em http://localhost:3016
+29/06/2026 13:47:56: Servidor rodando em http://localhost:3016
+29/06/2026 13:57:07: Servidor rodando em http://localhost:3016
+29/06/2026 14:08:45: Servidor rodando em http://localhost:3016
+29/06/2026 14:09:56: Servidor rodando em http://localhost:3016
+29/06/2026 14:11:30: Servidor rodando em http://localhost:3016
+29/06/2026 14:22:38: Servidor rodando em http://localhost:3016
+29/06/2026 14:27:26: Servidor rodando em http://localhost:3016
+29/06/2026 14:27:47: Servidor rodando em http://localhost:3016
+29/06/2026 14:32:32: Servidor rodando em http://localhost:3016
+29/06/2026 14:40:30: Servidor rodando em http://localhost:3016
+29/06/2026 14:50:42: Servidor rodando em http://localhost:3016
+29/06/2026 14:54:51: Servidor rodando em http://localhost:3016
+29/06/2026 14:55:49: Servidor rodando em http://localhost:3016
+29/06/2026 15:08:17: Servidor rodando em http://localhost:3016
+29/06/2026 15:18:37: Servidor rodando em http://localhost:3016
+29/06/2026 15:18:51: [GESTAO] Upload recebido: HISTORICO_INPUT_PEDIDO_PME_1427701.zip -> E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+29/06/2026 15:18:51: --- INICIANDO ETL R_000250 ---
+29/06/2026 15:18:51: Extraindo ZIP: E:\projetos_hitss\geo-pme-notas\files\r_000250.zip
+29/06/2026 15:18:52: Delimitador detectado: ";"
+29/06/2026 15:18:53: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+29/06/2026 15:18:53: Tabela verificada/criada.
+29/06/2026 15:18:53: Dados antigos removidos.
+29/06/2026 15:18:54: Dados carregados com sucesso via COPY.
+29/06/2026 15:18:54: --- ETL R_000250 CONCLUÍDO: 27815 registros ---
+29/06/2026 15:18:54: [CLASSIFICACAO] Conectado ao banco de dados.
+29/06/2026 15:18:54: [CLASSIFICACAO] 0 cotações classificadas.
+29/06/2026 15:18:54: [CLASSIFICACAO] Total "Pendente - Classificação": 157
+29/06/2026 16:05:10: Servidor rodando em http://localhost:3016
+29/06/2026 16:07:45: Servidor rodando em http://localhost:3016
+29/06/2026 16:08:59: Servidor rodando em http://localhost:3016
+29/06/2026 16:24:05: Servidor rodando em http://localhost:3016
+29/06/2026 16:50:35: Servidor rodando em http://localhost:3016
+29/06/2026 16:56:54: Servidor rodando em http://localhost:3016
+29/06/2026 17:14:05: Servidor rodando em http://localhost:3016
+29/06/2026 17:22:30: Servidor rodando em http://localhost:3016
+29/06/2026 17:26:32: Servidor rodando em http://localhost:3016
+29/06/2026 17:26:56: Servidor rodando em http://localhost:3016
+29/06/2026 17:36:51: Servidor rodando em http://localhost:3016
+29/06/2026 17:38:08: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:38:09: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 14:01:00 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:38:09: [ATUALIZAR_R_000250] Tabela truncada
+29/06/2026 17:38:10: [ATUALIZAR_R_000250] Concluído em 1129ms
+29/06/2026 17:50:53: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:50:53: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:50:53: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 135ms
+29/06/2026 17:51:17: Servidor rodando em http://localhost:3016
+29/06/2026 17:53:38: Servidor rodando em http://localhost:3016
+29/06/2026 17:56:35: Servidor rodando em http://localhost:3016
+29/06/2026 17:56:41: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:56:41: [ATUALIZAR_R_000250] max_bloco=Mon Jan 01 1900 00:00:00 GMT-0306 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:56:41: [ATUALIZAR_R_000250] Tabela truncada
+29/06/2026 17:56:41: [ATUALIZAR_R_000250] Concluído em 192ms
+29/06/2026 17:57:25: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:57:25: [ATUALIZAR_R_000250] max_bloco=Mon Jan 01 1900 00:00:00 GMT-0306 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:57:25: [ATUALIZAR_R_000250] Tabela truncada
+29/06/2026 17:57:26: [ATUALIZAR_R_000250] Concluído em 173ms
+29/06/2026 17:57:32: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:57:32: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:57:32: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 46ms
+29/06/2026 17:57:38: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 17:57:38: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time)
+29/06/2026 17:57:38: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 58ms
+29/06/2026 18:03:02: Servidor rodando em http://localhost:3016
+29/06/2026 18:31:20: Servidor rodando em http://localhost:3016
+29/06/2026 18:31:43: Servidor rodando em http://localhost:3016
+29/06/2026 18:34:33: Servidor rodando em http://localhost:3016
+29/06/2026 18:37:19: Servidor rodando em http://localhost:3016
+29/06/2026 18:38:14: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 18:38:14: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 16:31:06 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 18:00:51 GMT-0300 (Brasilia Standard Time)
+29/06/2026 18:38:14: [ATUALIZAR_R_000250] Tabela truncada
+29/06/2026 18:38:14: [ATUALIZAR_R_000250] Concluído em 146ms
+29/06/2026 18:40:05: Servidor rodando em http://localhost:3016
+29/06/2026 18:44:03: Servidor rodando em http://localhost:3016
+29/06/2026 18:44:19: Servidor rodando em http://localhost:3016
+29/06/2026 18:53:17: Servidor rodando em http://localhost:3016
+29/06/2026 18:54:37: Servidor rodando em http://localhost:3016
+29/06/2026 18:55:37: Servidor rodando em http://localhost:3016
+29/06/2026 18:56:55: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 18:56:55: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 18:00:51 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 18:00:51 GMT-0300 (Brasilia Standard Time)
+29/06/2026 18:56:55: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 49ms
+29/06/2026 18:59:09: [PUT] Atualizando cotação: 22784807
+29/06/2026 18:59:09: [PUT] Usuário: jose.faria
+29/06/2026 18:59:09: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-classificacao' }
+29/06/2026 18:59:10: [PUT] Linhas afetadas: 1
+29/06/2026 18:59:12: [PUT] Atualizando cotação: 22784807
+29/06/2026 18:59:12: [PUT] Usuário: jose.faria
+29/06/2026 18:59:12: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+29/06/2026 18:59:12: [PUT] Linhas afetadas: 1
+29/06/2026 18:59:13: [PUT] Atualizando cotação: 22784807
+29/06/2026 18:59:13: [PUT] Usuário: jose.faria
+29/06/2026 18:59:13: [PUT] Dados recebidos: { anotacao: undefined, status: 'aprovado' }
+29/06/2026 18:59:13: [PUT] Linhas afetadas: 1
+29/06/2026 18:59:16: [PUT] Atualizando cotação: 22784807
+29/06/2026 18:59:16: [PUT] Usuário: jose.faria
+29/06/2026 18:59:16: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+29/06/2026 18:59:16: [PUT] Linhas afetadas: 1
+29/06/2026 18:59:17: [PUT] Atualizando cotação: 22784807
+29/06/2026 18:59:17: [PUT] Usuário: jose.faria
+29/06/2026 18:59:17: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+29/06/2026 18:59:17: [PUT] Linhas afetadas: 1
+29/06/2026 18:59:17: [PUT] Cotação atualizada com sucesso: {
+29/06/2026 18:59:17:   cotacao: 'Q6337923',
+29/06/2026 18:59:17:   anotacao: 'Tarefa: E001 - PME - 01.002.172/0001-67 | Fila: CPC - PME',
+29/06/2026 18:59:17:   status: 'pendente-iphone',
+29/06/2026 18:59:17:   data_de_criacao: '29/06/2026 18:56',
+29/06/2026 18:59:17:   data_da_ultima_atualizacao: '29/06/2026 18:59',
+29/06/2026 18:59:17:   usuario_login: 'jose.faria',
+29/06/2026 18:59:17:   validacao: 'Ativo',
+29/06/2026 18:59:17:   usuario_id: '50',
+29/06/2026 18:59:17:   tarefa: '22784807',
+29/06/2026 18:59:17:   origem: null
+29/06/2026 18:59:17: }
+29/06/2026 18:59:24: [PUT] Atualizando cotação: 22784807
+29/06/2026 18:59:24: [PUT] Usuário: jose.faria
+29/06/2026 18:59:24: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-suporte' }
+29/06/2026 18:59:24: [PUT] Linhas afetadas: 1
+29/06/2026 18:59:24: [PUT] Atualizando cotação: 22784807
+29/06/2026 18:59:24: [PUT] Usuário: jose.faria
+29/06/2026 18:59:24: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-suporte' }
+29/06/2026 18:59:24: [PUT] Linhas afetadas: 1
+29/06/2026 18:59:24: [PUT] Cotação atualizada com sucesso: {
+29/06/2026 18:59:24:   cotacao: 'Q6337923',
+29/06/2026 18:59:24:   anotacao: 'Tarefa: E001 - PME - 01.002.172/0001-67 | Fila: CPC - PME',
+29/06/2026 18:59:24:   status: 'pendente-suporte',
+29/06/2026 18:59:24:   data_de_criacao: '29/06/2026 18:56',
+29/06/2026 18:59:24:   data_da_ultima_atualizacao: '29/06/2026 18:59',
+29/06/2026 18:59:24:   usuario_login: 'jose.faria',
+29/06/2026 18:59:24:   validacao: 'Ativo',
+29/06/2026 18:59:24:   usuario_id: '50',
+29/06/2026 18:59:24:   tarefa: '22784807',
+29/06/2026 18:59:24:   origem: null
+29/06/2026 18:59:24: }
+29/06/2026 19:03:26: Servidor rodando em http://localhost:3016
+29/06/2026 19:06:10: Servidor rodando em http://localhost:3016
+29/06/2026 19:13:38: Servidor rodando em http://localhost:3016
+29/06/2026 19:14:00: Servidor rodando em http://localhost:3016
+29/06/2026 19:15:58: [PUT] Atualizando cotação: 22701170
+29/06/2026 19:15:58: [PUT] Usuário: jose.faria
+29/06/2026 19:15:58: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+29/06/2026 19:15:58: [PUT] Linhas afetadas: 1
+29/06/2026 19:15:59: [PUT] Atualizando cotação: 22701170
+29/06/2026 19:15:59: [PUT] Usuário: jose.faria
+29/06/2026 19:15:59: [PUT] Dados recebidos: { anotacao: undefined, status: 'reprovado' }
+29/06/2026 19:15:59: [PUT] Linhas afetadas: 1
+29/06/2026 19:15:59: [PUT] Cotação atualizada com sucesso: {
+29/06/2026 19:15:59:   cotacao: '22701170',
+29/06/2026 19:15:59:   anotacao: 'Origem: iw_cpc_975_net | Etapa: 02 - Em Tratamento',
+29/06/2026 19:15:59:   status: 'reprovado',
+29/06/2026 19:15:59:   data_de_criacao: '29/06/2026 19:15',
+29/06/2026 19:15:59:   data_da_ultima_atualizacao: '29/06/2026 19:15',
+29/06/2026 19:15:59:   usuario_login: 'jose.faria',
+29/06/2026 19:15:59:   validacao: 'Ativo',
+29/06/2026 19:15:59:   usuario_id: '50',
+29/06/2026 19:15:59:   tarefa: '22701170',
+29/06/2026 19:15:59:   origem: 'iw_cpc_975_net'
+29/06/2026 19:15:59: }
+29/06/2026 19:18:23: Servidor rodando em http://localhost:3016
+29/06/2026 19:33:35: [PUT] Atualizando cotação: 22713236
+29/06/2026 19:33:35: [PUT] Usuário: jose.faria
+29/06/2026 19:33:35: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+29/06/2026 19:33:35: [PUT] Linhas afetadas: 1
+29/06/2026 19:33:38: [PUT] Atualizando cotação: 22713236
+29/06/2026 19:33:38: [PUT] Usuário: jose.faria
+29/06/2026 19:33:38: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+29/06/2026 19:33:38: [PUT] Linhas afetadas: 1
+29/06/2026 19:33:38: [PUT] Cotação atualizada com sucesso: {
+29/06/2026 19:33:38:   cotacao: '22713236',
+29/06/2026 19:33:38:   anotacao: 'Origem: iw_cpc_975_net | Etapa: 05 - Crédito',
+29/06/2026 19:33:38:   status: 'pendente-iphone',
+29/06/2026 19:33:38:   data_de_criacao: '29/06/2026 19:28',
+29/06/2026 19:33:38:   data_da_ultima_atualizacao: '29/06/2026 19:33',
+29/06/2026 19:33:38:   usuario_login: 'jose.faria',
+29/06/2026 19:33:38:   validacao: 'Ativo',
+29/06/2026 19:33:38:   usuario_id: '50',
+29/06/2026 19:33:38:   tarefa: '22713236',
+29/06/2026 19:33:38:   origem: 'iw_cpc_975_net'
+29/06/2026 19:33:38: }
+29/06/2026 19:34:03: [PUT] Atualizando cotação: 22744206
+29/06/2026 19:34:03: [PUT] Usuário: jose.faria
+29/06/2026 19:34:03: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+29/06/2026 19:34:03: [PUT] Linhas afetadas: 1
+29/06/2026 19:34:03: [PUT] Atualizando cotação: 22744206
+29/06/2026 19:34:03: [PUT] Usuário: jose.faria
+29/06/2026 19:34:03: [PUT] Dados recebidos: { anotacao: undefined, status: 'pendente-iphone' }
+29/06/2026 19:34:03: [PUT] Linhas afetadas: 1
+29/06/2026 19:34:03: [PUT] Cotação atualizada com sucesso: {
+29/06/2026 19:34:03:   cotacao: '22744206',
+29/06/2026 19:34:03:   anotacao: 'Origem: iw_cpc_975_net | Etapa: 03 - Aguardando Correção',
+29/06/2026 19:34:03:   status: 'pendente-iphone',
+29/06/2026 19:34:03:   data_de_criacao: '29/06/2026 19:06',
+29/06/2026 19:34:03:   data_da_ultima_atualizacao: '29/06/2026 19:34',
+29/06/2026 19:34:03:   usuario_login: 'jose.faria',
+29/06/2026 19:34:03:   validacao: 'Ativo',
+29/06/2026 19:34:03:   usuario_id: '50',
+29/06/2026 19:34:03:   tarefa: '22744206',
+29/06/2026 19:34:03:   origem: 'iw_cpc_975_net'
+29/06/2026 19:34:03: }
+29/06/2026 19:42:22: Servidor rodando em http://localhost:3016
+29/06/2026 19:47:46: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 19:47:46: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 18:00:51 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 19:05:26 GMT-0300 (Brasilia Standard Time)
+29/06/2026 19:47:46: [ATUALIZAR_R_000250] Tabela truncada
+29/06/2026 19:47:46: [ATUALIZAR_R_000250] Concluído em 156ms
+29/06/2026 19:59:31: [ATUALIZAR_R_000250] Iniciando atualização...
+29/06/2026 19:59:31: [ATUALIZAR_R_000250] max_bloco=Mon Jun 29 2026 19:05:26 GMT-0300 (Brasilia Standard Time), max_claro=Mon Jun 29 2026 19:05:26 GMT-0300 (Brasilia Standard Time)
+29/06/2026 19:59:31: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 53ms
+29/06/2026 19:59:59: Servidor rodando em http://localhost:3016

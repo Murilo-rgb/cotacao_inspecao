@@ -20,7 +20,8 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var _React = React,
   useState = _React.useState,
-  useEffect = _React.useEffect;
+  useEffect = _React.useEffect,
+  useCallback = _React.useCallback;
 
 // Icons as SVG components
 var SearchIcon = function SearchIcon() {
@@ -235,6 +236,70 @@ var XIcon = function XIcon() {
     d: "m6 6 12 12"
   }));
 };
+var InspectIcon = function InspectIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "18",
+    height: "18",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    className: "text-blue-600"
+  }, /*#__PURE__*/React.createElement("circle", {
+    cx: "11",
+    cy: "11",
+    r: "8"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "m21 21-4.35-4.35"
+  }));
+};
+var InputIcon = function InputIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "18",
+    height: "18",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    className: "text-emerald-600"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+  }), /*#__PURE__*/React.createElement("polyline", {
+    points: "14 2 14 8 20 8"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "16",
+    x2: "8",
+    y1: "13",
+    y2: "13"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "16",
+    x2: "8",
+    y1: "17",
+    y2: "17"
+  }));
+};
+var TopIcon = function TopIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "18",
+    height: "18",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    className: "text-purple-600"
+  }, /*#__PURE__*/React.createElement("polyline", {
+    points: "18 15 12 9 6 15"
+  }));
+};
 var AlertTriangleIcon = function AlertTriangleIcon() {
   return /*#__PURE__*/React.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -305,42 +370,65 @@ function App() {
     _useState14 = _slicedToArray(_useState13, 2),
     showModal = _useState14[0],
     setShowModal = _useState14[1];
-  var _useState15 = useState(null),
+  var _useState15 = useState('anotacao'),
     _useState16 = _slicedToArray(_useState15, 2),
-    deleteModal = _useState16[0],
-    setDeleteModal = _useState16[1];
-  var _useState17 = useState(null),
+    activeTab = _useState16[0],
+    setActiveTab = _useState16[1];
+  var _useState17 = useState({
+      anotacao: '',
+      status: ''
+    }),
     _useState18 = _slicedToArray(_useState17, 2),
-    statusModal = _useState18[0],
-    setStatusModal = _useState18[1];
-  var _useState19 = useState(''),
+    auditoriaData = _useState18[0],
+    setAuditoriaData = _useState18[1];
+  var _useState19 = useState(null),
     _useState20 = _slicedToArray(_useState19, 2),
-    username = _useState20[0],
-    setUsername = _useState20[1];
+    deleteModal = _useState20[0],
+    setDeleteModal = _useState20[1];
   var _useState21 = useState(null),
     _useState22 = _slicedToArray(_useState21, 2),
-    toast = _useState22[0],
-    setToast = _useState22[1];
+    statusModal = _useState22[0],
+    setStatusModal = _useState22[1];
   var _useState23 = useState(''),
     _useState24 = _slicedToArray(_useState23, 2),
-    dateStart = _useState24[0],
-    setDateStart = _useState24[1];
-  var _useState25 = useState(false),
+    username = _useState24[0],
+    setUsername = _useState24[1];
+  var _useState25 = useState(null),
     _useState26 = _slicedToArray(_useState25, 2),
-    reprovaModalOpen = _useState26[0],
-    setReprovaModalOpen = _useState26[1];
+    toast = _useState26[0],
+    setToast = _useState26[1];
   var _useState27 = useState(''),
     _useState28 = _slicedToArray(_useState27, 2),
-    reprovaSearch = _useState28[0],
-    setReprovaSearch = _useState28[1];
-  var _useState29 = useState([]),
+    dateStart = _useState28[0],
+    setDateStart = _useState28[1];
+  var _useState29 = useState(false),
     _useState30 = _slicedToArray(_useState29, 2),
-    reprovaResults = _useState30[0],
-    setReprovaResults = _useState30[1];
-  var _useState31 = useState(false),
+    reprovaModalOpen = _useState30[0],
+    setReprovaModalOpen = _useState30[1];
+  var _useState31 = useState(''),
     _useState32 = _slicedToArray(_useState31, 2),
-    reprovaLoading = _useState32[0],
-    setReprovaLoading = _useState32[1];
+    reprovaSearch = _useState32[0],
+    setReprovaSearch = _useState32[1];
+  var _useState33 = useState([]),
+    _useState34 = _slicedToArray(_useState33, 2),
+    reprovaResults = _useState34[0],
+    setReprovaResults = _useState34[1];
+  var _useState35 = useState(false),
+    _useState36 = _slicedToArray(_useState35, 2),
+    reprovaLoading = _useState36[0],
+    setReprovaLoading = _useState36[1];
+  var _useState37 = useState(null),
+    _useState38 = _slicedToArray(_useState37, 2),
+    qualidadeStats = _useState38[0],
+    setQualidadeStats = _useState38[1];
+  var _useState39 = useState(false),
+    _useState40 = _slicedToArray(_useState39, 2),
+    loadingQualidade = _useState40[0],
+    setLoadingQualidade = _useState40[1];
+  var _useState41 = useState(''),
+    _useState42 = _slicedToArray(_useState41, 2),
+    filtroAuditoria = _useState42[0],
+    setFiltroAuditoria = _useState42[1];
   useEffect(function () {
     var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
     var token = localStorage.getItem('token');
@@ -368,6 +456,9 @@ function App() {
   useEffect(function () {
     return setCurrentPage(1);
   }, [dateStart]);
+  useEffect(function () {
+    return setCurrentPage(1);
+  }, [filtroAuditoria]);
   var showToast = function showToast(message) {
     var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
     return setToast({
@@ -436,27 +527,77 @@ function App() {
       return clearTimeout(timer);
     };
   }, [searchTerm]);
+
+  // Fetch qualidade stats
+  var fetchQualidadeStats = useCallback(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+    var token, BASE_PATH, response, data, _t2;
+    return _regenerator().w(function (_context2) {
+      while (1) switch (_context2.p = _context2.n) {
+        case 0:
+          _context2.p = 0;
+          setLoadingQualidade(true);
+          token = localStorage.getItem('token');
+          BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+          _context2.n = 1;
+          return fetch("".concat(BASE_PATH, "/api/qualidade/stats"), {
+            headers: {
+              'Authorization': "Bearer ".concat(token)
+            }
+          });
+        case 1:
+          response = _context2.v;
+          if (!response.ok) {
+            _context2.n = 3;
+            break;
+          }
+          _context2.n = 2;
+          return response.json();
+        case 2:
+          data = _context2.v;
+          setQualidadeStats(data);
+        case 3:
+          _context2.n = 5;
+          break;
+        case 4:
+          _context2.p = 4;
+          _t2 = _context2.v;
+          console.error('[QUALIDADE STATS] Erro:', _t2);
+        case 5:
+          _context2.p = 5;
+          setLoadingQualidade(false);
+          return _context2.f(5);
+        case 6:
+          return _context2.a(2);
+      }
+    }, _callee2, null, [[0, 4, 5, 6]]);
+  })), []);
+  useEffect(function () {
+    var token = localStorage.getItem('token');
+    if (token) {
+      fetchQualidadeStats();
+    }
+  }, [fetchQualidadeStats]);
   var handleLogout = function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
   };
   var handleFormSubmit = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
-      var token, BASE_PATH, cotacaoCode, response, _BASE_PATH, _response, _t2;
-      return _regenerator().w(function (_context2) {
-        while (1) switch (_context2.p = _context2.n) {
+    var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(e) {
+      var token, BASE_PATH, cotacaoCode, response, _BASE_PATH, _response, _t3;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.p = _context3.n) {
           case 0:
             e.preventDefault();
             token = localStorage.getItem('token');
-            _context2.p = 1;
+            _context3.p = 1;
             if (!editingQuotation) {
-              _context2.n = 4;
+              _context3.n = 4;
               break;
             }
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
-            _context2.n = 2;
+            _context3.n = 2;
             return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
               method: 'PUT',
               headers: {
@@ -465,19 +606,21 @@ function App() {
               },
               body: JSON.stringify({
                 anotacao: formData.anotacao,
-                status: editingQuotation.status
+                status: editingQuotation.status,
+                auditoria_anotacao: auditoriaData.anotacao,
+                auditoria_status: auditoriaData.status
               })
             });
           case 2:
-            response = _context2.v;
+            response = _context3.v;
             if (!(response.status === 401 || response.status === 403)) {
-              _context2.n = 3;
+              _context3.n = 3;
               break;
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = BASE_PATH + '/login.html';
-            return _context2.a(2);
+            return _context3.a(2);
           case 3:
             if (response.ok) {
               fetchQuotations();
@@ -487,13 +630,17 @@ function App() {
                 cotacao: '',
                 anotacao: ''
               });
+              setAuditoriaData({
+                anotacao: '',
+                status: ''
+              });
               showToast('Cotação atualizada com sucesso');
             }
-            _context2.n = 7;
+            _context3.n = 7;
             break;
           case 4:
             _BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            _context2.n = 5;
+            _context3.n = 5;
             return fetch("".concat(_BASE_PATH, "/api/quotations"), {
               method: 'POST',
               headers: {
@@ -503,15 +650,15 @@ function App() {
               body: JSON.stringify(formData)
             });
           case 5:
-            _response = _context2.v;
+            _response = _context3.v;
             if (!(_response.status === 401 || _response.status === 403)) {
-              _context2.n = 6;
+              _context3.n = 6;
               break;
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = _BASE_PATH + '/login.html';
-            return _context2.a(2);
+            return _context3.a(2);
           case 6:
             if (_response.ok) {
               fetchQuotations();
@@ -520,33 +667,102 @@ function App() {
                 cotacao: '',
                 anotacao: ''
               });
+              setAuditoriaData({
+                anotacao: '',
+                status: ''
+              });
               showToast('Cotação criada com sucesso');
             }
           case 7:
-            _context2.n = 9;
+            _context3.n = 9;
             break;
           case 8:
-            _context2.p = 8;
-            _t2 = _context2.v;
-            console.error('Erro ao salvar cotação:', _t2);
+            _context3.p = 8;
+            _t3 = _context3.v;
+            console.error('Erro ao salvar cotação:', _t3);
             showToast('Erro ao salvar cotação', 'error');
           case 9:
-            return _context2.a(2);
+            return _context3.a(2);
         }
-      }, _callee2, null, [[1, 8]]);
+      }, _callee3, null, [[1, 8]]);
     }));
     return function handleFormSubmit(_x) {
-      return _ref3.apply(this, arguments);
+      return _ref4.apply(this, arguments);
     };
   }();
-  var handleEditClick = function handleEditClick(quotation) {
-    setEditingQuotation(quotation);
-    setFormData({
-      cotacao: quotation.cotacao,
-      anotacao: quotation.anotacao
-    });
-    setShowModal(true);
-  };
+  var handleEditClick = /*#__PURE__*/function () {
+    var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(quotation) {
+      var token, BASE_PATH, cotacaoCode, response, data, _t4;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.p = _context4.n) {
+          case 0:
+            setEditingQuotation(quotation);
+            setFormData({
+              cotacao: quotation.cotacao,
+              anotacao: quotation.anotacao
+            });
+            setActiveTab('anotacao');
+            setShowModal(true);
+
+            // Buscar dados de auditoria se existirem
+            _context4.p = 1;
+            token = localStorage.getItem('token');
+            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            cotacaoCode = quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao;
+            _context4.n = 2;
+            return fetch("".concat(BASE_PATH, "/api/qualidade/auditoria/").concat(encodeURIComponent(cotacaoCode)), {
+              headers: {
+                'Authorization': "Bearer ".concat(token)
+              }
+            });
+          case 2:
+            response = _context4.v;
+            if (!response.ok) {
+              _context4.n = 4;
+              break;
+            }
+            _context4.n = 3;
+            return response.json();
+          case 3:
+            data = _context4.v;
+            if (data) {
+              setAuditoriaData({
+                anotacao: data.anotacao || '',
+                status: data.status || ''
+              });
+            } else {
+              setAuditoriaData({
+                anotacao: '',
+                status: ''
+              });
+            }
+            _context4.n = 5;
+            break;
+          case 4:
+            setAuditoriaData({
+              anotacao: '',
+              status: ''
+            });
+          case 5:
+            _context4.n = 7;
+            break;
+          case 6:
+            _context4.p = 6;
+            _t4 = _context4.v;
+            console.error('Erro ao buscar auditoria:', _t4);
+            setAuditoriaData({
+              anotacao: '',
+              status: ''
+            });
+          case 7:
+            return _context4.a(2);
+        }
+      }, _callee4, null, [[1, 6]]);
+    }));
+    return function handleEditClick(_x2) {
+      return _ref5.apply(this, arguments);
+    };
+  }();
   var handleDeleteClick = function handleDeleteClick(quotation) {
     return setDeleteModal(quotation);
   };
@@ -554,22 +770,22 @@ function App() {
     return setDeleteModal(null);
   };
   var confirmDelete = /*#__PURE__*/function () {
-    var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-      var token, BASE_PATH, cotacaoCode, response, _t3;
-      return _regenerator().w(function (_context3) {
-        while (1) switch (_context3.p = _context3.n) {
+    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+      var token, BASE_PATH, cotacaoCode, response, _t5;
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.p = _context5.n) {
           case 0:
             if (deleteModal) {
-              _context3.n = 1;
+              _context5.n = 1;
               break;
             }
-            return _context3.a(2);
+            return _context5.a(2);
           case 1:
             token = localStorage.getItem('token');
-            _context3.p = 2;
+            _context5.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             cotacaoCode = deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao;
-            _context3.n = 3;
+            _context5.n = 3;
             return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
               method: 'DELETE',
               headers: {
@@ -577,56 +793,56 @@ function App() {
               }
             });
           case 3:
-            response = _context3.v;
+            response = _context5.v;
             if (!(response.status === 401 || response.status === 403)) {
-              _context3.n = 4;
+              _context5.n = 4;
               break;
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = BASE_PATH + '/login.html';
-            return _context3.a(2);
+            return _context5.a(2);
           case 4:
             if (response.ok) {
               fetchQuotations();
               setDeleteModal(null);
               showToast('Cotação excluída com sucesso');
             }
-            _context3.n = 6;
+            _context5.n = 6;
             break;
           case 5:
-            _context3.p = 5;
-            _t3 = _context3.v;
-            console.error('Erro ao deletar cotação:', _t3);
+            _context5.p = 5;
+            _t5 = _context5.v;
+            console.error('Erro ao deletar cotação:', _t5);
             showToast('Erro ao excluir cotação', 'error');
           case 6:
-            return _context3.a(2);
+            return _context5.a(2);
         }
-      }, _callee3, null, [[2, 5]]);
+      }, _callee5, null, [[2, 5]]);
     }));
     return function confirmDelete() {
-      return _ref4.apply(this, arguments);
+      return _ref6.apply(this, arguments);
     };
   }();
   var handleStatusClick = function handleStatusClick(quotation) {
     return setStatusModal(quotation);
   };
   var handleStatusChange = /*#__PURE__*/function () {
-    var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(newStatus) {
-      var token, BASE_PATH, response, _t4;
-      return _regenerator().w(function (_context4) {
-        while (1) switch (_context4.p = _context4.n) {
+    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(newStatus) {
+      var token, BASE_PATH, response, _t6;
+      return _regenerator().w(function (_context6) {
+        while (1) switch (_context6.p = _context6.n) {
           case 0:
             if (statusModal) {
-              _context4.n = 1;
+              _context6.n = 1;
               break;
             }
-            return _context4.a(2);
+            return _context6.a(2);
           case 1:
             token = localStorage.getItem('token');
-            _context4.p = 2;
+            _context6.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            _context4.n = 3;
+            _context6.n = 3;
             return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(statusModal.cotacao)), {
               method: 'PUT',
               headers: {
@@ -638,102 +854,102 @@ function App() {
               })
             });
           case 3:
-            response = _context4.v;
+            response = _context6.v;
             if (!(response.status === 401 || response.status === 403)) {
-              _context4.n = 4;
+              _context6.n = 4;
               break;
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = BASE_PATH + '/login.html';
-            return _context4.a(2);
+            return _context6.a(2);
           case 4:
             if (response.ok) {
               fetchQuotations();
               setStatusModal(null);
               showToast('Status atualizado com sucesso');
             }
-            _context4.n = 6;
+            _context6.n = 6;
             break;
           case 5:
-            _context4.p = 5;
-            _t4 = _context4.v;
-            console.error('Erro ao atualizar status:', _t4);
+            _context6.p = 5;
+            _t6 = _context6.v;
+            console.error('Erro ao atualizar status:', _t6);
             showToast('Erro ao atualizar status', 'error');
           case 6:
-            return _context4.a(2);
+            return _context6.a(2);
         }
-      }, _callee4, null, [[2, 5]]);
+      }, _callee6, null, [[2, 5]]);
     }));
-    return function handleStatusChange(_x2) {
-      return _ref5.apply(this, arguments);
+    return function handleStatusChange(_x3) {
+      return _ref7.apply(this, arguments);
     };
   }();
   useEffect(function () {
     var ignore = false;
     var timer;
     var loadReprovas = /*#__PURE__*/function () {
-      var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-        var termo, token, BASE_PATH, url, response, data, _t5;
-        return _regenerator().w(function (_context5) {
-          while (1) switch (_context5.p = _context5.n) {
+      var _ref8 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+        var termo, token, BASE_PATH, url, response, data, _t7;
+        return _regenerator().w(function (_context7) {
+          while (1) switch (_context7.p = _context7.n) {
             case 0:
               if (reprovaModalOpen) {
-                _context5.n = 1;
+                _context7.n = 1;
                 break;
               }
-              return _context5.a(2);
+              return _context7.a(2);
             case 1:
               termo = reprovaSearch.trim();
               if (termo) {
-                _context5.n = 2;
+                _context7.n = 2;
                 break;
               }
               setReprovaResults([]);
               setReprovaLoading(false);
-              return _context5.a(2);
+              return _context7.a(2);
             case 2:
               setReprovaLoading(true);
-              _context5.p = 3;
+              _context7.p = 3;
               token = localStorage.getItem('token');
               BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
               url = "".concat(BASE_PATH, "/api/reprovas?termo=").concat(encodeURIComponent(termo));
-              _context5.n = 4;
+              _context7.n = 4;
               return fetch(url, {
                 headers: {
                   'Authorization': "Bearer ".concat(token)
                 }
               });
             case 4:
-              response = _context5.v;
+              response = _context7.v;
               if (response.ok) {
-                _context5.n = 5;
+                _context7.n = 5;
                 break;
               }
               throw new Error('Falha ao buscar reprovas');
             case 5:
-              _context5.n = 6;
+              _context7.n = 6;
               return response.json();
             case 6:
-              data = _context5.v;
+              data = _context7.v;
               if (!ignore) setReprovaResults(data);
-              _context5.n = 8;
+              _context7.n = 8;
               break;
             case 7:
-              _context5.p = 7;
-              _t5 = _context5.v;
+              _context7.p = 7;
+              _t7 = _context7.v;
               if (!ignore) setReprovaResults([]);
             case 8:
-              _context5.p = 8;
+              _context7.p = 8;
               if (!ignore) setReprovaLoading(false);
-              return _context5.f(8);
+              return _context7.f(8);
             case 9:
-              return _context5.a(2);
+              return _context7.a(2);
           }
-        }, _callee5, null, [[3, 7, 8, 9]]);
+        }, _callee7, null, [[3, 7, 8, 9]]);
       }));
       return function loadReprovas() {
-        return _ref6.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       };
     }();
     if (reprovaModalOpen) {
@@ -757,6 +973,10 @@ function App() {
         year = _dateParts[2];
       var createdAtDate = "".concat(year, "-").concat(month, "-").concat(day);
       if (createdAtDate !== dateStart) return false;
+    }
+    if (filtroAuditoria) {
+      if (!q.auditoria || !q.auditoria.status) return false;
+      if (q.auditoria.status.trim() !== filtroAuditoria) return false;
     }
     return true;
   });
@@ -906,7 +1126,7 @@ function App() {
   }, "Sair")))))), /*#__PURE__*/React.createElement("main", {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
+    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6"
   }, /*#__PURE__*/React.createElement("div", {
     className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
   }, /*#__PURE__*/React.createElement("p", {
@@ -937,7 +1157,63 @@ function App() {
     className: "text-2xl font-bold text-red-700 mt-1"
   }, filteredQuotations.filter(function (q) {
     return q.status === 'reprovado';
-  }).length))), /*#__PURE__*/React.createElement("div", {
+  }).length)), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-sm font-medium text-purple-600 flex items-center gap-1.5"
+  }, /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    className: "h-4 w-4",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "currentColor",
+    strokeWidth: 2
+  }, /*#__PURE__*/React.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+  })), "Qualidade"), loadingQualidade ? /*#__PURE__*/React.createElement("div", {
+    className: "mt-2 space-y-1.5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "h-3 bg-purple-100 rounded animate-pulse w-3/4"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "h-3 bg-purple-100 rounded animate-pulse w-1/2"
+  })) : qualidadeStats ? /*#__PURE__*/React.createElement("div", {
+    className: "mt-1 flex flex-wrap items-center gap-2"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-xs text-slate-400 font-medium"
+  }, qualidadeStats.total), qualidadeStats.procedimento_correto > 0 && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setFiltroAuditoria(filtroAuditoria === 'Procedimento Correto' ? '' : 'Procedimento Correto');
+    },
+    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Procedimento Correto' ? 'scale-125 bg-emerald-100 rounded px-1' : 'hover:scale-110'),
+    title: "Procedimento Correto"
+  }, "\u2705 ", qualidadeStats.procedimento_correto), qualidadeStats.devolucao_parcial > 0 && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setFiltroAuditoria(filtroAuditoria === 'Devolução Parcial' ? '' : 'Devolução Parcial');
+    },
+    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Devolução Parcial' ? 'scale-125 bg-amber-100 rounded px-1' : 'hover:scale-110'),
+    title: "Devolu\xE7\xE3o Parcial"
+  }, "\u26A0\uFE0F ", qualidadeStats.devolucao_parcial), qualidadeStats.devolucao_indevida > 0 && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setFiltroAuditoria(filtroAuditoria === 'Devolução Indevida' ? '' : 'Devolução Indevida');
+    },
+    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Devolução Indevida' ? 'scale-125 bg-red-100 rounded px-1' : 'hover:scale-110'),
+    title: "Devolu\xE7\xE3o Indevida"
+  }, "\u274C ", qualidadeStats.devolucao_indevida), qualidadeStats.aprovacao_indevida > 0 && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setFiltroAuditoria(filtroAuditoria === 'Aprovacao Indevida' ? '' : 'Aprovacao Indevida');
+    },
+    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Aprovacao Indevida' ? 'scale-125 bg-orange-100 rounded px-1' : 'hover:scale-110'),
+    title: "Aprova\xE7\xE3o Indevida"
+  }, "\u274C ", qualidadeStats.aprovacao_indevida), filtroAuditoria && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setFiltroAuditoria('');
+    },
+    className: "text-xs text-slate-400 hover:text-slate-600 ml-1"
+  }, "\u2715")) : /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-400 mt-1"
+  }, "Nenhuma auditoria"))), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col sm:flex-row gap-4 mb-6"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex-1 relative group"
@@ -992,10 +1268,10 @@ function App() {
   }, /*#__PURE__*/React.createElement("thead", {
     className: "bg-slate-50"
   }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+    className: "px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+  }, "Origem"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Demanda"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Anota\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Cria\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
@@ -1024,10 +1300,10 @@ function App() {
   }, /*#__PURE__*/React.createElement("thead", {
     className: "bg-slate-50"
   }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+    className: "px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+  }, "Origem"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Demanda"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Anota\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Cria\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
@@ -1043,15 +1319,45 @@ function App() {
       key: quotation.cotacao,
       className: "hover:bg-slate-50/80 transition-colors duration-150"
     }, /*#__PURE__*/React.createElement("td", {
+      className: "px-2 py-4 whitespace-nowrap"
+    }, !quotation.origem || quotation.origem === 'r_000250' ? /*#__PURE__*/React.createElement("span", {
+      title: "Inspe\xE7\xE3o",
+      className: "inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"
+    }, /*#__PURE__*/React.createElement(InspectIcon, null)) : quotation.origem === 'iw_cpc_975_net' ? /*#__PURE__*/React.createElement("span", {
+      title: "Input",
+      className: "inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"
+    }, /*#__PURE__*/React.createElement(InputIcon, null)) : quotation.origem === 'iw_cpc_975_top' ? /*#__PURE__*/React.createElement("span", {
+      title: "TOP",
+      className: "inline-flex items-center justify-center w-8 h-8 bg-purple-50 rounded-lg cursor-help"
+    }, /*#__PURE__*/React.createElement(TopIcon, null)) : /*#__PURE__*/React.createElement("span", {
+      title: "Inspe\xE7\xE3o",
+      className: "inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"
+    }, /*#__PURE__*/React.createElement(InspectIcon, null))), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flex items-center gap-2"
     }, /*#__PURE__*/React.createElement("span", {
-      className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md"
-    }, (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao)), /*#__PURE__*/React.createElement("td", {
-      className: "px-6 py-4"
-    }, /*#__PURE__*/React.createElement("p", {
-      className: "text-sm text-slate-600 max-w-md truncate",
+      className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md",
       title: quotation.anotacao
-    }, quotation.anotacao || '-')), /*#__PURE__*/React.createElement("td", {
+    }, quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao), quotation.auditoria && quotation.auditoria.status && function () {
+      var s = quotation.auditoria.status.trim();
+      if (s === 'Procedimento Correto') return /*#__PURE__*/React.createElement("span", {
+        title: "Procedimento Correto",
+        className: "cursor-help text-sm"
+      }, "\u2705");
+      if (s === 'Devolução Parcial') return /*#__PURE__*/React.createElement("span", {
+        title: "Devolu\xE7\xE3o Parcial",
+        className: "cursor-help text-sm"
+      }, "\u26A0\uFE0F");
+      if (s === 'Reprova Parcial') return /*#__PURE__*/React.createElement("span", {
+        title: "Reprova Parcial",
+        className: "cursor-help text-sm"
+      }, "\u26A0\uFE0F");
+      return /*#__PURE__*/React.createElement("span", {
+        title: s,
+        className: "cursor-help text-sm"
+      }, "\u274C");
+    }())), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
     }, formatDate(quotation.createdAt)), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
@@ -1130,6 +1436,10 @@ function App() {
           cotacao: '',
           anotacao: ''
         });
+        setAuditoriaData({
+          anotacao: '',
+          status: ''
+        });
       }
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1146,9 +1456,29 @@ function App() {
         cotacao: '',
         anotacao: ''
       });
+      setAuditoriaData({
+        anotacao: '',
+        status: ''
+      });
     },
     className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"
-  }, /*#__PURE__*/React.createElement(XIcon, null))), /*#__PURE__*/React.createElement("form", {
+  }, /*#__PURE__*/React.createElement(XIcon, null))), editingQuotation && /*#__PURE__*/React.createElement("div", {
+    className: "flex border-b border-slate-200 mb-5"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      return setActiveTab('anotacao');
+    },
+    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(activeTab === 'anotacao' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
+  }, "Anota\xE7\xE3o (Colaborador)"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      return setActiveTab('auditoria');
+    },
+    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(activeTab === 'auditoria' ? 'border-purple-600 text-purple-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
+  }, "Auditoria ", auditoriaData.status ? /*#__PURE__*/React.createElement("span", {
+    className: "ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700"
+  }, auditoriaData.status) : null)), /*#__PURE__*/React.createElement("form", {
     onSubmit: handleFormSubmit,
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
@@ -1165,9 +1495,9 @@ function App() {
     required: true,
     disabled: !!editingQuotation,
     placeholder: "Digite o n\xFAmero da cota\xE7\xE3o"
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  })), activeTab === 'anotacao' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5"
-  }, "Anota\xE7\xE3o"), /*#__PURE__*/React.createElement("textarea", {
+  }, "Anota\xE7\xE3o (Colaborador)"), /*#__PURE__*/React.createElement("textarea", {
     value: formData.anotacao,
     onChange: function onChange(e) {
       return setFormData(_objectSpread(_objectSpread({}, formData), {}, {
@@ -1177,7 +1507,45 @@ function App() {
     className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none",
     rows: "3",
     placeholder: "Adicione uma observa\xE7\xE3o..."
-  })), /*#__PURE__*/React.createElement("div", {
+  })), activeTab === 'auditoria' && /*#__PURE__*/React.createElement("div", {
+    className: "space-y-4"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-sm font-medium text-slate-700 mb-1.5"
+  }, "Anota\xE7\xE3o da Auditoria"), /*#__PURE__*/React.createElement("textarea", {
+    value: auditoriaData.anotacao,
+    onChange: function onChange(e) {
+      return setAuditoriaData(_objectSpread(_objectSpread({}, auditoriaData), {}, {
+        anotacao: e.target.value
+      }));
+    },
+    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200 resize-none",
+    rows: "3",
+    placeholder: "Digite a anota\xE7\xE3o da auditoria..."
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-sm font-medium text-slate-700 mb-1.5"
+  }, "Status da Auditoria"), /*#__PURE__*/React.createElement("select", {
+    value: auditoriaData.status,
+    onChange: function onChange(e) {
+      return setAuditoriaData(_objectSpread(_objectSpread({}, auditoriaData), {}, {
+        status: e.target.value
+      }));
+    },
+    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200"
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "Selecione um status..."), /*#__PURE__*/React.createElement("option", {
+    value: "Procedimento Correto"
+  }, "Procedimento Correto"), /*#__PURE__*/React.createElement("option", {
+    value: "Devolu\xE7\xE3o Parcial"
+  }, "Devolu\xE7\xE3o Parcial"), /*#__PURE__*/React.createElement("option", {
+    value: "Devolu\xE7\xE3o Indevida"
+  }, "Devolu\xE7\xE3o Indevida"), /*#__PURE__*/React.createElement("option", {
+    value: "Reprova Parcial"
+  }, "Reprova Parcial"), /*#__PURE__*/React.createElement("option", {
+    value: "Reprova Indevida"
+  }, "Reprova Indevida"), /*#__PURE__*/React.createElement("option", {
+    value: "Aprovacao Indevida"
+  }, "Aprova\xE7\xE3o Indevida")))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-2 gap-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5"
@@ -1213,6 +1581,10 @@ function App() {
       setFormData({
         cotacao: '',
         anotacao: ''
+      });
+      setAuditoriaData({
+        anotacao: '',
+        status: ''
       });
     },
     className: "flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200"

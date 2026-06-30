@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
+    <title>Gerenciar Acessos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-fadeIn { animation: fadeIn 0.3s ease-out; }
+        .animate-slideUp { animation: slideUp 0.3s ease-out; }
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: pulse 1.5s infinite;
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .checkbox-custom {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .checkbox-custom.checked {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .result-item {
+            transition: all 0.15s ease;
+        }
+        .result-item:hover {
+            background: #eff6ff;
+        }
+        .result-item.selected {
+            background: #dbeafe;
+            border-left: 3px solid #2563eb;
+        }
+
+        .toast-enter {
+            animation: slideUp 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const { useState, useEffect, useCallback, useRef } = React;
+
+        // === Icons ===
+        const SearchIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "11", cy: "11", r: "8" }),
+            React.createElement('path', { d: "m21 21-4.35-4.35" })
+        );
+
+        const UserIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M19 21v-2a4 4 0 0 0-4-4H9a2 2 0 0 0-4 4v2" }),
+            React.createElement('circle', { cx: "12", cy: "7", r: "4" })
+        );
+
+        const CheckIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('polyline', { points: "20 6 9 17 4 12" })
+        );
+
+        const ShieldIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" })
+        );
+
+        const CloseIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M18 6 6 18" }),
+            React.createElement('path', { d: "m6 6 12 12" })
+        );
+
+        const AlertTriangleIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" }),
+            React.createElement('path', { d: "M12 9v4" }),
+            React.createElement('path', { d: "M12 17h.01" })
+        );
+
+        const SettingsIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "12", cy: "12", r: "3" }),
+            React.createElement('path', { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" })
+        );
+
+        // === Toast Component ===
+        function Toast({ message, type, onClose }) {
+            useEffect(() => { const t = setTimeout(onClose, 3000); return () => clearTimeout(t); }, [onClose]);
+            return React.createElement('div', {
+                className: `fixed bottom-6 right-6 z-[60] px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 toast-enter ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`
+            },
+                type === 'success' ? React.createElement(CheckIcon) : React.createElement(AlertTriangleIcon),
+                React.createElement('span', { className: "font-medium text-sm" }, message)
+            );
+        }
+
+        // === Checkbox Component ===
+        function Checkbox({ checked, onChange, label, description, color }) {
+            return React.createElement('label', {
+                className: `flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 animate-fadeIn ${
+                    checked ? 'border-blue-300 bg-blue-50' : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                }`
+            },
+                React.createElement('div', {
+                    className: `checkbox-custom ${checked ? 'checked' : ''}`,
+                    onClick: (e) => { e.preventDefault(); onChange(!checked); }
+                },
+                    checked && React.createElement(CheckIcon)
+                ),
+                React.createElement('div', { className: "flex-1" },
+                    React.createElement('span', { className: "block font-semibold text-gray-800 text-base" }, label),
+                    description && React.createElement('span', { className: "block text-sm text-gray-500 mt-0.5" }, description)
+                ),
+                color && React.createElement('div', {
+                    className: `w-3 h-3 rounded-full flex-shrink-0`,
+                    style: { backgroundColor: color }
+                })
+            );
+        }
+
+        // === Main App ===
+        function App() {
+            const [searchTerm, setSearchTerm] = useState('');
+            const [usuarios, setUsuarios] = useState([]);
+            const [loading, setLoading] = useState(false);
+            const [selectedUser, setSelectedUser] = useState(null);
+            const [permissoes, setPermissoes] = useState({ gestao: false, qualidade: false, admin: false });
+            const [saving, setSaving] = useState(false);
+            const [toast, setToast] = useState(null);
+            const [showDropdown, setShowDropdown] = useState(false);
+            const searchRef = useRef(null);
+            const debounceRef = useRef(null);
+
+            // Mapeamento de opções para rotas
+            const opcoesRotas = {
+                gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard'],
+                qualidade: ['/pme_notas/qualidade'],
+                admin: ['/pme_notas/acessos']
+            };
+
+            const opcoesLabels = {
+                gestao: { label: 'Gestão', description: 'Acesso a Input NET, Input TOP, Inspeção e Dashboard', color: '#059669' },
+                qualidade: { label: 'Qualidade', description: 'Acesso à página de Qualidade', color: '#7c3aed' },
+                admin: { label: 'Administrador', description: 'Acesso ao gerenciamento de permissões', color: '#dc2626' }
+            };
+
+            // Buscar usuários
+            const buscarUsuarios = useCallback((termo) => {
+                if (!termo || termo.trim().length < 2) {
+                    setUsuarios([]);
+                    setShowDropdown(false);
+                    return;
+                }
+                setLoading(true);
+                fetch(`/api/acessos/usuarios?q=${encodeURIComponent(termo.trim())}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        setUsuarios(data.usuarios || []);
+                        setShowDropdown(data.usuarios?.length > 0);
+                    })
+                    .catch(err => console.error('[ACESSOS] Erro ao buscar usuários:', err))
+                    .finally(() => setLoading(false));
+            }, []);
+
+            // Debounce da busca
+            useEffect(() => {
+                if (debounceRef.current) clearTimeout(debounceRef.current);
+                debounceRef.current = setTimeout(() => buscarUsuarios(searchTerm), 300);
+                return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+            }, [searchTerm, buscarUsuarios]);
+
+            // Fechar dropdown ao clicar fora
+            useEffect(() => {
+                function handleClick(e) {
+                    if (searchRef.current && !searchRef.current.contains(e.target)) {
+                        setShowDropdown(false);
+                    }
+                }
+                document.addEventListener('mousedown', handleClick);
+                return () => document.removeEventListener('mousedown', handleClick);
+            }, []);
+
+            // Carregar permissões do usuário selecionado
+            const carregarPermissoes = useCallback(async (usuario) => {
+                try {
+                    const res = await fetch(`/api/acessos/usuarios/${usuario.id}/permissoes`);
+                    const data = await res.json();
+                    const rotasExistentes = (data.permissoes || []).map(p => p.rota);
+
+                    setPermissoes({
+                        gestao: opcoesRotas.gestao.every(r => rotasExistentes.includes(r)),
+                        qualidade: opcoesRotas.qualidade.every(r => rotasExistentes.includes(r)),
+                        admin: opcoesRotas.admin.every(r => rotasExistentes.includes(r))
+                    });
+                } catch (err) {
+                    console.error('[ACESSOS] Erro ao carregar permissões:', err);
+                    setPermissoes({ gestao: false, qualidade: false, admin: false });
+                }
+            }, []);
+
+            const selecionarUsuario = (usuario) => {
+                setSelectedUser(usuario);
+                setSearchTerm(`${usuario.nome} ${usuario.sobrenome}`);
+                setShowDropdown(false);
+                setUsuarios([]);
+                carregarPermissoes(usuario);
+            };
+
+            const limparSelecao = () => {
+                setSelectedUser(null);
+                setSearchTerm('');
+                setPermissoes({ gestao: false, qualidade: false, admin: false });
+            };
+
+            const togglePermissao = (opcao) => {
+                setPermissoes(prev => ({ ...prev, [opcao]: !prev[opcao] }));
+            };
+
+            const salvarPermissoes = async () => {
+                if (!selectedUser) {
+                    showToast('Selecione um usuário primeiro', 'error');
+                    return;
+                }
+
+                setSaving(true);
+                try {
+                    const opcoesAtivas = Object.keys(permissoes).filter(k => permissoes[k]);
+
+                    const res = await fetch(`/api/acessos/usuarios/${selectedUser.id}/permissoes`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ permissoes: opcoesAtivas })
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        showToast(`Permissões atualizadas para ${selectedUser.nome} ${selectedUser.sobrenome}`, 'success');
+                        carregarPermissoes(selectedUser);
+                    } else {
+                        showToast(data.error || 'Erro ao salvar permissões', 'error');
+                    }
+                } catch (err) {
+                    showToast('Erro de conexão ao salvar permissões', 'error');
+                } finally {
+                    setSaving(false);
+                }
+            };
+
+            const showToast = (message, type) => {
+                setToast({ message, type });
+            };
+
+            const getNomeCompleto = (u) => `${u.nome} ${u.sobrenome}`.trim();
+
+            return React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-slate-50 to-blue-50" },
+                // Header
+                React.createElement('header', {
+                    className: "bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50"
+                },
+                    React.createElement('div', { className: "max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" },
+                        React.createElement('div', { className: "flex items-center gap-3" },
+                            React.createElement('div', { className: "p-2 bg-blue-100 rounded-lg" },
+                                React.createElement(ShieldIcon)
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('h1', { className: "text-xl font-bold text-gray-900" }, 'Gerenciar Acessos'),
+                                React.createElement('p', { className: "text-xs text-gray-500" }, 'PME Notas - Permissões do Sistema')
+                            )
+                        )
+                    )
+                ),
+
+                // Conteúdo
+                React.createElement('main', { className: "max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6" },
+                    // Card de Busca
+                    React.createElement('div', {
+                        className: "bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden animate-slideUp"
+                    },
+                        React.createElement('div', { className: "p-6 pb-4 border-b border-gray-100" },
+                            React.createElement('h2', { className: "text-lg font-semibold text-gray-800 flex items-center gap-2" },
+                                React.createElement(UserIcon),
+                                'Selecionar Usuário'
+                            ),
+                            React.createElement('p', { className: "text-sm text-gray-500 mt-1" },
+                                'Digite o nome ou sobrenome para buscar um usuário'
+                            )
+                        ),
+                        React.createElement('div', { className: "p-6 relative", ref: searchRef },
+                            // Campo de busca
+                            React.createElement('div', {
+                                className: `flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
+                                    selectedUser ? 'border-emerald-300 bg-emerald-50' : 'border-gray-200 bg-white focus-within:border-blue-400 focus-within:bg-blue-50/30'
+                                }`
+                            },
+                                React.createElement(SearchIcon, { className: "text-gray-400 flex-shrink-0" }),
+                                React.createElement('input', {
+                                    type: "text",
+                                    value: searchTerm,
+                                    onChange: (e) => {
+                                        setSearchTerm(e.target.value);
+                                        if (selectedUser) limparSelecao();
+                                    },
+                                    placeholder: "Digite nome ou sobrenome...",
+                                    className: "flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400 text-base"
+                                }),
+                                searchTerm && React.createElement('button', {
+                                    onClick: limparSelecao,
+                                    className: "p-1 hover:bg-gray-200 rounded-lg transition-colors text-gray-400 hover:text-gray-600"
+                                }, React.createElement(CloseIcon))
+                            ),
+
+                            // Loading
+                            loading && React.createElement('div', { className: "absolute left-6 right-6 z-10 mt-1" },
+                                React.createElement('div', { className: "bg-white rounded-xl shadow-lg border border-gray-200 p-4" },
+                                    React.createElement('div', { className: "skeleton h-10 rounded-lg mb-2" }),
+                                    React.createElement('div', { className: "skeleton h-10 rounded-lg" })
+                                )
+                            ),
+
+                            // Dropdown resultados
+                            showDropdown && usuarios.length > 0 && React.createElement('div', {
+                                className: "absolute left-6 right-6 z-10 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 max-h-64 overflow-y-auto animate-fadeIn"
+                            },
+                                usuarios.map(usuario => React.createElement('button', {
+                                    key: usuario.id,
+                                    onClick: () => selecionarUsuario(usuario),
+                                    className: `w-full text-left px-4 py-3 result-item flex items-center gap-3 border-b border-gray-100 last:border-b-0 ${
+                                        selectedUser?.id === usuario.id ? 'selected' : ''
+                                    }`
+                                },
+                                    React.createElement('div', {
+                                        className: "w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-sm flex-shrink-0"
+                                    }, (usuario.nome?.charAt(0) || '').toUpperCase()),
+                                    React.createElement('div', null,
+                                        React.createElement('span', { className: "block font-medium text-gray-800" }, getNomeCompleto(usuario)),
+                                        React.createElement('span', { className: "block text-xs text-gray-400" }, `ID: ${usuario.id}`)
+                                    )
+                                ))
+                            ),
+
+                            // Usuário selecionado
+                            selectedUser && React.createElement('div', {
+                                className: "mt-3 flex items-center gap-3 px-4 py-2.5 bg-emerald-50 rounded-xl border border-emerald-200"
+                            },
+                                React.createElement('div', {
+                                    className: "w-8 h-8 rounded-full bg-emerald-200 flex items-center justify-center text-emerald-700 font-semibold text-xs flex-shrink-0"
+                                }, (selectedUser.nome?.charAt(0) || '').toUpperCase()),
+                                React.createElement('div', null,
+                                    React.createElement('span', { className: "block font-medium text-emerald-800 text-sm" }, getNomeCompleto(selectedUser)),
+                                    React.createElement('span', { className: "block text-xs text-emerald-600" }, `ID: ${selectedUser.id}`)
+                                ),
+                                React.createElement('button', {
+                                    onClick: limparSelecao,
+                                    className: "ml-auto p-1.5 hover:bg-emerald-200 rounded-lg transition-colors text-emerald-600"
+                                }, React.createElement(CloseIcon))
+                            )
+                        )
+                    ),
+
+                    // Card de Permissões
+                    selectedUser && React.createElement('div', {
+                        className: "bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden animate-slideUp"
+                    },
+                        React.createElement('div', { className: "p-6 pb-4 border-b border-gray-100" },
+                            React.createElement('h2', { className: "text-lg font-semibold text-gray-800 flex items-center gap-2" },
+                                React.createElement(SettingsIcon),
+                                'Permissões'
+                            ),
+                            React.createElement('p', { className: "text-sm text-gray-500 mt-1" },
+                                `Selecione as permissões para ${getNomeCompleto(selectedUser)}`
+                            )
+                        ),
+                        React.createElement('div', { className: "p-6 space-y-3" },
+                            React.createElement(Checkbox, {
+                                checked: permissoes.gestao,
+                                onChange: () => togglePermissao('gestao'),
+                                label: opcoesLabels.gestao.label,
+                                description: opcoesLabels.gestao.description,
+                                color: opcoesLabels.gestao.color
+                            }),
+                            React.createElement(Checkbox, {
+                                checked: permissoes.qualidade,
+                                onChange: () => togglePermissao('qualidade'),
+                                label: opcoesLabels.qualidade.label,
+                                description: opcoesLabels.qualidade.description,
+                                color: opcoesLabels.qualidade.color
+                            }),
+                            React.createElement(Checkbox, {
+                                checked: permissoes.admin,
+                                onChange: () => togglePermissao('admin'),
+                                label: opcoesLabels.admin.label,
+                                description: opcoesLabels.admin.description,
+                                color: opcoesLabels.admin.color
+                            })
+                        ),
+                        React.createElement('div', { className: "px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between" },
+                            React.createElement('span', { className: "text-sm text-gray-500" },
+                                Object.values(permissoes).filter(Boolean).length > 0
+                                    ? `${Object.values(permissoes).filter(Boolean).length} permissão(ões) selecionada(s)`
+                                    : 'Nenhuma permissão selecionada'
+                            ),
+                            React.createElement('button', {
+                                onClick: salvarPermissoes,
+                                disabled: saving,
+                                className: `px-6 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                                    saving
+                                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                        : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-95 shadow-lg shadow-blue-200'
+                                }`
+                            },
+                                saving
+                                    ? React.createElement('span', { className: "flex items-center gap-2" },
+                                        React.createElement('div', { className: "w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" }),
+                                        'Salvando...'
+                                    )
+                                    : 'Salvar Alterações'
+                            )
+                        )
+                    )
+                ),
+
+                // Toast
+                toast && React.createElement(Toast, {
+                    message: toast.message,
+                    type: toast.type,
+                    onClose: () => setToast(null)
+                })
+            );
+        }
+
+        // Render
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(App));
+    </script>
+</body>
+</html>

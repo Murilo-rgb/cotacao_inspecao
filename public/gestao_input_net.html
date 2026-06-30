@@ -262,7 +262,8 @@
             const handleDistribuir = async () => {
                 const podeDistribuir = (t) => {
                     if (redistribuirMode) return t.usuarioSelecionado;
-                    return t.status_distribuicao === 'Fila' && t.usuarioSelecionado;
+                    const jaDistribuido = t.usuario_distribuido_nome && String(t.usuario_distribuido_nome).trim() !== '' && String(t.usuario_distribuido_nome).trim() !== '-';
+                    return !jaDistribuido && t.usuarioSelecionado;
                 };
 
                 const selecionadas = tarefas.filter(podeDistribuir);
@@ -473,7 +474,7 @@
                             React.createElement('div', { className: 'flex items-center gap-3' },
                                 React.createElement('div', { className: 'w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md' },
                                     React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5 text-white", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2 },
-                                        React.createElement('path', { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5H7a2 2 0 002v12a2 2 0 002 2h10a2 2 0 002-2V7.5L14.5 2z" })
+                                        React.createElement('path', { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" })
                                     )
                                 ),
                                 React.createElement('div', null,
@@ -483,7 +484,7 @@
                             ),
                             React.createElement('div', { className: 'flex items-center gap-3' },
                                 React.createElement('a', {
-                                    href: `${getBasePath()}/inspecao/dashboard`,
+                                    href: `${getBasePath()}/input_net/dashboard`,
                                     className: 'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors'
                                 },
                                     React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
@@ -633,7 +634,11 @@
                                 ),
                                 React.createElement('button', {
                                     onClick: handleDistribuir,
-                                    disabled: (distribuindo || redistribuindo) || tarefas.filter(t => t.usuarioSelecionado).length === 0,
+                                    disabled: (distribuindo || redistribuindo) || tarefas.filter(t => {
+                                        if (redistribuirMode) return t.usuarioSelecionado;
+                                        const jaDistribuido = t.usuario_distribuido_nome && String(t.usuario_distribuido_nome).trim() !== '' && String(t.usuario_distribuido_nome).trim() !== '-';
+                                        return !jaDistribuido && t.usuarioSelecionado;
+                                    }).length === 0,
                                     className: `inline-flex items-center gap-2 px-5 py-2.5 text-white text-sm font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md ${
                                         redistribuirMode ? 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700' : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700'
                                     }`
@@ -700,7 +705,8 @@
                                         return ta - tb;
                                     }).map(tarefa => {
                                         const isSelected = selectedIds.has(tarefa.cod_tarefa);
-                                        const showUserField = redistribuirMode || tarefa.status_distribuicao === 'Fila';
+                                        const jaDistribuido = tarefa.usuario_distribuido_nome && String(tarefa.usuario_distribuido_nome).trim() !== '' && String(tarefa.usuario_distribuido_nome).trim() !== '-';
+                                        const showUserField = redistribuirMode || !jaDistribuido;
                                         return React.createElement('tr', {
                                             key: tarefa.cod_tarefa,
                                             className: `hover:bg-slate-50/80 transition-colors duration-150 ${
@@ -728,14 +734,19 @@
                                                 React.createElement('span', { className: 'text-sm text-slate-600' }, getOrigemLabel(tarefa))
                                             ),
                                             React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
-                                                React.createElement('span', {
-                                                    className: `inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full border ${
-                                                        tarefa.status_distribuicao === 'Enviado' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
-                                                    }`
-                                                },
-                                                    React.createElement('span', { className: `w-1.5 h-1.5 rounded-full ${tarefa.status_distribuicao === 'Enviado' ? 'bg-emerald-500' : 'bg-amber-500'}` }),
-                                                    tarefa.status_distribuicao
-                                                )
+                                                (() => {
+                                                    const statusCotacao = tarefa.cotacao_status && String(tarefa.cotacao_status).trim() !== '' ? String(tarefa.cotacao_status) : null;
+                                                    const label = statusCotacao || 'Fila';
+                                                    const isEnviado = !!statusCotacao;
+                                                    return React.createElement('span', {
+                                                        className: `inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full border ${
+                                                            isEnviado ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
+                                                        }`
+                                                    },
+                                                        React.createElement('span', { className: `w-1.5 h-1.5 rounded-full ${isEnviado ? 'bg-emerald-500' : 'bg-amber-500'}` }),
+                                                        label
+                                                    );
+                                                })()
                                             ),
                                             React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
                                                 showUserField ? React.createElement('div', null,

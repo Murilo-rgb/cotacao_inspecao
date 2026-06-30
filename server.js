@@ -304,7 +304,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart } = req.query;
     const usuarioId = req.user.id;
-    let query = "SELECT c.*, r.dsc_cotacao FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa WHERE c.usuario_id = $1 AND c.validacao = $2";
+    let query = `SELECT c.*, r.dsc_cotacao, aq.anotacao as auditoria_anotacao, aq.status as auditoria_status FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.cotacao = c.tarefa WHERE c.usuario_id = $1 AND c.validacao = $2`;
     let params = [usuarioId, 'Ativo'];
     let paramIndex = 3;
 
@@ -327,13 +327,15 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
 
     const result = await pool.query(query, params);
     const serialized = result.rows.map(row => ({
-      cotacao: row.tarefa, // cod_tarefa (kept in `cotacao` field of API for compatibility)
+      cotacao: row.tarefa,
       dsc_cotacao: row.cotacao || row.dsc_cotacao,
       anotacao: row.anotacao,
       status: row.status,
       createdAt: formatDateBR(row.data_de_criacao),
       updatedAt: formatDateBR(row.data_da_ultima_atualizacao),
-      usuarioLogin: row.usuario_login
+      usuarioLogin: row.usuario_login,
+      origem: row.origem || null,
+      auditoria: row.auditoria_status ? { anotacao: row.auditoria_anotacao || '', status: row.auditoria_status } : null
     }));
 
     res.json(serialized);
@@ -418,14 +420,14 @@ app.post('/api/quotations', authenticateToken, async (req, res) => {
 // Update quotation
 app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
-    const { anotacao, status } = req.body;
+    const { anotacao, status, auditoria_anotacao, auditoria_status } = req.body;
     const usuarioLogin = req.user.username;
     const usuarioId = req.user.id;
     const now = formatDateBR(new Date());
 
     console.log(`[PUT] Atualizando cotação: ${req.params.cotacao}`);
     console.log(`[PUT] Usuário: ${usuarioLogin}`);
-    console.log(`[PUT] Dados recebidos:`, { anotacao, status });
+    console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
     // Buscar status anterior antes de atualizar
     const beforeRes = await pool.query(
@@ -447,6 +449,33 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     }
 
     const row = result.rows[0];
+
+    // Salvar dados de auditoria se fornecidos
+    if (auditoria_anotacao !== undefined || auditoria_status !== undefined) {
+      try {
+        // Verificar se já existe auditoria para esta cotação
+        const checkAudit = await pool.query(
+          'SELECT 1 FROM db_bloco_de_notas.auditoria_qualidade WHERE cotacao = $1',
+          [req.params.cotacao]
+        );
+
+        if (checkAudit.rows.length > 0) {
+          // Atualizar
+          await pool.query(
+            'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status) WHERE cotacao = $3',
+            [auditoria_anotacao || '', auditoria_status || '', req.params.cotacao]
+          );
+        } else if (auditoria_anotacao || auditoria_status) {
+          // Inserir apenas se houver dados
+          await pool.query(
+            'INSERT INTO db_bloco_de_notas.auditoria_qualidade (cotacao, anotacao, status) VALUES ($1, $2, $3)',
+            [req.params.cotacao, auditoria_anotacao || '', auditoria_status || '']
+          );
+        }
+      } catch (auditErr) {
+        console.error('[PUT] Erro ao salvar auditoria:', auditErr.message);
+      }
+    }
 
     // Registrar auditoria de mudança de status
     if (status && String(statusAnterior || '').toLowerCase() !== String(status).toLowerCase()) {
@@ -830,8 +859,12 @@ app.get('/pme_notas/devolucoes-padrao', authenticateToken, (req, res) => {
 // API: Listar todas as cotações para auditoria de qualidade
 app.get('/api/qualidade', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart } = req.query;
-    let query = "SELECT c.* FROM db_bloco_de_notas.cotacao c WHERE c.validacao = 'Ativo'";
+    const { search, dateStart, origem } = req.query;
+    let query = `SELECT c.*, 
+      TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+      FROM db_bloco_de_notas.cotacao c 
+      LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+      WHERE c.validacao = 'Ativo'`;
     const params = [];
     let paramIndex = 1;
 
@@ -847,6 +880,16 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
       params.push(`${dateStartBR}%`);
       paramIndex++;
+    }
+
+    if (origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        query += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
     }
 
     query += ' ORDER BY c.data_de_criacao DESC';
@@ -880,6 +923,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
         data_de_criacao: formatDateBR(row.data_de_criacao),
         data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
         usuario_login: row.usuario_login,
+        usuario_nome: row.usuario_nome || null,
         usuario_id: row.usuario_id,
         auditoria
       };
@@ -905,9 +949,9 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Status é obrigatório' });
     }
 
-    const statusPermitidos = ['Aprovado', 'Reprova indevida', 'Reprovado'];
+    const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida'];
     if (!statusPermitidos.includes(status)) {
-      return res.status(400).json({ error: 'Status inválido. Use: Aprovado, Reprova indevida ou Reprovado' });
+      return res.status(400).json({ error: 'Status inválido' });
     }
 
     // Verificar se já existe auditoria para esta cotação
@@ -946,6 +990,45 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
     res.status(500).json({ error: 'Erro ao salvar auditoria' });
+  }
+});
+
+// API: Estatísticas de qualidade para o usuário logado
+app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
+  try {
+    const usuarioId = req.user.id;
+    const result = await pool.query(`
+      SELECT aq.status, COUNT(*)::int as qtd
+      FROM db_bloco_de_notas.auditoria_qualidade aq
+      INNER JOIN db_bloco_de_notas.cotacao c ON aq.cotacao = c.cotacao
+      WHERE c.usuario_id = $1 AND c.validacao = 'Ativo'
+      GROUP BY aq.status
+    `, [usuarioId]);
+
+    const stats = {
+      total: 0,
+      procedimento_correto: 0,
+      devolucao_parcial: 0,
+      devolucao_indevida: 0,
+      aprovacao_indevida: 0,
+      outros: 0
+    };
+
+    for (const row of result.rows) {
+      const qtd = parseInt(row.qtd);
+      stats.total += qtd;
+      const s = (row.status || '').trim().toLowerCase();
+      if (s === 'procedimento correto') stats.procedimento_correto = qtd;
+      else if (s === 'devolução parcial') stats.devolucao_parcial = qtd;
+      else if (s === 'devolução indevida') stats.devolucao_indevida = qtd;
+      else if (s === 'aprovacao indevida' || s === 'aprovação indevida') stats.aprovacao_indevida = qtd;
+      else stats.outros += qtd;
+    }
+
+    res.json(stats);
+  } catch (error) {
+    console.error('[QUALIDADE STATS] Erro:', error);
+    res.status(500).json({ error: 'Erro ao carregar estatísticas de qualidade' });
   }
 });
 
@@ -1009,6 +1092,148 @@ app.get('/pme_notas/input_net', authenticateToken, (req, res) => {
 
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
+
+// ===== ROTAS DE ACESSOS (gerenciamento de permissões) =====
+
+// Mapeamento de opções para rotas
+const OPCOES_ROTAS = {
+    gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard'],
+    qualidade: ['/pme_notas/qualidade'],
+    admin: ['/pme_notas/acessos']
+};
+
+// API: Buscar usuários por nome/sobrenome
+app.get('/api/acessos/usuarios', authenticateToken, async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q || q.trim().length < 2) {
+            return res.json({ usuarios: [] });
+        }
+
+        const result = await pool.query(
+            `SELECT id, nome, sobrenome, login 
+             FROM db_automacao.usuarios 
+             WHERE ativo = true 
+               AND (LOWER(nome) LIKE LOWER($1) OR LOWER(sobrenome) LIKE LOWER($1) OR LOWER(CONCAT(nome, ' ', sobrenome)) LIKE LOWER($1))
+             ORDER BY nome ASC 
+             LIMIT 20`,
+            [`%${q.trim()}%`]
+        );
+
+        res.json({ usuarios: result.rows });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao buscar usuários:', error.message);
+        res.status(500).json({ error: 'Erro ao buscar usuários' });
+    }
+});
+
+// API: Listar permissões de um usuário
+app.get('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await pool.query(
+            `SELECT rota, tem_acesso, data_alteracao, alterado_por
+             FROM db_automacao.usuario_permissoes 
+             WHERE usuario_id = $1
+             ORDER BY rota`,
+            [id]
+        );
+
+        res.json({ permissoes: result.rows });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao listar permissões:', error.message);
+        res.status(500).json({ error: 'Erro ao listar permissões' });
+    }
+});
+
+// API: Salvar permissões de um usuário (sincroniza com base nas opções selecionadas)
+app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { permissoes: opcoesAtivas } = req.body;
+        const alteradoPor = req.user.username || req.user.nome || 'sistema';
+
+        // Validar que o usuário existe
+        const userCheck = await pool.query(
+            'SELECT id, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
+            [id]
+        );
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({ success: false, error: 'Usuário não encontrado ou inativo' });
+        }
+
+        // Mapear opções ativas para rotas
+        const rotasParaAtivar = new Set();
+        if (Array.isArray(opcoesAtivas)) {
+            for (const opcao of opcoesAtivas) {
+                const rotas = OPCOES_ROTAS[opcao];
+                if (rotas) {
+                    for (const rota of rotas) {
+                        rotasParaAtivar.add(rota);
+                    }
+                }
+            }
+        }
+
+        // Buscar permissões existentes do usuário que estão dentro do nosso domínio
+        const todasRotasDominio = new Set([
+            ...OPCOES_ROTAS.gestao,
+            ...OPCOES_ROTAS.qualidade,
+            ...OPCOES_ROTAS.admin
+        ]);
+
+        const existentesResult = await pool.query(
+            `SELECT rota, tem_acesso FROM db_automacao.usuario_permissoes 
+             WHERE usuario_id = $1 AND rota = ANY($2)`,
+            [id, Array.from(todasRotasDominio)]
+        );
+
+        const rotasExistentes = {};
+        for (const row of existentesResult.rows) {
+            rotasExistentes[row.rota] = row.tem_acesso;
+        }
+
+        // Inserir ou atualizar permissões
+        let inseridas = 0;
+        let removidas = 0;
+
+        // Para cada rota do domínio, decidir se deve ativar ou desativar
+        for (const rota of todasRotasDominio) {
+            const deveEstarAtiva = rotasParaAtivar.has(rota);
+            const jaExiste = rotasExistentes[rota] !== undefined;
+            const estaAtiva = rotasExistentes[rota] === true;
+
+            if (deveEstarAtiva && (!jaExiste || !estaAtiva)) {
+                // Precisa ativar
+                await permissions.atualizarPermissao(id, rota, true, alteradoPor);
+                inseridas++;
+            } else if (!deveEstarAtiva && jaExiste && estaAtiva) {
+                // Precisa desativar
+                await permissions.atualizarPermissao(id, rota, false, alteradoPor);
+                removidas++;
+            }
+            // Se já está no estado correto, ignora
+        }
+
+        console.log(`[ACESSOS] Permissões atualizadas para usuário ${id}: ${inseridas} ativadas, ${removidas} desativadas`);
+
+        res.json({
+            success: true,
+            message: `${inseridas} permissão(ões) adicionada(s), ${removidas} removida(s)`,
+            ativadas: inseridas,
+            removidas
+        });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao salvar permissões:', error.message);
+        res.status(500).json({ success: false, error: 'Erro ao salvar permissões' });
+    }
+});
+
+// Serve página de acessos
+app.get('/pme_notas/acessos', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
+});
 
 // Bypass APIs under /pme_notas so SPA fallback doesn't swallow them
 app.get('/pme_notas/api/*', (req, res, next) => { next(); });

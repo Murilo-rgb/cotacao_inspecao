@@ -1,4 +1,4 @@
-const { useState, useEffect } = React;
+const { useState, useEffect, useCallback } = React;
 
 // Icons as SVG components
 const SearchIcon = () => (
@@ -77,6 +77,28 @@ const XIcon = () => (
     </svg>
 );
 
+const InspectIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+    </svg>
+);
+
+const InputIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" x2="8" y1="13" y2="13"></line>
+        <line x1="16" x2="8" y1="17" y2="17"></line>
+    </svg>
+);
+
+const TopIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+);
+
 const AlertTriangleIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
@@ -110,6 +132,8 @@ function App() {
     const [editingQuotation, setEditingQuotation] = useState(null);
     const [formData, setFormData] = useState({ cotacao: '', anotacao: '' });
     const [showModal, setShowModal] = useState(false);
+    const [activeTab, setActiveTab] = useState('anotacao');
+    const [auditoriaData, setAuditoriaData] = useState({ anotacao: '', status: '' });
     const [deleteModal, setDeleteModal] = useState(null);
     const [statusModal, setStatusModal] = useState(null);
     const [username, setUsername] = useState('');
@@ -119,6 +143,9 @@ function App() {
     const [reprovaSearch, setReprovaSearch] = useState('');
     const [reprovaResults, setReprovaResults] = useState([]);
     const [reprovaLoading, setReprovaLoading] = useState(false);
+    const [qualidadeStats, setQualidadeStats] = useState(null);
+    const [loadingQualidade, setLoadingQualidade] = useState(false);
+    const [filtroAuditoria, setFiltroAuditoria] = useState('');
 
     useEffect(() => {
         const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
@@ -144,6 +171,7 @@ function App() {
 
     useEffect(() => setCurrentPage(1), [searchTerm]);
     useEffect(() => setCurrentPage(1), [dateStart]);
+    useEffect(() => setCurrentPage(1), [filtroAuditoria]);
 
     const showToast = (message, type = 'success') => setToast({ message, type });
 
@@ -177,6 +205,33 @@ function App() {
         return () => clearTimeout(timer);
     }, [searchTerm]);
 
+    // Fetch qualidade stats
+    const fetchQualidadeStats = useCallback(async () => {
+        try {
+            setLoadingQualidade(true);
+            const token = localStorage.getItem('token');
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const response = await fetch(`${BASE_PATH}/api/qualidade/stats`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setQualidadeStats(data);
+            }
+        } catch (err) {
+            console.error('[QUALIDADE STATS] Erro:', err);
+        } finally {
+            setLoadingQualidade(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetchQualidadeStats();
+        }
+    }, [fetchQualidadeStats]);
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
@@ -193,7 +248,12 @@ function App() {
                 const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(cotacaoCode)}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ anotacao: formData.anotacao, status: editingQuotation.status })
+                    body: JSON.stringify({ 
+                        anotacao: formData.anotacao, 
+                        status: editingQuotation.status,
+                        auditoria_anotacao: auditoriaData.anotacao,
+                        auditoria_status: auditoriaData.status
+                    })
                 });
                 if (response.status === 401 || response.status === 403) {
                     localStorage.removeItem('token'); localStorage.removeItem('username');
@@ -205,6 +265,7 @@ function App() {
                     setShowModal(false);
                     setEditingQuotation(null);
                     setFormData({ cotacao: '', anotacao: '' });
+                    setAuditoriaData({ anotacao: '', status: '' });
                     showToast('Cotação atualizada com sucesso');
                 }
             } else {
@@ -223,6 +284,7 @@ function App() {
                     fetchQuotations();
                     setShowModal(false);
                     setFormData({ cotacao: '', anotacao: '' });
+                    setAuditoriaData({ anotacao: '', status: '' });
                     showToast('Cotação criada com sucesso');
                 }
             }
@@ -232,10 +294,34 @@ function App() {
         }
     };
 
-    const handleEditClick = (quotation) => {
+    const handleEditClick = async (quotation) => {
         setEditingQuotation(quotation);
         setFormData({ cotacao: quotation.cotacao, anotacao: quotation.anotacao });
+        setActiveTab('anotacao');
         setShowModal(true);
+        
+        // Buscar dados de auditoria se existirem
+        try {
+            const token = localStorage.getItem('token');
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const cotacaoCode = quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao;
+            const response = await fetch(`${BASE_PATH}/api/qualidade/auditoria/${encodeURIComponent(cotacaoCode)}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if (data) {
+                    setAuditoriaData({ anotacao: data.anotacao || '', status: data.status || '' });
+                } else {
+                    setAuditoriaData({ anotacao: '', status: '' });
+                }
+            } else {
+                setAuditoriaData({ anotacao: '', status: '' });
+            }
+        } catch (error) {
+            console.error('Erro ao buscar auditoria:', error);
+            setAuditoriaData({ anotacao: '', status: '' });
+        }
     };
 
     const handleDeleteClick = (quotation) => setDeleteModal(quotation);
@@ -344,6 +430,10 @@ function App() {
             const createdAtDate = `${year}-${month}-${day}`;
             if (createdAtDate !== dateStart) return false;
         }
+        if (filtroAuditoria) {
+            if (!q.auditoria || !q.auditoria.status) return false;
+            if (q.auditoria.status.trim() !== filtroAuditoria) return false;
+        }
         return true;
     });
 
@@ -428,7 +518,7 @@ function App() {
             </header>
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
                     <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
                         <p className="text-sm font-medium text-slate-500">Total</p>
                         <p className="text-2xl font-bold text-slate-800 mt-1">{filteredQuotations.length}</p>
@@ -444,6 +534,49 @@ function App() {
                     <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
                         <p className="text-sm font-medium text-red-600">Reprovadas</p>
                         <p className="text-2xl font-bold text-red-700 mt-1">{filteredQuotations.filter(q => q.status === 'reprovado').length}</p>
+                    </div>
+                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                        <p className="text-sm font-medium text-purple-600 flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            Qualidade
+                        </p>
+                        {loadingQualidade ? (
+                            <div className="mt-2 space-y-1.5">
+                                <div className="h-3 bg-purple-100 rounded animate-pulse w-3/4"></div>
+                                <div className="h-3 bg-purple-100 rounded animate-pulse w-1/2"></div>
+                            </div>
+                        ) : qualidadeStats ? (
+                            <div className="mt-1 flex flex-wrap items-center gap-2">
+                                <span className="text-xs text-slate-400 font-medium">{qualidadeStats.total}</span>
+                                {qualidadeStats.procedimento_correto > 0 && (
+                                    <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Procedimento Correto' ? '' : 'Procedimento Correto')} 
+                                        className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Procedimento Correto' ? 'scale-125 bg-emerald-100 rounded px-1' : 'hover:scale-110'}`} 
+                                        title="Procedimento Correto">✅ {qualidadeStats.procedimento_correto}</button>
+                                )}
+                                {qualidadeStats.devolucao_parcial > 0 && (
+                                    <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Devolução Parcial' ? '' : 'Devolução Parcial')} 
+                                        className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Devolução Parcial' ? 'scale-125 bg-amber-100 rounded px-1' : 'hover:scale-110'}`} 
+                                        title="Devolução Parcial">⚠️ {qualidadeStats.devolucao_parcial}</button>
+                                )}
+                                {qualidadeStats.devolucao_indevida > 0 && (
+                                    <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Devolução Indevida' ? '' : 'Devolução Indevida')} 
+                                        className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Devolução Indevida' ? 'scale-125 bg-red-100 rounded px-1' : 'hover:scale-110'}`} 
+                                        title="Devolução Indevida">❌ {qualidadeStats.devolucao_indevida}</button>
+                                )}
+                                {qualidadeStats.aprovacao_indevida > 0 && (
+                                    <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Aprovacao Indevida' ? '' : 'Aprovacao Indevida')} 
+                                        className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Aprovacao Indevida' ? 'scale-125 bg-orange-100 rounded px-1' : 'hover:scale-110'}`} 
+                                        title="Aprovação Indevida">❌ {qualidadeStats.aprovacao_indevida}</button>
+                                )}
+                                {filtroAuditoria && (
+                                    <button onClick={() => setFiltroAuditoria('')} className="text-xs text-slate-400 hover:text-slate-600 ml-1">✕</button>
+                                )}
+                            </div>
+                        ) : (
+                            <p className="text-xs text-slate-400 mt-1">Nenhuma auditoria</p>
+                        )}
                     </div>
                 </div>
 
@@ -476,7 +609,7 @@ function App() {
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-slate-200">
                                 <thead className="bg-slate-50">
-                                    <tr><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Anotação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
+                                    <tr><th className="px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-100">{[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}</tbody>
                             </table>
@@ -491,18 +624,35 @@ function App() {
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-slate-200">
                                 <thead className="bg-slate-50">
-                                    <tr><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Anotação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
+                                    <tr><th className="px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-100">
                                     {currentQuotations.map((quotation) => {
                                         const statusConfig = getStatusConfig(quotation.status);
                                         return (
                                             <tr key={quotation.cotacao} className="hover:bg-slate-50/80 transition-colors duration-150">
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md">{(quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}</span>
+                                                <td className="px-2 py-4 whitespace-nowrap">
+                                                    {!quotation.origem || quotation.origem === 'r_000250' ? (
+                                                        <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
+                                                    ) : quotation.origem === 'iw_cpc_975_net' ? (
+                                                        <span title="Input" className="inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"><InputIcon /></span>
+                                                    ) : quotation.origem === 'iw_cpc_975_top' ? (
+                                                        <span title="TOP" className="inline-flex items-center justify-center w-8 h-8 bg-purple-50 rounded-lg cursor-help"><TopIcon /></span>
+                                                    ) : (
+                                                        <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
+                                                    )}
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    <p className="text-sm text-slate-600 max-w-md truncate" title={quotation.anotacao}>{quotation.anotacao || '-'}</p>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md" title={quotation.anotacao}>{quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}</span>
+                                                        {quotation.auditoria && quotation.auditoria.status && (() => {
+                                                            const s = quotation.auditoria.status.trim();
+                                                            if (s === 'Procedimento Correto') return <span title="Procedimento Correto" className="cursor-help text-sm">✅</span>;
+                                                            if (s === 'Devolução Parcial') return <span title="Devolução Parcial" className="cursor-help text-sm">⚠️</span>;
+                                                            if (s === 'Reprova Parcial') return <span title="Reprova Parcial" className="cursor-help text-sm">⚠️</span>;
+                                                            return <span title={s} className="cursor-help text-sm">❌</span>;
+                                                        })()}
+                                                    </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.createdAt)}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.updatedAt)}</td>
@@ -548,21 +698,77 @@ function App() {
             </main>
 
             {showModal && (
-                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); } }}>
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); } }}>
                     <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl modal-content">
                         <div className="flex items-center justify-between mb-5">
                             <h2 className="text-lg font-bold text-slate-800">{editingQuotation ? 'Editar cotação' : 'Nova cotação'}</h2>
-                            <button onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
+                            <button onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
                         </div>
+                        
+                        {/* Abas */}
+                        {editingQuotation && (
+                            <div className="flex border-b border-slate-200 mb-5">
+                                <button
+                                    type="button"
+                                    onClick={() => setActiveTab('anotacao')}
+                                    className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
+                                        activeTab === 'anotacao'
+                                            ? 'border-blue-600 text-blue-600'
+                                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                                    }`}
+                                >
+                                    Anotação (Colaborador)
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setActiveTab('auditoria')}
+                                    className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
+                                        activeTab === 'auditoria'
+                                            ? 'border-purple-600 text-purple-600'
+                                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                                    }`}
+                                >
+                                    Auditoria {auditoriaData.status ? <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">{auditoriaData.status}</span> : null}
+                                </button>
+                            </div>
+                        )}
+                        
                         <form onSubmit={handleFormSubmit} className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Cotação</label>
                                 <input type="text" value={formData.cotacao} onChange={(e) => setFormData({...formData, cotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 disabled:bg-slate-100 disabled:text-slate-500" required disabled={!!editingQuotation} placeholder="Digite o número da cotação" />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação</label>
-                                <textarea value={formData.anotacao} onChange={(e) => setFormData({...formData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none" rows="3" placeholder="Adicione uma observação..." />
-                            </div>
+                            
+                            {/* Aba: Anotação do Colaborador */}
+                            {activeTab === 'anotacao' && (
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação (Colaborador)</label>
+                                    <textarea value={formData.anotacao} onChange={(e) => setFormData({...formData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none" rows="3" placeholder="Adicione uma observação..." />
+                                </div>
+                            )}
+                            
+                            {/* Aba: Auditoria */}
+                            {activeTab === 'auditoria' && (
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação da Auditoria</label>
+                                        <textarea value={auditoriaData.anotacao} onChange={(e) => setAuditoriaData({...auditoriaData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200 resize-none" rows="3" placeholder="Digite a anotação da auditoria..." />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Status da Auditoria</label>
+                                        <select value={auditoriaData.status} onChange={(e) => setAuditoriaData({...auditoriaData, status: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200">
+                                            <option value="">Selecione um status...</option>
+                                            <option value="Procedimento Correto">Procedimento Correto</option>
+                                            <option value="Devolução Parcial">Devolução Parcial</option>
+                                            <option value="Devolução Indevida">Devolução Indevida</option>
+                                            <option value="Reprova Parcial">Reprova Parcial</option>
+                                            <option value="Reprova Indevida">Reprova Indevida</option>
+                                            <option value="Aprovacao Indevida">Aprovação Indevida</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            )}
+                            
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-1.5">Data Criação</label>
@@ -579,7 +785,7 @@ function App() {
                             </div>
                             <div className="flex gap-3 pt-2">
                                 <button type="submit" className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200">Salvar</button>
-                                <button type="button" onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); }} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200">Cancelar</button>
+                                <button type="button" onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200">Cancelar</button>
                             </div>
                         </form>
                     </div>
