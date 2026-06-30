@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2563eb">
     <title>Gerenciar Acessos</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -181,7 +183,7 @@
                     return;
                 }
                 setLoading(true);
-                fetch(`/api/acessos/usuarios?q=${encodeURIComponent(termo.trim())}`)
+                fetch(`/pme_notas/api/acessos/usuarios?q=${encodeURIComponent(termo.trim())}`)
                     .then(r => r.json())
                     .then(data => {
                         setUsuarios(data.usuarios || []);
@@ -255,7 +257,7 @@
                 try {
                     const opcoesAtivas = Object.keys(permissoes).filter(k => permissoes[k]);
 
-                    const res = await fetch(`/api/acessos/usuarios/${selectedUser.id}/permissoes`, {
+                    const res = await fetch(`/pme_notas/api/acessos/usuarios/${selectedUser.id}/permissoes`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ permissoes: opcoesAtivas })
@@ -303,7 +305,7 @@
                 React.createElement('main', { className: "max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6" },
                     // Card de Busca
                     React.createElement('div', {
-                        className: "bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden animate-slideUp"
+                        className: "bg-white rounded-2xl shadow-sm border border-gray-200 animate-slideUp"
                     },
                         React.createElement('div', { className: "p-6 pb-4 border-b border-gray-100" },
                             React.createElement('h2', { className: "text-lg font-semibold text-gray-800 flex items-center gap-2" },

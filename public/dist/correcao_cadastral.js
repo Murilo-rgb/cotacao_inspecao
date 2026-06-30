@@ -418,18 +418,6 @@ function App() {
     _useState36 = _slicedToArray(_useState35, 2),
     reprovaLoading = _useState36[0],
     setReprovaLoading = _useState36[1];
-  var _useState37 = useState(null),
-    _useState38 = _slicedToArray(_useState37, 2),
-    qualidadeStats = _useState38[0],
-    setQualidadeStats = _useState38[1];
-  var _useState39 = useState(false),
-    _useState40 = _slicedToArray(_useState39, 2),
-    loadingQualidade = _useState40[0],
-    setLoadingQualidade = _useState40[1];
-  var _useState41 = useState(''),
-    _useState42 = _slicedToArray(_useState41, 2),
-    filtroAuditoria = _useState42[0],
-    setFiltroAuditoria = _useState42[1];
   useEffect(function () {
     var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
     var token = localStorage.getItem('token');
@@ -457,9 +445,6 @@ function App() {
   useEffect(function () {
     return setCurrentPage(1);
   }, [dateStart]);
-  useEffect(function () {
-    return setCurrentPage(1);
-  }, [filtroAuditoria]);
   var showToast = function showToast(message) {
     var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
     return setToast({
@@ -481,7 +466,7 @@ function App() {
             if (dateStart) params.append('dateStart', dateStart);
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context.n = 1;
-            return fetch("".concat(BASE_PATH, "/api/quotations?").concat(params), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/correcao-cadastral?").concat(params), {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
@@ -531,77 +516,27 @@ function App() {
   useEffect(function () {
     fetchQuotations();
   }, [dateStart]);
-
-  // Fetch qualidade stats
-  var fetchQualidadeStats = useCallback(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-    var token, BASE_PATH, response, data, _t2;
-    return _regenerator().w(function (_context2) {
-      while (1) switch (_context2.p = _context2.n) {
-        case 0:
-          _context2.p = 0;
-          setLoadingQualidade(true);
-          token = localStorage.getItem('token');
-          BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-          _context2.n = 1;
-          return fetch("".concat(BASE_PATH, "/api/qualidade/stats"), {
-            headers: {
-              'Authorization': "Bearer ".concat(token)
-            }
-          });
-        case 1:
-          response = _context2.v;
-          if (!response.ok) {
-            _context2.n = 3;
-            break;
-          }
-          _context2.n = 2;
-          return response.json();
-        case 2:
-          data = _context2.v;
-          setQualidadeStats(data);
-        case 3:
-          _context2.n = 5;
-          break;
-        case 4:
-          _context2.p = 4;
-          _t2 = _context2.v;
-          console.error('[QUALIDADE STATS] Erro:', _t2);
-        case 5:
-          _context2.p = 5;
-          setLoadingQualidade(false);
-          return _context2.f(5);
-        case 6:
-          return _context2.a(2);
-      }
-    }, _callee2, null, [[0, 4, 5, 6]]);
-  })), []);
-  useEffect(function () {
-    var token = localStorage.getItem('token');
-    if (token) {
-      fetchQualidadeStats();
-    }
-  }, [fetchQualidadeStats]);
   var handleLogout = function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
   };
   var handleFormSubmit = /*#__PURE__*/function () {
-    var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(e) {
-      var token, BASE_PATH, cotacaoCode, response, _BASE_PATH, _response, _t3;
-      return _regenerator().w(function (_context3) {
-        while (1) switch (_context3.p = _context3.n) {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
+      var token, BASE_PATH, cotacaoCode, response, _BASE_PATH, _response, _t2;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.p = _context2.n) {
           case 0:
             e.preventDefault();
             token = localStorage.getItem('token');
-            _context3.p = 1;
+            _context2.p = 1;
             if (!editingQuotation) {
-              _context3.n = 4;
+              _context2.n = 4;
               break;
             }
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
-            _context3.n = 2;
+            _context2.n = 2;
             return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
               method: 'PUT',
               headers: {
@@ -616,15 +551,15 @@ function App() {
               })
             });
           case 2:
-            response = _context3.v;
+            response = _context2.v;
             if (!(response.status === 401 || response.status === 403)) {
-              _context3.n = 3;
+              _context2.n = 3;
               break;
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = BASE_PATH + '/login.html';
-            return _context3.a(2);
+            return _context2.a(2);
           case 3:
             if (response.ok) {
               fetchQuotations();
@@ -640,11 +575,11 @@ function App() {
               });
               showToast('Cotação atualizada com sucesso');
             }
-            _context3.n = 7;
+            _context2.n = 7;
             break;
           case 4:
             _BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            _context3.n = 5;
+            _context2.n = 5;
             return fetch("".concat(_BASE_PATH, "/api/quotations"), {
               method: 'POST',
               headers: {
@@ -654,15 +589,15 @@ function App() {
               body: JSON.stringify(formData)
             });
           case 5:
-            _response = _context3.v;
+            _response = _context2.v;
             if (!(_response.status === 401 || _response.status === 403)) {
-              _context3.n = 6;
+              _context2.n = 6;
               break;
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = _BASE_PATH + '/login.html';
-            return _context3.a(2);
+            return _context2.a(2);
           case 6:
             if (_response.ok) {
               fetchQuotations();
@@ -678,27 +613,27 @@ function App() {
               showToast('Cotação criada com sucesso');
             }
           case 7:
-            _context3.n = 9;
+            _context2.n = 9;
             break;
           case 8:
-            _context3.p = 8;
-            _t3 = _context3.v;
-            console.error('Erro ao salvar cotação:', _t3);
+            _context2.p = 8;
+            _t2 = _context2.v;
+            console.error('Erro ao salvar cotação:', _t2);
             showToast('Erro ao salvar cotação', 'error');
           case 9:
-            return _context3.a(2);
+            return _context2.a(2);
         }
-      }, _callee3, null, [[1, 8]]);
+      }, _callee2, null, [[1, 8]]);
     }));
     return function handleFormSubmit(_x) {
-      return _ref4.apply(this, arguments);
+      return _ref3.apply(this, arguments);
     };
   }();
   var handleEditClick = /*#__PURE__*/function () {
-    var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(quotation) {
-      var token, BASE_PATH, cotacaoCode, response, data, _t4;
-      return _regenerator().w(function (_context4) {
-        while (1) switch (_context4.p = _context4.n) {
+    var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(quotation) {
+      var token, BASE_PATH, cotacaoCode, response, data, _t3;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.p = _context3.n) {
           case 0:
             setEditingQuotation(quotation);
             setFormData({
@@ -709,26 +644,26 @@ function App() {
             setShowModal(true);
 
             // Buscar dados de auditoria se existirem
-            _context4.p = 1;
+            _context3.p = 1;
             token = localStorage.getItem('token');
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             cotacaoCode = quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao;
-            _context4.n = 2;
+            _context3.n = 2;
             return fetch("".concat(BASE_PATH, "/api/qualidade/auditoria/").concat(encodeURIComponent(cotacaoCode)), {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
             });
           case 2:
-            response = _context4.v;
+            response = _context3.v;
             if (!response.ok) {
-              _context4.n = 4;
+              _context3.n = 4;
               break;
             }
-            _context4.n = 3;
+            _context3.n = 3;
             return response.json();
           case 3:
-            data = _context4.v;
+            data = _context3.v;
             if (data) {
               setAuditoriaData({
                 anotacao: data.anotacao || '',
@@ -740,7 +675,7 @@ function App() {
                 status: ''
               });
             }
-            _context4.n = 5;
+            _context3.n = 5;
             break;
           case 4:
             setAuditoriaData({
@@ -748,23 +683,23 @@ function App() {
               status: ''
             });
           case 5:
-            _context4.n = 7;
+            _context3.n = 7;
             break;
           case 6:
-            _context4.p = 6;
-            _t4 = _context4.v;
-            console.error('Erro ao buscar auditoria:', _t4);
+            _context3.p = 6;
+            _t3 = _context3.v;
+            console.error('Erro ao buscar auditoria:', _t3);
             setAuditoriaData({
               anotacao: '',
               status: ''
             });
           case 7:
-            return _context4.a(2);
+            return _context3.a(2);
         }
-      }, _callee4, null, [[1, 6]]);
+      }, _callee3, null, [[1, 6]]);
     }));
     return function handleEditClick(_x2) {
-      return _ref5.apply(this, arguments);
+      return _ref4.apply(this, arguments);
     };
   }();
   var handleDeleteClick = function handleDeleteClick(quotation) {
@@ -774,12 +709,70 @@ function App() {
     return setDeleteModal(null);
   };
   var confirmDelete = /*#__PURE__*/function () {
-    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-      var token, BASE_PATH, cotacaoCode, response, _t5;
+    var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+      var token, BASE_PATH, cotacaoCode, response, _t4;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.p = _context4.n) {
+          case 0:
+            if (deleteModal) {
+              _context4.n = 1;
+              break;
+            }
+            return _context4.a(2);
+          case 1:
+            token = localStorage.getItem('token');
+            _context4.p = 2;
+            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            cotacaoCode = deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao;
+            _context4.n = 3;
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
+              method: 'DELETE',
+              headers: {
+                'Authorization': "Bearer ".concat(token)
+              }
+            });
+          case 3:
+            response = _context4.v;
+            if (!(response.status === 401 || response.status === 403)) {
+              _context4.n = 4;
+              break;
+            }
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            window.location.href = BASE_PATH + '/login.html';
+            return _context4.a(2);
+          case 4:
+            if (response.ok) {
+              fetchQuotations();
+              setDeleteModal(null);
+              showToast('Cotação excluída com sucesso');
+            }
+            _context4.n = 6;
+            break;
+          case 5:
+            _context4.p = 5;
+            _t4 = _context4.v;
+            console.error('Erro ao deletar cotação:', _t4);
+            showToast('Erro ao excluir cotação', 'error');
+          case 6:
+            return _context4.a(2);
+        }
+      }, _callee4, null, [[2, 5]]);
+    }));
+    return function confirmDelete() {
+      return _ref5.apply(this, arguments);
+    };
+  }();
+  var handleStatusClick = function handleStatusClick(quotation) {
+    return setStatusModal(quotation);
+  };
+  var handleStatusChange = /*#__PURE__*/function () {
+    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(newStatus) {
+      var token, BASE_PATH, response, _t5;
       return _regenerator().w(function (_context5) {
         while (1) switch (_context5.p = _context5.n) {
           case 0:
-            if (deleteModal) {
+            if (statusModal) {
               _context5.n = 1;
               break;
             }
@@ -788,13 +781,16 @@ function App() {
             token = localStorage.getItem('token');
             _context5.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            cotacaoCode = deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao;
             _context5.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
-              method: 'DELETE',
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(statusModal.cotacao)), {
+              method: 'PUT',
               headers: {
+                'Content-Type': 'application/json',
                 'Authorization': "Bearer ".concat(token)
-              }
+              },
+              body: JSON.stringify({
+                status: newStatus
+              })
             });
           case 3:
             response = _context5.v;
@@ -809,151 +805,90 @@ function App() {
           case 4:
             if (response.ok) {
               fetchQuotations();
-              setDeleteModal(null);
-              showToast('Cotação excluída com sucesso');
+              setStatusModal(null);
+              showToast('Correção efetivada com sucesso');
             }
             _context5.n = 6;
             break;
           case 5:
             _context5.p = 5;
             _t5 = _context5.v;
-            console.error('Erro ao deletar cotação:', _t5);
-            showToast('Erro ao excluir cotação', 'error');
+            console.error('Erro ao efetivar correção:', _t5);
+            showToast('Erro ao efetivar correção', 'error');
           case 6:
             return _context5.a(2);
         }
       }, _callee5, null, [[2, 5]]);
     }));
-    return function confirmDelete() {
-      return _ref6.apply(this, arguments);
-    };
-  }();
-  var handleStatusClick = function handleStatusClick(quotation) {
-    return setStatusModal(quotation);
-  };
-  var handleStatusChange = /*#__PURE__*/function () {
-    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(newStatus) {
-      var token, BASE_PATH, response, _t6;
-      return _regenerator().w(function (_context6) {
-        while (1) switch (_context6.p = _context6.n) {
-          case 0:
-            if (statusModal) {
-              _context6.n = 1;
-              break;
-            }
-            return _context6.a(2);
-          case 1:
-            token = localStorage.getItem('token');
-            _context6.p = 2;
-            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            _context6.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(statusModal.cotacao)), {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': "Bearer ".concat(token)
-              },
-              body: JSON.stringify({
-                status: newStatus
-              })
-            });
-          case 3:
-            response = _context6.v;
-            if (!(response.status === 401 || response.status === 403)) {
-              _context6.n = 4;
-              break;
-            }
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            window.location.href = BASE_PATH + '/login.html';
-            return _context6.a(2);
-          case 4:
-            if (response.ok) {
-              fetchQuotations();
-              setStatusModal(null);
-              showToast('Status atualizado com sucesso');
-            }
-            _context6.n = 6;
-            break;
-          case 5:
-            _context6.p = 5;
-            _t6 = _context6.v;
-            console.error('Erro ao atualizar status:', _t6);
-            showToast('Erro ao atualizar status', 'error');
-          case 6:
-            return _context6.a(2);
-        }
-      }, _callee6, null, [[2, 5]]);
-    }));
     return function handleStatusChange(_x3) {
-      return _ref7.apply(this, arguments);
+      return _ref6.apply(this, arguments);
     };
   }();
   useEffect(function () {
     var ignore = false;
     var timer;
     var loadReprovas = /*#__PURE__*/function () {
-      var _ref8 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
-        var termo, token, BASE_PATH, url, response, data, _t7;
-        return _regenerator().w(function (_context7) {
-          while (1) switch (_context7.p = _context7.n) {
+      var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+        var termo, token, BASE_PATH, url, response, data, _t6;
+        return _regenerator().w(function (_context6) {
+          while (1) switch (_context6.p = _context6.n) {
             case 0:
               if (reprovaModalOpen) {
-                _context7.n = 1;
+                _context6.n = 1;
                 break;
               }
-              return _context7.a(2);
+              return _context6.a(2);
             case 1:
               termo = reprovaSearch.trim();
               if (termo) {
-                _context7.n = 2;
+                _context6.n = 2;
                 break;
               }
               setReprovaResults([]);
               setReprovaLoading(false);
-              return _context7.a(2);
+              return _context6.a(2);
             case 2:
               setReprovaLoading(true);
-              _context7.p = 3;
+              _context6.p = 3;
               token = localStorage.getItem('token');
               BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
               url = "".concat(BASE_PATH, "/api/reprovas?termo=").concat(encodeURIComponent(termo));
-              _context7.n = 4;
+              _context6.n = 4;
               return fetch(url, {
                 headers: {
                   'Authorization': "Bearer ".concat(token)
                 }
               });
             case 4:
-              response = _context7.v;
+              response = _context6.v;
               if (response.ok) {
-                _context7.n = 5;
+                _context6.n = 5;
                 break;
               }
               throw new Error('Falha ao buscar reprovas');
             case 5:
-              _context7.n = 6;
+              _context6.n = 6;
               return response.json();
             case 6:
-              data = _context7.v;
+              data = _context6.v;
               if (!ignore) setReprovaResults(data);
-              _context7.n = 8;
+              _context6.n = 8;
               break;
             case 7:
-              _context7.p = 7;
-              _t7 = _context7.v;
+              _context6.p = 7;
+              _t6 = _context6.v;
               if (!ignore) setReprovaResults([]);
             case 8:
-              _context7.p = 8;
+              _context6.p = 8;
               if (!ignore) setReprovaLoading(false);
-              return _context7.f(8);
+              return _context6.f(8);
             case 9:
-              return _context7.a(2);
+              return _context6.a(2);
           }
-        }, _callee7, null, [[3, 7, 8, 9]]);
+        }, _callee6, null, [[3, 7, 8, 9]]);
       }));
       return function loadReprovas() {
-        return _ref8.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       };
     }();
     if (reprovaModalOpen) {
@@ -978,10 +913,6 @@ function App() {
       var createdAtDate = "".concat(year, "-").concat(month, "-").concat(day);
       if (createdAtDate !== dateStart) return false;
     }
-    if (filtroAuditoria) {
-      if (!q.auditoria || !q.auditoria.status) return false;
-      if (q.auditoria.status.trim() !== filtroAuditoria) return false;
-    }
     return true;
   });
   var indexOfLastItem = currentPage * itemsPerPage;
@@ -990,46 +921,18 @@ function App() {
   var totalPages = Math.ceil(filteredQuotations.length / itemsPerPage);
   var getStatusConfig = function getStatusConfig(status) {
     var normalized = (status || '').trim().toLowerCase();
-    if (normalized === 'aprovado') {
-      return {
-        label: 'Aprovado',
-        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
-        dotClass: 'bg-emerald-500'
-      };
-    }
-    if (normalized === 'reprovado') {
-      return {
-        label: 'Reprovado',
-        className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100',
-        dotClass: 'bg-red-500'
-      };
-    }
-    if (normalized === 'pendente-classificacao') {
-      return {
-        label: 'Pendente - Classificação',
-        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
-        dotClass: 'bg-amber-500'
-      };
-    }
-    if (normalized === 'pendente-iphone') {
-      return {
-        label: 'Pendente - iPhone',
-        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
-        dotClass: 'bg-amber-500'
-      };
-    }
-    if (normalized === 'pendente-qualidade') {
-      return {
-        label: 'Pendente - Qualidade',
-        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
-        dotClass: 'bg-amber-500'
-      };
-    }
     if (normalized === 'pendente-correcao-cadastral') {
       return {
         label: 'Pendente - Correção Cadastral',
         className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
         dotClass: 'bg-amber-500'
+      };
+    }
+    if (normalized === 'correcao-efetivada') {
+      return {
+        label: 'Correção Efetivada',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
       };
     }
     return {
@@ -1098,7 +1001,7 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-3"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md"
+    className: "w-10 h-10 bg-gradient-to-br from-amber-600 to-orange-700 rounded-xl flex items-center justify-center shadow-md"
   }, /*#__PURE__*/React.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     className: "h-5 w-5 text-white",
@@ -1109,12 +1012,12 @@ function App() {
   }, /*#__PURE__*/React.createElement("path", {
     strokeLinecap: "round",
     strokeLinejoin: "round",
-    d: "M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 0 1-2 2z"
+    d: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
     className: "text-xl font-bold text-slate-800"
-  }, "Cota\xE7\xF5es"), /*#__PURE__*/React.createElement("p", {
+  }, "Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500"
-  }, "Gerenciamento de cota\xE7\xF5es"))), /*#__PURE__*/React.createElement("div", {
+  }, "Efetiva\xE7\xE3o de corre\xE7\xF5es cadastrais"))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm"
@@ -1140,84 +1043,20 @@ function App() {
   }, filteredQuotations.length)), /*#__PURE__*/React.createElement("div", {
     className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-emerald-600"
-  }, "Aprovadas"), /*#__PURE__*/React.createElement("p", {
-    className: "text-2xl font-bold text-emerald-700 mt-1"
-  }, filteredQuotations.filter(function (q) {
-    return q.status === 'aprovado';
-  }).length)), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
-  }, /*#__PURE__*/React.createElement("p", {
     className: "text-sm font-medium text-amber-600"
   }, "Pendentes"), /*#__PURE__*/React.createElement("p", {
     className: "text-2xl font-bold text-amber-700 mt-1"
   }, filteredQuotations.filter(function (q) {
-    return !q.status || q.status === 'pendente';
+    return !q.status || q.status === 'pendente-correcao-cadastral';
   }).length)), /*#__PURE__*/React.createElement("div", {
     className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-red-600"
-  }, "Reprovadas"), /*#__PURE__*/React.createElement("p", {
-    className: "text-2xl font-bold text-red-700 mt-1"
+    className: "text-sm font-medium text-emerald-600"
+  }, "Efetivadas"), /*#__PURE__*/React.createElement("p", {
+    className: "text-2xl font-bold text-emerald-700 mt-1"
   }, filteredQuotations.filter(function (q) {
-    return q.status === 'reprovado';
-  }).length)), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
-  }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-purple-600 flex items-center gap-1.5"
-  }, /*#__PURE__*/React.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    className: "h-4 w-4",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    stroke: "currentColor",
-    strokeWidth: 2
-  }, /*#__PURE__*/React.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-  })), "Qualidade"), loadingQualidade ? /*#__PURE__*/React.createElement("div", {
-    className: "mt-2 space-y-1.5"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "h-3 bg-purple-100 rounded animate-pulse w-3/4"
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "h-3 bg-purple-100 rounded animate-pulse w-1/2"
-  })) : qualidadeStats ? /*#__PURE__*/React.createElement("div", {
-    className: "mt-1 flex flex-wrap items-center gap-2"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-xs text-slate-400 font-medium"
-  }, qualidadeStats.total), qualidadeStats.procedimento_correto > 0 && /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setFiltroAuditoria(filtroAuditoria === 'Procedimento Correto' ? '' : 'Procedimento Correto');
-    },
-    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Procedimento Correto' ? 'scale-125 bg-emerald-100 rounded px-1' : 'hover:scale-110'),
-    title: "Procedimento Correto"
-  }, "\u2705 ", qualidadeStats.procedimento_correto), qualidadeStats.devolucao_parcial > 0 && /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setFiltroAuditoria(filtroAuditoria === 'Devolução Parcial' ? '' : 'Devolução Parcial');
-    },
-    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Devolução Parcial' ? 'scale-125 bg-amber-100 rounded px-1' : 'hover:scale-110'),
-    title: "Devolu\xE7\xE3o Parcial"
-  }, "\u26A0\uFE0F ", qualidadeStats.devolucao_parcial), qualidadeStats.devolucao_indevida > 0 && /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setFiltroAuditoria(filtroAuditoria === 'Devolução Indevida' ? '' : 'Devolução Indevida');
-    },
-    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Devolução Indevida' ? 'scale-125 bg-red-100 rounded px-1' : 'hover:scale-110'),
-    title: "Devolu\xE7\xE3o Indevida"
-  }, "\u274C ", qualidadeStats.devolucao_indevida), qualidadeStats.aprovacao_indevida > 0 && /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setFiltroAuditoria(filtroAuditoria === 'Aprovacao Indevida' ? '' : 'Aprovacao Indevida');
-    },
-    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Aprovacao Indevida' ? 'scale-125 bg-orange-100 rounded px-1' : 'hover:scale-110'),
-    title: "Aprova\xE7\xE3o Indevida"
-  }, "\u274C ", qualidadeStats.aprovacao_indevida), filtroAuditoria && /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setFiltroAuditoria('');
-    },
-    className: "text-xs text-slate-400 hover:text-slate-600 ml-1"
-  }, "\u2715")) : /*#__PURE__*/React.createElement("p", {
-    className: "text-xs text-slate-400 mt-1"
-  }, "Nenhuma auditoria"))), /*#__PURE__*/React.createElement("div", {
+    return q.status === 'correcao-efetivada';
+  }).length))), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col sm:flex-row gap-4 mb-6"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex-1 relative group"
@@ -1230,11 +1069,11 @@ function App() {
     onChange: function onChange(e) {
       return setSearchTerm(e.target.value);
     },
-    className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
+    className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
   }), /*#__PURE__*/React.createElement("div", {
     className: "absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "w-2 h-2 rounded-full bg-slate-300 group-hover:bg-red-500 transition-colors duration-200"
+    className: "w-2 h-2 rounded-full bg-slate-300 group-hover:bg-amber-500 transition-colors duration-200"
   }))), /*#__PURE__*/React.createElement("div", {
     className: "relative group"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1245,7 +1084,7 @@ function App() {
     onChange: function onChange(e) {
       return setDateStart(e.target.value);
     },
-    className: "w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
+    className: "w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
   })), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       setEditingQuotation(null);
@@ -1295,9 +1134,9 @@ function App() {
     className: "inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl text-slate-400 mb-4"
   }, /*#__PURE__*/React.createElement(FileTextIcon, null)), /*#__PURE__*/React.createElement("h3", {
     className: "text-lg font-semibold text-slate-800 mb-1"
-  }, "Nenhuma cota\xE7\xE3o encontrada"), /*#__PURE__*/React.createElement("p", {
+  }, "Nenhuma corre\xE7\xE3o cadastral pendente"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-500 text-sm"
-  }, "Tente ajustar sua busca ou adicione uma nova cota\xE7\xE3o.")) : /*#__PURE__*/React.createElement("div", {
+  }, "Todas as corre\xE7\xF5es cadastrais foram efetivadas.")) : /*#__PURE__*/React.createElement("div", {
     className: "overflow-x-auto"
   }, /*#__PURE__*/React.createElement("table", {
     className: "min-w-full divide-y divide-slate-200"
@@ -1420,7 +1259,7 @@ function App() {
       onClick: function onClick() {
         return setCurrentPage(page);
       },
-      className: "w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ".concat(currentPage === page ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100')
+      className: "w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ".concat(currentPage === page ? 'bg-amber-600 text-white' : 'text-slate-600 hover:bg-slate-100')
     }, page);
   })), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
@@ -1605,62 +1444,20 @@ function App() {
     className: "bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "text-lg font-bold text-slate-800 mb-2"
-  }, "Alterar Status"), /*#__PURE__*/React.createElement("p", {
+  }, "Efetivar Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("p", {
     className: "text-sm text-slate-500 mb-5"
-  }, "Selecione o novo status para a cota\xE7\xE3o ", /*#__PURE__*/React.createElement("span", {
+  }, "Confirme a efetiva\xE7\xE3o da corre\xE7\xE3o cadastral para a cota\xE7\xE3o ", /*#__PURE__*/React.createElement("span", {
     className: "font-semibold text-slate-800 font-mono"
   }, statusModal.cotacao), "."), /*#__PURE__*/React.createElement("div", {
     className: "space-y-2.5"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return handleStatusChange('pendente');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('pendente-classificacao');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Classifica\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('pendente-iphone');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - iPhone"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('pendente-qualidade');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Qualidade"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('pendente-correcao-cadastral');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Correção Cadastral"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('aprovado');
+      return handleStatusChange('correcao-efetivada');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
-  }), "Aprovado"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('reprovado');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-red-500"
-  }), "Reprovado")), /*#__PURE__*/React.createElement("button", {
+  }), "Corre\xE7\xE3o Efetivada")), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setStatusModal(null);
     },
@@ -1707,7 +1504,7 @@ function App() {
     },
     placeholder: "Buscar motivo ou texto de reprova...",
     autoFocus: true,
-    className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
+    className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
   }))), /*#__PURE__*/React.createElement("div", {
     className: "overflow-y-auto flex-1 rounded-xl border border-slate-200"
   }, /*#__PURE__*/React.createElement("table", {

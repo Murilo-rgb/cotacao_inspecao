@@ -172,3 +172,190 @@
 30/06/2026 11:52:20: Servidor rodando em http://localhost:3016
 30/06/2026 11:56:09: Servidor rodando em http://localhost:3016
 30/06/2026 12:02:56: Servidor rodando em http://localhost:3016
+30/06/2026 13:38:35: Servidor rodando em http://localhost:3016
+30/06/2026 14:49:28: Servidor rodando em http://localhost:3016
+30/06/2026 14:54:07: [PUT] Atualizando cotação: 22786561
+30/06/2026 14:54:07: [PUT] Usuário: jose.faria
+30/06/2026 14:54:07: [PUT] Dados recebidos: {
+30/06/2026 14:54:07:   anotacao: undefined,
+30/06/2026 14:54:07:   status: 'pendente-suporte',
+30/06/2026 14:54:07:   auditoria_anotacao: undefined,
+30/06/2026 14:54:07:   auditoria_status: undefined
+30/06/2026 14:54:07: }
+30/06/2026 14:54:07: [PUT] Linhas afetadas: 1
+30/06/2026 14:54:08: [PUT] Atualizando cotação: 22786561
+30/06/2026 14:54:08: [PUT] Usuário: jose.faria
+30/06/2026 14:54:08: [PUT] Dados recebidos: {
+30/06/2026 14:54:08:   anotacao: undefined,
+30/06/2026 14:54:08:   status: 'pendente-suporte',
+30/06/2026 14:54:08:   auditoria_anotacao: undefined,
+30/06/2026 14:54:08:   auditoria_status: undefined
+30/06/2026 14:54:08: }
+30/06/2026 14:54:08: [PUT] Linhas afetadas: 1
+30/06/2026 14:54:08: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 14:54:08:   id_cotacao: 34,
+30/06/2026 14:54:08:   cotacao: 'Q6339049',
+30/06/2026 14:54:08:   id_qldd: null,
+30/06/2026 14:54:08:   anotacao: 'Tarefa: E001 - PME - 33.983.179/0001-01 | Fila: CPC - PME',
+30/06/2026 14:54:08:   status: 'pendente-suporte',
+30/06/2026 14:54:08:   data_de_criacao: '30/06/2026 14:53',
+30/06/2026 14:54:08:   data_da_ultima_atualizacao: '30/06/2026 14:54',
+30/06/2026 14:54:08:   usuario_login: 'jose.faria',
+30/06/2026 14:54:08:   validacao: 'Ativo',
+30/06/2026 14:54:08:   usuario_id: '50',
+30/06/2026 14:54:08:   tarefa: '22786561',
+30/06/2026 14:54:08:   origem: null
+30/06/2026 14:54:08: }
+30/06/2026 14:54:14: [PUT] Atualizando cotação: 22786561
+30/06/2026 14:54:14: [PUT] Usuário: jose.faria
+30/06/2026 14:54:14: [PUT] Dados recebidos: {
+30/06/2026 14:54:14:   anotacao: undefined,
+30/06/2026 14:54:14:   status: 'pendente-suporte',
+30/06/2026 14:54:14:   auditoria_anotacao: undefined,
+30/06/2026 14:54:14:   auditoria_status: undefined
+30/06/2026 14:54:14: }
+30/06/2026 14:54:14: [PUT] Linhas afetadas: 1
+30/06/2026 14:54:14: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 14:54:14:   id_cotacao: 34,
+30/06/2026 14:54:14:   cotacao: 'Q6339049',
+30/06/2026 14:54:14:   id_qldd: null,
+30/06/2026 14:54:14:   anotacao: 'Tarefa: E001 - PME - 33.983.179/0001-01 | Fila: CPC - PME',
+30/06/2026 14:54:14:   status: 'pendente-suporte',
+30/06/2026 14:54:14:   data_de_criacao: '30/06/2026 14:53',
+30/06/2026 14:54:14:   data_da_ultima_atualizacao: '30/06/2026 14:54',
+30/06/2026 14:54:14:   usuario_login: 'jose.faria',
+30/06/2026 14:54:14:   validacao: 'Ativo',
+30/06/2026 14:54:14:   usuario_id: '50',
+30/06/2026 14:54:14:   tarefa: '22786561',
+30/06/2026 14:54:14:   origem: null
+30/06/2026 14:54:14: }
+30/06/2026 14:54:20: [PUT] Atualizando cotação: 22786561
+30/06/2026 14:54:20: [PUT] Usuário: jose.faria
+30/06/2026 14:54:20: [PUT] Dados recebidos: {
+30/06/2026 14:54:20:   anotacao: undefined,
+30/06/2026 14:54:20:   status: 'pendente-qualidade',
+30/06/2026 14:54:20:   auditoria_anotacao: undefined,
+30/06/2026 14:54:20:   auditoria_status: undefined
+30/06/2026 14:54:20: }
+30/06/2026 14:54:20: [PUT] Linhas afetadas: 1
+30/06/2026 14:54:20: [PUT] Atualizando cotação: 22786561
+30/06/2026 14:54:20: [PUT] Usuário: jose.faria
+30/06/2026 14:54:20: [PUT] Dados recebidos: {
+30/06/2026 14:54:20:   anotacao: undefined,
+30/06/2026 14:54:20:   status: 'pendente-qualidade',
+30/06/2026 14:54:20:   auditoria_anotacao: undefined,
+30/06/2026 14:54:20:   auditoria_status: undefined
+30/06/2026 14:54:20: }
+30/06/2026 14:54:20: [PUT] Linhas afetadas: 1
+30/06/2026 14:54:20: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 14:54:20:   id_cotacao: 34,
+30/06/2026 14:54:20:   cotacao: 'Q6339049',
+30/06/2026 14:54:20:   id_qldd: null,
+30/06/2026 14:54:20:   anotacao: 'Tarefa: E001 - PME - 33.983.179/0001-01 | Fila: CPC - PME',
+30/06/2026 14:54:20:   status: 'pendente-qualidade',
+30/06/2026 14:54:20:   data_de_criacao: '30/06/2026 14:53',
+30/06/2026 14:54:20:   data_da_ultima_atualizacao: '30/06/2026 14:54',
+30/06/2026 14:54:20:   usuario_login: 'jose.faria',
+30/06/2026 14:54:20:   validacao: 'Ativo',
+30/06/2026 14:54:20:   usuario_id: '50',
+30/06/2026 14:54:20:   tarefa: '22786561',
+30/06/2026 14:54:20:   origem: null
+30/06/2026 14:54:20: }
+30/06/2026 14:54:23: [PUT] Atualizando cotação: 22786561
+30/06/2026 14:54:23: [PUT] Usuário: jose.faria
+30/06/2026 14:54:23: [PUT] Dados recebidos: {
+30/06/2026 14:54:23:   anotacao: undefined,
+30/06/2026 14:54:23:   status: 'pendente-suporte',
+30/06/2026 14:54:23:   auditoria_anotacao: undefined,
+30/06/2026 14:54:23:   auditoria_status: undefined
+30/06/2026 14:54:23: }
+30/06/2026 14:54:23: [PUT] Linhas afetadas: 1
+30/06/2026 14:54:23: [PUT] Atualizando cotação: 22786561
+30/06/2026 14:54:23: [PUT] Usuário: jose.faria
+30/06/2026 14:54:23: [PUT] Dados recebidos: {
+30/06/2026 14:54:23:   anotacao: undefined,
+30/06/2026 14:54:23:   status: 'pendente-suporte',
+30/06/2026 14:54:23:   auditoria_anotacao: undefined,
+30/06/2026 14:54:23:   auditoria_status: undefined
+30/06/2026 14:54:23: }
+30/06/2026 14:54:23: [PUT] Linhas afetadas: 1
+30/06/2026 14:54:23: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 14:54:23:   id_cotacao: 34,
+30/06/2026 14:54:23:   cotacao: 'Q6339049',
+30/06/2026 14:54:23:   id_qldd: null,
+30/06/2026 14:54:23:   anotacao: 'Tarefa: E001 - PME - 33.983.179/0001-01 | Fila: CPC - PME',
+30/06/2026 14:54:23:   status: 'pendente-suporte',
+30/06/2026 14:54:23:   data_de_criacao: '30/06/2026 14:53',
+30/06/2026 14:54:23:   data_da_ultima_atualizacao: '30/06/2026 14:54',
+30/06/2026 14:54:23:   usuario_login: 'jose.faria',
+30/06/2026 14:54:23:   validacao: 'Ativo',
+30/06/2026 14:54:23:   usuario_id: '50',
+30/06/2026 14:54:23:   tarefa: '22786561',
+30/06/2026 14:54:23:   origem: null
+30/06/2026 14:54:23: }
+30/06/2026 14:54:27: [PUT] Atualizando cotação: 22786561
+30/06/2026 14:54:27: [PUT] Usuário: jose.faria
+30/06/2026 14:54:27: [PUT] Dados recebidos: {
+30/06/2026 14:54:27:   anotacao: undefined,
+30/06/2026 14:54:27:   status: 'pendente-suporte',
+30/06/2026 14:54:27:   auditoria_anotacao: undefined,
+30/06/2026 14:54:27:   auditoria_status: undefined
+30/06/2026 14:54:27: }
+30/06/2026 14:54:27: [PUT] Linhas afetadas: 1
+30/06/2026 14:54:27: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 14:54:27:   id_cotacao: 34,
+30/06/2026 14:54:27:   cotacao: 'Q6339049',
+30/06/2026 14:54:27:   id_qldd: null,
+30/06/2026 14:54:27:   anotacao: 'Tarefa: E001 - PME - 33.983.179/0001-01 | Fila: CPC - PME',
+30/06/2026 14:54:27:   status: 'pendente-suporte',
+30/06/2026 14:54:27:   data_de_criacao: '30/06/2026 14:53',
+30/06/2026 14:54:27:   data_da_ultima_atualizacao: '30/06/2026 14:54',
+30/06/2026 14:54:27:   usuario_login: 'jose.faria',
+30/06/2026 14:54:27:   validacao: 'Ativo',
+30/06/2026 14:54:27:   usuario_id: '50',
+30/06/2026 14:54:27:   tarefa: '22786561',
+30/06/2026 14:54:27:   origem: null
+30/06/2026 14:54:27: }
+30/06/2026 15:00:11: Servidor rodando em http://localhost:3016
+30/06/2026 15:01:30: Servidor rodando em http://localhost:3016
+30/06/2026 15:08:04: Servidor rodando em http://localhost:3016
+30/06/2026 15:09:09: Servidor rodando em http://localhost:3016
+30/06/2026 15:12:07: Servidor rodando em http://localhost:3016
+30/06/2026 15:12:51: Servidor rodando em http://localhost:3016
+30/06/2026 15:45:07: Servidor rodando em http://localhost:3016
+30/06/2026 15:50:52: [PUT] Atualizando cotação: 22786561
+30/06/2026 15:50:52: [PUT] Usuário: jose.faria
+30/06/2026 15:50:52: [PUT] Dados recebidos: {
+30/06/2026 15:50:52:   anotacao: undefined,
+30/06/2026 15:50:52:   status: 'pendente-correcao-cadastral',
+30/06/2026 15:50:52:   auditoria_anotacao: undefined,
+30/06/2026 15:50:52:   auditoria_status: undefined
+30/06/2026 15:50:52: }
+30/06/2026 15:50:52: [PUT] Linhas afetadas: 1
+30/06/2026 15:50:53: [PUT] Atualizando cotação: 22786561
+30/06/2026 15:50:53: [PUT] Usuário: jose.faria
+30/06/2026 15:50:53: [PUT] Dados recebidos: {
+30/06/2026 15:50:53:   anotacao: undefined,
+30/06/2026 15:50:53:   status: 'pendente-correcao-cadastral',
+30/06/2026 15:50:53:   auditoria_anotacao: undefined,
+30/06/2026 15:50:53:   auditoria_status: undefined
+30/06/2026 15:50:53: }
+30/06/2026 15:50:53: [PUT] Linhas afetadas: 1
+30/06/2026 15:50:53: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 15:50:53:   id_cotacao: 34,
+30/06/2026 15:50:53:   cotacao: 'Q6339049',
+30/06/2026 15:50:53:   id_qldd: null,
+30/06/2026 15:50:53:   anotacao: 'Tarefa: E001 - PME - 33.983.179/0001-01 | Fila: CPC - PME',
+30/06/2026 15:50:53:   status: 'pendente-correcao-cadastral',
+30/06/2026 15:50:53:   data_de_criacao: '30/06/2026 14:53',
+30/06/2026 15:50:53:   data_da_ultima_atualizacao: '30/06/2026 15:50',
+30/06/2026 15:50:53:   usuario_login: 'jose.faria',
+30/06/2026 15:50:53:   validacao: 'Ativo',
+30/06/2026 15:50:53:   usuario_id: '50',
+30/06/2026 15:50:53:   tarefa: '22786561',
+30/06/2026 15:50:53:   origem: null
+30/06/2026 15:50:53: }
+30/06/2026 16:22:14: Servidor rodando em http://localhost:3016
+30/06/2026 16:40:28: Servidor rodando em http://localhost:3016
+30/06/2026 16:41:08: [ACESSOS] Permissões atualizadas para usuário 50: 5 ativadas, 0 desativadas
+30/06/2026 16:57:32: [ACESSOS] Permissões atualizadas para usuário 110: 6 ativadas, 0 desativadas

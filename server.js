@@ -304,7 +304,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart } = req.query;
     const usuarioId = req.user.id;
-    let query = `SELECT c.*, r.dsc_cotacao, aq.anotacao as auditoria_anotacao, aq.status as auditoria_status FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.cotacao = c.tarefa WHERE c.usuario_id = $1 AND c.validacao = $2`;
+    let query = `SELECT c.*, r.dsc_cotacao, aq.anotacao as auditoria_anotacao, aq.status as auditoria_status FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd WHERE c.usuario_id = $1 AND c.validacao = $2`;
     let params = [usuarioId, 'Ativo'];
     let paramIndex = 3;
 
@@ -451,23 +451,27 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     // Salvar dados de auditoria se fornecidos
     if (auditoria_anotacao !== undefined || auditoria_status !== undefined) {
       try {
-        // Verificar se já existe auditoria para esta cotação
+        // Verificar se já existe vínculo de auditoria para esta cotação
         const checkAudit = await pool.query(
-          'SELECT 1 FROM db_bloco_de_notas.auditoria_qualidade WHERE cotacao = $1',
+          'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND id_qldd IS NOT NULL',
           [req.params.cotacao]
         );
 
         if (checkAudit.rows.length > 0) {
-          // Atualizar
+          const idQldd = checkAudit.rows[0].id_qldd;
           await pool.query(
-            'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status) WHERE cotacao = $3',
-            [auditoria_anotacao || '', auditoria_status || '', req.params.cotacao]
+            'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status) WHERE id_qldd = $3',
+            [auditoria_anotacao || '', auditoria_status || '', idQldd]
           );
         } else if (auditoria_anotacao || auditoria_status) {
-          // Inserir apenas se houver dados
+          const insertAudit = await pool.query(
+            'INSERT INTO db_bloco_de_notas.auditoria_qualidade (anotacao, status) VALUES ($1, $2) RETURNING id_qldd',
+            [auditoria_anotacao || '', auditoria_status || '']
+          );
+          const newIdQldd = insertAudit.rows[0].id_qldd;
           await pool.query(
-            'INSERT INTO db_bloco_de_notas.auditoria_qualidade (cotacao, anotacao, status) VALUES ($1, $2, $3)',
-            [req.params.cotacao, auditoria_anotacao || '', auditoria_status || '']
+            'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE tarefa = $2',
+            [newIdQldd, req.params.cotacao]
           );
         }
       } catch (auditErr) {
@@ -619,20 +623,12 @@ app.get('/trocar-senha', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
 });
 
-// Serve trocar-senha page under subpath
-app.get('/pme_notas/trocar-senha', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
-});
 
 // Serve the frontend
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-// Serve login page
-app.get('/login.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
 
 // Serve quotations page
 app.get('/cotacoes', (req, res) => {
@@ -643,32 +639,9 @@ app.get('/cotacoes', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// If the app is mounted under /pme_notas, serve login page or redirect if already logged in
-app.get('/pme_notas', (req, res) => {
-  const token = req.cookies?.token;
-  if (token) {
-    try {
-      jwt.verify(token, JWT_SECRET);
-      return res.redirect('/pme_notas/cotacoes');
-    } catch (err) {
-      // Token inválido, continua para o login
-    }
-  }
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
 
-app.get('/pme_notas/login', (req, res) => {
-  const token = req.cookies?.token;
-  if (token) {
-    try {
-      jwt.verify(token, JWT_SECRET);
-      return res.redirect('/pme_notas/cotacoes');
-    } catch (err) {
-      // Token inválido, continua para o login
-    }
-  }
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
+
+
 
 app.get('/cotacoes', (req, res) => {
   let token = req.cookies.token || req.headers['authorization']?.replace('Bearer ', '');
@@ -697,16 +670,7 @@ app.get('/api/reprovas', authenticateToken, async (req, res) => {
   }
 });
 
-app.get('/pme_notas/api/reprovas', authenticateToken, async (req, res) => {
-  try {
-    const termo = req.query.termo || null;
-    const registros = await listarReprovas(termo);
-    res.json(registros);
-  } catch (error) {
-    console.error('[REPROVAS] Erro ao listar:', error.message);
-    res.status(500).json({ error: 'Erro ao listar reprovas padrão' });
-  }
-});
+
 app.get('/pme_notas/api/reprovas/count', authenticateToken, async (req, res) => {
   try {
     const total = await contarReprovas();
@@ -717,23 +681,7 @@ app.get('/pme_notas/api/reprovas/count', authenticateToken, async (req, res) => 
   }
 });
 
-app.post('/pme_notas/api/reprovas', authenticateToken, async (req, res) => {
-  try {
-    const { motivo, cod_reprova, texto_reprova } = req.body;
-    if (!motivo || !cod_reprova || !texto_reprova) {
-      return res.status(400).json({ error: 'Todos os campos são obrigatórios: motivo, cod_reprova, texto_reprova' });
-    }
-    const duplicado = await verificarDuplicado(cod_reprova, motivo, texto_reprova);
-    if (duplicado) {
-      return res.status(409).json({ error: 'Registro duplicado já existe' });
-    }
-    const id = await inserirReprova(motivo, texto_reprova, cod_reprova);
-    res.status(201).json({ id, message: 'Reprova padrão inserida com sucesso' });
-  } catch (error) {
-    console.error('[REPROVAS] Erro ao inserir:', error.message);
-    res.status(500).json({ error: 'Erro ao inserir reprova padrão' });
-  }
-});
+
 
 // Contar total de reprovas padrão
 app.get('/api/reprovas/count', authenticateToken, async (req, res) => {
@@ -836,11 +784,17 @@ app.post('/api/inpecao/classificar-pendentes', authenticateToken, authorizeRoute
 
 // Serve dashboard page
 app.get('/inpecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/inpecao'), (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_inp.html'));
 });
 
-app.get('/pme_notas/inpecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/inpecao'), (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+
+app.get('/api/inpecao/dashboard', authenticateToken, async (req, res) => {
+  res.json([]);
+});
+
+app.get('/api/inpecao/historico', authenticateToken, async (req, res) => {
+  const { limit = 200, tarefa } = req.query;
+  res.json([]);
 });
 
 // Serve devolucao padrao page
@@ -848,9 +802,6 @@ app.get('/devolucoes-padrao', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao_web.html'));
 });
 
-app.get('/pme_notas/devolucoes-padrao', authenticateToken, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao_web.html'));
-});
 
 // ===== ROTAS DE QUALIDADE (auditoria_qualidade) =====
 
@@ -898,7 +849,9 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       let auditoria = null;
       try {
         const auditRes = await pool.query(
-          'SELECT anotacao, status FROM db_bloco_de_notas.auditoria_qualidade WHERE cotacao = $1',
+          `SELECT aq.anotacao, aq.status FROM db_bloco_de_notas.auditoria_qualidade aq
+           LEFT JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+           WHERE c.tarefa = $1`,
           [row.cotacao]
         );
         if (auditRes.rows.length > 0) {
@@ -952,22 +905,26 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
     }
 
     // Verificar se já existe auditoria para esta cotação
-    const checkRes = await pool.query(
-      'SELECT 1 FROM db_bloco_de_notas.auditoria_qualidade WHERE cotacao = $1',
+    const cotacaoRow = await pool.query(
+      'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE tarefa = $1',
       [cotacao]
     );
+    const idQldd = cotacaoRow.rows.length > 0 ? cotacaoRow.rows[0].id_qldd : null;
 
-    if (checkRes.rows.length > 0) {
-      // Atualizar
+    if (idQldd) {
       await pool.query(
-        'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = $1, status = $2 WHERE cotacao = $3',
-        [anotacao || '', status, cotacao]
+        'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = $1, status = $2 WHERE id_qldd = $3',
+        [anotacao || '', status, idQldd]
       );
     } else {
-      // Inserir
+      const insertAudit = await pool.query(
+        'INSERT INTO db_bloco_de_notas.auditoria_qualidade (anotacao, status) VALUES ($1, $2) RETURNING id_qldd',
+        [anotacao || '', status]
+      );
+      const newIdQldd = insertAudit.rows[0].id_qldd;
       await pool.query(
-        'INSERT INTO db_bloco_de_notas.auditoria_qualidade (cotacao, anotacao, status) VALUES ($1, $2, $3)',
-        [cotacao, anotacao || '', status]
+        'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE tarefa = $2',
+        [newIdQldd, cotacao]
       );
     }
 
@@ -997,7 +954,7 @@ app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
     const result = await pool.query(`
       SELECT aq.status, COUNT(*)::int as qtd
       FROM db_bloco_de_notas.auditoria_qualidade aq
-      INNER JOIN db_bloco_de_notas.cotacao c ON aq.cotacao = c.cotacao
+      INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
       WHERE c.usuario_id = $1 AND c.validacao = 'Ativo'
       GROUP BY aq.status
     `, [usuarioId]);
@@ -1032,10 +989,17 @@ app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
 // API: Buscar auditoria de uma cotação específica
 app.get('/api/qualidade/auditoria/:cotacao', authenticateToken, async (req, res) => {
   try {
-    const result = await pool.query(
-      'SELECT * FROM db_bloco_de_notas.auditoria_qualidade WHERE cotacao = $1',
+    const row = await pool.query(
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
       [req.params.cotacao]
     );
+    let result = { rows: [] };
+    if (row.rows.length > 0 && row.rows[0].id_qldd) {
+      result = await pool.query(
+        'SELECT * FROM db_bloco_de_notas.auditoria_qualidade WHERE id_qldd = $1',
+        [row.rows[0].id_qldd]
+      );
+    }
 
     if (result.rows.length === 0) {
       return res.json(null);
@@ -1079,13 +1043,6 @@ app.get('/input_net', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao_input_net.html'));
 });
 
-app.get('/pme_notas/input_top', authenticateToken, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'gestao_input_top.html'));
-});
-
-app.get('/pme_notas/input_net', authenticateToken, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'gestao_input_net.html'));
-});
 
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
@@ -1098,6 +1055,25 @@ const OPCOES_ROTAS = {
     qualidade: ['/pme_notas/qualidade'],
     admin: ['/pme_notas/acessos']
 };
+
+// Espelho das rotas de acessos com prefixo /pme_notas (acessível tanto por /pme_notas/api/acessos/... quanto por /api/acessos/...)
+app.get('/pme_notas/api/acessos/usuarios', authenticateToken, async (req, res) => {
+    req.url = req.url.replace(/^\/pme_notas/, '');
+    req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
+    app._router.handle(req, res);
+});
+
+app.get('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    req.url = req.url.replace(/^\/pme_notas/, '');
+    req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
+    app._router.handle(req, res);
+});
+
+app.post('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    req.url = req.url.replace(/^\/pme_notas/, '');
+    req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
+    app._router.handle(req, res);
+});
 
 // API: Buscar usuários por nome/sobrenome
 app.get('/api/acessos/usuarios', authenticateToken, async (req, res) => {
@@ -1142,6 +1118,13 @@ app.get('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, r
         console.error('[ACESSOS] Erro ao listar permissões:', error.message);
         res.status(500).json({ error: 'Erro ao listar permissões' });
     }
+});
+
+// Espelho da rota POST /api/acessos/usuarios/:id/permissoes com prefixo /pme_notas
+app.post('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    req.url = req.url.replace(/^\/pme_notas/, '');
+    req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
+    app._router.handle(req, res);
 });
 
 // API: Salvar permissões de um usuário (sincroniza com base nas opções selecionadas)
@@ -1228,18 +1211,13 @@ app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, 
 });
 
 // Serve página de acessos
-app.get('/pme_notas/acessos', authenticateToken, (req, res) => {
+app.get('/acessos', authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
 
-// Bypass APIs under /pme_notas so SPA fallback doesn't swallow them
-app.get('/pme_notas/api/*', (req, res, next) => { next(); });
 
-// SPA fallback for /pme_notas subpaths
-app.get('/pme_notas/*', (req, res, next) => {
-  if (path.extname(req.path)) return next();
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+
+
 
 // API Tarefas Input TOP (antes do fallback SPA)
 app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {

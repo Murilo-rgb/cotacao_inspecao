@@ -7,3 +7,60 @@
 30/06/2026 11:10:03: [PUT] Erro ao atualizar cotação: ReferenceError: registrarAuditoria is not defined
 30/06/2026 11:10:03:     at E:\projetos_hitss\geo-pme-notas\server.js:482:9
 30/06/2026 11:10:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:46:01: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:53:29: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+30/06/2026 14:54:07: [PUT] Erro ao atualizar cotação: ReferenceError: registrarAuditoria is not defined
+30/06/2026 14:54:07:     at E:\projetos_hitss\geo-pme-notas\server.js:484:9
+30/06/2026 14:54:07:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+30/06/2026 14:54:20: [PUT] Erro ao atualizar cotação: ReferenceError: registrarAuditoria is not defined
+30/06/2026 14:54:20:     at E:\projetos_hitss\geo-pme-notas\server.js:484:9
+30/06/2026 14:54:20:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+30/06/2026 14:54:23: [PUT] Erro ao atualizar cotação: ReferenceError: registrarAuditoria is not defined
+30/06/2026 14:54:23:     at E:\projetos_hitss\geo-pme-notas\server.js:484:9
+30/06/2026 14:54:23:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+30/06/2026 15:50:52: [PUT] Erro ao atualizar cotação: ReferenceError: registrarAuditoria is not defined
+30/06/2026 15:50:52:     at E:\projetos_hitss\geo-pme-notas\server.js:484:9
+30/06/2026 15:50:52:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+30/06/2026 16:41:08: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:41:08: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:41:08: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:41:08: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:41:08: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:57:32: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:57:32: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:57:32: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:57:32: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:57:32: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
+30/06/2026 16:57:32: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist

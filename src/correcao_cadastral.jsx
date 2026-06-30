@@ -144,9 +144,6 @@ function App() {
     const [reprovaSearch, setReprovaSearch] = useState('');
     const [reprovaResults, setReprovaResults] = useState([]);
     const [reprovaLoading, setReprovaLoading] = useState(false);
-    const [qualidadeStats, setQualidadeStats] = useState(null);
-    const [loadingQualidade, setLoadingQualidade] = useState(false);
-    const [filtroAuditoria, setFiltroAuditoria] = useState('');
 
     useEffect(() => {
         const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
@@ -172,7 +169,6 @@ function App() {
 
     useEffect(() => setCurrentPage(1), [searchTerm]);
     useEffect(() => setCurrentPage(1), [dateStart]);
-    useEffect(() => setCurrentPage(1), [filtroAuditoria]);
 
     const showToast = (message, type = 'success') => setToast({ message, type });
 
@@ -184,7 +180,7 @@ function App() {
             if (searchTerm) params.append('search', searchTerm);
             if (dateStart) params.append('dateStart', dateStart);
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const response = await fetch(`${BASE_PATH}/api/quotations?${params}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const response = await fetch(`${BASE_PATH}/api/quotations/correcao-cadastral?${params}`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.status === 401 || response.status === 403) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('username');
@@ -206,33 +202,6 @@ function App() {
         return () => clearTimeout(timer);
     }, [searchTerm]);
     useEffect(() => { fetchQuotations(); }, [dateStart]);
-
-    // Fetch qualidade stats
-    const fetchQualidadeStats = useCallback(async () => {
-        try {
-            setLoadingQualidade(true);
-            const token = localStorage.getItem('token');
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const response = await fetch(`${BASE_PATH}/api/qualidade/stats`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setQualidadeStats(data);
-            }
-        } catch (err) {
-            console.error('[QUALIDADE STATS] Erro:', err);
-        } finally {
-            setLoadingQualidade(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            fetchQualidadeStats();
-        }
-    }, [fetchQualidadeStats]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -375,11 +344,11 @@ function App() {
             if (response.ok) {
                 fetchQuotations();
                 setStatusModal(null);
-                showToast('Status atualizado com sucesso');
+                showToast('Correção efetivada com sucesso');
             }
         } catch (error) {
-            console.error('Erro ao atualizar status:', error);
-            showToast('Erro ao atualizar status', 'error');
+            console.error('Erro ao efetivar correção:', error);
+            showToast('Erro ao efetivar correção', 'error');
         }
     };
 
@@ -432,10 +401,6 @@ function App() {
             const createdAtDate = `${year}-${month}-${day}`;
             if (createdAtDate !== dateStart) return false;
         }
-        if (filtroAuditoria) {
-            if (!q.auditoria || !q.auditoria.status) return false;
-            if (q.auditoria.status.trim() !== filtroAuditoria) return false;
-        }
         return true;
     });
 
@@ -446,23 +411,11 @@ function App() {
 
     const getStatusConfig = (status) => {
         const normalized = (status || '').trim().toLowerCase();
-        if (normalized === 'aprovado') {
-            return { label: 'Aprovado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
-        }
-        if (normalized === 'reprovado') {
-            return { label: 'Reprovado', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
-        }
-        if (normalized === 'pendente-classificacao') {
-            return { label: 'Pendente - Classificação', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
-        }
-        if (normalized === 'pendente-iphone') {
-            return { label: 'Pendente - iPhone', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
-        }
-        if (normalized === 'pendente-qualidade') {
-            return { label: 'Pendente - Qualidade', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
-        }
         if (normalized === 'pendente-correcao-cadastral') {
             return { label: 'Pendente - Correção Cadastral', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
+        }
+        if (normalized === 'correcao-efetivada') {
+            return { label: 'Correção Efetivada', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
         }
         return { label: 'Pendente', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
     };
@@ -493,14 +446,14 @@ function App() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md">
+                            <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-orange-700 rounded-xl flex items-center justify-center shadow-md">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 0 1-2 2z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </div>
                             <div>
-                                <h1 className="text-xl font-bold text-slate-800">Cotações</h1>
-                                <p className="text-xs text-slate-500">Gerenciamento de cotações</p>
+                                <h1 className="text-xl font-bold text-slate-800">Correção Cadastral</h1>
+                                <p className="text-xs text-slate-500">Efetivação de correções cadastrais</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -526,59 +479,12 @@ function App() {
                         <p className="text-2xl font-bold text-slate-800 mt-1">{filteredQuotations.length}</p>
                     </div>
                     <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                        <p className="text-sm font-medium text-emerald-600">Aprovadas</p>
-                        <p className="text-2xl font-bold text-emerald-700 mt-1">{filteredQuotations.filter(q => q.status === 'aprovado').length}</p>
-                    </div>
-                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
                         <p className="text-sm font-medium text-amber-600">Pendentes</p>
-                        <p className="text-2xl font-bold text-amber-700 mt-1">{filteredQuotations.filter(q => !q.status || q.status === 'pendente').length}</p>
+                        <p className="text-2xl font-bold text-amber-700 mt-1">{filteredQuotations.filter(q => !q.status || q.status === 'pendente-correcao-cadastral').length}</p>
                     </div>
                     <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                        <p className="text-sm font-medium text-red-600">Reprovadas</p>
-                        <p className="text-2xl font-bold text-red-700 mt-1">{filteredQuotations.filter(q => q.status === 'reprovado').length}</p>
-                    </div>
-                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                        <p className="text-sm font-medium text-purple-600 flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                            Qualidade
-                        </p>
-                        {loadingQualidade ? (
-                            <div className="mt-2 space-y-1.5">
-                                <div className="h-3 bg-purple-100 rounded animate-pulse w-3/4"></div>
-                                <div className="h-3 bg-purple-100 rounded animate-pulse w-1/2"></div>
-                            </div>
-                        ) : qualidadeStats ? (
-                            <div className="mt-1 flex flex-wrap items-center gap-2">
-                                <span className="text-xs text-slate-400 font-medium">{qualidadeStats.total}</span>
-                                {qualidadeStats.procedimento_correto > 0 && (
-                                    <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Procedimento Correto' ? '' : 'Procedimento Correto')} 
-                                        className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Procedimento Correto' ? 'scale-125 bg-emerald-100 rounded px-1' : 'hover:scale-110'}`} 
-                                        title="Procedimento Correto">✅ {qualidadeStats.procedimento_correto}</button>
-                                )}
-                                {qualidadeStats.devolucao_parcial > 0 && (
-                                    <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Devolução Parcial' ? '' : 'Devolução Parcial')} 
-                                        className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Devolução Parcial' ? 'scale-125 bg-amber-100 rounded px-1' : 'hover:scale-110'}`} 
-                                        title="Devolução Parcial">⚠️ {qualidadeStats.devolucao_parcial}</button>
-                                )}
-                                {qualidadeStats.devolucao_indevida > 0 && (
-                                    <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Devolução Indevida' ? '' : 'Devolução Indevida')} 
-                                        className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Devolução Indevida' ? 'scale-125 bg-red-100 rounded px-1' : 'hover:scale-110'}`} 
-                                        title="Devolução Indevida">❌ {qualidadeStats.devolucao_indevida}</button>
-                                )}
-                                {qualidadeStats.aprovacao_indevida > 0 && (
-                                    <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Aprovacao Indevida' ? '' : 'Aprovacao Indevida')} 
-                                        className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Aprovacao Indevida' ? 'scale-125 bg-orange-100 rounded px-1' : 'hover:scale-110'}`} 
-                                        title="Aprovação Indevida">❌ {qualidadeStats.aprovacao_indevida}</button>
-                                )}
-                                {filtroAuditoria && (
-                                    <button onClick={() => setFiltroAuditoria('')} className="text-xs text-slate-400 hover:text-slate-600 ml-1">✕</button>
-                                )}
-                            </div>
-                        ) : (
-                            <p className="text-xs text-slate-400 mt-1">Nenhuma auditoria</p>
-                        )}
+                        <p className="text-sm font-medium text-emerald-600">Efetivadas</p>
+                        <p className="text-2xl font-bold text-emerald-700 mt-1">{filteredQuotations.filter(q => q.status === 'correcao-efetivada').length}</p>
                     </div>
                 </div>
 
@@ -586,15 +492,15 @@ function App() {
                     <div className="flex-1 relative group">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><SearchIcon /></div>
                         <input type="text" placeholder="Buscar por cotação, anotação ou status..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
+                            className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <div className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-red-500 transition-colors duration-200"></div>
+                            <div className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-amber-500 transition-colors duration-200"></div>
                         </div>
                     </div>
                     <div className="relative group">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><CalendarIcon /></div>
                         <input type="date" value={dateStart} onChange={(e) => setDateStart(e.target.value)}
-                            className="w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
+                            className="w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
                     </div>
                     <button onClick={() => { setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setShowModal(true); }}
                         className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
@@ -619,8 +525,8 @@ function App() {
                     ) : filteredQuotations.length === 0 ? (
                         <div className="p-12 text-center">
                             <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl text-slate-400 mb-4"><FileTextIcon /></div>
-                            <h3 className="text-lg font-semibold text-slate-800 mb-1">Nenhuma cotação encontrada</h3>
-                            <p className="text-slate-500 text-sm">Tente ajustar sua busca ou adicione uma nova cotação.</p>
+                            <h3 className="text-lg font-semibold text-slate-800 mb-1">Nenhuma correção cadastral pendente</h3>
+                            <p className="text-slate-500 text-sm">Todas as correções cadastrais foram efetivadas.</p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
@@ -687,7 +593,7 @@ function App() {
                                 {[...Array(totalPages)].map((_, i) => {
                                     const page = i + 1;
                                     return (
-                                        <button key={page} onClick={() => setCurrentPage(page)} className={`w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ${currentPage === page ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100'}`}>
+                                        <button key={page} onClick={() => setCurrentPage(page)} className={`w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ${currentPage === page ? 'bg-amber-600 text-white' : 'text-slate-600 hover:bg-slate-100'}`}>
                                             {page}
                                         </button>
                                     );
@@ -805,16 +711,13 @@ function App() {
             {statusModal && (
                 <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) setStatusModal(null); }}>
                     <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content">
-                        <h2 className="text-lg font-bold text-slate-800 mb-2">Alterar Status</h2>
-                        <p className="text-sm text-slate-500 mb-5">Selecione o novo status para a cotação <span className="font-semibold text-slate-800 font-mono">{statusModal.cotacao}</span>.</p>
+                        <h2 className="text-lg font-bold text-slate-800 mb-2">Efetivar Correção Cadastral</h2>
+                        <p className="text-sm text-slate-500 mb-5">Confirme a efetivação da correção cadastral para a cotação <span className="font-semibold text-slate-800 font-mono">{statusModal.cotacao}</span>.</p>
                         <div className="space-y-2.5">
-                            <button onClick={() => handleStatusChange('pendente')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente</button>
-                            <button onClick={() => handleStatusChange('pendente-classificacao')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Classificação</button>
-                            <button onClick={() => handleStatusChange('pendente-iphone')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - iPhone</button>
-                            <button onClick={() => handleStatusChange('pendente-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Qualidade</button>
-                            <button onClick={() => handleStatusChange('pendente-correcao-cadastral')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Correção Cadastral</button>
-                            <button onClick={() => handleStatusChange('aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Aprovado</button>
-                            <button onClick={() => handleStatusChange('reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Reprovado</button>
+                            {/* Única opção: Correção Efetivada */}
+                            <button onClick={() => handleStatusChange('correcao-efetivada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm">
+                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção Efetivada
+                            </button>
                         </div>
                         <button onClick={() => setStatusModal(null)} className="w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200">Cancelar</button>
                     </div>
@@ -834,7 +737,7 @@ function App() {
                             <div className="relative flex-1 group">
                                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"><SearchIcon /></div>
                                 <input type="text" value={reprovaSearch} onChange={(e) => setReprovaSearch(e.target.value)} placeholder="Buscar motivo ou texto de reprova..." autoFocus
-                                    className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
+                                    className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
                             </div>
                         </div>
                         <div className="overflow-y-auto flex-1 rounded-xl border border-slate-200">
