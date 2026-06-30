@@ -92,3 +92,83 @@
 30/06/2026 10:24:05: Servidor rodando em http://localhost:3016
 30/06/2026 10:35:38: Servidor rodando em http://localhost:3016
 30/06/2026 10:40:12: Servidor rodando em http://localhost:3016
+30/06/2026 10:52:34: Servidor rodando em http://localhost:3016
+30/06/2026 11:09:57: [PUT] Atualizando cotação: 22788280
+30/06/2026 11:09:57: [PUT] Usuário: jose.faria
+30/06/2026 11:09:57: [PUT] Dados recebidos: {
+30/06/2026 11:09:57:   anotacao: 'Origem: iw_cpc_975_net | Etapa: 03 - Aguardando Correção',
+30/06/2026 11:09:57:   status: 'procedimento correto',
+30/06/2026 11:09:57:   auditoria_anotacao: '',
+30/06/2026 11:09:57:   auditoria_status: 'Procedimento Correto'
+30/06/2026 11:09:57: }
+30/06/2026 11:09:57: [PUT] Linhas afetadas: 1
+30/06/2026 11:09:57: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 11:09:57:   cotacao: '22788280',
+30/06/2026 11:09:57:   anotacao: 'Origem: iw_cpc_975_net | Etapa: 03 - Aguardando Correção',
+30/06/2026 11:09:57:   status: 'procedimento correto',
+30/06/2026 11:09:57:   data_de_criacao: '30/06/2026 09:29',
+30/06/2026 11:09:57:   data_da_ultima_atualizacao: '30/06/2026 11:09',
+30/06/2026 11:09:57:   usuario_login: 'jose.faria',
+30/06/2026 11:09:57:   validacao: 'Ativo',
+30/06/2026 11:09:57:   usuario_id: '50',
+30/06/2026 11:09:57:   tarefa: '22788280',
+30/06/2026 11:09:57:   origem: 'iw_cpc_975_net'
+30/06/2026 11:09:57: }
+30/06/2026 11:10:03: [PUT] Atualizando cotação: 22788280
+30/06/2026 11:10:03: [PUT] Usuário: jose.faria
+30/06/2026 11:10:03: [PUT] Dados recebidos: {
+30/06/2026 11:10:03:   anotacao: undefined,
+30/06/2026 11:10:03:   status: 'aprovado',
+30/06/2026 11:10:03:   auditoria_anotacao: undefined,
+30/06/2026 11:10:03:   auditoria_status: undefined
+30/06/2026 11:10:03: }
+30/06/2026 11:10:03: [PUT] Linhas afetadas: 1
+30/06/2026 11:10:04: [PUT] Atualizando cotação: 22788280
+30/06/2026 11:10:04: [PUT] Usuário: jose.faria
+30/06/2026 11:10:04: [PUT] Dados recebidos: {
+30/06/2026 11:10:04:   anotacao: undefined,
+30/06/2026 11:10:04:   status: 'aprovado',
+30/06/2026 11:10:04:   auditoria_anotacao: undefined,
+30/06/2026 11:10:04:   auditoria_status: undefined
+30/06/2026 11:10:04: }
+30/06/2026 11:10:04: [PUT] Linhas afetadas: 1
+30/06/2026 11:10:04: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 11:10:04:   cotacao: '22788280',
+30/06/2026 11:10:04:   anotacao: 'Origem: iw_cpc_975_net | Etapa: 03 - Aguardando Correção',
+30/06/2026 11:10:04:   status: 'aprovado',
+30/06/2026 11:10:04:   data_de_criacao: '30/06/2026 09:29',
+30/06/2026 11:10:04:   data_da_ultima_atualizacao: '30/06/2026 11:10',
+30/06/2026 11:10:04:   usuario_login: 'jose.faria',
+30/06/2026 11:10:04:   validacao: 'Ativo',
+30/06/2026 11:10:04:   usuario_id: '50',
+30/06/2026 11:10:04:   tarefa: '22788280',
+30/06/2026 11:10:04:   origem: 'iw_cpc_975_net'
+30/06/2026 11:10:04: }
+30/06/2026 11:13:17: [ATUALIZAR_R_000250] Iniciando atualização...
+30/06/2026 11:13:17: [ATUALIZAR_R_000250] max_bloco=Tue Jun 30 2026 07:53:57 GMT-0300 (Brasilia Standard Time), max_claro=Tue Jun 30 2026 07:53:57 GMT-0300 (Brasilia Standard Time)
+30/06/2026 11:13:17: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 248ms
+30/06/2026 11:16:03: [PUT] Atualizando cotação: 22788280
+30/06/2026 11:16:03: [PUT] Usuário: jose.faria
+30/06/2026 11:16:03: [PUT] Dados recebidos: {
+30/06/2026 11:16:03:   anotacao: 'Origem: iw_cpc_975_net | Etapa: 03 - Aguardando Correção',
+30/06/2026 11:16:03:   status: 'aprovado',
+30/06/2026 11:16:03:   auditoria_anotacao: '',
+30/06/2026 11:16:03:   auditoria_status: 'Procedimento Correto'
+30/06/2026 11:16:03: }
+30/06/2026 11:16:03: [PUT] Linhas afetadas: 1
+30/06/2026 11:16:03: [PUT] Cotação atualizada com sucesso: {
+30/06/2026 11:16:03:   cotacao: '22788280',
+30/06/2026 11:16:03:   anotacao: 'Origem: iw_cpc_975_net | Etapa: 03 - Aguardando Correção',
+30/06/2026 11:16:03:   status: 'aprovado',
+30/06/2026 11:16:03:   data_de_criacao: '30/06/2026 09:29',
+30/06/2026 11:16:03:   data_da_ultima_atualizacao: '30/06/2026 11:16',
+30/06/2026 11:16:03:   usuario_login: 'jose.faria',
+30/06/2026 11:16:03:   validacao: 'Ativo',
+30/06/2026 11:16:03:   usuario_id: '50',
+30/06/2026 11:16:03:   tarefa: '22788280',
+30/06/2026 11:16:03:   origem: 'iw_cpc_975_net'
+30/06/2026 11:16:03: }
+30/06/2026 11:46:28: Servidor rodando em http://localhost:3016
+30/06/2026 11:52:20: Servidor rodando em http://localhost:3016
+30/06/2026 11:56:09: Servidor rodando em http://localhost:3016
+30/06/2026 12:02:56: Servidor rodando em http://localhost:3016

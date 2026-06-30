@@ -138,7 +138,8 @@ function App() {
     const [statusModal, setStatusModal] = useState(null);
     const [username, setUsername] = useState('');
     const [toast, setToast] = useState(null);
-    const [dateStart, setDateStart] = useState('');
+    const today = new Date().toISOString().split('T')[0];
+    const [dateStart, setDateStart] = useState(today);
     const [reprovaModalOpen, setReprovaModalOpen] = useState(false);
     const [reprovaSearch, setReprovaSearch] = useState('');
     const [reprovaResults, setReprovaResults] = useState([]);
@@ -204,6 +205,7 @@ function App() {
         const timer = setTimeout(fetchQuotations, 300);
         return () => clearTimeout(timer);
     }, [searchTerm]);
+    useEffect(() => { fetchQuotations(); }, [dateStart]);
 
     // Fetch qualidade stats
     const fetchQualidadeStats = useCallback(async () => {
@@ -664,7 +666,7 @@ function App() {
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center gap-1">
                                                         <button onClick={() => handleEditClick(quotation)} className="group p-2 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md" title="Editar"><EditIcon /></button>
-                                                        <button onClick={() => handleDeleteClick(quotation)} className="group p-2 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md" title="Excluir"><TrashIcon /></button>
+                                                        {false && <button onClick={() => handleDeleteClick(quotation)} className="group p-2 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md" title="Excluir"><TrashIcon /></button>}
                                                     </div>
                                                 </td>
                                             </tr>
@@ -747,24 +749,16 @@ function App() {
                                 </div>
                             )}
                             
-                            {/* Aba: Auditoria */}
+                            {/* Aba: Auditoria (somente leitura) */}
                             {activeTab === 'auditoria' && (
                                 <div className="space-y-4">
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação da Auditoria</label>
-                                        <textarea value={auditoriaData.anotacao} onChange={(e) => setAuditoriaData({...auditoriaData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200 resize-none" rows="3" placeholder="Digite a anotação da auditoria..." />
+                                        <textarea value={auditoriaData.anotacao} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none" rows="3" placeholder="Sem alteração permitida" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 mb-1.5">Status da Auditoria</label>
-                                        <select value={auditoriaData.status} onChange={(e) => setAuditoriaData({...auditoriaData, status: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200">
-                                            <option value="">Selecione um status...</option>
-                                            <option value="Procedimento Correto">Procedimento Correto</option>
-                                            <option value="Devolução Parcial">Devolução Parcial</option>
-                                            <option value="Devolução Indevida">Devolução Indevida</option>
-                                            <option value="Reprova Parcial">Reprova Parcial</option>
-                                            <option value="Reprova Indevida">Reprova Indevida</option>
-                                            <option value="Aprovacao Indevida">Aprovação Indevida</option>
-                                        </select>
+                                        <input type="text" value={auditoriaData.status} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700" />
                                     </div>
                                 </div>
                             )}

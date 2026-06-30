@@ -314,14 +314,12 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
       paramIndex++;
     }
 
-    if (dateStart) {
-      // Converter de YYYY-MM-DD para DD/MM/YYYY e filtrar por data específica
-      const [year, month, day] = dateStart.split('-');
-      const dateStartBR = `${day}/${month}/${year}`;
-      query += ` AND data_de_criacao LIKE $${paramIndex}`;
-      params.push(`${dateStartBR}%`);
-      paramIndex++;
-    }
+    const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+    const [year, month, day] = effectiveDate.split('-');
+    const dateStartBR = `${day}/${month}/${year}`;
+    query += ` AND data_de_criacao LIKE $${paramIndex}`;
+    params.push(`${dateStartBR}%`);
+    paramIndex++;
 
     query += ' ORDER BY data_de_criacao DESC';
 
@@ -874,13 +872,12 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       paramIndex++;
     }
 
-    if (dateStart) {
-      const [year, month, day] = dateStart.split('-');
-      const dateStartBR = `${day}/${month}/${year}`;
-      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
-      params.push(`${dateStartBR}%`);
-      paramIndex++;
-    }
+    const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+    const [year, month, day] = effectiveDate.split('-');
+    const dateStartBR = `${day}/${month}/${year}`;
+    query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+    params.push(`${dateStartBR}%`);
+    paramIndex++;
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {

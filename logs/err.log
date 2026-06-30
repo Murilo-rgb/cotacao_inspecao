@@ -4,3 +4,6 @@
 30/06/2026 09:13:58: [PUT] Erro ao atualizar cotação: ReferenceError: registrarAuditoria is not defined
 30/06/2026 09:13:58:     at E:\projetos_hitss\geo-pme-notas\server.js:481:9
 30/06/2026 09:13:58:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+30/06/2026 11:10:03: [PUT] Erro ao atualizar cotação: ReferenceError: registrarAuditoria is not defined
+30/06/2026 11:10:03:     at E:\projetos_hitss\geo-pme-notas\server.js:482:9
+30/06/2026 11:10:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)

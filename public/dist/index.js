@@ -397,7 +397,8 @@ function App() {
     _useState26 = _slicedToArray(_useState25, 2),
     toast = _useState26[0],
     setToast = _useState26[1];
-  var _useState27 = useState(''),
+  var today = new Date().toISOString().split('T')[0];
+  var _useState27 = useState(today),
     _useState28 = _slicedToArray(_useState27, 2),
     dateStart = _useState28[0],
     setDateStart = _useState28[1];
@@ -527,6 +528,9 @@ function App() {
       return clearTimeout(timer);
     };
   }, [searchTerm]);
+  useEffect(function () {
+    fetchQuotations();
+  }, [dateStart]);
 
   // Fetch qualidade stats
   var fetchQualidadeStats = useCallback(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
@@ -1380,7 +1384,7 @@ function App() {
       },
       className: "group p-2 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md",
       title: "Editar"
-    }, /*#__PURE__*/React.createElement(EditIcon, null)), /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/React.createElement(EditIcon, null)), false && /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
         return handleDeleteClick(quotation);
       },
@@ -1513,39 +1517,18 @@ function App() {
     className: "block text-sm font-medium text-slate-700 mb-1.5"
   }, "Anota\xE7\xE3o da Auditoria"), /*#__PURE__*/React.createElement("textarea", {
     value: auditoriaData.anotacao,
-    onChange: function onChange(e) {
-      return setAuditoriaData(_objectSpread(_objectSpread({}, auditoriaData), {}, {
-        anotacao: e.target.value
-      }));
-    },
-    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200 resize-none",
+    readOnly: true,
+    className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none",
     rows: "3",
-    placeholder: "Digite a anota\xE7\xE3o da auditoria..."
+    placeholder: "Sem altera\xE7\xE3o permitida"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5"
-  }, "Status da Auditoria"), /*#__PURE__*/React.createElement("select", {
+  }, "Status da Auditoria"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
     value: auditoriaData.status,
-    onChange: function onChange(e) {
-      return setAuditoriaData(_objectSpread(_objectSpread({}, auditoriaData), {}, {
-        status: e.target.value
-      }));
-    },
-    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200"
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "Selecione um status..."), /*#__PURE__*/React.createElement("option", {
-    value: "Procedimento Correto"
-  }, "Procedimento Correto"), /*#__PURE__*/React.createElement("option", {
-    value: "Devolu\xE7\xE3o Parcial"
-  }, "Devolu\xE7\xE3o Parcial"), /*#__PURE__*/React.createElement("option", {
-    value: "Devolu\xE7\xE3o Indevida"
-  }, "Devolu\xE7\xE3o Indevida"), /*#__PURE__*/React.createElement("option", {
-    value: "Reprova Parcial"
-  }, "Reprova Parcial"), /*#__PURE__*/React.createElement("option", {
-    value: "Reprova Indevida"
-  }, "Reprova Indevida"), /*#__PURE__*/React.createElement("option", {
-    value: "Aprovacao Indevida"
-  }, "Aprova\xE7\xE3o Indevida")))), /*#__PURE__*/React.createElement("div", {
+    readOnly: true,
+    className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700"
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-2 gap-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5"
