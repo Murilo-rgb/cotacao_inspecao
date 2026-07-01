@@ -138,8 +138,7 @@ function App() {
     const [statusModal, setStatusModal] = useState(null);
     const [username, setUsername] = useState('');
     const [toast, setToast] = useState(null);
-    const today = new Date().toISOString().split('T')[0];
-    const [dateStart, setDateStart] = useState(today);
+    const [dateStart, setDateStart] = useState('');
     const [reprovaModalOpen, setReprovaModalOpen] = useState(false);
     const [reprovaSearch, setReprovaSearch] = useState('');
     const [reprovaResults, setReprovaResults] = useState([]);
@@ -716,7 +715,7 @@ function App() {
                         <p className="text-sm text-slate-500 mb-5">Confirme a efetivação da correção cadastral para a cotação <span className="font-semibold text-slate-800 font-mono">{statusModal.cotacao}</span>.</p>
                         <div className="space-y-2.5">
                             {/* Única opção: Correção Efetivada */}
-                            <button onClick={() => handleStatusChange('correcao-efetuada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm">
+                            <button onClick={() => handleStatusChange('pendente-correcao-efetuada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm">
                                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção - Efetuada
                             </button>
                         </div>

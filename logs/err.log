@@ -1,135 +1,252 @@
-01/07/2026 09:38:25: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
-01/07/2026 09:38:25: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
-01/07/2026 09:38:25: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
-01/07/2026 09:38:25: [PERMISSIONS] Erro ao atualizar permissão: column "data_alteracao" of relation "usuario_permissoes" does not exist
-01/07/2026 09:48:49: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:49:28: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:49:28: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:49:28: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:50:00: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:50:00: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:50:00: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:51:54: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:54:04: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:55:31: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:55:31: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:55:31: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:55:31: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:55:31: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:55:31: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:55:31: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:55:31: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:56:59: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:58:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:58:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:58:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:58:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:58:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:58:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:58:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 09:58:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:09: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:09: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:09: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:09: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:09: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:09: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:09: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:01:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:02:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:02:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:02:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:02:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:02:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:02:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:02:02: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:26: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:26: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:26: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:26: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:26: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:26: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:04:26: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:05:15: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:12:32: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:12:32: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:12:32: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:12:32: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:12:32: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:17:35: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:17:35: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:17:35: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:17:35: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:17:35: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:20:19: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
-01/07/2026 10:20:40: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
-01/07/2026 10:21:02: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
-01/07/2026 10:21:18: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
-01/07/2026 10:21:31: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
-01/07/2026 10:23:13: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
-01/07/2026 10:24:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:24:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:24:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:24:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:24:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:24:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:24:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:24:14: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:25:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:25:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:25:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:25:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
-01/07/2026 10:25:22: [AUDIT] Erro ao registrar: relation "db_bloco_de_notas.cotacao_audit" does not exist
+01/07/2026 10:39:26: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:39:29: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:39:31: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:39:34: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:39:36: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:40:16: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:40:32: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:40:38: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:43:59: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:44:41: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:45:12: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+01/07/2026 10:45:12: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+01/07/2026 10:45:12: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+01/07/2026 10:45:12: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+01/07/2026 10:45:12: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+01/07/2026 10:45:12: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+01/07/2026 10:45:12: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+01/07/2026 10:45:12: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+01/07/2026 10:45:13: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+01/07/2026 10:50:17: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+01/07/2026 10:51:02: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:51:09: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:51:45: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:51:56: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:52:08: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:52:15: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:52:24: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:52:29: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:52:37: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:52:42: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:52:47: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+01/07/2026 10:56:44: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+01/07/2026 11:07:45: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+01/07/2026 11:08:36: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+01/07/2026 11:08:41: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+01/07/2026 11:08:42: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+01/07/2026 11:08:42: [DASHBOARD SLA] Erro para usuario samanta.andrade : operator does not exist: text - text
+01/07/2026 11:08:42: [DASHBOARD SLA] Erro para usuario tereza.xavier.3 : operator does not exist: text - text
+01/07/2026 11:08:42: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : operator does not exist: text - text
+01/07/2026 11:08:42: [DASHBOARD SLA] Erro para usuario vinicius.silva.3 : operator does not exist: text - text
+01/07/2026 11:08:42: [DASHBOARD SLA] Erro para usuario yasmin.santana : operator does not exist: text - text
+01/07/2026 11:08:42: [DASHBOARD SLA] Erro para usuario yuri.santos : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario adrian.sapata : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario allison.aguilar.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario aryane.dias : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario bruno.caneschi : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario camila.s.silva : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario carmen.castro : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario cassiane.brito.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario cristiano.augusto.nunes.leite : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario daniela.cristina.padovani.de.lima : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario eduardo.soares.brito.de.jesus : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario felipe.pereira.freitas : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario gabrielle.tonin : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario gustavo.sanches : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario karen.santos.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario katia.souza.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario lucas.emanuel.dos.santos.carneiro.melo : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario lucas.lopes : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario marcia.miura : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario marcielly.nunes.ferreira : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario maristela.martins : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario renata.dasilva : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario rita.meira.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : operator does not exist: text - text
+01/07/2026 11:11:01: [DASHBOARD SLA] Erro para usuario sabrina.monaco.emiliano : operator does not exist: text - text
+01/07/2026 11:12:33: [PUT] Erro ao registrar auditoria (não crítico): registrarAuditoria is not defined
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:28:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:29:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:29:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:29:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:29:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:29:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:29:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:29:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:29:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:45:52: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:45:52: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:45:52: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:45:52: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:45:52: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:45:52: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 11:45:52: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint

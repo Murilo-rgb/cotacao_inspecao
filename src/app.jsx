@@ -138,8 +138,7 @@ function App() {
     const [statusModal, setStatusModal] = useState(null);
     const [username, setUsername] = useState('');
     const [toast, setToast] = useState(null);
-    const today = new Date().toISOString().split('T')[0];
-    const [dateStart, setDateStart] = useState(today);
+    const [dateStart, setDateStart] = useState('');
     const [reprovaModalOpen, setReprovaModalOpen] = useState(false);
     const [reprovaSearch, setReprovaSearch] = useState('');
     const [reprovaResults, setReprovaResults] = useState([]);
@@ -458,11 +457,14 @@ function App() {
         if (normalized === 'pendente-iphone') {
             return { label: 'Pendente - iPhone', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
         }
-        if (normalized === 'pendente-qualidade') {
-            return { label: 'Pendente - Qualidade', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
+        if (normalized === 'pendente-qualidade' || normalized === 'pendente-qualidade/suporte') {
+            return { label: 'Pendente - Qualidade/Suporte', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
         }
         if (normalized === 'pendente-correcao-cadastral') {
             return { label: 'Pendente - Correção Cadastral', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
+        }
+        if (normalized === 'pendente-correcao-efetuada') {
+            return { label: 'Pendente - Correção Efetuada', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
         }
         if (normalized === 'correcao-efetivada') {
             return { label: 'Correção Efetivada', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
@@ -810,11 +812,11 @@ function App() {
                     <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content">
                         <h2 className="text-lg font-bold text-slate-800 mb-2">Alterar Status</h2>
                         <p className="text-sm text-slate-500 mb-5">Selecione o novo status para a cotação <span className="font-semibold text-slate-800 font-mono">{statusModal.cotacao}</span>.</p>
-                        <div className="space-y-2.5">
+                        <div className="space-y-2.5 max-h-[50vh] overflow-y-auto">
                             <button onClick={() => handleStatusChange('pendente')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente</button>
                             <button onClick={() => handleStatusChange('pendente-classificacao')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Classificação</button>
                             <button onClick={() => handleStatusChange('pendente-iphone')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - iPhone</button>
-                            <button onClick={() => handleStatusChange('pendente-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Qualidade</button>
+                            <button onClick={() => handleStatusChange('pendente-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Qualidade/Suporte</button>
                             <button onClick={() => handleStatusChange('pendente-correcao-cadastral')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Correção Cadastral</button>
                             <button onClick={() => handleStatusChange('aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Aprovado</button>
                             <button onClick={() => handleStatusChange('reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Reprovado</button>

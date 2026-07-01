@@ -55,6 +55,14 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
+app.use((req, res, next) => {
+    if (req.path.endsWith('.js') || req.path.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+    }
+    next();
+});
 
 // Configuração do multer para upload de arquivos r_000250
 const filesDir = path.join(__dirname, 'files');
@@ -134,6 +142,20 @@ function authenticateToken(req, res, next) {
         req.user = user;
         next();
     });
+}
+
+// Função auxiliar para registrar auditoria (usada nas rotas PUT de cotação)
+async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
+  try {
+    await pool.query(
+      `INSERT INTO db_bloco_de_notas.cotacao_audit 
+       (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+      [tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por]
+    );
+  } catch (err) {
+    console.error('[AUDIT] Erro ao registrar:', err.message);
+  }
 }
 
 // Inicializar rotas de inspeção após definir authenticateToken e authorizeRoute
@@ -426,12 +448,13 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
       paramIndex++;
     }
 
-    const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
-    const [year, month, day] = effectiveDate.split('-');
-    const dateStartBR = `${day}/${month}/${year}`;
-    query += ` AND data_de_criacao LIKE $${paramIndex}`;
-    params.push(`${dateStartBR}%`);
-    paramIndex++;
+    if (dateStart && dateStart.trim()) {
+      const [year, month, day] = dateStart.trim().split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
 
     query += ' ORDER BY data_de_criacao DESC';
 

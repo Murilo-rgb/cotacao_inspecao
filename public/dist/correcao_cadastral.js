@@ -397,8 +397,7 @@ function App() {
     _useState26 = _slicedToArray(_useState25, 2),
     toast = _useState26[0],
     setToast = _useState26[1];
-  var today = new Date().toISOString().split('T')[0];
-  var _useState27 = useState(today),
+  var _useState27 = useState(''),
     _useState28 = _slicedToArray(_useState27, 2),
     dateStart = _useState28[0],
     setDateStart = _useState28[1];
@@ -1453,7 +1452,7 @@ function App() {
     className: "space-y-2.5"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return handleStatusChange('correcao-efetuada');
+      return handleStatusChange('pendente-correcao-efetuada');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {

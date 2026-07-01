@@ -74,7 +74,7 @@
                         params.set('data', `${day}/${month}/${year}`);
                     }
                     const queryStr = params.toString() ? `?${params.toString()}` : '';
-                    const res = await fetch(`${getBasePath()}/api/gestao/dashboard${queryStr}`, {
+                    const res = await fetch(`${getBasePath()}/api/inspecao/dashboard${queryStr}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (res.status === 401 || res.status === 403) {
@@ -97,7 +97,7 @@
                 try {
                     const params = new URLSearchParams({ limit: 200 });
                     if (filtroTarefa) params.set('tarefa', filtroTarefa);
-                    const res = await fetch(`${getBasePath()}/api/gestao/historico?${params}`, {
+                    const res = await fetch(`${getBasePath()}/api/inspecao/historico?${params}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     const data = await res.json();
@@ -178,9 +178,9 @@
                             ),
                             React.createElement('div', { className: 'flex items-center gap-3' },
                                 React.createElement('a', {
-                                    href: `${getBasePath()}/gestao`,
+                                    href: `${getBasePath()}/inspecao`,
                                     className: 'text-xs text-slate-500 hover:text-violet-600 underline'
-                                }, '← Voltar para Gestão'),
+                                }, '← Voltar para Inspeção'),
                                 React.createElement('div', { className: 'hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm' },
                                     React.createElement('span', { className: 'text-sm font-semibold text-white' }, username)
                                 )

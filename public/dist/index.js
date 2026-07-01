@@ -397,8 +397,7 @@ function App() {
     _useState26 = _slicedToArray(_useState25, 2),
     toast = _useState26[0],
     setToast = _useState26[1];
-  var today = new Date().toISOString().split('T')[0];
-  var _useState27 = useState(today),
+  var _useState27 = useState(''),
     _useState28 = _slicedToArray(_useState27, 2),
     dateStart = _useState28[0],
     setDateStart = _useState28[1];
@@ -1018,9 +1017,9 @@ function App() {
         dotClass: 'bg-amber-500'
       };
     }
-    if (normalized === 'pendente-qualidade') {
+    if (normalized === 'pendente-qualidade' || normalized === 'pendente-qualidade/suporte') {
       return {
-        label: 'Pendente - Qualidade',
+        label: 'Pendente - Qualidade/Suporte',
         className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
         dotClass: 'bg-amber-500'
       };
@@ -1030,6 +1029,13 @@ function App() {
         label: 'Pendente - Correção Cadastral',
         className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
         dotClass: 'bg-amber-500'
+      };
+    }
+    if (normalized === 'pendente-correcao-efetuada') {
+      return {
+        label: 'Pendente - Correção Efetuada',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
       };
     }
     if (normalized === 'correcao-efetivada') {
@@ -1627,13 +1633,6 @@ function App() {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
   }), "Pendente"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return handleStatusChange('pendente-classificacao');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Classifica\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
       return handleStatusChange('pendente-iphone');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
@@ -1646,14 +1645,14 @@ function App() {
     className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Qualidade"), /*#__PURE__*/React.createElement("button", {
+  }), "Pendente - Qualidade/Suporte"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente-correcao-cadastral');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("button", {
+  }), "Pendente - Correção Cadastral"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('aprovado');
     },

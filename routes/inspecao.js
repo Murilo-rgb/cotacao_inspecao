@@ -320,7 +320,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           const slaRes = await pool.query(`
             SELECT AVG(
               EXTRACT(EPOCH FROM (
-                data_da_ultima_atualizacao - data_de_criacao
+                TO_TIMESTAMP(data_da_ultima_atualizacao, 'DD/MM/YYYY HH24:MI') -
+                TO_TIMESTAMP(data_de_criacao, 'DD/MM/YYYY HH24:MI')
               )) / 3600
             ) AS sla_medio
             FROM db_bloco_de_notas.cotacao c
