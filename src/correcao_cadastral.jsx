@@ -215,8 +215,8 @@ function App() {
         try {
             if (editingQuotation) {
                 const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-                const cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
-                const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(cotacaoCode)}`, {
+                const tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
+                const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify({ 
@@ -275,8 +275,8 @@ function App() {
         try {
             const token = localStorage.getItem('token');
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const cotacaoCode = quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao;
-            const response = await fetch(`${BASE_PATH}/api/qualidade/auditoria/${encodeURIComponent(cotacaoCode)}`, {
+            const tarefaCode = quotation.tarefa || (quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao);
+            const response = await fetch(`${BASE_PATH}/api/qualidade/auditoria/${encodeURIComponent(tarefaCode)}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -303,16 +303,16 @@ function App() {
         const token = localStorage.getItem('token');
         try {
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const cotacaoCode = deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao;
-            const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(cotacaoCode)}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (response.status === 401 || response.status === 403) {
-                localStorage.removeItem('token'); localStorage.removeItem('username');
-                window.location.href = BASE_PATH + '/login.html';
-                return;
-            }
+            const tarefaCode = deleteModal.tarefa || (deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao);
+                const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token'); localStorage.removeItem('username');
+                    window.location.href = BASE_PATH + '/login.html';
+                    return;
+                }
             if (response.ok) {
                 fetchQuotations();
                 setDeleteModal(null);
@@ -331,16 +331,17 @@ function App() {
         const token = localStorage.getItem('token');
         try {
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(statusModal.cotacao)}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ status: newStatus })
-            });
-            if (response.status === 401 || response.status === 403) {
-                localStorage.removeItem('token'); localStorage.removeItem('username');
-                window.location.href = BASE_PATH + '/login.html';
-                return;
-            }
+                const tarefaCode = statusModal.tarefa || (statusModal.cotacao.includes(' - ') ? statusModal.cotacao.split(' - ')[1] : statusModal.cotacao);
+                const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token'); localStorage.removeItem('username');
+                    window.location.href = BASE_PATH + '/login.html';
+                    return;
+                }
             if (response.ok) {
                 fetchQuotations();
                 setStatusModal(null);
@@ -394,8 +395,8 @@ function App() {
             (q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase()));
         if (!matchesSearch) return false;
         if (dateStart) {
-            if (!q.createdAt || q.createdAt === '-') return false;
-            const dateParts = q.createdAt.split(' ')[0].split('/');
+            if (!q.data_de_criacao || q.data_de_criacao === '-') return false;
+            const dateParts = q.data_de_criacao.split(' ')[0].split('/');
             if (dateParts.length !== 3) return false;
             const [day, month, year] = dateParts;
             const createdAtDate = `${year}-${month}-${day}`;
@@ -562,8 +563,8 @@ function App() {
                                                         })()}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.createdAt)}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.updatedAt)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.data_de_criacao || quotation.createdAt)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.data_da_ultima_atualizacao || quotation.updatedAt)}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <button onClick={() => handleStatusClick(quotation)} className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 hover:shadow-sm ${statusConfig.className}`}>
                                                         <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dotClass}`}></span>{statusConfig.label}
@@ -715,8 +716,8 @@ function App() {
                         <p className="text-sm text-slate-500 mb-5">Confirme a efetivação da correção cadastral para a cotação <span className="font-semibold text-slate-800 font-mono">{statusModal.cotacao}</span>.</p>
                         <div className="space-y-2.5">
                             {/* Única opção: Correção Efetivada */}
-                            <button onClick={() => handleStatusChange('correcao-efetivada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm">
-                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção Efetivada
+                            <button onClick={() => handleStatusChange('correcao-efetuada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm">
+                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção - Efetuada
                             </button>
                         </div>
                         <button onClick={() => setStatusModal(null)} className="w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200">Cancelar</button>

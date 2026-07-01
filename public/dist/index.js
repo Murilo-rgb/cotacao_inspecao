@@ -1032,6 +1032,13 @@ function App() {
         dotClass: 'bg-amber-500'
       };
     }
+    if (normalized === 'correcao-efetivada') {
+      return {
+        label: 'Correção Efetivada',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
+    }
     return {
       label: 'Pendente',
       className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
@@ -1646,7 +1653,7 @@ function App() {
     className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Correção Cadastral"), /*#__PURE__*/React.createElement("button", {
+  }), "Pendente - Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('aprovado');
     },

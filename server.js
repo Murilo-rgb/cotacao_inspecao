@@ -299,6 +299,118 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// API: Listar cotações para correção cadastral
+app.get('/api/quotations/correcao-cadastral', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, origem } = req.query;
+    const usuarioId = req.user.id;
+    let query = `SELECT c.* 
+      FROM db_bloco_de_notas.cotacao c 
+      WHERE c.usuario_id = $1 AND c.validacao = $2 AND c.status ILIKE $3`;
+    const params = [usuarioId, 'Ativo', 'pendente-correcao-cadastral'];
+    let paramIndex = 4;
+
+    if (search && search.trim()) {
+      query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
+      params.push(`%${search.trim()}%`);
+      paramIndex++;
+    }
+
+    if (dateStart && dateStart.trim()) {
+      const [year, month, day] = dateStart.trim().split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
+
+    if (origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        query += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
+    }
+
+    query += ' ORDER BY c.data_de_criacao DESC';
+
+    const result = await pool.query(query, params);
+    const serialized = result.rows.map(row => ({
+      tarefa: row.tarefa,
+      cotacao: row.cotacao,
+      anotacao: row.anotacao,
+      status: row.status,
+      data_de_criacao: formatDateBR(row.data_de_criacao),
+      data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
+      usuario_login: row.usuario_login,
+      origem: row.origem || null
+    }));
+
+    res.json(serialized);
+  } catch (error) {
+    console.error('[CORRECAO_CAD] Erro ao buscar cotações:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/quotations/correcao-cadastral', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, origem } = req.query;
+    const usuarioId = req.user.id;
+    let query = `SELECT c.* 
+      FROM db_bloco_de_notas.cotacao c 
+      WHERE c.usuario_id = $1 AND c.validacao = $2 AND c.status ILIKE $3`;
+    const params = [usuarioId, 'Ativo', 'pendente-correcao-cadastral'];
+    let paramIndex = 4;
+
+    if (search && search.trim()) {
+      query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
+      params.push(`%${search.trim()}%`);
+      paramIndex++;
+    }
+
+    if (dateStart && dateStart.trim()) {
+      const [year, month, day] = dateStart.trim().split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
+
+    if (origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        query += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
+    }
+
+    query += ' ORDER BY c.data_de_criacao DESC';
+
+    const result = await pool.query(query, params);
+    const serialized = result.rows.map(row => ({
+      tarefa: row.tarefa,
+      cotacao: row.cotacao,
+      anotacao: row.anotacao,
+      status: row.status,
+      data_de_criacao: formatDateBR(row.data_de_criacao),
+      data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
+      usuario_login: row.usuario_login,
+      origem: row.origem || null
+    }));
+
+    res.json(serialized);
+  } catch (error) {
+    console.error('[CORRECAO_CAD] Erro ao buscar cotações:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
+  }
+});
+
 // Get all quotations
 app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
@@ -415,8 +527,8 @@ app.post('/api/quotations', authenticateToken, async (req, res) => {
   }
 });
 
-// Update quotation
-app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
+// Duplicate route with /pme_notas prefix
+app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
     const { anotacao, status, auditoria_anotacao, auditoria_status } = req.body;
     const usuarioLogin = req.user.username;
@@ -435,8 +547,8 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
 
     const result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND usuario_id = $5 RETURNING *",
-      [anotacao, status, now, req.params.cotacao, usuarioId]
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 RETURNING *",
+      [anotacao, status, now, req.params.cotacao]
     );
 
     console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
@@ -481,17 +593,21 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
 
     // Registrar auditoria de mudança de status
     if (status && String(statusAnterior || '').toLowerCase() !== String(status).toLowerCase()) {
-        await registrarAuditoria(pool, {
-            tarefa: req.params.cotacao,
-            acao: 'status_alterado',
-            usuario_origem_id: usuarioId,
-            usuario_origem_nome: req.user.nome || usuarioLogin,
-            usuario_destino_id: null,
-            usuario_destino_nome: null,
-            status_anterior: statusAnterior || '-',
-            status_novo: status,
-            criado_por: usuarioLogin
-        });
+        try {
+            await registrarAuditoria(pool, {
+                tarefa: req.params.cotacao,
+                acao: 'status_alterado',
+                usuario_origem_id: usuarioId,
+                usuario_origem_nome: req.user.nome || usuarioLogin,
+                usuario_destino_id: null,
+                usuario_destino_nome: null,
+                status_anterior: statusAnterior || '-',
+                status_novo: status,
+                criado_por: usuarioLogin
+            });
+        } catch (auditErr) {
+            console.error('[PUT] Erro ao registrar auditoria (não crítico):', auditErr.message);
+        }
     }
 
     console.log(`[PUT] Cotação atualizada com sucesso:`, row);
@@ -508,6 +624,134 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('[PUT] Erro ao atualizar cotação:', error);
     res.status(500).json({ error: 'Erro ao atualizar cotação' });
+  }
+});
+
+// Update quotation
+app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
+  try {
+    const { anotacao, status, auditoria_anotacao, auditoria_status } = req.body;
+    const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
+    const now = formatDateBR(new Date());
+
+    console.log(`[PUT] Atualizando cotação: ${req.params.cotacao}`);
+    console.log(`[PUT] Usuário: ${usuarioLogin}`);
+    console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
+
+    // Buscar status anterior antes de atualizar
+    const beforeRes = await pool.query(
+      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND usuario_id = $2 AND validacao = 'Ativo'",
+      [req.params.cotacao, usuarioId]
+    );
+    const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
+
+    const result = await pool.query(
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 RETURNING *",
+      [anotacao, status, now, req.params.cotacao]
+    );
+
+    console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
+
+    if (result.rows.length === 0) {
+      console.log(`[PUT] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cotação não encontrada' });
+    }
+
+    const row = result.rows[0];
+
+    // Salvar dados de auditoria se fornecidos
+    if (auditoria_anotacao !== undefined || auditoria_status !== undefined) {
+      try {
+        // Verificar se já existe vínculo de auditoria para esta cotação
+        const checkAudit = await pool.query(
+          'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND id_qldd IS NOT NULL',
+          [req.params.cotacao]
+        );
+
+        if (checkAudit.rows.length > 0) {
+          const idQldd = checkAudit.rows[0].id_qldd;
+          await pool.query(
+            'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status) WHERE id_qldd = $3',
+            [auditoria_anotacao || '', auditoria_status || '', idQldd]
+          );
+        } else if (auditoria_anotacao || auditoria_status) {
+          const insertAudit = await pool.query(
+            'INSERT INTO db_bloco_de_notas.auditoria_qualidade (anotacao, status) VALUES ($1, $2) RETURNING id_qldd',
+            [auditoria_anotacao || '', auditoria_status || '']
+          );
+          const newIdQldd = insertAudit.rows[0].id_qldd;
+          await pool.query(
+            'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE tarefa = $2',
+            [newIdQldd, req.params.cotacao]
+          );
+        }
+      } catch (auditErr) {
+        console.error('[PUT] Erro ao salvar auditoria:', auditErr.message);
+      }
+    }
+
+    // Registrar auditoria de mudança de status
+    if (status && String(statusAnterior || '').toLowerCase() !== String(status).toLowerCase()) {
+        try {
+            await registrarAuditoria(pool, {
+                tarefa: req.params.cotacao,
+                acao: 'status_alterado',
+                usuario_origem_id: usuarioId,
+                usuario_origem_nome: req.user.nome || usuarioLogin,
+                usuario_destino_id: null,
+                usuario_destino_nome: null,
+                status_anterior: statusAnterior || '-',
+                status_novo: status,
+                criado_por: usuarioLogin
+            });
+        } catch (auditErr) {
+            console.error('[PUT] Erro ao registrar auditoria (não crítico):', auditErr.message);
+        }
+    }
+
+    console.log(`[PUT] Cotação atualizada com sucesso:`, row);
+    
+    res.json({
+      cotacao: row.tarefa,
+      dsc_cotacao: row.cotacao,
+      anotacao: row.anotacao,
+      status: row.status,
+      createdAt: row.data_de_criacao,
+      updatedAt: row.data_da_ultima_atualizacao,
+      usuarioLogin: row.usuario_login
+    });
+  } catch (error) {
+    console.error('[PUT] Erro ao atualizar cotação:', error);
+    res.status(500).json({ error: 'Erro ao atualizar cotação' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.delete('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res) => {
+  try {
+    const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
+    console.log(`[DELETE] Soft delete cotação: ${req.params.cotacao}`);
+    console.log(`[DELETE] Usuário: ${usuarioLogin}`);
+
+    const result = await pool.query(
+      "UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE tarefa = $3 AND usuario_id = $4 RETURNING *",
+      ['Inativo', formatDateBR(new Date()), req.params.cotacao, usuarioId]
+    );
+
+    console.log(`[DELETE] Linhas afetadas: ${result.rowCount}`);
+
+    if (result.rows.length === 0) {
+      console.log(`[DELETE] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cotação não encontrada' });
+    }
+
+    console.log(`[DELETE] Cotação deletada com sucesso:`, result.rows[0]);
+    res.json({ message: 'Cotação deletada com sucesso' });
+  } catch (error) {
+    console.error('[DELETE] Erro ao deletar cotação:', error);
+    res.status(500).json({ error: 'Erro ao deletar cotação' });
   }
 });
 
@@ -986,6 +1230,36 @@ app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
   }
 });
 
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/qualidade/auditoria/:cotacao', authenticateToken, async (req, res) => {
+  try {
+    const row = await pool.query(
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
+      [req.params.cotacao]
+    );
+    let result = { rows: [] };
+    if (row.rows.length > 0 && row.rows[0].id_qldd) {
+      result = await pool.query(
+        'SELECT * FROM db_bloco_de_notas.auditoria_qualidade WHERE id_qldd = $1',
+        [row.rows[0].id_qldd]
+      );
+    }
+
+    if (result.rows.length === 0) {
+      return res.json(null);
+    }
+
+    res.json({
+      cotacao: result.rows[0].cotacao,
+      anotacao: result.rows[0].anotacao,
+      status: result.rows[0].status
+    });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao buscar auditoria:', error);
+    res.status(500).json({ error: 'Erro ao buscar auditoria' });
+  }
+});
+
 // API: Buscar auditoria de uma cotação específica
 app.get('/api/qualidade/auditoria/:cotacao', authenticateToken, async (req, res) => {
   try {
@@ -1213,6 +1487,10 @@ app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, 
 // Serve página de acessos
 app.get('/acessos', authenticateToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
+});
+
+app.get('/correcao_cadastral', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'correcao_cadastral.html'));
 });
 
 

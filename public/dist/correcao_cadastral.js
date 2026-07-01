@@ -523,7 +523,7 @@ function App() {
   };
   var handleFormSubmit = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
-      var token, BASE_PATH, cotacaoCode, response, _BASE_PATH, _response, _t2;
+      var token, BASE_PATH, tarefaCode, response, _BASE_PATH, _response, _t2;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
@@ -535,9 +535,9 @@ function App() {
               break;
             }
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
+            tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
             _context2.n = 2;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -631,7 +631,7 @@ function App() {
   }();
   var handleEditClick = /*#__PURE__*/function () {
     var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(quotation) {
-      var token, BASE_PATH, cotacaoCode, response, data, _t3;
+      var token, BASE_PATH, tarefaCode, response, data, _t3;
       return _regenerator().w(function (_context3) {
         while (1) switch (_context3.p = _context3.n) {
           case 0:
@@ -647,9 +647,9 @@ function App() {
             _context3.p = 1;
             token = localStorage.getItem('token');
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            cotacaoCode = quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao;
+            tarefaCode = quotation.tarefa || (quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao);
             _context3.n = 2;
-            return fetch("".concat(BASE_PATH, "/api/qualidade/auditoria/").concat(encodeURIComponent(cotacaoCode)), {
+            return fetch("".concat(BASE_PATH, "/api/qualidade/auditoria/").concat(encodeURIComponent(tarefaCode)), {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
@@ -710,7 +710,7 @@ function App() {
   };
   var confirmDelete = /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-      var token, BASE_PATH, cotacaoCode, response, _t4;
+      var token, BASE_PATH, tarefaCode, response, _t4;
       return _regenerator().w(function (_context4) {
         while (1) switch (_context4.p = _context4.n) {
           case 0:
@@ -723,9 +723,9 @@ function App() {
             token = localStorage.getItem('token');
             _context4.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            cotacaoCode = deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao;
+            tarefaCode = deleteModal.tarefa || (deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao);
             _context4.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
               method: 'DELETE',
               headers: {
                 'Authorization': "Bearer ".concat(token)
@@ -768,7 +768,7 @@ function App() {
   };
   var handleStatusChange = /*#__PURE__*/function () {
     var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(newStatus) {
-      var token, BASE_PATH, response, _t5;
+      var token, BASE_PATH, tarefaCode, response, _t5;
       return _regenerator().w(function (_context5) {
         while (1) switch (_context5.p = _context5.n) {
           case 0:
@@ -781,8 +781,9 @@ function App() {
             token = localStorage.getItem('token');
             _context5.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            tarefaCode = statusModal.tarefa || (statusModal.cotacao.includes(' - ') ? statusModal.cotacao.split(' - ')[1] : statusModal.cotacao);
             _context5.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(statusModal.cotacao)), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -903,8 +904,8 @@ function App() {
     var matchesSearch = !searchTerm || q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase());
     if (!matchesSearch) return false;
     if (dateStart) {
-      if (!q.createdAt || q.createdAt === '-') return false;
-      var dateParts = q.createdAt.split(' ')[0].split('/');
+      if (!q.data_de_criacao || q.data_de_criacao === '-') return false;
+      var dateParts = q.data_de_criacao.split(' ')[0].split('/');
       if (dateParts.length !== 3) return false;
       var _dateParts = _slicedToArray(dateParts, 3),
         day = _dateParts[0],
@@ -1202,9 +1203,9 @@ function App() {
       }, "\u274C");
     }())), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-    }, formatDate(quotation.createdAt)), /*#__PURE__*/React.createElement("td", {
+    }, formatDate(quotation.data_de_criacao || quotation.createdAt)), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
-    }, formatDate(quotation.updatedAt)), /*#__PURE__*/React.createElement("td", {
+    }, formatDate(quotation.data_da_ultima_atualizacao || quotation.updatedAt)), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap"
     }, /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
@@ -1452,12 +1453,12 @@ function App() {
     className: "space-y-2.5"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return handleStatusChange('correcao-efetivada');
+      return handleStatusChange('correcao-efetuada');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
-  }), "Corre\xE7\xE3o Efetivada")), /*#__PURE__*/React.createElement("button", {
+  }), "Corre\xE7\xE3o - Efetuada")), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setStatusModal(null);
     },
