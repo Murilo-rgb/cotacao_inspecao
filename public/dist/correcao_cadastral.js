@@ -928,6 +928,27 @@ function App() {
         dotClass: 'bg-amber-500'
       };
     }
+    if (normalized === 'pendente-iphone') {
+      return {
+        label: 'Pendente - iPhone',
+        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
+        dotClass: 'bg-amber-500'
+      };
+    }
+    if (normalized === 'pendente-iphone-aprovado') {
+      return {
+        label: 'Pendente - iPhone Aprovado',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
+    }
+    if (normalized === 'pendente-iphone-reprovado') {
+      return {
+        label: 'Pendente - iPhone Reprovado',
+        className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100',
+        dotClass: 'bg-red-500'
+      };
+    }
     if (normalized === 'correcao-efetivada') {
       return {
         label: 'Correção Efetivada',
@@ -1451,6 +1472,20 @@ function App() {
   }, statusModal.cotacao), "."), /*#__PURE__*/React.createElement("div", {
     className: "space-y-2.5"
   }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('pendente-iphone-aprovado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
+  }), "Pendente - iPhone Aprovado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('pendente-iphone-reprovado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-red-500"
+  }), "Pendente - iPhone Reprovado"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente-correcao-efetuada');
     },

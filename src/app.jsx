@@ -461,6 +461,12 @@ function App() {
         if (normalized === 'pendente-iphone') {
             return { label: 'Pendente - iPhone', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
         }
+        if (normalized === 'pendente-iphone-aprovado') {
+            return { label: 'Pendente - iPhone Aprovado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        if (normalized === 'pendente-iphone-reprovado') {
+            return { label: 'Pendente - iPhone Reprovado', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
+        }
         if (normalized === 'pendente-qualidade' || normalized === 'pendente-qualidade/suporte') {
             return { label: 'Pendente - Qualidade/Suporte', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
         }

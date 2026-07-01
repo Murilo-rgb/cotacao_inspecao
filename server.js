@@ -328,9 +328,9 @@ app.get('/api/quotations/correcao-cadastral', authenticateToken, async (req, res
     const usuarioId = req.user.id;
     let query = `SELECT c.* 
       FROM db_bloco_de_notas.cotacao c 
-      WHERE c.usuario_id = $1 AND c.validacao = $2 AND c.status ILIKE $3`;
-    const params = [usuarioId, 'Ativo', 'pendente-correcao-cadastral'];
-    let paramIndex = 4;
+      WHERE c.usuario_id = $1 AND c.validacao = $2 AND (c.status ILIKE $3 OR c.status ILIKE $4 OR c.status ILIKE $5 OR c.status ILIKE $6)`;
+    const params = [usuarioId, 'Ativo', 'pendente-correcao-cadastral', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-iphone'];
+    let paramIndex = 7;
 
     if (search && search.trim()) {
       query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
@@ -384,9 +384,9 @@ app.get('/pme_notas/api/quotations/correcao-cadastral', authenticateToken, async
     const usuarioId = req.user.id;
     let query = `SELECT c.* 
       FROM db_bloco_de_notas.cotacao c 
-      WHERE c.usuario_id = $1 AND c.validacao = $2 AND c.status ILIKE $3`;
-    const params = [usuarioId, 'Ativo', 'pendente-correcao-cadastral'];
-    let paramIndex = 4;
+      WHERE c.usuario_id = $1 AND c.validacao = $2 AND (c.status ILIKE $3 OR c.status ILIKE $4 OR c.status ILIKE $5 OR c.status ILIKE $6)`;
+    const params = [usuarioId, 'Ativo', 'pendente-correcao-cadastral', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-iphone'];
+    let paramIndex = 7;
 
     if (search && search.trim()) {
       query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
@@ -1077,7 +1077,7 @@ app.get('/devolucoes-padrao', authenticateToken, (req, res) => {
 app.get('/api/qualidade', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem } = req.query;
-    let query = `SELECT c.*, 
+    let query = `SELECT c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.usuario_id, c.origem, c.id_qldd,
       TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
@@ -1119,8 +1119,8 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
         const auditRes = await pool.query(
           `SELECT aq.anotacao, aq.status FROM db_bloco_de_notas.auditoria_qualidade aq
            LEFT JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
-           WHERE c.tarefa = $1`,
-          [row.cotacao]
+           WHERE c.id_cotacao = $1`,
+          [row.id_cotacao]
         );
         if (auditRes.rows.length > 0) {
           auditoria = {
@@ -1133,6 +1133,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       }
 
       return {
+        id_cotacao: row.id_cotacao,
         tarefa: row.tarefa,
         cotacao: row.cotacao,
         anotacao: row.anotacao,
@@ -1157,10 +1158,10 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
 // API: Salvar auditoria de qualidade (insere ou atualiza na auditoria_qualidade)
 app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
   try {
-    const { cotacao, anotacao, status } = req.body;
+    const { id_cotacao, anotacao, status } = req.body;
 
-    if (!cotacao) {
-      return res.status(400).json({ error: 'Cotação é obrigatória' });
+    if (!id_cotacao) {
+      return res.status(400).json({ error: 'ID da cotação é obrigatório' });
     }
 
     if (!status) {
@@ -1174,8 +1175,8 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
 
     // Verificar se já existe auditoria para esta cotação
     const cotacaoRow = await pool.query(
-      'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE tarefa = $1',
-      [cotacao]
+      'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+      [id_cotacao]
     );
     const idQldd = cotacaoRow.rows.length > 0 ? cotacaoRow.rows[0].id_qldd : null;
 
@@ -1191,21 +1192,21 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
       );
       const newIdQldd = insertAudit.rows[0].id_qldd;
       await pool.query(
-        'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE tarefa = $2',
-        [newIdQldd, cotacao]
+        'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE id_cotacao = $2',
+        [newIdQldd, id_cotacao]
       );
     }
 
     // Atualizar o status na tabela cotacao também
     await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE cotacao = $3 AND validacao = 'Ativo'",
-      [status.toLowerCase(), formatDateBR(new Date()), cotacao]
+      "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
+      [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
     );
 
     res.json({
       success: true,
       message: 'Auditoria salva com sucesso',
-      cotacao,
+      id_cotacao,
       anotacao: anotacao || '',
       status
     });
@@ -1255,11 +1256,11 @@ app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
 });
 
 // Duplicate route with /pme_notas prefix
-app.get('/pme_notas/api/qualidade/auditoria/:cotacao', authenticateToken, async (req, res) => {
+app.get('/pme_notas/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, res) => {
   try {
     const row = await pool.query(
-      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
-      [req.params.cotacao]
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.id_cotacao = $1',
+      [req.params.id_cotacao]
     );
     let result = { rows: [] };
     if (row.rows.length > 0 && row.rows[0].id_qldd) {
@@ -1285,11 +1286,11 @@ app.get('/pme_notas/api/qualidade/auditoria/:cotacao', authenticateToken, async 
 });
 
 // API: Buscar auditoria de uma cotação específica
-app.get('/api/qualidade/auditoria/:cotacao', authenticateToken, async (req, res) => {
+app.get('/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, res) => {
   try {
     const row = await pool.query(
-      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
-      [req.params.cotacao]
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.id_cotacao = $1',
+      [req.params.id_cotacao]
     );
     let result = { rows: [] };
     if (row.rows.length > 0 && row.rows[0].id_qldd) {

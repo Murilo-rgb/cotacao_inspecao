@@ -454,3 +454,14 @@
 01/07/2026 18:16:32:   line: '805',
 01/07/2026 18:16:32:   routine: 'scanRTEForColumn'
 01/07/2026 18:16:32: }
+01/07/2026 19:08:41: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:08:41: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:08:41: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:08:42: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:08:42: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:13:59: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:13:59: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:14:00: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:15:20: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:15:20: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+01/07/2026 19:15:20: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint

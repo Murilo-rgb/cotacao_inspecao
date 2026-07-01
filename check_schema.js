@@ -10,23 +10,25 @@ const pool = new Pool({
 
 async function check() {
   try {
-    // Check existing tables in db_qualidade
-    const tables = await pool.query(
-      "SELECT table_name FROM information_schema.tables WHERE table_schema = 'db_qualidade' ORDER BY table_name"
+    // Schema da tabela cotacao
+    const cotacao = await pool.query(
+      `SELECT column_name, data_type, is_nullable, column_default 
+       FROM information_schema.columns 
+       WHERE table_schema = 'db_bloco_de_notas' AND table_name = 'cotacao' 
+       ORDER BY ordinal_position`
     );
-    console.log('Existing tables in db_qualidade:');
-    tables.rows.forEach(r => console.log(' - ' + r.table_name));
+    console.log('=== Tabela cotacao (db_bloco_de_notas) ===');
+    console.log(JSON.stringify(cotacao.rows, null, 2));
 
-    // Check columns of reprovas_padrao if exists
-    const cols = await pool.query(
-      "SELECT column_name, data_type, character_maximum_length FROM information_schema.columns WHERE table_schema = 'db_qualidade' AND table_name = 'reprovas_padrao' ORDER BY ordinal_position"
+    // Schema da tabela auditoria_qualidade
+    const audit = await pool.query(
+      `SELECT column_name, data_type, is_nullable, column_default 
+       FROM information_schema.columns 
+       WHERE table_schema = 'db_bloco_de_notas' AND table_name = 'auditoria_qualidade' 
+       ORDER BY ordinal_position`
     );
-    console.log('\nColumns of db_qualidade.reprovas_padrao:');
-    cols.rows.forEach(c => console.log(` - ${c.column_name} (${c.data_type})`));
-
-    // Check if reprovas_padrao has data
-    const count = await pool.query('SELECT COUNT(*) FROM db_qualidade.reprovas_padrao');
-    console.log('\nTotal rows in reprovas_padrao:', count.rows[0].count);
+    console.log('\n=== Tabela auditoria_qualidade (db_bloco_de_notas) ===');
+    console.log(JSON.stringify(audit.rows, null, 2));
 
   } catch (e) {
     console.error('Error:', e.message);
