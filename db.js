@@ -9,27 +9,44 @@ const pool = new Pool({
 });
 
 const SCHEMA_TABELA = 'db_qualidade.reprovas_padrao';
+const SCHEMA_TABELA_INPUT = 'db_qualidade.reprovas_padrao_input';
 
 /**
- * Busca todos os registros de reprovas padrão.
+ * Busca todos os registros de reprovas padrão, unindo as tabelas de Inspeção e Input.
  * @param {string} termo - Termo para filtrar (opcional)
+ * @param {string} fonte - Filtrar por fonte: 'Inspeção', 'input' ou null para todas (opcional)
  * @returns {Array} Lista de registros
  */
-async function listarReprovas(termo = null) {
+async function listarReprovas(termo = null, fonte = null) {
   const client = await pool.connect();
   try {
-    let query = `SELECT id, motivo, texto_reprova, cod_reprova, ativo, criado_em, atualizado_em 
-                 FROM ${SCHEMA_TABELA}`;
+    let query = `
+      SELECT id, motivo, texto_reprova, cod_reprova, ativo, criado_em, atualizado_em, 'Inspeção' AS fonte
+      FROM ${SCHEMA_TABELA}
+      UNION ALL
+      SELECT id, motivo, texto_reprova, cod_reprova, ativo, criado_em, atualizado_em, 'input' AS fonte
+      FROM ${SCHEMA_TABELA_INPUT}
+    `;
     const params = [];
+    const conditions = [];
+
+    if (fonte && fonte.trim()) {
+      conditions.push(`fonte = $${params.length + 1}`);
+      params.push(fonte.trim());
+    }
 
     if (termo && termo.trim()) {
-      query += ` WHERE LOWER(motivo) LIKE LOWER($1) 
-                  OR LOWER(texto_reprova) LIKE LOWER($1) 
-                  OR LOWER(cod_reprova) LIKE LOWER($1)`;
+      conditions.push(`(LOWER(motivo) LIKE LOWER($${params.length + 1}) 
+                        OR LOWER(texto_reprova) LIKE LOWER($${params.length + 1}) 
+                        OR LOWER(cod_reprova) LIKE LOWER($${params.length + 1}))`);
       params.push(`%${termo.trim()}%`);
     }
 
-    query += ' ORDER BY id ASC';
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    query += ' ORDER BY fonte, id ASC';
     const result = await client.query(query, params);
     return result.rows;
   } finally {

@@ -1369,3 +1369,3110 @@
 01/07/2026 11:54:28:   tarefa: '22792904',
 01/07/2026 11:54:28:   origem: null
 01/07/2026 11:54:28: }
+01/07/2026 11:54:47: [PUT] Atualizando cotação: 22786574
+01/07/2026 11:54:47: [PUT] Usuário: jose.faria
+01/07/2026 11:54:47: [PUT] Dados recebidos: {
+01/07/2026 11:54:47:   anotacao: 'Tarefa: E001 - PME - 30.693.826/0001-44 | Fila: CPC - PME\n\nJa fiz',
+01/07/2026 11:54:47:   status: 'pendente-correcao-cadastral',
+01/07/2026 11:54:47:   auditoria_anotacao: '',
+01/07/2026 11:54:47:   auditoria_status: ''
+01/07/2026 11:54:47: }
+01/07/2026 11:54:47: [PUT] Linhas afetadas: 1
+01/07/2026 11:54:47: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 11:54:47:   id_cotacao: 36,
+01/07/2026 11:54:47:   cotacao: 'Q6302084',
+01/07/2026 11:54:47:   id_qldd: null,
+01/07/2026 11:54:47:   anotacao: 'Tarefa: E001 - PME - 30.693.826/0001-44 | Fila: CPC - PME\n\nJa fiz',
+01/07/2026 11:54:47:   status: 'pendente-correcao-cadastral',
+01/07/2026 11:54:47:   data_de_criacao: '30/06/2026 19:37',
+01/07/2026 11:54:47:   data_da_ultima_atualizacao: '01/07/2026 11:54',
+01/07/2026 11:54:47:   usuario_login: 'jose.faria',
+01/07/2026 11:54:47:   validacao: 'Ativo',
+01/07/2026 11:54:47:   usuario_id: '50',
+01/07/2026 11:54:47:   tarefa: '22786574',
+01/07/2026 11:54:47:   origem: null
+01/07/2026 11:54:47: }
+01/07/2026 11:54:50: [PUT] Atualizando cotação: 22786574
+01/07/2026 11:54:50: [PUT] Usuário: jose.faria
+01/07/2026 11:54:50: [PUT] Dados recebidos: {
+01/07/2026 11:54:50:   anotacao: undefined,
+01/07/2026 11:54:50:   status: 'pendente-correcao-efetuada',
+01/07/2026 11:54:50:   auditoria_anotacao: undefined,
+01/07/2026 11:54:50:   auditoria_status: undefined
+01/07/2026 11:54:50: }
+01/07/2026 11:54:50: [PUT] Linhas afetadas: 1
+01/07/2026 11:54:50: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 11:54:50:   id_cotacao: 36,
+01/07/2026 11:54:50:   cotacao: 'Q6302084',
+01/07/2026 11:54:50:   id_qldd: null,
+01/07/2026 11:54:50:   anotacao: 'Tarefa: E001 - PME - 30.693.826/0001-44 | Fila: CPC - PME\n\nJa fiz',
+01/07/2026 11:54:50:   status: 'pendente-correcao-efetuada',
+01/07/2026 11:54:50:   data_de_criacao: '30/06/2026 19:37',
+01/07/2026 11:54:50:   data_da_ultima_atualizacao: '01/07/2026 11:54',
+01/07/2026 11:54:50:   usuario_login: 'jose.faria',
+01/07/2026 11:54:50:   validacao: 'Ativo',
+01/07/2026 11:54:50:   usuario_id: '50',
+01/07/2026 11:54:50:   tarefa: '22786574',
+01/07/2026 11:54:50:   origem: null
+01/07/2026 11:54:50: }
+01/07/2026 11:56:09: [PUT] Atualizando cotação: 22792528
+01/07/2026 11:56:09: [PUT] Usuário: rita.meira.3
+01/07/2026 11:56:09: [PUT] Dados recebidos: {
+01/07/2026 11:56:09:   anotacao: undefined,
+01/07/2026 11:56:09:   status: 'reprovado',
+01/07/2026 11:56:09:   auditoria_anotacao: undefined,
+01/07/2026 11:56:09:   auditoria_status: undefined
+01/07/2026 11:56:09: }
+01/07/2026 11:56:09: [PUT] Linhas afetadas: 1
+01/07/2026 11:56:09: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 11:56:09:   id_cotacao: 176,
+01/07/2026 11:56:09:   cotacao: 'Q6342063',
+01/07/2026 11:56:09:   id_qldd: null,
+01/07/2026 11:56:09:   anotacao: 'Tarefa: E001 - PME - 11.382.291/0001-46 | Fila: CPC - PME',
+01/07/2026 11:56:09:   status: 'reprovado',
+01/07/2026 11:56:09:   data_de_criacao: '01/07/2026 11:29',
+01/07/2026 11:56:09:   data_da_ultima_atualizacao: '01/07/2026 11:56',
+01/07/2026 11:56:09:   usuario_login: null,
+01/07/2026 11:56:09:   validacao: 'Ativo',
+01/07/2026 11:56:09:   usuario_id: '147',
+01/07/2026 11:56:09:   tarefa: '22792528',
+01/07/2026 11:56:09:   origem: null
+01/07/2026 11:56:09: }
+01/07/2026 11:58:12: [PUT] Atualizando cotação: 22792966
+01/07/2026 11:58:12: [PUT] Usuário: erycka.oliveira.3
+01/07/2026 11:58:12: [PUT] Dados recebidos: {
+01/07/2026 11:58:12:   anotacao: undefined,
+01/07/2026 11:58:12:   status: 'aprovado',
+01/07/2026 11:58:12:   auditoria_anotacao: undefined,
+01/07/2026 11:58:12:   auditoria_status: undefined
+01/07/2026 11:58:12: }
+01/07/2026 11:58:12: [PUT] Linhas afetadas: 1
+01/07/2026 11:58:12: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 11:58:12:   id_cotacao: 178,
+01/07/2026 11:58:12:   cotacao: 'Q6342189',
+01/07/2026 11:58:12:   id_qldd: null,
+01/07/2026 11:58:12:   anotacao: 'Tarefa: E001 - PME - 35.446.898/0001-00 | Fila: CPC - PME',
+01/07/2026 11:58:12:   status: 'aprovado',
+01/07/2026 11:58:12:   data_de_criacao: '01/07/2026 11:45',
+01/07/2026 11:58:12:   data_da_ultima_atualizacao: '01/07/2026 11:58',
+01/07/2026 11:58:12:   usuario_login: null,
+01/07/2026 11:58:12:   validacao: 'Ativo',
+01/07/2026 11:58:12:   usuario_id: '131',
+01/07/2026 11:58:12:   tarefa: '22792966',
+01/07/2026 11:58:12:   origem: null
+01/07/2026 11:58:12: }
+01/07/2026 11:59:17: [INSPECAO] Upload recebido: R_000250_1429012.csv -> E:\projetos_hitss\geo-pme-notas\files\r_000250.csv
+01/07/2026 11:59:17: --- INICIANDO ETL R_000250 ---
+01/07/2026 11:59:17: Delimitador detectado: ";"
+01/07/2026 11:59:17: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+01/07/2026 11:59:17: Tabela verificada/criada.
+01/07/2026 11:59:17: Dados antigos removidos.
+01/07/2026 11:59:17: Dados carregados com sucesso via COPY.
+01/07/2026 11:59:17: --- ETL R_000250 CONCLUÍDO: 377 registros ---
+01/07/2026 11:59:17: [CLASSIFICACAO] Conectado ao banco de dados.
+01/07/2026 11:59:17: [CLASSIFICACAO] 9 cotações classificadas.
+01/07/2026 11:59:17: [CLASSIFICACAO] Cotações atualizadas:
+01/07/2026 11:59:17:   - Tarefa: 22786574 | Usuário: jose.faria
+01/07/2026 11:59:17:   - Tarefa: 22791567 | Usuário: null
+01/07/2026 11:59:17:   - Tarefa: 22786584 | Usuário: jose.faria
+01/07/2026 11:59:17:   - Tarefa: 22788218 | Usuário: jose.faria
+01/07/2026 11:59:17:   - Tarefa: 22790399 | Usuário: jose.faria
+01/07/2026 11:59:17:   - Tarefa: 22790547 | Usuário: murilo.trevisan.3
+01/07/2026 11:59:17:   - Tarefa: 22792392 | Usuário: jose.faria
+01/07/2026 11:59:17:   - Tarefa: 22792336 | Usuário: jose.faria
+01/07/2026 11:59:17:   - Tarefa: 22791411 | Usuário: null
+01/07/2026 11:59:17: [CLASSIFICACAO] Total "Pendente - Classificação": 71
+01/07/2026 12:00:30: [PUT] Atualizando cotação: 22792973
+01/07/2026 12:00:30: [PUT] Usuário: erycka.oliveira.3
+01/07/2026 12:00:30: [PUT] Dados recebidos: {
+01/07/2026 12:00:30:   anotacao: undefined,
+01/07/2026 12:00:30:   status: 'aprovado',
+01/07/2026 12:00:30:   auditoria_anotacao: undefined,
+01/07/2026 12:00:30:   auditoria_status: undefined
+01/07/2026 12:00:30: }
+01/07/2026 12:00:30: [PUT] Linhas afetadas: 1
+01/07/2026 12:00:30: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:00:30:   id_cotacao: 177,
+01/07/2026 12:00:30:   cotacao: 'Q6331026',
+01/07/2026 12:00:30:   id_qldd: null,
+01/07/2026 12:00:30:   anotacao: 'Tarefa: E001 - PME - 22.532.885/0001-02 | Fila: CPC - PME',
+01/07/2026 12:00:30:   status: 'aprovado',
+01/07/2026 12:00:30:   data_de_criacao: '01/07/2026 11:45',
+01/07/2026 12:00:30:   data_da_ultima_atualizacao: '01/07/2026 12:00',
+01/07/2026 12:00:30:   usuario_login: null,
+01/07/2026 12:00:30:   validacao: 'Ativo',
+01/07/2026 12:00:30:   usuario_id: '131',
+01/07/2026 12:00:30:   tarefa: '22792973',
+01/07/2026 12:00:30:   origem: null
+01/07/2026 12:00:30: }
+01/07/2026 12:02:47: [PUT] Atualizando cotação: Q6341910
+01/07/2026 12:02:47: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:02:47: [PUT] Dados recebidos: {
+01/07/2026 12:02:47:   anotacao: undefined,
+01/07/2026 12:02:47:   status: 'aprovado',
+01/07/2026 12:02:47:   auditoria_anotacao: undefined,
+01/07/2026 12:02:47:   auditoria_status: undefined
+01/07/2026 12:02:47: }
+01/07/2026 12:02:47: [PUT] Linhas afetadas: 1
+01/07/2026 12:02:47: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:02:47:   id_cotacao: 189,
+01/07/2026 12:02:47:   cotacao: 'Q6341910',
+01/07/2026 12:02:47:   id_qldd: null,
+01/07/2026 12:02:47:   anotacao: '',
+01/07/2026 12:02:47:   status: 'aprovado',
+01/07/2026 12:02:47:   data_de_criacao: '01/07/2026 12:02',
+01/07/2026 12:02:47:   data_da_ultima_atualizacao: '01/07/2026 12:02',
+01/07/2026 12:02:47:   usuario_login: 'yuri.santos.3',
+01/07/2026 12:02:47:   validacao: 'Ativo',
+01/07/2026 12:02:47:   usuario_id: '196',
+01/07/2026 12:02:47:   tarefa: 'Q6341910',
+01/07/2026 12:02:47:   origem: null
+01/07/2026 12:02:47: }
+01/07/2026 12:03:56: [PUT] Atualizando cotação: 22792965
+01/07/2026 12:03:56: [PUT] Usuário: erycka.oliveira.3
+01/07/2026 12:03:56: [PUT] Dados recebidos: {
+01/07/2026 12:03:56:   anotacao: undefined,
+01/07/2026 12:03:56:   status: 'aprovado',
+01/07/2026 12:03:56:   auditoria_anotacao: undefined,
+01/07/2026 12:03:56:   auditoria_status: undefined
+01/07/2026 12:03:56: }
+01/07/2026 12:03:56: [PUT] Linhas afetadas: 1
+01/07/2026 12:03:56: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:03:56:   id_cotacao: 179,
+01/07/2026 12:03:56:   cotacao: 'Q6330862',
+01/07/2026 12:03:56:   id_qldd: null,
+01/07/2026 12:03:56:   anotacao: 'Tarefa: E001 - PME - 04.483.790/0001-64 | Fila: CPC - PME',
+01/07/2026 12:03:56:   status: 'aprovado',
+01/07/2026 12:03:56:   data_de_criacao: '01/07/2026 11:45',
+01/07/2026 12:03:56:   data_da_ultima_atualizacao: '01/07/2026 12:03',
+01/07/2026 12:03:56:   usuario_login: null,
+01/07/2026 12:03:56:   validacao: 'Ativo',
+01/07/2026 12:03:56:   usuario_id: '131',
+01/07/2026 12:03:56:   tarefa: '22792965',
+01/07/2026 12:03:56:   origem: null
+01/07/2026 12:03:56: }
+01/07/2026 12:06:00: [PUT] Atualizando cotação: 22792929
+01/07/2026 12:06:00: [PUT] Usuário: erycka.oliveira.3
+01/07/2026 12:06:00: [PUT] Dados recebidos: {
+01/07/2026 12:06:00:   anotacao: undefined,
+01/07/2026 12:06:00:   status: 'aprovado',
+01/07/2026 12:06:00:   auditoria_anotacao: undefined,
+01/07/2026 12:06:00:   auditoria_status: undefined
+01/07/2026 12:06:00: }
+01/07/2026 12:06:00: [PUT] Linhas afetadas: 1
+01/07/2026 12:06:00: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:06:00:   id_cotacao: 180,
+01/07/2026 12:06:00:   cotacao: 'Q6342187',
+01/07/2026 12:06:00:   id_qldd: null,
+01/07/2026 12:06:00:   anotacao: 'Tarefa: E001 - PME - 10.908.605/0001-39 | Fila: CPC - PME',
+01/07/2026 12:06:00:   status: 'aprovado',
+01/07/2026 12:06:00:   data_de_criacao: '01/07/2026 11:45',
+01/07/2026 12:06:00:   data_da_ultima_atualizacao: '01/07/2026 12:06',
+01/07/2026 12:06:00:   usuario_login: null,
+01/07/2026 12:06:00:   validacao: 'Ativo',
+01/07/2026 12:06:00:   usuario_id: '131',
+01/07/2026 12:06:00:   tarefa: '22792929',
+01/07/2026 12:06:00:   origem: null
+01/07/2026 12:06:00: }
+01/07/2026 12:06:21: [PUT] Atualizando cotação: 22791411
+01/07/2026 12:06:21: [PUT] Usuário: erycka.oliveira.3
+01/07/2026 12:06:21: [PUT] Dados recebidos: {
+01/07/2026 12:06:21:   anotacao: undefined,
+01/07/2026 12:06:21:   status: 'aprovado',
+01/07/2026 12:06:21:   auditoria_anotacao: undefined,
+01/07/2026 12:06:21:   auditoria_status: undefined
+01/07/2026 12:06:21: }
+01/07/2026 12:06:21: [PUT] Linhas afetadas: 1
+01/07/2026 12:06:21: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:06:21:   id_cotacao: 149,
+01/07/2026 12:06:21:   cotacao: 'Q6341578',
+01/07/2026 12:06:21:   id_qldd: null,
+01/07/2026 12:06:21:   anotacao: 'Tarefa: E001 - PME - 12.356.530/0001-56 | Fila: CPC - PME',
+01/07/2026 12:06:21:   status: 'aprovado',
+01/07/2026 12:06:21:   data_de_criacao: '01/07/2026 10:24',
+01/07/2026 12:06:21:   data_da_ultima_atualizacao: '01/07/2026 12:06',
+01/07/2026 12:06:21:   usuario_login: null,
+01/07/2026 12:06:21:   validacao: 'Ativo',
+01/07/2026 12:06:21:   usuario_id: '131',
+01/07/2026 12:06:21:   tarefa: '22791411',
+01/07/2026 12:06:21:   origem: null
+01/07/2026 12:06:21: }
+01/07/2026 12:09:15: [PUT] Atualizando cotação: 22791730
+01/07/2026 12:09:15: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:09:15: [PUT] Dados recebidos: {
+01/07/2026 12:09:15:   anotacao: undefined,
+01/07/2026 12:09:15:   status: 'aprovado',
+01/07/2026 12:09:15:   auditoria_anotacao: undefined,
+01/07/2026 12:09:15:   auditoria_status: undefined
+01/07/2026 12:09:15: }
+01/07/2026 12:09:15: [PUT] Linhas afetadas: 1
+01/07/2026 12:09:15: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:09:15:   id_cotacao: 185,
+01/07/2026 12:09:15:   cotacao: 'Q6336741',
+01/07/2026 12:09:15:   id_qldd: null,
+01/07/2026 12:09:15:   anotacao: 'Tarefa: E001 - PME - 65.525.210/0001-49 | Fila: CPC - PME',
+01/07/2026 12:09:15:   status: 'aprovado',
+01/07/2026 12:09:15:   data_de_criacao: '01/07/2026 12:00',
+01/07/2026 12:09:15:   data_da_ultima_atualizacao: '01/07/2026 12:09',
+01/07/2026 12:09:15:   usuario_login: null,
+01/07/2026 12:09:15:   validacao: 'Ativo',
+01/07/2026 12:09:15:   usuario_id: '196',
+01/07/2026 12:09:15:   tarefa: '22791730',
+01/07/2026 12:09:15:   origem: null
+01/07/2026 12:09:15: }
+01/07/2026 12:10:46: [PUT] Atualizando cotação: 22792563
+01/07/2026 12:10:46: [PUT] Usuário: rita.meira.3
+01/07/2026 12:10:46: [PUT] Dados recebidos: {
+01/07/2026 12:10:46:   anotacao: undefined,
+01/07/2026 12:10:46:   status: 'aprovado',
+01/07/2026 12:10:46:   auditoria_anotacao: undefined,
+01/07/2026 12:10:46:   auditoria_status: undefined
+01/07/2026 12:10:46: }
+01/07/2026 12:10:46: [PUT] Linhas afetadas: 1
+01/07/2026 12:10:46: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:10:46:   id_cotacao: 173,
+01/07/2026 12:10:46:   cotacao: 'Q6341667',
+01/07/2026 12:10:46:   id_qldd: null,
+01/07/2026 12:10:46:   anotacao: 'Tarefa: E001 - PME - 57.032.573/0001-14 | Fila: CPC - PME',
+01/07/2026 12:10:46:   status: 'aprovado',
+01/07/2026 12:10:46:   data_de_criacao: '01/07/2026 11:29',
+01/07/2026 12:10:46:   data_da_ultima_atualizacao: '01/07/2026 12:10',
+01/07/2026 12:10:46:   usuario_login: null,
+01/07/2026 12:10:46:   validacao: 'Ativo',
+01/07/2026 12:10:46:   usuario_id: '147',
+01/07/2026 12:10:46:   tarefa: '22792563',
+01/07/2026 12:10:46:   origem: null
+01/07/2026 12:10:46: }
+01/07/2026 12:14:47: [PUT] Atualizando cotação: 22791711
+01/07/2026 12:14:47: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:14:47: [PUT] Dados recebidos: {
+01/07/2026 12:14:47:   anotacao: '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail Divergência de Dados Administrador (ADM)\n' +
+01/07/2026 12:14:47:     '\n' +
+01/07/2026 12:14:47:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: Celular/ Telefone Divergência de Dados Administrador (ADM)\n',
+01/07/2026 12:14:47:   status: 'pendente',
+01/07/2026 12:14:47:   auditoria_anotacao: '',
+01/07/2026 12:14:47:   auditoria_status: ''
+01/07/2026 12:14:47: }
+01/07/2026 12:14:47: [PUT] Linhas afetadas: 1
+01/07/2026 12:14:47: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:14:47:   id_cotacao: 186,
+01/07/2026 12:14:47:   cotacao: 'Q6341767',
+01/07/2026 12:14:47:   id_qldd: null,
+01/07/2026 12:14:47:   anotacao: '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail Divergência de Dados Administrador (ADM)\n' +
+01/07/2026 12:14:47:     '\n' +
+01/07/2026 12:14:47:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: Celular/ Telefone Divergência de Dados Administrador (ADM)\n',
+01/07/2026 12:14:47:   status: 'pendente',
+01/07/2026 12:14:47:   data_de_criacao: '01/07/2026 12:00',
+01/07/2026 12:14:47:   data_da_ultima_atualizacao: '01/07/2026 12:14',
+01/07/2026 12:14:47:   usuario_login: null,
+01/07/2026 12:14:47:   validacao: 'Ativo',
+01/07/2026 12:14:47:   usuario_id: '196',
+01/07/2026 12:14:47:   tarefa: '22791711',
+01/07/2026 12:14:47:   origem: null
+01/07/2026 12:14:47: }
+01/07/2026 12:14:50: [PUT] Atualizando cotação: 22791711
+01/07/2026 12:14:50: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:14:50: [PUT] Dados recebidos: {
+01/07/2026 12:14:50:   anotacao: undefined,
+01/07/2026 12:14:50:   status: 'reprovado',
+01/07/2026 12:14:50:   auditoria_anotacao: undefined,
+01/07/2026 12:14:50:   auditoria_status: undefined
+01/07/2026 12:14:50: }
+01/07/2026 12:14:50: [PUT] Linhas afetadas: 1
+01/07/2026 12:14:50: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:14:50:   id_cotacao: 186,
+01/07/2026 12:14:50:   cotacao: 'Q6341767',
+01/07/2026 12:14:50:   id_qldd: null,
+01/07/2026 12:14:50:   anotacao: '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail Divergência de Dados Administrador (ADM)\n' +
+01/07/2026 12:14:50:     '\n' +
+01/07/2026 12:14:50:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: Celular/ Telefone Divergência de Dados Administrador (ADM)\n',
+01/07/2026 12:14:50:   status: 'reprovado',
+01/07/2026 12:14:50:   data_de_criacao: '01/07/2026 12:00',
+01/07/2026 12:14:50:   data_da_ultima_atualizacao: '01/07/2026 12:14',
+01/07/2026 12:14:50:   usuario_login: null,
+01/07/2026 12:14:50:   validacao: 'Ativo',
+01/07/2026 12:14:50:   usuario_id: '196',
+01/07/2026 12:14:50:   tarefa: '22791711',
+01/07/2026 12:14:50:   origem: null
+01/07/2026 12:14:50: }
+01/07/2026 12:17:23: Servidor rodando em http://localhost:3016
+01/07/2026 12:19:17: Servidor rodando em http://localhost:3016
+01/07/2026 12:21:51: [PUT] Atualizando cotação: 22791689
+01/07/2026 12:21:51: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:21:51: [PUT] Dados recebidos: {
+01/07/2026 12:21:51:   anotacao: '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: Celular/ Telefone Divergência de Dados Administrador (ADM)\n' +
+01/07/2026 12:21:51:     '\n' +
+01/07/2026 12:21:51:     '> O valor do aparelho informado na cotação detalhada/TCPJ/Anexo ao Contrato de Permanência diverge da Intranet vigente na data valida na faixa de conforme TCPJ. Divergência no valor do aparelho\n',
+01/07/2026 12:21:51:   status: 'pendente',
+01/07/2026 12:21:51:   auditoria_anotacao: '',
+01/07/2026 12:21:51:   auditoria_status: ''
+01/07/2026 12:21:51: }
+01/07/2026 12:21:51: [PUT] Linhas afetadas: 1
+01/07/2026 12:21:51: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:21:51:   id_cotacao: 187,
+01/07/2026 12:21:51:   cotacao: 'Q6336306',
+01/07/2026 12:21:51:   id_qldd: null,
+01/07/2026 12:21:51:   anotacao: '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: Celular/ Telefone Divergência de Dados Administrador (ADM)\n' +
+01/07/2026 12:21:51:     '\n' +
+01/07/2026 12:21:51:     '> O valor do aparelho informado na cotação detalhada/TCPJ/Anexo ao Contrato de Permanência diverge da Intranet vigente na data valida na faixa de conforme TCPJ. Divergência no valor do aparelho\n',
+01/07/2026 12:21:51:   status: 'pendente',
+01/07/2026 12:21:51:   data_de_criacao: '01/07/2026 12:00',
+01/07/2026 12:21:51:   data_da_ultima_atualizacao: '01/07/2026 12:21',
+01/07/2026 12:21:51:   usuario_login: null,
+01/07/2026 12:21:51:   validacao: 'Ativo',
+01/07/2026 12:21:51:   usuario_id: '196',
+01/07/2026 12:21:51:   tarefa: '22791689',
+01/07/2026 12:21:51:   origem: null
+01/07/2026 12:21:51: }
+01/07/2026 12:21:59: [PUT] Atualizando cotação: 22791689
+01/07/2026 12:21:59: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:21:59: [PUT] Dados recebidos: {
+01/07/2026 12:21:59:   anotacao: undefined,
+01/07/2026 12:21:59:   status: 'reprovado',
+01/07/2026 12:21:59:   auditoria_anotacao: undefined,
+01/07/2026 12:21:59:   auditoria_status: undefined
+01/07/2026 12:21:59: }
+01/07/2026 12:21:59: [PUT] Linhas afetadas: 1
+01/07/2026 12:21:59: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:21:59:   id_cotacao: 187,
+01/07/2026 12:21:59:   cotacao: 'Q6336306',
+01/07/2026 12:21:59:   id_qldd: null,
+01/07/2026 12:21:59:   anotacao: '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: Celular/ Telefone Divergência de Dados Administrador (ADM)\n' +
+01/07/2026 12:21:59:     '\n' +
+01/07/2026 12:21:59:     '> O valor do aparelho informado na cotação detalhada/TCPJ/Anexo ao Contrato de Permanência diverge da Intranet vigente na data valida na faixa de conforme TCPJ. Divergência no valor do aparelho\n',
+01/07/2026 12:21:59:   status: 'reprovado',
+01/07/2026 12:21:59:   data_de_criacao: '01/07/2026 12:00',
+01/07/2026 12:21:59:   data_da_ultima_atualizacao: '01/07/2026 12:21',
+01/07/2026 12:21:59:   usuario_login: null,
+01/07/2026 12:21:59:   validacao: 'Ativo',
+01/07/2026 12:21:59:   usuario_id: '196',
+01/07/2026 12:21:59:   tarefa: '22791689',
+01/07/2026 12:21:59:   origem: null
+01/07/2026 12:21:59: }
+01/07/2026 12:30:19: [PUT] Atualizando cotação: 22791687
+01/07/2026 12:30:19: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:30:19: [PUT] Dados recebidos: {
+01/07/2026 12:30:19:   anotacao: undefined,
+01/07/2026 12:30:19:   status: 'pendente-qualidade',
+01/07/2026 12:30:19:   auditoria_anotacao: undefined,
+01/07/2026 12:30:19:   auditoria_status: undefined
+01/07/2026 12:30:19: }
+01/07/2026 12:30:19: [PUT] Linhas afetadas: 1
+01/07/2026 12:30:19: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:30:19:   id_cotacao: 188,
+01/07/2026 12:30:19:   cotacao: 'Q6341706',
+01/07/2026 12:30:19:   id_qldd: null,
+01/07/2026 12:30:19:   anotacao: 'Tarefa: E001 - PME - 04.107.186/0001-33 | Fila: CPC - PME',
+01/07/2026 12:30:19:   status: 'pendente-qualidade',
+01/07/2026 12:30:19:   data_de_criacao: '01/07/2026 12:00',
+01/07/2026 12:30:19:   data_da_ultima_atualizacao: '01/07/2026 12:30',
+01/07/2026 12:30:19:   usuario_login: null,
+01/07/2026 12:30:19:   validacao: 'Ativo',
+01/07/2026 12:30:19:   usuario_id: '196',
+01/07/2026 12:30:19:   tarefa: '22791687',
+01/07/2026 12:30:19:   origem: null
+01/07/2026 12:30:19: }
+01/07/2026 12:30:27: [PUT] Atualizando cotação: 22792608
+01/07/2026 12:30:27: [PUT] Usuário: rita.meira.3
+01/07/2026 12:30:27: [PUT] Dados recebidos: {
+01/07/2026 12:30:27:   anotacao: undefined,
+01/07/2026 12:30:27:   status: 'aprovado',
+01/07/2026 12:30:27:   auditoria_anotacao: undefined,
+01/07/2026 12:30:27:   auditoria_status: undefined
+01/07/2026 12:30:27: }
+01/07/2026 12:30:27: [PUT] Linhas afetadas: 1
+01/07/2026 12:30:27: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:30:27:   id_cotacao: 170,
+01/07/2026 12:30:27:   cotacao: 'Q6341900',
+01/07/2026 12:30:27:   id_qldd: null,
+01/07/2026 12:30:27:   anotacao: 'Tarefa: E001 - PME - 52.893.081/0001-08 | Fila: CPC - PME',
+01/07/2026 12:30:27:   status: 'aprovado',
+01/07/2026 12:30:27:   data_de_criacao: '01/07/2026 11:29',
+01/07/2026 12:30:27:   data_da_ultima_atualizacao: '01/07/2026 12:30',
+01/07/2026 12:30:27:   usuario_login: null,
+01/07/2026 12:30:27:   validacao: 'Ativo',
+01/07/2026 12:30:27:   usuario_id: '147',
+01/07/2026 12:30:27:   tarefa: '22792608',
+01/07/2026 12:30:27:   origem: null
+01/07/2026 12:30:27: }
+01/07/2026 12:30:37: [ATUALIZAR_R_000250] Iniciando atualização...
+01/07/2026 12:30:37: [ATUALIZAR_R_000250] max_bloco=Wed Jul 01 2026 11:56:46 GMT-0300 (Brasilia Standard Time), max_claro=Wed Jul 01 2026 12:03:37 GMT-0300 (Brasilia Standard Time)
+01/07/2026 12:30:37: [ATUALIZAR_R_000250] Tabela truncada
+01/07/2026 12:30:37: [ATUALIZAR_R_000250] Concluído em 187ms
+01/07/2026 12:31:39: [PUT] Atualizando cotação: 22792613
+01/07/2026 12:31:39: [PUT] Usuário: rita.meira.3
+01/07/2026 12:31:39: [PUT] Dados recebidos: {
+01/07/2026 12:31:39:   anotacao: undefined,
+01/07/2026 12:31:39:   status: 'aprovado',
+01/07/2026 12:31:39:   auditoria_anotacao: undefined,
+01/07/2026 12:31:39:   auditoria_status: undefined
+01/07/2026 12:31:39: }
+01/07/2026 12:31:39: [PUT] Linhas afetadas: 1
+01/07/2026 12:31:39: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:31:39:   id_cotacao: 169,
+01/07/2026 12:31:39:   cotacao: 'Q6339896',
+01/07/2026 12:31:39:   id_qldd: null,
+01/07/2026 12:31:39:   anotacao: 'Tarefa: E001 - PME - 08.794.998/0001-55 | Fila: CPC - PME',
+01/07/2026 12:31:39:   status: 'aprovado',
+01/07/2026 12:31:39:   data_de_criacao: '01/07/2026 11:29',
+01/07/2026 12:31:39:   data_da_ultima_atualizacao: '01/07/2026 12:31',
+01/07/2026 12:31:39:   usuario_login: null,
+01/07/2026 12:31:39:   validacao: 'Ativo',
+01/07/2026 12:31:39:   usuario_id: '147',
+01/07/2026 12:31:39:   tarefa: '22792613',
+01/07/2026 12:31:39:   origem: null
+01/07/2026 12:31:39: }
+01/07/2026 12:32:16: [PUT] Atualizando cotação: 22792550
+01/07/2026 12:32:16: [PUT] Usuário: rita.meira.3
+01/07/2026 12:32:16: [PUT] Dados recebidos: {
+01/07/2026 12:32:16:   anotacao: undefined,
+01/07/2026 12:32:16:   status: 'aprovado',
+01/07/2026 12:32:16:   auditoria_anotacao: undefined,
+01/07/2026 12:32:16:   auditoria_status: undefined
+01/07/2026 12:32:16: }
+01/07/2026 12:32:17: [PUT] Linhas afetadas: 1
+01/07/2026 12:32:17: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:32:17:   id_cotacao: 174,
+01/07/2026 12:32:17:   cotacao: 'Q6342038',
+01/07/2026 12:32:17:   id_qldd: null,
+01/07/2026 12:32:17:   anotacao: 'Tarefa: E001 - PME - 41.020.670/0001-57 | Fila: CPC - PME',
+01/07/2026 12:32:17:   status: 'aprovado',
+01/07/2026 12:32:17:   data_de_criacao: '01/07/2026 11:29',
+01/07/2026 12:32:17:   data_da_ultima_atualizacao: '01/07/2026 12:32',
+01/07/2026 12:32:17:   usuario_login: null,
+01/07/2026 12:32:17:   validacao: 'Ativo',
+01/07/2026 12:32:17:   usuario_id: '147',
+01/07/2026 12:32:17:   tarefa: '22792550',
+01/07/2026 12:32:17:   origem: null
+01/07/2026 12:32:17: }
+01/07/2026 12:32:34: [PUT] Atualizando cotação: 22791567
+01/07/2026 12:32:34: [PUT] Usuário: rita.meira.3
+01/07/2026 12:32:34: [PUT] Dados recebidos: {
+01/07/2026 12:32:34:   anotacao: undefined,
+01/07/2026 12:32:34:   status: 'aprovado',
+01/07/2026 12:32:34:   auditoria_anotacao: undefined,
+01/07/2026 12:32:34:   auditoria_status: undefined
+01/07/2026 12:32:34: }
+01/07/2026 12:32:34: [PUT] Linhas afetadas: 1
+01/07/2026 12:32:34: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:32:34:   id_cotacao: 158,
+01/07/2026 12:32:34:   cotacao: 'Q6337667',
+01/07/2026 12:32:34:   id_qldd: null,
+01/07/2026 12:32:34:   anotacao: 'Tarefa: E001 - PME - 26.124.320/0001-47 | Fila: CPC - PME',
+01/07/2026 12:32:34:   status: 'aprovado',
+01/07/2026 12:32:34:   data_de_criacao: '01/07/2026 10:25',
+01/07/2026 12:32:34:   data_da_ultima_atualizacao: '01/07/2026 12:32',
+01/07/2026 12:32:34:   usuario_login: null,
+01/07/2026 12:32:34:   validacao: 'Ativo',
+01/07/2026 12:32:34:   usuario_id: '147',
+01/07/2026 12:32:34:   tarefa: '22791567',
+01/07/2026 12:32:34:   origem: null
+01/07/2026 12:32:34: }
+01/07/2026 12:35:03: [PUT] Atualizando cotação: 22791742
+01/07/2026 12:35:03: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:35:03: [PUT] Dados recebidos: {
+01/07/2026 12:35:03:   anotacao: undefined,
+01/07/2026 12:35:03:   status: 'aprovado',
+01/07/2026 12:35:03:   auditoria_anotacao: undefined,
+01/07/2026 12:35:03:   auditoria_status: undefined
+01/07/2026 12:35:03: }
+01/07/2026 12:35:03: [PUT] Linhas afetadas: 1
+01/07/2026 12:35:03: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:35:03:   id_cotacao: 184,
+01/07/2026 12:35:03:   cotacao: 'Q6341782',
+01/07/2026 12:35:03:   id_qldd: null,
+01/07/2026 12:35:03:   anotacao: 'Tarefa: E001 - PME - 30.188.173/0001-46 | Fila: CPC - PME',
+01/07/2026 12:35:03:   status: 'aprovado',
+01/07/2026 12:35:03:   data_de_criacao: '01/07/2026 12:00',
+01/07/2026 12:35:03:   data_da_ultima_atualizacao: '01/07/2026 12:35',
+01/07/2026 12:35:03:   usuario_login: null,
+01/07/2026 12:35:03:   validacao: 'Ativo',
+01/07/2026 12:35:03:   usuario_id: '196',
+01/07/2026 12:35:03:   tarefa: '22791742',
+01/07/2026 12:35:03:   origem: null
+01/07/2026 12:35:03: }
+01/07/2026 12:40:52: [PUT] Atualizando cotação: 22790107
+01/07/2026 12:40:52: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:40:52: [PUT] Dados recebidos: {
+01/07/2026 12:40:52:   anotacao: undefined,
+01/07/2026 12:40:52:   status: 'pendente-qualidade',
+01/07/2026 12:40:52:   auditoria_anotacao: undefined,
+01/07/2026 12:40:52:   auditoria_status: undefined
+01/07/2026 12:40:52: }
+01/07/2026 12:40:52: [PUT] Linhas afetadas: 1
+01/07/2026 12:40:52: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:40:52:   id_cotacao: 77,
+01/07/2026 12:40:52:   cotacao: 'Q6340880',
+01/07/2026 12:40:52:   id_qldd: null,
+01/07/2026 12:40:52:   anotacao: 'Tarefa: E001 - PME - 03.541.496/0001-07 | Fila: CPC - PME',
+01/07/2026 12:40:52:   status: 'pendente-qualidade',
+01/07/2026 12:40:52:   data_de_criacao: '01/07/2026 09:56',
+01/07/2026 12:40:52:   data_da_ultima_atualizacao: '01/07/2026 12:40',
+01/07/2026 12:40:52:   usuario_login: 'jose.faria',
+01/07/2026 12:40:52:   validacao: 'Ativo',
+01/07/2026 12:40:52:   usuario_id: '196',
+01/07/2026 12:40:52:   tarefa: '22790107',
+01/07/2026 12:40:52:   origem: null
+01/07/2026 12:40:52: }
+01/07/2026 12:41:42: [PUT] Atualizando cotação: 22790399
+01/07/2026 12:41:42: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:41:42: [PUT] Dados recebidos: {
+01/07/2026 12:41:42:   anotacao: undefined,
+01/07/2026 12:41:42:   status: 'aprovado',
+01/07/2026 12:41:42:   auditoria_anotacao: undefined,
+01/07/2026 12:41:42:   auditoria_status: undefined
+01/07/2026 12:41:42: }
+01/07/2026 12:41:42: [PUT] Linhas afetadas: 1
+01/07/2026 12:41:42: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:41:42:   id_cotacao: 74,
+01/07/2026 12:41:42:   cotacao: 'Q6340935',
+01/07/2026 12:41:42:   id_qldd: null,
+01/07/2026 12:41:42:   anotacao: 'Tarefa: E001 - PME - 35.211.788/0001-60 | Fila: CPC - PME',
+01/07/2026 12:41:42:   status: 'aprovado',
+01/07/2026 12:41:42:   data_de_criacao: '01/07/2026 09:56',
+01/07/2026 12:41:42:   data_da_ultima_atualizacao: '01/07/2026 12:41',
+01/07/2026 12:41:42:   usuario_login: 'jose.faria',
+01/07/2026 12:41:42:   validacao: 'Ativo',
+01/07/2026 12:41:42:   usuario_id: '196',
+01/07/2026 12:41:42:   tarefa: '22790399',
+01/07/2026 12:41:42:   origem: null
+01/07/2026 12:41:42: }
+01/07/2026 12:42:34: [PUT] Atualizando cotação: 22790399
+01/07/2026 12:42:34: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:42:34: [PUT] Dados recebidos: {
+01/07/2026 12:42:34:   anotacao: 'Ja estava finalizado mas estava na minha demanda',
+01/07/2026 12:42:34:   status: 'aprovado',
+01/07/2026 12:42:34:   auditoria_anotacao: '',
+01/07/2026 12:42:34:   auditoria_status: ''
+01/07/2026 12:42:34: }
+01/07/2026 12:42:34: [PUT] Linhas afetadas: 1
+01/07/2026 12:42:34: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:42:34:   id_cotacao: 74,
+01/07/2026 12:42:34:   cotacao: 'Q6340935',
+01/07/2026 12:42:34:   id_qldd: null,
+01/07/2026 12:42:34:   anotacao: 'Ja estava finalizado mas estava na minha demanda',
+01/07/2026 12:42:34:   status: 'aprovado',
+01/07/2026 12:42:34:   data_de_criacao: '01/07/2026 09:56',
+01/07/2026 12:42:34:   data_da_ultima_atualizacao: '01/07/2026 12:42',
+01/07/2026 12:42:34:   usuario_login: 'jose.faria',
+01/07/2026 12:42:34:   validacao: 'Ativo',
+01/07/2026 12:42:34:   usuario_id: '196',
+01/07/2026 12:42:34:   tarefa: '22790399',
+01/07/2026 12:42:34:   origem: null
+01/07/2026 12:42:34: }
+01/07/2026 12:48:14: [PUT] Atualizando cotação: 22792434
+01/07/2026 12:48:14: [PUT] Usuário: yuri.santos.3
+01/07/2026 12:48:14: [PUT] Dados recebidos: {
+01/07/2026 12:48:14:   anotacao: undefined,
+01/07/2026 12:48:14:   status: 'pendente-qualidade',
+01/07/2026 12:48:14:   auditoria_anotacao: undefined,
+01/07/2026 12:48:14:   auditoria_status: undefined
+01/07/2026 12:48:14: }
+01/07/2026 12:48:14: [PUT] Linhas afetadas: 1
+01/07/2026 12:48:14: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:48:14:   id_cotacao: 190,
+01/07/2026 12:48:14:   cotacao: 'Q6342185',
+01/07/2026 12:48:14:   id_qldd: null,
+01/07/2026 12:48:14:   anotacao: 'Tarefa: E001 - PME - 90.833.203/0001-51 | Fila: CPC - PME',
+01/07/2026 12:48:14:   status: 'pendente-qualidade',
+01/07/2026 12:48:14:   data_de_criacao: '01/07/2026 12:35',
+01/07/2026 12:48:14:   data_da_ultima_atualizacao: '01/07/2026 12:48',
+01/07/2026 12:48:14:   usuario_login: null,
+01/07/2026 12:48:14:   validacao: 'Ativo',
+01/07/2026 12:48:14:   usuario_id: '196',
+01/07/2026 12:48:14:   tarefa: '22792434',
+01/07/2026 12:48:14:   origem: null
+01/07/2026 12:48:14: }
+01/07/2026 12:57:02: [PUT] Atualizando cotação: 22792594
+01/07/2026 12:57:02: [PUT] Usuário: rita.meira.3
+01/07/2026 12:57:02: [PUT] Dados recebidos: {
+01/07/2026 12:57:02:   anotacao: undefined,
+01/07/2026 12:57:02:   status: 'aprovado',
+01/07/2026 12:57:02:   auditoria_anotacao: undefined,
+01/07/2026 12:57:02:   auditoria_status: undefined
+01/07/2026 12:57:02: }
+01/07/2026 12:57:02: [PUT] Linhas afetadas: 1
+01/07/2026 12:57:02: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:57:02:   id_cotacao: 171,
+01/07/2026 12:57:02:   cotacao: 'Q6335635',
+01/07/2026 12:57:02:   id_qldd: null,
+01/07/2026 12:57:02:   anotacao: 'Tarefa: E001 - PME - 03.599.938/0001-68 | Fila: CPC - PME',
+01/07/2026 12:57:02:   status: 'aprovado',
+01/07/2026 12:57:02:   data_de_criacao: '01/07/2026 11:29',
+01/07/2026 12:57:02:   data_da_ultima_atualizacao: '01/07/2026 12:57',
+01/07/2026 12:57:02:   usuario_login: null,
+01/07/2026 12:57:02:   validacao: 'Ativo',
+01/07/2026 12:57:02:   usuario_id: '147',
+01/07/2026 12:57:02:   tarefa: '22792594',
+01/07/2026 12:57:02:   origem: null
+01/07/2026 12:57:02: }
+01/07/2026 12:59:04: [PUT] Atualizando cotação: 22792582
+01/07/2026 12:59:04: [PUT] Usuário: rita.meira.3
+01/07/2026 12:59:04: [PUT] Dados recebidos: {
+01/07/2026 12:59:04:   anotacao: undefined,
+01/07/2026 12:59:04:   status: 'reprovado',
+01/07/2026 12:59:04:   auditoria_anotacao: undefined,
+01/07/2026 12:59:04:   auditoria_status: undefined
+01/07/2026 12:59:04: }
+01/07/2026 12:59:04: [PUT] Linhas afetadas: 1
+01/07/2026 12:59:04: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 12:59:04:   id_cotacao: 172,
+01/07/2026 12:59:04:   cotacao: 'Q6341220',
+01/07/2026 12:59:04:   id_qldd: null,
+01/07/2026 12:59:04:   anotacao: 'Tarefa: E001 - PME - 36.521.159/0001-07 | Fila: CPC - PME',
+01/07/2026 12:59:04:   status: 'reprovado',
+01/07/2026 12:59:04:   data_de_criacao: '01/07/2026 11:29',
+01/07/2026 12:59:04:   data_da_ultima_atualizacao: '01/07/2026 12:59',
+01/07/2026 12:59:04:   usuario_login: null,
+01/07/2026 12:59:04:   validacao: 'Ativo',
+01/07/2026 12:59:04:   usuario_id: '147',
+01/07/2026 12:59:04:   tarefa: '22792582',
+01/07/2026 12:59:04:   origem: null
+01/07/2026 12:59:04: }
+01/07/2026 13:08:46: [PUT] Atualizando cotação: 22792500
+01/07/2026 13:08:46: [PUT] Usuário: rita.meira.3
+01/07/2026 13:08:46: [PUT] Dados recebidos: {
+01/07/2026 13:08:46:   anotacao: undefined,
+01/07/2026 13:08:46:   status: 'aprovado',
+01/07/2026 13:08:46:   auditoria_anotacao: undefined,
+01/07/2026 13:08:46:   auditoria_status: undefined
+01/07/2026 13:08:46: }
+01/07/2026 13:08:46: [PUT] Linhas afetadas: 1
+01/07/2026 13:08:46: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 13:08:46:   id_cotacao: 198,
+01/07/2026 13:08:46:   cotacao: 'Q6341929',
+01/07/2026 13:08:46:   id_qldd: null,
+01/07/2026 13:08:46:   anotacao: 'Tarefa: E001 - PME - 47.906.769/0001-37 | Fila: CPC - PME',
+01/07/2026 13:08:46:   status: 'aprovado',
+01/07/2026 13:08:46:   data_de_criacao: '01/07/2026 12:59',
+01/07/2026 13:08:46:   data_da_ultima_atualizacao: '01/07/2026 13:08',
+01/07/2026 13:08:46:   usuario_login: null,
+01/07/2026 13:08:46:   validacao: 'Ativo',
+01/07/2026 13:08:46:   usuario_id: '147',
+01/07/2026 13:08:46:   tarefa: '22792500',
+01/07/2026 13:08:46:   origem: null
+01/07/2026 13:08:46: }
+01/07/2026 13:19:19: [PUT] Atualizando cotação: 22792457
+01/07/2026 13:19:19: [PUT] Usuário: rita.meira.3
+01/07/2026 13:19:19: [PUT] Dados recebidos: {
+01/07/2026 13:19:19:   anotacao: undefined,
+01/07/2026 13:19:19:   status: 'reprovado',
+01/07/2026 13:19:19:   auditoria_anotacao: undefined,
+01/07/2026 13:19:19:   auditoria_status: undefined
+01/07/2026 13:19:19: }
+01/07/2026 13:19:20: [PUT] Linhas afetadas: 1
+01/07/2026 13:19:20: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 13:19:20:   id_cotacao: 204,
+01/07/2026 13:19:20:   cotacao: 'Q6342322',
+01/07/2026 13:19:20:   id_qldd: null,
+01/07/2026 13:19:20:   anotacao: 'Tarefa: E001 - PME - 28.579.840/0001-70 | Fila: CPC - PME',
+01/07/2026 13:19:20:   status: 'reprovado',
+01/07/2026 13:19:20:   data_de_criacao: '01/07/2026 12:59',
+01/07/2026 13:19:20:   data_da_ultima_atualizacao: '01/07/2026 13:19',
+01/07/2026 13:19:20:   usuario_login: null,
+01/07/2026 13:19:20:   validacao: 'Ativo',
+01/07/2026 13:19:20:   usuario_id: '147',
+01/07/2026 13:19:20:   tarefa: '22792457',
+01/07/2026 13:19:20:   origem: null
+01/07/2026 13:19:20: }
+01/07/2026 13:59:18: [PUT] Atualizando cotação: 22791530
+01/07/2026 13:59:18: [PUT] Usuário: erycka.oliveira.3
+01/07/2026 13:59:18: [PUT] Dados recebidos: {
+01/07/2026 13:59:18:   anotacao: undefined,
+01/07/2026 13:59:18:   status: 'reprovado',
+01/07/2026 13:59:18:   auditoria_anotacao: undefined,
+01/07/2026 13:59:18:   auditoria_status: undefined
+01/07/2026 13:59:18: }
+01/07/2026 13:59:18: [PUT] Linhas afetadas: 1
+01/07/2026 13:59:18: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 13:59:18:   id_cotacao: 146,
+01/07/2026 13:59:18:   cotacao: 'Q6337013',
+01/07/2026 13:59:18:   id_qldd: null,
+01/07/2026 13:59:18:   anotacao: 'Tarefa: E001 - PME - 04.908.850/0001-43 | Fila: CPC - PME',
+01/07/2026 13:59:18:   status: 'reprovado',
+01/07/2026 13:59:18:   data_de_criacao: '01/07/2026 10:24',
+01/07/2026 13:59:18:   data_da_ultima_atualizacao: '01/07/2026 13:59',
+01/07/2026 13:59:18:   usuario_login: null,
+01/07/2026 13:59:18:   validacao: 'Ativo',
+01/07/2026 13:59:18:   usuario_id: '131',
+01/07/2026 13:59:18:   tarefa: '22791530',
+01/07/2026 13:59:18:   origem: null
+01/07/2026 13:59:18: }
+01/07/2026 13:59:30: [PUT] Atualizando cotação: 22791054
+01/07/2026 13:59:30: [PUT] Usuário: erycka.oliveira.3
+01/07/2026 13:59:30: [PUT] Dados recebidos: {
+01/07/2026 13:59:30:   anotacao: undefined,
+01/07/2026 13:59:30:   status: 'aprovado',
+01/07/2026 13:59:30:   auditoria_anotacao: undefined,
+01/07/2026 13:59:30:   auditoria_status: undefined
+01/07/2026 13:59:30: }
+01/07/2026 13:59:30: [PUT] Linhas afetadas: 1
+01/07/2026 13:59:30: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 13:59:30:   id_cotacao: 145,
+01/07/2026 13:59:30:   cotacao: 'Q6341476',
+01/07/2026 13:59:30:   id_qldd: null,
+01/07/2026 13:59:30:   anotacao: 'Tarefa: E001 - PME - 14.994.630/0001-33 | Fila: CPC - PME',
+01/07/2026 13:59:30:   status: 'aprovado',
+01/07/2026 13:59:30:   data_de_criacao: '01/07/2026 10:12',
+01/07/2026 13:59:30:   data_da_ultima_atualizacao: '01/07/2026 13:59',
+01/07/2026 13:59:30:   usuario_login: null,
+01/07/2026 13:59:30:   validacao: 'Ativo',
+01/07/2026 13:59:30:   usuario_id: '131',
+01/07/2026 13:59:30:   tarefa: '22791054',
+01/07/2026 13:59:30:   origem: null
+01/07/2026 13:59:30: }
+01/07/2026 15:15:24: [PUT] Atualizando cotação: 22791186
+01/07/2026 15:15:24: [PUT] Usuário: erycka.oliveira.3
+01/07/2026 15:15:24: [PUT] Dados recebidos: {
+01/07/2026 15:15:24:   anotacao: undefined,
+01/07/2026 15:15:24:   status: 'aprovado',
+01/07/2026 15:15:24:   auditoria_anotacao: undefined,
+01/07/2026 15:15:24:   auditoria_status: undefined
+01/07/2026 15:15:24: }
+01/07/2026 15:15:24: [PUT] Linhas afetadas: 1
+01/07/2026 15:15:24: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 15:15:24:   id_cotacao: 141,
+01/07/2026 15:15:24:   cotacao: 'Q6334431',
+01/07/2026 15:15:24:   id_qldd: null,
+01/07/2026 15:15:24:   anotacao: 'Tarefa: E001 - PME - 00.361.418/0001-24 | Fila: CPC - PME',
+01/07/2026 15:15:24:   status: 'aprovado',
+01/07/2026 15:15:24:   data_de_criacao: '01/07/2026 10:12',
+01/07/2026 15:15:24:   data_da_ultima_atualizacao: '01/07/2026 15:15',
+01/07/2026 15:15:24:   usuario_login: null,
+01/07/2026 15:15:24:   validacao: 'Ativo',
+01/07/2026 15:15:24:   usuario_id: '131',
+01/07/2026 15:15:24:   tarefa: '22791186',
+01/07/2026 15:15:24:   origem: null
+01/07/2026 15:15:24: }
+01/07/2026 15:37:32: [ATUALIZAR_R_000250] Iniciando atualização...
+01/07/2026 15:37:32: [ATUALIZAR_R_000250] max_bloco=Wed Jul 01 2026 12:03:37 GMT-0300 (Brasilia Standard Time), max_claro=Wed Jul 01 2026 14:55:20 GMT-0300 (Brasilia Standard Time)
+01/07/2026 15:37:32: [ATUALIZAR_R_000250] Tabela truncada
+01/07/2026 15:37:32: [ATUALIZAR_R_000250] Concluído em 281ms
+01/07/2026 15:43:10: [PUT] Atualizando cotação: 22786574
+01/07/2026 15:43:10: [PUT] Usuário: jose.faria
+01/07/2026 15:43:10: [PUT] Dados recebidos: {
+01/07/2026 15:43:10:   anotacao: undefined,
+01/07/2026 15:43:10:   status: 'pendente-correcao-cadastral',
+01/07/2026 15:43:10:   auditoria_anotacao: undefined,
+01/07/2026 15:43:10:   auditoria_status: undefined
+01/07/2026 15:43:10: }
+01/07/2026 15:43:10: [PUT] Linhas afetadas: 1
+01/07/2026 15:43:10: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 15:43:10:   id_cotacao: 36,
+01/07/2026 15:43:10:   cotacao: 'Q6302084',
+01/07/2026 15:43:10:   id_qldd: null,
+01/07/2026 15:43:10:   anotacao: 'Tarefa: E001 - PME - 30.693.826/0001-44 | Fila: CPC - PME\n\nJa fiz',
+01/07/2026 15:43:10:   status: 'pendente-correcao-cadastral',
+01/07/2026 15:43:10:   data_de_criacao: '30/06/2026 19:37',
+01/07/2026 15:43:10:   data_da_ultima_atualizacao: '01/07/2026 15:43',
+01/07/2026 15:43:10:   usuario_login: 'jose.faria',
+01/07/2026 15:43:10:   validacao: 'Ativo',
+01/07/2026 15:43:10:   usuario_id: '50',
+01/07/2026 15:43:10:   tarefa: '22786574',
+01/07/2026 15:43:10:   origem: null
+01/07/2026 15:43:10: }
+01/07/2026 15:43:50: [PUT] Atualizando cotação: 22786574
+01/07/2026 15:43:50: [PUT] Usuário: jose.faria
+01/07/2026 15:43:50: [PUT] Dados recebidos: {
+01/07/2026 15:43:50:   anotacao: undefined,
+01/07/2026 15:43:50:   status: 'pendente-correcao-efetuada',
+01/07/2026 15:43:50:   auditoria_anotacao: undefined,
+01/07/2026 15:43:50:   auditoria_status: undefined
+01/07/2026 15:43:50: }
+01/07/2026 15:43:50: [PUT] Linhas afetadas: 1
+01/07/2026 15:43:50: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 15:43:50:   id_cotacao: 36,
+01/07/2026 15:43:50:   cotacao: 'Q6302084',
+01/07/2026 15:43:50:   id_qldd: null,
+01/07/2026 15:43:50:   anotacao: 'Tarefa: E001 - PME - 30.693.826/0001-44 | Fila: CPC - PME\n\nJa fiz',
+01/07/2026 15:43:50:   status: 'pendente-correcao-efetuada',
+01/07/2026 15:43:50:   data_de_criacao: '30/06/2026 19:37',
+01/07/2026 15:43:50:   data_da_ultima_atualizacao: '01/07/2026 15:43',
+01/07/2026 15:43:50:   usuario_login: 'jose.faria',
+01/07/2026 15:43:50:   validacao: 'Ativo',
+01/07/2026 15:43:50:   usuario_id: '50',
+01/07/2026 15:43:50:   tarefa: '22786574',
+01/07/2026 15:43:50:   origem: null
+01/07/2026 15:43:50: }
+01/07/2026 15:46:15: [ATUALIZAR_R_000250] Iniciando atualização...
+01/07/2026 15:46:15: [ATUALIZAR_R_000250] max_bloco=Wed Jul 01 2026 14:55:20 GMT-0300 (Brasilia Standard Time), max_claro=Wed Jul 01 2026 14:55:20 GMT-0300 (Brasilia Standard Time)
+01/07/2026 15:46:15: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 50ms
+01/07/2026 16:08:48: [PUT] Atualizando cotação: 22786716
+01/07/2026 16:08:48: [PUT] Usuário: marcia.miura
+01/07/2026 16:08:48: [PUT] Dados recebidos: {
+01/07/2026 16:08:48:   anotacao: undefined,
+01/07/2026 16:08:48:   status: 'aprovado',
+01/07/2026 16:08:48:   auditoria_anotacao: undefined,
+01/07/2026 16:08:48:   auditoria_status: undefined
+01/07/2026 16:08:48: }
+01/07/2026 16:08:48: [PUT] Linhas afetadas: 1
+01/07/2026 16:08:48: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:08:48:   id_cotacao: 22,
+01/07/2026 16:08:48:   cotacao: 'Q6312482',
+01/07/2026 16:08:48:   id_qldd: null,
+01/07/2026 16:08:48:   anotacao: 'Tarefa: E001 - PME - 24.263.404/0001-36 | Fila: CPC - PME',
+01/07/2026 16:08:48:   status: 'aprovado',
+01/07/2026 16:08:48:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:08:48:   data_da_ultima_atualizacao: '01/07/2026 16:08',
+01/07/2026 16:08:48:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:08:48:   validacao: 'Ativo',
+01/07/2026 16:08:48:   usuario_id: '141',
+01/07/2026 16:08:48:   tarefa: '22786716',
+01/07/2026 16:08:48:   origem: null
+01/07/2026 16:08:48: }
+01/07/2026 16:09:13: [PUT] Atualizando cotação: 22783816
+01/07/2026 16:09:13: [PUT] Usuário: marcia.miura
+01/07/2026 16:09:13: [PUT] Dados recebidos: {
+01/07/2026 16:09:13:   anotacao: undefined,
+01/07/2026 16:09:13:   status: 'reprovado',
+01/07/2026 16:09:13:   auditoria_anotacao: undefined,
+01/07/2026 16:09:13:   auditoria_status: undefined
+01/07/2026 16:09:13: }
+01/07/2026 16:09:13: [PUT] Linhas afetadas: 1
+01/07/2026 16:09:13: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:09:13:   id_cotacao: 31,
+01/07/2026 16:09:13:   cotacao: 'Q6338970',
+01/07/2026 16:09:13:   id_qldd: null,
+01/07/2026 16:09:13:   anotacao: 'Tarefa: E001 - PME - 07.490.711/0001-30 | Fila: CPC - PME',
+01/07/2026 16:09:13:   status: 'reprovado',
+01/07/2026 16:09:13:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:09:13:   data_da_ultima_atualizacao: '01/07/2026 16:09',
+01/07/2026 16:09:13:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:09:13:   validacao: 'Ativo',
+01/07/2026 16:09:13:   usuario_id: '141',
+01/07/2026 16:09:13:   tarefa: '22783816',
+01/07/2026 16:09:13:   origem: null
+01/07/2026 16:09:13: }
+01/07/2026 16:09:20: [PUT] Atualizando cotação: 22783816
+01/07/2026 16:09:20: [PUT] Usuário: marcia.miura
+01/07/2026 16:09:20: [PUT] Dados recebidos: {
+01/07/2026 16:09:20:   anotacao: 'Tarefa: E001 - PME - 07.490.711/0001-30 | Fila: CPC - PME\n' +
+01/07/2026 16:09:20:     '> O endereço informado na Receita Federal está divergindo do informado na Cotação Detalhada no campo Logradouro. Todos os documentos onde houver o campo endereço devem constar com a mesma informação. **Endereço**\n' +
+01/07/2026 16:09:20:     '> O endereço informado na Receita Federal está divergindo do informado no TCPJ no campo Logradouro. Todos os documentos onde houver o campo endereço devem constar com a mesma informação. **Endereço**\n' +
+01/07/2026 16:09:20:     '\n',
+01/07/2026 16:09:20:   status: 'reprovado',
+01/07/2026 16:09:20:   auditoria_anotacao: '',
+01/07/2026 16:09:20:   auditoria_status: ''
+01/07/2026 16:09:20: }
+01/07/2026 16:09:20: [PUT] Linhas afetadas: 1
+01/07/2026 16:09:20: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:09:20:   id_cotacao: 31,
+01/07/2026 16:09:20:   cotacao: 'Q6338970',
+01/07/2026 16:09:20:   id_qldd: null,
+01/07/2026 16:09:20:   anotacao: 'Tarefa: E001 - PME - 07.490.711/0001-30 | Fila: CPC - PME\n' +
+01/07/2026 16:09:20:     '> O endereço informado na Receita Federal está divergindo do informado na Cotação Detalhada no campo Logradouro. Todos os documentos onde houver o campo endereço devem constar com a mesma informação. **Endereço**\n' +
+01/07/2026 16:09:20:     '> O endereço informado na Receita Federal está divergindo do informado no TCPJ no campo Logradouro. Todos os documentos onde houver o campo endereço devem constar com a mesma informação. **Endereço**\n' +
+01/07/2026 16:09:20:     '\n',
+01/07/2026 16:09:20:   status: 'reprovado',
+01/07/2026 16:09:20:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:09:20:   data_da_ultima_atualizacao: '01/07/2026 16:09',
+01/07/2026 16:09:20:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:09:20:   validacao: 'Ativo',
+01/07/2026 16:09:20:   usuario_id: '141',
+01/07/2026 16:09:20:   tarefa: '22783816',
+01/07/2026 16:09:20:   origem: null
+01/07/2026 16:09:20: }
+01/07/2026 16:09:38: [PUT] Atualizando cotação: 22784513
+01/07/2026 16:09:38: [PUT] Usuário: marcia.miura
+01/07/2026 16:09:38: [PUT] Dados recebidos: {
+01/07/2026 16:09:38:   anotacao: undefined,
+01/07/2026 16:09:38:   status: 'reprovado',
+01/07/2026 16:09:38:   auditoria_anotacao: undefined,
+01/07/2026 16:09:38:   auditoria_status: undefined
+01/07/2026 16:09:38: }
+01/07/2026 16:09:38: [PUT] Linhas afetadas: 1
+01/07/2026 16:09:38: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:09:38:   id_cotacao: 30,
+01/07/2026 16:09:38:   cotacao: 'Q6331727',
+01/07/2026 16:09:38:   id_qldd: null,
+01/07/2026 16:09:38:   anotacao: 'Tarefa: E001 - PME - 53.935.029/0001-21 | Fila: CPC - PME',
+01/07/2026 16:09:38:   status: 'reprovado',
+01/07/2026 16:09:38:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:09:38:   data_da_ultima_atualizacao: '01/07/2026 16:09',
+01/07/2026 16:09:38:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:09:38:   validacao: 'Ativo',
+01/07/2026 16:09:38:   usuario_id: '141',
+01/07/2026 16:09:38:   tarefa: '22784513',
+01/07/2026 16:09:38:   origem: null
+01/07/2026 16:09:38: }
+01/07/2026 16:09:43: [PUT] Atualizando cotação: 22784513
+01/07/2026 16:09:43: [PUT] Usuário: marcia.miura
+01/07/2026 16:09:43: [PUT] Dados recebidos: {
+01/07/2026 16:09:43:   anotacao: 'Tarefa: E001 - PME - 53.935.029/0001-21 | Fila: CPC - PME\n' +
+01/07/2026 16:09:43:     '> As quantidadesd e linhas divergem entre TCPJ e Cotação detalhada.\n' +
+01/07/2026 16:09:43:     '\t**OBS: Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção.**\n' +
+01/07/2026 16:09:43:     'Obs.: Por consequência das reprovas anteriores, o valor total negociado diverge entre Cotação e Documentação. \n' +
+01/07/2026 16:09:43:     '> Conforme a nova regra de renovação e renovação com incremento vigente, cotações criadas a partir de 13/05/2025, para os Planos Individuais (Claro Life/Claro Pós), o novo ticket médio das linhas de renovação e renovação com incremento ultrapassou R$ 3,00 negativos. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.\n' +
+01/07/2026 16:09:43:     '\n',
+01/07/2026 16:09:43:   status: 'reprovado',
+01/07/2026 16:09:43:   auditoria_anotacao: '',
+01/07/2026 16:09:43:   auditoria_status: ''
+01/07/2026 16:09:43: }
+01/07/2026 16:09:43: [PUT] Linhas afetadas: 1
+01/07/2026 16:09:43: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:09:43:   id_cotacao: 30,
+01/07/2026 16:09:43:   cotacao: 'Q6331727',
+01/07/2026 16:09:43:   id_qldd: null,
+01/07/2026 16:09:43:   anotacao: 'Tarefa: E001 - PME - 53.935.029/0001-21 | Fila: CPC - PME\n' +
+01/07/2026 16:09:43:     '> As quantidadesd e linhas divergem entre TCPJ e Cotação detalhada.\n' +
+01/07/2026 16:09:43:     '\t**OBS: Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção.**\n' +
+01/07/2026 16:09:43:     'Obs.: Por consequência das reprovas anteriores, o valor total negociado diverge entre Cotação e Documentação. \n' +
+01/07/2026 16:09:43:     '> Conforme a nova regra de renovação e renovação com incremento vigente, cotações criadas a partir de 13/05/2025, para os Planos Individuais (Claro Life/Claro Pós), o novo ticket médio das linhas de renovação e renovação com incremento ultrapassou R$ 3,00 negativos. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.\n' +
+01/07/2026 16:09:43:     '\n',
+01/07/2026 16:09:43:   status: 'reprovado',
+01/07/2026 16:09:43:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:09:43:   data_da_ultima_atualizacao: '01/07/2026 16:09',
+01/07/2026 16:09:43:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:09:43:   validacao: 'Ativo',
+01/07/2026 16:09:43:   usuario_id: '141',
+01/07/2026 16:09:43:   tarefa: '22784513',
+01/07/2026 16:09:43:   origem: null
+01/07/2026 16:09:43: }
+01/07/2026 16:10:02: [PUT] Atualizando cotação: 22784649
+01/07/2026 16:10:02: [PUT] Usuário: marcia.miura
+01/07/2026 16:10:02: [PUT] Dados recebidos: {
+01/07/2026 16:10:02:   anotacao: undefined,
+01/07/2026 16:10:02:   status: 'aprovado',
+01/07/2026 16:10:02:   auditoria_anotacao: undefined,
+01/07/2026 16:10:02:   auditoria_status: undefined
+01/07/2026 16:10:02: }
+01/07/2026 16:10:02: [PUT] Linhas afetadas: 1
+01/07/2026 16:10:02: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:10:02:   id_cotacao: 29,
+01/07/2026 16:10:02:   cotacao: 'Q6334513',
+01/07/2026 16:10:02:   id_qldd: null,
+01/07/2026 16:10:02:   anotacao: 'Tarefa: E001 - PME - 12.958.120/0001-85 | Fila: CPC - PME',
+01/07/2026 16:10:02:   status: 'aprovado',
+01/07/2026 16:10:02:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:10:02:   data_da_ultima_atualizacao: '01/07/2026 16:10',
+01/07/2026 16:10:02:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:10:02:   validacao: 'Ativo',
+01/07/2026 16:10:02:   usuario_id: '141',
+01/07/2026 16:10:02:   tarefa: '22784649',
+01/07/2026 16:10:02:   origem: null
+01/07/2026 16:10:02: }
+01/07/2026 16:10:12: [INSPECAO] Upload recebido: R_000250_1429252.csv -> E:\projetos_hitss\geo-pme-notas\files\r_000250.csv
+01/07/2026 16:10:12: --- INICIANDO ETL R_000250 ---
+01/07/2026 16:10:12: Delimitador detectado: ";"
+01/07/2026 16:10:12: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+01/07/2026 16:10:12: Tabela verificada/criada.
+01/07/2026 16:10:12: Dados antigos removidos.
+01/07/2026 16:10:12: Dados carregados com sucesso via COPY.
+01/07/2026 16:10:12: --- ETL R_000250 CONCLUÍDO: 315 registros ---
+01/07/2026 16:10:12: [CLASSIFICACAO] Conectado ao banco de dados.
+01/07/2026 16:10:12: [CLASSIFICACAO] 55 cotações classificadas.
+01/07/2026 16:10:12: [CLASSIFICACAO] Cotações atualizadas:
+01/07/2026 16:10:12:   - Tarefa: 22792418 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792399 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792516 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792506 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792502 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792499 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792497 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792491 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792487 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22786574 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22786910 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22786757 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22787830 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22787530 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22793709 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22790377 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22790214 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22789670 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22789594 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22788880 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22788825 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22788754 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22790665 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22790604 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22790570 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22792308 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22792224 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22792133 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22792124 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22792024 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22791501 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22791401 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22791146 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22791130 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22791007 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22790966 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22790910 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22790867 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22790858 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22790790 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22790777 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22791376 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22791372 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22791213 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22791200 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22794604 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22792481 | Usuário: null
+01/07/2026 16:10:12:   - Tarefa: 22793968 | Usuário: jose.faria
+01/07/2026 16:10:12:   - Tarefa: 22793241 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22792903 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22792767 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22792679 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22792388 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22792376 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12:   - Tarefa: 22793986 | Usuário: murilo.trevisan.3
+01/07/2026 16:10:12: [CLASSIFICACAO] Total "Pendente - Classificação": 118
+01/07/2026 16:10:22: [PUT] Atualizando cotação: 22784754
+01/07/2026 16:10:22: [PUT] Usuário: marcia.miura
+01/07/2026 16:10:22: [PUT] Dados recebidos: {
+01/07/2026 16:10:22:   anotacao: undefined,
+01/07/2026 16:10:22:   status: 'reprovado',
+01/07/2026 16:10:22:   auditoria_anotacao: undefined,
+01/07/2026 16:10:22:   auditoria_status: undefined
+01/07/2026 16:10:22: }
+01/07/2026 16:10:22: [PUT] Linhas afetadas: 1
+01/07/2026 16:10:22: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:10:22:   id_cotacao: 28,
+01/07/2026 16:10:22:   cotacao: 'Q6337105',
+01/07/2026 16:10:22:   id_qldd: null,
+01/07/2026 16:10:22:   anotacao: 'Tarefa: E001 - PME - 04.680.467/0001-80 | Fila: CPC - PME',
+01/07/2026 16:10:22:   status: 'reprovado',
+01/07/2026 16:10:22:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:10:22:   data_da_ultima_atualizacao: '01/07/2026 16:10',
+01/07/2026 16:10:22:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:10:22:   validacao: 'Ativo',
+01/07/2026 16:10:22:   usuario_id: '141',
+01/07/2026 16:10:22:   tarefa: '22784754',
+01/07/2026 16:10:22:   origem: null
+01/07/2026 16:10:22: }
+01/07/2026 16:11:19: [PUT] Atualizando cotação: 22792376
+01/07/2026 16:11:19: [PUT] Usuário: marcia.miura
+01/07/2026 16:11:19: [PUT] Dados recebidos: {
+01/07/2026 16:11:19:   anotacao: undefined,
+01/07/2026 16:11:19:   status: 'aprovado',
+01/07/2026 16:11:19:   auditoria_anotacao: undefined,
+01/07/2026 16:11:19:   auditoria_status: undefined
+01/07/2026 16:11:19: }
+01/07/2026 16:11:19: [PUT] Linhas afetadas: 1
+01/07/2026 16:11:19: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:11:19:   id_cotacao: 212,
+01/07/2026 16:11:19:   cotacao: 'Q6332255',
+01/07/2026 16:11:19:   id_qldd: null,
+01/07/2026 16:11:19:   anotacao: 'Tarefa: E001 - PME - 16.880.815/0001-42 | Fila: CPC - PME',
+01/07/2026 16:11:19:   status: 'aprovado',
+01/07/2026 16:11:19:   data_de_criacao: '01/07/2026 15:57',
+01/07/2026 16:11:19:   data_da_ultima_atualizacao: '01/07/2026 16:11',
+01/07/2026 16:11:19:   usuario_login: 'murilo.trevisan.3',
+01/07/2026 16:11:19:   validacao: 'Ativo',
+01/07/2026 16:11:19:   usuario_id: '141',
+01/07/2026 16:11:19:   tarefa: '22792376',
+01/07/2026 16:11:19:   origem: null
+01/07/2026 16:11:19: }
+01/07/2026 16:11:35: [PUT] Atualizando cotação: 22792767
+01/07/2026 16:11:35: [PUT] Usuário: marcia.miura
+01/07/2026 16:11:35: [PUT] Dados recebidos: {
+01/07/2026 16:11:35:   anotacao: undefined,
+01/07/2026 16:11:35:   status: 'aprovado',
+01/07/2026 16:11:35:   auditoria_anotacao: undefined,
+01/07/2026 16:11:35:   auditoria_status: undefined
+01/07/2026 16:11:35: }
+01/07/2026 16:11:35: [PUT] Linhas afetadas: 1
+01/07/2026 16:11:35: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:11:35:   id_cotacao: 209,
+01/07/2026 16:11:35:   cotacao: 'Q6342229',
+01/07/2026 16:11:35:   id_qldd: null,
+01/07/2026 16:11:35:   anotacao: 'Tarefa: E001 - PME - 21.949.880/0001-17 | Fila: CPC - PME',
+01/07/2026 16:11:35:   status: 'aprovado',
+01/07/2026 16:11:35:   data_de_criacao: '01/07/2026 15:57',
+01/07/2026 16:11:35:   data_da_ultima_atualizacao: '01/07/2026 16:11',
+01/07/2026 16:11:35:   usuario_login: 'murilo.trevisan.3',
+01/07/2026 16:11:35:   validacao: 'Ativo',
+01/07/2026 16:11:35:   usuario_id: '141',
+01/07/2026 16:11:35:   tarefa: '22792767',
+01/07/2026 16:11:35:   origem: null
+01/07/2026 16:11:35: }
+01/07/2026 16:14:27: [ACESSOS] Permissões atualizadas para usuário 149: 4 ativadas, 0 desativadas
+01/07/2026 16:17:34: [ATUALIZAR_R_000250] Iniciando atualização...
+01/07/2026 16:17:35: [ATUALIZAR_R_000250] max_bloco=Wed Jul 01 2026 16:07:29 GMT-0300 (Brasilia Standard Time), max_claro=Wed Jul 01 2026 14:55:20 GMT-0300 (Brasilia Standard Time)
+01/07/2026 16:17:35: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 52ms
+01/07/2026 16:29:01: [PUT] Atualizando cotação: 22794154
+01/07/2026 16:29:01: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 16:29:01: [PUT] Dados recebidos: {
+01/07/2026 16:29:01:   anotacao: undefined,
+01/07/2026 16:29:01:   status: 'aprovado',
+01/07/2026 16:29:01:   auditoria_anotacao: undefined,
+01/07/2026 16:29:01:   auditoria_status: undefined
+01/07/2026 16:29:01: }
+01/07/2026 16:29:01: [PUT] Linhas afetadas: 1
+01/07/2026 16:29:01: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:29:01:   id_cotacao: 235,
+01/07/2026 16:29:01:   cotacao: 'Q6340713',
+01/07/2026 16:29:01:   id_qldd: null,
+01/07/2026 16:29:01:   anotacao: 'Tarefa: E001 - PME - 51.593.759/0001-66 | Fila: CPC - PME',
+01/07/2026 16:29:01:   status: 'aprovado',
+01/07/2026 16:29:01:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 16:29:01:   data_da_ultima_atualizacao: '01/07/2026 16:29',
+01/07/2026 16:29:01:   usuario_login: null,
+01/07/2026 16:29:01:   validacao: 'Ativo',
+01/07/2026 16:29:01:   usuario_id: '145',
+01/07/2026 16:29:01:   tarefa: '22794154',
+01/07/2026 16:29:01:   origem: null
+01/07/2026 16:29:01: }
+01/07/2026 16:32:17: [PUT] Atualizando cotação: 22793393
+01/07/2026 16:32:17: [PUT] Usuário: marcia.miura
+01/07/2026 16:32:17: [PUT] Dados recebidos: {
+01/07/2026 16:32:17:   anotacao: undefined,
+01/07/2026 16:32:17:   status: 'reprovado',
+01/07/2026 16:32:17:   auditoria_anotacao: undefined,
+01/07/2026 16:32:17:   auditoria_status: undefined
+01/07/2026 16:32:17: }
+01/07/2026 16:32:17: [PUT] Linhas afetadas: 1
+01/07/2026 16:32:17: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:32:17:   id_cotacao: 219,
+01/07/2026 16:32:17:   cotacao: 'Q6342115',
+01/07/2026 16:32:17:   id_qldd: null,
+01/07/2026 16:32:17:   anotacao: 'Tarefa: E001 - PME - 09.484.884/0001-71 | Fila: CPC - PME',
+01/07/2026 16:32:17:   status: 'reprovado',
+01/07/2026 16:32:17:   data_de_criacao: '01/07/2026 16:11',
+01/07/2026 16:32:17:   data_da_ultima_atualizacao: '01/07/2026 16:32',
+01/07/2026 16:32:17:   usuario_login: null,
+01/07/2026 16:32:17:   validacao: 'Ativo',
+01/07/2026 16:32:17:   usuario_id: '141',
+01/07/2026 16:32:17:   tarefa: '22793393',
+01/07/2026 16:32:17:   origem: null
+01/07/2026 16:32:17: }
+01/07/2026 16:32:23: [PUT] Atualizando cotação: 22793393
+01/07/2026 16:32:23: [PUT] Usuário: marcia.miura
+01/07/2026 16:32:23: [PUT] Dados recebidos: {
+01/07/2026 16:32:23:   anotacao: 'Tarefa: E001 - PME - 09.484.884/0001-71 | Fila: CPC - PME\n' +
+01/07/2026 16:32:23:     '>Para pedidos de Renovação, é necessário que seja anexada a planilha de produtos instalados no CPC. Necessário que a mesma esteja completa e devidamente preenchida. **Falta Planilha de Produtos Instalados CPC**\n',
+01/07/2026 16:32:23:   status: 'reprovado',
+01/07/2026 16:32:23:   auditoria_anotacao: '',
+01/07/2026 16:32:23:   auditoria_status: ''
+01/07/2026 16:32:23: }
+01/07/2026 16:32:23: [PUT] Linhas afetadas: 1
+01/07/2026 16:32:23: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:32:23:   id_cotacao: 219,
+01/07/2026 16:32:23:   cotacao: 'Q6342115',
+01/07/2026 16:32:23:   id_qldd: null,
+01/07/2026 16:32:23:   anotacao: 'Tarefa: E001 - PME - 09.484.884/0001-71 | Fila: CPC - PME\n' +
+01/07/2026 16:32:23:     '>Para pedidos de Renovação, é necessário que seja anexada a planilha de produtos instalados no CPC. Necessário que a mesma esteja completa e devidamente preenchida. **Falta Planilha de Produtos Instalados CPC**\n',
+01/07/2026 16:32:23:   status: 'reprovado',
+01/07/2026 16:32:23:   data_de_criacao: '01/07/2026 16:11',
+01/07/2026 16:32:23:   data_da_ultima_atualizacao: '01/07/2026 16:32',
+01/07/2026 16:32:23:   usuario_login: null,
+01/07/2026 16:32:23:   validacao: 'Ativo',
+01/07/2026 16:32:23:   usuario_id: '141',
+01/07/2026 16:32:23:   tarefa: '22793393',
+01/07/2026 16:32:23:   origem: null
+01/07/2026 16:32:23: }
+01/07/2026 16:32:44: [PUT] Atualizando cotação: 22793260
+01/07/2026 16:32:44: [PUT] Usuário: marcia.miura
+01/07/2026 16:32:44: [PUT] Dados recebidos: {
+01/07/2026 16:32:44:   anotacao: undefined,
+01/07/2026 16:32:44:   status: 'reprovado',
+01/07/2026 16:32:44:   auditoria_anotacao: undefined,
+01/07/2026 16:32:44:   auditoria_status: undefined
+01/07/2026 16:32:44: }
+01/07/2026 16:32:44: [PUT] Linhas afetadas: 1
+01/07/2026 16:32:44: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:32:44:   id_cotacao: 220,
+01/07/2026 16:32:44:   cotacao: 'Q6342246',
+01/07/2026 16:32:44:   id_qldd: null,
+01/07/2026 16:32:44:   anotacao: 'Tarefa: E001 - PME - 34.848.467/0001-08 | Fila: CPC - PME',
+01/07/2026 16:32:44:   status: 'reprovado',
+01/07/2026 16:32:44:   data_de_criacao: '01/07/2026 16:11',
+01/07/2026 16:32:44:   data_da_ultima_atualizacao: '01/07/2026 16:32',
+01/07/2026 16:32:44:   usuario_login: null,
+01/07/2026 16:32:44:   validacao: 'Ativo',
+01/07/2026 16:32:44:   usuario_id: '141',
+01/07/2026 16:32:44:   tarefa: '22793260',
+01/07/2026 16:32:44:   origem: null
+01/07/2026 16:32:44: }
+01/07/2026 16:32:55: [PUT] Atualizando cotação: 22793260
+01/07/2026 16:32:55: [PUT] Usuário: marcia.miura
+01/07/2026 16:32:55: [PUT] Dados recebidos: {
+01/07/2026 16:32:55:   anotacao: undefined,
+01/07/2026 16:32:55:   status: 'aprovado',
+01/07/2026 16:32:55:   auditoria_anotacao: undefined,
+01/07/2026 16:32:55:   auditoria_status: undefined
+01/07/2026 16:32:55: }
+01/07/2026 16:32:55: [PUT] Linhas afetadas: 1
+01/07/2026 16:32:55: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:32:55:   id_cotacao: 220,
+01/07/2026 16:32:55:   cotacao: 'Q6342246',
+01/07/2026 16:32:55:   id_qldd: null,
+01/07/2026 16:32:55:   anotacao: 'Tarefa: E001 - PME - 34.848.467/0001-08 | Fila: CPC - PME',
+01/07/2026 16:32:55:   status: 'aprovado',
+01/07/2026 16:32:55:   data_de_criacao: '01/07/2026 16:11',
+01/07/2026 16:32:55:   data_da_ultima_atualizacao: '01/07/2026 16:32',
+01/07/2026 16:32:55:   usuario_login: null,
+01/07/2026 16:32:55:   validacao: 'Ativo',
+01/07/2026 16:32:55:   usuario_id: '141',
+01/07/2026 16:32:55:   tarefa: '22793260',
+01/07/2026 16:32:55:   origem: null
+01/07/2026 16:32:55: }
+01/07/2026 16:39:08: [PUT] Atualizando cotação: 22794030
+01/07/2026 16:39:08: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 16:39:08: [PUT] Dados recebidos: {
+01/07/2026 16:39:08:   anotacao: undefined,
+01/07/2026 16:39:08:   status: 'aprovado',
+01/07/2026 16:39:08:   auditoria_anotacao: undefined,
+01/07/2026 16:39:08:   auditoria_status: undefined
+01/07/2026 16:39:08: }
+01/07/2026 16:39:08: [PUT] Linhas afetadas: 1
+01/07/2026 16:39:08: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:39:08:   id_cotacao: 236,
+01/07/2026 16:39:08:   cotacao: 'Q6326688',
+01/07/2026 16:39:08:   id_qldd: null,
+01/07/2026 16:39:08:   anotacao: 'Tarefa: E001 - PME - 66.527.537/0001-12 | Fila: CPC - PME',
+01/07/2026 16:39:08:   status: 'aprovado',
+01/07/2026 16:39:08:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 16:39:08:   data_da_ultima_atualizacao: '01/07/2026 16:39',
+01/07/2026 16:39:08:   usuario_login: null,
+01/07/2026 16:39:08:   validacao: 'Ativo',
+01/07/2026 16:39:08:   usuario_id: '145',
+01/07/2026 16:39:08:   tarefa: '22794030',
+01/07/2026 16:39:08:   origem: null
+01/07/2026 16:39:08: }
+01/07/2026 16:46:28: [PUT] Atualizando cotação: 22794375
+01/07/2026 16:46:28: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:46:28: [PUT] Dados recebidos: {
+01/07/2026 16:46:28:   anotacao: 'Tarefa: E001 - PME - 10.844.151/0001-80 | Fila: CPC - PME\n' +
+01/07/2026 16:46:28:     '\n' +
+01/07/2026 16:46:28:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail **Divergência de Dados Administrador (ADM)**',
+01/07/2026 16:46:28:   status: 'pendente',
+01/07/2026 16:46:28:   auditoria_anotacao: '',
+01/07/2026 16:46:28:   auditoria_status: ''
+01/07/2026 16:46:28: }
+01/07/2026 16:46:28: [PUT] Linhas afetadas: 1
+01/07/2026 16:46:28: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:46:28:   id_cotacao: 245,
+01/07/2026 16:46:28:   cotacao: 'Q6343454',
+01/07/2026 16:46:28:   id_qldd: null,
+01/07/2026 16:46:28:   anotacao: 'Tarefa: E001 - PME - 10.844.151/0001-80 | Fila: CPC - PME\n' +
+01/07/2026 16:46:28:     '\n' +
+01/07/2026 16:46:28:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail **Divergência de Dados Administrador (ADM)**',
+01/07/2026 16:46:28:   status: 'pendente',
+01/07/2026 16:46:28:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 16:46:28:   data_da_ultima_atualizacao: '01/07/2026 16:46',
+01/07/2026 16:46:28:   usuario_login: null,
+01/07/2026 16:46:28:   validacao: 'Ativo',
+01/07/2026 16:46:28:   usuario_id: '153',
+01/07/2026 16:46:28:   tarefa: '22794375',
+01/07/2026 16:46:28:   origem: null
+01/07/2026 16:46:28: }
+01/07/2026 16:47:44: [PUT] Atualizando cotação: 22784871
+01/07/2026 16:47:44: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:47:44: [PUT] Dados recebidos: {
+01/07/2026 16:47:44:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:47:44:     '\n' +
+01/07/2026 16:47:44:     '\n' +
+01/07/2026 16:47:44:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:47:44:   status: 'Pendente - Classificação',
+01/07/2026 16:47:44:   auditoria_anotacao: '',
+01/07/2026 16:47:44:   auditoria_status: ''
+01/07/2026 16:47:44: }
+01/07/2026 16:47:44: [PUT] Linhas afetadas: 1
+01/07/2026 16:47:44: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:47:44:   id_cotacao: 26,
+01/07/2026 16:47:44:   cotacao: 'Q6335884',
+01/07/2026 16:47:44:   id_qldd: null,
+01/07/2026 16:47:44:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:47:44:     '\n' +
+01/07/2026 16:47:44:     '\n' +
+01/07/2026 16:47:44:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:47:44:   status: 'Pendente - Classificação',
+01/07/2026 16:47:44:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:47:44:   data_da_ultima_atualizacao: '01/07/2026 16:47',
+01/07/2026 16:47:44:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:47:44:   validacao: 'Ativo',
+01/07/2026 16:47:44:   usuario_id: '153',
+01/07/2026 16:47:44:   tarefa: '22784871',
+01/07/2026 16:47:44:   origem: null
+01/07/2026 16:47:44: }
+01/07/2026 16:48:42: [PUT] Atualizando cotação: 22784871
+01/07/2026 16:48:42: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:48:42: [PUT] Dados recebidos: {
+01/07/2026 16:48:42:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:48:42:     '\n' +
+01/07/2026 16:48:42:     '\n' +
+01/07/2026 16:48:42:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:48:42:   status: 'Pendente - Classificação',
+01/07/2026 16:48:42:   auditoria_anotacao: '',
+01/07/2026 16:48:42:   auditoria_status: ''
+01/07/2026 16:48:42: }
+01/07/2026 16:48:42: [PUT] Linhas afetadas: 1
+01/07/2026 16:48:42: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:48:42:   id_cotacao: 26,
+01/07/2026 16:48:42:   cotacao: 'Q6335884',
+01/07/2026 16:48:42:   id_qldd: null,
+01/07/2026 16:48:42:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:48:42:     '\n' +
+01/07/2026 16:48:42:     '\n' +
+01/07/2026 16:48:42:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:48:42:   status: 'Pendente - Classificação',
+01/07/2026 16:48:42:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:48:42:   data_da_ultima_atualizacao: '01/07/2026 16:48',
+01/07/2026 16:48:42:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:48:42:   validacao: 'Ativo',
+01/07/2026 16:48:42:   usuario_id: '153',
+01/07/2026 16:48:42:   tarefa: '22784871',
+01/07/2026 16:48:42:   origem: null
+01/07/2026 16:48:42: }
+01/07/2026 16:48:46: [PUT] Atualizando cotação: 22784871
+01/07/2026 16:48:46: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:48:46: [PUT] Dados recebidos: {
+01/07/2026 16:48:46:   anotacao: undefined,
+01/07/2026 16:48:46:   status: 'reprovado',
+01/07/2026 16:48:46:   auditoria_anotacao: undefined,
+01/07/2026 16:48:46:   auditoria_status: undefined
+01/07/2026 16:48:46: }
+01/07/2026 16:48:46: [PUT] Linhas afetadas: 1
+01/07/2026 16:48:46: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:48:46:   id_cotacao: 26,
+01/07/2026 16:48:46:   cotacao: 'Q6335884',
+01/07/2026 16:48:46:   id_qldd: null,
+01/07/2026 16:48:46:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:48:46:     '\n' +
+01/07/2026 16:48:46:     '\n' +
+01/07/2026 16:48:46:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:48:46:   status: 'reprovado',
+01/07/2026 16:48:46:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:48:46:   data_da_ultima_atualizacao: '01/07/2026 16:48',
+01/07/2026 16:48:46:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:48:46:   validacao: 'Ativo',
+01/07/2026 16:48:46:   usuario_id: '153',
+01/07/2026 16:48:46:   tarefa: '22784871',
+01/07/2026 16:48:46:   origem: null
+01/07/2026 16:48:46: }
+01/07/2026 16:48:56: [PUT] Atualizando cotação: 22784871
+01/07/2026 16:48:56: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:48:56: [PUT] Dados recebidos: {
+01/07/2026 16:48:56:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:48:56:     '\n' +
+01/07/2026 16:48:56:     '\n' +
+01/07/2026 16:48:56:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:48:56:   status: 'Pendente - Classificação',
+01/07/2026 16:48:56:   auditoria_anotacao: '',
+01/07/2026 16:48:56:   auditoria_status: ''
+01/07/2026 16:48:56: }
+01/07/2026 16:48:56: [PUT] Linhas afetadas: 1
+01/07/2026 16:48:56: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:48:56:   id_cotacao: 26,
+01/07/2026 16:48:56:   cotacao: 'Q6335884',
+01/07/2026 16:48:56:   id_qldd: null,
+01/07/2026 16:48:56:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:48:56:     '\n' +
+01/07/2026 16:48:56:     '\n' +
+01/07/2026 16:48:56:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:48:56:   status: 'Pendente - Classificação',
+01/07/2026 16:48:56:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:48:56:   data_da_ultima_atualizacao: '01/07/2026 16:48',
+01/07/2026 16:48:56:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:48:56:   validacao: 'Ativo',
+01/07/2026 16:48:56:   usuario_id: '153',
+01/07/2026 16:48:56:   tarefa: '22784871',
+01/07/2026 16:48:56:   origem: null
+01/07/2026 16:48:56: }
+01/07/2026 16:49:08: [PUT] Atualizando cotação: 22784871
+01/07/2026 16:49:08: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:49:08: [PUT] Dados recebidos: {
+01/07/2026 16:49:08:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:49:08:     '\n' +
+01/07/2026 16:49:08:     '\n' +
+01/07/2026 16:49:08:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:49:08:   status: 'Pendente - Classificação',
+01/07/2026 16:49:08:   auditoria_anotacao: '',
+01/07/2026 16:49:08:   auditoria_status: ''
+01/07/2026 16:49:08: }
+01/07/2026 16:49:08: [PUT] Linhas afetadas: 1
+01/07/2026 16:49:08: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:49:08:   id_cotacao: 26,
+01/07/2026 16:49:08:   cotacao: 'Q6335884',
+01/07/2026 16:49:08:   id_qldd: null,
+01/07/2026 16:49:08:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:49:08:     '\n' +
+01/07/2026 16:49:08:     '\n' +
+01/07/2026 16:49:08:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:49:08:   status: 'Pendente - Classificação',
+01/07/2026 16:49:08:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:49:08:   data_da_ultima_atualizacao: '01/07/2026 16:49',
+01/07/2026 16:49:08:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:49:08:   validacao: 'Ativo',
+01/07/2026 16:49:08:   usuario_id: '153',
+01/07/2026 16:49:08:   tarefa: '22784871',
+01/07/2026 16:49:08:   origem: null
+01/07/2026 16:49:08: }
+01/07/2026 16:49:11: [PUT] Atualizando cotação: 22784871
+01/07/2026 16:49:11: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:49:11: [PUT] Dados recebidos: {
+01/07/2026 16:49:11:   anotacao: undefined,
+01/07/2026 16:49:11:   status: 'reprovado',
+01/07/2026 16:49:11:   auditoria_anotacao: undefined,
+01/07/2026 16:49:11:   auditoria_status: undefined
+01/07/2026 16:49:11: }
+01/07/2026 16:49:11: [PUT] Linhas afetadas: 1
+01/07/2026 16:49:11: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:49:11:   id_cotacao: 26,
+01/07/2026 16:49:11:   cotacao: 'Q6335884',
+01/07/2026 16:49:11:   id_qldd: null,
+01/07/2026 16:49:11:   anotacao: 'Tarefa: E001 - PME - 03.610.664/0001-60 | Fila: CPC - PME\n' +
+01/07/2026 16:49:11:     '\n' +
+01/07/2026 16:49:11:     '\n' +
+01/07/2026 16:49:11:     '> Conforme a nova regra de renovação e renovação com incremento vigente, pedidos assinados a partir 03/06/2025, para os Planos Individuais (Claro Life/Claro Pós), é necessário que seja feito o Upgrade de Franquias. Portanto, é necessário realizar uma nova negociação com o cliente, dentro das regras estabelecidas pelo Marketing.',
+01/07/2026 16:49:11:   status: 'reprovado',
+01/07/2026 16:49:11:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:49:11:   data_da_ultima_atualizacao: '01/07/2026 16:49',
+01/07/2026 16:49:11:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:49:11:   validacao: 'Ativo',
+01/07/2026 16:49:11:   usuario_id: '153',
+01/07/2026 16:49:11:   tarefa: '22784871',
+01/07/2026 16:49:11:   origem: null
+01/07/2026 16:49:11: }
+01/07/2026 16:49:25: [PUT] Atualizando cotação: 22794375
+01/07/2026 16:49:25: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:49:25: [PUT] Dados recebidos: {
+01/07/2026 16:49:25:   anotacao: 'Tarefa: E001 - PME - 10.844.151/0001-80 | Fila: CPC - PME\n' +
+01/07/2026 16:49:25:     '\n' +
+01/07/2026 16:49:25:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail **Divergência de Dados Administrador (ADM)**',
+01/07/2026 16:49:25:   status: 'pendente',
+01/07/2026 16:49:25:   auditoria_anotacao: '',
+01/07/2026 16:49:25:   auditoria_status: ''
+01/07/2026 16:49:25: }
+01/07/2026 16:49:25: [PUT] Linhas afetadas: 1
+01/07/2026 16:49:25: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:49:25:   id_cotacao: 245,
+01/07/2026 16:49:25:   cotacao: 'Q6343454',
+01/07/2026 16:49:25:   id_qldd: null,
+01/07/2026 16:49:25:   anotacao: 'Tarefa: E001 - PME - 10.844.151/0001-80 | Fila: CPC - PME\n' +
+01/07/2026 16:49:25:     '\n' +
+01/07/2026 16:49:25:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail **Divergência de Dados Administrador (ADM)**',
+01/07/2026 16:49:25:   status: 'pendente',
+01/07/2026 16:49:25:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 16:49:25:   data_da_ultima_atualizacao: '01/07/2026 16:49',
+01/07/2026 16:49:25:   usuario_login: null,
+01/07/2026 16:49:25:   validacao: 'Ativo',
+01/07/2026 16:49:25:   usuario_id: '153',
+01/07/2026 16:49:25:   tarefa: '22794375',
+01/07/2026 16:49:25:   origem: null
+01/07/2026 16:49:25: }
+01/07/2026 16:49:28: [PUT] Atualizando cotação: 22794375
+01/07/2026 16:49:28: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:49:28: [PUT] Dados recebidos: {
+01/07/2026 16:49:28:   anotacao: undefined,
+01/07/2026 16:49:28:   status: 'reprovado',
+01/07/2026 16:49:28:   auditoria_anotacao: undefined,
+01/07/2026 16:49:28:   auditoria_status: undefined
+01/07/2026 16:49:28: }
+01/07/2026 16:49:28: [PUT] Linhas afetadas: 1
+01/07/2026 16:49:28: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:49:28:   id_cotacao: 245,
+01/07/2026 16:49:28:   cotacao: 'Q6343454',
+01/07/2026 16:49:28:   id_qldd: null,
+01/07/2026 16:49:28:   anotacao: 'Tarefa: E001 - PME - 10.844.151/0001-80 | Fila: CPC - PME\n' +
+01/07/2026 16:49:28:     '\n' +
+01/07/2026 16:49:28:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail **Divergência de Dados Administrador (ADM)**',
+01/07/2026 16:49:28:   status: 'reprovado',
+01/07/2026 16:49:28:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 16:49:28:   data_da_ultima_atualizacao: '01/07/2026 16:49',
+01/07/2026 16:49:28:   usuario_login: null,
+01/07/2026 16:49:28:   validacao: 'Ativo',
+01/07/2026 16:49:28:   usuario_id: '153',
+01/07/2026 16:49:28:   tarefa: '22794375',
+01/07/2026 16:49:28:   origem: null
+01/07/2026 16:49:28: }
+01/07/2026 16:53:39: [PUT] Atualizando cotação: 22793952 Q6341679
+01/07/2026 16:53:39: [PUT] Usuário: felipe.freitas.3
+01/07/2026 16:53:39: [PUT] Dados recebidos: {
+01/07/2026 16:53:39:   anotacao: '22320881000160',
+01/07/2026 16:53:39:   status: 'pendente',
+01/07/2026 16:53:39:   auditoria_anotacao: '',
+01/07/2026 16:53:39:   auditoria_status: ''
+01/07/2026 16:53:39: }
+01/07/2026 16:53:39: [PUT] Linhas afetadas: 1
+01/07/2026 16:53:39: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:53:39:   id_cotacao: 259,
+01/07/2026 16:53:39:   cotacao: '22793952 Q6341679',
+01/07/2026 16:53:39:   id_qldd: null,
+01/07/2026 16:53:39:   anotacao: '22320881000160',
+01/07/2026 16:53:39:   status: 'pendente',
+01/07/2026 16:53:39:   data_de_criacao: '01/07/2026 16:51',
+01/07/2026 16:53:39:   data_da_ultima_atualizacao: '01/07/2026 16:53',
+01/07/2026 16:53:39:   usuario_login: 'felipe.freitas.3',
+01/07/2026 16:53:39:   validacao: 'Ativo',
+01/07/2026 16:53:39:   usuario_id: '132',
+01/07/2026 16:53:39:   tarefa: '22793952 Q6341679',
+01/07/2026 16:53:39:   origem: null
+01/07/2026 16:53:39: }
+01/07/2026 16:53:44: [PUT] Atualizando cotação: 22783522
+01/07/2026 16:53:44: [PUT] Usuário: marcia.miura
+01/07/2026 16:53:44: [PUT] Dados recebidos: {
+01/07/2026 16:53:44:   anotacao: undefined,
+01/07/2026 16:53:44:   status: 'reprovado',
+01/07/2026 16:53:44:   auditoria_anotacao: undefined,
+01/07/2026 16:53:44:   auditoria_status: undefined
+01/07/2026 16:53:44: }
+01/07/2026 16:53:44: [PUT] Linhas afetadas: 1
+01/07/2026 16:53:44: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:53:44:   id_cotacao: 32,
+01/07/2026 16:53:44:   cotacao: 'Q6324233',
+01/07/2026 16:53:44:   id_qldd: null,
+01/07/2026 16:53:44:   anotacao: 'Tarefa: E001 - PME - 72.268.998/0001-10 | Fila: CPC - PME',
+01/07/2026 16:53:44:   status: 'reprovado',
+01/07/2026 16:53:44:   data_de_criacao: '30/06/2026 14:46',
+01/07/2026 16:53:44:   data_da_ultima_atualizacao: '01/07/2026 16:53',
+01/07/2026 16:53:44:   usuario_login: 'yasmin.rodriguessilv',
+01/07/2026 16:53:44:   validacao: 'Ativo',
+01/07/2026 16:53:44:   usuario_id: '141',
+01/07/2026 16:53:44:   tarefa: '22783522',
+01/07/2026 16:53:44:   origem: null
+01/07/2026 16:53:44: }
+01/07/2026 16:57:41: [PUT] Atualizando cotação: 22794318
+01/07/2026 16:57:41: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 16:57:41: [PUT] Dados recebidos: {
+01/07/2026 16:57:41:   anotacao: undefined,
+01/07/2026 16:57:41:   status: 'aprovado',
+01/07/2026 16:57:41:   auditoria_anotacao: undefined,
+01/07/2026 16:57:41:   auditoria_status: undefined
+01/07/2026 16:57:41: }
+01/07/2026 16:57:41: [PUT] Linhas afetadas: 1
+01/07/2026 16:57:41: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:57:41:   id_cotacao: 232,
+01/07/2026 16:57:41:   cotacao: 'Q6341675',
+01/07/2026 16:57:41:   id_qldd: null,
+01/07/2026 16:57:41:   anotacao: 'Tarefa: E001 - PME - 15.353.379/0001-90 | Fila: CPC - PME',
+01/07/2026 16:57:41:   status: 'aprovado',
+01/07/2026 16:57:41:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 16:57:41:   data_da_ultima_atualizacao: '01/07/2026 16:57',
+01/07/2026 16:57:41:   usuario_login: null,
+01/07/2026 16:57:41:   validacao: 'Ativo',
+01/07/2026 16:57:41:   usuario_id: '145',
+01/07/2026 16:57:41:   tarefa: '22794318',
+01/07/2026 16:57:41:   origem: null
+01/07/2026 16:57:41: }
+01/07/2026 16:58:51: [PUT] Atualizando cotação: 22794501
+01/07/2026 16:58:51: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:58:51: [PUT] Dados recebidos: {
+01/07/2026 16:58:51:   anotacao: undefined,
+01/07/2026 16:58:51:   status: 'reprovado',
+01/07/2026 16:58:51:   auditoria_anotacao: undefined,
+01/07/2026 16:58:51:   auditoria_status: undefined
+01/07/2026 16:58:51: }
+01/07/2026 16:58:51: [PUT] Linhas afetadas: 1
+01/07/2026 16:58:51: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:58:51:   id_cotacao: 240,
+01/07/2026 16:58:51:   cotacao: 'Q6338796',
+01/07/2026 16:58:51:   id_qldd: null,
+01/07/2026 16:58:51:   anotacao: 'Tarefa: E001 - PME - 42.302.441/0001-98 | Fila: CPC - PME',
+01/07/2026 16:58:51:   status: 'reprovado',
+01/07/2026 16:58:51:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 16:58:51:   data_da_ultima_atualizacao: '01/07/2026 16:58',
+01/07/2026 16:58:51:   usuario_login: null,
+01/07/2026 16:58:51:   validacao: 'Ativo',
+01/07/2026 16:58:51:   usuario_id: '153',
+01/07/2026 16:58:51:   tarefa: '22794501',
+01/07/2026 16:58:51:   origem: null
+01/07/2026 16:58:51: }
+01/07/2026 16:59:06: [PUT] Atualizando cotação: 22793952 Q6341679
+01/07/2026 16:59:06: [PUT] Usuário: felipe.freitas.3
+01/07/2026 16:59:06: [PUT] Dados recebidos: {
+01/07/2026 16:59:06:   anotacao: '> Para troca de equipamento não se pode contratar outro produto ou serviço',
+01/07/2026 16:59:06:   status: 'pendente',
+01/07/2026 16:59:06:   auditoria_anotacao: '',
+01/07/2026 16:59:06:   auditoria_status: ''
+01/07/2026 16:59:06: }
+01/07/2026 16:59:06: [PUT] Linhas afetadas: 1
+01/07/2026 16:59:06: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:59:06:   id_cotacao: 259,
+01/07/2026 16:59:06:   cotacao: '22793952 Q6341679',
+01/07/2026 16:59:06:   id_qldd: null,
+01/07/2026 16:59:06:   anotacao: '> Para troca de equipamento não se pode contratar outro produto ou serviço',
+01/07/2026 16:59:06:   status: 'pendente',
+01/07/2026 16:59:06:   data_de_criacao: '01/07/2026 16:51',
+01/07/2026 16:59:06:   data_da_ultima_atualizacao: '01/07/2026 16:59',
+01/07/2026 16:59:06:   usuario_login: 'felipe.freitas.3',
+01/07/2026 16:59:06:   validacao: 'Ativo',
+01/07/2026 16:59:06:   usuario_id: '132',
+01/07/2026 16:59:06:   tarefa: '22793952 Q6341679',
+01/07/2026 16:59:06:   origem: null
+01/07/2026 16:59:06: }
+01/07/2026 16:59:15: [PUT] Atualizando cotação: 22794501
+01/07/2026 16:59:15: [PUT] Usuário: thiago.sousa.3
+01/07/2026 16:59:15: [PUT] Dados recebidos: {
+01/07/2026 16:59:15:   anotacao: 'Tarefa: E001 - PME - 42.302.441/0001-98 | Fila: CPC - PME\n' +
+01/07/2026 16:59:15:     '\n' +
+01/07/2026 16:59:15:     '> Conforme a nova regra RGC, para pedidos assinados a partir da data 09/09/25, é necessário que seja anexado o documento TCO devidamente completo e preenchido.**Falta TCO**\n' +
+01/07/2026 16:59:15:     '> Conforme a nova regra RGC, para pedidos assinados a partir da data 09/09/25, é necessário que seja anexado o documento Etiqueta única devidamente completo e preenchido.**Falta Etiqueta**',
+01/07/2026 16:59:15:   status: 'reprovado',
+01/07/2026 16:59:15:   auditoria_anotacao: '',
+01/07/2026 16:59:15:   auditoria_status: ''
+01/07/2026 16:59:15: }
+01/07/2026 16:59:15: [PUT] Linhas afetadas: 1
+01/07/2026 16:59:15: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 16:59:15:   id_cotacao: 240,
+01/07/2026 16:59:15:   cotacao: 'Q6338796',
+01/07/2026 16:59:15:   id_qldd: null,
+01/07/2026 16:59:15:   anotacao: 'Tarefa: E001 - PME - 42.302.441/0001-98 | Fila: CPC - PME\n' +
+01/07/2026 16:59:15:     '\n' +
+01/07/2026 16:59:15:     '> Conforme a nova regra RGC, para pedidos assinados a partir da data 09/09/25, é necessário que seja anexado o documento TCO devidamente completo e preenchido.**Falta TCO**\n' +
+01/07/2026 16:59:15:     '> Conforme a nova regra RGC, para pedidos assinados a partir da data 09/09/25, é necessário que seja anexado o documento Etiqueta única devidamente completo e preenchido.**Falta Etiqueta**',
+01/07/2026 16:59:15:   status: 'reprovado',
+01/07/2026 16:59:15:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 16:59:15:   data_da_ultima_atualizacao: '01/07/2026 16:59',
+01/07/2026 16:59:15:   usuario_login: null,
+01/07/2026 16:59:15:   validacao: 'Ativo',
+01/07/2026 16:59:15:   usuario_id: '153',
+01/07/2026 16:59:15:   tarefa: '22794501',
+01/07/2026 16:59:15:   origem: null
+01/07/2026 16:59:15: }
+01/07/2026 17:01:10: [PUT] Atualizando cotação: 22793952 Q6341679
+01/07/2026 17:01:10: [PUT] Usuário: felipe.freitas.3
+01/07/2026 17:01:10: [PUT] Dados recebidos: {
+01/07/2026 17:01:10:   anotacao: undefined,
+01/07/2026 17:01:10:   status: 'reprovado',
+01/07/2026 17:01:10:   auditoria_anotacao: undefined,
+01/07/2026 17:01:10:   auditoria_status: undefined
+01/07/2026 17:01:10: }
+01/07/2026 17:01:10: [PUT] Linhas afetadas: 1
+01/07/2026 17:01:10: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:01:10:   id_cotacao: 259,
+01/07/2026 17:01:10:   cotacao: '22793952 Q6341679',
+01/07/2026 17:01:10:   id_qldd: null,
+01/07/2026 17:01:10:   anotacao: '> Para troca de equipamento não se pode contratar outro produto ou serviço',
+01/07/2026 17:01:10:   status: 'reprovado',
+01/07/2026 17:01:10:   data_de_criacao: '01/07/2026 16:51',
+01/07/2026 17:01:10:   data_da_ultima_atualizacao: '01/07/2026 17:01',
+01/07/2026 17:01:10:   usuario_login: 'felipe.freitas.3',
+01/07/2026 17:01:10:   validacao: 'Ativo',
+01/07/2026 17:01:10:   usuario_id: '132',
+01/07/2026 17:01:10:   tarefa: '22793952 Q6341679',
+01/07/2026 17:01:10:   origem: null
+01/07/2026 17:01:10: }
+01/07/2026 17:03:12: [PUT] Atualizando cotação: 22794275
+01/07/2026 17:03:12: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 17:03:12: [PUT] Dados recebidos: {
+01/07/2026 17:03:12:   anotacao: undefined,
+01/07/2026 17:03:12:   status: 'aprovado',
+01/07/2026 17:03:12:   auditoria_anotacao: undefined,
+01/07/2026 17:03:12:   auditoria_status: undefined
+01/07/2026 17:03:12: }
+01/07/2026 17:03:12: [PUT] Linhas afetadas: 1
+01/07/2026 17:03:12: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:03:12:   id_cotacao: 233,
+01/07/2026 17:03:12:   cotacao: 'Q6343451',
+01/07/2026 17:03:12:   id_qldd: null,
+01/07/2026 17:03:12:   anotacao: 'Tarefa: E001 - PME - 02.185.091/0009-60 | Fila: CPC - PME',
+01/07/2026 17:03:12:   status: 'aprovado',
+01/07/2026 17:03:12:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:03:12:   data_da_ultima_atualizacao: '01/07/2026 17:03',
+01/07/2026 17:03:12:   usuario_login: null,
+01/07/2026 17:03:12:   validacao: 'Ativo',
+01/07/2026 17:03:12:   usuario_id: '145',
+01/07/2026 17:03:12:   tarefa: '22794275',
+01/07/2026 17:03:12:   origem: null
+01/07/2026 17:03:12: }
+01/07/2026 17:04:05: [PUT] Atualizando cotação: 22792826
+01/07/2026 17:04:05: [PUT] Usuário: marcia.miura
+01/07/2026 17:04:05: [PUT] Dados recebidos: {
+01/07/2026 17:04:05:   anotacao: undefined,
+01/07/2026 17:04:05:   status: 'reprovado',
+01/07/2026 17:04:05:   auditoria_anotacao: undefined,
+01/07/2026 17:04:05:   auditoria_status: undefined
+01/07/2026 17:04:05: }
+01/07/2026 17:04:05: [PUT] Linhas afetadas: 1
+01/07/2026 17:04:05: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:04:05:   id_cotacao: 223,
+01/07/2026 17:04:05:   cotacao: 'Q6341024',
+01/07/2026 17:04:05:   id_qldd: null,
+01/07/2026 17:04:05:   anotacao: 'Tarefa: E001 - PME - 21.515.665/0001-08 | Fila: CPC - PME',
+01/07/2026 17:04:05:   status: 'reprovado',
+01/07/2026 17:04:05:   data_de_criacao: '01/07/2026 16:11',
+01/07/2026 17:04:05:   data_da_ultima_atualizacao: '01/07/2026 17:04',
+01/07/2026 17:04:05:   usuario_login: null,
+01/07/2026 17:04:05:   validacao: 'Ativo',
+01/07/2026 17:04:05:   usuario_id: '141',
+01/07/2026 17:04:05:   tarefa: '22792826',
+01/07/2026 17:04:05:   origem: null
+01/07/2026 17:04:05: }
+01/07/2026 17:04:09: [PUT] Atualizando cotação: 22792826
+01/07/2026 17:04:09: [PUT] Usuário: marcia.miura
+01/07/2026 17:04:09: [PUT] Dados recebidos: {
+01/07/2026 17:04:09:   anotacao: 'Tarefa: E001 - PME - 21.515.665/0001-08 | Fila: CPC - PME\n' +
+01/07/2026 17:04:09:     '> A quantidade de administradores da conta do TCPJ diverge do que foi informado no CPC. (Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção). **Quantidade de administrador (ADM)**\n' +
+01/07/2026 17:04:09:     '> No TCPJ no campo resumo de franquia não esta sendo informado o bônus.\n' +
+01/07/2026 17:04:09:     '\t**OBS: Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção.**\n',
+01/07/2026 17:04:09:   status: 'reprovado',
+01/07/2026 17:04:09:   auditoria_anotacao: '',
+01/07/2026 17:04:09:   auditoria_status: ''
+01/07/2026 17:04:09: }
+01/07/2026 17:04:09: [PUT] Linhas afetadas: 1
+01/07/2026 17:04:09: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:04:09:   id_cotacao: 223,
+01/07/2026 17:04:09:   cotacao: 'Q6341024',
+01/07/2026 17:04:09:   id_qldd: null,
+01/07/2026 17:04:09:   anotacao: 'Tarefa: E001 - PME - 21.515.665/0001-08 | Fila: CPC - PME\n' +
+01/07/2026 17:04:09:     '> A quantidade de administradores da conta do TCPJ diverge do que foi informado no CPC. (Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção). **Quantidade de administrador (ADM)**\n' +
+01/07/2026 17:04:09:     '> No TCPJ no campo resumo de franquia não esta sendo informado o bônus.\n' +
+01/07/2026 17:04:09:     '\t**OBS: Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção.**\n',
+01/07/2026 17:04:09:   status: 'reprovado',
+01/07/2026 17:04:09:   data_de_criacao: '01/07/2026 16:11',
+01/07/2026 17:04:09:   data_da_ultima_atualizacao: '01/07/2026 17:04',
+01/07/2026 17:04:09:   usuario_login: null,
+01/07/2026 17:04:09:   validacao: 'Ativo',
+01/07/2026 17:04:09:   usuario_id: '141',
+01/07/2026 17:04:09:   tarefa: '22792826',
+01/07/2026 17:04:09:   origem: null
+01/07/2026 17:04:09: }
+01/07/2026 17:05:12: [PUT] Atualizando cotação: 22794361
+01/07/2026 17:05:12: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:05:12: [PUT] Dados recebidos: {
+01/07/2026 17:05:12:   anotacao: undefined,
+01/07/2026 17:05:12:   status: 'aprovado',
+01/07/2026 17:05:12:   auditoria_anotacao: undefined,
+01/07/2026 17:05:12:   auditoria_status: undefined
+01/07/2026 17:05:12: }
+01/07/2026 17:05:12: [PUT] Linhas afetadas: 1
+01/07/2026 17:05:12: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:05:12:   id_cotacao: 247,
+01/07/2026 17:05:12:   cotacao: 'Q6343556',
+01/07/2026 17:05:12:   id_qldd: null,
+01/07/2026 17:05:12:   anotacao: 'Tarefa: E001 - PME - 04.364.348/0001-19 | Fila: CPC - PME',
+01/07/2026 17:05:12:   status: 'aprovado',
+01/07/2026 17:05:12:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:05:12:   data_da_ultima_atualizacao: '01/07/2026 17:05',
+01/07/2026 17:05:12:   usuario_login: null,
+01/07/2026 17:05:12:   validacao: 'Ativo',
+01/07/2026 17:05:12:   usuario_id: '153',
+01/07/2026 17:05:12:   tarefa: '22794361',
+01/07/2026 17:05:12:   origem: null
+01/07/2026 17:05:12: }
+01/07/2026 17:12:01: [PUT] Atualizando cotação: 22792396
+01/07/2026 17:12:01: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:12:01: [PUT] Dados recebidos: {
+01/07/2026 17:12:01:   anotacao: undefined,
+01/07/2026 17:12:01:   status: 'pendente-iphone',
+01/07/2026 17:12:01:   auditoria_anotacao: undefined,
+01/07/2026 17:12:01:   auditoria_status: undefined
+01/07/2026 17:12:01: }
+01/07/2026 17:12:01: [PUT] Linhas afetadas: 1
+01/07/2026 17:12:01: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:12:01:   id_cotacao: 194,
+01/07/2026 17:12:01:   cotacao: 'Q6342053',
+01/07/2026 17:12:01:   id_qldd: null,
+01/07/2026 17:12:01:   anotacao: 'Tarefa: E001 - PME - 27.774.887/0001-21 | Fila: CPC - PME',
+01/07/2026 17:12:01:   status: 'pendente-iphone',
+01/07/2026 17:12:01:   data_de_criacao: '01/07/2026 12:35',
+01/07/2026 17:12:01:   data_da_ultima_atualizacao: '01/07/2026 17:12',
+01/07/2026 17:12:01:   usuario_login: null,
+01/07/2026 17:12:01:   validacao: 'Ativo',
+01/07/2026 17:12:01:   usuario_id: '196',
+01/07/2026 17:12:01:   tarefa: '22792396',
+01/07/2026 17:12:01:   origem: null
+01/07/2026 17:12:01: }
+01/07/2026 17:13:08: [PUT] Atualizando cotação: 22794534
+01/07/2026 17:13:08: [PUT] Usuário: felipe.freitas.3
+01/07/2026 17:13:08: [PUT] Dados recebidos: {
+01/07/2026 17:13:08:   anotacao: undefined,
+01/07/2026 17:13:08:   status: 'aprovado',
+01/07/2026 17:13:08:   auditoria_anotacao: undefined,
+01/07/2026 17:13:08:   auditoria_status: undefined
+01/07/2026 17:13:08: }
+01/07/2026 17:13:08: [PUT] Linhas afetadas: 1
+01/07/2026 17:13:08: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:13:08:   id_cotacao: 255,
+01/07/2026 17:13:08:   cotacao: 'Q6343064',
+01/07/2026 17:13:08:   id_qldd: null,
+01/07/2026 17:13:08:   anotacao: 'Tarefa: E001 - PME - 48.430.089/0001-52 | Fila: CPC - PME',
+01/07/2026 17:13:08:   status: 'aprovado',
+01/07/2026 17:13:08:   data_de_criacao: '01/07/2026 16:44',
+01/07/2026 17:13:08:   data_da_ultima_atualizacao: '01/07/2026 17:13',
+01/07/2026 17:13:08:   usuario_login: null,
+01/07/2026 17:13:08:   validacao: 'Ativo',
+01/07/2026 17:13:08:   usuario_id: '132',
+01/07/2026 17:13:08:   tarefa: '22794534',
+01/07/2026 17:13:08:   origem: null
+01/07/2026 17:13:08: }
+01/07/2026 17:13:15: [PUT] Atualizando cotação: 22794370
+01/07/2026 17:13:15: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:13:15: [PUT] Dados recebidos: {
+01/07/2026 17:13:15:   anotacao: undefined,
+01/07/2026 17:13:15:   status: 'aprovado',
+01/07/2026 17:13:15:   auditoria_anotacao: undefined,
+01/07/2026 17:13:15:   auditoria_status: undefined
+01/07/2026 17:13:15: }
+01/07/2026 17:13:15: [PUT] Linhas afetadas: 1
+01/07/2026 17:13:15: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:13:15:   id_cotacao: 246,
+01/07/2026 17:13:15:   cotacao: 'Q6343364',
+01/07/2026 17:13:15:   id_qldd: null,
+01/07/2026 17:13:15:   anotacao: 'Tarefa: E001 - PME - 04.078.841/0001-72 | Fila: CPC - PME',
+01/07/2026 17:13:15:   status: 'aprovado',
+01/07/2026 17:13:15:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:13:15:   data_da_ultima_atualizacao: '01/07/2026 17:13',
+01/07/2026 17:13:15:   usuario_login: null,
+01/07/2026 17:13:15:   validacao: 'Ativo',
+01/07/2026 17:13:15:   usuario_id: '153',
+01/07/2026 17:13:15:   tarefa: '22794370',
+01/07/2026 17:13:15:   origem: null
+01/07/2026 17:13:15: }
+01/07/2026 17:13:39: [PUT] Atualizando cotação: 22793020
+01/07/2026 17:13:39: [PUT] Usuário: felipe.freitas.3
+01/07/2026 17:13:39: [PUT] Dados recebidos: {
+01/07/2026 17:13:39:   anotacao: undefined,
+01/07/2026 17:13:39:   status: 'aprovado',
+01/07/2026 17:13:39:   auditoria_anotacao: undefined,
+01/07/2026 17:13:39:   auditoria_status: undefined
+01/07/2026 17:13:39: }
+01/07/2026 17:13:39: [PUT] Linhas afetadas: 1
+01/07/2026 17:13:39: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:13:39:   id_cotacao: 264,
+01/07/2026 17:13:39:   cotacao: 'Q6341909',
+01/07/2026 17:13:39:   id_qldd: null,
+01/07/2026 17:13:39:   anotacao: 'Tarefa: E001 - PME - 20.083.332/0001-94 | Fila: CPC - PME',
+01/07/2026 17:13:39:   status: 'aprovado',
+01/07/2026 17:13:39:   data_de_criacao: '01/07/2026 16:52',
+01/07/2026 17:13:39:   data_da_ultima_atualizacao: '01/07/2026 17:13',
+01/07/2026 17:13:39:   usuario_login: 'jose.faria',
+01/07/2026 17:13:39:   validacao: 'Ativo',
+01/07/2026 17:13:39:   usuario_id: '132',
+01/07/2026 17:13:39:   tarefa: '22793020',
+01/07/2026 17:13:39:   origem: null
+01/07/2026 17:13:39: }
+01/07/2026 17:13:50: [PUT] Atualizando cotação: 22792402
+01/07/2026 17:13:50: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:13:50: [PUT] Dados recebidos: {
+01/07/2026 17:13:50:   anotacao: undefined,
+01/07/2026 17:13:50:   status: 'pendente-qualidade',
+01/07/2026 17:13:50:   auditoria_anotacao: undefined,
+01/07/2026 17:13:50:   auditoria_status: undefined
+01/07/2026 17:13:50: }
+01/07/2026 17:13:50: [PUT] Linhas afetadas: 1
+01/07/2026 17:13:50: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:13:50:   id_cotacao: 192,
+01/07/2026 17:13:50:   cotacao: 'Q6341195',
+01/07/2026 17:13:50:   id_qldd: null,
+01/07/2026 17:13:50:   anotacao: 'Tarefa: E001 - PME - 15.126.711/0001-84 | Fila: CPC - PME',
+01/07/2026 17:13:50:   status: 'pendente-qualidade',
+01/07/2026 17:13:50:   data_de_criacao: '01/07/2026 12:35',
+01/07/2026 17:13:50:   data_da_ultima_atualizacao: '01/07/2026 17:13',
+01/07/2026 17:13:50:   usuario_login: null,
+01/07/2026 17:13:50:   validacao: 'Ativo',
+01/07/2026 17:13:50:   usuario_id: '196',
+01/07/2026 17:13:50:   tarefa: '22792402',
+01/07/2026 17:13:50:   origem: null
+01/07/2026 17:13:50: }
+01/07/2026 17:14:30: [PUT] Atualizando cotação: 22792418
+01/07/2026 17:14:30: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:14:30: [PUT] Dados recebidos: {
+01/07/2026 17:14:30:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:14:30:   status: 'Pendente - Classificação',
+01/07/2026 17:14:30:   auditoria_anotacao: '',
+01/07/2026 17:14:30:   auditoria_status: ''
+01/07/2026 17:14:30: }
+01/07/2026 17:14:30: [PUT] Linhas afetadas: 1
+01/07/2026 17:14:30: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:14:30:   id_cotacao: 191,
+01/07/2026 17:14:30:   cotacao: 'Q6341371',
+01/07/2026 17:14:30:   id_qldd: null,
+01/07/2026 17:14:30:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:14:30:   status: 'Pendente - Classificação',
+01/07/2026 17:14:30:   data_de_criacao: '01/07/2026 12:35',
+01/07/2026 17:14:30:   data_da_ultima_atualizacao: '01/07/2026 17:14',
+01/07/2026 17:14:30:   usuario_login: null,
+01/07/2026 17:14:30:   validacao: 'Ativo',
+01/07/2026 17:14:30:   usuario_id: '196',
+01/07/2026 17:14:30:   tarefa: '22792418',
+01/07/2026 17:14:30:   origem: null
+01/07/2026 17:14:30: }
+01/07/2026 17:14:40: [PUT] Atualizando cotação: 22792418
+01/07/2026 17:14:40: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:14:40: [PUT] Dados recebidos: {
+01/07/2026 17:14:40:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:14:40:   status: 'Pendente - Classificação',
+01/07/2026 17:14:40:   auditoria_anotacao: '',
+01/07/2026 17:14:40:   auditoria_status: ''
+01/07/2026 17:14:40: }
+01/07/2026 17:14:40: [PUT] Linhas afetadas: 1
+01/07/2026 17:14:40: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:14:40:   id_cotacao: 191,
+01/07/2026 17:14:40:   cotacao: 'Q6341371',
+01/07/2026 17:14:40:   id_qldd: null,
+01/07/2026 17:14:40:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:14:40:   status: 'Pendente - Classificação',
+01/07/2026 17:14:40:   data_de_criacao: '01/07/2026 12:35',
+01/07/2026 17:14:40:   data_da_ultima_atualizacao: '01/07/2026 17:14',
+01/07/2026 17:14:40:   usuario_login: null,
+01/07/2026 17:14:40:   validacao: 'Ativo',
+01/07/2026 17:14:40:   usuario_id: '196',
+01/07/2026 17:14:40:   tarefa: '22792418',
+01/07/2026 17:14:40:   origem: null
+01/07/2026 17:14:40: }
+01/07/2026 17:14:49: [PUT] Atualizando cotação: 22792418
+01/07/2026 17:14:49: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:14:49: [PUT] Dados recebidos: {
+01/07/2026 17:14:49:   anotacao: undefined,
+01/07/2026 17:14:49:   status: 'reprovado',
+01/07/2026 17:14:49:   auditoria_anotacao: undefined,
+01/07/2026 17:14:49:   auditoria_status: undefined
+01/07/2026 17:14:49: }
+01/07/2026 17:14:49: [PUT] Linhas afetadas: 1
+01/07/2026 17:14:49: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:14:49:   id_cotacao: 191,
+01/07/2026 17:14:49:   cotacao: 'Q6341371',
+01/07/2026 17:14:49:   id_qldd: null,
+01/07/2026 17:14:49:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:14:49:   status: 'reprovado',
+01/07/2026 17:14:49:   data_de_criacao: '01/07/2026 12:35',
+01/07/2026 17:14:49:   data_da_ultima_atualizacao: '01/07/2026 17:14',
+01/07/2026 17:14:49:   usuario_login: null,
+01/07/2026 17:14:49:   validacao: 'Ativo',
+01/07/2026 17:14:49:   usuario_id: '196',
+01/07/2026 17:14:49:   tarefa: '22792418',
+01/07/2026 17:14:49:   origem: null
+01/07/2026 17:14:49: }
+01/07/2026 17:15:00: [PUT] Atualizando cotação: 22792399
+01/07/2026 17:15:00: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:15:00: [PUT] Dados recebidos: {
+01/07/2026 17:15:00:   anotacao: undefined,
+01/07/2026 17:15:00:   status: 'aprovado',
+01/07/2026 17:15:00:   auditoria_anotacao: undefined,
+01/07/2026 17:15:00:   auditoria_status: undefined
+01/07/2026 17:15:00: }
+01/07/2026 17:15:00: [PUT] Linhas afetadas: 1
+01/07/2026 17:15:00: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:15:00:   id_cotacao: 193,
+01/07/2026 17:15:00:   cotacao: 'Q6340005',
+01/07/2026 17:15:00:   id_qldd: null,
+01/07/2026 17:15:00:   anotacao: 'Tarefa: E001 - PME - 45.101.886/0001-06 | Fila: CPC - PME',
+01/07/2026 17:15:00:   status: 'aprovado',
+01/07/2026 17:15:00:   data_de_criacao: '01/07/2026 12:35',
+01/07/2026 17:15:00:   data_da_ultima_atualizacao: '01/07/2026 17:15',
+01/07/2026 17:15:00:   usuario_login: null,
+01/07/2026 17:15:00:   validacao: 'Ativo',
+01/07/2026 17:15:00:   usuario_id: '196',
+01/07/2026 17:15:00:   tarefa: '22792399',
+01/07/2026 17:15:00:   origem: null
+01/07/2026 17:15:00: }
+01/07/2026 17:15:18: [PUT] Atualizando cotação: 22792399
+01/07/2026 17:15:18: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:15:18: [PUT] Dados recebidos: {
+01/07/2026 17:15:18:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:15:18:   status: 'aprovado',
+01/07/2026 17:15:18:   auditoria_anotacao: '',
+01/07/2026 17:15:18:   auditoria_status: ''
+01/07/2026 17:15:18: }
+01/07/2026 17:15:18: [PUT] Linhas afetadas: 1
+01/07/2026 17:15:18: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:15:18:   id_cotacao: 193,
+01/07/2026 17:15:18:   cotacao: 'Q6340005',
+01/07/2026 17:15:18:   id_qldd: null,
+01/07/2026 17:15:18:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:15:18:   status: 'aprovado',
+01/07/2026 17:15:18:   data_de_criacao: '01/07/2026 12:35',
+01/07/2026 17:15:18:   data_da_ultima_atualizacao: '01/07/2026 17:15',
+01/07/2026 17:15:18:   usuario_login: null,
+01/07/2026 17:15:18:   validacao: 'Ativo',
+01/07/2026 17:15:18:   usuario_id: '196',
+01/07/2026 17:15:18:   tarefa: '22792399',
+01/07/2026 17:15:18:   origem: null
+01/07/2026 17:15:18: }
+01/07/2026 17:15:46: [PUT] Atualizando cotação: 22793968
+01/07/2026 17:15:46: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:15:46: [PUT] Dados recebidos: {
+01/07/2026 17:15:46:   anotacao: undefined,
+01/07/2026 17:15:46:   status: 'aprovado',
+01/07/2026 17:15:46:   auditoria_anotacao: undefined,
+01/07/2026 17:15:46:   auditoria_status: undefined
+01/07/2026 17:15:46: }
+01/07/2026 17:15:46: [PUT] Linhas afetadas: 1
+01/07/2026 17:15:46: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:15:46:   id_cotacao: 205,
+01/07/2026 17:15:46:   cotacao: 'Q6338943',
+01/07/2026 17:15:46:   id_qldd: null,
+01/07/2026 17:15:46:   anotacao: 'Tarefa: E001 - PME - 48.758.383/0001-98 | Fila: CPC - PME',
+01/07/2026 17:15:46:   status: 'aprovado',
+01/07/2026 17:15:46:   data_de_criacao: '01/07/2026 15:38',
+01/07/2026 17:15:46:   data_da_ultima_atualizacao: '01/07/2026 17:15',
+01/07/2026 17:15:46:   usuario_login: 'jose.faria',
+01/07/2026 17:15:46:   validacao: 'Ativo',
+01/07/2026 17:15:46:   usuario_id: '196',
+01/07/2026 17:15:46:   tarefa: '22793968',
+01/07/2026 17:15:46:   origem: null
+01/07/2026 17:15:46: }
+01/07/2026 17:16:06: [PUT] Atualizando cotação: 22793968
+01/07/2026 17:16:06: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:16:06: [PUT] Dados recebidos: {
+01/07/2026 17:16:06:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:16:06:   status: 'aprovado',
+01/07/2026 17:16:06:   auditoria_anotacao: '',
+01/07/2026 17:16:06:   auditoria_status: ''
+01/07/2026 17:16:06: }
+01/07/2026 17:16:06: [PUT] Linhas afetadas: 1
+01/07/2026 17:16:06: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:16:06:   id_cotacao: 205,
+01/07/2026 17:16:06:   cotacao: 'Q6338943',
+01/07/2026 17:16:06:   id_qldd: null,
+01/07/2026 17:16:06:   anotacao: 'Ja estava finalizado mas estava na minha demanda.',
+01/07/2026 17:16:06:   status: 'aprovado',
+01/07/2026 17:16:06:   data_de_criacao: '01/07/2026 15:38',
+01/07/2026 17:16:06:   data_da_ultima_atualizacao: '01/07/2026 17:16',
+01/07/2026 17:16:06:   usuario_login: 'jose.faria',
+01/07/2026 17:16:06:   validacao: 'Ativo',
+01/07/2026 17:16:06:   usuario_id: '196',
+01/07/2026 17:16:06:   tarefa: '22793968',
+01/07/2026 17:16:06:   origem: null
+01/07/2026 17:16:06: }
+01/07/2026 17:17:41: [PUT] Atualizando cotação: 22791907
+01/07/2026 17:17:41: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:17:41: [PUT] Dados recebidos: {
+01/07/2026 17:17:41:   anotacao: undefined,
+01/07/2026 17:17:41:   status: 'pendente-qualidade',
+01/07/2026 17:17:41:   auditoria_anotacao: undefined,
+01/07/2026 17:17:41:   auditoria_status: undefined
+01/07/2026 17:17:41: }
+01/07/2026 17:17:41: [PUT] Linhas afetadas: 1
+01/07/2026 17:17:41: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:17:41:   id_cotacao: 215,
+01/07/2026 17:17:41:   cotacao: 'Q6341376',
+01/07/2026 17:17:41:   id_qldd: null,
+01/07/2026 17:17:41:   anotacao: 'Tarefa: E001 - PME - 13.535.825/0001-52 | Fila: CPC - PME',
+01/07/2026 17:17:41:   status: 'pendente-qualidade',
+01/07/2026 17:17:41:   data_de_criacao: '01/07/2026 15:57',
+01/07/2026 17:17:41:   data_da_ultima_atualizacao: '01/07/2026 17:17',
+01/07/2026 17:17:41:   usuario_login: 'murilo.trevisan.3',
+01/07/2026 17:17:41:   validacao: 'Ativo',
+01/07/2026 17:17:41:   usuario_id: '196',
+01/07/2026 17:17:41:   tarefa: '22791907',
+01/07/2026 17:17:41:   origem: null
+01/07/2026 17:17:41: }
+01/07/2026 17:18:10: [PUT] Atualizando cotação: 22793028
+01/07/2026 17:18:10: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:18:10: [PUT] Dados recebidos: {
+01/07/2026 17:18:10:   anotacao: undefined,
+01/07/2026 17:18:10:   status: 'pendente-qualidade',
+01/07/2026 17:18:10:   auditoria_anotacao: undefined,
+01/07/2026 17:18:10:   auditoria_status: undefined
+01/07/2026 17:18:10: }
+01/07/2026 17:18:10: [PUT] Linhas afetadas: 1
+01/07/2026 17:18:10: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:18:10:   id_cotacao: 262,
+01/07/2026 17:18:10:   cotacao: 'Q6321400',
+01/07/2026 17:18:10:   id_qldd: null,
+01/07/2026 17:18:10:   anotacao: 'Tarefa: E001 - PME - 01.016.852/0001-30 | Fila: CPC - PME',
+01/07/2026 17:18:10:   status: 'pendente-qualidade',
+01/07/2026 17:18:10:   data_de_criacao: '01/07/2026 16:52',
+01/07/2026 17:18:10:   data_da_ultima_atualizacao: '01/07/2026 17:18',
+01/07/2026 17:18:10:   usuario_login: 'jose.faria',
+01/07/2026 17:18:10:   validacao: 'Ativo',
+01/07/2026 17:18:10:   usuario_id: '196',
+01/07/2026 17:18:10:   tarefa: '22793028',
+01/07/2026 17:18:10:   origem: null
+01/07/2026 17:18:10: }
+01/07/2026 17:18:15: [PUT] Atualizando cotação: 22794397
+01/07/2026 17:18:15: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:18:15: [PUT] Dados recebidos: {
+01/07/2026 17:18:15:   anotacao: undefined,
+01/07/2026 17:18:15:   status: 'pendente-qualidade',
+01/07/2026 17:18:15:   auditoria_anotacao: undefined,
+01/07/2026 17:18:15:   auditoria_status: undefined
+01/07/2026 17:18:15: }
+01/07/2026 17:18:15: [PUT] Linhas afetadas: 1
+01/07/2026 17:18:15: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:18:15:   id_cotacao: 242,
+01/07/2026 17:18:15:   cotacao: 'Q6322865',
+01/07/2026 17:18:15:   id_qldd: null,
+01/07/2026 17:18:15:   anotacao: 'Tarefa: E001 - PME - 08.259.695/0001-32 | Fila: CPC - PME',
+01/07/2026 17:18:15:   status: 'pendente-qualidade',
+01/07/2026 17:18:15:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:18:15:   data_da_ultima_atualizacao: '01/07/2026 17:18',
+01/07/2026 17:18:15:   usuario_login: null,
+01/07/2026 17:18:15:   validacao: 'Ativo',
+01/07/2026 17:18:15:   usuario_id: '153',
+01/07/2026 17:18:15:   tarefa: '22794397',
+01/07/2026 17:18:15:   origem: null
+01/07/2026 17:18:15: }
+01/07/2026 17:18:32: [PUT] Atualizando cotação: 22794397
+01/07/2026 17:18:32: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:18:32: [PUT] Dados recebidos: {
+01/07/2026 17:18:32:   anotacao: undefined,
+01/07/2026 17:18:32:   status: 'pendente',
+01/07/2026 17:18:32:   auditoria_anotacao: undefined,
+01/07/2026 17:18:32:   auditoria_status: undefined
+01/07/2026 17:18:32: }
+01/07/2026 17:18:32: [PUT] Linhas afetadas: 1
+01/07/2026 17:18:32: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:18:32:   id_cotacao: 242,
+01/07/2026 17:18:32:   cotacao: 'Q6322865',
+01/07/2026 17:18:32:   id_qldd: null,
+01/07/2026 17:18:32:   anotacao: 'Tarefa: E001 - PME - 08.259.695/0001-32 | Fila: CPC - PME',
+01/07/2026 17:18:32:   status: 'pendente',
+01/07/2026 17:18:32:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:18:32:   data_da_ultima_atualizacao: '01/07/2026 17:18',
+01/07/2026 17:18:32:   usuario_login: null,
+01/07/2026 17:18:32:   validacao: 'Ativo',
+01/07/2026 17:18:32:   usuario_id: '153',
+01/07/2026 17:18:32:   tarefa: '22794397',
+01/07/2026 17:18:32:   origem: null
+01/07/2026 17:18:32: }
+01/07/2026 17:18:43: [PUT] Atualizando cotação: 22794485
+01/07/2026 17:18:43: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:18:43: [PUT] Dados recebidos: {
+01/07/2026 17:18:43:   anotacao: undefined,
+01/07/2026 17:18:43:   status: 'pendente-qualidade',
+01/07/2026 17:18:43:   auditoria_anotacao: undefined,
+01/07/2026 17:18:43:   auditoria_status: undefined
+01/07/2026 17:18:43: }
+01/07/2026 17:18:43: [PUT] Linhas afetadas: 1
+01/07/2026 17:18:43: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:18:43:   id_cotacao: 241,
+01/07/2026 17:18:43:   cotacao: 'Q6343676',
+01/07/2026 17:18:43:   id_qldd: null,
+01/07/2026 17:18:43:   anotacao: 'Tarefa: E001 - PME - 08.695.404/0001-59 | Fila: CPC - PME',
+01/07/2026 17:18:43:   status: 'pendente-qualidade',
+01/07/2026 17:18:43:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:18:43:   data_da_ultima_atualizacao: '01/07/2026 17:18',
+01/07/2026 17:18:43:   usuario_login: null,
+01/07/2026 17:18:43:   validacao: 'Ativo',
+01/07/2026 17:18:43:   usuario_id: '153',
+01/07/2026 17:18:43:   tarefa: '22794485',
+01/07/2026 17:18:43:   origem: null
+01/07/2026 17:18:43: }
+01/07/2026 17:18:46: [PUT] Atualizando cotação: 22792794
+01/07/2026 17:18:46: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:18:46: [PUT] Dados recebidos: {
+01/07/2026 17:18:46:   anotacao: undefined,
+01/07/2026 17:18:46:   status: 'pendente-qualidade',
+01/07/2026 17:18:46:   auditoria_anotacao: undefined,
+01/07/2026 17:18:46:   auditoria_status: undefined
+01/07/2026 17:18:46: }
+01/07/2026 17:18:46: [PUT] Linhas afetadas: 1
+01/07/2026 17:18:46: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:18:46:   id_cotacao: 265,
+01/07/2026 17:18:46:   cotacao: 'Q6342324',
+01/07/2026 17:18:46:   id_qldd: null,
+01/07/2026 17:18:46:   anotacao: 'Tarefa: E001 - PME - 80.490.824/0001-26 | Fila: CPC - PME',
+01/07/2026 17:18:46:   status: 'pendente-qualidade',
+01/07/2026 17:18:46:   data_de_criacao: '01/07/2026 16:52',
+01/07/2026 17:18:46:   data_da_ultima_atualizacao: '01/07/2026 17:18',
+01/07/2026 17:18:46:   usuario_login: 'jose.faria',
+01/07/2026 17:18:46:   validacao: 'Ativo',
+01/07/2026 17:18:46:   usuario_id: '196',
+01/07/2026 17:18:46:   tarefa: '22792794',
+01/07/2026 17:18:46:   origem: null
+01/07/2026 17:18:46: }
+01/07/2026 17:19:07: [PUT] Atualizando cotação: 22793818
+01/07/2026 17:19:07: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 17:19:07: [PUT] Dados recebidos: {
+01/07/2026 17:19:07:   anotacao: undefined,
+01/07/2026 17:19:07:   status: 'aprovado',
+01/07/2026 17:19:07:   auditoria_anotacao: undefined,
+01/07/2026 17:19:07:   auditoria_status: undefined
+01/07/2026 17:19:07: }
+01/07/2026 17:19:07: [PUT] Linhas afetadas: 1
+01/07/2026 17:19:07: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:19:07:   id_cotacao: 238,
+01/07/2026 17:19:07:   cotacao: 'Q6338091',
+01/07/2026 17:19:07:   id_qldd: null,
+01/07/2026 17:19:07:   anotacao: 'Tarefa: E001 - PME - 36.753.140/0001-88 | Fila: CPC - PME',
+01/07/2026 17:19:07:   status: 'aprovado',
+01/07/2026 17:19:07:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:19:07:   data_da_ultima_atualizacao: '01/07/2026 17:19',
+01/07/2026 17:19:07:   usuario_login: null,
+01/07/2026 17:19:07:   validacao: 'Ativo',
+01/07/2026 17:19:07:   usuario_id: '145',
+01/07/2026 17:19:07:   tarefa: '22793818',
+01/07/2026 17:19:07:   origem: null
+01/07/2026 17:19:07: }
+01/07/2026 17:19:10: [PUT] Atualizando cotação: 22792244
+01/07/2026 17:19:10: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:19:10: [PUT] Dados recebidos: {
+01/07/2026 17:19:10:   anotacao: undefined,
+01/07/2026 17:19:10:   status: 'pendente-qualidade',
+01/07/2026 17:19:10:   auditoria_anotacao: undefined,
+01/07/2026 17:19:10:   auditoria_status: undefined
+01/07/2026 17:19:10: }
+01/07/2026 17:19:10: [PUT] Linhas afetadas: 1
+01/07/2026 17:19:10: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:19:10:   id_cotacao: 267,
+01/07/2026 17:19:10:   cotacao: 'Q6339290',
+01/07/2026 17:19:10:   id_qldd: null,
+01/07/2026 17:19:10:   anotacao: 'Tarefa: E001 - PME - 18.595.618/0001-07 | Fila: CPC - PME',
+01/07/2026 17:19:10:   status: 'pendente-qualidade',
+01/07/2026 17:19:10:   data_de_criacao: '01/07/2026 16:52',
+01/07/2026 17:19:10:   data_da_ultima_atualizacao: '01/07/2026 17:19',
+01/07/2026 17:19:10:   usuario_login: 'jose.faria',
+01/07/2026 17:19:10:   validacao: 'Ativo',
+01/07/2026 17:19:10:   usuario_id: '196',
+01/07/2026 17:19:10:   tarefa: '22792244',
+01/07/2026 17:19:10:   origem: null
+01/07/2026 17:19:10: }
+01/07/2026 17:23:43: [INSPECAO] Upload recebido: R_000250_1429310.csv -> E:\projetos_hitss\geo-pme-notas\files\r_000250.csv
+01/07/2026 17:23:43: --- INICIANDO ETL R_000250 ---
+01/07/2026 17:23:43: Delimitador detectado: ";"
+01/07/2026 17:23:43: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+01/07/2026 17:23:43: Tabela verificada/criada.
+01/07/2026 17:23:43: Dados antigos removidos.
+01/07/2026 17:23:43: Dados carregados com sucesso via COPY.
+01/07/2026 17:23:43: --- ETL R_000250 CONCLUÍDO: 365 registros ---
+01/07/2026 17:23:43: [CLASSIFICACAO] Conectado ao banco de dados.
+01/07/2026 17:23:43: [CLASSIFICACAO] 9 cotações classificadas.
+01/07/2026 17:23:43: [CLASSIFICACAO] Cotações atualizadas:
+01/07/2026 17:23:43:   - Tarefa: 22794575 | Usuário: null
+01/07/2026 17:23:43:   - Tarefa: 22788453 | Usuário: jose.faria
+01/07/2026 17:23:43:   - Tarefa: 22791144 | Usuário: null
+01/07/2026 17:23:43:   - Tarefa: 22794586 | Usuário: null
+01/07/2026 17:23:43:   - Tarefa: 22794552 | Usuário: null
+01/07/2026 17:23:43:   - Tarefa: 22794529 | Usuário: null
+01/07/2026 17:23:43:   - Tarefa: 22793039 | Usuário: jose.faria
+01/07/2026 17:23:43:   - Tarefa: 22793022 | Usuário: jose.faria
+01/07/2026 17:23:43:   - Tarefa: 22793816 | Usuário: murilo.trevisan.3
+01/07/2026 17:23:43: [CLASSIFICACAO] Total "Pendente - Classificação": 119
+01/07/2026 17:23:45: [PUT] Atualizando cotação: 22794397
+01/07/2026 17:23:45: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:23:45: [PUT] Dados recebidos: {
+01/07/2026 17:23:45:   anotacao: undefined,
+01/07/2026 17:23:45:   status: 'pendente-qualidade',
+01/07/2026 17:23:45:   auditoria_anotacao: undefined,
+01/07/2026 17:23:45:   auditoria_status: undefined
+01/07/2026 17:23:45: }
+01/07/2026 17:23:45: [PUT] Linhas afetadas: 1
+01/07/2026 17:23:45: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:23:45:   id_cotacao: 242,
+01/07/2026 17:23:45:   cotacao: 'Q6322865',
+01/07/2026 17:23:45:   id_qldd: null,
+01/07/2026 17:23:45:   anotacao: 'Tarefa: E001 - PME - 08.259.695/0001-32 | Fila: CPC - PME',
+01/07/2026 17:23:45:   status: 'pendente-qualidade',
+01/07/2026 17:23:45:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:23:45:   data_da_ultima_atualizacao: '01/07/2026 17:23',
+01/07/2026 17:23:45:   usuario_login: null,
+01/07/2026 17:23:45:   validacao: 'Ativo',
+01/07/2026 17:23:45:   usuario_id: '153',
+01/07/2026 17:23:45:   tarefa: '22794397',
+01/07/2026 17:23:45:   origem: null
+01/07/2026 17:23:45: }
+01/07/2026 17:23:48: [ATUALIZAR_R_000250] Iniciando atualização...
+01/07/2026 17:23:48: [ATUALIZAR_R_000250] max_bloco=Wed Jul 01 2026 17:22:01 GMT-0300 (Brasilia Standard Time), max_claro=Wed Jul 01 2026 16:30:43 GMT-0300 (Brasilia Standard Time)
+01/07/2026 17:23:48: [ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em 53ms
+01/07/2026 17:24:11: [PUT] Atualizando cotação: 22793095
+01/07/2026 17:24:11: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:24:11: [PUT] Dados recebidos: {
+01/07/2026 17:24:11:   anotacao: undefined,
+01/07/2026 17:24:11:   status: 'pendente-qualidade',
+01/07/2026 17:24:11:   auditoria_anotacao: undefined,
+01/07/2026 17:24:11:   auditoria_status: undefined
+01/07/2026 17:24:11: }
+01/07/2026 17:24:11: [PUT] Linhas afetadas: 1
+01/07/2026 17:24:11: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:24:11:   id_cotacao: 260,
+01/07/2026 17:24:11:   cotacao: 'Q6325808',
+01/07/2026 17:24:11:   id_qldd: null,
+01/07/2026 17:24:11:   anotacao: 'Tarefa: E001 - PME - 35.401.447/0001-57 | Fila: CPC - PME',
+01/07/2026 17:24:11:   status: 'pendente-qualidade',
+01/07/2026 17:24:11:   data_de_criacao: '01/07/2026 16:52',
+01/07/2026 17:24:11:   data_da_ultima_atualizacao: '01/07/2026 17:24',
+01/07/2026 17:24:11:   usuario_login: 'jose.faria',
+01/07/2026 17:24:11:   validacao: 'Ativo',
+01/07/2026 17:24:11:   usuario_id: '153',
+01/07/2026 17:24:11:   tarefa: '22793095',
+01/07/2026 17:24:11:   origem: null
+01/07/2026 17:24:11: }
+01/07/2026 17:24:44: [PUT] Atualizando cotação: 22794521
+01/07/2026 17:24:44: [PUT] Usuário: felipe.freitas.3
+01/07/2026 17:24:44: [PUT] Dados recebidos: {
+01/07/2026 17:24:44:   anotacao: undefined,
+01/07/2026 17:24:44:   status: 'aprovado',
+01/07/2026 17:24:44:   auditoria_anotacao: undefined,
+01/07/2026 17:24:44:   auditoria_status: undefined
+01/07/2026 17:24:44: }
+01/07/2026 17:24:44: [PUT] Linhas afetadas: 1
+01/07/2026 17:24:44: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:24:44:   id_cotacao: 257,
+01/07/2026 17:24:44:   cotacao: 'Q6343201',
+01/07/2026 17:24:44:   id_qldd: null,
+01/07/2026 17:24:44:   anotacao: 'Tarefa: E001 - PME - 09.590.475/0001-50 | Fila: CPC - PME',
+01/07/2026 17:24:44:   status: 'aprovado',
+01/07/2026 17:24:44:   data_de_criacao: '01/07/2026 16:44',
+01/07/2026 17:24:44:   data_da_ultima_atualizacao: '01/07/2026 17:24',
+01/07/2026 17:24:44:   usuario_login: null,
+01/07/2026 17:24:44:   validacao: 'Ativo',
+01/07/2026 17:24:44:   usuario_id: '132',
+01/07/2026 17:24:44:   tarefa: '22794521',
+01/07/2026 17:24:44:   origem: null
+01/07/2026 17:24:44: }
+01/07/2026 17:24:59: Servidor rodando em http://localhost:3016
+01/07/2026 17:26:57: [PUT] Atualizando cotação: 22794327
+01/07/2026 17:26:57: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 17:26:57: [PUT] Dados recebidos: {
+01/07/2026 17:26:57:   anotacao: undefined,
+01/07/2026 17:26:57:   status: 'aprovado',
+01/07/2026 17:26:57:   auditoria_anotacao: undefined,
+01/07/2026 17:26:57:   auditoria_status: undefined
+01/07/2026 17:26:57: }
+01/07/2026 17:26:57: [PUT] Linhas afetadas: 1
+01/07/2026 17:26:57: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:26:57:   id_cotacao: 230,
+01/07/2026 17:26:57:   cotacao: 'Q6343603',
+01/07/2026 17:26:57:   id_qldd: null,
+01/07/2026 17:26:57:   anotacao: 'Tarefa: E001 - PME - 89.943.062/0001-40 | Fila: CPC - PME',
+01/07/2026 17:26:57:   status: 'aprovado',
+01/07/2026 17:26:57:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:26:57:   data_da_ultima_atualizacao: '01/07/2026 17:26',
+01/07/2026 17:26:57:   usuario_login: null,
+01/07/2026 17:26:57:   validacao: 'Ativo',
+01/07/2026 17:26:57:   usuario_id: '145',
+01/07/2026 17:26:57:   tarefa: '22794327',
+01/07/2026 17:26:57:   origem: null
+01/07/2026 17:26:57: }
+01/07/2026 17:28:41: [PUT] Atualizando cotação: 22794385
+01/07/2026 17:28:41: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:28:41: [PUT] Dados recebidos: {
+01/07/2026 17:28:41:   anotacao: undefined,
+01/07/2026 17:28:41:   status: 'aprovado',
+01/07/2026 17:28:41:   auditoria_anotacao: undefined,
+01/07/2026 17:28:41:   auditoria_status: undefined
+01/07/2026 17:28:41: }
+01/07/2026 17:28:41: [PUT] Linhas afetadas: 1
+01/07/2026 17:28:41: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:28:41:   id_cotacao: 243,
+01/07/2026 17:28:41:   cotacao: 'Q6343611',
+01/07/2026 17:28:41:   id_qldd: null,
+01/07/2026 17:28:41:   anotacao: 'Tarefa: E001 - PME - 09.178.250/0001-90 | Fila: CPC - PME',
+01/07/2026 17:28:41:   status: 'aprovado',
+01/07/2026 17:28:41:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:28:41:   data_da_ultima_atualizacao: '01/07/2026 17:28',
+01/07/2026 17:28:41:   usuario_login: null,
+01/07/2026 17:28:41:   validacao: 'Ativo',
+01/07/2026 17:28:41:   usuario_id: '153',
+01/07/2026 17:28:41:   tarefa: '22794385',
+01/07/2026 17:28:41:   origem: null
+01/07/2026 17:28:41: }
+01/07/2026 17:29:18: [PUT] Atualizando cotação: 22792761
+01/07/2026 17:29:18: [PUT] Usuário: marcia.miura
+01/07/2026 17:29:18: [PUT] Dados recebidos: {
+01/07/2026 17:29:18:   anotacao: undefined,
+01/07/2026 17:29:18:   status: 'aprovado',
+01/07/2026 17:29:18:   auditoria_anotacao: undefined,
+01/07/2026 17:29:18:   auditoria_status: undefined
+01/07/2026 17:29:18: }
+01/07/2026 17:29:18: [PUT] Linhas afetadas: 1
+01/07/2026 17:29:18: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:29:18:   id_cotacao: 224,
+01/07/2026 17:29:18:   cotacao: 'Q6342306',
+01/07/2026 17:29:18:   id_qldd: null,
+01/07/2026 17:29:18:   anotacao: 'Tarefa: E001 - PME - 18.766.112/0001-13 | Fila: CPC - PME',
+01/07/2026 17:29:18:   status: 'aprovado',
+01/07/2026 17:29:18:   data_de_criacao: '01/07/2026 16:11',
+01/07/2026 17:29:18:   data_da_ultima_atualizacao: '01/07/2026 17:29',
+01/07/2026 17:29:18:   usuario_login: null,
+01/07/2026 17:29:18:   validacao: 'Ativo',
+01/07/2026 17:29:18:   usuario_id: '141',
+01/07/2026 17:29:18:   tarefa: '22792761',
+01/07/2026 17:29:18:   origem: null
+01/07/2026 17:29:18: }
+01/07/2026 17:30:05: [PUT] Atualizando cotação: 22793039
+01/07/2026 17:30:05: [PUT] Usuário: marcia.miura
+01/07/2026 17:30:05: [PUT] Dados recebidos: {
+01/07/2026 17:30:05:   anotacao: undefined,
+01/07/2026 17:30:05:   status: 'reprovado',
+01/07/2026 17:30:05:   auditoria_anotacao: undefined,
+01/07/2026 17:30:05:   auditoria_status: undefined
+01/07/2026 17:30:05: }
+01/07/2026 17:30:05: [PUT] Linhas afetadas: 1
+01/07/2026 17:30:05: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:30:05:   id_cotacao: 261,
+01/07/2026 17:30:05:   cotacao: 'Q6336155',
+01/07/2026 17:30:05:   id_qldd: null,
+01/07/2026 17:30:05:   anotacao: 'Tarefa: E001 - PME - 01.291.516/0001-03 | Fila: CPC - PME',
+01/07/2026 17:30:05:   status: 'reprovado',
+01/07/2026 17:30:05:   data_de_criacao: '01/07/2026 16:52',
+01/07/2026 17:30:05:   data_da_ultima_atualizacao: '01/07/2026 17:30',
+01/07/2026 17:30:05:   usuario_login: 'jose.faria',
+01/07/2026 17:30:05:   validacao: 'Ativo',
+01/07/2026 17:30:05:   usuario_id: '141',
+01/07/2026 17:30:05:   tarefa: '22793039',
+01/07/2026 17:30:05:   origem: null
+01/07/2026 17:30:05: }
+01/07/2026 17:30:15: [PUT] Atualizando cotação: 22793039
+01/07/2026 17:30:15: [PUT] Usuário: marcia.miura
+01/07/2026 17:30:15: [PUT] Dados recebidos: {
+01/07/2026 17:30:15:   anotacao: 'Tarefa: E001 - PME - 01.291.516/0001-03 | Fila: CPC - PME\n' +
+01/07/2026 17:30:15:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail **Divergência de Dados Administrador (ADM)**\n',
+01/07/2026 17:30:15:   status: 'reprovado',
+01/07/2026 17:30:15:   auditoria_anotacao: '',
+01/07/2026 17:30:15:   auditoria_status: ''
+01/07/2026 17:30:15: }
+01/07/2026 17:30:15: [PUT] Linhas afetadas: 1
+01/07/2026 17:30:15: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:30:15:   id_cotacao: 261,
+01/07/2026 17:30:15:   cotacao: 'Q6336155',
+01/07/2026 17:30:15:   id_qldd: null,
+01/07/2026 17:30:15:   anotacao: 'Tarefa: E001 - PME - 01.291.516/0001-03 | Fila: CPC - PME\n' +
+01/07/2026 17:30:15:     '> Os seguintes dados cadastrais do administrador de contas informado divergem entre CPC e TCPJ: E-mail **Divergência de Dados Administrador (ADM)**\n',
+01/07/2026 17:30:15:   status: 'reprovado',
+01/07/2026 17:30:15:   data_de_criacao: '01/07/2026 16:52',
+01/07/2026 17:30:15:   data_da_ultima_atualizacao: '01/07/2026 17:30',
+01/07/2026 17:30:15:   usuario_login: 'jose.faria',
+01/07/2026 17:30:15:   validacao: 'Ativo',
+01/07/2026 17:30:15:   usuario_id: '141',
+01/07/2026 17:30:15:   tarefa: '22793039',
+01/07/2026 17:30:15:   origem: null
+01/07/2026 17:30:15: }
+01/07/2026 17:32:56: [PUT] Atualizando cotação: 22794382
+01/07/2026 17:32:56: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:32:56: [PUT] Dados recebidos: {
+01/07/2026 17:32:56:   anotacao: undefined,
+01/07/2026 17:32:56:   status: 'aprovado',
+01/07/2026 17:32:56:   auditoria_anotacao: undefined,
+01/07/2026 17:32:56:   auditoria_status: undefined
+01/07/2026 17:32:56: }
+01/07/2026 17:32:56: [PUT] Linhas afetadas: 1
+01/07/2026 17:32:56: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:32:56:   id_cotacao: 244,
+01/07/2026 17:32:56:   cotacao: 'Q6343631',
+01/07/2026 17:32:56:   id_qldd: null,
+01/07/2026 17:32:56:   anotacao: 'Tarefa: E001 - PME - 04.962.883/0001-71 | Fila: CPC - PME',
+01/07/2026 17:32:56:   status: 'aprovado',
+01/07/2026 17:32:56:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:32:56:   data_da_ultima_atualizacao: '01/07/2026 17:32',
+01/07/2026 17:32:56:   usuario_login: null,
+01/07/2026 17:32:56:   validacao: 'Ativo',
+01/07/2026 17:32:56:   usuario_id: '153',
+01/07/2026 17:32:56:   tarefa: '22794382',
+01/07/2026 17:32:56:   origem: null
+01/07/2026 17:32:56: }
+01/07/2026 17:34:09: [PUT] Atualizando cotação: 22794689
+01/07/2026 17:34:09: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:34:09: [PUT] Dados recebidos: {
+01/07/2026 17:34:09:   anotacao: 'Iphone',
+01/07/2026 17:34:09:   status: 'pendente',
+01/07/2026 17:34:09:   auditoria_anotacao: '',
+01/07/2026 17:34:09:   auditoria_status: ''
+01/07/2026 17:34:09: }
+01/07/2026 17:34:09: [PUT] Linhas afetadas: 1
+01/07/2026 17:34:09: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:34:09:   id_cotacao: 269,
+01/07/2026 17:34:09:   cotacao: 'Q6343675',
+01/07/2026 17:34:09:   id_qldd: null,
+01/07/2026 17:34:09:   anotacao: 'Iphone',
+01/07/2026 17:34:09:   status: 'pendente',
+01/07/2026 17:34:09:   data_de_criacao: '01/07/2026 17:24',
+01/07/2026 17:34:09:   data_da_ultima_atualizacao: '01/07/2026 17:34',
+01/07/2026 17:34:09:   usuario_login: null,
+01/07/2026 17:34:09:   validacao: 'Ativo',
+01/07/2026 17:34:09:   usuario_id: '196',
+01/07/2026 17:34:09:   tarefa: '22794689',
+01/07/2026 17:34:09:   origem: null
+01/07/2026 17:34:09: }
+01/07/2026 17:39:12: [PUT] Atualizando cotação: 22794560
+01/07/2026 17:39:12: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:39:12: [PUT] Dados recebidos: {
+01/07/2026 17:39:12:   anotacao: undefined,
+01/07/2026 17:39:12:   status: 'aprovado',
+01/07/2026 17:39:12:   auditoria_anotacao: undefined,
+01/07/2026 17:39:12:   auditoria_status: undefined
+01/07/2026 17:39:12: }
+01/07/2026 17:39:12: [PUT] Linhas afetadas: 1
+01/07/2026 17:39:12: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:39:12:   id_cotacao: 278,
+01/07/2026 17:39:12:   cotacao: 'Q6340910',
+01/07/2026 17:39:12:   id_qldd: null,
+01/07/2026 17:39:12:   anotacao: 'Tarefa: E001 - PME - 62.661.420/0001-76 | Fila: CPC - PME',
+01/07/2026 17:39:12:   status: 'aprovado',
+01/07/2026 17:39:12:   data_de_criacao: '01/07/2026 17:24',
+01/07/2026 17:39:12:   data_da_ultima_atualizacao: '01/07/2026 17:39',
+01/07/2026 17:39:12:   usuario_login: null,
+01/07/2026 17:39:12:   validacao: 'Ativo',
+01/07/2026 17:39:12:   usuario_id: '196',
+01/07/2026 17:39:12:   tarefa: '22794560',
+01/07/2026 17:39:12:   origem: null
+01/07/2026 17:39:12: }
+01/07/2026 17:40:53: [PUT] Atualizando cotação: 22793055
+01/07/2026 17:40:53: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 17:40:53: [PUT] Dados recebidos: {
+01/07/2026 17:40:53:   anotacao: undefined,
+01/07/2026 17:40:53:   status: 'aprovado',
+01/07/2026 17:40:53:   auditoria_anotacao: undefined,
+01/07/2026 17:40:53:   auditoria_status: undefined
+01/07/2026 17:40:53: }
+01/07/2026 17:40:53: [PUT] Linhas afetadas: 1
+01/07/2026 17:40:53: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:40:53:   id_cotacao: 207,
+01/07/2026 17:40:53:   cotacao: 'Q6331153',
+01/07/2026 17:40:53:   id_qldd: null,
+01/07/2026 17:40:53:   anotacao: 'Tarefa: E001 - PME - 03.855.896/0001-89 | Fila: CPC - PME',
+01/07/2026 17:40:53:   status: 'aprovado',
+01/07/2026 17:40:53:   data_de_criacao: '01/07/2026 15:57',
+01/07/2026 17:40:53:   data_da_ultima_atualizacao: '01/07/2026 17:40',
+01/07/2026 17:40:53:   usuario_login: 'murilo.trevisan.3',
+01/07/2026 17:40:53:   validacao: 'Ativo',
+01/07/2026 17:40:53:   usuario_id: '145',
+01/07/2026 17:40:53:   tarefa: '22793055',
+01/07/2026 17:40:53:   origem: null
+01/07/2026 17:40:53: }
+01/07/2026 17:41:17: [PUT] Atualizando cotação: 22794514
+01/07/2026 17:41:17: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:41:17: [PUT] Dados recebidos: {
+01/07/2026 17:41:17:   anotacao: 'Tarefa: E001 - PME - 04.659.617/0001-74 | Fila: CPC - PME\n' +
+01/07/2026 17:41:17:     '\n' +
+01/07/2026 17:41:17:     '> Cliente tem 34 linhas ativas na base/mobile/anexo de produtos instalados/Relatório de Relacionamento CNPJ, entretanto somente 4 linhas foram relacionadas para renovação.  **Renovação Parcial**\n',
+01/07/2026 17:41:17:   status: 'pendente',
+01/07/2026 17:41:17:   auditoria_anotacao: '',
+01/07/2026 17:41:17:   auditoria_status: ''
+01/07/2026 17:41:17: }
+01/07/2026 17:41:17: [PUT] Linhas afetadas: 1
+01/07/2026 17:41:17: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:41:17:   id_cotacao: 239,
+01/07/2026 17:41:17:   cotacao: 'Q6342309',
+01/07/2026 17:41:17:   id_qldd: null,
+01/07/2026 17:41:17:   anotacao: 'Tarefa: E001 - PME - 04.659.617/0001-74 | Fila: CPC - PME\n' +
+01/07/2026 17:41:17:     '\n' +
+01/07/2026 17:41:17:     '> Cliente tem 34 linhas ativas na base/mobile/anexo de produtos instalados/Relatório de Relacionamento CNPJ, entretanto somente 4 linhas foram relacionadas para renovação.  **Renovação Parcial**\n',
+01/07/2026 17:41:17:   status: 'pendente',
+01/07/2026 17:41:17:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:41:17:   data_da_ultima_atualizacao: '01/07/2026 17:41',
+01/07/2026 17:41:17:   usuario_login: null,
+01/07/2026 17:41:17:   validacao: 'Ativo',
+01/07/2026 17:41:17:   usuario_id: '153',
+01/07/2026 17:41:17:   tarefa: '22794514',
+01/07/2026 17:41:17:   origem: null
+01/07/2026 17:41:17: }
+01/07/2026 17:41:32: [PUT] Atualizando cotação: 22794514
+01/07/2026 17:41:32: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:41:32: [PUT] Dados recebidos: {
+01/07/2026 17:41:32:   anotacao: undefined,
+01/07/2026 17:41:32:   status: 'reprovado',
+01/07/2026 17:41:32:   auditoria_anotacao: undefined,
+01/07/2026 17:41:32:   auditoria_status: undefined
+01/07/2026 17:41:32: }
+01/07/2026 17:41:32: [PUT] Linhas afetadas: 1
+01/07/2026 17:41:32: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:41:32:   id_cotacao: 239,
+01/07/2026 17:41:32:   cotacao: 'Q6342309',
+01/07/2026 17:41:32:   id_qldd: null,
+01/07/2026 17:41:32:   anotacao: 'Tarefa: E001 - PME - 04.659.617/0001-74 | Fila: CPC - PME\n' +
+01/07/2026 17:41:32:     '\n' +
+01/07/2026 17:41:32:     '> Cliente tem 34 linhas ativas na base/mobile/anexo de produtos instalados/Relatório de Relacionamento CNPJ, entretanto somente 4 linhas foram relacionadas para renovação.  **Renovação Parcial**\n',
+01/07/2026 17:41:32:   status: 'reprovado',
+01/07/2026 17:41:32:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:41:32:   data_da_ultima_atualizacao: '01/07/2026 17:41',
+01/07/2026 17:41:32:   usuario_login: null,
+01/07/2026 17:41:32:   validacao: 'Ativo',
+01/07/2026 17:41:32:   usuario_id: '153',
+01/07/2026 17:41:32:   tarefa: '22794514',
+01/07/2026 17:41:32:   origem: null
+01/07/2026 17:41:32: }
+01/07/2026 17:42:48: [PUT] Atualizando cotação: 22786584
+01/07/2026 17:42:48: [PUT] Usuário: jose.faria
+01/07/2026 17:42:48: [PUT] Dados recebidos: {
+01/07/2026 17:42:48:   anotacao: undefined,
+01/07/2026 17:42:48:   status: 'pendente-correcao-cadastral',
+01/07/2026 17:42:48:   auditoria_anotacao: undefined,
+01/07/2026 17:42:48:   auditoria_status: undefined
+01/07/2026 17:42:48: }
+01/07/2026 17:42:48: [PUT] Linhas afetadas: 1
+01/07/2026 17:42:48: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:42:48:   id_cotacao: 35,
+01/07/2026 17:42:48:   cotacao: 'Q6337706',
+01/07/2026 17:42:48:   id_qldd: null,
+01/07/2026 17:42:48:   anotacao: 'Tarefa: E001 - PME - 27.065.065/0001-71 | Fila: CPC - PME',
+01/07/2026 17:42:48:   status: 'pendente-correcao-cadastral',
+01/07/2026 17:42:48:   data_de_criacao: '30/06/2026 19:37',
+01/07/2026 17:42:48:   data_da_ultima_atualizacao: '01/07/2026 17:42',
+01/07/2026 17:42:48:   usuario_login: 'jose.faria',
+01/07/2026 17:42:48:   validacao: 'Ativo',
+01/07/2026 17:42:48:   usuario_id: '50',
+01/07/2026 17:42:48:   tarefa: '22786584',
+01/07/2026 17:42:48:   origem: null
+01/07/2026 17:42:48: }
+01/07/2026 17:43:07: [PUT] Atualizando cotação: 22786584
+01/07/2026 17:43:07: [PUT] Usuário: jose.faria
+01/07/2026 17:43:07: [PUT] Dados recebidos: {
+01/07/2026 17:43:07:   anotacao: undefined,
+01/07/2026 17:43:07:   status: 'pendente-correcao-efetuada',
+01/07/2026 17:43:07:   auditoria_anotacao: undefined,
+01/07/2026 17:43:07:   auditoria_status: undefined
+01/07/2026 17:43:07: }
+01/07/2026 17:43:07: [PUT] Linhas afetadas: 1
+01/07/2026 17:43:07: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:43:07:   id_cotacao: 35,
+01/07/2026 17:43:07:   cotacao: 'Q6337706',
+01/07/2026 17:43:07:   id_qldd: null,
+01/07/2026 17:43:07:   anotacao: 'Tarefa: E001 - PME - 27.065.065/0001-71 | Fila: CPC - PME',
+01/07/2026 17:43:07:   status: 'pendente-correcao-efetuada',
+01/07/2026 17:43:07:   data_de_criacao: '30/06/2026 19:37',
+01/07/2026 17:43:07:   data_da_ultima_atualizacao: '01/07/2026 17:43',
+01/07/2026 17:43:07:   usuario_login: 'jose.faria',
+01/07/2026 17:43:07:   validacao: 'Ativo',
+01/07/2026 17:43:07:   usuario_id: '50',
+01/07/2026 17:43:07:   tarefa: '22786584',
+01/07/2026 17:43:07:   origem: null
+01/07/2026 17:43:07: }
+01/07/2026 17:44:38: [PUT] Atualizando cotação: 22794649
+01/07/2026 17:44:38: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:44:38: [PUT] Dados recebidos: {
+01/07/2026 17:44:38:   anotacao: undefined,
+01/07/2026 17:44:38:   status: 'pendente-qualidade',
+01/07/2026 17:44:38:   auditoria_anotacao: undefined,
+01/07/2026 17:44:38:   auditoria_status: undefined
+01/07/2026 17:44:38: }
+01/07/2026 17:44:38: [PUT] Linhas afetadas: 1
+01/07/2026 17:44:38: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:44:38:   id_cotacao: 274,
+01/07/2026 17:44:38:   cotacao: 'Q6343429',
+01/07/2026 17:44:38:   id_qldd: null,
+01/07/2026 17:44:38:   anotacao: 'Tarefa: E001 - PME - 59.143.694/0001-69 | Fila: CPC - PME',
+01/07/2026 17:44:38:   status: 'pendente-qualidade',
+01/07/2026 17:44:38:   data_de_criacao: '01/07/2026 17:24',
+01/07/2026 17:44:38:   data_da_ultima_atualizacao: '01/07/2026 17:44',
+01/07/2026 17:44:38:   usuario_login: null,
+01/07/2026 17:44:38:   validacao: 'Ativo',
+01/07/2026 17:44:38:   usuario_id: '196',
+01/07/2026 17:44:38:   tarefa: '22794649',
+01/07/2026 17:44:38:   origem: null
+01/07/2026 17:44:38: }
+01/07/2026 17:47:49: [PUT] Atualizando cotação: 22794359
+01/07/2026 17:47:49: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:47:49: [PUT] Dados recebidos: {
+01/07/2026 17:47:49:   anotacao: undefined,
+01/07/2026 17:47:49:   status: 'aprovado',
+01/07/2026 17:47:49:   auditoria_anotacao: undefined,
+01/07/2026 17:47:49:   auditoria_status: undefined
+01/07/2026 17:47:49: }
+01/07/2026 17:47:49: [PUT] Linhas afetadas: 1
+01/07/2026 17:47:49: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:47:49:   id_cotacao: 248,
+01/07/2026 17:47:49:   cotacao: 'Q6343489',
+01/07/2026 17:47:49:   id_qldd: null,
+01/07/2026 17:47:49:   anotacao: 'Tarefa: E001 - PME - 12.670.491/0001-67 | Fila: CPC - PME',
+01/07/2026 17:47:49:   status: 'aprovado',
+01/07/2026 17:47:49:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 17:47:49:   data_da_ultima_atualizacao: '01/07/2026 17:47',
+01/07/2026 17:47:49:   usuario_login: null,
+01/07/2026 17:47:49:   validacao: 'Ativo',
+01/07/2026 17:47:49:   usuario_id: '153',
+01/07/2026 17:47:49:   tarefa: '22794359',
+01/07/2026 17:47:49:   origem: null
+01/07/2026 17:47:49: }
+01/07/2026 17:49:21: [PUT] Atualizando cotação: 22794866
+01/07/2026 17:49:21: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 17:49:21: [PUT] Dados recebidos: {
+01/07/2026 17:49:21:   anotacao: undefined,
+01/07/2026 17:49:21:   status: 'aprovado',
+01/07/2026 17:49:21:   auditoria_anotacao: undefined,
+01/07/2026 17:49:21:   auditoria_status: undefined
+01/07/2026 17:49:21: }
+01/07/2026 17:49:21: [PUT] Linhas afetadas: 1
+01/07/2026 17:49:21: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:49:21:   id_cotacao: 288,
+01/07/2026 17:49:21:   cotacao: 'Q6343731',
+01/07/2026 17:49:21:   id_qldd: null,
+01/07/2026 17:49:21:   anotacao: 'Tarefa: E001 - PME - 05.357.551/0001-20 | Fila: CPC - PME',
+01/07/2026 17:49:21:   status: 'aprovado',
+01/07/2026 17:49:21:   data_de_criacao: '01/07/2026 17:42',
+01/07/2026 17:49:21:   data_da_ultima_atualizacao: '01/07/2026 17:49',
+01/07/2026 17:49:21:   usuario_login: null,
+01/07/2026 17:49:21:   validacao: 'Ativo',
+01/07/2026 17:49:21:   usuario_id: '145',
+01/07/2026 17:49:21:   tarefa: '22794866',
+01/07/2026 17:49:21:   origem: null
+01/07/2026 17:49:21: }
+01/07/2026 17:49:50: [PUT] Atualizando cotação: 22792740
+01/07/2026 17:49:50: [PUT] Usuário: marcia.miura
+01/07/2026 17:49:50: [PUT] Dados recebidos: {
+01/07/2026 17:49:50:   anotacao: undefined,
+01/07/2026 17:49:50:   status: 'aprovado',
+01/07/2026 17:49:50:   auditoria_anotacao: undefined,
+01/07/2026 17:49:50:   auditoria_status: undefined
+01/07/2026 17:49:50: }
+01/07/2026 17:49:50: [PUT] Linhas afetadas: 1
+01/07/2026 17:49:50: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:49:50:   id_cotacao: 225,
+01/07/2026 17:49:50:   cotacao: 'Q6342425',
+01/07/2026 17:49:50:   id_qldd: null,
+01/07/2026 17:49:50:   anotacao: 'Tarefa: E001 - PME - 44.023.863/0001-50 | Fila: CPC - PME',
+01/07/2026 17:49:50:   status: 'aprovado',
+01/07/2026 17:49:50:   data_de_criacao: '01/07/2026 16:11',
+01/07/2026 17:49:50:   data_da_ultima_atualizacao: '01/07/2026 17:49',
+01/07/2026 17:49:50:   usuario_login: null,
+01/07/2026 17:49:50:   validacao: 'Ativo',
+01/07/2026 17:49:50:   usuario_id: '141',
+01/07/2026 17:49:50:   tarefa: '22792740',
+01/07/2026 17:49:50:   origem: null
+01/07/2026 17:49:50: }
+01/07/2026 17:52:43: [PUT] Atualizando cotação: 22792162
+01/07/2026 17:52:43: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:52:43: [PUT] Dados recebidos: {
+01/07/2026 17:52:43:   anotacao: 'Tarefa: E001 - PME - 26.675.956/0001-87 | Fila: CPC - PME\n' +
+01/07/2026 17:52:43:     '\n' +
+01/07/2026 17:52:43:     '> O documento Print Relatório foi anexado a mais de 10 dias úteis, portanto está vencido e não é valido. **Print de Relatório de Relacionamento Vencido (10 dias)**',
+01/07/2026 17:52:43:   status: 'pendente',
+01/07/2026 17:52:43:   auditoria_anotacao: '',
+01/07/2026 17:52:43:   auditoria_status: ''
+01/07/2026 17:52:43: }
+01/07/2026 17:52:43: [PUT] Linhas afetadas: 1
+01/07/2026 17:52:43: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:52:43:   id_cotacao: 213,
+01/07/2026 17:52:43:   cotacao: 'Q6341865',
+01/07/2026 17:52:43:   id_qldd: null,
+01/07/2026 17:52:43:   anotacao: 'Tarefa: E001 - PME - 26.675.956/0001-87 | Fila: CPC - PME\n' +
+01/07/2026 17:52:43:     '\n' +
+01/07/2026 17:52:43:     '> O documento Print Relatório foi anexado a mais de 10 dias úteis, portanto está vencido e não é valido. **Print de Relatório de Relacionamento Vencido (10 dias)**',
+01/07/2026 17:52:43:   status: 'pendente',
+01/07/2026 17:52:43:   data_de_criacao: '01/07/2026 15:57',
+01/07/2026 17:52:43:   data_da_ultima_atualizacao: '01/07/2026 17:52',
+01/07/2026 17:52:43:   usuario_login: 'murilo.trevisan.3',
+01/07/2026 17:52:43:   validacao: 'Ativo',
+01/07/2026 17:52:43:   usuario_id: '153',
+01/07/2026 17:52:43:   tarefa: '22792162',
+01/07/2026 17:52:43:   origem: null
+01/07/2026 17:52:43: }
+01/07/2026 17:52:48: [PUT] Atualizando cotação: 22792162
+01/07/2026 17:52:48: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:52:48: [PUT] Dados recebidos: {
+01/07/2026 17:52:48:   anotacao: undefined,
+01/07/2026 17:52:48:   status: 'reprovado',
+01/07/2026 17:52:48:   auditoria_anotacao: undefined,
+01/07/2026 17:52:48:   auditoria_status: undefined
+01/07/2026 17:52:48: }
+01/07/2026 17:52:48: [PUT] Linhas afetadas: 1
+01/07/2026 17:52:48: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:52:48:   id_cotacao: 213,
+01/07/2026 17:52:48:   cotacao: 'Q6341865',
+01/07/2026 17:52:48:   id_qldd: null,
+01/07/2026 17:52:48:   anotacao: 'Tarefa: E001 - PME - 26.675.956/0001-87 | Fila: CPC - PME\n' +
+01/07/2026 17:52:48:     '\n' +
+01/07/2026 17:52:48:     '> O documento Print Relatório foi anexado a mais de 10 dias úteis, portanto está vencido e não é valido. **Print de Relatório de Relacionamento Vencido (10 dias)**',
+01/07/2026 17:52:48:   status: 'reprovado',
+01/07/2026 17:52:48:   data_de_criacao: '01/07/2026 15:57',
+01/07/2026 17:52:48:   data_da_ultima_atualizacao: '01/07/2026 17:52',
+01/07/2026 17:52:48:   usuario_login: 'murilo.trevisan.3',
+01/07/2026 17:52:48:   validacao: 'Ativo',
+01/07/2026 17:52:48:   usuario_id: '153',
+01/07/2026 17:52:48:   tarefa: '22792162',
+01/07/2026 17:52:48:   origem: null
+01/07/2026 17:52:48: }
+01/07/2026 17:53:19: [PUT] Atualizando cotação: 22792388
+01/07/2026 17:53:19: [PUT] Usuário: thiago.sousa.3
+01/07/2026 17:53:19: [PUT] Dados recebidos: {
+01/07/2026 17:53:19:   anotacao: undefined,
+01/07/2026 17:53:19:   status: 'aprovado',
+01/07/2026 17:53:19:   auditoria_anotacao: undefined,
+01/07/2026 17:53:19:   auditoria_status: undefined
+01/07/2026 17:53:19: }
+01/07/2026 17:53:19: [PUT] Linhas afetadas: 1
+01/07/2026 17:53:19: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:53:19:   id_cotacao: 211,
+01/07/2026 17:53:19:   cotacao: 'Q6341050',
+01/07/2026 17:53:19:   id_qldd: null,
+01/07/2026 17:53:19:   anotacao: 'Tarefa: E001 - PME - 32.325.466/0001-53 | Fila: CPC - PME',
+01/07/2026 17:53:19:   status: 'aprovado',
+01/07/2026 17:53:19:   data_de_criacao: '01/07/2026 15:57',
+01/07/2026 17:53:19:   data_da_ultima_atualizacao: '01/07/2026 17:53',
+01/07/2026 17:53:19:   usuario_login: 'murilo.trevisan.3',
+01/07/2026 17:53:19:   validacao: 'Ativo',
+01/07/2026 17:53:19:   usuario_id: '153',
+01/07/2026 17:53:19:   tarefa: '22792388',
+01/07/2026 17:53:19:   origem: null
+01/07/2026 17:53:19: }
+01/07/2026 17:54:58: [PUT] Atualizando cotação: 22794656
+01/07/2026 17:54:58: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:54:58: [PUT] Dados recebidos: {
+01/07/2026 17:54:58:   anotacao: undefined,
+01/07/2026 17:54:58:   status: 'reprovado',
+01/07/2026 17:54:58:   auditoria_anotacao: undefined,
+01/07/2026 17:54:58:   auditoria_status: undefined
+01/07/2026 17:54:58: }
+01/07/2026 17:54:58: [PUT] Linhas afetadas: 1
+01/07/2026 17:54:58: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:54:58:   id_cotacao: 273,
+01/07/2026 17:54:58:   cotacao: 'Q6343579',
+01/07/2026 17:54:58:   id_qldd: null,
+01/07/2026 17:54:58:   anotacao: 'Tarefa: E001 - PME - 22.893.948/0001-56 | Fila: CPC - PME',
+01/07/2026 17:54:58:   status: 'reprovado',
+01/07/2026 17:54:58:   data_de_criacao: '01/07/2026 17:24',
+01/07/2026 17:54:58:   data_da_ultima_atualizacao: '01/07/2026 17:54',
+01/07/2026 17:54:58:   usuario_login: null,
+01/07/2026 17:54:58:   validacao: 'Ativo',
+01/07/2026 17:54:58:   usuario_id: '196',
+01/07/2026 17:54:58:   tarefa: '22794656',
+01/07/2026 17:54:58:   origem: null
+01/07/2026 17:54:58: }
+01/07/2026 17:55:08: [PUT] Atualizando cotação: 22794656
+01/07/2026 17:55:08: [PUT] Usuário: yuri.santos.3
+01/07/2026 17:55:08: [PUT] Dados recebidos: {
+01/07/2026 17:55:08:   anotacao: '> O valor do aparelho informado na cotação detalhada/TCPJ/Anexo ao Contrato de Permanência diverge da Intranet vigente na data valida na faixa de conforme TCPJ. Divergência no valor do aparelho\n',
+01/07/2026 17:55:08:   status: 'reprovado',
+01/07/2026 17:55:08:   auditoria_anotacao: '',
+01/07/2026 17:55:08:   auditoria_status: ''
+01/07/2026 17:55:08: }
+01/07/2026 17:55:08: [PUT] Linhas afetadas: 1
+01/07/2026 17:55:08: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:55:08:   id_cotacao: 273,
+01/07/2026 17:55:08:   cotacao: 'Q6343579',
+01/07/2026 17:55:08:   id_qldd: null,
+01/07/2026 17:55:08:   anotacao: '> O valor do aparelho informado na cotação detalhada/TCPJ/Anexo ao Contrato de Permanência diverge da Intranet vigente na data valida na faixa de conforme TCPJ. Divergência no valor do aparelho\n',
+01/07/2026 17:55:08:   status: 'reprovado',
+01/07/2026 17:55:08:   data_de_criacao: '01/07/2026 17:24',
+01/07/2026 17:55:08:   data_da_ultima_atualizacao: '01/07/2026 17:55',
+01/07/2026 17:55:08:   usuario_login: null,
+01/07/2026 17:55:08:   validacao: 'Ativo',
+01/07/2026 17:55:08:   usuario_id: '196',
+01/07/2026 17:55:08:   tarefa: '22794656',
+01/07/2026 17:55:08:   origem: null
+01/07/2026 17:55:08: }
+01/07/2026 17:55:37: [PUT] Atualizando cotação: 22791130
+01/07/2026 17:55:37: [PUT] Usuário: marcia.miura
+01/07/2026 17:55:37: [PUT] Dados recebidos: {
+01/07/2026 17:55:37:   anotacao: undefined,
+01/07/2026 17:55:37:   status: 'aprovado',
+01/07/2026 17:55:37:   auditoria_anotacao: undefined,
+01/07/2026 17:55:37:   auditoria_status: undefined
+01/07/2026 17:55:37: }
+01/07/2026 17:55:37: [PUT] Linhas afetadas: 1
+01/07/2026 17:55:37: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:55:37:   id_cotacao: 123,
+01/07/2026 17:55:37:   cotacao: 'Q6341308',
+01/07/2026 17:55:37:   id_qldd: null,
+01/07/2026 17:55:37:   anotacao: 'Tarefa: E001 - PME - 12.270.958/0001-81 | Fila: CPC - PME',
+01/07/2026 17:55:37:   status: 'aprovado',
+01/07/2026 17:55:37:   data_de_criacao: '01/07/2026 10:04',
+01/07/2026 17:55:37:   data_da_ultima_atualizacao: '01/07/2026 17:55',
+01/07/2026 17:55:37:   usuario_login: 'murilo.trevisan.3',
+01/07/2026 17:55:37:   validacao: 'Ativo',
+01/07/2026 17:55:37:   usuario_id: '141',
+01/07/2026 17:55:37:   tarefa: '22791130',
+01/07/2026 17:55:37:   origem: null
+01/07/2026 17:55:37: }
+01/07/2026 17:55:46: [PUT] Atualizando cotação: 22791200
+01/07/2026 17:55:46: [PUT] Usuário: marcia.miura
+01/07/2026 17:55:46: [PUT] Dados recebidos: {
+01/07/2026 17:55:46:   anotacao: undefined,
+01/07/2026 17:55:46:   status: 'aprovado',
+01/07/2026 17:55:46:   auditoria_anotacao: undefined,
+01/07/2026 17:55:46:   auditoria_status: undefined
+01/07/2026 17:55:46: }
+01/07/2026 17:55:46: [PUT] Linhas afetadas: 1
+01/07/2026 17:55:46: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:55:46:   id_cotacao: 139,
+01/07/2026 17:55:46:   cotacao: 'Q6341336',
+01/07/2026 17:55:46:   id_qldd: null,
+01/07/2026 17:55:46:   anotacao: 'Tarefa: E001 - PME - 85.240.109/0001-59 | Fila: CPC - PME',
+01/07/2026 17:55:46:   status: 'aprovado',
+01/07/2026 17:55:46:   data_de_criacao: '01/07/2026 10:04',
+01/07/2026 17:55:46:   data_da_ultima_atualizacao: '01/07/2026 17:55',
+01/07/2026 17:55:46:   usuario_login: 'jose.faria',
+01/07/2026 17:55:46:   validacao: 'Ativo',
+01/07/2026 17:55:46:   usuario_id: '141',
+01/07/2026 17:55:46:   tarefa: '22791200',
+01/07/2026 17:55:46:   origem: null
+01/07/2026 17:55:46: }
+01/07/2026 17:55:46: [PUT] Atualizando cotação: 22794771
+01/07/2026 17:55:46: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 17:55:46: [PUT] Dados recebidos: {
+01/07/2026 17:55:46:   anotacao: undefined,
+01/07/2026 17:55:46:   status: 'aprovado',
+01/07/2026 17:55:46:   auditoria_anotacao: undefined,
+01/07/2026 17:55:46:   auditoria_status: undefined
+01/07/2026 17:55:46: }
+01/07/2026 17:55:46: [PUT] Linhas afetadas: 1
+01/07/2026 17:55:46: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 17:55:46:   id_cotacao: 284,
+01/07/2026 17:55:46:   cotacao: 'Q6292166',
+01/07/2026 17:55:46:   id_qldd: null,
+01/07/2026 17:55:46:   anotacao: 'Tarefa: E001 - PME - 08.436.017/0002-89 | Fila: CPC - PME',
+01/07/2026 17:55:46:   status: 'aprovado',
+01/07/2026 17:55:46:   data_de_criacao: '01/07/2026 17:42',
+01/07/2026 17:55:46:   data_da_ultima_atualizacao: '01/07/2026 17:55',
+01/07/2026 17:55:46:   usuario_login: null,
+01/07/2026 17:55:46:   validacao: 'Ativo',
+01/07/2026 17:55:46:   usuario_id: '145',
+01/07/2026 17:55:46:   tarefa: '22794771',
+01/07/2026 17:55:46:   origem: null
+01/07/2026 17:55:46: }
+01/07/2026 18:07:37: [PUT] Atualizando cotação: 22794558
+01/07/2026 18:07:37: [PUT] Usuário: felipe.freitas.3
+01/07/2026 18:07:37: [PUT] Dados recebidos: {
+01/07/2026 18:07:37:   anotacao: undefined,
+01/07/2026 18:07:37:   status: 'aprovado',
+01/07/2026 18:07:37:   auditoria_anotacao: undefined,
+01/07/2026 18:07:37:   auditoria_status: undefined
+01/07/2026 18:07:37: }
+01/07/2026 18:07:37: [PUT] Linhas afetadas: 1
+01/07/2026 18:07:37: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 18:07:37:   id_cotacao: 249,
+01/07/2026 18:07:37:   cotacao: 'Q6335121',
+01/07/2026 18:07:37:   id_qldd: null,
+01/07/2026 18:07:37:   anotacao: 'Tarefa: E001 - PME - 53.816.738/0001-98 | Fila: CPC - PME',
+01/07/2026 18:07:37:   status: 'aprovado',
+01/07/2026 18:07:37:   data_de_criacao: '01/07/2026 16:44',
+01/07/2026 18:07:37:   data_da_ultima_atualizacao: '01/07/2026 18:07',
+01/07/2026 18:07:37:   usuario_login: null,
+01/07/2026 18:07:37:   validacao: 'Ativo',
+01/07/2026 18:07:37:   usuario_id: '132',
+01/07/2026 18:07:37:   tarefa: '22794558',
+01/07/2026 18:07:37:   origem: null
+01/07/2026 18:07:37: }
+01/07/2026 18:12:53: [PUT] Atualizando cotação: 22794844
+01/07/2026 18:12:53: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 18:12:53: [PUT] Dados recebidos: {
+01/07/2026 18:12:53:   anotacao: undefined,
+01/07/2026 18:12:53:   status: 'aprovado',
+01/07/2026 18:12:53:   auditoria_anotacao: undefined,
+01/07/2026 18:12:53:   auditoria_status: undefined
+01/07/2026 18:12:53: }
+01/07/2026 18:12:53: [PUT] Linhas afetadas: 1
+01/07/2026 18:12:53: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 18:12:53:   id_cotacao: 306,
+01/07/2026 18:12:53:   cotacao: 'Q6343688',
+01/07/2026 18:12:53:   id_qldd: null,
+01/07/2026 18:12:53:   anotacao: 'Tarefa: E001 - PME - 33.326.021/0001-50 | Fila: CPC - PME',
+01/07/2026 18:12:53:   status: 'aprovado',
+01/07/2026 18:12:53:   data_de_criacao: '01/07/2026 18:12',
+01/07/2026 18:12:53:   data_da_ultima_atualizacao: '01/07/2026 18:12',
+01/07/2026 18:12:53:   usuario_login: 'jose.faria',
+01/07/2026 18:12:53:   validacao: 'Ativo',
+01/07/2026 18:12:53:   usuario_id: '145',
+01/07/2026 18:12:53:   tarefa: '22794844',
+01/07/2026 18:12:53:   origem: null
+01/07/2026 18:12:53: }
+01/07/2026 18:13:28: [PUT] Atualizando cotação: 22794252
+01/07/2026 18:13:28: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 18:13:28: [PUT] Dados recebidos: {
+01/07/2026 18:13:28:   anotacao: undefined,
+01/07/2026 18:13:28:   status: 'aprovado',
+01/07/2026 18:13:28:   auditoria_anotacao: undefined,
+01/07/2026 18:13:28:   auditoria_status: undefined
+01/07/2026 18:13:28: }
+01/07/2026 18:13:28: [PUT] Linhas afetadas: 1
+01/07/2026 18:13:28: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 18:13:28:   id_cotacao: 234,
+01/07/2026 18:13:28:   cotacao: 'Q6343380',
+01/07/2026 18:13:28:   id_qldd: null,
+01/07/2026 18:13:28:   anotacao: 'Tarefa: E001 - PME - 81.726.879/0001-55 | Fila: CPC - PME',
+01/07/2026 18:13:28:   status: 'aprovado',
+01/07/2026 18:13:28:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 18:13:28:   data_da_ultima_atualizacao: '01/07/2026 18:13',
+01/07/2026 18:13:28:   usuario_login: null,
+01/07/2026 18:13:28:   validacao: 'Ativo',
+01/07/2026 18:13:28:   usuario_id: '145',
+01/07/2026 18:13:28:   tarefa: '22794252',
+01/07/2026 18:13:28:   origem: null
+01/07/2026 18:13:28: }
+01/07/2026 18:14:29: [PUT] Atualizando cotação: 22793095
+01/07/2026 18:14:29: [PUT] Usuário: thiago.sousa.3
+01/07/2026 18:14:29: [PUT] Dados recebidos: {
+01/07/2026 18:14:29:   anotacao: undefined,
+01/07/2026 18:14:29:   status: 'aprovado',
+01/07/2026 18:14:29:   auditoria_anotacao: undefined,
+01/07/2026 18:14:29:   auditoria_status: undefined
+01/07/2026 18:14:29: }
+01/07/2026 18:14:29: [PUT] Linhas afetadas: 1
+01/07/2026 18:14:29: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 18:14:29:   id_cotacao: 260,
+01/07/2026 18:14:29:   cotacao: 'Q6325808',
+01/07/2026 18:14:29:   id_qldd: null,
+01/07/2026 18:14:29:   anotacao: 'Tarefa: E001 - PME - 35.401.447/0001-57 | Fila: CPC - PME',
+01/07/2026 18:14:29:   status: 'aprovado',
+01/07/2026 18:14:29:   data_de_criacao: '01/07/2026 16:52',
+01/07/2026 18:14:29:   data_da_ultima_atualizacao: '01/07/2026 18:14',
+01/07/2026 18:14:29:   usuario_login: 'jose.faria',
+01/07/2026 18:14:29:   validacao: 'Ativo',
+01/07/2026 18:14:29:   usuario_id: '153',
+01/07/2026 18:14:29:   tarefa: '22793095',
+01/07/2026 18:14:29:   origem: null
+01/07/2026 18:14:29: }
+01/07/2026 18:15:58: [PUT] Atualizando cotação: 22794397
+01/07/2026 18:15:58: [PUT] Usuário: thiago.sousa.3
+01/07/2026 18:15:58: [PUT] Dados recebidos: {
+01/07/2026 18:15:58:   anotacao: undefined,
+01/07/2026 18:15:58:   status: 'aprovado',
+01/07/2026 18:15:58:   auditoria_anotacao: undefined,
+01/07/2026 18:15:58:   auditoria_status: undefined
+01/07/2026 18:15:58: }
+01/07/2026 18:15:58: [PUT] Linhas afetadas: 1
+01/07/2026 18:15:58: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 18:15:58:   id_cotacao: 242,
+01/07/2026 18:15:58:   cotacao: 'Q6322865',
+01/07/2026 18:15:58:   id_qldd: null,
+01/07/2026 18:15:58:   anotacao: 'Tarefa: E001 - PME - 08.259.695/0001-32 | Fila: CPC - PME',
+01/07/2026 18:15:58:   status: 'aprovado',
+01/07/2026 18:15:58:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 18:15:58:   data_da_ultima_atualizacao: '01/07/2026 18:15',
+01/07/2026 18:15:58:   usuario_login: null,
+01/07/2026 18:15:58:   validacao: 'Ativo',
+01/07/2026 18:15:58:   usuario_id: '153',
+01/07/2026 18:15:58:   tarefa: '22794397',
+01/07/2026 18:15:58:   origem: null
+01/07/2026 18:15:58: }
+01/07/2026 18:16:02: [PUT] Atualizando cotação: 22794329
+01/07/2026 18:16:02: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 18:16:02: [PUT] Dados recebidos: {
+01/07/2026 18:16:02:   anotacao: '> A quantidade de administradores da conta do TCPJ diverge do que foi informado no CPC. (Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção). **Quantidade de administrador (ADM)**\n' +
+01/07/2026 18:16:02:     '> O valor Total Negociado diverge entre cotação e TCPJ.**Valor Total Negociado**\n' +
+01/07/2026 18:16:02:     '> O bônus contratado no TCPJ/ Regra de negócio vigente não foi informado na cotação detalhada. **Falta Bônus**',
+01/07/2026 18:16:02:   status: 'pendente',
+01/07/2026 18:16:02:   auditoria_anotacao: '',
+01/07/2026 18:16:02:   auditoria_status: ''
+01/07/2026 18:16:02: }
+01/07/2026 18:16:02: [PUT] Linhas afetadas: 1
+01/07/2026 18:16:02: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 18:16:02:   id_cotacao: 229,
+01/07/2026 18:16:02:   cotacao: 'Q6341085',
+01/07/2026 18:16:02:   id_qldd: null,
+01/07/2026 18:16:02:   anotacao: '> A quantidade de administradores da conta do TCPJ diverge do que foi informado no CPC. (Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção). **Quantidade de administrador (ADM)**\n' +
+01/07/2026 18:16:02:     '> O valor Total Negociado diverge entre cotação e TCPJ.**Valor Total Negociado**\n' +
+01/07/2026 18:16:02:     '> O bônus contratado no TCPJ/ Regra de negócio vigente não foi informado na cotação detalhada. **Falta Bônus**',
+01/07/2026 18:16:02:   status: 'pendente',
+01/07/2026 18:16:02:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 18:16:02:   data_da_ultima_atualizacao: '01/07/2026 18:16',
+01/07/2026 18:16:02:   usuario_login: null,
+01/07/2026 18:16:02:   validacao: 'Ativo',
+01/07/2026 18:16:02:   usuario_id: '145',
+01/07/2026 18:16:02:   tarefa: '22794329',
+01/07/2026 18:16:02:   origem: null
+01/07/2026 18:16:02: }
+01/07/2026 18:16:06: [PUT] Atualizando cotação: 22794329
+01/07/2026 18:16:06: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 18:16:06: [PUT] Dados recebidos: {
+01/07/2026 18:16:06:   anotacao: undefined,
+01/07/2026 18:16:06:   status: 'reprovado',
+01/07/2026 18:16:06:   auditoria_anotacao: undefined,
+01/07/2026 18:16:06:   auditoria_status: undefined
+01/07/2026 18:16:06: }
+01/07/2026 18:16:06: [PUT] Linhas afetadas: 1
+01/07/2026 18:16:06: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 18:16:06:   id_cotacao: 229,
+01/07/2026 18:16:06:   cotacao: 'Q6341085',
+01/07/2026 18:16:06:   id_qldd: null,
+01/07/2026 18:16:06:   anotacao: '> A quantidade de administradores da conta do TCPJ diverge do que foi informado no CPC. (Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção). **Quantidade de administrador (ADM)**\n' +
+01/07/2026 18:16:06:     '> O valor Total Negociado diverge entre cotação e TCPJ.**Valor Total Negociado**\n' +
+01/07/2026 18:16:06:     '> O bônus contratado no TCPJ/ Regra de negócio vigente não foi informado na cotação detalhada. **Falta Bônus**',
+01/07/2026 18:16:06:   status: 'reprovado',
+01/07/2026 18:16:06:   data_de_criacao: '01/07/2026 16:12',
+01/07/2026 18:16:06:   data_da_ultima_atualizacao: '01/07/2026 18:16',
+01/07/2026 18:16:06:   usuario_login: null,
+01/07/2026 18:16:06:   validacao: 'Ativo',
+01/07/2026 18:16:06:   usuario_id: '145',
+01/07/2026 18:16:06:   tarefa: '22794329',
+01/07/2026 18:16:06:   origem: null
+01/07/2026 18:16:06: }
+01/07/2026 18:18:32: [PUT] Atualizando cotação: 22794745
+01/07/2026 18:18:32: [PUT] Usuário: rafaela.giometti.3
+01/07/2026 18:18:32: [PUT] Dados recebidos: {
+01/07/2026 18:18:32:   anotacao: undefined,
+01/07/2026 18:18:32:   status: 'aprovado',
+01/07/2026 18:18:32:   auditoria_anotacao: undefined,
+01/07/2026 18:18:32:   auditoria_status: undefined
+01/07/2026 18:18:32: }
+01/07/2026 18:18:32: [PUT] Linhas afetadas: 1
+01/07/2026 18:18:32: [PUT] Cotação atualizada com sucesso: {
+01/07/2026 18:18:32:   id_cotacao: 283,
+01/07/2026 18:18:32:   cotacao: 'Q6343784',
+01/07/2026 18:18:32:   id_qldd: null,
+01/07/2026 18:18:32:   anotacao: 'Tarefa: E001 - PME - 13.924.331/0001-60 | Fila: CPC - PME',
+01/07/2026 18:18:32:   status: 'aprovado',
+01/07/2026 18:18:32:   data_de_criacao: '01/07/2026 17:42',
+01/07/2026 18:18:32:   data_da_ultima_atualizacao: '01/07/2026 18:18',
+01/07/2026 18:18:32:   usuario_login: null,
+01/07/2026 18:18:32:   validacao: 'Ativo',
+01/07/2026 18:18:32:   usuario_id: '145',
+01/07/2026 18:18:32:   tarefa: '22794745',
+01/07/2026 18:18:32:   origem: null
+01/07/2026 18:18:32: }

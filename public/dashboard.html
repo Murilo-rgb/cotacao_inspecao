@@ -13,12 +13,53 @@
         * { font-family: 'Inter', sans-serif; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
         .animate-slideUp { animation: slideUp 0.3s ease-out; }
+        .animate-scaleIn { animation: scaleIn 0.3s ease-out; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Overlay do modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+
+        /* Cards de quantidade */
+        .qty-card {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .qty-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15);
+        }
+        .qty-card:active {
+            transform: scale(0.95);
+        }
+        .qty-card.loading {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .qty-card .check-anim {
+            display: none;
+        }
+        .qty-card.done .check-anim {
+            display: flex;
+        }
+        .qty-card.done .qty-number {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -31,10 +72,6 @@
             React.createElement('line', { x1: "18", y1: "20", x2: "18", y2: "10" }),
             React.createElement('line', { x1: "12", y1: "20", x2: "12", y2: "4" }),
             React.createElement('line', { x1: "6", y1: "20", x2: "6", y2: "14" })
-        );
-        const ClockIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
-            React.createElement('circle', { cx: "12", cy: "12", r: "10" }),
-            React.createElement('polyline', { points: "12 6 12 12 16 14" })
         );
         const UsersIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
             React.createElement('path', { d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" }),
@@ -50,16 +87,154 @@
             React.createElement('circle', { cx: "12", cy: "12", r: "10" }),
             React.createElement('polyline', { points: "12 6 12 12 16 14" })
         );
+        const CloseIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('line', { x1: "18", y1: "6", x2: "6", y2: "18" }),
+            React.createElement('line', { x1: "6", y1: "6", x2: "18", y2: "18" })
+        );
+        const TargetIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "12", cy: "12", r: "10" }),
+            React.createElement('circle', { cx: "12", cy: "12", r: "6" }),
+            React.createElement('circle', { cx: "12", cy: "12", r: "2" })
+        );
+        const CheckIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('polyline', { points: "20 6 9 17 4 12" })
+        );
+        const AlertIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" }),
+            React.createElement('path', { d: "M12 9v4" }),
+            React.createElement('path', { d: "M12 17h.01" })
+        );
+        const RocketIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" }),
+            React.createElement('path', { d: "M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" }),
+            React.createElement('path', { d: "M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" }),
+            React.createElement('path', { d: "M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" })
+        );
+        const CheckSmallIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('polyline', { points: "20 6 9 17 4 12" })
+        );
 
+        // ============== COMPONENTE DE TOAST ==============
+        const Toast = ({ toast }) => {
+            if (!toast) return null;
+            return React.createElement('div', {
+                className: `fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-slideUp ${
+                    toast.type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+                }`
+            },
+                toast.type === 'success' ? React.createElement(CheckIcon) : React.createElement(AlertIcon),
+                React.createElement('span', { className: 'font-medium text-sm' }, toast.message)
+            );
+        };
+
+        // ============== MODAL DE DISTRIBUIÇÃO ==============
+        const DistribuirModal = ({ colaborador, onClose, onDistribuir, distribuindo, ultimaResposta }) => {
+            if (!colaborador) return null;
+
+            const cards = Array.from({ length: 10 }, (_, i) => i + 1);
+
+            const handleCardClick = (quantidade) => {
+                onDistribuir(colaborador.usuario_login, quantidade);
+            };
+
+            return React.createElement('div', {
+                className: 'modal-overlay animate-fadeIn',
+                onClick: (e) => { if (e.target === e.currentTarget) onClose(); }
+            },
+                React.createElement('div', { className: 'bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg mx-4 animate-scaleIn overflow-hidden' },
+                    // Header
+                    React.createElement('div', { className: 'flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-violet-50 to-purple-50' },
+                        React.createElement('div', { className: 'flex items-center gap-3' },
+                            React.createElement('div', { className: 'w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md' },
+                                React.createElement(TargetIcon)
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('h3', { className: 'text-lg font-bold text-slate-800' }, 'Distribuir tarefas'),
+                                React.createElement('p', { className: 'text-sm text-slate-500' },
+                                    'para ',
+                                    React.createElement('span', { className: 'font-semibold text-violet-700' }, colaborador.usuario_nome || colaborador.usuario_login)
+                                )
+                            )
+                        ),
+                        React.createElement('button', {
+                            onClick: onClose,
+                            className: 'p-2 text-slate-400 hover:text-slate-600 hover:bg-white/60 rounded-lg transition-colors'
+                        }, React.createElement(CloseIcon))
+                    ),
+                    // Corpo
+                    React.createElement('div', { className: 'px-6 py-5' },
+                        React.createElement('p', { className: 'text-sm text-slate-600 mb-4 flex items-center gap-2' },
+                            React.createElement(RocketIcon),
+                            'Quantas tarefas deseja distribuir? As mais antigas serão priorizadas.'
+                        ),
+                        // Grid de cards 1-10
+                        React.createElement('div', { className: 'grid grid-cols-5 gap-3 mb-4' },
+                            cards.map(qtd => {
+                                const estaCarregando = distribuindo === qtd;
+                                const estaCompleto = ultimaResposta && ultimaResposta.quantidade === qtd && ultimaResposta.success;
+                                return React.createElement('button', {
+                                    key: qtd,
+                                    onClick: () => handleCardClick(qtd),
+                                    disabled: !!distribuindo,
+                                    className: `qty-card relative flex flex-col items-center justify-center p-4 rounded-xl border-2 font-bold transition-all ${
+                                        estaCompleto
+                                            ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
+                                            : estaCarregando
+                                                ? 'border-violet-400 bg-violet-50 text-violet-700'
+                                                : 'border-slate-200 bg-white text-slate-700 hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700'
+                                    }`
+                                },
+                                    estaCarregando
+                                        ? React.createElement('div', { className: 'w-6 h-6 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' })
+                                        : estaCompleto
+                                            ? React.createElement('span', { className: 'text-emerald-600' }, React.createElement(CheckSmallIcon))
+                                            : React.createElement('span', { className: 'text-2xl font-bold' }, qtd),
+                                    React.createElement('span', { className: `text-xs mt-1 font-medium ${
+                                        estaCompleto ? 'text-emerald-600' : estaCarregando ? 'text-violet-600' : 'text-slate-400'
+                                    }` },
+                                        estaCompleto ? 'Feito!' : estaCarregando ? 'Enviando...' : 'tarefas'
+                                    )
+                                );
+                            })
+                        ),
+                        // Mensagem de resposta
+                        ultimaResposta && React.createElement('div', {
+                            className: `p-3 rounded-lg text-sm ${
+                                ultimaResposta.success
+                                    ? 'bg-emerald-50 border border-emerald-200 text-emerald-700'
+                                    : 'bg-red-50 border border-red-200 text-red-700'
+                            }`
+                        }, ultimaResposta.message)
+                    ),
+                    // Footer
+                    React.createElement('div', { className: 'px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center' },
+                        React.createElement('span', { className: 'text-xs text-slate-400' },
+                            colaborador.usuario_login ? `@${colaborador.usuario_login}` : ''
+                        ),
+                        React.createElement('button', {
+                            onClick: onClose,
+                            className: 'px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-200 rounded-lg transition-colors'
+                        }, 'Fechar')
+                    )
+                )
+            );
+        };
+
+        // ============== COMPONENTE PRINCIPAL ==============
         function App() {
             const [token, setToken] = useState(localStorage.getItem('token'));
             const [username, setUsername] = useState(localStorage.getItem('username') || '');
             const [colaboradores, setColaboradores] = useState([]);
             const [historico, setHistorico] = useState([]);
             const [loading, setLoading] = useState(true);
-            const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'historico'
+            const [activeTab, setActiveTab] = useState('dashboard');
             const [filtroTarefa, setFiltroTarefa] = useState('');
             const [filtroDataDashboard, setFiltroDataDashboard] = useState('');
+
+            // Modal
+            const [modalColaborador, setModalColaborador] = useState(null);
+            const [distribuindo, setDistribuindo] = useState(null);
+            const [ultimaResposta, setUltimaResposta] = useState(null);
 
             const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
 
@@ -69,7 +244,6 @@
                     setLoading(true);
                     const params = new URLSearchParams();
                     if (filtroDataDashboard) {
-                        // Converter YYYY-MM-DD para DD/MM/YYYY
                         const [year, month, day] = filtroDataDashboard.split('-');
                         params.set('data', `${day}/${month}/${year}`);
                     }
@@ -125,6 +299,81 @@
                     fetchHistorico();
                 }
             }, [token, fetchDashboard, fetchHistorico]);
+
+            // ===== DISTRIBUIR AUTOMÁTICO =====
+            const handleDistribuir = async (usuarioLogin, quantidade) => {
+                setDistribuindo(quantidade);
+                setUltimaResposta(null);
+
+                try {
+                    // Precisamos do ID do usuário - buscar a partir do login
+                    const usuariosRes = await fetch(`${getBasePath()}/api/inspecao/usuarios`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const usuarios = await usuariosRes.json();
+                    const usuario = usuarios.find(u => u.login === usuarioLogin);
+                    
+                    if (!usuario) {
+                        setUltimaResposta({
+                            success: false,
+                            message: 'Usuário não encontrado no sistema.',
+                            quantidade
+                        });
+                        setDistribuindo(null);
+                        return;
+                    }
+
+                    const res = await fetch(`${getBasePath()}/api/inspecao/distribuir-auto`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            usuario_id: usuario.id,
+                            quantidade
+                        })
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        setUltimaResposta({
+                            success: true,
+                            message: data.message || `${data.distribuidos} tarefa(s) distribuída(s) com sucesso!`,
+                            quantidade
+                        });
+                        // Recarregar dashboard após distribuir
+                        fetchDashboard();
+                    } else {
+                        setUltimaResposta({
+                            success: false,
+                            message: data.error || 'Erro ao distribuir tarefas.',
+                            quantidade
+                        });
+                    }
+                } catch (err) {
+                    setUltimaResposta({
+                        success: false,
+                        message: 'Erro de conexão: ' + err.message,
+                        quantidade
+                    });
+                } finally {
+                    setDistribuindo(null);
+                }
+            };
+
+            const openModal = (col) => {
+                setModalColaborador(col);
+                setUltimaResposta(null);
+                setDistribuindo(null);
+            };
+
+            const closeModal = () => {
+                setModalColaborador(null);
+                setUltimaResposta(null);
+                setDistribuindo(null);
+            };
 
             const formatDate = (dateStr) => {
                 if (!dateStr) return '-';
@@ -228,7 +477,6 @@
 
                     // Tab: Dashboard
                     activeTab === 'dashboard' && React.createElement('div', { className: 'animate-fadeIn' },
-                        // Filtro por data
                         React.createElement('div', { className: 'flex items-center gap-3 mb-4' },
                             React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Filtrar por data:'),
                             React.createElement('input', {
@@ -288,27 +536,35 @@
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-amber-600 uppercase tracking-wider' }, 'Pendente'),
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-indigo-600 uppercase tracking-wider' }, 'Tratados'),
                                                 React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Total'),
-                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'SLA Médio')
+                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'SLA Médio'),
+                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Ação')
                                             )
                                         ),
                                         React.createElement('tbody', { className: 'bg-white divide-y divide-slate-100' },
                                             colaboradores.length === 0
                                                 ? React.createElement('tr', null,
-                                                    React.createElement('td', { colSpan: 7, className: 'px-6 py-8 text-center text-sm text-slate-400' },
+                                                    React.createElement('td', { colSpan: 8, className: 'px-6 py-8 text-center text-sm text-slate-400' },
                                                         'Nenhum dado disponível'
                                                     )
                                                   )
                                                 : colaboradores.map(col => {
                                                     const precisaDistribuir = col.pendentes === 0 && (col.tratados || 0) === 0;
                                                     return React.createElement('tr', {
-                                                        key: col.usuario_id,
+                                                        key: col.usuario_login,
                                                         className: `hover:bg-slate-50/80 transition-colors ${precisaDistribuir ? 'bg-amber-50/30' : ''}`
                                                     },
-                                                        React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
+                                                        React.createElement('td', {
+                                                            className: 'px-6 py-4 whitespace-nowrap',
+                                                            onDoubleClick: () => openModal(col),
+                                                            style: { cursor: 'pointer' }
+                                                        },
                                                             React.createElement('div', { className: 'flex items-center gap-2' },
                                                                 col.pendentes === 0 && React.createElement('span', { className: 'text-lg', title: 'Disponível' }, '🟢'),
                                                                 React.createElement('div', null,
-                                                                    React.createElement('p', { className: `text-sm font-semibold ${precisaDistribuir ? 'text-amber-700' : col.pendentes === 0 ? 'text-emerald-700' : 'text-slate-900'}` }, col.usuario_nome),
+                                                                    React.createElement('p', {
+                                                                        className: `text-sm font-semibold ${precisaDistribuir ? 'text-amber-700' : col.pendentes === 0 ? 'text-emerald-700' : 'text-slate-900'}`,
+                                                                        title: 'Clique duas vezes para distribuir'
+                                                                    }, col.usuario_nome),
                                                                     React.createElement('p', { className: 'text-xs text-slate-400' }, col.usuario_login)
                                                                 )
                                                             )
@@ -324,6 +580,15 @@
                                                         ),
                                                         React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
                                                             React.createElement('span', { className: 'text-sm font-medium text-slate-600' }, col.sla_medio)
+                                                        ),
+                                                        React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
+                                                            React.createElement('button', {
+                                                                onClick: () => openModal(col),
+                                                                className: 'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors shadow-sm'
+                                                            },
+                                                                React.createElement(TargetIcon),
+                                                                'Distribuir'
+                                                            )
                                                         )
                                                     );
                                                 })
@@ -417,7 +682,19 @@
                             )
                         )
                     )
-                )
+                ),
+
+                // Modal de Distribuição
+                React.createElement(DistribuirModal, {
+                    colaborador: modalColaborador,
+                    onClose: closeModal,
+                    onDistribuir: handleDistribuir,
+                    distribuindo: distribuindo,
+                    ultimaResposta: ultimaResposta
+                }),
+
+                // Toast (placeholder, sem gerenciamento de estado ainda)
+                null
             );
         }
 

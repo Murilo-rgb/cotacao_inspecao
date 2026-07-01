@@ -929,7 +929,8 @@ const { listarReprovas, inserirReprova, contarReprovas, verificarDuplicado } = r
 app.get('/api/reprovas', authenticateToken, async (req, res) => {
   try {
     const termo = req.query.termo || null;
-    const registros = await listarReprovas(termo);
+    const fonte = req.query.fonte || null;
+    const registros = await listarReprovas(termo, fonte);
     res.json(registros);
   } catch (error) {
     console.error('[REPROVAS] Erro ao listar:', error.message);

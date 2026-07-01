@@ -102,7 +102,7 @@
             const [dragActive, setDragActive] = useState(false);
             const [fileInfo, setFileInfo] = useState(null);
             const [toast, setToast] = useState(null);
-            const [stats, setStats] = useState({ total: 0, fila: 0, enviado: 0 });
+            const [stats, setStats] = useState({ total: 0, fila: 0, enviado: 0, statusCounts: {} });
             const [selectedIds, setSelectedIds] = useState(new Set());
             const [massAssignUsuario, setMassAssignUsuario] = useState('');
             const [redistribuirMode, setRedistribuirMode] = useState(false);
@@ -145,7 +145,12 @@
                     const total = data.length;
                     const enviado = data.filter(t => t.status_distribuicao === 'Enviado').length;
                     const fila = data.filter(t => t.status_distribuicao === 'Fila' && (!t.pendente_com || t.pendente_com === '-')).length;
-                    setStats({ total, fila, enviado });
+                    const statusCounts = {};
+                    data.forEach(t => {
+                        const status = getCotacaoStatus(t);
+                        statusCounts[status] = (statusCounts[status] || 0) + 1;
+                    });
+                    setStats({ total, fila, enviado, statusCounts });
                 } catch (err) {
                     console.error('Erro ao buscar tarefas:', err);
                     showToast('Erro ao carregar tarefas', 'error');
@@ -479,11 +484,13 @@
                         if (t.cotacao_status && String(t.cotacao_status).trim()) return false;
                     } else if (sf === 'NAO_ASSUMIDO') {
                         const assumido = t.assumido_por || t.pendente_com;
+                        const cotStatus = (t.cotacao_status || '').toString().trim();
+                        if (cotStatus) return false;
                         if (assumido && String(assumido).trim() !== '' && String(assumido).trim() !== '-') return false;
                     } else {
                         const cs = (t.cotacao_status || '').toString().trim();
                         if (!cs) return false;
-                        if (cs.toLowerCase() !== sf.toLowerCase()) return false;
+                        if (!cs.toLowerCase().startsWith(sf.toLowerCase())) return false;
                     }
                 }
 
@@ -608,6 +615,26 @@
                         React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
                             React.createElement('p', { className: 'text-sm font-medium text-slate-500' }, 'Qtd. Usuários'),
                             React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, usuarios.length)
+                        )
+                    ),
+                    // Status Cotação Cards
+                    React.createElement('div', { className: 'mb-6' },
+                        React.createElement('h3', { className: 'text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3' }, 'Status Cotação'),
+                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3' },
+                            Object.entries(stats.statusCounts || {}).map(([status, count]) => {
+                                let colorClass = 'text-slate-500';
+                                let bgClass = 'bg-white';
+                                const s = (status || '').toLowerCase();
+                                if (s === 'pendente') { colorClass = 'text-amber-600'; bgClass = 'bg-amber-50'; }
+                                else if (s === 'aprovado') { colorClass = 'text-emerald-600'; bgClass = 'bg-emerald-50'; }
+                                else if (s === 'reprovado') { colorClass = 'text-red-600'; bgClass = 'bg-red-50'; }
+                                else if (s === 'assumido') { colorClass = 'text-blue-600'; bgClass = 'bg-blue-50'; }
+                                else if (s === 'não distribuido' || s === 'não distribuído') { colorClass = 'text-slate-500'; bgClass = 'bg-slate-100'; }
+                                return React.createElement('div', { key: status, className: `${bgClass} rounded-xl p-4 border border-slate-200 shadow-sm` },
+                                    React.createElement('p', { className: `text-xs font-medium ${colorClass}` }, status),
+                                    React.createElement('p', { className: 'text-xl font-bold text-slate-800 mt-1' }, count)
+                                );
+                            })
                         )
                     ),
 
@@ -788,7 +815,7 @@
                                                                                             React.createElement('option', { value: 'Aprovado' }, 'Aprovado'),
                                                                                             React.createElement('option', { value: 'Reprovado' }, 'Reprovado'),
                                                                                             React.createElement('option', { value: 'ASSUMIDO' }, 'Assumido'),
-                                                                                            React.createElement('option', { value: 'NAO_ASSUMIDO' }, 'Não Assumido')
+                                                                                            React.createElement('option', { value: 'NAO_ASSUMIDO' }, 'Não Distribuido')
                                                                                         )
                                                 ),
                                                 React.createElement('th', { className: 'px-4 py-2' },

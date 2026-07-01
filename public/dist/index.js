@@ -417,18 +417,22 @@ function App() {
     _useState36 = _slicedToArray(_useState35, 2),
     reprovaLoading = _useState36[0],
     setReprovaLoading = _useState36[1];
-  var _useState37 = useState(null),
+  var _useState37 = useState(''),
     _useState38 = _slicedToArray(_useState37, 2),
-    qualidadeStats = _useState38[0],
-    setQualidadeStats = _useState38[1];
-  var _useState39 = useState(false),
+    reprovaAbaAtiva = _useState38[0],
+    setReprovaAbaAtiva = _useState38[1];
+  var _useState39 = useState(null),
     _useState40 = _slicedToArray(_useState39, 2),
-    loadingQualidade = _useState40[0],
-    setLoadingQualidade = _useState40[1];
-  var _useState41 = useState(''),
+    qualidadeStats = _useState40[0],
+    setQualidadeStats = _useState40[1];
+  var _useState41 = useState(false),
     _useState42 = _slicedToArray(_useState41, 2),
-    filtroAuditoria = _useState42[0],
-    setFiltroAuditoria = _useState42[1];
+    loadingQualidade = _useState42[0],
+    setLoadingQualidade = _useState42[1];
+  var _useState43 = useState(''),
+    _useState44 = _slicedToArray(_useState43, 2),
+    filtroAuditoria = _useState44[0],
+    setFiltroAuditoria = _useState44[1];
   useEffect(function () {
     var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
     var token = localStorage.getItem('token');
@@ -917,6 +921,9 @@ function App() {
               token = localStorage.getItem('token');
               BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
               url = "".concat(BASE_PATH, "/api/reprovas?termo=").concat(encodeURIComponent(termo));
+              if (reprovaAbaAtiva) {
+                url += "&fonte=".concat(encodeURIComponent(reprovaAbaAtiva));
+              }
               _context7.n = 4;
               return fetch(url, {
                 headers: {
@@ -962,7 +969,7 @@ function App() {
       ignore = true;
       if (timer) clearTimeout(timer);
     };
-  }, [reprovaSearch, reprovaModalOpen]);
+  }, [reprovaSearch, reprovaModalOpen, reprovaAbaAtiva]);
   var filteredQuotations = quotations.filter(function (q) {
     var matchesSearch = !searchTerm || q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase());
     if (!matchesSearch) return false;
@@ -1274,6 +1281,7 @@ function App() {
       setReprovaModalOpen(true);
       setReprovaSearch('');
       setReprovaResults([]);
+      setReprovaAbaAtiva('');
     },
     className: "inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 focus:ring-4 focus:ring-amber-500/20 transition-all duration-200 shadow-md hover:shadow-lg"
   }, /*#__PURE__*/React.createElement(SearchIcon, null), " Reprova Padr\xE3o")), /*#__PURE__*/React.createElement("div", {
@@ -1623,7 +1631,7 @@ function App() {
   }, "Selecione o novo status para a cota\xE7\xE3o ", /*#__PURE__*/React.createElement("span", {
     className: "font-semibold text-slate-800 font-mono"
   }, statusModal.cotacao), "."), /*#__PURE__*/React.createElement("div", {
-    className: "space-y-2.5"
+    className: "space-y-2.5 max-h-[50vh] overflow-y-auto"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente');
@@ -1632,6 +1640,13 @@ function App() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
   }), "Pendente"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('pendente-classificacao');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
+  }), "Pendente - Classifica\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente-iphone');
     },
@@ -1652,7 +1667,7 @@ function App() {
     className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Correção Cadastral"), /*#__PURE__*/React.createElement("button", {
+  }), "Pendente - Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('aprovado');
     },
@@ -1684,6 +1699,7 @@ function App() {
         setReprovaModalOpen(false);
         setReprovaSearch('');
         setReprovaResults([]);
+        setReprovaAbaAtiva('');
       }
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1697,9 +1713,27 @@ function App() {
       setReprovaModalOpen(false);
       setReprovaSearch('');
       setReprovaResults([]);
+      setReprovaAbaAtiva('');
     },
     className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"
   }, /*#__PURE__*/React.createElement(XIcon, null))), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-1 mb-4 border-b border-slate-200 pb-0"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setReprovaAbaAtiva('');
+    },
+    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(reprovaAbaAtiva === '' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
+  }, "Todas"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setReprovaAbaAtiva('Inspeção');
+    },
+    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(reprovaAbaAtiva === 'Inspeção' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
+  }, "Inspe\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setReprovaAbaAtiva('input');
+    },
+    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(reprovaAbaAtiva === 'input' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
+  }, "Input")), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-3 mb-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "relative flex-1 group"
@@ -1722,22 +1756,31 @@ function App() {
     className: "bg-slate-50"
   }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
     className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+  }, "Fonte"), /*#__PURE__*/React.createElement("th", {
+    className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Motivo"), /*#__PURE__*/React.createElement("th", {
     className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Reprova"))), /*#__PURE__*/React.createElement("tbody", {
     className: "bg-white divide-y divide-slate-100"
   }, reprovaLoading ? /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
     className: "px-4 py-4 text-sm text-slate-500",
-    colSpan: "2"
+    colSpan: "3"
   }, "Carregando...")) : reprovaResults.length === 0 ? /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
     className: "px-4 py-8 text-sm text-slate-500 text-center",
-    colSpan: "2"
+    colSpan: "3"
   }, reprovaSearch ? 'Nenhum registro encontrado' : 'Digite para buscar motivos de reprova.')) : reprovaResults.map(function (item, idx) {
     var _item$id;
+    var fonte = (item.fonte || '').trim();
+    var tagClass = fonte.toLowerCase() === 'inspeção' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700';
+    var tagLabel = fonte.toLowerCase() === 'inspeção' ? 'Inspeção' : 'Input';
     return /*#__PURE__*/React.createElement("tr", {
       key: (_item$id = item.id) !== null && _item$id !== void 0 ? _item$id : idx,
       className: "hover:bg-slate-50/80 transition-colors duration-150"
     }, /*#__PURE__*/React.createElement("td", {
+      className: "px-4 py-3 whitespace-nowrap"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ".concat(tagClass)
+    }, tagLabel)), /*#__PURE__*/React.createElement("td", {
       className: "px-4 py-3 text-sm text-slate-900 font-semibold whitespace-nowrap"
     }, item.motivo), /*#__PURE__*/React.createElement("td", {
       className: "px-4 py-3 text-sm text-slate-600 whitespace-pre-wrap break-words"

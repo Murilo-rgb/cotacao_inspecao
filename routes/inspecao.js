@@ -1103,5 +1103,118 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     }
   });
 
+  // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard) =====
+  // Distribuir N tarefas mais antigas não distribuídas para um colaborador
+  router.post('/api/inspecao/distribuir-auto', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+    try {
+      const { usuario_id, quantidade } = req.body;
+      
+      if (!usuario_id || !quantidade || quantidade < 1 || quantidade > 10) {
+        return res.status(400).json({ error: 'Parâmetros inválidos. usuario_id e quantidade (1-10) são obrigatórios.' });
+      }
+      
+      const usuarioLogin = req.user.username;
+      const now = formatDateBR(new Date());
+      
+      // Buscar tarefas em Fila, não distribuídas, ordenadas por dat_historico ASC (mais antigas primeiro)
+      const tarefasQuery = `
+        SELECT r.cod_tarefa, r.dat_historico, r.nom_tarefa, r.nom_fila, r.dsc_cotacao
+        FROM db_bloco_de_notas.r_000250 r
+        LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND (r.pendente_com IS NULL OR r.pendente_com = '' OR r.pendente_com = '-')
+        ORDER BY 
+          CASE WHEN r.dat_historico IS NULL OR r.dat_historico = '-' THEN 1 ELSE 0 END,
+          r.dat_historico::timestamp ASC NULLS LAST,
+          r.dat_criacao ASC
+        LIMIT $1
+      `;
+      
+      const tarefasResult = await pool.query(tarefasQuery, [quantidade]);
+      const tarefas = tarefasResult.rows;
+      
+      if (tarefas.length === 0) {
+        return res.json({
+          success: true,
+          message: 'Nenhuma tarefa disponível para distribuição.',
+          distribuidos: 0,
+          tarefas: []
+        });
+      }
+      
+      // Buscar nome do usuário destino
+      let destinoNome = String(usuario_id);
+      try {
+        const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [usuario_id]);
+        if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+      } catch {}
+      
+      let count = 0;
+      let errors = [];
+      const distribuidos = [];
+      
+      for (const tarefa of tarefas) {
+        try {
+          // Verificar se já não foi distribuída entre a consulta e agora
+          const check = await pool.query(
+            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+            [tarefa.cod_tarefa, 'Ativo']
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída' });
+            continue;
+          }
+          
+          let anotacao = '';
+          let cotacaoDsc = tarefa.cod_tarefa;
+          if (tarefa.dsc_cotacao) cotacaoDsc = tarefa.dsc_cotacao;
+          if (tarefa.nom_tarefa || tarefa.nom_fila) {
+            anotacao = `Tarefa: ${tarefa.nom_tarefa || ''} | Fila: ${tarefa.nom_fila || ''}`;
+          }
+          
+          await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+            [tarefa.cod_tarefa, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id]
+          );
+          
+          // Registrar auditoria
+          await registrarAuditoria(pool, {
+            tarefa: tarefa.cod_tarefa,
+            acao: 'distribuido',
+            usuario_origem_id: req.user.id,
+            usuario_origem_nome: req.user.nome || usuarioLogin,
+            usuario_destino_id: usuario_id,
+            usuario_destino_nome: destinoNome,
+            status_anterior: null,
+            status_novo: 'pendente',
+            criado_por: usuarioLogin
+          });
+          
+          count++;
+          distribuidos.push({
+            cod_tarefa: tarefa.cod_tarefa,
+            dat_historico: tarefa.dat_historico
+          });
+        } catch (err) {
+          errors.push({ cod_tarefa: tarefa.cod_tarefa, error: err.message });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `${count} tarefa(s) distribuída(s) para ${destinoNome}`,
+        distribuidos: count,
+        tarefas: distribuidos,
+        erros: errors
+      });
+      
+    } catch (error) {
+      console.error('[DISTRIBUIR_AUTO] Erro:', error);
+      res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+    }
+  });
+
   return router;
 };
