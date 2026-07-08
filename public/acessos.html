@@ -214,7 +214,7 @@
             // Carregar permissões do usuário selecionado
             const carregarPermissoes = useCallback(async (usuario) => {
                 try {
-                    const res = await fetch(`/api/acessos/usuarios/${usuario.id}/permissoes`);
+                    const res = await fetch(`/pme_notas/api/acessos/usuarios/${usuario.id}/permissoes`);
                     const data = await res.json();
                     const rotasExistentes = (data.permissoes || []).map(p => p.rota);
 

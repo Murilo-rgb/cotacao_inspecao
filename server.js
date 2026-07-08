@@ -1420,7 +1420,7 @@ app.get('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, r
         const { id } = req.params;
 
         const result = await pool.query(
-            `SELECT rota, tem_acesso, data_alteracao, alterado_por
+            `SELECT rota, tem_acesso, atualizado_em, atualizado_por
              FROM db_automacao.usuario_permissoes 
              WHERE usuario_id = $1
              ORDER BY rota`,

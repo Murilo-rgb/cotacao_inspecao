@@ -25,13 +25,13 @@ function createPermissions(pool) {
     async function atualizarPermissao(usuarioId, rota, temAcesso, alteradoPor) {
         try {
             const query = `
-                INSERT INTO db_automacao.usuario_permissoes (usuario_id, rota, tem_acesso, alterado_por, data_alteracao)
-                VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
+                INSERT INTO db_automacao.usuario_permissoes (usuario_id, rota, tem_acesso, criado_por, atualizado_por, atualizado_em)
+                VALUES ($1, $2, $3, $4, $4, CURRENT_TIMESTAMP)
                 ON CONFLICT (usuario_id, rota) 
                 DO UPDATE SET 
                     tem_acesso = EXCLUDED.tem_acesso,
-                    alterado_por = EXCLUDED.alterado_por,
-                    data_alteracao = EXCLUDED.data_alteracao
+                    atualizado_por = EXCLUDED.atualizado_por,
+                    atualizado_em = EXCLUDED.atualizado_em
                 RETURNING *
             `;
             const result = await pool.query(query, [usuarioId, rota, temAcesso, alteradoPor]);
@@ -45,7 +45,7 @@ function createPermissions(pool) {
     async function listarPermissoesUsuario(usuarioId) {
         try {
             const query = `
-                SELECT rota, tem_acesso, data_alteracao, alterado_por
+                SELECT rota, tem_acesso, atualizado_em, atualizado_por
                 FROM db_automacao.usuario_permissoes 
                 WHERE usuario_id = $1
                 ORDER BY rota
@@ -103,12 +103,16 @@ function createPermissions(pool) {
         try {
             const query = `
                 CREATE TABLE IF NOT EXISTS db_automacao.usuario_permissoes (
-                    usuario_id INTEGER,
-                    rota VARCHAR(200),
-                    tem_acesso BOOLEAN DEFAULT false,
+                    id SERIAL PRIMARY KEY,
+                    usuario_id INTEGER NOT NULL,
+                    rota VARCHAR(200) NOT NULL,
+                    tem_acesso BOOLEAN DEFAULT true,
+                    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    criado_por VARCHAR(50),
+                    atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    atualizado_por VARCHAR(50),
                     alterado_por VARCHAR(50),
-                    data_alteracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    PRIMARY KEY (usuario_id, rota),
+                    UNIQUE (usuario_id, rota),
                     FOREIGN KEY (usuario_id) REFERENCES db_automacao.usuarios(id) ON DELETE CASCADE
                 )
             `;
