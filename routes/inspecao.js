@@ -294,6 +294,15 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   // Dashboard - Quantidade por colaborador e status
   router.get('/api/inspecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
+      const filtroData = req.query.data || null;
+      
+      let queryParams = [];
+      let dataFilter = '';
+      if (filtroData) {
+        dataFilter = ` AND c.data_de_criacao LIKE $1`;
+        queryParams.push(filtroData + '%');
+      }
+
       const query = `
         SELECT 
           l.login AS usuario_login,
@@ -306,18 +315,19 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         left join db_bloco_de_notas.cotacao c 
         on c.usuario_id::text = u.id::text
         WHERE l.ilha ILIKE '%ins%' AND l.ativo = true
+        ${dataFilter}
         GROUP BY l.login, l.nome
         ORDER BY l.nome
       `;
       
-      const result = await pool.query(query);
+      const result = await pool.query(query, queryParams.length > 0 ? queryParams : undefined);
       
       // Buscar SLA médio (considerando apenas tratados)
       const colaboradores = [];
       for (const row of result.rows) {
         let slaHoras = null;
         try {
-          const slaRes = await pool.query(`
+          let slaQuery = `
             SELECT AVG(
               EXTRACT(EPOCH FROM (
                 TO_TIMESTAMP(data_da_ultima_atualizacao, 'DD/MM/YYYY HH24:MI') -
@@ -329,7 +339,13 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             WHERE u.login = $1 
               AND c.validacao = 'Ativo' 
               AND c.status != 'pendente' AND c.status IS NOT NULL AND c.status != ''
-          `, [row.usuario_login]);
+          `;
+          let slaParams = [row.usuario_login];
+          if (filtroData) {
+            slaQuery += ` AND c.data_de_criacao LIKE $2`;
+            slaParams.push(filtroData + '%');
+          }
+          const slaRes = await pool.query(slaQuery, slaParams);
           slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
         } catch (slaErr) {
           console.error('[DASHBOARD SLA] Erro para usuario', row.usuario_login, ':', slaErr.message);

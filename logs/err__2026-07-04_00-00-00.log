@@ -1,0 +1,1305 @@
+03/07/2026 06:20:31: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 06:20:31:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 06:20:31:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 06:20:31:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 06:20:31:   length: 114,
+03/07/2026 06:20:31:   severity: 'ERROR',
+03/07/2026 06:20:31:   code: '42702',
+03/07/2026 06:20:31:   detail: undefined,
+03/07/2026 06:20:31:   hint: undefined,
+03/07/2026 06:20:31:   position: '339',
+03/07/2026 06:20:31:   internalPosition: undefined,
+03/07/2026 06:20:31:   internalQuery: undefined,
+03/07/2026 06:20:31:   where: undefined,
+03/07/2026 06:20:31:   schema: undefined,
+03/07/2026 06:20:31:   table: undefined,
+03/07/2026 06:20:31:   column: undefined,
+03/07/2026 06:20:31:   dataType: undefined,
+03/07/2026 06:20:31:   constraint: undefined,
+03/07/2026 06:20:31:   file: 'parse_relation.c',
+03/07/2026 06:20:31:   line: '805',
+03/07/2026 06:20:31:   routine: 'scanRTEForColumn'
+03/07/2026 06:20:31: }
+03/07/2026 07:23:27: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 07:23:27:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 07:23:27:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 07:23:27:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 07:23:27:   length: 114,
+03/07/2026 07:23:27:   severity: 'ERROR',
+03/07/2026 07:23:27:   code: '42702',
+03/07/2026 07:23:27:   detail: undefined,
+03/07/2026 07:23:27:   hint: undefined,
+03/07/2026 07:23:27:   position: '339',
+03/07/2026 07:23:27:   internalPosition: undefined,
+03/07/2026 07:23:27:   internalQuery: undefined,
+03/07/2026 07:23:27:   where: undefined,
+03/07/2026 07:23:27:   schema: undefined,
+03/07/2026 07:23:27:   table: undefined,
+03/07/2026 07:23:27:   column: undefined,
+03/07/2026 07:23:27:   dataType: undefined,
+03/07/2026 07:23:27:   constraint: undefined,
+03/07/2026 07:23:27:   file: 'parse_relation.c',
+03/07/2026 07:23:27:   line: '805',
+03/07/2026 07:23:27:   routine: 'scanRTEForColumn'
+03/07/2026 07:23:27: }
+03/07/2026 08:01:41: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:41: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:42: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:42: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:44: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:46: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:46: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:47: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:47: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 08:01:49: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:25:38: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 09:25:38:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 09:25:38:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 09:25:38:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 09:25:38:   length: 114,
+03/07/2026 09:25:38:   severity: 'ERROR',
+03/07/2026 09:25:38:   code: '42702',
+03/07/2026 09:25:38:   detail: undefined,
+03/07/2026 09:25:38:   hint: undefined,
+03/07/2026 09:25:38:   position: '339',
+03/07/2026 09:25:38:   internalPosition: undefined,
+03/07/2026 09:25:38:   internalQuery: undefined,
+03/07/2026 09:25:38:   where: undefined,
+03/07/2026 09:25:38:   schema: undefined,
+03/07/2026 09:25:38:   table: undefined,
+03/07/2026 09:25:38:   column: undefined,
+03/07/2026 09:25:38:   dataType: undefined,
+03/07/2026 09:25:38:   constraint: undefined,
+03/07/2026 09:25:38:   file: 'parse_relation.c',
+03/07/2026 09:25:38:   line: '805',
+03/07/2026 09:25:38:   routine: 'scanRTEForColumn'
+03/07/2026 09:25:38: }
+03/07/2026 09:45:38: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:45:39: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:45:40: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:45:42: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:45:45: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:45:46: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:46:03: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:50:59: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:00: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:02: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:02: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:04: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:04: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:05: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:07: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:08: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:51:12: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 09:52:30: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:25:27: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:25:34: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:25:39: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:25:39: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:25:39: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:25:46: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:26:11: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:26:14: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:26:22: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:26:26: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:26:29: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:26:30: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 10:36:35: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 10:36:35:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 10:36:35:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 10:36:35:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 10:36:35:   length: 114,
+03/07/2026 10:36:35:   severity: 'ERROR',
+03/07/2026 10:36:35:   code: '42702',
+03/07/2026 10:36:35:   detail: undefined,
+03/07/2026 10:36:35:   hint: undefined,
+03/07/2026 10:36:35:   position: '339',
+03/07/2026 10:36:35:   internalPosition: undefined,
+03/07/2026 10:36:35:   internalQuery: undefined,
+03/07/2026 10:36:35:   where: undefined,
+03/07/2026 10:36:35:   schema: undefined,
+03/07/2026 10:36:35:   table: undefined,
+03/07/2026 10:36:35:   column: undefined,
+03/07/2026 10:36:35:   dataType: undefined,
+03/07/2026 10:36:35:   constraint: undefined,
+03/07/2026 10:36:35:   file: 'parse_relation.c',
+03/07/2026 10:36:35:   line: '805',
+03/07/2026 10:36:35:   routine: 'scanRTEForColumn'
+03/07/2026 10:36:35: }
+03/07/2026 10:37:25: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 10:37:25:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 10:37:25:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 10:37:25:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 10:37:25:   length: 114,
+03/07/2026 10:37:25:   severity: 'ERROR',
+03/07/2026 10:37:25:   code: '42702',
+03/07/2026 10:37:25:   detail: undefined,
+03/07/2026 10:37:25:   hint: undefined,
+03/07/2026 10:37:25:   position: '339',
+03/07/2026 10:37:25:   internalPosition: undefined,
+03/07/2026 10:37:25:   internalQuery: undefined,
+03/07/2026 10:37:25:   where: undefined,
+03/07/2026 10:37:25:   schema: undefined,
+03/07/2026 10:37:25:   table: undefined,
+03/07/2026 10:37:25:   column: undefined,
+03/07/2026 10:37:25:   dataType: undefined,
+03/07/2026 10:37:25:   constraint: undefined,
+03/07/2026 10:37:25:   file: 'parse_relation.c',
+03/07/2026 10:37:25:   line: '805',
+03/07/2026 10:37:25:   routine: 'scanRTEForColumn'
+03/07/2026 10:37:25: }
+03/07/2026 11:42:08: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 11:42:08:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 11:42:08:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 11:42:08:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 11:42:08:   length: 114,
+03/07/2026 11:42:08:   severity: 'ERROR',
+03/07/2026 11:42:08:   code: '42702',
+03/07/2026 11:42:08:   detail: undefined,
+03/07/2026 11:42:08:   hint: undefined,
+03/07/2026 11:42:08:   position: '339',
+03/07/2026 11:42:08:   internalPosition: undefined,
+03/07/2026 11:42:08:   internalQuery: undefined,
+03/07/2026 11:42:08:   where: undefined,
+03/07/2026 11:42:08:   schema: undefined,
+03/07/2026 11:42:08:   table: undefined,
+03/07/2026 11:42:08:   column: undefined,
+03/07/2026 11:42:08:   dataType: undefined,
+03/07/2026 11:42:08:   constraint: undefined,
+03/07/2026 11:42:08:   file: 'parse_relation.c',
+03/07/2026 11:42:08:   line: '805',
+03/07/2026 11:42:08:   routine: 'scanRTEForColumn'
+03/07/2026 11:42:08: }
+03/07/2026 11:42:29: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 11:42:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 11:42:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 11:42:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 11:42:29:   length: 114,
+03/07/2026 11:42:29:   severity: 'ERROR',
+03/07/2026 11:42:29:   code: '42702',
+03/07/2026 11:42:29:   detail: undefined,
+03/07/2026 11:42:29:   hint: undefined,
+03/07/2026 11:42:29:   position: '339',
+03/07/2026 11:42:29:   internalPosition: undefined,
+03/07/2026 11:42:29:   internalQuery: undefined,
+03/07/2026 11:42:29:   where: undefined,
+03/07/2026 11:42:29:   schema: undefined,
+03/07/2026 11:42:29:   table: undefined,
+03/07/2026 11:42:29:   column: undefined,
+03/07/2026 11:42:29:   dataType: undefined,
+03/07/2026 11:42:29:   constraint: undefined,
+03/07/2026 11:42:29:   file: 'parse_relation.c',
+03/07/2026 11:42:29:   line: '805',
+03/07/2026 11:42:29:   routine: 'scanRTEForColumn'
+03/07/2026 11:42:29: }
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:05: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:43:08: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 11:43:08:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 11:43:08:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 11:43:08:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 11:43:08:   length: 114,
+03/07/2026 11:43:08:   severity: 'ERROR',
+03/07/2026 11:43:08:   code: '42702',
+03/07/2026 11:43:08:   detail: undefined,
+03/07/2026 11:43:08:   hint: undefined,
+03/07/2026 11:43:08:   position: '339',
+03/07/2026 11:43:08:   internalPosition: undefined,
+03/07/2026 11:43:08:   internalQuery: undefined,
+03/07/2026 11:43:08:   where: undefined,
+03/07/2026 11:43:08:   schema: undefined,
+03/07/2026 11:43:08:   table: undefined,
+03/07/2026 11:43:08:   column: undefined,
+03/07/2026 11:43:08:   dataType: undefined,
+03/07/2026 11:43:08:   constraint: undefined,
+03/07/2026 11:43:08:   file: 'parse_relation.c',
+03/07/2026 11:43:08:   line: '805',
+03/07/2026 11:43:08:   routine: 'scanRTEForColumn'
+03/07/2026 11:43:08: }
+03/07/2026 11:46:34: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 11:46:34:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 11:46:34:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 11:46:34:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 11:46:34:   length: 114,
+03/07/2026 11:46:34:   severity: 'ERROR',
+03/07/2026 11:46:34:   code: '42702',
+03/07/2026 11:46:34:   detail: undefined,
+03/07/2026 11:46:34:   hint: undefined,
+03/07/2026 11:46:34:   position: '339',
+03/07/2026 11:46:34:   internalPosition: undefined,
+03/07/2026 11:46:34:   internalQuery: undefined,
+03/07/2026 11:46:34:   where: undefined,
+03/07/2026 11:46:34:   schema: undefined,
+03/07/2026 11:46:34:   table: undefined,
+03/07/2026 11:46:34:   column: undefined,
+03/07/2026 11:46:34:   dataType: undefined,
+03/07/2026 11:46:34:   constraint: undefined,
+03/07/2026 11:46:34:   file: 'parse_relation.c',
+03/07/2026 11:46:34:   line: '805',
+03/07/2026 11:46:34:   routine: 'scanRTEForColumn'
+03/07/2026 11:46:34: }
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 11:49:21: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:15: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:15: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:15: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:15: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:15: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:15: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:16: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:46: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:46: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 11:52:47: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:52: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:53: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:53: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:53: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:53: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 11:55:53: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:20: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:21: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:21: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:21: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:21: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:22: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:23: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:24: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:25: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:25: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:26: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:51: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:53: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:54: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:54: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:54: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:54: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:54: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:54: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:54: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:01:54: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:20: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:05:23: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:06:04: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:11: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:16: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:10:23: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 12:12:00: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 13:06:33: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 13:57:51: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 15:03:38: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 15:06:25: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:40: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 15:07:41: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 15:11:15: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:54: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:54: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:54: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 15:17:55: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:21: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:21: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:21: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:21: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:21: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:21: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 15:26:22: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 15:27:16: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 15:48:25: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 15:48:25:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 15:48:25:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 15:48:25:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 15:48:25:   length: 114,
+03/07/2026 15:48:25:   severity: 'ERROR',
+03/07/2026 15:48:25:   code: '42702',
+03/07/2026 15:48:25:   detail: undefined,
+03/07/2026 15:48:25:   hint: undefined,
+03/07/2026 15:48:25:   position: '339',
+03/07/2026 15:48:25:   internalPosition: undefined,
+03/07/2026 15:48:25:   internalQuery: undefined,
+03/07/2026 15:48:25:   where: undefined,
+03/07/2026 15:48:25:   schema: undefined,
+03/07/2026 15:48:25:   table: undefined,
+03/07/2026 15:48:25:   column: undefined,
+03/07/2026 15:48:25:   dataType: undefined,
+03/07/2026 15:48:25:   constraint: undefined,
+03/07/2026 15:48:25:   file: 'parse_relation.c',
+03/07/2026 15:48:25:   line: '805',
+03/07/2026 15:48:25:   routine: 'scanRTEForColumn'
+03/07/2026 15:48:25: }
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 16:10:43: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:19: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 16:20:19:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 16:20:19:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 16:20:19:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 16:20:19:   length: 114,
+03/07/2026 16:20:19:   severity: 'ERROR',
+03/07/2026 16:20:19:   code: '42702',
+03/07/2026 16:20:19:   detail: undefined,
+03/07/2026 16:20:19:   hint: undefined,
+03/07/2026 16:20:19:   position: '339',
+03/07/2026 16:20:19:   internalPosition: undefined,
+03/07/2026 16:20:19:   internalQuery: undefined,
+03/07/2026 16:20:19:   where: undefined,
+03/07/2026 16:20:19:   schema: undefined,
+03/07/2026 16:20:19:   table: undefined,
+03/07/2026 16:20:19:   column: undefined,
+03/07/2026 16:20:19:   dataType: undefined,
+03/07/2026 16:20:19:   constraint: undefined,
+03/07/2026 16:20:19:   file: 'parse_relation.c',
+03/07/2026 16:20:19:   line: '805',
+03/07/2026 16:20:19:   routine: 'scanRTEForColumn'
+03/07/2026 16:20:19: }
+03/07/2026 16:20:31: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 16:20:31:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 16:20:31:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 16:20:31:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 16:20:31:   length: 114,
+03/07/2026 16:20:31:   severity: 'ERROR',
+03/07/2026 16:20:31:   code: '42702',
+03/07/2026 16:20:31:   detail: undefined,
+03/07/2026 16:20:31:   hint: undefined,
+03/07/2026 16:20:31:   position: '339',
+03/07/2026 16:20:31:   internalPosition: undefined,
+03/07/2026 16:20:31:   internalQuery: undefined,
+03/07/2026 16:20:31:   where: undefined,
+03/07/2026 16:20:31:   schema: undefined,
+03/07/2026 16:20:31:   table: undefined,
+03/07/2026 16:20:31:   column: undefined,
+03/07/2026 16:20:31:   dataType: undefined,
+03/07/2026 16:20:31:   constraint: undefined,
+03/07/2026 16:20:31:   file: 'parse_relation.c',
+03/07/2026 16:20:31:   line: '805',
+03/07/2026 16:20:31:   routine: 'scanRTEForColumn'
+03/07/2026 16:20:31: }
+03/07/2026 16:20:50: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:50: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:50: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:50: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:50: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:50: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:50: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:50: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 16:20:51: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 16:23:59: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:13: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 16:28:14: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:32:15: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 16:32:16: [REPROVAS] Erro ao listar: column "fonte" does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 16:35:09: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 17:20:17: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:14:16: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 19:14:16:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 19:14:16:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 19:14:16:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 19:14:16:   length: 114,
+03/07/2026 19:14:16:   severity: 'ERROR',
+03/07/2026 19:14:16:   code: '42702',
+03/07/2026 19:14:16:   detail: undefined,
+03/07/2026 19:14:16:   hint: undefined,
+03/07/2026 19:14:16:   position: '339',
+03/07/2026 19:14:16:   internalPosition: undefined,
+03/07/2026 19:14:16:   internalQuery: undefined,
+03/07/2026 19:14:16:   where: undefined,
+03/07/2026 19:14:16:   schema: undefined,
+03/07/2026 19:14:16:   table: undefined,
+03/07/2026 19:14:16:   column: undefined,
+03/07/2026 19:14:16:   dataType: undefined,
+03/07/2026 19:14:16:   constraint: undefined,
+03/07/2026 19:14:16:   file: 'parse_relation.c',
+03/07/2026 19:14:16:   line: '805',
+03/07/2026 19:14:16:   routine: 'scanRTEForColumn'
+03/07/2026 19:14:16: }
+03/07/2026 19:14:24: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+03/07/2026 19:14:24:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+03/07/2026 19:14:24:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+03/07/2026 19:14:24:     at async E:\projetos_hitss\geo-pme-notas\server.js:461:20 {
+03/07/2026 19:14:24:   length: 114,
+03/07/2026 19:14:24:   severity: 'ERROR',
+03/07/2026 19:14:24:   code: '42702',
+03/07/2026 19:14:24:   detail: undefined,
+03/07/2026 19:14:24:   hint: undefined,
+03/07/2026 19:14:24:   position: '339',
+03/07/2026 19:14:24:   internalPosition: undefined,
+03/07/2026 19:14:24:   internalQuery: undefined,
+03/07/2026 19:14:24:   where: undefined,
+03/07/2026 19:14:24:   schema: undefined,
+03/07/2026 19:14:24:   table: undefined,
+03/07/2026 19:14:24:   column: undefined,
+03/07/2026 19:14:24:   dataType: undefined,
+03/07/2026 19:14:24:   constraint: undefined,
+03/07/2026 19:14:24:   file: 'parse_relation.c',
+03/07/2026 19:14:24:   line: '805',
+03/07/2026 19:14:24:   routine: 'scanRTEForColumn'
+03/07/2026 19:14:24: }
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:11: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 19:38:12: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 19:43:18: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:00:25: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:04:36: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:30:37: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:31:44: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:32:08: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:44:22: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:54: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:49:55: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:58:46: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:07: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:16: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:33: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:34: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:34: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:34: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:34: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 20:59:42: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 21:00:19: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario camila.s.silva : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario eder.fernandes.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario eduardo.jesus.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario erycka.oliveira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario felipe.freitas.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario giovanna.mozzarelo.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario gustavo.sanches : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario joao.vieira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario karen.santos.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario luiza.franco.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario marcia.miura : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario marcielly.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario rafaela.giometti.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario renata.dasilva : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario rita.meira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario rosa.ferreira.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario samanta.andrade : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario thiago.sousa.3 : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario yasmin.santana : function to_date(integer, unknown) does not exist
+03/07/2026 21:05:00: [DASHBOARD SLA] Erro para usuario yuri.santos.3 : function to_date(integer, unknown) does not exist

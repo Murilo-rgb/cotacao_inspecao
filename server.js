@@ -161,6 +161,9 @@ async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuar
 // Inicializar rotas de inspeção após definir authenticateToken e authorizeRoute
 var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes);
 
+// Inicializar rotas de input_net
+var inputNetRoutes = require('./routes/input_net')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
+
 // API Routes
 
 // Login endpoint
@@ -1342,9 +1345,21 @@ app.get('/input_net', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao_input_net.html'));
 });
 
+// Serve input_net dashboard page
+app.get('/input_net/dashboard', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_input_net.html'));
+});
+
+app.get('/pme_notas/input_net/dashboard', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_input_net.html'));
+});
 
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
+
+// Usar rotas de input_net (API e dashboard)
+app.use('/api/input_net', inputNetRoutes);
+app.use('/pme_notas/api/input_net', inputNetRoutes);
 
 // ===== ROTAS DE ACESSOS (gerenciamento de permissões) =====
 
