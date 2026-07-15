@@ -21,24 +21,26 @@ async function listarReprovas(termo = null, fonte = null) {
   const client = await pool.connect();
   try {
     let query = `
-      SELECT id, motivo, texto_reprova, cod_reprova, ativo, criado_em, atualizado_em, 'Inspeção' AS fonte
-      FROM ${SCHEMA_TABELA}
-      UNION ALL
-      SELECT id, motivo, texto_reprova, cod_reprova, ativo, criado_em, atualizado_em, 'input' AS fonte
-      FROM ${SCHEMA_TABELA_INPUT}
+      SELECT * FROM (
+        SELECT id, motivo, texto_reprova, cod_reprova, ativo, criado_em, atualizado_em, 'Inspeção' AS fonte
+        FROM ${SCHEMA_TABELA}
+        UNION ALL
+        SELECT id, motivo, texto_reprova, cod_reprova, ativo, criado_em, atualizado_em, 'input' AS fonte
+        FROM ${SCHEMA_TABELA_INPUT}
+      ) sub
     `;
     const params = [];
     const conditions = [];
 
     if (fonte && fonte.trim()) {
-      conditions.push(`fonte = $${params.length + 1}`);
+      conditions.push(`sub.fonte = $${params.length + 1}`);
       params.push(fonte.trim());
     }
 
     if (termo && termo.trim()) {
-      conditions.push(`(LOWER(motivo) LIKE LOWER($${params.length + 1}) 
-                        OR LOWER(texto_reprova) LIKE LOWER($${params.length + 1}) 
-                        OR LOWER(cod_reprova) LIKE LOWER($${params.length + 1}))`);
+      conditions.push(`(LOWER(sub.motivo) LIKE LOWER($${params.length + 1}) 
+                        OR LOWER(sub.texto_reprova) LIKE LOWER($${params.length + 1}) 
+                        OR LOWER(sub.cod_reprova) LIKE LOWER($${params.length + 1}))`);
       params.push(`%${termo.trim()}%`);
     }
 
@@ -46,7 +48,7 @@ async function listarReprovas(termo = null, fonte = null) {
       query += ' WHERE ' + conditions.join(' AND ');
     }
 
-    query += ' ORDER BY fonte, id ASC';
+    query += ' ORDER BY sub.fonte, sub.id ASC';
     const result = await client.query(query, params);
     return result.rows;
   } finally {

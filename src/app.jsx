@@ -143,7 +143,7 @@ function App() {
     const [reprovaSearch, setReprovaSearch] = useState('');
     const [reprovaResults, setReprovaResults] = useState([]);
     const [reprovaLoading, setReprovaLoading] = useState(false);
-    const [reprovaAbaAtiva, setReprovaAbaAtiva] = useState('');
+    const [reprovaAbaAtiva, setReprovaAbaAtiva] = useState('Inspeção');
     const [qualidadeStats, setQualidadeStats] = useState(null);
     const [loadingQualidade, setLoadingQualidade] = useState(false);
     const [filtroAuditoria, setFiltroAuditoria] = useState('');
@@ -398,10 +398,7 @@ function App() {
             try {
                 const token = localStorage.getItem('token');
                 const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-                let url = `${BASE_PATH}/api/reprovas?termo=${encodeURIComponent(termo)}`;
-                if (reprovaAbaAtiva) {
-                    url += `&fonte=${encodeURIComponent(reprovaAbaAtiva)}`;
-                }
+                const url = `${BASE_PATH}/api/reprovas?termo=${encodeURIComponent(termo)}&fonte=${encodeURIComponent(reprovaAbaAtiva)}`;
                 const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
                 if (!response.ok) throw new Error('Falha ao buscar reprovas');
                 const data = await response.json();
@@ -615,7 +612,7 @@ function App() {
                         className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
                         <PlusIcon /> Nova cotação
                     </button>
-                    <button onClick={() => { setReprovaModalOpen(true); setReprovaSearch(''); setReprovaResults([]); setReprovaAbaAtiva(''); }}
+                    <button onClick={() => { setReprovaModalOpen(true); setReprovaSearch(''); setReprovaResults([]); setReprovaAbaAtiva('Inspeção') }}
                         className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 focus:ring-4 focus:ring-amber-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
                         <SearchIcon /> Reprova Padrão
                     </button>
@@ -839,24 +836,14 @@ function App() {
             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
             {reprovaModalOpen && (
-                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) { setReprovaModalOpen(false); setReprovaSearch(''); setReprovaResults([]); setReprovaAbaAtiva(''); } }}>
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) { setReprovaModalOpen(false); setReprovaSearch(''); setReprovaResults([]); setReprovaAbaAtiva('Inspeção'); } }}>
                     <div className="bg-white rounded-2xl p-6 w-full max-w-3xl shadow-2xl modal-content max-h-[75vh] flex flex-col">
                         <div className="flex items-center justify-between mb-5">
                             <h2 className="text-lg font-bold text-slate-800">Reprova Padrão</h2>
-                            <button onClick={() => { setReprovaModalOpen(false); setReprovaSearch(''); setReprovaResults([]); setReprovaAbaAtiva(''); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
+                            <button onClick={() => { setReprovaModalOpen(false); setReprovaSearch(''); setReprovaResults([]); setReprovaAbaAtiva('Inspeção'); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
                         </div>
                         {/* Abas de filtro */}
                         <div className="flex items-center gap-1 mb-4 border-b border-slate-200 pb-0">
-                            <button
-                                onClick={() => setReprovaAbaAtiva('')}
-                                className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
-                                    reprovaAbaAtiva === ''
-                                        ? 'border-blue-600 text-blue-600'
-                                        : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
-                                }`}
-                            >
-                                Todas
-                            </button>
                             <button
                                 onClick={() => setReprovaAbaAtiva('Inspeção')}
                                 className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ${

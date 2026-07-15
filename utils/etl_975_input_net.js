@@ -253,10 +253,17 @@ async function processarETL_975_net(csvFilePath, pool) {
         const fullTablePath = `"${schemaName}"."${tableName}"`;
         
         await client.query('CREATE SCHEMA IF NOT EXISTS "db_bloco_de_notas";');
-        await client.query(IW_CPC_975_CREATE_TABLE_SQL);
+        await client.query(IW_CPC_975_net_CREATE_TABLE_SQL);
         console.log('Tabela verificada/criada.');
         
         await ensureTableColumns(client, schemaName, tableName, columns);
+        
+        try {
+            await client.query(`CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_net();`);
+            console.log('Stored procedure sp_limpar_iw_cpc_975_net executada com sucesso (pré-TRUNCATE).');
+        } catch (error) {
+            console.log(`Aviso: sp_limpar_iw_cpc_975_net não executada (pré-TRUNCATE): ${error.message}`);
+        }
         
         await client.query(`TRUNCATE TABLE ${fullTablePath}`);
         console.log('Dados antigos removidos.');
@@ -283,6 +290,9 @@ async function processarETL_975_net(csvFilePath, pool) {
         });
         
         console.log('Dados carregados com sucesso via COPY.');
+        
+        await client.query('CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_net();');
+        console.log('Procedimento de limpeza executado.');
         
         const countResult = await client.query(`SELECT COUNT(*) as total FROM ${fullTablePath}`);
         const totalRows = parseInt(countResult.rows[0].total);

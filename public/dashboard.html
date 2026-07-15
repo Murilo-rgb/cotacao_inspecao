@@ -229,7 +229,8 @@
             const [loading, setLoading] = useState(true);
             const [activeTab, setActiveTab] = useState('dashboard');
             const [filtroTarefa, setFiltroTarefa] = useState('');
-            const [filtroDataDashboard, setFiltroDataDashboard] = useState('');
+            const [filtroDataInicio, setFiltroDataInicio] = useState('');
+            const [filtroDataFim, setFiltroDataFim] = useState('');
 
             // Modal
             const [modalColaborador, setModalColaborador] = useState(null);
@@ -243,9 +244,13 @@
                 try {
                     setLoading(true);
                     const params = new URLSearchParams();
-                    if (filtroDataDashboard) {
-                        const [year, month, day] = filtroDataDashboard.split('-');
-                        params.set('data', `${day}/${month}/${year}`);
+                    if (filtroDataInicio) {
+                        const [yearInicio, monthInicio, dayInicio] = filtroDataInicio.split('-');
+                        params.set('dataInicio', `${dayInicio}/${monthInicio}/${yearInicio}`);
+                    }
+                    if (filtroDataFim) {
+                        const [yearFim, monthFim, dayFim] = filtroDataFim.split('-');
+                        params.set('dataFim', `${dayFim}/${monthFim}/${yearFim}`);
                     }
                     const queryStr = params.toString() ? `?${params.toString()}` : '';
                     const res = await fetch(`${getBasePath()}/api/inspecao/dashboard${queryStr}`, {
@@ -264,7 +269,7 @@
                 } finally {
                     setLoading(false);
                 }
-            }, [token, filtroDataDashboard]);
+            }, [token, filtroDataInicio, filtroDataFim]);
 
             const fetchHistorico = useCallback(async () => {
                 if (!token) return;
@@ -489,15 +494,25 @@
                     // Tab: Dashboard
                     activeTab === 'dashboard' && React.createElement('div', { className: 'animate-fadeIn' },
                         React.createElement('div', { className: 'flex items-center gap-3 mb-4' },
-                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Filtrar por data:'),
+                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Período:'),
                             React.createElement('input', {
                                 type: 'date',
-                                value: filtroDataDashboard,
-                                onChange: (e) => setFiltroDataDashboard(e.target.value),
+                                value: filtroDataInicio,
+                                onChange: (e) => setFiltroDataInicio(e.target.value),
                                 className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
                             }),
-                            filtroDataDashboard && React.createElement('button', {
-                                onClick: () => setFiltroDataDashboard(''),
+                            React.createElement('span', { className: 'text-sm text-slate-400' }, 'até'),
+                            React.createElement('input', {
+                                type: 'date',
+                                value: filtroDataFim,
+                                onChange: (e) => setFiltroDataFim(e.target.value),
+                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
+                            }),
+                            (filtroDataInicio || filtroDataFim) && React.createElement('button', {
+                                onClick: () => {
+                                    setFiltroDataInicio('');
+                                    setFiltroDataFim('');
+                                },
                                 className: 'px-3 py-2 text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors'
                             }, 'Limpar')
                         ),

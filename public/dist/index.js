@@ -1,4 +1,4 @@
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+﻿function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -417,7 +417,7 @@ function App() {
     _useState36 = _slicedToArray(_useState35, 2),
     reprovaLoading = _useState36[0],
     setReprovaLoading = _useState36[1];
-  var _useState37 = useState(''),
+  var _useState37 = useState('InspeÃ§Ã£o'),
     _useState38 = _slicedToArray(_useState37, 2),
     reprovaAbaAtiva = _useState38[0],
     setReprovaAbaAtiva = _useState38[1];
@@ -510,8 +510,8 @@ function App() {
           case 4:
             _context.p = 4;
             _t = _context.v;
-            console.error('Erro ao buscar cotações:', _t);
-            showToast('Erro ao carregar cotações', 'error');
+            console.error('Erro ao buscar cotaÃ§Ãµes:', _t);
+            showToast('Erro ao carregar cotaÃ§Ãµes', 'error');
           case 5:
             _context.p = 5;
             setLoading(false);
@@ -641,7 +641,7 @@ function App() {
                 anotacao: '',
                 status: ''
               });
-              showToast('Cotação atualizada com sucesso');
+              showToast('CotaÃ§Ã£o atualizada com sucesso');
             }
             _context3.n = 7;
             break;
@@ -678,7 +678,7 @@ function App() {
                 anotacao: '',
                 status: ''
               });
-              showToast('Cotação criada com sucesso');
+              showToast('CotaÃ§Ã£o criada com sucesso');
             }
           case 7:
             _context3.n = 9;
@@ -686,8 +686,8 @@ function App() {
           case 8:
             _context3.p = 8;
             _t3 = _context3.v;
-            console.error('Erro ao salvar cotação:', _t3);
-            showToast('Erro ao salvar cotação', 'error');
+            console.error('Erro ao salvar cotaÃ§Ã£o:', _t3);
+            showToast('Erro ao salvar cotaÃ§Ã£o', 'error');
           case 9:
             return _context3.a(2);
         }
@@ -813,15 +813,15 @@ function App() {
             if (response.ok) {
               fetchQuotations();
               setDeleteModal(null);
-              showToast('Cotação excluída com sucesso');
+              showToast('CotaÃ§Ã£o excluÃ­da com sucesso');
             }
             _context5.n = 6;
             break;
           case 5:
             _context5.p = 5;
             _t5 = _context5.v;
-            console.error('Erro ao deletar cotação:', _t5);
-            showToast('Erro ao excluir cotação', 'error');
+            console.error('Erro ao deletar cotaÃ§Ã£o:', _t5);
+            showToast('Erro ao excluir cotaÃ§Ã£o', 'error');
           case 6:
             return _context5.a(2);
         }
@@ -920,10 +920,7 @@ function App() {
               _context7.p = 3;
               token = localStorage.getItem('token');
               BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-              url = "".concat(BASE_PATH, "/api/reprovas?termo=").concat(encodeURIComponent(termo));
-              if (reprovaAbaAtiva) {
-                url += "&fonte=".concat(encodeURIComponent(reprovaAbaAtiva));
-              }
+              url = "".concat(BASE_PATH, "/api/reprovas?termo=").concat(encodeURIComponent(termo), "&fonte=").concat(encodeURIComponent(reprovaAbaAtiva));
               _context7.n = 4;
               return fetch(url, {
                 headers: {
@@ -1012,7 +1009,7 @@ function App() {
     }
     if (normalized === 'pendente-classificacao') {
       return {
-        label: 'Pendente - Classificação',
+        label: 'Pendente - ClassificaÃ§Ã£o',
         className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
         dotClass: 'bg-amber-500'
       };
@@ -1047,21 +1044,21 @@ function App() {
     }
     if (normalized === 'pendente-correcao-cadastral') {
       return {
-        label: 'Pendente - Correção Cadastral',
+        label: 'Pendente - CorreÃ§Ã£o Cadastral',
         className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
         dotClass: 'bg-amber-500'
       };
     }
     if (normalized === 'pendente-correcao-efetuada') {
       return {
-        label: 'Pendente - Correção Efetuada',
+        label: 'Pendente - CorreÃ§Ã£o Efetuada',
         className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
         dotClass: 'bg-emerald-500'
       };
     }
     if (normalized === 'correcao-efetivada') {
       return {
-        label: 'Correção Efetivada',
+        label: 'CorreÃ§Ã£o Efetivada',
         className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
         dotClass: 'bg-emerald-500'
       };
@@ -1186,7 +1183,8 @@ function App() {
   }, "Pendentes"), /*#__PURE__*/React.createElement("p", {
     className: "text-2xl font-bold text-amber-700 mt-1"
   }, filteredQuotations.filter(function (q) {
-    return !q.status || q.status === 'pendente';
+    var s = (q.status || '').trim().toLowerCase();
+    return !q.status || s.startsWith('pendente');
   }).length)), /*#__PURE__*/React.createElement("div", {
     className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
   }, /*#__PURE__*/React.createElement("p", {
@@ -1228,15 +1226,15 @@ function App() {
     title: "Procedimento Correto"
   }, "\u2705 ", qualidadeStats.procedimento_correto), qualidadeStats.devolucao_parcial > 0 && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return setFiltroAuditoria(filtroAuditoria === 'Devolução Parcial' ? '' : 'Devolução Parcial');
+      return setFiltroAuditoria(filtroAuditoria === 'DevoluÃ§Ã£o Parcial' ? '' : 'DevoluÃ§Ã£o Parcial');
     },
-    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Devolução Parcial' ? 'scale-125 bg-amber-100 rounded px-1' : 'hover:scale-110'),
+    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'DevoluÃ§Ã£o Parcial' ? 'scale-125 bg-amber-100 rounded px-1' : 'hover:scale-110'),
     title: "Devolu\xE7\xE3o Parcial"
   }, "\u26A0\uFE0F ", qualidadeStats.devolucao_parcial), qualidadeStats.devolucao_indevida > 0 && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return setFiltroAuditoria(filtroAuditoria === 'Devolução Indevida' ? '' : 'Devolução Indevida');
+      return setFiltroAuditoria(filtroAuditoria === 'DevoluÃ§Ã£o Indevida' ? '' : 'DevoluÃ§Ã£o Indevida');
     },
-    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'Devolução Indevida' ? 'scale-125 bg-red-100 rounded px-1' : 'hover:scale-110'),
+    className: "text-sm cursor-pointer transition-all ".concat(filtroAuditoria === 'DevoluÃ§Ã£o Indevida' ? 'scale-125 bg-red-100 rounded px-1' : 'hover:scale-110'),
     title: "Devolu\xE7\xE3o Indevida"
   }, "\u274C ", qualidadeStats.devolucao_indevida), qualidadeStats.aprovacao_indevida > 0 && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
@@ -1295,7 +1293,7 @@ function App() {
       setReprovaModalOpen(true);
       setReprovaSearch('');
       setReprovaResults([]);
-      setReprovaAbaAtiva('');
+      setReprovaAbaAtiva('InspeÃ§Ã£o');
     },
     className: "inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 focus:ring-4 focus:ring-amber-500/20 transition-all duration-200 shadow-md hover:shadow-lg"
   }, /*#__PURE__*/React.createElement(SearchIcon, null), " Reprova Padr\xE3o")), /*#__PURE__*/React.createElement("div", {
@@ -1384,7 +1382,7 @@ function App() {
         title: "Procedimento Correto",
         className: "cursor-help text-sm"
       }, "\u2705");
-      if (s === 'Devolução Parcial') return /*#__PURE__*/React.createElement("span", {
+      if (s === 'DevoluÃ§Ã£o Parcial') return /*#__PURE__*/React.createElement("span", {
         title: "Devolu\xE7\xE3o Parcial",
         className: "cursor-help text-sm"
       }, "\u26A0\uFE0F");
@@ -1487,7 +1485,7 @@ function App() {
     className: "flex items-center justify-between mb-5"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "text-lg font-bold text-slate-800"
-  }, editingQuotation ? 'Editar cotação' : 'Nova cotação'), /*#__PURE__*/React.createElement("button", {
+  }, editingQuotation ? 'Editar cotaÃ§Ã£o' : 'Nova cotaÃ§Ã£o'), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       setShowModal(false);
       setEditingQuotation(null);
@@ -1713,7 +1711,7 @@ function App() {
         setReprovaModalOpen(false);
         setReprovaSearch('');
         setReprovaResults([]);
-        setReprovaAbaAtiva('');
+        setReprovaAbaAtiva('InspeÃ§Ã£o');
       }
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1727,21 +1725,16 @@ function App() {
       setReprovaModalOpen(false);
       setReprovaSearch('');
       setReprovaResults([]);
-      setReprovaAbaAtiva('');
+      setReprovaAbaAtiva('InspeÃ§Ã£o');
     },
     className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"
   }, /*#__PURE__*/React.createElement(XIcon, null))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-1 mb-4 border-b border-slate-200 pb-0"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return setReprovaAbaAtiva('');
+      return setReprovaAbaAtiva('InspeÃ§Ã£o');
     },
-    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(reprovaAbaAtiva === '' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
-  }, "Todas"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setReprovaAbaAtiva('Inspeção');
-    },
-    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(reprovaAbaAtiva === 'Inspeção' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
+    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(reprovaAbaAtiva === 'InspeÃ§Ã£o' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
   }, "Inspe\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setReprovaAbaAtiva('input');
@@ -1785,8 +1778,8 @@ function App() {
   }, reprovaSearch ? 'Nenhum registro encontrado' : 'Digite para buscar motivos de reprova.')) : reprovaResults.map(function (item, idx) {
     var _item$id;
     var fonte = (item.fonte || '').trim();
-    var tagClass = fonte.toLowerCase() === 'inspeção' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700';
-    var tagLabel = fonte.toLowerCase() === 'inspeção' ? 'Inspeção' : 'Input';
+    var tagClass = fonte.toLowerCase() === 'inspeÃ§Ã£o' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700';
+    var tagLabel = fonte.toLowerCase() === 'inspeÃ§Ã£o' ? 'InspeÃ§Ã£o' : 'Input';
     return /*#__PURE__*/React.createElement("tr", {
       key: (_item$id = item.id) !== null && _item$id !== void 0 ? _item$id : idx,
       className: "hover:bg-slate-50/80 transition-colors duration-150"
@@ -1803,3 +1796,4 @@ function App() {
 }
 var root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(/*#__PURE__*/React.createElement(App, null));
+

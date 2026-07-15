@@ -1,0 +1,600 @@
+08/07/2026 09:36:23: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 09:56:46: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 09:57:42: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 11:02:30: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 11:05:02: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 11:07:32: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 11:12:55: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 11:23:59: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 11:32:01: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 11:32:12: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 11:32:19: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 11:32:48: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 12:30:45: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+08/07/2026 12:30:45:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 12:30:45:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 12:30:45:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+08/07/2026 12:30:45:   length: 114,
+08/07/2026 12:30:45:   severity: 'ERROR',
+08/07/2026 12:30:45:   code: '42702',
+08/07/2026 12:30:45:   detail: undefined,
+08/07/2026 12:30:45:   hint: undefined,
+08/07/2026 12:30:45:   position: '339',
+08/07/2026 12:30:45:   internalPosition: undefined,
+08/07/2026 12:30:45:   internalQuery: undefined,
+08/07/2026 12:30:45:   where: undefined,
+08/07/2026 12:30:45:   schema: undefined,
+08/07/2026 12:30:45:   table: undefined,
+08/07/2026 12:30:45:   column: undefined,
+08/07/2026 12:30:45:   dataType: undefined,
+08/07/2026 12:30:45:   constraint: undefined,
+08/07/2026 12:30:45:   file: 'parse_relation.c',
+08/07/2026 12:30:45:   line: '805',
+08/07/2026 12:30:45:   routine: 'scanRTEForColumn'
+08/07/2026 12:30:45: }
+08/07/2026 12:30:49: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+08/07/2026 12:30:49:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 12:30:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 12:30:49:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+08/07/2026 12:30:49:   length: 114,
+08/07/2026 12:30:49:   severity: 'ERROR',
+08/07/2026 12:30:49:   code: '42702',
+08/07/2026 12:30:49:   detail: undefined,
+08/07/2026 12:30:49:   hint: undefined,
+08/07/2026 12:30:49:   position: '339',
+08/07/2026 12:30:49:   internalPosition: undefined,
+08/07/2026 12:30:49:   internalQuery: undefined,
+08/07/2026 12:30:49:   where: undefined,
+08/07/2026 12:30:49:   schema: undefined,
+08/07/2026 12:30:49:   table: undefined,
+08/07/2026 12:30:49:   column: undefined,
+08/07/2026 12:30:49:   dataType: undefined,
+08/07/2026 12:30:49:   constraint: undefined,
+08/07/2026 12:30:49:   file: 'parse_relation.c',
+08/07/2026 12:30:49:   line: '805',
+08/07/2026 12:30:49:   routine: 'scanRTEForColumn'
+08/07/2026 12:30:49: }
+08/07/2026 12:30:54: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+08/07/2026 12:30:54:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 12:30:54:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 12:30:54:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+08/07/2026 12:30:54:   length: 114,
+08/07/2026 12:30:54:   severity: 'ERROR',
+08/07/2026 12:30:54:   code: '42702',
+08/07/2026 12:30:54:   detail: undefined,
+08/07/2026 12:30:54:   hint: undefined,
+08/07/2026 12:30:54:   position: '339',
+08/07/2026 12:30:54:   internalPosition: undefined,
+08/07/2026 12:30:54:   internalQuery: undefined,
+08/07/2026 12:30:54:   where: undefined,
+08/07/2026 12:30:54:   schema: undefined,
+08/07/2026 12:30:54:   table: undefined,
+08/07/2026 12:30:54:   column: undefined,
+08/07/2026 12:30:54:   dataType: undefined,
+08/07/2026 12:30:54:   constraint: undefined,
+08/07/2026 12:30:54:   file: 'parse_relation.c',
+08/07/2026 12:30:54:   line: '805',
+08/07/2026 12:30:54:   routine: 'scanRTEForColumn'
+08/07/2026 12:30:54: }
+08/07/2026 13:17:06: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 13:22:10: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+08/07/2026 13:22:10:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 13:22:10:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 13:22:10:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+08/07/2026 13:22:10:   length: 114,
+08/07/2026 13:22:10:   severity: 'ERROR',
+08/07/2026 13:22:10:   code: '42702',
+08/07/2026 13:22:10:   detail: undefined,
+08/07/2026 13:22:10:   hint: undefined,
+08/07/2026 13:22:10:   position: '339',
+08/07/2026 13:22:10:   internalPosition: undefined,
+08/07/2026 13:22:10:   internalQuery: undefined,
+08/07/2026 13:22:10:   where: undefined,
+08/07/2026 13:22:10:   schema: undefined,
+08/07/2026 13:22:10:   table: undefined,
+08/07/2026 13:22:10:   column: undefined,
+08/07/2026 13:22:10:   dataType: undefined,
+08/07/2026 13:22:10:   constraint: undefined,
+08/07/2026 13:22:10:   file: 'parse_relation.c',
+08/07/2026 13:22:10:   line: '805',
+08/07/2026 13:22:10:   routine: 'scanRTEForColumn'
+08/07/2026 13:22:10: }
+08/07/2026 14:14:52: Erro no ETL: IW_CPC_975_CREATE_TABLE_SQL is not defined
+08/07/2026 14:14:52: [INPUT_NET] Erro: ReferenceError: IW_CPC_975_CREATE_TABLE_SQL is not defined
+08/07/2026 14:14:52:     at processarETL_975_net (E:\projetos_hitss\geo-pme-notas\utils\etl_975_input_net.js:256:28)
+08/07/2026 14:14:52:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:14:52:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:831:22
+08/07/2026 14:28:14: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:28:14:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:28:14:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:28:14:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:334:22 {
+08/07/2026 14:28:14:   length: 137,
+08/07/2026 14:28:14:   severity: 'ERROR',
+08/07/2026 14:28:14:   code: '08P01',
+08/07/2026 14:28:14:   detail: undefined,
+08/07/2026 14:28:14:   hint: undefined,
+08/07/2026 14:28:14:   position: undefined,
+08/07/2026 14:28:14:   internalPosition: undefined,
+08/07/2026 14:28:14:   internalQuery: undefined,
+08/07/2026 14:28:14:   where: undefined,
+08/07/2026 14:28:14:   schema: undefined,
+08/07/2026 14:28:14:   table: undefined,
+08/07/2026 14:28:14:   column: undefined,
+08/07/2026 14:28:14:   dataType: undefined,
+08/07/2026 14:28:14:   constraint: undefined,
+08/07/2026 14:28:14:   file: 'postgres.c',
+08/07/2026 14:28:14:   line: '1659',
+08/07/2026 14:28:14:   routine: 'exec_bind_message'
+08/07/2026 14:28:14: }
+08/07/2026 14:35:12: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:35:12:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:35:12:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:35:12:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:334:22 {
+08/07/2026 14:35:12:   length: 137,
+08/07/2026 14:35:12:   severity: 'ERROR',
+08/07/2026 14:35:12:   code: '08P01',
+08/07/2026 14:35:12:   detail: undefined,
+08/07/2026 14:35:12:   hint: undefined,
+08/07/2026 14:35:12:   position: undefined,
+08/07/2026 14:35:12:   internalPosition: undefined,
+08/07/2026 14:35:12:   internalQuery: undefined,
+08/07/2026 14:35:12:   where: undefined,
+08/07/2026 14:35:12:   schema: undefined,
+08/07/2026 14:35:12:   table: undefined,
+08/07/2026 14:35:12:   column: undefined,
+08/07/2026 14:35:12:   dataType: undefined,
+08/07/2026 14:35:12:   constraint: undefined,
+08/07/2026 14:35:12:   file: 'postgres.c',
+08/07/2026 14:35:12:   line: '1659',
+08/07/2026 14:35:12:   routine: 'exec_bind_message'
+08/07/2026 14:35:12: }
+08/07/2026 14:35:15: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:35:15:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:35:15:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:35:15:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:334:22 {
+08/07/2026 14:35:15:   length: 137,
+08/07/2026 14:35:15:   severity: 'ERROR',
+08/07/2026 14:35:15:   code: '08P01',
+08/07/2026 14:35:15:   detail: undefined,
+08/07/2026 14:35:15:   hint: undefined,
+08/07/2026 14:35:15:   position: undefined,
+08/07/2026 14:35:15:   internalPosition: undefined,
+08/07/2026 14:35:15:   internalQuery: undefined,
+08/07/2026 14:35:15:   where: undefined,
+08/07/2026 14:35:15:   schema: undefined,
+08/07/2026 14:35:15:   table: undefined,
+08/07/2026 14:35:15:   column: undefined,
+08/07/2026 14:35:15:   dataType: undefined,
+08/07/2026 14:35:15:   constraint: undefined,
+08/07/2026 14:35:15:   file: 'postgres.c',
+08/07/2026 14:35:15:   line: '1659',
+08/07/2026 14:35:15:   routine: 'exec_bind_message'
+08/07/2026 14:35:15: }
+08/07/2026 14:37:18: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:37:18:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:37:18:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:37:18:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:334:22 {
+08/07/2026 14:37:18:   length: 137,
+08/07/2026 14:37:18:   severity: 'ERROR',
+08/07/2026 14:37:18:   code: '08P01',
+08/07/2026 14:37:18:   detail: undefined,
+08/07/2026 14:37:18:   hint: undefined,
+08/07/2026 14:37:18:   position: undefined,
+08/07/2026 14:37:18:   internalPosition: undefined,
+08/07/2026 14:37:18:   internalQuery: undefined,
+08/07/2026 14:37:18:   where: undefined,
+08/07/2026 14:37:18:   schema: undefined,
+08/07/2026 14:37:18:   table: undefined,
+08/07/2026 14:37:18:   column: undefined,
+08/07/2026 14:37:18:   dataType: undefined,
+08/07/2026 14:37:18:   constraint: undefined,
+08/07/2026 14:37:18:   file: 'postgres.c',
+08/07/2026 14:37:18:   line: '1659',
+08/07/2026 14:37:18:   routine: 'exec_bind_message'
+08/07/2026 14:37:18: }
+08/07/2026 14:39:14: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:39:14:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:39:14:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:39:14:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:334:22 {
+08/07/2026 14:39:14:   length: 137,
+08/07/2026 14:39:14:   severity: 'ERROR',
+08/07/2026 14:39:14:   code: '08P01',
+08/07/2026 14:39:14:   detail: undefined,
+08/07/2026 14:39:14:   hint: undefined,
+08/07/2026 14:39:14:   position: undefined,
+08/07/2026 14:39:14:   internalPosition: undefined,
+08/07/2026 14:39:14:   internalQuery: undefined,
+08/07/2026 14:39:14:   where: undefined,
+08/07/2026 14:39:14:   schema: undefined,
+08/07/2026 14:39:14:   table: undefined,
+08/07/2026 14:39:14:   column: undefined,
+08/07/2026 14:39:14:   dataType: undefined,
+08/07/2026 14:39:14:   constraint: undefined,
+08/07/2026 14:39:14:   file: 'postgres.c',
+08/07/2026 14:39:14:   line: '1659',
+08/07/2026 14:39:14:   routine: 'exec_bind_message'
+08/07/2026 14:39:14: }
+08/07/2026 14:40:47: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:40:47:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:40:47:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:40:47:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:40:47:   length: 137,
+08/07/2026 14:40:47:   severity: 'ERROR',
+08/07/2026 14:40:47:   code: '08P01',
+08/07/2026 14:40:47:   detail: undefined,
+08/07/2026 14:40:47:   hint: undefined,
+08/07/2026 14:40:47:   position: undefined,
+08/07/2026 14:40:47:   internalPosition: undefined,
+08/07/2026 14:40:47:   internalQuery: undefined,
+08/07/2026 14:40:47:   where: undefined,
+08/07/2026 14:40:47:   schema: undefined,
+08/07/2026 14:40:47:   table: undefined,
+08/07/2026 14:40:47:   column: undefined,
+08/07/2026 14:40:47:   dataType: undefined,
+08/07/2026 14:40:47:   constraint: undefined,
+08/07/2026 14:40:47:   file: 'postgres.c',
+08/07/2026 14:40:47:   line: '1659',
+08/07/2026 14:40:47:   routine: 'exec_bind_message'
+08/07/2026 14:40:47: }
+08/07/2026 14:41:10: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:41:10:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:41:10:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:41:10:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:41:10:   length: 137,
+08/07/2026 14:41:10:   severity: 'ERROR',
+08/07/2026 14:41:10:   code: '08P01',
+08/07/2026 14:41:10:   detail: undefined,
+08/07/2026 14:41:10:   hint: undefined,
+08/07/2026 14:41:10:   position: undefined,
+08/07/2026 14:41:10:   internalPosition: undefined,
+08/07/2026 14:41:10:   internalQuery: undefined,
+08/07/2026 14:41:10:   where: undefined,
+08/07/2026 14:41:10:   schema: undefined,
+08/07/2026 14:41:10:   table: undefined,
+08/07/2026 14:41:10:   column: undefined,
+08/07/2026 14:41:10:   dataType: undefined,
+08/07/2026 14:41:10:   constraint: undefined,
+08/07/2026 14:41:10:   file: 'postgres.c',
+08/07/2026 14:41:10:   line: '1659',
+08/07/2026 14:41:10:   routine: 'exec_bind_message'
+08/07/2026 14:41:10: }
+08/07/2026 14:41:25: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:41:25:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:41:25:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:41:25:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:41:25:   length: 137,
+08/07/2026 14:41:25:   severity: 'ERROR',
+08/07/2026 14:41:25:   code: '08P01',
+08/07/2026 14:41:25:   detail: undefined,
+08/07/2026 14:41:25:   hint: undefined,
+08/07/2026 14:41:25:   position: undefined,
+08/07/2026 14:41:25:   internalPosition: undefined,
+08/07/2026 14:41:25:   internalQuery: undefined,
+08/07/2026 14:41:25:   where: undefined,
+08/07/2026 14:41:25:   schema: undefined,
+08/07/2026 14:41:25:   table: undefined,
+08/07/2026 14:41:25:   column: undefined,
+08/07/2026 14:41:25:   dataType: undefined,
+08/07/2026 14:41:25:   constraint: undefined,
+08/07/2026 14:41:25:   file: 'postgres.c',
+08/07/2026 14:41:25:   line: '1659',
+08/07/2026 14:41:25:   routine: 'exec_bind_message'
+08/07/2026 14:41:25: }
+08/07/2026 14:42:17: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:42:17:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:42:17:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:42:17:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:42:17:   length: 137,
+08/07/2026 14:42:17:   severity: 'ERROR',
+08/07/2026 14:42:17:   code: '08P01',
+08/07/2026 14:42:17:   detail: undefined,
+08/07/2026 14:42:17:   hint: undefined,
+08/07/2026 14:42:17:   position: undefined,
+08/07/2026 14:42:17:   internalPosition: undefined,
+08/07/2026 14:42:17:   internalQuery: undefined,
+08/07/2026 14:42:17:   where: undefined,
+08/07/2026 14:42:17:   schema: undefined,
+08/07/2026 14:42:17:   table: undefined,
+08/07/2026 14:42:17:   column: undefined,
+08/07/2026 14:42:17:   dataType: undefined,
+08/07/2026 14:42:17:   constraint: undefined,
+08/07/2026 14:42:17:   file: 'postgres.c',
+08/07/2026 14:42:17:   line: '1659',
+08/07/2026 14:42:17:   routine: 'exec_bind_message'
+08/07/2026 14:42:17: }
+08/07/2026 14:42:20: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:42:20:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:42:20:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:42:20:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:42:20:   length: 137,
+08/07/2026 14:42:20:   severity: 'ERROR',
+08/07/2026 14:42:20:   code: '08P01',
+08/07/2026 14:42:20:   detail: undefined,
+08/07/2026 14:42:20:   hint: undefined,
+08/07/2026 14:42:20:   position: undefined,
+08/07/2026 14:42:20:   internalPosition: undefined,
+08/07/2026 14:42:20:   internalQuery: undefined,
+08/07/2026 14:42:20:   where: undefined,
+08/07/2026 14:42:20:   schema: undefined,
+08/07/2026 14:42:20:   table: undefined,
+08/07/2026 14:42:20:   column: undefined,
+08/07/2026 14:42:20:   dataType: undefined,
+08/07/2026 14:42:20:   constraint: undefined,
+08/07/2026 14:42:20:   file: 'postgres.c',
+08/07/2026 14:42:20:   line: '1659',
+08/07/2026 14:42:20:   routine: 'exec_bind_message'
+08/07/2026 14:42:20: }
+08/07/2026 14:43:02: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:43:02:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:43:02:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:43:02:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:43:02:   length: 137,
+08/07/2026 14:43:02:   severity: 'ERROR',
+08/07/2026 14:43:02:   code: '08P01',
+08/07/2026 14:43:02:   detail: undefined,
+08/07/2026 14:43:02:   hint: undefined,
+08/07/2026 14:43:02:   position: undefined,
+08/07/2026 14:43:02:   internalPosition: undefined,
+08/07/2026 14:43:02:   internalQuery: undefined,
+08/07/2026 14:43:02:   where: undefined,
+08/07/2026 14:43:02:   schema: undefined,
+08/07/2026 14:43:02:   table: undefined,
+08/07/2026 14:43:02:   column: undefined,
+08/07/2026 14:43:02:   dataType: undefined,
+08/07/2026 14:43:02:   constraint: undefined,
+08/07/2026 14:43:02:   file: 'postgres.c',
+08/07/2026 14:43:02:   line: '1659',
+08/07/2026 14:43:02:   routine: 'exec_bind_message'
+08/07/2026 14:43:02: }
+08/07/2026 14:43:06: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:43:06:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:43:06:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:43:06:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:43:06:   length: 137,
+08/07/2026 14:43:06:   severity: 'ERROR',
+08/07/2026 14:43:06:   code: '08P01',
+08/07/2026 14:43:06:   detail: undefined,
+08/07/2026 14:43:06:   hint: undefined,
+08/07/2026 14:43:06:   position: undefined,
+08/07/2026 14:43:06:   internalPosition: undefined,
+08/07/2026 14:43:06:   internalQuery: undefined,
+08/07/2026 14:43:06:   where: undefined,
+08/07/2026 14:43:06:   schema: undefined,
+08/07/2026 14:43:06:   table: undefined,
+08/07/2026 14:43:06:   column: undefined,
+08/07/2026 14:43:06:   dataType: undefined,
+08/07/2026 14:43:06:   constraint: undefined,
+08/07/2026 14:43:06:   file: 'postgres.c',
+08/07/2026 14:43:06:   line: '1659',
+08/07/2026 14:43:06:   routine: 'exec_bind_message'
+08/07/2026 14:43:06: }
+08/07/2026 14:43:25: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:43:25:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:43:25:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:43:25:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:43:25:   length: 137,
+08/07/2026 14:43:25:   severity: 'ERROR',
+08/07/2026 14:43:25:   code: '08P01',
+08/07/2026 14:43:25:   detail: undefined,
+08/07/2026 14:43:25:   hint: undefined,
+08/07/2026 14:43:25:   position: undefined,
+08/07/2026 14:43:25:   internalPosition: undefined,
+08/07/2026 14:43:25:   internalQuery: undefined,
+08/07/2026 14:43:25:   where: undefined,
+08/07/2026 14:43:25:   schema: undefined,
+08/07/2026 14:43:25:   table: undefined,
+08/07/2026 14:43:25:   column: undefined,
+08/07/2026 14:43:25:   dataType: undefined,
+08/07/2026 14:43:25:   constraint: undefined,
+08/07/2026 14:43:25:   file: 'postgres.c',
+08/07/2026 14:43:25:   line: '1659',
+08/07/2026 14:43:25:   routine: 'exec_bind_message'
+08/07/2026 14:43:25: }
+08/07/2026 14:47:30: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:47:30:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:47:30:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:47:30:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:333:22 {
+08/07/2026 14:47:30:   length: 137,
+08/07/2026 14:47:30:   severity: 'ERROR',
+08/07/2026 14:47:30:   code: '08P01',
+08/07/2026 14:47:30:   detail: undefined,
+08/07/2026 14:47:30:   hint: undefined,
+08/07/2026 14:47:30:   position: undefined,
+08/07/2026 14:47:30:   internalPosition: undefined,
+08/07/2026 14:47:30:   internalQuery: undefined,
+08/07/2026 14:47:30:   where: undefined,
+08/07/2026 14:47:30:   schema: undefined,
+08/07/2026 14:47:30:   table: undefined,
+08/07/2026 14:47:30:   column: undefined,
+08/07/2026 14:47:30:   dataType: undefined,
+08/07/2026 14:47:30:   constraint: undefined,
+08/07/2026 14:47:30:   file: 'postgres.c',
+08/07/2026 14:47:30:   line: '1659',
+08/07/2026 14:47:30:   routine: 'exec_bind_message'
+08/07/2026 14:47:30: }
+08/07/2026 14:48:50: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 14:49:03: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:49:03:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:49:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:49:03:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:331:22 {
+08/07/2026 14:49:03:   length: 137,
+08/07/2026 14:49:03:   severity: 'ERROR',
+08/07/2026 14:49:03:   code: '08P01',
+08/07/2026 14:49:03:   detail: undefined,
+08/07/2026 14:49:03:   hint: undefined,
+08/07/2026 14:49:03:   position: undefined,
+08/07/2026 14:49:03:   internalPosition: undefined,
+08/07/2026 14:49:03:   internalQuery: undefined,
+08/07/2026 14:49:03:   where: undefined,
+08/07/2026 14:49:03:   schema: undefined,
+08/07/2026 14:49:03:   table: undefined,
+08/07/2026 14:49:03:   column: undefined,
+08/07/2026 14:49:03:   dataType: undefined,
+08/07/2026 14:49:03:   constraint: undefined,
+08/07/2026 14:49:03:   file: 'postgres.c',
+08/07/2026 14:49:03:   line: '1659',
+08/07/2026 14:49:03:   routine: 'exec_bind_message'
+08/07/2026 14:49:03: }
+08/07/2026 14:49:16: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:49:16:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:49:16:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:49:16:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:331:22 {
+08/07/2026 14:49:16:   length: 137,
+08/07/2026 14:49:16:   severity: 'ERROR',
+08/07/2026 14:49:16:   code: '08P01',
+08/07/2026 14:49:16:   detail: undefined,
+08/07/2026 14:49:16:   hint: undefined,
+08/07/2026 14:49:16:   position: undefined,
+08/07/2026 14:49:16:   internalPosition: undefined,
+08/07/2026 14:49:16:   internalQuery: undefined,
+08/07/2026 14:49:16:   where: undefined,
+08/07/2026 14:49:16:   schema: undefined,
+08/07/2026 14:49:16:   table: undefined,
+08/07/2026 14:49:16:   column: undefined,
+08/07/2026 14:49:16:   dataType: undefined,
+08/07/2026 14:49:16:   constraint: undefined,
+08/07/2026 14:49:16:   file: 'postgres.c',
+08/07/2026 14:49:16:   line: '1659',
+08/07/2026 14:49:16:   routine: 'exec_bind_message'
+08/07/2026 14:49:16: }
+08/07/2026 14:49:39: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:49:39:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:49:39:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:49:39:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:331:22 {
+08/07/2026 14:49:39:   length: 137,
+08/07/2026 14:49:39:   severity: 'ERROR',
+08/07/2026 14:49:39:   code: '08P01',
+08/07/2026 14:49:39:   detail: undefined,
+08/07/2026 14:49:39:   hint: undefined,
+08/07/2026 14:49:39:   position: undefined,
+08/07/2026 14:49:39:   internalPosition: undefined,
+08/07/2026 14:49:39:   internalQuery: undefined,
+08/07/2026 14:49:39:   where: undefined,
+08/07/2026 14:49:39:   schema: undefined,
+08/07/2026 14:49:39:   table: undefined,
+08/07/2026 14:49:39:   column: undefined,
+08/07/2026 14:49:39:   dataType: undefined,
+08/07/2026 14:49:39:   constraint: undefined,
+08/07/2026 14:49:39:   file: 'postgres.c',
+08/07/2026 14:49:39:   line: '1659',
+08/07/2026 14:49:39:   routine: 'exec_bind_message'
+08/07/2026 14:49:39: }
+08/07/2026 14:49:43: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:49:43:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:49:43:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:49:43:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:331:22 {
+08/07/2026 14:49:43:   length: 137,
+08/07/2026 14:49:43:   severity: 'ERROR',
+08/07/2026 14:49:43:   code: '08P01',
+08/07/2026 14:49:43:   detail: undefined,
+08/07/2026 14:49:43:   hint: undefined,
+08/07/2026 14:49:43:   position: undefined,
+08/07/2026 14:49:43:   internalPosition: undefined,
+08/07/2026 14:49:43:   internalQuery: undefined,
+08/07/2026 14:49:43:   where: undefined,
+08/07/2026 14:49:43:   schema: undefined,
+08/07/2026 14:49:43:   table: undefined,
+08/07/2026 14:49:43:   column: undefined,
+08/07/2026 14:49:43:   dataType: undefined,
+08/07/2026 14:49:43:   constraint: undefined,
+08/07/2026 14:49:43:   file: 'postgres.c',
+08/07/2026 14:49:43:   line: '1659',
+08/07/2026 14:49:43:   routine: 'exec_bind_message'
+08/07/2026 14:49:43: }
+08/07/2026 14:49:44: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:49:44:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:49:44:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:49:44:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:331:22 {
+08/07/2026 14:49:44:   length: 137,
+08/07/2026 14:49:44:   severity: 'ERROR',
+08/07/2026 14:49:44:   code: '08P01',
+08/07/2026 14:49:44:   detail: undefined,
+08/07/2026 14:49:44:   hint: undefined,
+08/07/2026 14:49:44:   position: undefined,
+08/07/2026 14:49:44:   internalPosition: undefined,
+08/07/2026 14:49:44:   internalQuery: undefined,
+08/07/2026 14:49:44:   where: undefined,
+08/07/2026 14:49:44:   schema: undefined,
+08/07/2026 14:49:44:   table: undefined,
+08/07/2026 14:49:44:   column: undefined,
+08/07/2026 14:49:44:   dataType: undefined,
+08/07/2026 14:49:44:   constraint: undefined,
+08/07/2026 14:49:44:   file: 'postgres.c',
+08/07/2026 14:49:44:   line: '1659',
+08/07/2026 14:49:44:   routine: 'exec_bind_message'
+08/07/2026 14:49:44: }
+08/07/2026 14:51:49: [DASHBOARD] Erro: error: bind message supplies 2 parameters, but prepared statement "" requires 1
+08/07/2026 14:51:49:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+08/07/2026 14:51:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+08/07/2026 14:51:49:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:331:22 {
+08/07/2026 14:51:49:   length: 137,
+08/07/2026 14:51:49:   severity: 'ERROR',
+08/07/2026 14:51:49:   code: '08P01',
+08/07/2026 14:51:49:   detail: undefined,
+08/07/2026 14:51:49:   hint: undefined,
+08/07/2026 14:51:49:   position: undefined,
+08/07/2026 14:51:49:   internalPosition: undefined,
+08/07/2026 14:51:49:   internalQuery: undefined,
+08/07/2026 14:51:49:   where: undefined,
+08/07/2026 14:51:49:   schema: undefined,
+08/07/2026 14:51:49:   table: undefined,
+08/07/2026 14:51:49:   column: undefined,
+08/07/2026 14:51:49:   dataType: undefined,
+08/07/2026 14:51:49:   constraint: undefined,
+08/07/2026 14:51:49:   file: 'postgres.c',
+08/07/2026 14:51:49:   line: '1659',
+08/07/2026 14:51:49:   routine: 'exec_bind_message'
+08/07/2026 14:51:49: }
+08/07/2026 15:34:03: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 15:34:05: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 15:34:08: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 15:34:08: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 15:41:15: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+08/07/2026 16:14:42: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 16:14:52: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 16:34:37: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 16:34:38: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 16:35:44: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 16:35:46: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 17:07:35: [REPROVAS] Erro ao listar: column "fonte" does not exist
+08/07/2026 17:07:51: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:12:47: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:12:49: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:12:57: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:12:58: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:12:58: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:00: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:10: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:26: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:28: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:36: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:37: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:45: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:46: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:46: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:48: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:49: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:13:59: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:14:00: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:14:01: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:14:02: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:14:16: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:14:21: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 12:15:17: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+13/07/2026 12:15:23: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+13/07/2026 12:15:30: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+13/07/2026 13:45:04: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 13:45:06: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:40:37: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:40:48: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:45:40: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:49:32: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:50:24: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:50:26: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:50:28: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:50:33: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:50:34: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:52:16: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:52:23: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:52:30: [REPROVAS] Erro ao listar: column "fonte" does not exist
+13/07/2026 15:52:33: [REPROVAS] Erro ao listar: column "fonte" does not exist

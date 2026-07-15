@@ -441,7 +441,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart } = req.query;
     const usuarioId = req.user.id;
-    let query = `SELECT c.*, r.dsc_cotacao, aq.anotacao as auditoria_anotacao, aq.status as auditoria_status FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd WHERE c.usuario_id = $1 AND c.validacao = $2`;
+    let query = `SELECT DISTINCT ON (c.tarefa) c.*, r.dsc_cotacao, aq.anotacao as auditoria_anotacao, aq.status as auditoria_status FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd WHERE c.usuario_id = $1 AND c.validacao = $2`;
     let params = [usuarioId, 'Ativo'];
     let paramIndex = 3;
 
@@ -459,7 +459,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
       paramIndex++;
     }
 
-    query += ' ORDER BY data_de_criacao DESC';
+    query += ' ORDER BY c.tarefa, c.data_da_ultima_atualizacao DESC NULLS LAST';
 
     const result = await pool.query(query, params);
     const serialized = result.rows.map(row => ({
@@ -941,6 +941,17 @@ app.get('/api/reprovas', authenticateToken, async (req, res) => {
   }
 });
 
+app.get('/pme_notas/api/reprovas', authenticateToken, async (req, res) => {
+  try {
+    const termo = req.query.termo || null;
+    const fonte = req.query.fonte || null;
+    const registros = await listarReprovas(termo, fonte);
+    res.json(registros);
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao listar:', error.message);
+    res.status(500).json({ error: 'Erro ao listar reprovas padrão' });
+  }
+});
 
 app.get('/pme_notas/api/reprovas/count', authenticateToken, async (req, res) => {
   try {
@@ -951,8 +962,6 @@ app.get('/pme_notas/api/reprovas/count', authenticateToken, async (req, res) => 
     res.status(500).json({ error: 'Erro ao contar reprovas padrão' });
   }
 });
-
-
 
 // Contar total de reprovas padrão
 app.get('/api/reprovas/count', authenticateToken, async (req, res) => {
@@ -966,6 +975,24 @@ app.get('/api/reprovas/count', authenticateToken, async (req, res) => {
 });
 
 app.post('/api/reprovas', authenticateToken, async (req, res) => {
+  try {
+    const { motivo, cod_reprova, texto_reprova } = req.body;
+    if (!motivo || !cod_reprova || !texto_reprova) {
+      return res.status(400).json({ error: 'Todos os campos são obrigatórios: motivo, cod_reprova, texto_reprova' });
+    }
+    const duplicado = await verificarDuplicado(cod_reprova, motivo, texto_reprova);
+    if (duplicado) {
+      return res.status(409).json({ error: 'Registro duplicado já existe' });
+    }
+    const id = await inserirReprova(motivo, texto_reprova, cod_reprova);
+    res.status(201).json({ id, message: 'Reprova padrão inserida com sucesso' });
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao inserir:', error.message);
+    res.status(500).json({ error: 'Erro ao inserir reprova padrão' });
+  }
+});
+
+app.post('/pme_notas/api/reprovas', authenticateToken, async (req, res) => {
   try {
     const { motivo, cod_reprova, texto_reprova } = req.body;
     if (!motivo || !cod_reprova || !texto_reprova) {
@@ -1540,7 +1567,7 @@ app.get('/correcao_cadastral', authenticateToken, (req, res) => {
 // API Tarefas Input TOP (antes do fallback SPA)
 app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
   try {
-    const { search, limit = 100, offset = 0 } = req.query;
+    const { search, limit, offset = 0 } = req.query;
     const params = [];
     let query = `
       SELECT DISTINCT ON (iw.codigo_da_tarefa)
@@ -1608,7 +1635,7 @@ app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
 // API Tarefas Input NET (antes do fallback SPA)
 app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
   try {
-    const { search, limit = 100, offset = 0 } = req.query;
+    const { search, limit, offset = 0 } = req.query;
     const params = [];
     const filters = [];
     let paramIndex = 1;
@@ -1673,8 +1700,16 @@ app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
       paramIndex++;
     }
 
-    query += ` ORDER BY hc.cod_tarefa, hc.data_historico DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
-    params.push(parseInt(limit), parseInt(offset));
+    if (limit) {
+      query += ` LIMIT $${paramIndex}`;
+      params.push(parseInt(limit));
+      paramIndex++;
+    }
+    if (parseInt(offset) > 0) {
+      query += ` OFFSET $${paramIndex}`;
+      params.push(parseInt(offset));
+    }
+    query += ` ORDER BY hc.cod_tarefa, hc.data_historico DESC`;
 
     const result = await pool.query(query, params);
 
@@ -1838,7 +1873,7 @@ app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res)
                   para_usuario_login, para_usuario_nome, acao, canal_cliente, segmento_cliente,
                   cnpj_cliente, razao_social_cliente, cliente_cpc, login_gerente_conta,
                   nome_gerente_conta, id_cor, id_cotacao, id_ped, descricao, situacao_sistema,
-                  data_carga
+                    data_carga
               )
               SELECT
                   fila, codigo_da_tarefa, data_criacao, data_finalizacao, etapa_atual,

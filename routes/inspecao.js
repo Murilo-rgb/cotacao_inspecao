@@ -252,9 +252,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           } catch {}
 
           await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-            [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id]
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+            [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'r_000250']
           );
 
           // Registrar auditoria da distribuição
@@ -291,29 +291,57 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
 
   // ===== ROTAS DE DASHBOARD E HISTÓRICO =====
 
-  // Dashboard - Quantidade por colaborador e status
+  // Dashboard - Quantidade por colaborador e status (com range de datas)
   router.get('/api/inspecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
-      const filtroData = req.query.data || null;
+      const dataInicio = req.query.dataInicio || null;
+      const dataFim = req.query.dataFim || null;
       
       let queryParams = [];
       let dataFilter = '';
-      if (filtroData) {
-        dataFilter = ` AND c.data_de_criacao LIKE $1`;
-        queryParams.push(filtroData + '%');
+      let paramIndex = 1;
+      
+      if (dataInicio && dataFim) {
+        // Range de datas
+        dataFilter = ` AND uc.data_de_criacao >= $${paramIndex} AND uc.data_de_criacao <= $${paramIndex + 1}`;
+        queryParams.push(dataInicio + ' 00:00');
+        queryParams.push(dataFim + ' 23:59');
+        paramIndex += 2;
+      } else if (dataInicio) {
+        // Apenas data início
+        dataFilter = ` AND uc.data_de_criacao >= $${paramIndex}`;
+        queryParams.push(dataInicio + ' 00:00');
+        paramIndex++;
+      } else if (dataFim) {
+        // Apenas data fim
+        dataFilter = ` AND uc.data_de_criacao <= $${paramIndex}`;
+        queryParams.push(dataFim + ' 23:59');
+        paramIndex++;
       }
 
       const query = `
+        WITH ultima_cotacao AS (
+          SELECT DISTINCT ON (tarefa, usuario_id) 
+            tarefa, 
+            usuario_id, 
+            status, 
+            validacao, 
+            data_de_criacao,
+            data_da_ultima_atualizacao
+          FROM db_bloco_de_notas.cotacao
+          WHERE validacao = 'Ativo'
+          ORDER BY tarefa, usuario_id, data_da_ultima_atualizacao DESC NULLS LAST, data_de_criacao DESC
+        )
         SELECT 
           l.login AS usuario_login,
           l.nome AS usuario_nome,
-          COUNT(c.tarefa) FILTER (WHERE c.status = 'pendente' OR c.status IS NULL) AS pendentes,
-          COUNT(c.tarefa) FILTER (WHERE c.status IS NOT NULL AND c.status != 'pendente') AS tratados,
-          COUNT(c.tarefa) AS total
+          COUNT(DISTINCT uc.tarefa) FILTER (WHERE uc.status = 'pendente' OR uc.status IS NULL) AS pendentes,
+          COUNT(DISTINCT uc.tarefa) FILTER (WHERE uc.status IS NOT NULL AND uc.status != 'pendente') AS tratados,
+          COUNT(DISTINCT uc.tarefa) AS total
         FROM db_gp.listafuncionarios l
         RIGHT JOIN db_automacao.usuarios u ON u.login = l.login
-        left join db_bloco_de_notas.cotacao c 
-        on c.usuario_id::text = u.id::text
+        LEFT JOIN ultima_cotacao uc 
+          ON uc.usuario_id::text = u.id::text
         WHERE l.ilha ILIKE '%ins%' AND l.ativo = true
         ${dataFilter}
         GROUP BY l.login, l.nome
@@ -341,10 +369,19 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
               AND c.status != 'pendente' AND c.status IS NOT NULL AND c.status != ''
           `;
           let slaParams = [row.usuario_login];
-          if (filtroData) {
-            slaQuery += ` AND c.data_de_criacao LIKE $2`;
-            slaParams.push(filtroData + '%');
+          let slaParamIdx = 2;
+          
+          if (dataInicio && dataFim) {
+            slaQuery += ` AND c.data_de_criacao >= $${slaParamIdx} AND c.data_de_criacao <= $${slaParamIdx + 1}`;
+            slaParams.push(dataInicio + ' 00:00', dataFim + ' 23:59');
+          } else if (dataInicio) {
+            slaQuery += ` AND c.data_de_criacao >= $${slaParamIdx}`;
+            slaParams.push(dataInicio + ' 00:00');
+          } else if (dataFim) {
+            slaQuery += ` AND c.data_de_criacao <= $${slaParamIdx}`;
+            slaParams.push(dataFim + ' 23:59');
           }
+          
           const slaRes = await pool.query(slaQuery, slaParams);
           slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
         } catch (slaErr) {
@@ -650,7 +687,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   // API Tarefas Input NET
   router.get('/api/inspecao/tarefas_net', authenticateToken, async (req, res) => {
     try {
-      const { search, limit = 100, offset = 0 } = req.query;
+      const { search, limit, offset = 0 } = req.query;
       const params = [];
       const filters = [];
       let paramIndex = 1;
@@ -716,8 +753,16 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         paramIndex++;
       }
 
-      query += ` ORDER BY hc.cod_tarefa, hc.data_historico DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
-      params.push(parseInt(limit), parseInt(offset));
+      if (limit) {
+        query += ` LIMIT $${paramIndex}`;
+        params.push(parseInt(limit));
+        paramIndex++;
+      }
+      if (parseInt(offset) > 0) {
+        query += ` OFFSET $${paramIndex}`;
+        params.push(parseInt(offset));
+      }
+      query += ` ORDER BY hc.cod_tarefa, hc.data_historico DESC`;
 
       const result = await pool.query(query, params);
 
@@ -899,6 +944,10 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             END IF;
         END $$;
       `);
+      
+      await pool.query('CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_net();');
+      console.log('[ATUALIZAR_INPUT_NET] Stored procedure sp_limpar_iw_cpc_975_net executada com sucesso.');
+      
       res.json({ success: true, message: 'Dados atualizados com sucesso.' });
     } catch (error) {
       console.error('[ATUALIZAR_INPUT_NET] Erro:', error);
@@ -1190,9 +1239,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           }
           
           await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-            [tarefa.cod_tarefa, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id]
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+            [tarefa.cod_tarefa, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'r_000250']
           );
           
           // Registrar auditoria

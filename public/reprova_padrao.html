@@ -344,10 +344,7 @@
 
         <!-- ABAS (TABS) -->
         <div class="tab-bar">
-            <button class="tab-btn active" data-fonte="" onclick="selecionarAba(this)">
-                Todas
-            </button>
-            <button class="tab-btn" data-fonte="Inspeção" onclick="selecionarAba(this)">
+            <button class="tab-btn active" data-fonte="Inspeção" onclick="selecionarAba(this)">
                 Inspeção
             </button>
             <button class="tab-btn" data-fonte="input" onclick="selecionarAba(this)">
@@ -388,7 +385,7 @@
         const pathBase = window.location.pathname;
         const API_BASE = pathBase.includes('/pme_notas/') ? '/pme_notas/api/reprovas' : '/api/reprovas';
 
-        let abaAtiva = ''; // '' = Todas, 'Inspeção' ou 'input'
+        let abaAtiva = 'Inspeção'; // 'Inspeção' ou 'input'
 
         function selecionarAba(btn) {
             // Atualizar classe active
