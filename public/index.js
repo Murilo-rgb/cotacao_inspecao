@@ -1461,7 +1461,7 @@ function App() {
       className: "px-6 py-4 whitespace-nowrap"
     }, /*#__PURE__*/React.createElement("div", {
       className: "flex items-center gap-3"
-    }, isPendenteStatus(quotation.status) && /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "w-3 h-3 rounded-full ".concat(historyColorClass(quotation.data_historico_sla) || 'bg-slate-300')
     }), /*#__PURE__*/React.createElement("span", {
       className: "text-sm text-slate-500"

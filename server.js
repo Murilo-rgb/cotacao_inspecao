@@ -441,12 +441,12 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart } = req.query;
     const usuarioId = req.user.id;
-    let query = `SELECT DISTINCT ON (c.tarefa) c.*, r.dsc_cotacao, aq.anotacao as auditoria_anotacao, aq.status as auditoria_status FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd WHERE c.usuario_id = $1 AND c.validacao = $2`;
+    let query = `SELECT DISTINCT ON (c.tarefa) c.tarefa, c.cotacao, c.anotacao, c.status, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.origem, r.dsc_cotacao, c.data_historico, r.dat_historico as r_dat_historico FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa WHERE c.usuario_id = $1 AND c.validacao = $2`;
     let params = [usuarioId, 'Ativo'];
     let paramIndex = 3;
 
     if (search) {
-      query += ` AND (cotacao ILIKE $${paramIndex} OR anotacao ILIKE $${paramIndex} OR status ILIKE $${paramIndex})`;
+      query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex} OR c.status ILIKE $${paramIndex})`;
       params.push(`%${search}%`);
       paramIndex++;
     }
@@ -454,7 +454,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
     if (dateStart && dateStart.trim()) {
       const [year, month, day] = dateStart.trim().split('-');
       const dateStartBR = `${day}/${month}/${year}`;
-      query += ` AND data_de_criacao LIKE $${paramIndex}`;
+      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
       params.push(`${dateStartBR}%`);
       paramIndex++;
     }
@@ -471,7 +471,8 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
       updatedAt: formatDateBR(row.data_da_ultima_atualizacao),
       usuarioLogin: row.usuario_login,
       origem: row.origem || null,
-      auditoria: row.auditoria_status ? { anotacao: row.auditoria_anotacao || '', status: row.auditoria_status } : null
+      data_historico: row.data_historico || row.r_dat_historico || null,
+      data_historico_sla: row.data_historico || row.r_dat_historico || null
     }));
 
     res.json(serialized);
@@ -520,21 +521,23 @@ app.post('/api/quotations', authenticateToken, async (req, res) => {
     }
 
     const now = formatDateBR(new Date());
-    // Store tarefa (code) and cotacao (dsc) separately. Try to fetch dsc from r_000250.
+    // Store tarefa (code) and cotacao (dsc) separately. Try to fetch dsc and dat_historico from r_000250.
     let tarefaValue = cotacao;
     let cotacaoDsc = cotacao;
+    let dataHistorico = null;
     try {
-      const rRes = await pool.query('SELECT dsc_cotacao FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1', [cotacao]);
-      if (rRes.rows.length > 0 && rRes.rows[0].dsc_cotacao) {
-        cotacaoDsc = rRes.rows[0].dsc_cotacao;
+      const rRes = await pool.query('SELECT dsc_cotacao, dat_historico FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1', [cotacao]);
+      if (rRes.rows.length > 0) {
+        if (rRes.rows[0].dsc_cotacao) cotacaoDsc = rRes.rows[0].dsc_cotacao;
+        if (rRes.rows[0].dat_historico) dataHistorico = rRes.rows[0].dat_historico;
       }
     } catch (e) {
-      console.error('Erro ao buscar dsc_cotacao:', e.message);
+      console.error('Erro ao buscar dados da r_000250:', e.message);
     }
 
     const result = await pool.query(
-      'INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      [tarefaValue, cotacaoDsc, anotacao || '', 'pendente', 'Ativo', now, now, usuarioLogin, usuarioId]
+      'INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, data_historico) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+      [tarefaValue, cotacaoDsc, anotacao || '', 'pendente', 'Ativo', now, now, usuarioLogin, usuarioId, dataHistorico]
     );
 
     const row = result.rows[0];
@@ -1289,7 +1292,7 @@ app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
 app.get('/pme_notas/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, res) => {
   try {
     const row = await pool.query(
-      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.id_cotacao = $1',
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
       [req.params.id_cotacao]
     );
     let result = { rows: [] };
@@ -1319,7 +1322,7 @@ app.get('/pme_notas/api/qualidade/auditoria/:id_cotacao', authenticateToken, asy
 app.get('/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, res) => {
   try {
     const row = await pool.query(
-      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.id_cotacao = $1',
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
       [req.params.id_cotacao]
     );
     let result = { rows: [] };
@@ -1343,6 +1346,127 @@ app.get('/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, r
     console.error('[QUALIDADE] Erro ao buscar auditoria:', error);
     res.status(500).json({ error: 'Erro ao buscar auditoria' });
   }
+});
+
+// ===== ROTAS DE RCV (Réplica) =====
+
+// API: Listar registros RCV com join em cotacao e usuarios
+app.get('/api/rcv', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, fila, etapa } = req.query;
+    let query = `
+      SELECT rcv.codigo_tarefa, rcv.data_de_criacao, rcv.data_da_ultima_alteracao_etapa,
+             rcv.fila, rcv.etapa, rcv.titulo_tarefa, rcv.descricao,
+             rcv.demandante, rcv.responsavel_atual, rcv.status, rcv.pont, rcv.leitura,
+             rcv.area_ofensora, rcv.status_replica, rcv.tarefa, rcv.cotacao,
+             rcv.motivo, rcv.submotivos, rcv.detalhamento, rcv.descricao2,
+             rcv.nome, rcv.data_hora, rcv.mes, rcv.turno, rcv.status2, rcv.motivo3, rcv.obs,
+             TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as colaborador_nome
+      FROM db_qualidade.rcv rcv
+      LEFT JOIN db_bloco_de_notas.cotacao c ON c.tarefa = rcv.codigo_tarefa
+      LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+      WHERE 1=1`;
+    const params = [];
+    let paramIndex = 1;
+
+    if (search && search.trim()) {
+      query += ` AND (rcv.codigo_tarefa ILIKE $${paramIndex} OR rcv.cotacao ILIKE $${paramIndex} OR TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) ILIKE $${paramIndex})`;
+      params.push(`%${search.trim()}%`);
+      paramIndex++;
+    }
+
+    if (dateStart && dateStart.trim()) {
+      const [year, month, day] = dateStart.trim().split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND rcv.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
+
+    if (fila && fila.trim()) {
+      query += ` AND rcv.fila = $${paramIndex}`;
+      params.push(fila.trim());
+      paramIndex++;
+    }
+
+    if (etapa && etapa.trim()) {
+      query += ` AND rcv.etapa = $${paramIndex}`;
+      params.push(etapa.trim());
+      paramIndex++;
+    }
+
+    query += ' ORDER BY rcv.data_de_criacao DESC NULLS LAST';
+
+    const result = await pool.query(query, params);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('[RCV] Erro ao listar registros:', error);
+    res.status(500).json({ error: 'Erro ao listar registros RCV' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/rcv', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, fila, etapa } = req.query;
+    let query = `
+      SELECT rcv.codigo_tarefa, rcv.data_de_criacao, rcv.data_da_ultima_alteracao_etapa,
+             rcv.fila, rcv.etapa, rcv.titulo_tarefa, rcv.descricao,
+             rcv.demandante, rcv.responsavel_atual, rcv.status, rcv.pont, rcv.leitura,
+             rcv.area_ofensora, rcv.status_replica, rcv.tarefa, rcv.cotacao,
+             rcv.motivo, rcv.submotivos, rcv.detalhamento, rcv.descricao2,
+             rcv.nome, rcv.data_hora, rcv.mes, rcv.turno, rcv.status2, rcv.motivo3, rcv.obs,
+             TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as colaborador_nome
+      FROM db_qualidade.rcv rcv
+      LEFT JOIN db_bloco_de_notas.cotacao c ON c.tarefa = rcv.codigo_tarefa
+      LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+      WHERE 1=1`;
+    const params = [];
+    let paramIndex = 1;
+
+    if (search && search.trim()) {
+      query += ` AND (rcv.codigo_tarefa ILIKE $${paramIndex} OR rcv.cotacao ILIKE $${paramIndex} OR TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) ILIKE $${paramIndex})`;
+      params.push(`%${search.trim()}%`);
+      paramIndex++;
+    }
+
+    if (dateStart && dateStart.trim()) {
+      const [year, month, day] = dateStart.trim().split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND rcv.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
+
+    if (fila && fila.trim()) {
+      query += ` AND rcv.fila = $${paramIndex}`;
+      params.push(fila.trim());
+      paramIndex++;
+    }
+
+    if (etapa && etapa.trim()) {
+      query += ` AND rcv.etapa = $${paramIndex}`;
+      params.push(etapa.trim());
+      paramIndex++;
+    }
+
+    query += ' ORDER BY rcv.data_de_criacao DESC NULLS LAST';
+
+    const result = await pool.query(query, params);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('[RCV] Erro ao listar registros:', error);
+    res.status(500).json({ error: 'Erro ao listar registros RCV' });
+  }
+});
+
+// Serve rcv page
+app.get('/rcv', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
+});
+
+app.get('/pme_notas/rcv', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
 });
 
 // Serve qualidade page
@@ -1393,7 +1517,7 @@ app.use('/pme_notas/api/input_net', inputNetRoutes);
 // Mapeamento de opções para rotas
 const OPCOES_ROTAS = {
     gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard'],
-    qualidade: ['/pme_notas/qualidade'],
+    qualidade: ['/pme_notas/qualidade', '/pme_notas/rcv'],
     admin: ['/pme_notas/acessos']
 };
 
@@ -1932,18 +2056,20 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
           continue;
         }
         
-        // Buscar nome da tarefa para anotação
+        // Buscar nome da tarefa para anotação e data_historico
         const tarefaResult = await pool.query(
-          'SELECT codigo_da_tarefa, etapa_atual FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
+          'SELECT codigo_da_tarefa, etapa_atual, data_historico FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
           [item.cod_tarefa]
         );
         
         let anotacao = '';
+        let dataHistorico = null;
         let tarefaValue = item.cod_tarefa;
         let cotacaoDsc = item.cod_tarefa;
         if (tarefaResult.rows.length > 0) {
           const tr = tarefaResult.rows[0];
           anotacao = `Origem: iw_cpc_975_net | Etapa: ${tr.etapa_atual || ''}`;
+          if (tr.data_historico) dataHistorico = tr.data_historico;
         }
 
         // Buscar nome do usuário destino
@@ -1954,9 +2080,9 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
         } catch {}
 
         await pool.query(
-          `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem) 
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-          [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_net']
+          `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+          [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_net', dataHistorico]
         );
 
         // Registrar auditoria

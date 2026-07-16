@@ -1,0 +1,262 @@
+15/07/2026 05:01:09: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:01:29: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:01:46: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:02:02: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:02:25: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:03:35: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:03:51: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:04:10: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:04:28: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:04:46: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:29:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:34:49: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:42:57: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:54:04: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 05:59:06: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:00:41: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:00:52: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:03:20: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:05:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:06:32: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:06:32: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:06:33: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:06:33: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:10:20: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:10:38: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:14:29: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:16:06: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:17:48: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:21:09: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:21:38: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:25:11: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:27:57: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:31:00: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:31:02: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:33:24: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:35:37: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:37:37: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:40:09: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:40:26: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:43:59: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:44:24: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:48:00: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:49:41: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:51:29: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:54:48: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 06:57:40: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:03:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:48: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:48: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:07:56: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:12:09: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:12:09: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:16:12: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:20:05: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:20:05: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:20:05: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:20:05: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:24:14: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 07:27:50: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 09:01:09: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+15/07/2026 09:01:09:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+15/07/2026 09:01:09:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+15/07/2026 09:01:09:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+15/07/2026 09:01:09:   length: 114,
+15/07/2026 09:01:09:   severity: 'ERROR',
+15/07/2026 09:01:09:   code: '42702',
+15/07/2026 09:01:09:   detail: undefined,
+15/07/2026 09:01:09:   hint: undefined,
+15/07/2026 09:01:09:   position: '362',
+15/07/2026 09:01:09:   internalPosition: undefined,
+15/07/2026 09:01:09:   internalQuery: undefined,
+15/07/2026 09:01:09:   where: undefined,
+15/07/2026 09:01:09:   schema: undefined,
+15/07/2026 09:01:09:   table: undefined,
+15/07/2026 09:01:09:   column: undefined,
+15/07/2026 09:01:09:   dataType: undefined,
+15/07/2026 09:01:09:   constraint: undefined,
+15/07/2026 09:01:09:   file: 'parse_relation.c',
+15/07/2026 09:01:09:   line: '805',
+15/07/2026 09:01:09:   routine: 'scanRTEForColumn'
+15/07/2026 09:01:09: }
+15/07/2026 09:05:22: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 09:22:22: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 09:22:40: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 09:32:37: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 09:38:06: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+15/07/2026 09:39:13: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 09:52:26: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+15/07/2026 09:52:51: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+15/07/2026 13:15:40: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+15/07/2026 13:15:40:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+15/07/2026 13:15:40:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+15/07/2026 13:15:40:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+15/07/2026 13:15:40:   length: 114,
+15/07/2026 13:15:40:   severity: 'ERROR',
+15/07/2026 13:15:40:   code: '42702',
+15/07/2026 13:15:40:   detail: undefined,
+15/07/2026 13:15:40:   hint: undefined,
+15/07/2026 13:15:40:   position: '362',
+15/07/2026 13:15:40:   internalPosition: undefined,
+15/07/2026 13:15:40:   internalQuery: undefined,
+15/07/2026 13:15:40:   where: undefined,
+15/07/2026 13:15:40:   schema: undefined,
+15/07/2026 13:15:40:   table: undefined,
+15/07/2026 13:15:40:   column: undefined,
+15/07/2026 13:15:40:   dataType: undefined,
+15/07/2026 13:15:40:   constraint: undefined,
+15/07/2026 13:15:40:   file: 'parse_relation.c',
+15/07/2026 13:15:40:   line: '805',
+15/07/2026 13:15:40:   routine: 'scanRTEForColumn'
+15/07/2026 13:15:40: }
+15/07/2026 13:15:51: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+15/07/2026 13:15:51:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+15/07/2026 13:15:51:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+15/07/2026 13:15:51:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+15/07/2026 13:15:51:   length: 114,
+15/07/2026 13:15:51:   severity: 'ERROR',
+15/07/2026 13:15:51:   code: '42702',
+15/07/2026 13:15:51:   detail: undefined,
+15/07/2026 13:15:51:   hint: undefined,
+15/07/2026 13:15:51:   position: '362',
+15/07/2026 13:15:51:   internalPosition: undefined,
+15/07/2026 13:15:51:   internalQuery: undefined,
+15/07/2026 13:15:51:   where: undefined,
+15/07/2026 13:15:51:   schema: undefined,
+15/07/2026 13:15:51:   table: undefined,
+15/07/2026 13:15:51:   column: undefined,
+15/07/2026 13:15:51:   dataType: undefined,
+15/07/2026 13:15:51:   constraint: undefined,
+15/07/2026 13:15:51:   file: 'parse_relation.c',
+15/07/2026 13:15:51:   line: '805',
+15/07/2026 13:15:51:   routine: 'scanRTEForColumn'
+15/07/2026 13:15:51: }
+15/07/2026 13:26:44: [INSPECAO_NET] Erro: error: terminating connection due to administrator command
+15/07/2026 13:26:44:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+15/07/2026 13:26:44:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+15/07/2026 13:26:44:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:769:27 {
+15/07/2026 13:26:44:   length: 121,
+15/07/2026 13:26:44:   severity: 'FATAL',
+15/07/2026 13:26:44:   code: '57P01',
+15/07/2026 13:26:44:   detail: undefined,
+15/07/2026 13:26:44:   hint: undefined,
+15/07/2026 13:26:44:   position: '591',
+15/07/2026 13:26:44:   internalPosition: undefined,
+15/07/2026 13:26:44:   internalQuery: undefined,
+15/07/2026 13:26:44:   where: undefined,
+15/07/2026 13:26:44:   schema: undefined,
+15/07/2026 13:26:44:   table: undefined,
+15/07/2026 13:26:44:   column: undefined,
+15/07/2026 13:26:44:   dataType: undefined,
+15/07/2026 13:26:44:   constraint: undefined,
+15/07/2026 13:26:44:   file: 'postgres.c',
+15/07/2026 13:26:44:   line: '3197',
+15/07/2026 13:26:44:   routine: 'ProcessInterrupts'
+15/07/2026 13:26:44: }
+15/07/2026 13:26:44: [INSPECAO_NET] Erro: error: terminating connection due to administrator command
+15/07/2026 13:26:44:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+15/07/2026 13:26:44:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+15/07/2026 13:26:44:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:769:27 {
+15/07/2026 13:26:44:   length: 121,
+15/07/2026 13:26:44:   severity: 'FATAL',
+15/07/2026 13:26:44:   code: '57P01',
+15/07/2026 13:26:44:   detail: undefined,
+15/07/2026 13:26:44:   hint: undefined,
+15/07/2026 13:26:44:   position: '591',
+15/07/2026 13:26:44:   internalPosition: undefined,
+15/07/2026 13:26:44:   internalQuery: undefined,
+15/07/2026 13:26:44:   where: undefined,
+15/07/2026 13:26:44:   schema: undefined,
+15/07/2026 13:26:44:   table: undefined,
+15/07/2026 13:26:44:   column: undefined,
+15/07/2026 13:26:44:   dataType: undefined,
+15/07/2026 13:26:44:   constraint: undefined,
+15/07/2026 13:26:44:   file: 'postgres.c',
+15/07/2026 13:26:44:   line: '3197',
+15/07/2026 13:26:44:   routine: 'ProcessInterrupts'
+15/07/2026 13:26:44: }
+15/07/2026 13:30:13: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+15/07/2026 13:30:13:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+15/07/2026 13:30:13:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+15/07/2026 13:30:13:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+15/07/2026 13:30:13:   length: 114,
+15/07/2026 13:30:13:   severity: 'ERROR',
+15/07/2026 13:30:13:   code: '42702',
+15/07/2026 13:30:13:   detail: undefined,
+15/07/2026 13:30:13:   hint: undefined,
+15/07/2026 13:30:13:   position: '362',
+15/07/2026 13:30:13:   internalPosition: undefined,
+15/07/2026 13:30:13:   internalQuery: undefined,
+15/07/2026 13:30:13:   where: undefined,
+15/07/2026 13:30:13:   schema: undefined,
+15/07/2026 13:30:13:   table: undefined,
+15/07/2026 13:30:13:   column: undefined,
+15/07/2026 13:30:13:   dataType: undefined,
+15/07/2026 13:30:13:   constraint: undefined,
+15/07/2026 13:30:13:   file: 'parse_relation.c',
+15/07/2026 13:30:13:   line: '805',
+15/07/2026 13:30:13:   routine: 'scanRTEForColumn'
+15/07/2026 13:30:13: }
+15/07/2026 13:31:03: Erro ao buscar cotações: error: column reference "anotacao" is ambiguous
+15/07/2026 13:31:03:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+15/07/2026 13:31:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+15/07/2026 13:31:03:     at async E:\projetos_hitss\geo-pme-notas\server.js:464:20 {
+15/07/2026 13:31:03:   length: 114,
+15/07/2026 13:31:03:   severity: 'ERROR',
+15/07/2026 13:31:03:   code: '42702',
+15/07/2026 13:31:03:   detail: undefined,
+15/07/2026 13:31:03:   hint: undefined,
+15/07/2026 13:31:03:   position: '362',
+15/07/2026 13:31:03:   internalPosition: undefined,
+15/07/2026 13:31:03:   internalQuery: undefined,
+15/07/2026 13:31:03:   where: undefined,
+15/07/2026 13:31:03:   schema: undefined,
+15/07/2026 13:31:03:   table: undefined,
+15/07/2026 13:31:03:   column: undefined,
+15/07/2026 13:31:03:   dataType: undefined,
+15/07/2026 13:31:03:   constraint: undefined,
+15/07/2026 13:31:03:   file: 'parse_relation.c',
+15/07/2026 13:31:03:   line: '805',
+15/07/2026 13:31:03:   routine: 'scanRTEForColumn'
+15/07/2026 13:31:03: }
+15/07/2026 13:37:07: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist

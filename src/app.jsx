@@ -107,6 +107,26 @@ const AlertTriangleIcon = () => (
     </svg>
 );
 
+const SunIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+);
+
+const MoonIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+);
+
 function Toast({ message, type, onClose }) {
     useEffect(() => {
         const timer = setTimeout(onClose, 3000);
@@ -147,6 +167,10 @@ function App() {
     const [qualidadeStats, setQualidadeStats] = useState(null);
     const [loadingQualidade, setLoadingQualidade] = useState(false);
     const [filtroAuditoria, setFiltroAuditoria] = useState('');
+    const [darkMode, setDarkMode] = useState(() => {
+        const saved = localStorage.getItem('darkMode');
+        return saved === 'true';
+    });
 
     useEffect(() => {
         const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
@@ -160,7 +184,6 @@ function App() {
         fetchQuotations();
 
         const handlePopState = (event) => {
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             const currentToken = localStorage.getItem('token');
             if (!currentToken) window.location.href = BASE_PATH + '/login.html';
         };
@@ -169,6 +192,18 @@ function App() {
         window.addEventListener('popstate', handlePopState);
         return () => window.removeEventListener('popstate', handlePopState);
     }, []);
+
+    // Apply dark mode class to html element
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem('darkMode', darkMode);
+    }, [darkMode]);
+
+    const toggleDarkMode = () => setDarkMode(prev => !prev);
 
     useEffect(() => setCurrentPage(1), [searchTerm]);
     useEffect(() => setCurrentPage(1), [dateStart]);
@@ -192,10 +227,11 @@ function App() {
                 return;
             }
             const data = await response.json();
-            setQuotations(data);
+            setQuotations(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Erro ao buscar cotações:', error);
             showToast('Erro ao carregar cotações', 'error');
+            setQuotations([]);
         } finally {
             setLoading(false);
         }
@@ -420,7 +456,7 @@ function App() {
 
     const filteredQuotations = quotations.filter(q => {
         const matchesSearch = !searchTerm ||
-            q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (q.cotacao && q.cotacao.toLowerCase().includes(searchTerm.toLowerCase())) ||
             (q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase())) ||
             (q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase()));
         if (!matchesSearch) return false;
@@ -488,10 +524,56 @@ function App() {
         } catch { return dateString; }
     };
 
+    const historyColorClass = (dateStr) => {
+        if (!dateStr || dateStr === '-') return '';
+        try {
+            // Se for string no formato ISO, converte diretamente
+            if (typeof dateStr === 'string') {
+                // Verifica se é ISO timestamp (YYYY-MM-DDTHH:MM:SS)
+                if (/^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}/.test(dateStr)) {
+                    const then = new Date(dateStr);
+                    if (!isNaN(then.getTime())) {
+                        const diffHours = (Date.now() - then.getTime()) / (1000 * 60 * 60);
+                        if (diffHours <= 6) return 'bg-emerald-500';
+                        if (diffHours <= 12) return 'bg-yellow-500';
+                        return 'bg-red-600';
+                    }
+                    return 'bg-slate-300';
+                }
+                // Se for formato brasileiro dd/mm/aaaa HH:MM, converte
+                const brMatch = dateStr.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/);
+                if (brMatch) {
+                    const [_, day, month, year, hours, minutes] = brMatch;
+                    const then = new Date(year, month - 1, day, hours, minutes);
+                    if (!isNaN(then.getTime())) {
+                        const diffHours = (Date.now() - then.getTime()) / (1000 * 60 * 60);
+                        if (diffHours <= 6) return 'bg-emerald-500';
+                        if (diffHours <= 12) return 'bg-yellow-500';
+                        return 'bg-red-600';
+                    }
+                }
+            }
+            const then = new Date(dateStr);
+            if (isNaN(then.getTime())) return 'bg-slate-300';
+            const diffHours = (Date.now() - then.getTime()) / (1000 * 60 * 60);
+            if (diffHours <= 6) return 'bg-emerald-500';
+            if (diffHours <= 12) return 'bg-yellow-500';
+            return 'bg-red-600';
+        } catch { return 'bg-slate-300'; }
+    };
+
+    // Retorna true se o status é algum tipo de pendente (vazio conta como pendente)
+    const isPendenteStatus = (status) => {
+        const normalized = (status || '').trim().toLowerCase();
+        if (normalized === '') return true;
+        return normalized.startsWith('pendente');
+    };
+
     const SkeletonRow = () => (
         <tr className="animate-pulse">
             <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-24"></div></td>
             <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-full max-w-xs"></div></td>
+            <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-28"></div></td>
             <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-28"></div></td>
             <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-28"></div></td>
             <td className="px-6 py-4"><div className="h-6 bg-slate-200 rounded-full w-20"></div></td>
@@ -515,7 +597,14 @@ function App() {
                                 <p className="text-xs text-slate-500">Gerenciamento de cotações</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <button onClick={toggleDarkMode} className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
+                                darkMode 
+                                    ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' 
+                                    : 'text-slate-600 bg-slate-100 hover:bg-slate-200'
+                            }`} title={darkMode ? 'Modo claro' : 'Modo escuro'}>
+                                {darkMode ? <SunIcon /> : <MoonIcon />}
+                            </button>
                             <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm">
                                 <div className="w-7 h-7 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white shadow-sm">
                                     <UserIcon />
@@ -597,7 +686,7 @@ function App() {
                 <div className="flex flex-col sm:flex-row gap-4 mb-6">
                     <div className="flex-1 relative group">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><SearchIcon /></div>
-                        <input type="text" placeholder="Buscar por cotação, anotação ou status..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+                        <input type="text" placeholder="Buscar por cotação, anotação ou status..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
                             className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                             <div className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-red-500 transition-colors duration-200"></div>
@@ -623,7 +712,7 @@ function App() {
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-slate-200">
                                 <thead className="bg-slate-50">
-                                    <tr><th className="px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
+                                    <tr><th className="px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Data Histórico</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-100">{[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}</tbody>
                             </table>
@@ -638,7 +727,7 @@ function App() {
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-slate-200">
                                 <thead className="bg-slate-50">
-                                    <tr><th className="px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
+                                    <tr><th className="px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Data Histórico</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-100">
                                     {currentQuotations.map((quotation) => {
@@ -670,6 +759,14 @@ function App() {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.createdAt)}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.updatedAt)}</td>
+                                                 <td className="px-6 py-4 whitespace-nowrap">
+                                                     <div className="flex items-center gap-3">
+                                                         {isPendenteStatus(quotation.status) && (
+                                                             <span className={`w-3 h-3 rounded-full ${historyColorClass(quotation.data_historico_sla) || 'bg-slate-300'}`}></span>
+                                                         )}
+                                                         <span className="text-sm text-slate-500">{formatDate(quotation.data_historico)}</span>
+                                                     </div>
+                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <button onClick={() => handleStatusClick(quotation)} className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 hover:shadow-sm ${statusConfig.className}`}>
                                                         <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dotClass}`}></span>{statusConfig.label}

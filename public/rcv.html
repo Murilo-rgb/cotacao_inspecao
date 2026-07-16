@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema RCV - Réplica de Cotação">
+    <meta name="theme-color" content="#2563eb">
+    <title>RCV - Réplica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .modal-overlay {
+            animation: fadeIn 0.2s ease-out;
+        }
+        
+        .modal-content {
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        .toast-enter {
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: pulse 1.5s infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const { useState, useEffect, useCallback } = React;
+
+        // === Icons ===
+        const SearchIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('circle', { cx: "11", cy: "11", r: "8" }),
+                React.createElement('path', { d: "m21 21-4.35-4.35" })
+            )
+        );
+
+        const CalendarIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('rect', { x: "3", y: "4", width: "18", height: "18", rx: "2", ry: "2" }),
+                React.createElement('line', { x1: "16", y1: "2", x2: "16", y2: "6" }),
+                React.createElement('line', { x1: "8", y1: "2", x2: "8", y2: "6" }),
+                React.createElement('line', { x1: "3", y1: "10", x2: "21", y2: "10" })
+            )
+        );
+
+        const UserIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('path', { d: "M19 21v-2a4 4 0 0 0-4-4H9a2 2 0 0 0-4 4v2" }),
+                React.createElement('circle', { cx: "12", cy: "7", r: "4" })
+            )
+        );
+
+        const LogoutIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('path', { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" }),
+                React.createElement('polyline', { points: "16 17 21 12 16 7" }),
+                React.createElement('line', { x1: "21", x2: "9", y1: "12", y2: "12" })
+            )
+        );
+
+        const EyeIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('path', { d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" }),
+                React.createElement('circle', { cx: "12", cy: "12", r: "3" })
+            )
+        );
+
+        const XIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('path', { d: "M18 6 6 18" }),
+                React.createElement('path', { d: "m6 6 12 12" })
+            )
+        );
+
+        const FileTextIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "48", height: "48", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('path', { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
+                React.createElement('polyline', { points: "14 2 14 8 20 8" }),
+                React.createElement('line', { x1: "16", x2: "8", y1: "13", y2: "13" }),
+                React.createElement('line', { x1: "16", x2: "8", y1: "17", y2: "17" }),
+                React.createElement('line', { x1: "10", x2: "8", y1: "9", y2: "9" })
+            )
+        );
+
+        const CheckIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('polyline', { points: "20 6 9 17 4 12" })
+            )
+        );
+
+        const AlertTriangleIcon = () => (
+            React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                React.createElement('path', { d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" }),
+                React.createElement('path', { d: "M12 9v4" }),
+                React.createElement('path', { d: "M12 17h.01" })
+            )
+        );
+
+        // === Toast Component ===
+        function Toast({ message, type, onClose }) {
+            useEffect(() => {
+                const timer = setTimeout(onClose, 3000);
+                return () => clearTimeout(timer);
+            }, [onClose]);
+
+            return React.createElement('div', { 
+                className: `fixed bottom-6 right-6 z-[60] px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 toast-enter ${
+                    type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+                }` 
+            },
+                type === 'success' ? React.createElement(CheckIcon) : React.createElement(AlertTriangleIcon),
+                React.createElement('span', { className: "font-medium text-sm" }, message)
+            );
+        }
+
+        // === Main App ===
+        function App() {
+            const [rcvList, setRcvList] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [dateStart, setDateStart] = useState('');
+            const [filtroFila, setFiltroFila] = useState('');
+            const [filtroEtapa, setFiltroEtapa] = useState('');
+            const [currentPage, setCurrentPage] = useState(1);
+            const [itemsPerPage] = useState(15);
+            const [detailModal, setDetailModal] = useState(null);
+            const [username, setUsername] = useState('');
+            const [toast, setToast] = useState(null);
+
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
+            useEffect(() => {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = BASE_PATH + '/login.html';
+                    return;
+                }
+                const storedUsername = localStorage.getItem('username');
+                if (storedUsername) setUsername(storedUsername);
+                fetchRCV();
+            }, []);
+
+            useEffect(() => {
+                setCurrentPage(1);
+            }, [searchTerm, dateStart, filtroFila, filtroEtapa]);
+
+            const showToast = useCallback((message, type = 'success') => setToast({ message, type }), []);
+
+            const fetchRCV = useCallback(async () => {
+                try {
+                    setLoading(true);
+                    const token = localStorage.getItem('token');
+                    const params = new URLSearchParams();
+                    if (searchTerm) params.append('search', searchTerm);
+                    if (dateStart) params.append('dateStart', dateStart);
+                    if (filtroFila) params.append('fila', filtroFila);
+                    if (filtroEtapa) params.append('etapa', filtroEtapa);
+                    
+                    const response = await fetch(`${BASE_PATH}/api/rcv?${params}`, { 
+                        headers: { 'Authorization': `Bearer ${token}` } 
+                    });
+                    
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('username');
+                        window.location.href = BASE_PATH + '/login.html';
+                        return;
+                    }
+                    
+                    const data = await response.json();
+                    setRcvList(data);
+                } catch (error) {
+                    console.error('Erro ao buscar RCV:', error);
+                    showToast('Erro ao carregar RCV', 'error');
+                } finally {
+                    setLoading(false);
+                }
+            }, [searchTerm, dateStart, filtroFila, filtroEtapa, BASE_PATH, showToast]);
+
+            useEffect(() => {
+                const timer = setTimeout(fetchRCV, 300);
+                return () => clearTimeout(timer);
+            }, [fetchRCV]);
+
+            const handleLogout = useCallback(() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                window.location.href = BASE_PATH + '/login.html';
+            }, [BASE_PATH]);
+
+            const formatDate = (dateString) => {
+                if (!dateString || dateString === '-' || dateString === 'null') return '-';
+                return dateString;
+            };
+
+            // Filtro local para complementar
+            const filteredRCV = rcvList.filter(() => true);
+
+            const indexOfLastItem = currentPage * itemsPerPage;
+            const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+            const currentItems = filteredRCV.slice(indexOfFirstItem, indexOfLastItem);
+            const totalPages = Math.ceil(filteredRCV.length / itemsPerPage);
+
+            // Skeleton
+            const SkeletonRow = () => React.createElement('tr', { className: "animate-pulse" },
+                React.createElement('td', { className: "px-4 py-3" }, React.createElement('div', { className: "h-4 bg-slate-200 rounded w-24" })),
+                React.createElement('td', { className: "px-4 py-3" }, React.createElement('div', { className: "h-4 bg-slate-200 rounded w-32" })),
+                React.createElement('td', { className: "px-4 py-3" }, React.createElement('div', { className: "h-4 bg-slate-200 rounded w-36" })),
+                React.createElement('td', { className: "px-4 py-3" }, React.createElement('div', { className: "h-8 w-8 bg-slate-200 rounded-lg" }))
+            );
+
+            // Extrair filas únicas para o filtro
+            const filasUnicas = [...new Set(rcvList.map(r => r.fila).filter(Boolean))].sort();
+            const etapasUnicas = [...new Set(rcvList.map(r => r.etapa).filter(Boolean))].sort();
+
+            return React.createElement('div', { className: "min-h-screen bg-slate-50/80" },
+                // Header
+                React.createElement('header', { className: "bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30" },
+                    React.createElement('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" },
+                        React.createElement('div', { className: "flex justify-between items-center h-16" },
+                            React.createElement('div', { className: "flex items-center gap-3" },
+                                React.createElement('div', { className: "w-10 h-10 bg-gradient-to-br from-cyan-600 to-blue-700 rounded-xl flex items-center justify-center shadow-md" },
+                                    React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5 text-white", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2 },
+                                        React.createElement('path', { strokeLinecap: "round", strokeLinejoin: "round", d: "M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" })
+                                    )
+                                ),
+                                React.createElement('div', null,
+                                    React.createElement('h1', { className: "text-xl font-bold text-slate-800" }, 'RCV - Réplica'),
+                                    React.createElement('p', { className: "text-xs text-slate-500" }, 'Controle de réplicas de cotações')
+                                )
+                            ),
+                            React.createElement('div', { className: "flex items-center gap-4" },
+                                React.createElement('div', { className: "hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm" },
+                                    React.createElement('div', { className: "w-7 h-7 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white shadow-sm" },
+                                        React.createElement(UserIcon)
+                                    ),
+                                    React.createElement('span', { className: "text-sm font-semibold text-white" }, username)
+                                ),
+                                React.createElement('button', { onClick: handleLogout, className: "flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" },
+                                    React.createElement(LogoutIcon),
+                                    React.createElement('span', { className: "hidden sm:inline" }, 'Sair')
+                                )
+                            )
+                        )
+                    )
+                ),
+
+                // Main
+                React.createElement('main', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" },
+                    // Stats
+                    React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6" },
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
+                            React.createElement('p', { className: "text-sm font-medium text-slate-500" }, 'Total de Registros'),
+                            React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" }, filteredRCV.length)
+                        ),
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
+                            React.createElement('p', { className: "text-sm font-medium text-cyan-600" }, 'Status Ativo'),
+                            React.createElement('p', { className: "text-2xl font-bold text-cyan-700 mt-1" }, filteredRCV.filter(r => (r.status || '').toUpperCase() === 'ATIVO').length)
+                        ),
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
+                            React.createElement('p', { className: "text-sm font-medium text-amber-600" }, 'Fila mais comum'),
+                            React.createElement('p', { className: "text-lg font-bold text-amber-700 mt-1 truncate" }, 
+                                filasUnicas.slice(0, 3).join(', ') || '-'
+                            )
+                        )
+                    ),
+
+                    // Filters
+                    React.createElement('div', { className: "flex flex-col sm:flex-row gap-4 mb-6 flex-wrap" },
+                        React.createElement('div', { className: "flex-1 min-w-[200px] relative group" },
+                            React.createElement('div', { className: "absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" },
+                                React.createElement(SearchIcon)
+                            ),
+                            React.createElement('input', {
+                                type: "text",
+                                placeholder: "Buscar por código, cotação ou colaborador...",
+                                value: searchTerm,
+                                onChange: (e) => setSearchTerm(e.target.value),
+                                className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
+                            })
+                        ),
+                        React.createElement('div', { className: "relative group" },
+                            React.createElement('div', { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" },
+                                React.createElement(CalendarIcon)
+                            ),
+                            React.createElement('input', {
+                                type: "date",
+                                value: dateStart,
+                                onChange: (e) => setDateStart(e.target.value),
+                                className: "w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
+                            })
+                        ),
+                        React.createElement('div', { className: "relative group" },
+                            React.createElement('select', {
+                                value: filtroFila,
+                                onChange: (e) => setFiltroFila(e.target.value),
+                                className: "w-48 px-3.5 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
+                            },
+                                React.createElement('option', { value: '' }, 'Todas as filas'),
+                                filasUnicas.map(f => React.createElement('option', { key: f, value: f }, f))
+                            )
+                        ),
+                        React.createElement('div', { className: "relative group" },
+                            React.createElement('select', {
+                                value: filtroEtapa,
+                                onChange: (e) => setFiltroEtapa(e.target.value),
+                                className: "w-48 px-3.5 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
+                            },
+                                React.createElement('option', { value: '' }, 'Todas as etapas'),
+                                etapasUnicas.map(e => React.createElement('option', { key: e, value: e }, e))
+                            )
+                        )
+                    ),
+
+                    // Table
+                    React.createElement('div', { className: "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden" },
+                        loading
+                            ? React.createElement('div', { className: "overflow-x-auto" },
+                                React.createElement('table', { className: "min-w-full divide-y divide-slate-200" },
+                                    React.createElement('thead', { className: "bg-slate-50" },
+                                        React.createElement('tr', null,
+                                            React.createElement('th', { className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Código Tarefa'),
+                                            React.createElement('th', { className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Cotação'),
+                                            React.createElement('th', { className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Colaborador'),
+                                            React.createElement('th', { className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Detalhes')
+                                        )
+                                    ),
+                                    React.createElement('tbody', { className: "bg-white divide-y divide-slate-100" },
+                                        [...Array(5)].map((_, i) => React.createElement(SkeletonRow, { key: i }))
+                                    )
+                                )
+                            )
+                            : filteredRCV.length === 0
+                                ? React.createElement('div', { className: "p-12 text-center" },
+                                    React.createElement('div', { className: "inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl text-slate-400 mb-4" },
+                                        React.createElement(FileTextIcon)
+                                    ),
+                                    React.createElement('h3', { className: "text-lg font-semibold text-slate-800 mb-1" }, 'Nenhum registro encontrado'),
+                                    React.createElement('p', { className: "text-slate-500 text-sm" }, 'Tente ajustar sua busca ou filtros.')
+                                )
+                                : React.createElement('div', { className: "overflow-x-auto" },
+                                    React.createElement('table', { className: "min-w-full divide-y divide-slate-200" },
+                                        React.createElement('thead', { className: "bg-slate-50" },
+                                            React.createElement('tr', null,
+                                                React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Código Tarefa'),
+                                                React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Cotação'),
+                                                React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Colaborador'),
+                                                React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider text-center" }, 'Ações')
+                                            )
+                                        ),
+                                        React.createElement('tbody', { className: "bg-white divide-y divide-slate-100" },
+                                            currentItems.map((r, idx) => React.createElement('tr', { key: r.codigo_tarefa || idx, className: "hover:bg-slate-50/80 transition-colors duration-150" },
+                                                React.createElement('td', { className: "px-4 py-3 whitespace-nowrap" },
+                                                    React.createElement('span', { className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md" }, r.codigo_tarefa || '-')
+                                                ),
+                                                React.createElement('td', { className: "px-4 py-3" },
+                                                    React.createElement('span', { className: "text-sm text-slate-700 font-medium" }, r.cotacao || '-')
+                                                ),
+                                                React.createElement('td', { className: "px-4 py-3 whitespace-nowrap" },
+                                                    React.createElement('span', { className: "text-sm text-slate-600" }, r.colaborador_nome || '-')
+                                                ),
+                                                React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-center" },
+                                                    React.createElement('button', {
+                                                        onClick: () => setDetailModal(r),
+                                                        className: "inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-cyan-700 bg-cyan-50 border border-cyan-200 rounded-lg hover:bg-cyan-100 hover:text-cyan-800 transition-all duration-200 hover:shadow-sm",
+                                                    },
+                                                        React.createElement(EyeIcon),
+                                                        'Detalhes'
+                                                    )
+                                                )
+                                            ))
+                                        )
+                                    )
+                                )
+                    ),
+
+                    // Pagination
+                    totalPages > 1 && React.createElement('div', { className: "flex items-center justify-between mt-6 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm" },
+                        React.createElement('p', { className: "text-sm text-slate-500 hidden sm:block" },
+                            'Mostrando ', React.createElement('span', { className: "font-medium" }, indexOfFirstItem + 1),
+                            ' a ', React.createElement('span', { className: "font-medium" }, Math.min(indexOfLastItem, filteredRCV.length)),
+                            ' de ', React.createElement('span', { className: "font-medium" }, filteredRCV.length), ' resultados'
+                        ),
+                        React.createElement('div', { className: "flex items-center gap-2 mx-auto sm:mx-0" },
+                            React.createElement('button', {
+                                onClick: () => setCurrentPage(p => Math.max(1, p - 1)),
+                                disabled: currentPage === 1,
+                                className: "px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                            }, 'Anterior'),
+                            React.createElement('div', { className: "flex items-center gap-1" },
+                                [...Array(totalPages)].map((_, i) => {
+                                    const page = i + 1;
+                                    return React.createElement('button', {
+                                        key: page,
+                                        onClick: () => setCurrentPage(page),
+                                        className: `w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                                            currentPage === page ? 'bg-cyan-600 text-white' : 'text-slate-600 hover:bg-slate-100'
+                                        }`
+                                    }, page);
+                                })
+                            ),
+                            React.createElement('button', {
+                                onClick: () => setCurrentPage(p => Math.min(totalPages, p + 1)),
+                                disabled: currentPage === totalPages,
+                                className: "px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                            }, 'Próxima')
+                        )
+                    )
+                ),
+
+                // Detail Modal
+                detailModal && React.createElement('div', {
+                    className: "fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4",
+                    onClick: (e) => { if (e.target === e.currentTarget) setDetailModal(null); }
+                },
+                    React.createElement('div', { className: "bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl modal-content" },
+                        React.createElement('div', { className: "sticky top-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between z-10 rounded-t-2xl" },
+                            React.createElement('div', { className: "flex items-center gap-3" },
+                                React.createElement('div', { className: "w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center text-cyan-600" },
+                                    React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                                        React.createElement('path', { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
+                                        React.createElement('polyline', { points: "14 2 14 8 20 8" })
+                                    )
+                                ),
+                                React.createElement('div', null,
+                                    React.createElement('h2', { className: "text-lg font-bold text-slate-800" }, 'Detalhes do RCV'),
+                                    React.createElement('p', { className: "text-xs text-slate-500" }, 'Código: ', detailModal.codigo_tarefa || '-')
+                                )
+                            ),
+                            React.createElement('button', {
+                                onClick: () => setDetailModal(null),
+                                className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"
+                            }, React.createElement(XIcon))
+                        ),
+                        React.createElement('div', { className: "p-6" },
+                            React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" },
+                                // Grupo 1: Identificação
+                                React.createElement('div', { className: "col-span-full" },
+                                    React.createElement('h3', { className: "text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-200" }, 'Identificação')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Código da Tarefa'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800 font-mono" }, detailModal.codigo_tarefa || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Cotação'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.cotacao || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Tarefa'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.tarefa || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Título da Tarefa'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.titulo_tarefa || '-')
+                                ),
+
+                                // Grupo 2: Datas
+                                React.createElement('div', { className: "col-span-full mt-2" },
+                                    React.createElement('h3', { className: "text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-200" }, 'Datas')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Data de Criação'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, formatDate(detailModal.data_de_criacao))
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Última Alteração Etapa'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, formatDate(detailModal.data_da_ultima_alteracao_etapa))
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Data/Hora'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, formatDate(detailModal.data_hora))
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Mês'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.mes || '-')
+                                ),
+
+                                // Grupo 3: Fila e Etapa
+                                React.createElement('div', { className: "col-span-full mt-2" },
+                                    React.createElement('h3', { className: "text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-200" }, 'Fila e Etapa')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Fila'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.fila || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Etapa'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.etapa || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Turno'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.turno || '-')
+                                ),
+
+                                // Grupo 4: Pessoas
+                                React.createElement('div', { className: "col-span-full mt-2" },
+                                    React.createElement('h3', { className: "text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-200" }, 'Pessoas Envolvidas')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Demandante'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.demandante || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Responsável Atual'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.responsavel_atual || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Nome (Colaborador)'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.nome || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3 col-span-2" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Colaborador (via Cotação)'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.colaborador_nome || '-')
+                                ),
+
+                                // Grupo 5: Status
+                                React.createElement('div', { className: "col-span-full mt-2" },
+                                    React.createElement('h3', { className: "text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-200" }, 'Status')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Status'),
+                                    React.createElement('p', { className: `text-sm font-semibold ${(detailModal.status || '').toUpperCase() === 'ATIVO' ? 'text-emerald-700' : 'text-slate-800'}` }, detailModal.status || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Status 2'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.status2 || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Status Réplica'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.status_replica || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'PONT'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.pont || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Leitura'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.leitura !== null && detailModal.leitura !== undefined ? detailModal.leitura : '-')
+                                ),
+
+                                // Grupo 6: Motivos
+                                React.createElement('div', { className: "col-span-full mt-2" },
+                                    React.createElement('h3', { className: "text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-200" }, 'Motivos e Classificação')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Motivo'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.motivo || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Submotivos'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.submotivos || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Motivo 3'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.motivo3 || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Área Ofensora'),
+                                    React.createElement('p', { className: "text-sm font-semibold text-slate-800" }, detailModal.area_ofensora || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Descrição'),
+                                    React.createElement('p', { className: "text-sm text-slate-800" }, detailModal.descricao || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Detalhamento'),
+                                    React.createElement('p', { className: "text-sm text-slate-800" }, detailModal.detalhamento || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Descrição 2'),
+                                    React.createElement('p', { className: "text-sm text-slate-800" }, detailModal.descricao2 || '-')
+                                ),
+                                React.createElement('div', { className: "bg-slate-50 rounded-lg p-3 col-span-2" },
+                                    React.createElement('p', { className: "text-xs text-slate-500 mb-1" }, 'Observações'),
+                                    React.createElement('p', { className: "text-sm text-slate-800 whitespace-pre-wrap" }, detailModal.obs || '-')
+                                )
+                            )
+                        )
+                    )
+                ),
+
+                // Toast
+                toast && React.createElement(Toast, { message: toast.message, type: toast.type, onClose: () => setToast(null) })
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(App));
+    </script>
+</body>
+</html>

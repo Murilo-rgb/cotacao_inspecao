@@ -229,19 +229,21 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             continue;
           }
           
-          // Buscar dados da tarefa para preencher anotação
+          // Buscar dados da tarefa para preencher anotação e data_historico
           const tarefaResult = await pool.query(
-            'SELECT nom_tarefa, nom_fila, dsc_cotacao FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1',
+            'SELECT nom_tarefa, nom_fila, dsc_cotacao, dat_historico FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1',
             [item.cod_tarefa]
           );
           
           let anotacao = '';
+          let dataHistorico = null;
           const tarefaValue = item.cod_tarefa;
           let cotacaoDsc = item.cod_tarefa;
           if (tarefaResult.rows.length > 0) {
             const tr = tarefaResult.rows[0];
             anotacao = `Tarefa: ${tr.nom_tarefa || ''} | Fila: ${tr.nom_fila || ''}`;
             if (tr.dsc_cotacao) cotacaoDsc = tr.dsc_cotacao;
+            if (tr.dat_historico) dataHistorico = tr.dat_historico;
           }
 
           // Buscar nome do usuário destino
@@ -252,9 +254,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           } catch {}
 
           await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-            [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'r_000250']
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'r_000250', dataHistorico]
           );
 
           // Registrar auditoria da distribuição
@@ -989,18 +991,20 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             continue;
           }
           
-          // Buscar nome da tarefa para anotação
+          // Buscar nome da tarefa para anotação e data_historico
           const tarefaResult = await pool.query(
-            'SELECT codigo_da_tarefa, etapa_atual FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
+            'SELECT codigo_da_tarefa, etapa_atual, data_historico FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
             [item.cod_tarefa]
           );
           
           let anotacao = '';
+          let dataHistorico = null;
           let tarefaValue = item.cod_tarefa;
           let cotacaoDsc = item.cod_tarefa;
           if (tarefaResult.rows.length > 0) {
             const tr = tarefaResult.rows[0];
             anotacao = `Origem: iw_cpc_975_net | Etapa: ${tr.etapa_atual || ''}`;
+            if (tr.data_historico) dataHistorico = tr.data_historico;
           }
 
           // Buscar nome do usuário destino
@@ -1011,9 +1015,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           } catch {}
 
           await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-            [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_net']
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_net', dataHistorico]
           );
 
           // Registrar auditoria
@@ -1232,16 +1236,18 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           }
           
           let anotacao = '';
+          let dataHistorico = null;
           let cotacaoDsc = tarefa.cod_tarefa;
           if (tarefa.dsc_cotacao) cotacaoDsc = tarefa.dsc_cotacao;
           if (tarefa.nom_tarefa || tarefa.nom_fila) {
             anotacao = `Tarefa: ${tarefa.nom_tarefa || ''} | Fila: ${tarefa.nom_fila || ''}`;
           }
+          if (tarefa.dat_historico) dataHistorico = tarefa.dat_historico;
           
           await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-            [tarefa.cod_tarefa, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'r_000250']
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [tarefa.cod_tarefa, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'r_000250', dataHistorico]
           );
           
           // Registrar auditoria
