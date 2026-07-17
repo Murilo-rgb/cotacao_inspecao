@@ -716,7 +716,7 @@ function App() {
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-slate-200">
                                 <thead className="bg-slate-50">
-                                    <tr><th className="px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Data Histórico</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
+                                    <tr><th className="px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Distribuição</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Data Histórico</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-100">{[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}</tbody>
                             </table>
@@ -731,7 +731,7 @@ function App() {
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-slate-200">
                                 <thead className="bg-slate-50">
-                                    <tr><th className="px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Data Histórico</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
+                                    <tr><th className="px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Distribuição</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Data Histórico</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-100">
                                     {currentQuotations.map((quotation) => {
@@ -751,7 +751,6 @@ function App() {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center gap-2">
-                                                        <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md" title={quotation.anotacao}>{quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}</span>
                                                         {quotation.auditoria && quotation.auditoria.status && (() => {
                                                             const s = quotation.auditoria.status.trim();
                                                             if (s === 'Procedimento Correto') return <span title="Procedimento Correto" className="cursor-help text-sm">✅</span>;
@@ -759,6 +758,7 @@ function App() {
                                                             if (s === 'Reprova Parcial') return <span title="Reprova Parcial" className="cursor-help text-sm">⚠️</span>;
                                                             return <span title={s} className="cursor-help text-sm">❌</span>;
                                                         })()}
+                                                        <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md" title={quotation.anotacao}>{quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}</span>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.createdAt)}</td>

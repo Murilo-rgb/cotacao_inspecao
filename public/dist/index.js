@@ -1468,7 +1468,7 @@ function App() {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Demanda"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Cria\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
+  }, "Distribui\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Atualiza\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
@@ -1502,7 +1502,7 @@ function App() {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Demanda"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Cria\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
+  }, "Distribui\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
   }, "Atualiza\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
     className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
@@ -1535,10 +1535,7 @@ function App() {
       className: "px-6 py-4 whitespace-nowrap"
     }, /*#__PURE__*/React.createElement("div", {
       className: "flex items-center gap-2"
-    }, /*#__PURE__*/React.createElement("span", {
-      className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md",
-      title: quotation.anotacao
-    }, quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao), quotation.auditoria && quotation.auditoria.status && function () {
+    }, quotation.auditoria && quotation.auditoria.status && function () {
       var s = quotation.auditoria.status.trim();
       if (s === 'Procedimento Correto') return /*#__PURE__*/React.createElement("span", {
         title: "Procedimento Correto",
@@ -1556,7 +1553,10 @@ function App() {
         title: s,
         className: "cursor-help text-sm"
       }, "\u274C");
-    }())), /*#__PURE__*/React.createElement("td", {
+    }(), /*#__PURE__*/React.createElement("span", {
+      className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md",
+      title: quotation.anotacao
+    }, quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao))), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
     }, formatDate(quotation.createdAt)), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"

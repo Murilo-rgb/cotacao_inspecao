@@ -12560,3 +12560,348 @@
 17/07/2026 12:35:15:   origem: 'r_000250',
 17/07/2026 12:35:15:   data_historico: 2026-07-16T19:03:13.000Z
 17/07/2026 12:35:15: }
+17/07/2026 12:37:21: [PUT] Atualizando cotação: 22848689
+17/07/2026 12:37:21: [PUT] Usuário: marcielly.ferreira.3
+17/07/2026 12:37:21: [PUT] Dados recebidos: {
+17/07/2026 12:37:21:   anotacao: undefined,
+17/07/2026 12:37:21:   status: 'pendente-classificacao',
+17/07/2026 12:37:21:   auditoria_anotacao: undefined,
+17/07/2026 12:37:21:   auditoria_status: undefined
+17/07/2026 12:37:21: }
+17/07/2026 12:37:21: [PUT] Linhas afetadas: 1
+17/07/2026 12:37:21: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:37:21:   id_cotacao: 10306,
+17/07/2026 12:37:21:   cotacao: 'Q6363732',
+17/07/2026 12:37:21:   id_qldd: null,
+17/07/2026 12:37:21:   anotacao: 'Tarefa: E001 - PME - 63.815.775/0001-35 | Fila: CPC - PME',
+17/07/2026 12:37:21:   status: 'pendente-classificacao',
+17/07/2026 12:37:21:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:37:21:   data_da_ultima_atualizacao: '17/07/2026 12:37',
+17/07/2026 12:37:21:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:37:21:   validacao: 'Ativo',
+17/07/2026 12:37:21:   usuario_id: '142',
+17/07/2026 12:37:21:   tarefa: '22848689',
+17/07/2026 12:37:21:   origem: 'r_000250',
+17/07/2026 12:37:21:   data_historico: 2026-07-16T20:34:07.000Z
+17/07/2026 12:37:21: }
+17/07/2026 12:41:27: [PUT] Atualizando cotação: 22848162
+17/07/2026 12:41:27: [PUT] Usuário: rita.meira.3
+17/07/2026 12:41:27: [PUT] Dados recebidos: {
+17/07/2026 12:41:27:   anotacao: undefined,
+17/07/2026 12:41:27:   status: 'pendente-iphone',
+17/07/2026 12:41:27:   auditoria_anotacao: undefined,
+17/07/2026 12:41:27:   auditoria_status: undefined
+17/07/2026 12:41:27: }
+17/07/2026 12:41:27: [PUT] Linhas afetadas: 1
+17/07/2026 12:41:27: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:41:27:   id_cotacao: 10222,
+17/07/2026 12:41:27:   cotacao: 'Q6369481',
+17/07/2026 12:41:27:   id_qldd: null,
+17/07/2026 12:41:27:   anotacao: 'Tarefa: E001 - PME - 11.466.446/0001-22 | Fila: CPC - PME\n' +
+17/07/2026 12:41:27:     '\n' +
+17/07/2026 12:41:27:     '> A cor do aparelho AZUL OU PRATA  no TCPJ campo de aparelhos está divergindo do informado na cotação AZUL INTENSO, considerando que o cliente não aceitará o aparelho em outra cor de aparelho. (Todos os documentos que possuir a mesma informação devem ser corrigidos, caso necessite também de correção). **Divergência na Cor do Aparelho**\n',
+17/07/2026 12:41:27:   status: 'pendente-iphone',
+17/07/2026 12:41:27:   data_de_criacao: '17/07/2026 09:12',
+17/07/2026 12:41:27:   data_da_ultima_atualizacao: '17/07/2026 12:41',
+17/07/2026 12:41:27:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:41:27:   validacao: 'Ativo',
+17/07/2026 12:41:27:   usuario_id: '147',
+17/07/2026 12:41:27:   tarefa: '22848162',
+17/07/2026 12:41:27:   origem: 'r_000250',
+17/07/2026 12:41:27:   data_historico: 2026-07-16T19:23:42.000Z
+17/07/2026 12:41:27: }
+17/07/2026 12:41:47: [PUT] Atualizando cotação: 22848166
+17/07/2026 12:41:47: [PUT] Usuário: rita.meira.3
+17/07/2026 12:41:47: [PUT] Dados recebidos: {
+17/07/2026 12:41:47:   anotacao: undefined,
+17/07/2026 12:41:47:   status: 'aprovado',
+17/07/2026 12:41:47:   auditoria_anotacao: undefined,
+17/07/2026 12:41:47:   auditoria_status: undefined
+17/07/2026 12:41:47: }
+17/07/2026 12:41:47: [PUT] Linhas afetadas: 1
+17/07/2026 12:41:47: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:41:47:   id_cotacao: 10223,
+17/07/2026 12:41:47:   cotacao: 'Q6369845',
+17/07/2026 12:41:47:   id_qldd: null,
+17/07/2026 12:41:47:   anotacao: 'Tarefa: E001 - PME - 55.280.927/0001-14 | Fila: CPC - PME',
+17/07/2026 12:41:47:   status: 'aprovado',
+17/07/2026 12:41:47:   data_de_criacao: '17/07/2026 09:12',
+17/07/2026 12:41:47:   data_da_ultima_atualizacao: '17/07/2026 12:41',
+17/07/2026 12:41:47:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:41:47:   validacao: 'Ativo',
+17/07/2026 12:41:47:   usuario_id: '147',
+17/07/2026 12:41:47:   tarefa: '22848166',
+17/07/2026 12:41:47:   origem: 'r_000250',
+17/07/2026 12:41:47:   data_historico: 2026-07-16T19:24:15.000Z
+17/07/2026 12:41:47: }
+17/07/2026 12:41:49: [PUT] Atualizando cotação: 22848866
+17/07/2026 12:41:49: [PUT] Usuário: luiza.franco.3
+17/07/2026 12:41:49: [PUT] Dados recebidos: {
+17/07/2026 12:41:49:   anotacao: '> Os SVA Claro Banca Padrão - Combo PME. Comtemplados ao cliente na franquia Claro pós 10 GB presente na Cotação/TCPJ divergem da tabela vigente na Intranet na data de assinatura do termo. OBS: Todas as informações relacionadas as franquias contratadas, como valores, bônus, módulos, entre outros devem estar de acordo entre as documentações e com os planos vigentes da Intranet na data de assinatura do TCPJ.\n' +
+17/07/2026 12:41:49:     '\n' +
+17/07/2026 12:41:49:     '> O responsável que assina os documentos Claro não consta no Contrato Social (ou equivalente) da empresa. Obs: Se necessário, enviar uma procuração válida. **Contrato Social**',
+17/07/2026 12:41:49:   status: 'pendente',
+17/07/2026 12:41:49:   auditoria_anotacao: '',
+17/07/2026 12:41:49:   auditoria_status: ''
+17/07/2026 12:41:49: }
+17/07/2026 12:41:49: [PUT] Linhas afetadas: 1
+17/07/2026 12:41:49: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:41:49:   id_cotacao: 10329,
+17/07/2026 12:41:49:   cotacao: 'Q6369917',
+17/07/2026 12:41:49:   id_qldd: null,
+17/07/2026 12:41:49:   anotacao: '> Os SVA Claro Banca Padrão - Combo PME. Comtemplados ao cliente na franquia Claro pós 10 GB presente na Cotação/TCPJ divergem da tabela vigente na Intranet na data de assinatura do termo. OBS: Todas as informações relacionadas as franquias contratadas, como valores, bônus, módulos, entre outros devem estar de acordo entre as documentações e com os planos vigentes da Intranet na data de assinatura do TCPJ.\n' +
+17/07/2026 12:41:49:     '\n' +
+17/07/2026 12:41:49:     '> O responsável que assina os documentos Claro não consta no Contrato Social (ou equivalente) da empresa. Obs: Se necessário, enviar uma procuração válida. **Contrato Social**',
+17/07/2026 12:41:49:   status: 'pendente',
+17/07/2026 12:41:49:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:41:49:   data_da_ultima_atualizacao: '17/07/2026 12:41',
+17/07/2026 12:41:49:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:41:49:   validacao: 'Ativo',
+17/07/2026 12:41:49:   usuario_id: '140',
+17/07/2026 12:41:49:   tarefa: '22848866',
+17/07/2026 12:41:49:   origem: 'r_000250',
+17/07/2026 12:41:49:   data_historico: 2026-07-16T21:05:09.000Z
+17/07/2026 12:41:49: }
+17/07/2026 12:42:35: [PUT] Atualizando cotação: 22848866
+17/07/2026 12:42:35: [PUT] Usuário: luiza.franco.3
+17/07/2026 12:42:35: [PUT] Dados recebidos: {
+17/07/2026 12:42:35:   anotacao: undefined,
+17/07/2026 12:42:35:   status: 'reprovado',
+17/07/2026 12:42:35:   auditoria_anotacao: undefined,
+17/07/2026 12:42:35:   auditoria_status: undefined
+17/07/2026 12:42:35: }
+17/07/2026 12:42:35: [PUT] Linhas afetadas: 1
+17/07/2026 12:42:35: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:42:35:   id_cotacao: 10329,
+17/07/2026 12:42:35:   cotacao: 'Q6369917',
+17/07/2026 12:42:35:   id_qldd: null,
+17/07/2026 12:42:35:   anotacao: '> Os SVA Claro Banca Padrão - Combo PME. Comtemplados ao cliente na franquia Claro pós 10 GB presente na Cotação/TCPJ divergem da tabela vigente na Intranet na data de assinatura do termo. OBS: Todas as informações relacionadas as franquias contratadas, como valores, bônus, módulos, entre outros devem estar de acordo entre as documentações e com os planos vigentes da Intranet na data de assinatura do TCPJ.\n' +
+17/07/2026 12:42:35:     '\n' +
+17/07/2026 12:42:35:     '> O responsável que assina os documentos Claro não consta no Contrato Social (ou equivalente) da empresa. Obs: Se necessário, enviar uma procuração válida. **Contrato Social**',
+17/07/2026 12:42:35:   status: 'reprovado',
+17/07/2026 12:42:35:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:42:35:   data_da_ultima_atualizacao: '17/07/2026 12:42',
+17/07/2026 12:42:35:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:42:35:   validacao: 'Ativo',
+17/07/2026 12:42:35:   usuario_id: '140',
+17/07/2026 12:42:35:   tarefa: '22848866',
+17/07/2026 12:42:35:   origem: 'r_000250',
+17/07/2026 12:42:35:   data_historico: 2026-07-16T21:05:09.000Z
+17/07/2026 12:42:35: }
+17/07/2026 12:42:49: [PUT] Atualizando cotação: 22848819
+17/07/2026 12:42:49: [PUT] Usuário: samanta.andrade
+17/07/2026 12:42:49: [PUT] Dados recebidos: {
+17/07/2026 12:42:49:   anotacao: undefined,
+17/07/2026 12:42:49:   status: 'aprovado',
+17/07/2026 12:42:49:   auditoria_anotacao: undefined,
+17/07/2026 12:42:49:   auditoria_status: undefined
+17/07/2026 12:42:49: }
+17/07/2026 12:42:49: [PUT] Linhas afetadas: 1
+17/07/2026 12:42:49: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:42:49:   id_cotacao: 10321,
+17/07/2026 12:42:49:   cotacao: 'Q6369864',
+17/07/2026 12:42:49:   id_qldd: null,
+17/07/2026 12:42:49:   anotacao: 'Tarefa: E001 - PME - 63.660.647/0001-60 | Fila: CPC - PME',
+17/07/2026 12:42:49:   status: 'aprovado',
+17/07/2026 12:42:49:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:42:49:   data_da_ultima_atualizacao: '17/07/2026 12:42',
+17/07/2026 12:42:49:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:42:49:   validacao: 'Ativo',
+17/07/2026 12:42:49:   usuario_id: '150',
+17/07/2026 12:42:49:   tarefa: '22848819',
+17/07/2026 12:42:49:   origem: 'r_000250',
+17/07/2026 12:42:49:   data_historico: 2026-07-16T20:56:01.000Z
+17/07/2026 12:42:49: }
+17/07/2026 12:43:27: [PUT] Atualizando cotação: 22848805
+17/07/2026 12:43:27: [PUT] Usuário: samanta.andrade
+17/07/2026 12:43:27: [PUT] Dados recebidos: {
+17/07/2026 12:43:27:   anotacao: undefined,
+17/07/2026 12:43:27:   status: 'aprovado',
+17/07/2026 12:43:27:   auditoria_anotacao: undefined,
+17/07/2026 12:43:27:   auditoria_status: undefined
+17/07/2026 12:43:27: }
+17/07/2026 12:43:27: [PUT] Linhas afetadas: 1
+17/07/2026 12:43:27: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:43:27:   id_cotacao: 10319,
+17/07/2026 12:43:27:   cotacao: 'Q6370198',
+17/07/2026 12:43:27:   id_qldd: null,
+17/07/2026 12:43:27:   anotacao: 'Tarefa: E001 - PME - 28.595.598/0001-28 | Fila: CPC - PME',
+17/07/2026 12:43:27:   status: 'aprovado',
+17/07/2026 12:43:27:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:43:27:   data_da_ultima_atualizacao: '17/07/2026 12:43',
+17/07/2026 12:43:27:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:43:27:   validacao: 'Ativo',
+17/07/2026 12:43:27:   usuario_id: '150',
+17/07/2026 12:43:27:   tarefa: '22848805',
+17/07/2026 12:43:27:   origem: 'r_000250',
+17/07/2026 12:43:27:   data_historico: 2026-07-16T20:54:18.000Z
+17/07/2026 12:43:27: }
+17/07/2026 12:43:50: [PUT] Atualizando cotação: 22849322
+17/07/2026 12:43:50: [PUT] Usuário: karen.santos.3
+17/07/2026 12:43:50: [PUT] Dados recebidos: {
+17/07/2026 12:43:50:   anotacao: undefined,
+17/07/2026 12:43:50:   status: 'aprovado',
+17/07/2026 12:43:50:   auditoria_anotacao: undefined,
+17/07/2026 12:43:50:   auditoria_status: undefined
+17/07/2026 12:43:50: }
+17/07/2026 12:43:50: [PUT] Linhas afetadas: 1
+17/07/2026 12:43:50: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:43:50:   id_cotacao: 10407,
+17/07/2026 12:43:50:   cotacao: 'Q6359612',
+17/07/2026 12:43:50:   id_qldd: null,
+17/07/2026 12:43:50:   anotacao: 'Tarefa: E001 - PME - 67.254.571/0001-23 | Fila: CPC - PME',
+17/07/2026 12:43:50:   status: 'aprovado',
+17/07/2026 12:43:50:   data_de_criacao: '17/07/2026 11:38',
+17/07/2026 12:43:50:   data_da_ultima_atualizacao: '17/07/2026 12:43',
+17/07/2026 12:43:50:   usuario_login: 'matheus.machado.3',
+17/07/2026 12:43:50:   validacao: 'Ativo',
+17/07/2026 12:43:50:   usuario_id: '136',
+17/07/2026 12:43:50:   tarefa: '22849322',
+17/07/2026 12:43:50:   origem: 'r_000250',
+17/07/2026 12:43:50:   data_historico: 2026-07-17T11:33:24.000Z
+17/07/2026 12:43:50: }
+17/07/2026 12:43:51: [PUT] Atualizando cotação: 22848884
+17/07/2026 12:43:51: [PUT] Usuário: felipe.freitas.3
+17/07/2026 12:43:51: [PUT] Dados recebidos: {
+17/07/2026 12:43:51:   anotacao: undefined,
+17/07/2026 12:43:51:   status: 'aprovado',
+17/07/2026 12:43:51:   auditoria_anotacao: undefined,
+17/07/2026 12:43:51:   auditoria_status: undefined
+17/07/2026 12:43:51: }
+17/07/2026 12:43:51: [PUT] Linhas afetadas: 1
+17/07/2026 12:43:51: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:43:51:   id_cotacao: 10336,
+17/07/2026 12:43:51:   cotacao: 'Q6339513',
+17/07/2026 12:43:51:   id_qldd: null,
+17/07/2026 12:43:51:   anotacao: 'Tarefa: E001 - PME - 03.820.811/0001-27 | Fila: CPC - PME',
+17/07/2026 12:43:51:   status: 'aprovado',
+17/07/2026 12:43:51:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:43:51:   data_da_ultima_atualizacao: '17/07/2026 12:43',
+17/07/2026 12:43:51:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:43:51:   validacao: 'Ativo',
+17/07/2026 12:43:51:   usuario_id: '132',
+17/07/2026 12:43:51:   tarefa: '22848884',
+17/07/2026 12:43:51:   origem: 'r_000250',
+17/07/2026 12:43:51:   data_historico: 2026-07-16T21:10:14.000Z
+17/07/2026 12:43:51: }
+17/07/2026 12:44:43: [PUT] Atualizando cotação: 22848590
+17/07/2026 12:44:43: [PUT] Usuário: yuri.santos.3
+17/07/2026 12:44:43: [PUT] Dados recebidos: {
+17/07/2026 12:44:43:   anotacao: '> A reason/tipo de solicitação informada na Ordem Contrato está incorreta, o correto é Combo Incremento, pois o cliente possui linhas ativas na base. **Reason Incorreta**\n',
+17/07/2026 12:44:43:   status: 'pendente-qualidade',
+17/07/2026 12:44:43:   auditoria_anotacao: '',
+17/07/2026 12:44:43:   auditoria_status: ''
+17/07/2026 12:44:43: }
+17/07/2026 12:44:44: [PUT] Linhas afetadas: 1
+17/07/2026 12:44:44: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:44:44:   id_cotacao: 10287,
+17/07/2026 12:44:44:   cotacao: 'Q6369822',
+17/07/2026 12:44:44:   id_qldd: null,
+17/07/2026 12:44:44:   anotacao: '> A reason/tipo de solicitação informada na Ordem Contrato está incorreta, o correto é Combo Incremento, pois o cliente possui linhas ativas na base. **Reason Incorreta**\n',
+17/07/2026 12:44:44:   status: 'pendente-qualidade',
+17/07/2026 12:44:44:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:44:44:   data_da_ultima_atualizacao: '17/07/2026 12:44',
+17/07/2026 12:44:44:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:44:44:   validacao: 'Ativo',
+17/07/2026 12:44:44:   usuario_id: '196',
+17/07/2026 12:44:44:   tarefa: '22848590',
+17/07/2026 12:44:44:   origem: 'r_000250',
+17/07/2026 12:44:44:   data_historico: 2026-07-16T20:17:32.000Z
+17/07/2026 12:44:44: }
+17/07/2026 12:46:20: [PUT] Atualizando cotação: 22848009
+17/07/2026 12:46:20: [PUT] Usuário: rosa.ferreira.3
+17/07/2026 12:46:20: [PUT] Dados recebidos: {
+17/07/2026 12:46:20:   anotacao: undefined,
+17/07/2026 12:46:20:   status: 'aprovado',
+17/07/2026 12:46:20:   auditoria_anotacao: undefined,
+17/07/2026 12:46:20:   auditoria_status: undefined
+17/07/2026 12:46:20: }
+17/07/2026 12:46:20: [PUT] Linhas afetadas: 1
+17/07/2026 12:46:20: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:46:20:   id_cotacao: 10198,
+17/07/2026 12:46:20:   cotacao: 'Q6368695',
+17/07/2026 12:46:20:   id_qldd: null,
+17/07/2026 12:46:20:   anotacao: 'Tarefa: E001 - PME - 58.272.428/0001-73 | Fila: CPC - PME',
+17/07/2026 12:46:20:   status: 'aprovado',
+17/07/2026 12:46:20:   data_de_criacao: '17/07/2026 08:58',
+17/07/2026 12:46:20:   data_da_ultima_atualizacao: '17/07/2026 12:46',
+17/07/2026 12:46:20:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:46:20:   validacao: 'Ativo',
+17/07/2026 12:46:20:   usuario_id: '148',
+17/07/2026 12:46:20:   tarefa: '22848009',
+17/07/2026 12:46:20:   origem: 'r_000250',
+17/07/2026 12:46:20:   data_historico: 2026-07-16T19:03:13.000Z
+17/07/2026 12:46:20: }
+17/07/2026 12:46:30: [PUT] Atualizando cotação: 22848590
+17/07/2026 12:46:30: [PUT] Usuário: yuri.santos.3
+17/07/2026 12:46:30: [PUT] Dados recebidos: {
+17/07/2026 12:46:30:   anotacao: '> A reason/tipo de solicitação informada na Ordem Contrato está incorreta, o correto é Combo Incremento, pois o cliente possui linhas ativas na base. **Reason Incorreta**\n',
+17/07/2026 12:46:30:   status: 'pendente-qualidade',
+17/07/2026 12:46:30:   auditoria_anotacao: '',
+17/07/2026 12:46:30:   auditoria_status: ''
+17/07/2026 12:46:30: }
+17/07/2026 12:46:30: [PUT] Linhas afetadas: 1
+17/07/2026 12:46:30: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:46:30:   id_cotacao: 10287,
+17/07/2026 12:46:30:   cotacao: 'Q6369822',
+17/07/2026 12:46:30:   id_qldd: null,
+17/07/2026 12:46:30:   anotacao: '> A reason/tipo de solicitação informada na Ordem Contrato está incorreta, o correto é Combo Incremento, pois o cliente possui linhas ativas na base. **Reason Incorreta**\n',
+17/07/2026 12:46:30:   status: 'pendente-qualidade',
+17/07/2026 12:46:30:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:46:30:   data_da_ultima_atualizacao: '17/07/2026 12:46',
+17/07/2026 12:46:30:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:46:30:   validacao: 'Ativo',
+17/07/2026 12:46:30:   usuario_id: '196',
+17/07/2026 12:46:30:   tarefa: '22848590',
+17/07/2026 12:46:30:   origem: 'r_000250',
+17/07/2026 12:46:30:   data_historico: 2026-07-16T20:17:32.000Z
+17/07/2026 12:46:30: }
+17/07/2026 12:46:53: [PUT] Atualizando cotação: 22848590
+17/07/2026 12:46:53: [PUT] Usuário: yuri.santos.3
+17/07/2026 12:46:53: [PUT] Dados recebidos: {
+17/07/2026 12:46:53:   anotacao: undefined,
+17/07/2026 12:46:53:   status: 'reprovado',
+17/07/2026 12:46:53:   auditoria_anotacao: undefined,
+17/07/2026 12:46:53:   auditoria_status: undefined
+17/07/2026 12:46:53: }
+17/07/2026 12:46:53: [PUT] Linhas afetadas: 1
+17/07/2026 12:46:53: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:46:53:   id_cotacao: 10287,
+17/07/2026 12:46:53:   cotacao: 'Q6369822',
+17/07/2026 12:46:53:   id_qldd: null,
+17/07/2026 12:46:53:   anotacao: '> A reason/tipo de solicitação informada na Ordem Contrato está incorreta, o correto é Combo Incremento, pois o cliente possui linhas ativas na base. **Reason Incorreta**\n',
+17/07/2026 12:46:53:   status: 'reprovado',
+17/07/2026 12:46:53:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:46:53:   data_da_ultima_atualizacao: '17/07/2026 12:46',
+17/07/2026 12:46:53:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:46:53:   validacao: 'Ativo',
+17/07/2026 12:46:53:   usuario_id: '196',
+17/07/2026 12:46:53:   tarefa: '22848590',
+17/07/2026 12:46:53:   origem: 'r_000250',
+17/07/2026 12:46:53:   data_historico: 2026-07-16T20:17:32.000Z
+17/07/2026 12:46:53: }
+17/07/2026 12:49:03: Servidor rodando em http://localhost:3016
+17/07/2026 12:49:10: [PUT] Atualizando cotação: 22848590
+17/07/2026 12:49:10: [PUT] Usuário: yuri.santos.3
+17/07/2026 12:49:10: [PUT] Dados recebidos: {
+17/07/2026 12:49:10:   anotacao: '> A reason/tipo de solicitação informada na Ordem Contrato está incorreta, o correto é Combo Incremento, pois o cliente possui linhas ativas na base. **Reason Incorreta**\n',
+17/07/2026 12:49:10:   status: 'reprovado',
+17/07/2026 12:49:10:   auditoria_anotacao: '',
+17/07/2026 12:49:10:   auditoria_status: ''
+17/07/2026 12:49:10: }
+17/07/2026 12:49:10: [PUT] Linhas afetadas: 1
+17/07/2026 12:49:10: [PUT] Cotação atualizada com sucesso: {
+17/07/2026 12:49:10:   id_cotacao: 10287,
+17/07/2026 12:49:10:   cotacao: 'Q6369822',
+17/07/2026 12:49:10:   id_qldd: null,
+17/07/2026 12:49:10:   anotacao: '> A reason/tipo de solicitação informada na Ordem Contrato está incorreta, o correto é Combo Incremento, pois o cliente possui linhas ativas na base. **Reason Incorreta**\n',
+17/07/2026 12:49:10:   status: 'reprovado',
+17/07/2026 12:49:10:   data_de_criacao: '17/07/2026 10:22',
+17/07/2026 12:49:10:   data_da_ultima_atualizacao: '17/07/2026 12:49',
+17/07/2026 12:49:10:   usuario_login: 'tuany.marques.3',
+17/07/2026 12:49:10:   validacao: 'Ativo',
+17/07/2026 12:49:10:   usuario_id: '196',
+17/07/2026 12:49:10:   tarefa: '22848590',
+17/07/2026 12:49:10:   origem: 'r_000250',
+17/07/2026 12:49:10:   data_historico: 2026-07-16T20:17:32.000Z
+17/07/2026 12:49:10: }
