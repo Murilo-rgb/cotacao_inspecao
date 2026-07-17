@@ -319,6 +319,78 @@ var AlertTriangleIcon = function AlertTriangleIcon() {
     d: "M12 17h.01"
   }));
 };
+var SunIcon = function SunIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "20",
+    height: "20",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("circle", {
+    cx: "12",
+    cy: "12",
+    r: "5"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "12",
+    y1: "1",
+    x2: "12",
+    y2: "3"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "12",
+    y1: "21",
+    x2: "12",
+    y2: "23"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "4.22",
+    y1: "4.22",
+    x2: "5.64",
+    y2: "5.64"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "18.36",
+    y1: "18.36",
+    x2: "19.78",
+    y2: "19.78"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "1",
+    y1: "12",
+    x2: "3",
+    y2: "12"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "21",
+    y1: "12",
+    x2: "23",
+    y2: "12"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "4.22",
+    y1: "19.78",
+    x2: "5.64",
+    y2: "18.36"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "18.36",
+    y1: "5.64",
+    x2: "19.78",
+    y2: "4.22"
+  }));
+};
+var MoonIcon = function MoonIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "20",
+    height: "20",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+  }));
+};
 function Toast(_ref) {
   var message = _ref.message,
     type = _ref.type,
@@ -433,6 +505,13 @@ function App() {
     _useState44 = _slicedToArray(_useState43, 2),
     filtroAuditoria = _useState44[0],
     setFiltroAuditoria = _useState44[1];
+  var _useState45 = useState(function () {
+      var saved = localStorage.getItem('darkMode');
+      return saved === 'true';
+    }),
+    _useState46 = _slicedToArray(_useState45, 2),
+    darkMode = _useState46[0],
+    setDarkMode = _useState46[1];
   useEffect(function () {
     var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
     var token = localStorage.getItem('token');
@@ -444,7 +523,6 @@ function App() {
     if (storedUsername) setUsername(storedUsername);
     fetchQuotations();
     var handlePopState = function handlePopState(event) {
-      var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
       var currentToken = localStorage.getItem('token');
       if (!currentToken) window.location.href = BASE_PATH + '/login.html';
     };
@@ -454,6 +532,21 @@ function App() {
       return window.removeEventListener('popstate', handlePopState);
     };
   }, []);
+
+  // Apply dark mode class to html element
+  useEffect(function () {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('darkMode', darkMode);
+  }, [darkMode]);
+  var toggleDarkMode = function toggleDarkMode() {
+    return setDarkMode(function (prev) {
+      return !prev;
+    });
+  };
   useEffect(function () {
     return setCurrentPage(1);
   }, [searchTerm]);
@@ -504,7 +597,7 @@ function App() {
             return response.json();
           case 3:
             data = _context.v;
-            setQuotations(data);
+            setQuotations(Array.isArray(data) ? data : []);
             _context.n = 5;
             break;
           case 4:
@@ -512,6 +605,7 @@ function App() {
             _t = _context.v;
             console.error('Erro ao buscar cotações:', _t);
             showToast('Erro ao carregar cotações', 'error');
+            setQuotations([]);
           case 5:
             _context.p = 5;
             setLoading(false);
@@ -968,7 +1062,7 @@ function App() {
     };
   }, [reprovaSearch, reprovaModalOpen, reprovaAbaAtiva]);
   var filteredQuotations = quotations.filter(function (q) {
-    var matchesSearch = !searchTerm || q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase());
+    var matchesSearch = !searchTerm || q.cotacao && q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase());
     if (!matchesSearch) return false;
     if (dateStart) {
       if (!q.createdAt || q.createdAt === '-') return false;
@@ -1202,8 +1296,12 @@ function App() {
   }, "Cota\xE7\xF5es"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500"
   }, "Gerenciamento de cota\xE7\xF5es"))), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center gap-4"
-  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: toggleDarkMode,
+    className: "p-2 rounded-lg transition-all duration-200 hover:scale-110 ".concat(darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200'),
+    title: darkMode ? 'Modo claro' : 'Modo escuro'
+  }, darkMode ? /*#__PURE__*/React.createElement(SunIcon, null) : /*#__PURE__*/React.createElement(MoonIcon, null)), /*#__PURE__*/React.createElement("div", {
     className: "hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm"
   }, /*#__PURE__*/React.createElement("div", {
     className: "w-7 h-7 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white shadow-sm"
@@ -1239,7 +1337,7 @@ function App() {
   }, "Pendentes"), /*#__PURE__*/React.createElement("p", {
     className: "text-2xl font-bold text-amber-700 mt-1"
   }, filteredQuotations.filter(function (q) {
-    return !q.status || q.status === 'pendente';
+    return isPendenteStatus(q.status);
   }).length)), /*#__PURE__*/React.createElement("div", {
     className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
   }, /*#__PURE__*/React.createElement("p", {
@@ -1271,9 +1369,11 @@ function App() {
     className: "h-3 bg-purple-100 rounded animate-pulse w-1/2"
   })) : qualidadeStats ? /*#__PURE__*/React.createElement("div", {
     className: "mt-1 flex flex-wrap items-center gap-2"
+  }, qualidadeStats.rcv_total > 0 && /*#__PURE__*/React.createElement("span", {
+    className: "text-xs text-slate-500 font-medium flex items-center gap-1"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "text-xs text-slate-400 font-medium"
-  }, qualidadeStats.total), qualidadeStats.procedimento_correto > 0 && /*#__PURE__*/React.createElement("button", {
+    className: "text-base"
+  }, "\uD83D\uDDCE\uD83D\uDD0D"), " ", qualidadeStats.rcv_total), qualidadeStats.procedimento_correto > 0 && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setFiltroAuditoria(filtroAuditoria === 'Procedimento Correto' ? '' : 'Procedimento Correto');
     },
@@ -1316,6 +1416,9 @@ function App() {
     value: searchTerm,
     onChange: function onChange(e) {
       return setSearchTerm(e.target.value);
+    },
+    onKeyDown: function onKeyDown(e) {
+      if (e.key === 'Enter') e.preventDefault();
     },
     className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
   }), /*#__PURE__*/React.createElement("div", {
@@ -1599,7 +1702,18 @@ function App() {
     required: true,
     disabled: !!editingQuotation,
     placeholder: "Digite o n\xFAmero da cota\xE7\xE3o"
-  })), activeTab === 'anotacao' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  })), activeTab === 'anotacao' && /*#__PURE__*/React.createElement("div", {
+    className: "space-y-4"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "block text-xs font-medium text-slate-500 mb-1.5"
+  }, "Status da Cota\xE7\xE3o"), function () {
+    var cfg = getStatusConfig(editingQuotation.status);
+    return /*#__PURE__*/React.createElement("span", {
+      className: "inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border ".concat(cfg.className)
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "w-1.5 h-1.5 rounded-full ".concat(cfg.dotClass)
+    }), cfg.label);
+  }()), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5"
   }, "Anota\xE7\xE3o (Colaborador)"), /*#__PURE__*/React.createElement("textarea", {
     value: formData.anotacao,
@@ -1611,9 +1725,15 @@ function App() {
     className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none",
     rows: "3",
     placeholder: "Adicione uma observa\xE7\xE3o..."
-  })), activeTab === 'auditoria' && /*#__PURE__*/React.createElement("div", {
+  }))), activeTab === 'auditoria' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "block text-xs font-medium text-slate-500 mb-1.5"
+  }, "Status da Auditoria"), auditoriaData.status ? /*#__PURE__*/React.createElement("span", {
+    className: "inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-full border ".concat(auditoriaData.status === 'Procedimento Correto' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : auditoriaData.status === 'Devolução Parcial' || auditoriaData.status === 'Reprova Parcial' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-red-50 text-red-700 border-red-200')
+  }, auditoriaData.status) : /*#__PURE__*/React.createElement("span", {
+    className: "text-xs text-slate-400"
+  }, "Sem auditoria")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5"
   }, "Anota\xE7\xE3o da Auditoria"), /*#__PURE__*/React.createElement("textarea", {
     value: auditoriaData.anotacao,
@@ -1621,13 +1741,6 @@ function App() {
     className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none",
     rows: "3",
     placeholder: "Sem altera\xE7\xE3o permitida"
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
-  }, "Status da Auditoria"), /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    value: auditoriaData.status,
-    readOnly: true,
-    className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700"
   }))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-2 gap-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
@@ -1644,14 +1757,7 @@ function App() {
     value: editingQuotation ? formatDate(editingQuotation.updatedAt) : formatDate(new Date().toISOString()),
     disabled: true,
     className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500"
-  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
-  }, "Status"), /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    value: editingQuotation ? editingQuotation.status || 'pendente' : 'pendente',
-    disabled: true,
-    className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize"
-  })), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "flex gap-3 pt-2"
   }, /*#__PURE__*/React.createElement("button", {
     type: "submit",
@@ -1719,13 +1825,6 @@ function App() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
   }), "Pendente"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('pendente-classificacao');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Classifica\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente-iphone');
     },

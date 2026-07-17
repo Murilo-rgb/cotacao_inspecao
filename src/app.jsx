@@ -632,7 +632,7 @@ function App() {
                     </div>
                     <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
                         <p className="text-sm font-medium text-amber-600">Pendentes</p>
-                        <p className="text-2xl font-bold text-amber-700 mt-1">{filteredQuotations.filter(q => !q.status || q.status === 'pendente').length}</p>
+                        <p className="text-2xl font-bold text-amber-700 mt-1">{filteredQuotations.filter(q => isPendenteStatus(q.status)).length}</p>
                     </div>
                     <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
                         <p className="text-sm font-medium text-red-600">Reprovadas</p>
@@ -652,7 +652,11 @@ function App() {
                             </div>
                         ) : qualidadeStats ? (
                             <div className="mt-1 flex flex-wrap items-center gap-2">
-                                <span className="text-xs text-slate-400 font-medium">{qualidadeStats.total}</span>
+                                {qualidadeStats.rcv_total > 0 && (
+                                    <span className="text-xs text-slate-500 font-medium flex items-center gap-1">
+                                        <span className="text-base">🗎🔍</span> {qualidadeStats.rcv_total}
+                                    </span>
+                                )}
                                 {qualidadeStats.procedimento_correto > 0 && (
                                     <button onClick={() => setFiltroAuditoria(filtroAuditoria === 'Procedimento Correto' ? '' : 'Procedimento Correto')} 
                                         className={`text-sm cursor-pointer transition-all ${filtroAuditoria === 'Procedimento Correto' ? 'scale-125 bg-emerald-100 rounded px-1' : 'hover:scale-110'}`} 
@@ -815,7 +819,7 @@ function App() {
                             <h2 className="text-lg font-bold text-slate-800">{editingQuotation ? 'Editar cotação' : 'Nova cotação'}</h2>
                             <button onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
                         </div>
-                        
+
                         {/* Abas */}
                         {editingQuotation && (
                             <div className="flex border-b border-slate-200 mb-5">
@@ -852,9 +856,23 @@ function App() {
                             
                             {/* Aba: Anotação do Colaborador */}
                             {activeTab === 'anotacao' && (
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação (Colaborador)</label>
-                                    <textarea value={formData.anotacao} onChange={(e) => setFormData({...formData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none" rows="3" placeholder="Adicione uma observação..." />
+                                <div className="space-y-4">
+                                    <div>
+                                        <span className="block text-xs font-medium text-slate-500 mb-1.5">Status da Cotação</span>
+                                        {(() => {
+                                            const cfg = getStatusConfig(editingQuotation.status);
+                                            return (
+                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border ${cfg.className}`}>
+                                                    <span className={`w-1.5 h-1.5 rounded-full ${cfg.dotClass}`}></span>
+                                                    {cfg.label}
+                                                </span>
+                                            );
+                                        })()}
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação (Colaborador)</label>
+                                        <textarea value={formData.anotacao} onChange={(e) => setFormData({...formData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none" rows="3" placeholder="Adicione uma observação..." />
+                                    </div>
                                 </div>
                             )}
                             
@@ -862,12 +880,24 @@ function App() {
                             {activeTab === 'auditoria' && (
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação da Auditoria</label>
-                                        <textarea value={auditoriaData.anotacao} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none" rows="3" placeholder="Sem alteração permitida" />
+                                        <span className="block text-xs font-medium text-slate-500 mb-1.5">Status da Auditoria</span>
+                                        {auditoriaData.status ? (
+                                            <span className={`inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-full border ${
+                                                auditoriaData.status === 'Procedimento Correto'
+                                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                                    : auditoriaData.status === 'Devolução Parcial' || auditoriaData.status === 'Reprova Parcial'
+                                                        ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                                        : 'bg-red-50 text-red-700 border-red-200'
+                                            }`}>
+                                                {auditoriaData.status}
+                                            </span>
+                                        ) : (
+                                            <span className="text-xs text-slate-400">Sem auditoria</span>
+                                        )}
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Status da Auditoria</label>
-                                        <input type="text" value={auditoriaData.status} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700" />
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação da Auditoria</label>
+                                        <textarea value={auditoriaData.anotacao} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none" rows="3" placeholder="Sem alteração permitida" />
                                     </div>
                                 </div>
                             )}
@@ -881,10 +911,6 @@ function App() {
                                     <label className="block text-sm font-medium text-slate-700 mb-1.5">Data Atualização</label>
                                     <input type="text" value={editingQuotation ? formatDate(editingQuotation.updatedAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500" />
                                 </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1.5">Status</label>
-                                <input type="text" value={editingQuotation ? (editingQuotation.status || 'pendente') : 'pendente'} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize" />
                             </div>
                             <div className="flex gap-3 pt-2">
                                 <button type="submit" className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200">Salvar</button>
@@ -918,7 +944,6 @@ function App() {
                         <p className="text-sm text-slate-500 mb-5">Selecione o novo status para a cotação <span className="font-semibold text-slate-800 font-mono">{statusModal.cotacao}</span>.</p>
                         <div className="space-y-2.5 max-h-[50vh] overflow-y-auto">
                             <button onClick={() => handleStatusChange('pendente')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente</button>
-                            <button onClick={() => handleStatusChange('pendente-classificacao')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Classificação</button>
                             <button onClick={() => handleStatusChange('pendente-iphone')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - iPhone</button>
                             <button onClick={() => handleStatusChange('pendente-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Qualidade/Suporte</button>
                             <button onClick={() => handleStatusChange('pendente-correcao-cadastral')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Correção Cadastral</button>

@@ -258,86 +258,18 @@
             opacity: 0.9;
         }
     </style>
-</head>
-<body>
-    <div id="root"></div>
-    <script type="module" src="/pme_notas/dist/index.js?v=202607011135"></script>
-    
-    <!-- Dark Mode Toggle Script -->
     <script>
+    // Initialize dark mode from localStorage to prevent flash of unstyled content
     (function() {
-        // Initialize dark mode from localStorage
         const saved = localStorage.getItem('darkMode');
         if (saved === 'true') {
             document.documentElement.classList.add('dark');
         }
-
-        // Create and inject theme toggle button into header after React renders
-        function injectThemeToggle() {
-            const header = document.querySelector('header');
-            if (!header) {
-                setTimeout(injectThemeToggle, 500);
-                return;
-            }
-
-            // Find the right section in header (the .flex.justify-between area)
-            const headerRight = header.querySelector('.flex.items-center.gap-4, .flex.items-center.gap-2');
-            if (!headerRight) {
-                setTimeout(injectThemeToggle, 500);
-                return;
-            }
-
-            // Check if button already exists
-            if (headerRight.querySelector('[data-theme-toggle]')) return;
-
-            const isDark = document.documentElement.classList.contains('dark');
-            const btn = document.createElement('button');
-            btn.setAttribute('data-theme-toggle', '');
-            btn.className = 'p-2 rounded-lg transition-all duration-200 hover:scale-110 ' + 
-                (isDark ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200');
-            btn.title = isDark ? 'Modo claro' : 'Modo escuro';
-            btn.innerHTML = isDark 
-                ? '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>'
-                : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
-            
-            btn.addEventListener('click', function() {
-                const isDarkNow = document.documentElement.classList.toggle('dark');
-                localStorage.setItem('darkMode', isDarkNow);
-                // Update button appearance
-                this.className = 'p-2 rounded-lg transition-all duration-200 hover:scale-110 ' + 
-                    (isDarkNow ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200');
-                this.title = isDarkNow ? 'Modo claro' : 'Modo escuro';
-                this.innerHTML = isDarkNow 
-                    ? '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>'
-                    : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
-            });
-
-            // Insert before the user badge
-            const userBadge = headerRight.querySelector('.hidden.sm\\:flex, [class*="hidden sm:flex"]');
-            if (userBadge) {
-                headerRight.insertBefore(btn, userBadge);
-            } else {
-                headerRight.prepend(btn);
-            }
-        }
-
-        // Start observing for React render
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', injectThemeToggle);
-        } else {
-            setTimeout(injectThemeToggle, 300);
-        }
-
-        // Also observe for dynamic changes (SPA-like behavior)
-        const observer = new MutationObserver(function() {
-            const header = document.querySelector('header');
-            const headerRight = header ? header.querySelector('.flex.items-center.gap-4, .flex.items-center.gap-2') : null;
-            if (headerRight && !headerRight.querySelector('[data-theme-toggle]')) {
-                injectThemeToggle();
-            }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
     })();
     </script>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="/pme_notas/dist/index.js?v=1"></script>
 </body>
 </html>

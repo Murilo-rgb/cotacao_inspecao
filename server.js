@@ -441,7 +441,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart } = req.query;
     const usuarioId = req.user.id;
-    let query = `SELECT DISTINCT ON (c.tarefa) c.tarefa, c.cotacao, c.anotacao, c.status, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.origem, r.dsc_cotacao, c.data_historico, r.dat_historico as r_dat_historico FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa WHERE c.usuario_id = $1 AND c.validacao = $2`;
+    let query = `SELECT DISTINCT ON (c.tarefa) c.tarefa, c.cotacao, c.anotacao, c.status, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.origem, r.dsc_cotacao, c.data_historico, r.dat_historico as r_dat_historico, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd WHERE c.usuario_id = $1 AND c.validacao = $2`;
     let params = [usuarioId, 'Ativo'];
     let paramIndex = 3;
 
@@ -472,7 +472,8 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
       usuarioLogin: row.usuario_login,
       origem: row.origem || null,
       data_historico: row.data_historico || row.r_dat_historico || null,
-      data_historico_sla: row.data_historico || row.r_dat_historico || null
+      data_historico_sla: row.data_historico || row.r_dat_historico || null,
+      auditoria: row.auditoria_status ? { status: row.auditoria_status, anotacao: row.auditoria_anotacao || '' } : null
     }));
 
     res.json(serialized);
@@ -1261,8 +1262,23 @@ app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
       GROUP BY aq.status
     `, [usuarioId]);
 
+    // Contar total de RCV
+    let rcvTotal = 0;
+    try {
+      const rcvResult = await pool.query(`
+        SELECT COUNT(*)::int as total
+        FROM db_qualidade.rcv rcv
+        JOIN db_automacao.usuarios u ON rcv.nome = u.nome || ' ' || u.sobrenome
+        WHERE u.id = $1
+      `, [usuarioId]);
+      rcvTotal = rcvResult.rows.length > 0 ? rcvResult.rows[0].total : 0;
+    } catch (rcvErr) {
+      console.error('[QUALIDADE STATS] Erro ao contar RCV:', rcvErr.message);
+    }
+
     const stats = {
       total: 0,
+      rcv_total: rcvTotal,
       procedimento_correto: 0,
       devolucao_parcial: 0,
       devolucao_indevida: 0,
