@@ -40,6 +40,25 @@ function formatDateBR(date) {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
+// Função para calcular a semana do ano (1-53)
+function calcularSemana(date) {
+    if (!date) return null;
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return null;
+    const day = d.getDate();
+    const month = d.getMonth();
+    const year = d.getFullYear();
+    // Primeiro dia do mês
+    const firstDay = new Date(year, month, 1);
+    // Dia da semana do primeiro dia (0-6)
+    const firstDayWeek = firstDay.getDay();
+    // Ajuste para iniciar a semana no domingo
+    const startDay = firstDayWeek === 0 ? 0 : firstDayWeek;
+    // Calcular semana do mês (1-5)
+    const weekOfMonth = Math.ceil((day + startDay) / 7);
+    return weekOfMonth;
+}
+
 // PostgreSQL connection
 const pool = new Pool({
     user: 'jose_faria',
@@ -328,12 +347,13 @@ app.post('/api/login', async (req, res) => {
 app.get('/api/quotations/correcao-cadastral', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem } = req.query;
-    const usuarioId = req.user.id;
-    let query = `SELECT c.* 
+    let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
-      WHERE c.usuario_id = $1 AND c.validacao = $2 AND (c.status ILIKE $3 OR c.status ILIKE $4 OR c.status ILIKE $5 OR c.status ILIKE $6)`;
-    const params = [usuarioId, 'Ativo', 'pendente-correcao-cadastral', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-iphone'];
-    let paramIndex = 7;
+      LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
+      LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
+      WHERE c.validacao = $1 AND (c.status = $2 OR c.status = $3)`;
+    const params = ['Ativo', 'pendente-correcao-cadastral', 'pendente-iphone'];
+    let paramIndex = 4;
 
     if (search && search.trim()) {
       query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
@@ -362,15 +382,18 @@ app.get('/api/quotations/correcao-cadastral', authenticateToken, async (req, res
     query += ' ORDER BY c.data_de_criacao DESC';
 
     const result = await pool.query(query, params);
-    const serialized = result.rows.map(row => ({
+const serialized = result.rows.map(row => ({
       tarefa: row.tarefa,
       cotacao: row.cotacao,
+      cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
       anotacao: row.anotacao,
       status: row.status,
       data_de_criacao: formatDateBR(row.data_de_criacao),
       data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
       usuario_login: row.usuario_login,
-      origem: row.origem || null
+      origem: row.origem || null,
+      dsc_cotacao: row.dsc_cotacao || null,
+      auditoria: row.auditoria_status ? { status: row.auditoria_status, anotacao: row.auditoria_anotacao || '' } : null
     }));
 
     res.json(serialized);
@@ -384,12 +407,13 @@ app.get('/api/quotations/correcao-cadastral', authenticateToken, async (req, res
 app.get('/pme_notas/api/quotations/correcao-cadastral', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem } = req.query;
-    const usuarioId = req.user.id;
-    let query = `SELECT c.* 
+    let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
-      WHERE c.usuario_id = $1 AND c.validacao = $2 AND (c.status ILIKE $3 OR c.status ILIKE $4 OR c.status ILIKE $5 OR c.status ILIKE $6)`;
-    const params = [usuarioId, 'Ativo', 'pendente-correcao-cadastral', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-iphone'];
-    let paramIndex = 7;
+      LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
+      LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
+      WHERE c.validacao = $1 AND (c.status = $2 OR c.status = $3)`;
+    const params = ['Ativo', 'pendente-correcao-cadastral', 'pendente-iphone'];
+    let paramIndex = 4;
 
     if (search && search.trim()) {
       query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
@@ -418,15 +442,18 @@ app.get('/pme_notas/api/quotations/correcao-cadastral', authenticateToken, async
     query += ' ORDER BY c.data_de_criacao DESC';
 
     const result = await pool.query(query, params);
-    const serialized = result.rows.map(row => ({
+const serialized = result.rows.map(row => ({
       tarefa: row.tarefa,
       cotacao: row.cotacao,
+      cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
       anotacao: row.anotacao,
       status: row.status,
       data_de_criacao: formatDateBR(row.data_de_criacao),
       data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
       usuario_login: row.usuario_login,
-      origem: row.origem || null
+      origem: row.origem || null,
+      dsc_cotacao: row.dsc_cotacao || null,
+      auditoria: row.auditoria_status ? { status: row.auditoria_status, anotacao: row.auditoria_anotacao || '' } : null
     }));
 
     res.json(serialized);
@@ -569,15 +596,15 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
     console.log(`[PUT] Usuário: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
-    // Buscar status anterior antes de atualizar
+    // Buscar status anterior antes de atualizar (TODAS as cotações, não apenas do usuário)
     const beforeRes = await pool.query(
-      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND usuario_id = $2 AND validacao = 'Ativo'",
-      [req.params.cotacao, usuarioId]
+      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo'",
+      [req.params.cotacao]
     );
     const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
 
     const result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 RETURNING *",
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' RETURNING *",
       [anotacao, status, now, req.params.cotacao]
     );
 
@@ -669,15 +696,15 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[PUT] Usuário: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
-    // Buscar status anterior antes de atualizar
+    // Buscar status anterior antes de atualizar (TODAS as cotações, não apenas do usuário)
     const beforeRes = await pool.query(
-      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND usuario_id = $2 AND validacao = 'Ativo'",
-      [req.params.cotacao, usuarioId]
+      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo'",
+      [req.params.cotacao]
     );
     const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
 
     const result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 RETURNING *",
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' RETURNING *",
       [anotacao, status, now, req.params.cotacao]
     );
 
@@ -930,89 +957,6 @@ app.get('/reprova_padrao', (req, res) => {
 });
 
 
-const { listarReprovas, inserirReprova, contarReprovas, verificarDuplicado } = require('./db');
-
-// Rotas de reprova padrão (raiz e sob /pme_notas)
-app.get('/api/reprovas', authenticateToken, async (req, res) => {
-  try {
-    const termo = req.query.termo || null;
-    const fonte = req.query.fonte || null;
-    const registros = await listarReprovas(termo, fonte);
-    res.json(registros);
-  } catch (error) {
-    console.error('[REPROVAS] Erro ao listar:', error.message);
-    res.status(500).json({ error: 'Erro ao listar reprovas padrão' });
-  }
-});
-
-app.get('/pme_notas/api/reprovas', authenticateToken, async (req, res) => {
-  try {
-    const termo = req.query.termo || null;
-    const fonte = req.query.fonte || null;
-    const registros = await listarReprovas(termo, fonte);
-    res.json(registros);
-  } catch (error) {
-    console.error('[REPROVAS] Erro ao listar:', error.message);
-    res.status(500).json({ error: 'Erro ao listar reprovas padrão' });
-  }
-});
-
-app.get('/pme_notas/api/reprovas/count', authenticateToken, async (req, res) => {
-  try {
-    const total = await contarReprovas();
-    res.json({ total });
-  } catch (error) {
-    console.error('[REPROVAS] Erro ao contar:', error.message);
-    res.status(500).json({ error: 'Erro ao contar reprovas padrão' });
-  }
-});
-
-// Contar total de reprovas padrão
-app.get('/api/reprovas/count', authenticateToken, async (req, res) => {
-  try {
-    const total = await contarReprovas();
-    res.json({ total });
-  } catch (error) {
-    console.error('[REPROVAS] Erro ao contar:', error.message);
-    res.status(500).json({ error: 'Erro ao contar reprovas padrão' });
-  }
-});
-
-app.post('/api/reprovas', authenticateToken, async (req, res) => {
-  try {
-    const { motivo, cod_reprova, texto_reprova } = req.body;
-    if (!motivo || !cod_reprova || !texto_reprova) {
-      return res.status(400).json({ error: 'Todos os campos são obrigatórios: motivo, cod_reprova, texto_reprova' });
-    }
-    const duplicado = await verificarDuplicado(cod_reprova, motivo, texto_reprova);
-    if (duplicado) {
-      return res.status(409).json({ error: 'Registro duplicado já existe' });
-    }
-    const id = await inserirReprova(motivo, texto_reprova, cod_reprova);
-    res.status(201).json({ id, message: 'Reprova padrão inserida com sucesso' });
-  } catch (error) {
-    console.error('[REPROVAS] Erro ao inserir:', error.message);
-    res.status(500).json({ error: 'Erro ao inserir reprova padrão' });
-  }
-});
-
-app.post('/pme_notas/api/reprovas', authenticateToken, async (req, res) => {
-  try {
-    const { motivo, cod_reprova, texto_reprova } = req.body;
-    if (!motivo || !cod_reprova || !texto_reprova) {
-      return res.status(400).json({ error: 'Todos os campos são obrigatórios: motivo, cod_reprova, texto_reprova' });
-    }
-    const duplicado = await verificarDuplicado(cod_reprova, motivo, texto_reprova);
-    if (duplicado) {
-      return res.status(409).json({ error: 'Registro duplicado já existe' });
-    }
-    const id = await inserirReprova(motivo, texto_reprova, cod_reprova);
-    res.status(201).json({ id, message: 'Reprova padrão inserida com sucesso' });
-  } catch (error) {
-    console.error('[REPROVAS] Erro ao inserir:', error.message);
-    res.status(500).json({ error: 'Erro ao inserir reprova padrão' });
-  }
-});
 
 // Atualizar tabela r_000250 a partir do db_claro
 app.post('/api/inpecao/atualizar_r_000250', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
@@ -1111,16 +1055,20 @@ app.get('/devolucoes-padrao', authenticateToken, (req, res) => {
 app.get('/api/qualidade', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem } = req.query;
-    let query = `SELECT c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.usuario_id, c.origem, c.id_qldd,
-      TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
-      FROM db_bloco_de_notas.cotacao c 
-      LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
-      WHERE c.validacao = 'Ativo'`;
+    let query = `SELECT * FROM (
+      SELECT DISTINCT ON (c.usuario_id) c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.usuario_id, c.origem, c.id_qldd,
+        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+        FROM db_bloco_de_notas.cotacao c 
+        LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+        WHERE c.validacao = 'Ativo'`;
     const params = [];
     let paramIndex = 1;
 
     if (search && search.trim()) {
-      query += ` AND LOWER(c.usuario_login) LIKE LOWER($${paramIndex})`;
+      query += ` AND (
+        LOWER(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, ''))) LIKE LOWER($${paramIndex})
+        OR LOWER(c.usuario_login) LIKE LOWER($${paramIndex})
+      )`;
       params.push(`%${search.trim()}%`);
       paramIndex++;
     }
@@ -1142,7 +1090,13 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    query += ' ORDER BY c.data_de_criacao DESC';
+    if (req.query.status && req.query.status.trim()) {
+      query += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+      params.push(req.query.status.trim());
+      paramIndex++;
+    }
+
+    query += ' ORDER BY c.usuario_id, c.data_de_criacao DESC) sub ORDER BY sub.data_de_criacao DESC';
 
     const result = await pool.query(query, params);
 
@@ -1248,6 +1202,100 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
     console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
     res.status(500).json({ error: 'Erro ao salvar auditoria' });
   }
+});
+
+// API: Salvar auditoria de qualidade completa (todos os campos)
+app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
+    try {
+        const { id_cotacao, reprova_bko, apontamento, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = req.body;
+        const usuarioLogadoId = req.user.id;
+
+        if (!id_cotacao) {
+            return res.status(400).json({ error: 'ID da cotação é obrigatório' });
+        }
+        if (!status) {
+            return res.status(400).json({ error: 'Status é obrigatório' });
+        }
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida'];
+        if (!statusPermitidos.includes(status)) {
+            return res.status(400).json({ error: 'Status inválido' });
+        }
+
+        const cotacaoRow = await pool.query(
+            'SELECT tarefa, cotacao, usuario_id, data_de_criacao FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        if (cotacaoRow.rows.length === 0) {
+            return res.status(404).json({ error: 'Cotação não encontrada' });
+        }
+        const cotacao = cotacaoRow.rows[0];
+        const analistaRes = await pool.query(
+            "SELECT TRIM(COALESCE(nome, '') || ' ' || COALESCE(sobrenome, '')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1",
+            [cotacao.usuario_id]
+        );
+        const analistaNome = analistaRes.rows.length > 0 ? analistaRes.rows[0].nome : null;
+
+        const now = new Date();
+        const dataQualidade = formatDateBR(now);
+        const semana = calcularSemana(now);
+        const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
+
+        const existingAudit = await pool.query(
+            'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        const idQldd = existingAudit.rows.length > 0 ? existingAudit.rows[0].id_qldd : null;
+
+        if (idQldd) {
+            await pool.query(
+                `UPDATE db_bloco_de_notas.auditoria_qualidade SET
+                    anotacao = $1, status = $2, data_qualidade = $3, analista_qualidade_id = $4,
+                    reprova_bko = $5, codigo_tarefa = $6, analista = $7, data_analise = $8,
+                    cotacao = $9, regional = $10, tipo_de_pedido = $11,
+                    motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
+                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
+                WHERE id_qldd = $21`,
+                [anotacao, status, now, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 dataAnalise, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                 motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
+                 apontamento || '', contestacao || '', obs || '', enviado || false,
+                 data_envio ? new Date(data_envio) : null, semana, idQldd]
+            );
+        } else {
+            const insertAudit = await pool.query(
+                `INSERT INTO db_bloco_de_notas.auditoria_qualidade
+                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
+                [anotacao, status, now, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 dataAnalise, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                 motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
+                 apontamento || '', contestacao || '', obs || '', enviado || false,
+                 data_envio ? new Date(data_envio) : null, semana]
+            );
+            const newIdQldd = insertAudit.rows[0].id_qldd;
+            await pool.query(
+                'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE id_cotacao = $2',
+                [newIdQldd, id_cotacao]
+            );
+        }
+
+        await pool.query(
+            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
+            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
+        );
+
+        res.json({
+            success: true,
+            message: 'Auditoria salva com sucesso',
+            id_cotacao,
+            data_qualidade: dataQualidade,
+            semana,
+            status
+        });
+    } catch (error) {
+        console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
+        res.status(500).json({ error: 'Erro ao salvar auditoria' });
+    }
 });
 
 // API: Estatísticas de qualidade para o usuário logado
@@ -1362,6 +1410,264 @@ app.get('/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, r
     console.error('[QUALIDADE] Erro ao buscar auditoria:', error);
     res.status(500).json({ error: 'Erro ao buscar auditoria' });
   }
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, origem } = req.query;
+    let query = `SELECT * FROM (
+      SELECT DISTINCT ON (c.usuario_id) c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.usuario_id, c.origem, c.id_qldd,
+        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+        FROM db_bloco_de_notas.cotacao c 
+        LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+        WHERE c.validacao = 'Ativo'`;
+    const params = [];
+    let paramIndex = 1;
+
+    if (search && search.trim()) {
+      query += ` AND (
+        LOWER(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, ''))) LIKE LOWER($${paramIndex})
+        OR LOWER(c.usuario_login) LIKE LOWER($${paramIndex})
+      )`;
+      params.push(`%${search.trim()}%`);
+      paramIndex++;
+    }
+
+    const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+    const [year, month, day] = effectiveDate.split('-');
+    const dateStartBR = `${day}/${month}/${year}`;
+    query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+    params.push(`${dateStartBR}%`);
+    paramIndex++;
+
+    if (origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        query += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
+    }
+
+    if (req.query.status && req.query.status.trim()) {
+      query += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+      params.push(req.query.status.trim());
+      paramIndex++;
+    }
+
+    query += ' ORDER BY c.usuario_id, c.data_de_criacao DESC) sub ORDER BY sub.data_de_criacao DESC';
+
+    const result = await pool.query(query, params);
+
+    // Para cada cotação, verificar se já existe auditoria
+    const rows = await Promise.all(result.rows.map(async (row) => {
+      let auditoria = null;
+      try {
+        const auditRes = await pool.query(
+          `SELECT aq.anotacao, aq.status FROM db_bloco_de_notas.auditoria_qualidade aq
+           LEFT JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+           WHERE c.id_cotacao = $1`,
+          [row.id_cotacao]
+        );
+        if (auditRes.rows.length > 0) {
+          auditoria = {
+            anotacao: auditRes.rows[0].anotacao,
+            status: auditRes.rows[0].status
+          };
+        }
+      } catch (e) {
+        // Tabela pode não existir ainda
+      }
+
+      return {
+        id_cotacao: row.id_cotacao,
+        tarefa: row.tarefa,
+        cotacao: row.cotacao,
+        anotacao: row.anotacao,
+        status: row.status,
+        validacao: row.validacao,
+        data_de_criacao: formatDateBR(row.data_de_criacao),
+        data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
+        usuario_login: row.usuario_login,
+        usuario_nome: row.usuario_nome || null,
+        usuario_id: row.usuario_id,
+        auditoria
+      };
+    }));
+
+    res.json(rows);
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao listar cotações:', error);
+    res.status(500).json({ error: 'Erro ao listar cotações para auditoria' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res) => {
+    try {
+        const { id_cotacao, anotacao, status } = req.body;
+
+        if (!id_cotacao) {
+            return res.status(400).json({ error: 'ID da cotação é obrigatório' });
+        }
+
+        if (!status) {
+            return res.status(400).json({ error: 'Status é obrigatório' });
+        }
+
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida'];
+        if (!statusPermitidos.includes(status)) {
+            return res.status(400).json({ error: 'Status inválido' });
+        }
+
+        // Verificar se já existe auditoria para esta cotação
+        const cotacaoRow = await pool.query(
+            'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        const idQldd = cotacaoRow.rows.length > 0 ? cotacaoRow.rows[0].id_qldd : null;
+
+        if (idQldd) {
+            await pool.query(
+                'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = $1, status = $2 WHERE id_qldd = $3',
+                [anotacao || '', status, idQldd]
+            );
+        } else {
+            const insertAudit = await pool.query(
+                'INSERT INTO db_bloco_de_notas.auditoria_qualidade (anotacao, status) VALUES ($1, $2) RETURNING id_qldd',
+                [anotacao || '', status]
+            );
+            const newIdQldd = insertAudit.rows[0].id_qldd;
+            await pool.query(
+                'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE id_cotacao = $2',
+                [newIdQldd, id_cotacao]
+            );
+        }
+
+        // Atualizar o status na tabela cotacao também
+        await pool.query(
+            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
+            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
+        );
+
+        res.json({
+            success: true,
+            message: 'Auditoria salva com sucesso',
+            id_cotacao,
+            anotacao: anotacao || '',
+            status
+        });
+    } catch (error) {
+        console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
+        res.status(500).json({ error: 'Erro ao salvar auditoria' });
+    }
+});
+
+// Duplicate route with /pme_notas prefix
+app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
+    try {
+        const { id_cotacao, reprova_bko, apontamento, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = req.body;
+        const usuarioLogadoId = req.user.id;
+
+        if (!id_cotacao) {
+            return res.status(400).json({ error: 'ID da cotação é obrigatório' });
+        }
+        if (!status) {
+            return res.status(400).json({ error: 'Status é obrigatório' });
+        }
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida'];
+        if (!statusPermitidos.includes(status)) {
+            return res.status(400).json({ error: 'Status inválido' });
+        }
+
+        const cotacaoRow = await pool.query(
+            'SELECT tarefa, cotacao, usuario_id, data_de_criacao FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        if (cotacaoRow.rows.length === 0) {
+            return res.status(404).json({ error: 'Cotação não encontrada' });
+        }
+        const cotacao = cotacaoRow.rows[0];
+
+        const parseBRDate = (value) => {
+            if (!value) return null;
+            const text = String(value).trim();
+            if (!text) return null;
+            const m = text.match(/^(\d{2})\/(\d{2})\/(\d{4})(?:[ T](\d{2}):(\d{2}))?$/);
+            if (!m) return null;
+            const [ , day, month, year, hour = '00', minute = '00' ] = m;
+            return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
+        };
+        const dataAnalise = parseBRDate(cotacao.data_de_criacao);
+        const analistaRes = await pool.query(
+            "SELECT TRIM(COALESCE(nome, '') || ' ' || COALESCE(sobrenome, '')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1",
+            [cotacao.usuario_id]
+        );
+        const analistaNome = analistaRes.rows.length > 0 ? analistaRes.rows[0].nome : null;
+
+        const now = new Date();
+        const dataQualidade = formatDateBR(now);
+        const semana = calcularSemana(now);
+        const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
+
+        const existingAudit = await pool.query(
+            'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        const idQldd = existingAudit.rows.length > 0 ? existingAudit.rows[0].id_qldd : null;
+
+        if (idQldd) {
+            await pool.query(
+                `UPDATE db_bloco_de_notas.auditoria_qualidade SET
+                    anotacao = $1, status = $2, data_qualidade = $3, analista_qualidade_id = $4,
+                    reprova_bko = $5, codigo_tarefa = $6, analista = $7, data_analise = $8,
+                    cotacao = $9, regional = $10, tipo_de_pedido = $11,
+                    motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
+                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
+                WHERE id_qldd = $21`,
+                [anotacao, status, now, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 dataAnalise, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                 motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
+                 apontamento || '', contestacao || '', obs || '', enviado || false,
+                 data_envio ? new Date(data_envio) : null, semana, idQldd]
+            );
+        } else {
+            const insertAudit = await pool.query(
+                `INSERT INTO db_bloco_de_notas.auditoria_qualidade
+                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
+                [anotacao, status, now, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 dataAnalise, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                 motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
+                 apontamento || '', contestacao || '', obs || '', enviado || false,
+                 data_envio ? new Date(data_envio) : null, semana]
+            );
+            const newIdQldd = insertAudit.rows[0].id_qldd;
+            await pool.query(
+                'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE id_cotacao = $2',
+                [newIdQldd, id_cotacao]
+            );
+        }
+
+        await pool.query(
+            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
+            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
+        );
+
+        res.json({
+            success: true,
+            message: 'Auditoria salva com sucesso',
+            id_cotacao,
+            data_qualidade: dataQualidade,
+            semana,
+            status
+        });
+    } catch (error) {
+        console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
+        res.status(500).json({ error: 'Erro ao salvar auditoria' });
+    }
 });
 
 // ===== ROTAS DE RCV (Réplica) =====

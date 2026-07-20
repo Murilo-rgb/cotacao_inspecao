@@ -19,7 +19,8 @@ const TrashIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 6h18"></path>
         <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+        <line x1="8" x2="8" y1="4" y2="2"></line>
+        <line x1="16" x2="16" y2="4" y1="2"></line>
     </svg>
 );
 
@@ -35,32 +36,6 @@ const UserIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M19 21v-2a4 4 0 0 0-4-4H9a2 2 0 0 0-4 4v2"></path>
         <circle cx="12" cy="7" r="4"></circle>
-    </svg>
-);
-
-const PlusIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 12h14"></path>
-        <path d="M12 5v14"></path>
-    </svg>
-);
-
-const CalendarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-        <line x1="16" y1="2" x2="16" y2="6"></line>
-        <line x1="8" y1="2" x2="8" y2="6"></line>
-        <line x1="3" y1="10" x2="21" y2="10"></line>
-    </svg>
-);
-
-const FileTextIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
-        <polyline points="14 2 14 8 20 8"></polyline>
-        <line x1="16" x2="8" y1="13" y2="13"></line>
-        <line x1="16" x2="8" y1="17" y2="17"></line>
-        <line x1="10" x2="8" y1="9" y2="9"></line>
     </svg>
 );
 
@@ -107,6 +82,26 @@ const AlertTriangleIcon = () => (
     </svg>
 );
 
+const SunIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+);
+
+const MoonIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+);
+
 function Toast({ message, type, onClose }) {
     useEffect(() => {
         const timer = setTimeout(onClose, 3000);
@@ -126,7 +121,6 @@ function Toast({ message, type, onClose }) {
 function App() {
     const [quotations, setQuotations] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const [editingQuotation, setEditingQuotation] = useState(null);
@@ -138,11 +132,10 @@ function App() {
     const [statusModal, setStatusModal] = useState(null);
     const [username, setUsername] = useState('');
     const [toast, setToast] = useState(null);
-    const [dateStart, setDateStart] = useState('');
-    const [reprovaModalOpen, setReprovaModalOpen] = useState(false);
-    const [reprovaSearch, setReprovaSearch] = useState('');
-    const [reprovaResults, setReprovaResults] = useState([]);
-    const [reprovaLoading, setReprovaLoading] = useState(false);
+    const [darkMode, setDarkMode] = useState(() => {
+        const saved = localStorage.getItem('darkMode');
+        return saved === 'true';
+    });
 
     useEffect(() => {
         const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
@@ -166,8 +159,16 @@ function App() {
         return () => window.removeEventListener('popstate', handlePopState);
     }, []);
 
-    useEffect(() => setCurrentPage(1), [searchTerm]);
-    useEffect(() => setCurrentPage(1), [dateStart]);
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem('darkMode', darkMode);
+    }, [darkMode]);
+
+    const toggleDarkMode = () => setDarkMode(prev => !prev);
 
     const showToast = (message, type = 'success') => setToast({ message, type });
 
@@ -175,11 +176,8 @@ function App() {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const params = new URLSearchParams();
-            if (searchTerm) params.append('search', searchTerm);
-            if (dateStart) params.append('dateStart', dateStart);
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const response = await fetch(`${BASE_PATH}/api/quotations/correcao-cadastral?${params}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const response = await fetch(`${BASE_PATH}/api/quotations/correcao-cadastral`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.status === 401 || response.status === 403) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('username');
@@ -195,12 +193,6 @@ function App() {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        const timer = setTimeout(fetchQuotations, 300);
-        return () => clearTimeout(timer);
-    }, [searchTerm]);
-    useEffect(() => { fetchQuotations(); }, [dateStart]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -218,8 +210,8 @@ function App() {
                 const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ 
-                        anotacao: formData.anotacao, 
+                    body: JSON.stringify({
+                        anotacao: formData.anotacao,
                         status: editingQuotation.status,
                         auditoria_anotacao: auditoriaData.anotacao,
                         auditoria_status: auditoriaData.status
@@ -269,7 +261,7 @@ function App() {
         setFormData({ cotacao: quotation.cotacao, anotacao: quotation.anotacao });
         setActiveTab('anotacao');
         setShowModal(true);
-        
+
         // Buscar dados de auditoria se existirem
         try {
             const token = localStorage.getItem('token');
@@ -352,57 +344,7 @@ function App() {
         }
     };
 
-    useEffect(() => {
-        let ignore = false;
-        let timer;
-        const loadReprovas = async () => {
-            if (!reprovaModalOpen) return;
-            const termo = reprovaSearch.trim();
-            if (!termo) {
-                setReprovaResults([]);
-                setReprovaLoading(false);
-                return;
-            }
-            setReprovaLoading(true);
-            try {
-                const token = localStorage.getItem('token');
-                const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-                const url = `${BASE_PATH}/api/reprovas?termo=${encodeURIComponent(termo)}`;
-                const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                if (!response.ok) throw new Error('Falha ao buscar reprovas');
-                const data = await response.json();
-                if (!ignore) setReprovaResults(data);
-            } catch (error) {
-                if (!ignore) setReprovaResults([]);
-            } finally {
-                if (!ignore) setReprovaLoading(false);
-            }
-        };
-        if (reprovaModalOpen) {
-            timer = setTimeout(loadReprovas, 300);
-        }
-        return () => {
-            ignore = true;
-            if (timer) clearTimeout(timer);
-        };
-    }, [reprovaSearch, reprovaModalOpen]);
-
-    const filteredQuotations = quotations.filter(q => {
-        const matchesSearch = !searchTerm ||
-            q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            (q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase()));
-        if (!matchesSearch) return false;
-        if (dateStart) {
-            if (!q.data_de_criacao || q.data_de_criacao === '-') return false;
-            const dateParts = q.data_de_criacao.split(' ')[0].split('/');
-            if (dateParts.length !== 3) return false;
-            const [day, month, year] = dateParts;
-            const createdAtDate = `${year}-${month}-${day}`;
-            if (createdAtDate !== dateStart) return false;
-        }
-        return true;
-    });
+    const filteredQuotations = quotations;
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -450,8 +392,8 @@ function App() {
     );
 
     return (
-        <div className="min-h-screen bg-slate-50/80">
-            <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30">
+        <div className="min-h-screen bg-slate-50/80 dark:bg-slate-900">
+            <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30 dark:bg-slate-800 dark:border-slate-700">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center gap-3">
@@ -461,18 +403,25 @@ function App() {
                                 </svg>
                             </div>
                             <div>
-                                <h1 className="text-xl font-bold text-slate-800">Correção Cadastral</h1>
-                                <p className="text-xs text-slate-500">Efetivação de correções cadastrais</p>
+                                <h1 className="text-xl font-bold text-slate-800 dark:text-white">Correção Cadastral</h1>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Efetivação de correções cadastrais</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
-                            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm">
+                            <button onClick={toggleDarkMode} className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
+                                darkMode
+                                    ? 'text-amber-400 bg-slate-700 hover:bg-slate-600'
+                                    : 'text-slate-600 bg-slate-100 hover:bg-slate-200 dark:text-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600'
+                            }`} title={darkMode ? 'Modo claro' : 'Modo escuro'}>
+                                {darkMode ? <SunIcon /> : <MoonIcon />}
+                            </button>
+                            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm dark:bg-slate-700 dark:border-slate-600">
                                 <div className="w-7 h-7 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white shadow-sm">
                                     <UserIcon />
                                 </div>
                                 <span className="text-sm font-semibold text-white">{username}</span>
                             </div>
-                            <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200">
+                            <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 dark:text-slate-300 dark:hover:bg-red-900/30 rounded-lg transition-colors duration-200">
                                 <LogoutIcon />
                                 <span className="hidden sm:inline">Sair</span>
                             </button>
@@ -483,71 +432,47 @@ function App() {
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                        <p className="text-sm font-medium text-slate-500">Total</p>
-                        <p className="text-2xl font-bold text-slate-800 mt-1">{filteredQuotations.length}</p>
+                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Total</p>
+                        <p className="text-2xl font-bold text-slate-800 mt-1 dark:text-white">{filteredQuotations.length}</p>
                     </div>
-                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                        <p className="text-sm font-medium text-amber-600">Pendentes</p>
-                        <p className="text-2xl font-bold text-amber-700 mt-1">{filteredQuotations.filter(q => !q.status || q.status === 'pendente-correcao-cadastral').length}</p>
+                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p className="text-sm font-medium text-amber-600 dark:text-amber-400">Pendentes</p>
+                        <p className="text-2xl font-bold text-amber-700 mt-1 dark:text-amber-300">{filteredQuotations.filter(q => !q.status || q.status === 'pendente-correcao-cadastral').length}</p>
                     </div>
-                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                        <p className="text-sm font-medium text-emerald-600">Efetivadas</p>
-                        <p className="text-2xl font-bold text-emerald-700 mt-1">{filteredQuotations.filter(q => q.status === 'correcao-efetivada').length}</p>
+                    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Efetivadas</p>
+                        <p className="text-2xl font-bold text-emerald-700 mt-1 dark:text-emerald-300">{filteredQuotations.filter(q => q.status === 'correcao-efetivada').length}</p>
                     </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                    <div className="flex-1 relative group">
-                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><SearchIcon /></div>
-                        <input type="text" placeholder="Buscar por cotação, anotação ou status..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <div className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-amber-500 transition-colors duration-200"></div>
-                        </div>
-                    </div>
-                    <div className="relative group">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><CalendarIcon /></div>
-                        <input type="date" value={dateStart} onChange={(e) => setDateStart(e.target.value)}
-                            className="w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
-                    </div>
-                    <button onClick={() => { setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setShowModal(true); }}
-                        className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
-                        <PlusIcon /> Nova cotação
-                    </button>
-                    <button onClick={() => { setReprovaModalOpen(true); setReprovaSearch(''); setReprovaResults([]); }}
-                        className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 focus:ring-4 focus:ring-amber-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
-                        <SearchIcon /> Reprova Padrão
-                    </button>
-                </div>
-
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden dark:bg-slate-800 dark:border-slate-700">
                     {loading ? (
                         <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-slate-200">
-                                <thead className="bg-slate-50">
-                                    <tr><th className="px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
+                            <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                                <thead className="bg-slate-50 dark:bg-slate-800">
+                                    <tr><th className="px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Origem</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Criação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Ações</th></tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-slate-100">{[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}</tbody>
+                                <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">{[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}</tbody>
                             </table>
                         </div>
                     ) : filteredQuotations.length === 0 ? (
                         <div className="p-12 text-center">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl text-slate-400 mb-4"><FileTextIcon /></div>
-                            <h3 className="text-lg font-semibold text-slate-800 mb-1">Nenhuma correção cadastral pendente</h3>
-                            <p className="text-slate-500 text-sm">Todas as correções cadastrais foram efetivadas.</p>
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl text-slate-400 mb-4 dark:bg-slate-700 dark:text-slate-500"><FileTextIcon /></div>
+                        <h3 className="text-lg font-semibold text-slate-800 mb-1 dark:text-white">Nenhuma correção cadastral pendente</h3>
+                        <p className="text-slate-500 text-sm dark:text-slate-400">Todas as correções cadastrais foram efetivadas.</p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-slate-200">
-                                <thead className="bg-slate-50">
-                                    <tr><th className="px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Origem</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ações</th></tr>
+                            <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                                <thead className="bg-slate-50 dark:bg-slate-800">
+                                    <tr><th className="px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Origem</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Criação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Ações</th></tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-slate-100">
+                                <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
                                     {currentQuotations.map((quotation) => {
                                         const statusConfig = getStatusConfig(quotation.status);
                                         return (
-                                            <tr key={quotation.cotacao} className="hover:bg-slate-50/80 transition-colors duration-150">
+                                            <tr key={quotation.cotacao} className="hover:bg-slate-50/80 transition-colors duration-150 dark:hover:bg-slate-700/50">
                                                 <td className="px-2 py-4 whitespace-nowrap">
                                                     {!quotation.origem || quotation.origem === 'r_000250' ? (
                                                         <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
@@ -559,9 +484,9 @@ function App() {
                                                         <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
                                                     )}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
+<td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center gap-2">
-                                                        <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md" title={quotation.anotacao}>{quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}</span>
+                                                        <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md dark:bg-slate-700 dark:text-slate-300" title={quotation.anotacao}>{quotation.cotacao_display || quotation.cotacao}</span>
                                                         {quotation.auditoria && quotation.auditoria.status && (() => {
                                                             const s = quotation.auditoria.status.trim();
                                                             if (s === 'Procedimento Correto') return <span title="Procedimento Correto" className="cursor-help text-sm">✅</span>;
@@ -571,8 +496,8 @@ function App() {
                                                         })()}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.data_de_criacao || quotation.createdAt)}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.data_da_ultima_atualizacao || quotation.updatedAt)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">{formatDate(quotation.data_de_criacao || quotation.createdAt)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">{formatDate(quotation.data_da_ultima_atualizacao || quotation.updatedAt)}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <button onClick={() => handleStatusClick(quotation)} className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 hover:shadow-sm ${statusConfig.className}`}>
                                                         <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dotClass}`}></span>{statusConfig.label}
@@ -580,7 +505,7 @@ function App() {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center gap-1">
-                                                        <button onClick={() => handleEditClick(quotation)} className="group p-2 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md" title="Editar"><EditIcon /></button>
+                                                        <button onClick={() => handleEditClick(quotation)} className="group p-2 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md dark:bg-blue-900/40 dark:text-blue-400 dark:hover:bg-blue-600 dark:hover:text-white" title="Editar"><EditIcon /></button>
                                                         {false && <button onClick={() => handleDeleteClick(quotation)} className="group p-2 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md" title="Excluir"><TrashIcon /></button>}
                                                     </div>
                                                 </td>
@@ -594,21 +519,21 @@ function App() {
                 </div>
 
                 {totalPages > 1 && (
-                    <div className="flex items-center justify-between mt-6 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm">
-                        <p className="text-sm text-slate-500 hidden sm:block">Mostrando <span className="font-medium">{indexOfFirstItem + 1}</span> a <span className="font-medium">{Math.min(indexOfLastItem, filteredQuotations.length)}</span> de <span className="font-medium">{filteredQuotations.length}</span> resultados</p>
+                    <div className="flex items-center justify-between mt-6 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p className="text-sm text-slate-500 hidden sm:block dark:text-slate-400">Mostrando <span className="font-medium">{indexOfFirstItem + 1}</span> a <span className="font-medium">{Math.min(indexOfLastItem, filteredQuotations.length)}</span> de <span className="font-medium">{filteredQuotations.length}</span> resultados</p>
                         <div className="flex items-center gap-2 mx-auto sm:mx-0">
-                            <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">Anterior</button>
+                            <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600">Anterior</button>
                             <div className="flex items-center gap-1">
                                 {[...Array(totalPages)].map((_, i) => {
                                     const page = i + 1;
                                     return (
-                                        <button key={page} onClick={() => setCurrentPage(page)} className={`w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ${currentPage === page ? 'bg-amber-600 text-white' : 'text-slate-600 hover:bg-slate-100'}`}>
+                                        <button key={page} onClick={() => setCurrentPage(page)} className={`w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ${currentPage === page ? 'bg-amber-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700'}`}>
                                             {page}
                                         </button>
                                     );
                                 })}
                             </div>
-                            <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200">Próxima</button>
+                            <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600">Próxima</button>
                         </div>
                     </div>
                 )}
@@ -616,12 +541,12 @@ function App() {
 
             {showModal && (
                 <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); } }}>
-                    <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl modal-content">
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl modal-content dark:bg-slate-800">
                         <div className="flex items-center justify-between mb-5">
-                            <h2 className="text-lg font-bold text-slate-800">{editingQuotation ? 'Editar cotação' : 'Nova cotação'}</h2>
-                            <button onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
+                            <h2 className="text-lg font-bold text-slate-800 dark:text-white">{editingQuotation ? 'Editar cotação' : 'Nova cotação'}</h2>
+                            <button onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200 dark:hover:bg-slate-700 dark:hover:text-slate-300"><XIcon /></button>
                         </div>
-                        
+
                         {/* Abas */}
                         {editingQuotation && (
                             <div className="flex border-b border-slate-200 mb-5">
@@ -649,52 +574,52 @@ function App() {
                                 </button>
                             </div>
                         )}
-                        
+
                         <form onSubmit={handleFormSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1.5">Cotação</label>
-                                <input type="text" value={formData.cotacao} onChange={(e) => setFormData({...formData, cotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 disabled:bg-slate-100 disabled:text-slate-500" required disabled={!!editingQuotation} placeholder="Digite o número da cotação" />
+                                <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Cotação</label>
+                                <input type="text" value={formData.cotacao} onChange={(e) => setFormData({...formData, cotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 disabled:bg-slate-100 disabled:text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400" required disabled={!!editingQuotation} placeholder="Digite o número da cotação" />
                             </div>
-                            
+
                             {/* Aba: Anotação do Colaborador */}
                             {activeTab === 'anotacao' && (
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação (Colaborador)</label>
-                                    <textarea value={formData.anotacao} onChange={(e) => setFormData({...formData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none" rows="3" placeholder="Adicione uma observação..." />
+                                    <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Anotação (Colaborador)</label>
+                                    <textarea value={formData.anotacao} onChange={(e) => setFormData({...formData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400" rows="3" placeholder="Adicione uma observação..." />
                                 </div>
                             )}
-                            
+
                             {/* Aba: Auditoria (somente leitura) */}
                             {activeTab === 'auditoria' && (
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação da Auditoria</label>
-                                        <textarea value={auditoriaData.anotacao} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none" rows="3" placeholder="Sem alteração permitida" />
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Anotação da Auditoria</label>
+                                        <textarea value={auditoriaData.anotacao} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300" rows="3" placeholder="Sem alteração permitida" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">Status da Auditoria</label>
-                                        <input type="text" value={auditoriaData.status} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700" />
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Status da Auditoria</label>
+                                        <input type="text" value={auditoriaData.status} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300" />
                                     </div>
                                 </div>
                             )}
-                            
+
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Data Criação</label>
-                                    <input type="text" value={editingQuotation ? formatDate(editingQuotation.createdAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500" />
+                                    <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Data Criação</label>
+                                    <input type="text" value={editingQuotation ? formatDate(editingQuotation.createdAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Data Atualização</label>
-                                    <input type="text" value={editingQuotation ? formatDate(editingQuotation.updatedAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500" />
+                                    <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Data Atualização</label>
+                                    <input type="text" value={editingQuotation ? formatDate(editingQuotation.updatedAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1.5">Status</label>
-                                <input type="text" value={editingQuotation ? (editingQuotation.status || 'pendente') : 'pendente'} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize" />
+                                <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Status</label>
+                                <input type="text" value={editingQuotation ? (editingQuotation.status || 'pendente') : 'pendente'} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
                             </div>
                             <div className="flex gap-3 pt-2">
                                 <button type="submit" className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200">Salvar</button>
-                                <button type="button" onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200">Cancelar</button>
+                                <button type="button" onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -703,15 +628,15 @@ function App() {
 
             {deleteModal && (
                 <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) setDeleteModal(null); }}>
-                    <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl modal-content">
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl modal-content dark:bg-slate-800">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-red-600"><AlertTriangleIcon /></div>
-                            <h2 className="text-lg font-bold text-slate-800">Confirmar Exclusão</h2>
+                            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-red-600 dark:bg-red-900/50 dark:text-red-400"><AlertTriangleIcon /></div>
+                            <h2 className="text-lg font-bold text-slate-800 dark:text-white">Confirmar Exclusão</h2>
                         </div>
-                        <p className="text-slate-600 text-sm mb-6">Tem certeza que deseja excluir a cotação <span className="font-semibold text-slate-800 font-mono">{deleteModal.cotacao}</span>? Esta ação não poderá ser desfeita.</p>
+                        <p className="text-slate-600 text-sm mb-6 dark:text-slate-300">Tem certeza que deseja excluir a cotação <span className="font-semibold text-slate-800 font-mono dark:text-white">{deleteModal.cotacao}</span>? Esta ação não poderá ser desfeita.</p>
                         <div className="flex gap-3">
                             <button onClick={confirmDelete} className="flex-1 px-4 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-xl hover:bg-red-700 focus:ring-4 focus:ring-red-500/20 transition-all duration-200">Excluir</button>
-                            <button onClick={cancelDelete} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200">Cancelar</button>
+                            <button onClick={cancelDelete} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -719,68 +644,26 @@ function App() {
 
             {statusModal && (
                 <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) setStatusModal(null); }}>
-                    <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content">
-                        <h2 className="text-lg font-bold text-slate-800 mb-2">Efetivar Correção Cadastral</h2>
-                        <p className="text-sm text-slate-500 mb-5">Confirme a efetivação da correção cadastral para a cotação <span className="font-semibold text-slate-800 font-mono">{statusModal.cotacao}</span>.</p>
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content dark:bg-slate-800">
+                        <h2 className="text-lg font-bold text-slate-800 mb-2 dark:text-white">Efetivar Correção Cadastral</h2>
+                        <p className="text-sm text-slate-500 mb-5 dark:text-slate-400">Confirme a efetivação da correção cadastral para a cotação <span className="font-semibold text-slate-800 font-mono dark:text-white">{statusModal.cotacao}</span>.</p>
                         <div className="space-y-2.5">
-                            <button onClick={() => handleStatusChange('pendente-iphone-aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm">
+                            <button onClick={() => handleStatusChange('pendente-iphone-aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
                                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Pendente - iPhone Aprovado
                             </button>
-                            <button onClick={() => handleStatusChange('pendente-iphone-reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm">
+                            <button onClick={() => handleStatusChange('pendente-iphone-reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60">
                                 <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Pendente - iPhone Reprovado
                             </button>
-                            <button onClick={() => handleStatusChange('pendente-correcao-efetuada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm">
+                            <button onClick={() => handleStatusChange('pendente-correcao-efetuada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
                                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção - Efetuada
                             </button>
                         </div>
-                        <button onClick={() => setStatusModal(null)} className="w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200">Cancelar</button>
+                        <button onClick={() => setStatusModal(null)} className="w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>
                     </div>
                 </div>
             )}
 
             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
-
-            {reprovaModalOpen && (
-                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) { setReprovaModalOpen(false); setReprovaSearch(''); setReprovaResults([]); } }}>
-                    <div className="bg-white rounded-2xl p-6 w-full max-w-3xl shadow-2xl modal-content max-h-[75vh] flex flex-col">
-                        <div className="flex items-center justify-between mb-5">
-                            <h2 className="text-lg font-bold text-slate-800">Reprova Padrão</h2>
-                            <button onClick={() => { setReprovaModalOpen(false); setReprovaSearch(''); setReprovaResults([]); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
-                        </div>
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="relative flex-1 group">
-                                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"><SearchIcon /></div>
-                                <input type="text" value={reprovaSearch} onChange={(e) => setReprovaSearch(e.target.value)} placeholder="Buscar motivo ou texto de reprova..." autoFocus
-                                    className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
-                            </div>
-                        </div>
-                        <div className="overflow-y-auto flex-1 rounded-xl border border-slate-200">
-                            <table className="min-w-full divide-y divide-slate-200">
-                                <thead className="bg-slate-50">
-                                    <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Motivo</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Reprova</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-slate-100">
-                                    {reprovaLoading ? (
-                                        <tr><td className="px-4 py-4 text-sm text-slate-500" colSpan="2">Carregando...</td></tr>
-                                    ) : reprovaResults.length === 0 ? (
-                                        <tr><td className="px-4 py-8 text-sm text-slate-500 text-center" colSpan="2">{reprovaSearch ? 'Nenhum registro encontrado' : 'Digite para buscar motivos de reprova.'}</td></tr>
-                                    ) : (
-                                        reprovaResults.map((item, idx) => (
-                                            <tr key={item.id ?? idx} className="hover:bg-slate-50/80 transition-colors duration-150">
-                                                <td className="px-4 py-3 text-sm text-slate-900 font-semibold whitespace-nowrap">{item.motivo}</td>
-                                                <td className="px-4 py-3 text-sm text-slate-600 whitespace-pre-wrap break-words">{item.texto_reprova}</td>
-                                            </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

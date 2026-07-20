@@ -75,8 +75,16 @@ var TrashIcon = function TrashIcon() {
     d: "M3 6h18"
   }), /*#__PURE__*/React.createElement("path", {
     d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
-  }), /*#__PURE__*/React.createElement("path", {
-    d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "8",
+    x2: "8",
+    y1: "4",
+    y2: "2"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "16",
+    x2: "16",
+    y2: "4",
+    y1: "2"
   }));
 };
 var LogoutIcon = function LogoutIcon() {
@@ -118,90 +126,6 @@ var UserIcon = function UserIcon() {
     cx: "12",
     cy: "7",
     r: "4"
-  }));
-};
-var PlusIcon = function PlusIcon() {
-  return /*#__PURE__*/React.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "18",
-    height: "18",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M5 12h14"
-  }), /*#__PURE__*/React.createElement("path", {
-    d: "M12 5v14"
-  }));
-};
-var CalendarIcon = function CalendarIcon() {
-  return /*#__PURE__*/React.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "18",
-    height: "18",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("rect", {
-    x: "3",
-    y: "4",
-    width: "18",
-    height: "18",
-    rx: "2",
-    ry: "2"
-  }), /*#__PURE__*/React.createElement("line", {
-    x1: "16",
-    y1: "2",
-    x2: "16",
-    y2: "6"
-  }), /*#__PURE__*/React.createElement("line", {
-    x1: "8",
-    y1: "2",
-    x2: "8",
-    y2: "6"
-  }), /*#__PURE__*/React.createElement("line", {
-    x1: "3",
-    y1: "10",
-    x2: "21",
-    y2: "10"
-  }));
-};
-var FileTextIcon = function FileTextIcon() {
-  return /*#__PURE__*/React.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "48",
-    height: "48",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "1.5",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-  }), /*#__PURE__*/React.createElement("polyline", {
-    points: "14 2 14 8 20 8"
-  }), /*#__PURE__*/React.createElement("line", {
-    x1: "16",
-    x2: "8",
-    y1: "13",
-    y2: "13"
-  }), /*#__PURE__*/React.createElement("line", {
-    x1: "16",
-    x2: "8",
-    y1: "17",
-    y2: "17"
-  }), /*#__PURE__*/React.createElement("line", {
-    x1: "10",
-    x2: "8",
-    y1: "9",
-    y2: "9"
   }));
 };
 var CheckIcon = function CheckIcon() {
@@ -319,6 +243,78 @@ var AlertTriangleIcon = function AlertTriangleIcon() {
     d: "M12 17h.01"
   }));
 };
+var SunIcon = function SunIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "20",
+    height: "20",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("circle", {
+    cx: "12",
+    cy: "12",
+    r: "5"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "12",
+    y1: "1",
+    x2: "12",
+    y2: "3"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "12",
+    y1: "21",
+    x2: "12",
+    y2: "23"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "4.22",
+    y1: "4.22",
+    x2: "5.64",
+    y2: "5.64"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "18.36",
+    y1: "18.36",
+    x2: "19.78",
+    y2: "19.78"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "1",
+    y1: "12",
+    x2: "3",
+    y2: "12"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "21",
+    y1: "12",
+    x2: "23",
+    y2: "12"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "4.22",
+    y1: "19.78",
+    x2: "5.64",
+    y2: "18.36"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "18.36",
+    y1: "5.64",
+    x2: "19.78",
+    y2: "4.22"
+  }));
+};
+var MoonIcon = function MoonIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "20",
+    height: "20",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+  }));
+};
 function Toast(_ref) {
   var message = _ref.message,
     type = _ref.type,
@@ -344,79 +340,62 @@ function App() {
     _useState4 = _slicedToArray(_useState3, 2),
     loading = _useState4[0],
     setLoading = _useState4[1];
-  var _useState5 = useState(''),
+  var _useState5 = useState(1),
     _useState6 = _slicedToArray(_useState5, 2),
-    searchTerm = _useState6[0],
-    setSearchTerm = _useState6[1];
-  var _useState7 = useState(1),
-    _useState8 = _slicedToArray(_useState7, 2),
-    currentPage = _useState8[0],
-    setCurrentPage = _useState8[1];
-  var _useState9 = useState(10),
-    _useState0 = _slicedToArray(_useState9, 1),
-    itemsPerPage = _useState0[0];
-  var _useState1 = useState(null),
-    _useState10 = _slicedToArray(_useState1, 2),
-    editingQuotation = _useState10[0],
-    setEditingQuotation = _useState10[1];
-  var _useState11 = useState({
+    currentPage = _useState6[0],
+    setCurrentPage = _useState6[1];
+  var _useState7 = useState(10),
+    _useState8 = _slicedToArray(_useState7, 1),
+    itemsPerPage = _useState8[0];
+  var _useState9 = useState(null),
+    _useState0 = _slicedToArray(_useState9, 2),
+    editingQuotation = _useState0[0],
+    setEditingQuotation = _useState0[1];
+  var _useState1 = useState({
       cotacao: '',
       anotacao: ''
     }),
+    _useState10 = _slicedToArray(_useState1, 2),
+    formData = _useState10[0],
+    setFormData = _useState10[1];
+  var _useState11 = useState(false),
     _useState12 = _slicedToArray(_useState11, 2),
-    formData = _useState12[0],
-    setFormData = _useState12[1];
-  var _useState13 = useState(false),
+    showModal = _useState12[0],
+    setShowModal = _useState12[1];
+  var _useState13 = useState('anotacao'),
     _useState14 = _slicedToArray(_useState13, 2),
-    showModal = _useState14[0],
-    setShowModal = _useState14[1];
-  var _useState15 = useState('anotacao'),
-    _useState16 = _slicedToArray(_useState15, 2),
-    activeTab = _useState16[0],
-    setActiveTab = _useState16[1];
-  var _useState17 = useState({
+    activeTab = _useState14[0],
+    setActiveTab = _useState14[1];
+  var _useState15 = useState({
       anotacao: '',
       status: ''
     }),
+    _useState16 = _slicedToArray(_useState15, 2),
+    auditoriaData = _useState16[0],
+    setAuditoriaData = _useState16[1];
+  var _useState17 = useState(null),
     _useState18 = _slicedToArray(_useState17, 2),
-    auditoriaData = _useState18[0],
-    setAuditoriaData = _useState18[1];
+    deleteModal = _useState18[0],
+    setDeleteModal = _useState18[1];
   var _useState19 = useState(null),
     _useState20 = _slicedToArray(_useState19, 2),
-    deleteModal = _useState20[0],
-    setDeleteModal = _useState20[1];
-  var _useState21 = useState(null),
+    statusModal = _useState20[0],
+    setStatusModal = _useState20[1];
+  var _useState21 = useState(''),
     _useState22 = _slicedToArray(_useState21, 2),
-    statusModal = _useState22[0],
-    setStatusModal = _useState22[1];
-  var _useState23 = useState(''),
+    username = _useState22[0],
+    setUsername = _useState22[1];
+  var _useState23 = useState(null),
     _useState24 = _slicedToArray(_useState23, 2),
-    username = _useState24[0],
-    setUsername = _useState24[1];
-  var _useState25 = useState(null),
+    toast = _useState24[0],
+    setToast = _useState24[1];
+  var _useState25 = useState(function () {
+      var saved = localStorage.getItem('darkMode');
+      return saved === 'true';
+    }),
     _useState26 = _slicedToArray(_useState25, 2),
-    toast = _useState26[0],
-    setToast = _useState26[1];
-  var _useState27 = useState(''),
-    _useState28 = _slicedToArray(_useState27, 2),
-    dateStart = _useState28[0],
-    setDateStart = _useState28[1];
-  var _useState29 = useState(false),
-    _useState30 = _slicedToArray(_useState29, 2),
-    reprovaModalOpen = _useState30[0],
-    setReprovaModalOpen = _useState30[1];
-  var _useState31 = useState(''),
-    _useState32 = _slicedToArray(_useState31, 2),
-    reprovaSearch = _useState32[0],
-    setReprovaSearch = _useState32[1];
-  var _useState33 = useState([]),
-    _useState34 = _slicedToArray(_useState33, 2),
-    reprovaResults = _useState34[0],
-    setReprovaResults = _useState34[1];
-  var _useState35 = useState(false),
-    _useState36 = _slicedToArray(_useState35, 2),
-    reprovaLoading = _useState36[0],
-    setReprovaLoading = _useState36[1];
+    darkMode = _useState26[0],
+    setDarkMode = _useState26[1];
   useEffect(function () {
     var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
     var token = localStorage.getItem('token');
@@ -439,11 +418,18 @@ function App() {
     };
   }, []);
   useEffect(function () {
-    return setCurrentPage(1);
-  }, [searchTerm]);
-  useEffect(function () {
-    return setCurrentPage(1);
-  }, [dateStart]);
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('darkMode', darkMode);
+  }, [darkMode]);
+  var toggleDarkMode = function toggleDarkMode() {
+    return setDarkMode(function (prev) {
+      return !prev;
+    });
+  };
   var showToast = function showToast(message) {
     var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
     return setToast({
@@ -453,19 +439,16 @@ function App() {
   };
   var fetchQuotations = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-      var token, params, BASE_PATH, response, data, _t;
+      var token, BASE_PATH, response, data, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
             _context.p = 0;
             setLoading(true);
             token = localStorage.getItem('token');
-            params = new URLSearchParams();
-            if (searchTerm) params.append('search', searchTerm);
-            if (dateStart) params.append('dateStart', dateStart);
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context.n = 1;
-            return fetch("".concat(BASE_PATH, "/api/quotations/correcao-cadastral?").concat(params), {
+            return fetch("".concat(BASE_PATH, "/api/quotations/correcao-cadastral"), {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
@@ -506,15 +489,6 @@ function App() {
       return _ref2.apply(this, arguments);
     };
   }();
-  useEffect(function () {
-    var timer = setTimeout(fetchQuotations, 300);
-    return function () {
-      return clearTimeout(timer);
-    };
-  }, [searchTerm]);
-  useEffect(function () {
-    fetchQuotations();
-  }, [dateStart]);
   var handleLogout = function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -824,97 +798,7 @@ function App() {
       return _ref6.apply(this, arguments);
     };
   }();
-  useEffect(function () {
-    var ignore = false;
-    var timer;
-    var loadReprovas = /*#__PURE__*/function () {
-      var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
-        var termo, token, BASE_PATH, url, response, data, _t6;
-        return _regenerator().w(function (_context6) {
-          while (1) switch (_context6.p = _context6.n) {
-            case 0:
-              if (reprovaModalOpen) {
-                _context6.n = 1;
-                break;
-              }
-              return _context6.a(2);
-            case 1:
-              termo = reprovaSearch.trim();
-              if (termo) {
-                _context6.n = 2;
-                break;
-              }
-              setReprovaResults([]);
-              setReprovaLoading(false);
-              return _context6.a(2);
-            case 2:
-              setReprovaLoading(true);
-              _context6.p = 3;
-              token = localStorage.getItem('token');
-              BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-              url = "".concat(BASE_PATH, "/api/reprovas?termo=").concat(encodeURIComponent(termo));
-              _context6.n = 4;
-              return fetch(url, {
-                headers: {
-                  'Authorization': "Bearer ".concat(token)
-                }
-              });
-            case 4:
-              response = _context6.v;
-              if (response.ok) {
-                _context6.n = 5;
-                break;
-              }
-              throw new Error('Falha ao buscar reprovas');
-            case 5:
-              _context6.n = 6;
-              return response.json();
-            case 6:
-              data = _context6.v;
-              if (!ignore) setReprovaResults(data);
-              _context6.n = 8;
-              break;
-            case 7:
-              _context6.p = 7;
-              _t6 = _context6.v;
-              if (!ignore) setReprovaResults([]);
-            case 8:
-              _context6.p = 8;
-              if (!ignore) setReprovaLoading(false);
-              return _context6.f(8);
-            case 9:
-              return _context6.a(2);
-          }
-        }, _callee6, null, [[3, 7, 8, 9]]);
-      }));
-      return function loadReprovas() {
-        return _ref7.apply(this, arguments);
-      };
-    }();
-    if (reprovaModalOpen) {
-      timer = setTimeout(loadReprovas, 300);
-    }
-    return function () {
-      ignore = true;
-      if (timer) clearTimeout(timer);
-    };
-  }, [reprovaSearch, reprovaModalOpen]);
-  var filteredQuotations = quotations.filter(function (q) {
-    var matchesSearch = !searchTerm || q.cotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.anotacao && q.anotacao.toLowerCase().includes(searchTerm.toLowerCase()) || q.status && q.status.toLowerCase().includes(searchTerm.toLowerCase());
-    if (!matchesSearch) return false;
-    if (dateStart) {
-      if (!q.data_de_criacao || q.data_de_criacao === '-') return false;
-      var dateParts = q.data_de_criacao.split(' ')[0].split('/');
-      if (dateParts.length !== 3) return false;
-      var _dateParts = _slicedToArray(dateParts, 3),
-        day = _dateParts[0],
-        month = _dateParts[1],
-        year = _dateParts[2];
-      var createdAtDate = "".concat(year, "-").concat(month, "-").concat(day);
-      if (createdAtDate !== dateStart) return false;
-    }
-    return true;
-  });
+  var filteredQuotations = quotations;
   var indexOfLastItem = currentPage * itemsPerPage;
   var indexOfFirstItem = indexOfLastItem - itemsPerPage;
   var currentQuotations = filteredQuotations.slice(indexOfFirstItem, indexOfLastItem);
@@ -1012,9 +896,9 @@ function App() {
     }))));
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: "min-h-screen bg-slate-50/80"
+    className: "min-h-screen bg-slate-50/80 dark:bg-slate-900"
   }, /*#__PURE__*/React.createElement("header", {
-    className: "bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30"
+    className: "bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30 dark:bg-slate-800 dark:border-slate-700"
   }, /*#__PURE__*/React.createElement("div", {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1035,20 +919,24 @@ function App() {
     strokeLinejoin: "round",
     d: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
-    className: "text-xl font-bold text-slate-800"
+    className: "text-xl font-bold text-slate-800 dark:text-white"
   }, "Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("p", {
-    className: "text-xs text-slate-500"
+    className: "text-xs text-slate-500 dark:text-slate-400"
   }, "Efetiva\xE7\xE3o de corre\xE7\xF5es cadastrais"))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-4"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: toggleDarkMode,
+    className: "p-2 rounded-lg transition-all duration-200 hover:scale-110 ".concat(darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200 dark:text-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600'),
+    title: darkMode ? 'Modo claro' : 'Modo escuro'
+  }, darkMode ? /*#__PURE__*/React.createElement(SunIcon, null) : /*#__PURE__*/React.createElement(MoonIcon, null)), /*#__PURE__*/React.createElement("div", {
+    className: "hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm dark:bg-slate-700 dark:border-slate-600"
   }, /*#__PURE__*/React.createElement("div", {
     className: "w-7 h-7 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white shadow-sm"
   }, /*#__PURE__*/React.createElement(UserIcon, null)), /*#__PURE__*/React.createElement("span", {
     className: "text-sm font-semibold text-white"
   }, username)), /*#__PURE__*/React.createElement("button", {
     onClick: handleLogout,
-    className: "flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+    className: "flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 dark:text-slate-300 dark:hover:bg-red-900/30 rounded-lg transition-colors duration-200"
   }, /*#__PURE__*/React.createElement(LogoutIcon, null), /*#__PURE__*/React.createElement("span", {
     className: "hidden sm:inline"
   }, "Sair")))))), /*#__PURE__*/React.createElement("main", {
@@ -1056,95 +944,49 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
+    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-slate-500"
+    className: "text-sm font-medium text-slate-500 dark:text-slate-400"
   }, "Total"), /*#__PURE__*/React.createElement("p", {
-    className: "text-2xl font-bold text-slate-800 mt-1"
+    className: "text-2xl font-bold text-slate-800 mt-1 dark:text-white"
   }, filteredQuotations.length)), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
+    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-amber-600"
+    className: "text-sm font-medium text-amber-600 dark:text-amber-400"
   }, "Pendentes"), /*#__PURE__*/React.createElement("p", {
-    className: "text-2xl font-bold text-amber-700 mt-1"
+    className: "text-2xl font-bold text-amber-700 mt-1 dark:text-amber-300"
   }, filteredQuotations.filter(function (q) {
     return !q.status || q.status === 'pendente-correcao-cadastral';
   }).length)), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm"
+    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-emerald-600"
+    className: "text-sm font-medium text-emerald-600 dark:text-emerald-400"
   }, "Efetivadas"), /*#__PURE__*/React.createElement("p", {
-    className: "text-2xl font-bold text-emerald-700 mt-1"
+    className: "text-2xl font-bold text-emerald-700 mt-1 dark:text-emerald-300"
   }, filteredQuotations.filter(function (q) {
     return q.status === 'correcao-efetivada';
   }).length))), /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-col sm:flex-row gap-4 mb-6"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "flex-1 relative group"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
-  }, /*#__PURE__*/React.createElement(SearchIcon, null)), /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    placeholder: "Buscar por cota\xE7\xE3o, anota\xE7\xE3o ou status...",
-    value: searchTerm,
-    onChange: function onChange(e) {
-      return setSearchTerm(e.target.value);
-    },
-    className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "w-2 h-2 rounded-full bg-slate-300 group-hover:bg-amber-500 transition-colors duration-200"
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "relative group"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-  }, /*#__PURE__*/React.createElement(CalendarIcon, null)), /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    value: dateStart,
-    onChange: function onChange(e) {
-      return setDateStart(e.target.value);
-    },
-    className: "w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
-  })), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      setEditingQuotation(null);
-      setFormData({
-        cotacao: '',
-        anotacao: ''
-      });
-      setShowModal(true);
-    },
-    className: "inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 shadow-md hover:shadow-lg"
-  }, /*#__PURE__*/React.createElement(PlusIcon, null), " Nova cota\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      setReprovaModalOpen(true);
-      setReprovaSearch('');
-      setReprovaResults([]);
-    },
-    className: "inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 focus:ring-4 focus:ring-amber-500/20 transition-all duration-200 shadow-md hover:shadow-lg"
-  }, /*#__PURE__*/React.createElement(SearchIcon, null), " Reprova Padr\xE3o")), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+    className: "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden dark:bg-slate-800 dark:border-slate-700"
   }, loading ? /*#__PURE__*/React.createElement("div", {
     className: "overflow-x-auto"
   }, /*#__PURE__*/React.createElement("table", {
-    className: "min-w-full divide-y divide-slate-200"
+    className: "min-w-full divide-y divide-slate-200 dark:divide-slate-700"
   }, /*#__PURE__*/React.createElement("thead", {
-    className: "bg-slate-50"
+    className: "bg-slate-50 dark:bg-slate-800"
   }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-    className: "px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Origem"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Demanda"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Cria\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Atualiza\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Status"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "A\xE7\xF5es"))), /*#__PURE__*/React.createElement("tbody", {
-    className: "bg-white divide-y divide-slate-100"
+    className: "bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700"
   }, _toConsumableArray(Array(5)).map(function (_, i) {
     return /*#__PURE__*/React.createElement(SkeletonRow, {
       key: i
@@ -1152,36 +994,36 @@ function App() {
   })))) : filteredQuotations.length === 0 ? /*#__PURE__*/React.createElement("div", {
     className: "p-12 text-center"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl text-slate-400 mb-4"
+    className: "inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl text-slate-400 mb-4 dark:bg-slate-700 dark:text-slate-500"
   }, /*#__PURE__*/React.createElement(FileTextIcon, null)), /*#__PURE__*/React.createElement("h3", {
-    className: "text-lg font-semibold text-slate-800 mb-1"
+    className: "text-lg font-semibold text-slate-800 mb-1 dark:text-white"
   }, "Nenhuma corre\xE7\xE3o cadastral pendente"), /*#__PURE__*/React.createElement("p", {
-    className: "text-slate-500 text-sm"
+    className: "text-slate-500 text-sm dark:text-slate-400"
   }, "Todas as corre\xE7\xF5es cadastrais foram efetivadas.")) : /*#__PURE__*/React.createElement("div", {
     className: "overflow-x-auto"
   }, /*#__PURE__*/React.createElement("table", {
-    className: "min-w-full divide-y divide-slate-200"
+    className: "min-w-full divide-y divide-slate-200 dark:divide-slate-700"
   }, /*#__PURE__*/React.createElement("thead", {
-    className: "bg-slate-50"
+    className: "bg-slate-50 dark:bg-slate-800"
   }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-    className: "px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Origem"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Demanda"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Cria\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Atualiza\xE7\xE3o"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "Status"), /*#__PURE__*/React.createElement("th", {
-    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+    className: "px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400"
   }, "A\xE7\xF5es"))), /*#__PURE__*/React.createElement("tbody", {
-    className: "bg-white divide-y divide-slate-100"
+    className: "bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700"
   }, currentQuotations.map(function (quotation) {
     var statusConfig = getStatusConfig(quotation.status);
     return /*#__PURE__*/React.createElement("tr", {
       key: quotation.cotacao,
-      className: "hover:bg-slate-50/80 transition-colors duration-150"
+      className: "hover:bg-slate-50/80 transition-colors duration-150 dark:hover:bg-slate-700/50"
     }, /*#__PURE__*/React.createElement("td", {
       className: "px-2 py-4 whitespace-nowrap"
     }, !quotation.origem || quotation.origem === 'r_000250' ? /*#__PURE__*/React.createElement("span", {
@@ -1201,9 +1043,9 @@ function App() {
     }, /*#__PURE__*/React.createElement("div", {
       className: "flex items-center gap-2"
     }, /*#__PURE__*/React.createElement("span", {
-      className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md",
+      className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md dark:bg-slate-700 dark:text-slate-300",
       title: quotation.anotacao
-    }, quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao), quotation.auditoria && quotation.auditoria.status && function () {
+    }, quotation.cotacao_display || quotation.cotacao), quotation.auditoria && quotation.auditoria.status && function () {
       var s = quotation.auditoria.status.trim();
       if (s === 'Procedimento Correto') return /*#__PURE__*/React.createElement("span", {
         title: "Procedimento Correto",
@@ -1222,9 +1064,9 @@ function App() {
         className: "cursor-help text-sm"
       }, "\u274C");
     }())), /*#__PURE__*/React.createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+      className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400"
     }, formatDate(quotation.data_de_criacao || quotation.createdAt)), /*#__PURE__*/React.createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+      className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400"
     }, formatDate(quotation.data_da_ultima_atualizacao || quotation.updatedAt)), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap"
     }, /*#__PURE__*/React.createElement("button", {
@@ -1242,7 +1084,7 @@ function App() {
       onClick: function onClick() {
         return handleEditClick(quotation);
       },
-      className: "group p-2 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md",
+      className: "group p-2 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md dark:bg-blue-900/40 dark:text-blue-400 dark:hover:bg-blue-600 dark:hover:text-white",
       title: "Editar"
     }, /*#__PURE__*/React.createElement(EditIcon, null)), false && /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
@@ -1252,9 +1094,9 @@ function App() {
       title: "Excluir"
     }, /*#__PURE__*/React.createElement(TrashIcon, null)))));
   }))))), totalPages > 1 && /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-between mt-6 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm"
+    className: "flex items-center justify-between mt-6 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm text-slate-500 hidden sm:block"
+    className: "text-sm text-slate-500 hidden sm:block dark:text-slate-400"
   }, "Mostrando ", /*#__PURE__*/React.createElement("span", {
     className: "font-medium"
   }, indexOfFirstItem + 1), " a ", /*#__PURE__*/React.createElement("span", {
@@ -1270,7 +1112,7 @@ function App() {
       });
     },
     disabled: currentPage === 1,
-    className: "px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+    className: "px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
   }, "Anterior"), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-1"
   }, _toConsumableArray(Array(totalPages)).map(function (_, i) {
@@ -1280,7 +1122,7 @@ function App() {
       onClick: function onClick() {
         return setCurrentPage(page);
       },
-      className: "w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ".concat(currentPage === page ? 'bg-amber-600 text-white' : 'text-slate-600 hover:bg-slate-100')
+      className: "w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ".concat(currentPage === page ? 'bg-amber-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700')
     }, page);
   })), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
@@ -1289,7 +1131,7 @@ function App() {
       });
     },
     disabled: currentPage === totalPages,
-    className: "px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+    className: "px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
   }, "Pr\xF3xima")))), showModal && /*#__PURE__*/React.createElement("div", {
     className: "fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4",
     onClick: function onClick(e) {
@@ -1307,11 +1149,11 @@ function App() {
       }
     }
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl modal-content"
+    className: "bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl modal-content dark:bg-slate-800"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center justify-between mb-5"
   }, /*#__PURE__*/React.createElement("h2", {
-    className: "text-lg font-bold text-slate-800"
+    className: "text-lg font-bold text-slate-800 dark:text-white"
   }, editingQuotation ? 'Editar cotação' : 'Nova cotação'), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       setShowModal(false);
@@ -1325,7 +1167,7 @@ function App() {
         status: ''
       });
     },
-    className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"
+    className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200 dark:hover:bg-slate-700 dark:hover:text-slate-300"
   }, /*#__PURE__*/React.createElement(XIcon, null))), editingQuotation && /*#__PURE__*/React.createElement("div", {
     className: "flex border-b border-slate-200 mb-5"
   }, /*#__PURE__*/React.createElement("button", {
@@ -1346,7 +1188,7 @@ function App() {
     onSubmit: handleFormSubmit,
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Cota\xE7\xE3o"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     value: formData.cotacao,
@@ -1355,12 +1197,12 @@ function App() {
         cotacao: e.target.value
       }));
     },
-    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 disabled:bg-slate-100 disabled:text-slate-500",
+    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 disabled:bg-slate-100 disabled:text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400",
     required: true,
     disabled: !!editingQuotation,
     placeholder: "Digite o n\xFAmero da cota\xE7\xE3o"
   })), activeTab === 'anotacao' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Anota\xE7\xE3o (Colaborador)"), /*#__PURE__*/React.createElement("textarea", {
     value: formData.anotacao,
     onChange: function onChange(e) {
@@ -1368,49 +1210,49 @@ function App() {
         anotacao: e.target.value
       }));
     },
-    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none",
+    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400",
     rows: "3",
     placeholder: "Adicione uma observa\xE7\xE3o..."
   })), activeTab === 'auditoria' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Anota\xE7\xE3o da Auditoria"), /*#__PURE__*/React.createElement("textarea", {
     value: auditoriaData.anotacao,
     readOnly: true,
-    className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none",
+    className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300",
     rows: "3",
     placeholder: "Sem altera\xE7\xE3o permitida"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Status da Auditoria"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     value: auditoriaData.status,
     readOnly: true,
-    className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700"
+    className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300"
   }))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-2 gap-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Data Cria\xE7\xE3o"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     value: editingQuotation ? formatDate(editingQuotation.createdAt) : formatDate(new Date().toISOString()),
     disabled: true,
-    className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500"
+    className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Data Atualiza\xE7\xE3o"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     value: editingQuotation ? formatDate(editingQuotation.updatedAt) : formatDate(new Date().toISOString()),
     disabled: true,
-    className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500"
+    className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400"
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Status"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     value: editingQuotation ? editingQuotation.status || 'pendente' : 'pendente',
     disabled: true,
-    className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize"
+    className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400"
   })), /*#__PURE__*/React.createElement("div", {
     className: "flex gap-3 pt-2"
   }, /*#__PURE__*/React.createElement("button", {
@@ -1430,24 +1272,24 @@ function App() {
         status: ''
       });
     },
-    className: "flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200"
+    className: "flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600"
   }, "Cancelar"))))), deleteModal && /*#__PURE__*/React.createElement("div", {
     className: "fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4",
     onClick: function onClick(e) {
       if (e.target === e.currentTarget) setDeleteModal(null);
     }
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl modal-content"
+    className: "bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl modal-content dark:bg-slate-800"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-3 mb-4"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-red-600"
+    className: "w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-red-600 dark:bg-red-900/50 dark:text-red-400"
   }, /*#__PURE__*/React.createElement(AlertTriangleIcon, null)), /*#__PURE__*/React.createElement("h2", {
-    className: "text-lg font-bold text-slate-800"
+    className: "text-lg font-bold text-slate-800 dark:text-white"
   }, "Confirmar Exclus\xE3o")), /*#__PURE__*/React.createElement("p", {
-    className: "text-slate-600 text-sm mb-6"
+    className: "text-slate-600 text-sm mb-6 dark:text-slate-300"
   }, "Tem certeza que deseja excluir a cota\xE7\xE3o ", /*#__PURE__*/React.createElement("span", {
-    className: "font-semibold text-slate-800 font-mono"
+    className: "font-semibold text-slate-800 font-mono dark:text-white"
   }, deleteModal.cotacao), "? Esta a\xE7\xE3o n\xE3o poder\xE1 ser desfeita."), /*#__PURE__*/React.createElement("div", {
     className: "flex gap-3"
   }, /*#__PURE__*/React.createElement("button", {
@@ -1455,120 +1297,55 @@ function App() {
     className: "flex-1 px-4 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-xl hover:bg-red-700 focus:ring-4 focus:ring-red-500/20 transition-all duration-200"
   }, "Excluir"), /*#__PURE__*/React.createElement("button", {
     onClick: cancelDelete,
-    className: "flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200"
+    className: "flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600"
   }, "Cancelar")))), statusModal && /*#__PURE__*/React.createElement("div", {
     className: "fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4",
     onClick: function onClick(e) {
       if (e.target === e.currentTarget) setStatusModal(null);
     }
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content"
+    className: "bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content dark:bg-slate-800"
   }, /*#__PURE__*/React.createElement("h2", {
-    className: "text-lg font-bold text-slate-800 mb-2"
+    className: "text-lg font-bold text-slate-800 mb-2 dark:text-white"
   }, "Efetivar Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("p", {
-    className: "text-sm text-slate-500 mb-5"
+    className: "text-sm text-slate-500 mb-5 dark:text-slate-400"
   }, "Confirme a efetiva\xE7\xE3o da corre\xE7\xE3o cadastral para a cota\xE7\xE3o ", /*#__PURE__*/React.createElement("span", {
-    className: "font-semibold text-slate-800 font-mono"
+    className: "font-semibold text-slate-800 font-mono dark:text-white"
   }, statusModal.cotacao), "."), /*#__PURE__*/React.createElement("div", {
     className: "space-y-2.5"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente-iphone-aprovado');
     },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
   }), "Pendente - iPhone Aprovado"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente-iphone-reprovado');
     },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-red-500"
   }), "Pendente - iPhone Reprovado"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente-correcao-efetuada');
     },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
   }), "Corre\xE7\xE3o - Efetuada")), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setStatusModal(null);
     },
-    className: "w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200"
+    className: "w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600"
   }, "Cancelar"))), toast && /*#__PURE__*/React.createElement(Toast, {
     message: toast.message,
     type: toast.type,
     onClose: function onClose() {
       return setToast(null);
     }
-  }), reprovaModalOpen && /*#__PURE__*/React.createElement("div", {
-    className: "fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4",
-    onClick: function onClick(e) {
-      if (e.target === e.currentTarget) {
-        setReprovaModalOpen(false);
-        setReprovaSearch('');
-        setReprovaResults([]);
-      }
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-2xl p-6 w-full max-w-3xl shadow-2xl modal-content max-h-[75vh] flex flex-col"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-between mb-5"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "text-lg font-bold text-slate-800"
-  }, "Reprova Padr\xE3o"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      setReprovaModalOpen(false);
-      setReprovaSearch('');
-      setReprovaResults([]);
-    },
-    className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"
-  }, /*#__PURE__*/React.createElement(XIcon, null))), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center gap-3 mb-4"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "relative flex-1 group"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none"
-  }, /*#__PURE__*/React.createElement(SearchIcon, null)), /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    value: reprovaSearch,
-    onChange: function onChange(e) {
-      return setReprovaSearch(e.target.value);
-    },
-    placeholder: "Buscar motivo ou texto de reprova...",
-    autoFocus: true,
-    className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "overflow-y-auto flex-1 rounded-xl border border-slate-200"
-  }, /*#__PURE__*/React.createElement("table", {
-    className: "min-w-full divide-y divide-slate-200"
-  }, /*#__PURE__*/React.createElement("thead", {
-    className: "bg-slate-50"
-  }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-    className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Motivo"), /*#__PURE__*/React.createElement("th", {
-    className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Reprova"))), /*#__PURE__*/React.createElement("tbody", {
-    className: "bg-white divide-y divide-slate-100"
-  }, reprovaLoading ? /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
-    className: "px-4 py-4 text-sm text-slate-500",
-    colSpan: "2"
-  }, "Carregando...")) : reprovaResults.length === 0 ? /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
-    className: "px-4 py-8 text-sm text-slate-500 text-center",
-    colSpan: "2"
-  }, reprovaSearch ? 'Nenhum registro encontrado' : 'Digite para buscar motivos de reprova.')) : reprovaResults.map(function (item, idx) {
-    var _item$id;
-    return /*#__PURE__*/React.createElement("tr", {
-      key: (_item$id = item.id) !== null && _item$id !== void 0 ? _item$id : idx,
-      className: "hover:bg-slate-50/80 transition-colors duration-150"
-    }, /*#__PURE__*/React.createElement("td", {
-      className: "px-4 py-3 text-sm text-slate-900 font-semibold whitespace-nowrap"
-    }, item.motivo), /*#__PURE__*/React.createElement("td", {
-      className: "px-4 py-3 text-sm text-slate-600 whitespace-pre-wrap break-words"
-    }, item.texto_reprova));
-  })))))));
+  }));
 }
 var root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(/*#__PURE__*/React.createElement(App, null));

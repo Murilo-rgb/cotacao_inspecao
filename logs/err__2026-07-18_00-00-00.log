@@ -1,0 +1,1215 @@
+17/07/2026 16:30:34: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:30:34:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:30:34:                                                                          ^
+17/07/2026 16:30:34: 
+17/07/2026 16:30:34: SyntaxError: missing ) after argument list
+17/07/2026 16:30:34:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:30:34:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:30:34:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:34:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:34:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:34:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:30:34:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:30:34:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:34:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:34:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:39: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:30:39:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:30:39:                                                                          ^
+17/07/2026 16:30:39: 
+17/07/2026 16:30:39: SyntaxError: missing ) after argument list
+17/07/2026 16:30:39:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:30:39:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:30:39:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:39:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:39:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:39:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:30:39:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:30:39:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:39:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:39:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:45: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:30:45:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:30:45:                                                                          ^
+17/07/2026 16:30:45: 
+17/07/2026 16:30:45: SyntaxError: missing ) after argument list
+17/07/2026 16:30:45:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:30:45:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:30:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:45:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:30:45:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:30:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:51: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:30:51:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:30:51:                                                                          ^
+17/07/2026 16:30:51: 
+17/07/2026 16:30:51: SyntaxError: missing ) after argument list
+17/07/2026 16:30:51:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:30:51:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:30:51:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:51:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:51:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:51:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:30:51:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:30:51:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:51:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:51:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:58: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:30:58:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:30:58:                                                                          ^
+17/07/2026 16:30:58: 
+17/07/2026 16:30:58: SyntaxError: missing ) after argument list
+17/07/2026 16:30:58:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:30:58:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:30:58:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:58:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:58:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:30:58:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:30:58:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:30:58:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:30:58:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:30:58:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:04: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:04:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:04:                                                                          ^
+17/07/2026 16:31:04: 
+17/07/2026 16:31:04: SyntaxError: missing ) after argument list
+17/07/2026 16:31:04:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:04:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:04:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:04:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:04:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:04:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:04:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:04:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:04:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:04:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:10: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:10:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:10:                                                                          ^
+17/07/2026 16:31:10: 
+17/07/2026 16:31:10: SyntaxError: missing ) after argument list
+17/07/2026 16:31:10:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:10:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:10:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:10:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:10:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:10:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:10:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:10:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:10:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:10:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:15: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:15:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:15:                                                                          ^
+17/07/2026 16:31:15: 
+17/07/2026 16:31:15: SyntaxError: missing ) after argument list
+17/07/2026 16:31:15:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:15:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:15:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:15:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:15:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:15:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:15:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:15:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:15:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:15:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:21: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:21:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:21:                                                                          ^
+17/07/2026 16:31:21: 
+17/07/2026 16:31:21: SyntaxError: missing ) after argument list
+17/07/2026 16:31:21:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:21:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:21:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:21:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:21:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:21:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:21:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:21:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:21:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:21:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:27: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:27:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:27:                                                                          ^
+17/07/2026 16:31:27: 
+17/07/2026 16:31:27: SyntaxError: missing ) after argument list
+17/07/2026 16:31:27:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:27:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:27:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:27:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:27:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:27:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:27:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:27:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:27:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:27:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:33: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:33:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:33:                                                                          ^
+17/07/2026 16:31:33: 
+17/07/2026 16:31:33: SyntaxError: missing ) after argument list
+17/07/2026 16:31:33:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:33:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:33:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:33:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:33:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:33:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:33:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:33:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:33:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:33:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:38: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:38:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:38:                                                                          ^
+17/07/2026 16:31:38: 
+17/07/2026 16:31:38: SyntaxError: missing ) after argument list
+17/07/2026 16:31:38:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:38:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:38:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:38:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:38:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:38:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:38:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:38:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:38:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:38:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:44: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:44:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:44:                                                                          ^
+17/07/2026 16:31:44: 
+17/07/2026 16:31:44: SyntaxError: missing ) after argument list
+17/07/2026 16:31:44:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:44:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:44:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:44:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:44:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:44:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:44:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:44:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:44:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:44:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:50: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:50:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:50:                                                                          ^
+17/07/2026 16:31:50: 
+17/07/2026 16:31:50: SyntaxError: missing ) after argument list
+17/07/2026 16:31:50:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:50:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:50:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:50:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:50:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:50:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:50:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:50:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:50:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:50:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:56: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:31:56:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:31:56:                                                                          ^
+17/07/2026 16:31:56: 
+17/07/2026 16:31:56: SyntaxError: missing ) after argument list
+17/07/2026 16:31:56:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:31:56:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:31:56:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:56:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:56:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:31:56:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:31:56:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:31:56:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:31:56:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:31:56:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:01: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:01:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:01:                                                                          ^
+17/07/2026 16:32:01: 
+17/07/2026 16:32:01: SyntaxError: missing ) after argument list
+17/07/2026 16:32:01:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:01:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:01:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:01:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:01:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:01:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:01:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:01:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:01:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:01:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:07: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:07:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:07:                                                                          ^
+17/07/2026 16:32:07: 
+17/07/2026 16:32:07: SyntaxError: missing ) after argument list
+17/07/2026 16:32:07:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:07:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:07:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:07:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:13: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:13:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:13:                                                                          ^
+17/07/2026 16:32:13: 
+17/07/2026 16:32:13: SyntaxError: missing ) after argument list
+17/07/2026 16:32:13:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:13:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:13:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:13:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:13:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:13:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:13:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:13:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:13:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:13:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:18: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:18:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:18:                                                                          ^
+17/07/2026 16:32:18: 
+17/07/2026 16:32:18: SyntaxError: missing ) after argument list
+17/07/2026 16:32:18:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:18:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:18:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:18:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:18:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:18:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:18:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:18:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:18:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:18:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:24: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:24:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:24:                                                                          ^
+17/07/2026 16:32:24: 
+17/07/2026 16:32:24: SyntaxError: missing ) after argument list
+17/07/2026 16:32:24:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:24:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:24:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:24:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:24:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:24:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:24:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:24:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:24:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:24:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:30: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:30:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:30:                                                                          ^
+17/07/2026 16:32:30: 
+17/07/2026 16:32:30: SyntaxError: missing ) after argument list
+17/07/2026 16:32:30:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:30:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:30:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:30:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:30:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:30:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:30:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:30:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:30:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:30:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:36: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:36:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:36:                                                                          ^
+17/07/2026 16:32:36: 
+17/07/2026 16:32:36: SyntaxError: missing ) after argument list
+17/07/2026 16:32:36:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:36:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:36:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:36:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:36:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:36:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:36:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:36:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:36:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:36:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:42: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:42:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:42:                                                                          ^
+17/07/2026 16:32:42: 
+17/07/2026 16:32:42: SyntaxError: missing ) after argument list
+17/07/2026 16:32:42:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:42:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:42:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:42:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:42:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:42:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:42:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:42:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:42:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:42:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:48: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:48:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:48:                                                                          ^
+17/07/2026 16:32:48: 
+17/07/2026 16:32:48: SyntaxError: missing ) after argument list
+17/07/2026 16:32:48:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:48:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:48:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:48:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:48:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:48:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:48:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:48:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:48:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:48:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:54: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:54:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:54:                                                                          ^
+17/07/2026 16:32:54: 
+17/07/2026 16:32:54: SyntaxError: missing ) after argument list
+17/07/2026 16:32:54:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:54:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:54:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:54:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:59: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:32:59:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:32:59:                                                                          ^
+17/07/2026 16:32:59: 
+17/07/2026 16:32:59: SyntaxError: missing ) after argument list
+17/07/2026 16:32:59:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:32:59:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:32:59:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:59:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:59:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:32:59:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:32:59:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:32:59:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:32:59:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:32:59:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:05: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:05:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:05:                                                                          ^
+17/07/2026 16:33:05: 
+17/07/2026 16:33:05: SyntaxError: missing ) after argument list
+17/07/2026 16:33:05:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:05:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:05:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:05:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:05:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:05:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:05:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:05:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:05:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:05:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:11: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:11:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:11:                                                                          ^
+17/07/2026 16:33:11: 
+17/07/2026 16:33:11: SyntaxError: missing ) after argument list
+17/07/2026 16:33:11:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:11:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:11:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:11:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:11:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:11:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:11:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:11:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:11:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:11:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:16: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:16:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:16:                                                                          ^
+17/07/2026 16:33:16: 
+17/07/2026 16:33:16: SyntaxError: missing ) after argument list
+17/07/2026 16:33:16:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:16:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:16:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:16:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:16:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:16:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:16:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:16:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:16:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:16:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:22: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:22:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:22:                                                                          ^
+17/07/2026 16:33:22: 
+17/07/2026 16:33:22: SyntaxError: missing ) after argument list
+17/07/2026 16:33:22:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:22:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:22:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:22:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:22:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:22:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:22:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:22:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:22:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:22:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:28: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:28:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:28:                                                                          ^
+17/07/2026 16:33:28: 
+17/07/2026 16:33:28: SyntaxError: missing ) after argument list
+17/07/2026 16:33:28:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:28:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:28:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:28:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:28:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:28:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:28:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:28:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:28:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:28:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:34: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:34:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:34:                                                                          ^
+17/07/2026 16:33:34: 
+17/07/2026 16:33:34: SyntaxError: missing ) after argument list
+17/07/2026 16:33:34:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:34:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:34:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:34:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:34:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:34:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:34:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:34:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:34:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:34:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:40: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:40:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:40:                                                                          ^
+17/07/2026 16:33:40: 
+17/07/2026 16:33:40: SyntaxError: missing ) after argument list
+17/07/2026 16:33:40:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:40:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:40:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:40:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:40:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:40:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:40:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:40:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:40:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:40:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:45: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:45:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:45:                                                                          ^
+17/07/2026 16:33:45: 
+17/07/2026 16:33:45: SyntaxError: missing ) after argument list
+17/07/2026 16:33:45:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:45:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:45:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:45:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:52: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:52:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:52:                                                                          ^
+17/07/2026 16:33:52: 
+17/07/2026 16:33:52: SyntaxError: missing ) after argument list
+17/07/2026 16:33:52:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:52:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:52:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:52:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:52:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:52:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:52:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:52:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:52:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:52:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:57: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:33:57:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:33:57:                                                                          ^
+17/07/2026 16:33:57: 
+17/07/2026 16:33:57: SyntaxError: missing ) after argument list
+17/07/2026 16:33:57:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:33:57:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:33:57:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:57:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:57:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:33:57:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:33:57:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:33:57:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:33:57:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:33:57:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:03: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:03:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:03:                                                                          ^
+17/07/2026 16:34:03: 
+17/07/2026 16:34:03: SyntaxError: missing ) after argument list
+17/07/2026 16:34:03:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:03:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:03:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:03:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:03:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:03:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:03:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:03:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:03:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:03:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:08: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:08:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:08:                                                                          ^
+17/07/2026 16:34:08: 
+17/07/2026 16:34:08: SyntaxError: missing ) after argument list
+17/07/2026 16:34:08:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:08:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:08:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:08:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:08:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:08:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:08:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:08:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:08:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:08:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:14: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:14:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:14:                                                                          ^
+17/07/2026 16:34:14: 
+17/07/2026 16:34:14: SyntaxError: missing ) after argument list
+17/07/2026 16:34:14:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:14:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:14:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:14:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:20: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:20:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:20:                                                                          ^
+17/07/2026 16:34:20: 
+17/07/2026 16:34:20: SyntaxError: missing ) after argument list
+17/07/2026 16:34:20:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:20:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:20:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:20:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:20:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:20:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:20:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:20:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:20:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:20:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:25: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:25:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:25:                                                                          ^
+17/07/2026 16:34:25: 
+17/07/2026 16:34:25: SyntaxError: missing ) after argument list
+17/07/2026 16:34:25:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:25:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:25:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:25:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:25:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:25:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:25:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:25:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:25:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:25:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:31: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:31:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:31:                                                                          ^
+17/07/2026 16:34:31: 
+17/07/2026 16:34:31: SyntaxError: missing ) after argument list
+17/07/2026 16:34:31:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:31:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:31:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:31:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:31:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:31:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:31:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:31:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:31:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:31:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:37: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:37:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:37:                                                                          ^
+17/07/2026 16:34:37: 
+17/07/2026 16:34:37: SyntaxError: missing ) after argument list
+17/07/2026 16:34:37:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:37:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:37:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:37:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:37:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:37:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:37:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:37:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:37:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:37:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:42: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:42:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:42:                                                                          ^
+17/07/2026 16:34:42: 
+17/07/2026 16:34:42: SyntaxError: missing ) after argument list
+17/07/2026 16:34:42:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:42:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:42:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:42:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:42:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:42:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:42:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:42:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:42:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:42:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:48: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:48:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:48:                                                                          ^
+17/07/2026 16:34:48: 
+17/07/2026 16:34:48: SyntaxError: missing ) after argument list
+17/07/2026 16:34:48:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:48:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:48:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:48:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:48:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:48:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:48:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:48:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:48:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:48:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:53: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:53:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:53:                                                                          ^
+17/07/2026 16:34:53: 
+17/07/2026 16:34:53: SyntaxError: missing ) after argument list
+17/07/2026 16:34:53:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:53:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:53:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:53:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:53:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:53:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:53:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:53:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:53:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:53:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:59: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:34:59:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:34:59:                                                                          ^
+17/07/2026 16:34:59: 
+17/07/2026 16:34:59: SyntaxError: missing ) after argument list
+17/07/2026 16:34:59:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:34:59:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:34:59:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:59:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:59:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:34:59:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:34:59:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:34:59:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:34:59:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:34:59:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:05: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:05:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:05:                                                                          ^
+17/07/2026 16:35:05: 
+17/07/2026 16:35:05: SyntaxError: missing ) after argument list
+17/07/2026 16:35:05:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:05:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:05:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:05:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:05:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:05:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:05:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:05:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:05:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:05:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:11: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:11:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:11:                                                                          ^
+17/07/2026 16:35:11: 
+17/07/2026 16:35:11: SyntaxError: missing ) after argument list
+17/07/2026 16:35:11:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:11:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:11:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:11:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:11:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:11:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:11:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:11:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:11:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:11:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:16: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:16:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:16:                                                                          ^
+17/07/2026 16:35:16: 
+17/07/2026 16:35:16: SyntaxError: missing ) after argument list
+17/07/2026 16:35:16:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:16:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:16:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:16:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:16:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:16:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:16:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:16:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:16:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:16:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:22: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:22:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:22:                                                                          ^
+17/07/2026 16:35:22: 
+17/07/2026 16:35:22: SyntaxError: missing ) after argument list
+17/07/2026 16:35:22:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:22:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:22:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:22:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:22:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:22:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:22:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:22:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:22:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:22:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:28: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:28:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:28:                                                                          ^
+17/07/2026 16:35:28: 
+17/07/2026 16:35:28: SyntaxError: missing ) after argument list
+17/07/2026 16:35:28:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:28:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:28:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:28:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:28:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:28:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:28:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:28:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:28:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:28:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:33: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:33:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:33:                                                                          ^
+17/07/2026 16:35:33: 
+17/07/2026 16:35:33: SyntaxError: missing ) after argument list
+17/07/2026 16:35:33:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:33:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:33:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:33:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:33:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:33:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:33:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:33:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:33:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:33:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:39: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:39:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:39:                                                                          ^
+17/07/2026 16:35:39: 
+17/07/2026 16:35:39: SyntaxError: missing ) after argument list
+17/07/2026 16:35:39:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:39:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:39:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:39:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:39:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:39:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:39:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:39:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:39:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:39:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:44: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:44:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:44:                                                                          ^
+17/07/2026 16:35:44: 
+17/07/2026 16:35:44: SyntaxError: missing ) after argument list
+17/07/2026 16:35:44:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:44:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:44:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:44:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:44:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:44:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:44:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:44:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:44:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:44:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:50: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:50:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:50:                                                                          ^
+17/07/2026 16:35:50: 
+17/07/2026 16:35:50: SyntaxError: missing ) after argument list
+17/07/2026 16:35:50:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:50:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:50:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:50:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:50:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:50:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:50:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:50:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:50:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:50:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:56: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:35:56:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:35:56:                                                                          ^
+17/07/2026 16:35:56: 
+17/07/2026 16:35:56: SyntaxError: missing ) after argument list
+17/07/2026 16:35:56:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:35:56:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:35:56:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:56:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:56:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:35:56:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:35:56:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:35:56:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:35:56:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:35:56:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:02: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:02:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:02:                                                                          ^
+17/07/2026 16:36:02: 
+17/07/2026 16:36:02: SyntaxError: missing ) after argument list
+17/07/2026 16:36:02:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:02:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:02:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:02:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:02:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:02:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:02:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:02:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:02:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:02:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:08: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:08:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:08:                                                                          ^
+17/07/2026 16:36:08: 
+17/07/2026 16:36:08: SyntaxError: missing ) after argument list
+17/07/2026 16:36:08:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:08:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:08:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:08:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:08:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:08:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:08:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:08:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:08:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:08:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:14: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:14:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:14:                                                                          ^
+17/07/2026 16:36:14: 
+17/07/2026 16:36:14: SyntaxError: missing ) after argument list
+17/07/2026 16:36:14:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:14:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:14:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:14:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:19: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:19:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:19:                                                                          ^
+17/07/2026 16:36:19: 
+17/07/2026 16:36:19: SyntaxError: missing ) after argument list
+17/07/2026 16:36:19:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:19:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:19:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:19:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:25: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:25:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:25:                                                                          ^
+17/07/2026 16:36:25: 
+17/07/2026 16:36:25: SyntaxError: missing ) after argument list
+17/07/2026 16:36:25:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:25:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:25:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:25:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:25:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:25:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:25:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:25:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:25:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:25:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:31: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:31:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:31:                                                                          ^
+17/07/2026 16:36:31: 
+17/07/2026 16:36:31: SyntaxError: missing ) after argument list
+17/07/2026 16:36:31:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:31:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:31:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:31:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:31:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:31:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:31:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:31:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:31:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:31:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:37: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:37:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:37:                                                                          ^
+17/07/2026 16:36:37: 
+17/07/2026 16:36:37: SyntaxError: missing ) after argument list
+17/07/2026 16:36:37:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:37:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:37:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:37:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:37:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:37:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:37:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:37:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:37:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:37:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:43: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:43:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:43:                                                                          ^
+17/07/2026 16:36:43: 
+17/07/2026 16:36:43: SyntaxError: missing ) after argument list
+17/07/2026 16:36:43:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:43:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:43:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:43:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:43:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:43:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:43:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:43:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:43:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:43:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:49: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:49:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:49:                                                                          ^
+17/07/2026 16:36:49: 
+17/07/2026 16:36:49: SyntaxError: missing ) after argument list
+17/07/2026 16:36:49:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:49:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:49:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:49:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:49:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:49:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:49:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:49:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:49:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:49:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:54: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:36:54:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:36:54:                                                                          ^
+17/07/2026 16:36:54: 
+17/07/2026 16:36:54: SyntaxError: missing ) after argument list
+17/07/2026 16:36:54:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:36:54:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:36:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:36:54:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:36:54:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:36:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:36:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:36:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:00: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:37:00:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:37:00:                                                                          ^
+17/07/2026 16:37:00: 
+17/07/2026 16:37:00: SyntaxError: missing ) after argument list
+17/07/2026 16:37:00:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:00:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:00:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:00:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:00:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:00:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:00:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:00:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:00:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:00:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:06: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:37:06:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:37:06:                                                                          ^
+17/07/2026 16:37:06: 
+17/07/2026 16:37:06: SyntaxError: missing ) after argument list
+17/07/2026 16:37:06:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:06:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:06:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:06:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:06:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:06:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:06:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:06:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:06:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:06:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:12: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:37:12:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:37:12:                                                                          ^
+17/07/2026 16:37:12: 
+17/07/2026 16:37:12: SyntaxError: missing ) after argument list
+17/07/2026 16:37:12:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:12:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:12:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:12:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:12:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:12:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:12:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:12:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:12:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:12:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:17: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:37:17:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:37:17:                                                                          ^
+17/07/2026 16:37:17: 
+17/07/2026 16:37:17: SyntaxError: missing ) after argument list
+17/07/2026 16:37:17:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:17:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:17:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:17:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:17:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:17:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:17:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:17:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:17:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:17:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:23: E:\projetos_hitss\geo-pme-notas\server.js:1217
+17/07/2026 16:37:23:       return res.status(400).json({ error: 'ID da cotação é obrigatório' }
+17/07/2026 16:37:23:                                                                          ^
+17/07/2026 16:37:23: 
+17/07/2026 16:37:23: SyntaxError: missing ) after argument list
+17/07/2026 16:37:23:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:23:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:23:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:23:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:23:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:23:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:23:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:23:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:23:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:23:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:29: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:37:29:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:37:29:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:37:29: 
+17/07/2026 16:37:29: SyntaxError: missing ) after argument list
+17/07/2026 16:37:29:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:29:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:29:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:29:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:29:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:29:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:29:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:29:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:29:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:29:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:34: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:37:34:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:37:34:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:37:34: 
+17/07/2026 16:37:34: SyntaxError: missing ) after argument list
+17/07/2026 16:37:34:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:34:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:34:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:34:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:34:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:34:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:34:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:34:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:34:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:34:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:44: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:37:44:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:37:44:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:37:44: 
+17/07/2026 16:37:44: SyntaxError: missing ) after argument list
+17/07/2026 16:37:44:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:44:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:44:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:44:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:44:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:44:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:44:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:44:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:44:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:44:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:51: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:37:51:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:37:51:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:37:51: 
+17/07/2026 16:37:51: SyntaxError: missing ) after argument list
+17/07/2026 16:37:51:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:51:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:51:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:51:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:51:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:51:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:51:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:51:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:51:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:51:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:56: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:37:56:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:37:56:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:37:56: 
+17/07/2026 16:37:56: SyntaxError: missing ) after argument list
+17/07/2026 16:37:56:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:37:56:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:37:56:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:56:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:56:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:37:56:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:37:56:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:37:56:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:37:56:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:37:56:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:38:02: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:38:02:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:38:02:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:38:02: 
+17/07/2026 16:38:02: SyntaxError: missing ) after argument list
+17/07/2026 16:38:02:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:38:02:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:38:02:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:38:02:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:38:02:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:38:02:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:38:02:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:38:02:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:38:02:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:38:02:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:38:08: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:38:08:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:38:08:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:38:08: 
+17/07/2026 16:38:08: SyntaxError: missing ) after argument list
+17/07/2026 16:38:08:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:38:08:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:38:08:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:38:08:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:38:08:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:38:08:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:38:08:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:38:08:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:38:08:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:38:08:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:38:13: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:38:13:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:38:13:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:38:13: 
+17/07/2026 16:38:13: SyntaxError: missing ) after argument list
+17/07/2026 16:38:13:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:38:13:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:38:13:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:38:13:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:38:13:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:38:13:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:38:13:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:38:13:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:38:13:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:38:13:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:38:19: E:\projetos_hitss\geo-pme-notas\server.js:1298
+17/07/2026 16:38:19:             'SELECT TRIM(COALESCE(nome, '''') || '' '' || COALESCE(sobrenome, '''')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1',
+17/07/2026 16:38:19:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17/07/2026 16:38:19: 
+17/07/2026 16:38:19: SyntaxError: missing ) after argument list
+17/07/2026 16:38:19:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+17/07/2026 16:38:19:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+17/07/2026 16:38:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:38:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:38:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+17/07/2026 16:38:19:     at Object.<anonymous> (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+17/07/2026 16:38:19:     at Module._compile (node:internal/modules/cjs/loader:1760:14)
+17/07/2026 16:38:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+17/07/2026 16:38:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+17/07/2026 16:38:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)

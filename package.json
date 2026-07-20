@@ -21,10 +21,11 @@
     "build:login": "babel src/login.jsx --out-file public/dist/login.js",
     "build:index": "babel src/app.jsx --out-file public/dist/index.js",
     "build:correcao": "babel src/correcao_cadastral.jsx --out-file public/dist/correcao_cadastral.js",
-    "build:tailwind": "& ./node_modules/.bin/tailwindcss -i ./src/input.css -o ./public/dist/tailwind.css",
+    "build:tailwind": "tailwindcss -i ./src/input.css -o ./public/dist/tailwind.css",
     "build:all": "npm run build:login && npm run build:index && npm run build:correcao && npm run build:tailwind"
   },
   "dependencies": {
+    "acorn": "^8.17.0",
     "adm-zip": "^0.5.17",
     "bcrypt": "^6.0.0",
     "body-parser": "^1.20.2",
