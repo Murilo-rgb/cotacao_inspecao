@@ -1091,9 +1091,14 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
     }
 
     if (req.query.status && req.query.status.trim()) {
-      query += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
-      params.push(req.query.status.trim());
-      paramIndex++;
+      if (req.query.status.trim().toLowerCase() === 'reprovado') {
+        // Mostrar reprovados OU já auditados
+        query += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
+      } else {
+        query += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+        params.push(req.query.status.trim());
+        paramIndex++;
+      }
     }
 
     query += ' ORDER BY c.usuario_id, c.data_de_criacao DESC) sub ORDER BY sub.data_de_criacao DESC';
@@ -1452,9 +1457,14 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
     }
 
     if (req.query.status && req.query.status.trim()) {
-      query += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
-      params.push(req.query.status.trim());
-      paramIndex++;
+      if (req.query.status.trim().toLowerCase() === 'reprovado') {
+        // Mostrar reprovados OU já auditados
+        query += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
+      } else {
+        query += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+        params.push(req.query.status.trim());
+        paramIndex++;
+      }
     }
 
     query += ' ORDER BY c.usuario_id, c.data_de_criacao DESC) sub ORDER BY sub.data_de_criacao DESC';

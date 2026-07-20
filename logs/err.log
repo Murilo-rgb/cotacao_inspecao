@@ -746,3 +746,21 @@
 20/07/2026 15:16:06:   line: '3780',
 20/07/2026 15:16:06:   routine: 'DateTimeParseError'
 20/07/2026 15:16:06: }
+20/07/2026 17:02:49: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:02:49:     at E:\projetos_hitss\geo-pme-notas\server.js:1270:18
+20/07/2026 17:02:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:03:14: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:03:14:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:03:14:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:03:36: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:03:36:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:03:36:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:03:41: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:03:41:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:03:41:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:05:03: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:05:03:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:05:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:05:36: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:05:36:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:05:36:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
