@@ -942,30 +942,6 @@ function App() {
   }, "Sair")))))), /*#__PURE__*/React.createElement("main", {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700"
-  }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-slate-500 dark:text-slate-400"
-  }, "Total"), /*#__PURE__*/React.createElement("p", {
-    className: "text-2xl font-bold text-slate-800 mt-1 dark:text-white"
-  }, filteredQuotations.length)), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700"
-  }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-amber-600 dark:text-amber-400"
-  }, "Pendentes"), /*#__PURE__*/React.createElement("p", {
-    className: "text-2xl font-bold text-amber-700 mt-1 dark:text-amber-300"
-  }, filteredQuotations.filter(function (q) {
-    return !q.status || q.status === 'pendente-correcao-cadastral';
-  }).length)), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700"
-  }, /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-medium text-emerald-600 dark:text-emerald-400"
-  }, "Efetivadas"), /*#__PURE__*/React.createElement("p", {
-    className: "text-2xl font-bold text-emerald-700 mt-1 dark:text-emerald-300"
-  }, filteredQuotations.filter(function (q) {
-    return q.status === 'correcao-efetivada';
-  }).length))), /*#__PURE__*/React.createElement("div", {
     className: "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden dark:bg-slate-800 dark:border-slate-700"
   }, loading ? /*#__PURE__*/React.createElement("div", {
     className: "overflow-x-auto"

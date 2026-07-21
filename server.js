@@ -1060,7 +1060,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
     const normalizedSearch = search && search.trim() ? search.trim() : '';
     const hasSearch = Boolean(normalizedSearch);
     let innerQuery = `
-      SELECT DISTINCT ON (c.tarefa) 
+      SELECT DISTINCT ON (c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) 
         c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
         c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
         c.usuario_id, c.origem, c.id_qldd,
@@ -1112,7 +1112,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    innerQuery += ' ORDER BY c.usuario_id, TO_DATE(LEFT(c.data_de_criacao, 10), \'DD/MM/YYYY\'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()';
+    innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
 
     const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
 
@@ -1449,7 +1449,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
     const normalizedSearch = search && search.trim() ? search.trim() : '';
     const hasSearch = Boolean(normalizedSearch);
     let innerQuery = `
-      SELECT DISTINCT ON (c.tarefa) 
+      SELECT DISTINCT ON (c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) 
         c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
         c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
         c.usuario_id, c.origem, c.id_qldd,
@@ -1501,7 +1501,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    innerQuery += ' ORDER BY c.usuario_id, TO_DATE(LEFT(c.data_de_criacao, 10), \'DD/MM/YYYY\'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()';
+    innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
 
     const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
 
@@ -1722,29 +1722,59 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
         const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
         const ano = parseInt(req.query.ano) || new Date().getFullYear();
 
-        // Total de tarefas criadas por dia no mês
+        // Total de tarefas criadas por dia no mês, considerando apenas uma tarefa por usuário por dia
         const tarefasQuery = await pool.query(`
-            SELECT 
-                CAST(SPLIT_PART(data_de_criacao, '/', 1) AS INTEGER) as dia,
-                COUNT(*)::int as total
-            FROM db_bloco_de_notas.cotacao
-            WHERE validacao = 'Ativo'
-              AND CAST(SPLIT_PART(data_de_criacao, '/', 3) AS INTEGER) = $1
-              AND CAST(SPLIT_PART(data_de_criacao, '/', 2) AS INTEGER) = $2
+            WITH base AS (
+                SELECT
+                    c.usuario_id,
+                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    c.id_qldd
+                FROM db_bloco_de_notas.cotacao c
+                WHERE c.validacao = 'Ativo'
+                  AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
+                  AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+            ),
+            dedup AS (
+                SELECT DISTINCT ON (usuario_id, data_base)
+                    usuario_id,
+                    data_base,
+                    id_qldd
+                FROM base
+                ORDER BY usuario_id, data_base, CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+            )
+            SELECT
+                EXTRACT(DAY FROM data_base)::int AS dia,
+                COUNT(*)::int AS total
+            FROM dedup
             GROUP BY dia
             ORDER BY dia
         `, [ano, mes]);
 
-        // Tarefas auditadas por dia no mês (via data_qualidade na auditoria_qualidade)
+        // Tarefas auditadas por dia no mês, considerando apenas uma tarefa por usuário por dia
         const auditadasQuery = await pool.query(`
-            SELECT 
-                EXTRACT(DAY FROM aq.data_qualidade)::int as dia,
-                COUNT(DISTINCT aq.id_qldd)::int as auditadas
-            FROM db_bloco_de_notas.auditoria_qualidade aq
-            INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
-            WHERE c.validacao = 'Ativo'
-              AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
-              AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+            WITH base AS (
+                SELECT
+                    c.usuario_id,
+                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    c.id_qldd
+                FROM db_bloco_de_notas.auditoria_qualidade aq
+                INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+                WHERE c.validacao = 'Ativo'
+                  AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
+                  AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+            ),
+            dedup AS (
+                SELECT DISTINCT ON (usuario_id, data_base)
+                    usuario_id,
+                    data_base,
+                    id_qldd
+                FROM base
+                ORDER BY usuario_id, data_base, CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+            )
+            SELECT
+                EXTRACT(DAY FROM data_base)::int AS dia,
+                COUNT(*)::int AS auditadas
+            FROM dedup
             GROUP BY dia
             ORDER BY dia
         `, [ano, mes]);
@@ -1797,26 +1827,64 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
         const ano = parseInt(req.query.ano) || new Date().getFullYear();
 
         const tarefasQuery = await pool.query(`
-            SELECT 
-                CAST(SPLIT_PART(data_de_criacao, '/', 1) AS INTEGER) as dia,
-                COUNT(*)::int as total
-            FROM db_bloco_de_notas.cotacao
-            WHERE validacao = 'Ativo'
-              AND CAST(SPLIT_PART(data_de_criacao, '/', 3) AS INTEGER) = $1
-              AND CAST(SPLIT_PART(data_de_criacao, '/', 2) AS INTEGER) = $2
+            WITH base AS (
+                SELECT
+                    c.usuario_id,
+                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    c.id_qldd
+                FROM db_bloco_de_notas.cotacao c
+                WHERE c.validacao = 'Ativo'
+                  AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
+                  AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+            ),
+            ranked AS (
+                SELECT
+                    usuario_id,
+                    data_base,
+                    id_qldd,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY usuario_id, data_base
+                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+                    ) AS rn
+                FROM base
+            )
+            SELECT
+                EXTRACT(DAY FROM data_base)::int AS dia,
+                COUNT(*)::int AS total
+            FROM ranked
+            WHERE rn = 1
             GROUP BY dia
             ORDER BY dia
         `, [ano, mes]);
 
         const auditadasQuery = await pool.query(`
-            SELECT 
-                EXTRACT(DAY FROM aq.data_qualidade)::int as dia,
-                COUNT(DISTINCT aq.id_qldd)::int as auditadas
-            FROM db_bloco_de_notas.auditoria_qualidade aq
-            INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
-            WHERE c.validacao = 'Ativo'
-              AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
-              AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+            WITH base AS (
+                SELECT
+                    c.usuario_id,
+                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    c.id_qldd
+                FROM db_bloco_de_notas.auditoria_qualidade aq
+                INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+                WHERE c.validacao = 'Ativo'
+                  AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
+                  AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+            ),
+            ranked AS (
+                SELECT
+                    usuario_id,
+                    data_base,
+                    id_qldd,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY usuario_id, data_base
+                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+                    ) AS rn
+                FROM base
+            )
+            SELECT
+                EXTRACT(DAY FROM data_base)::int AS dia,
+                COUNT(*)::int AS auditadas
+            FROM ranked
+            WHERE rn = 1
             GROUP BY dia
             ORDER BY dia
         `, [ano, mes]);
