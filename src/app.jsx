@@ -701,10 +701,6 @@ function App() {
                         <input type="date" value={dateStart} onChange={(e) => setDateStart(e.target.value)}
                             className="w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
                     </div>
-                    <button onClick={() => { setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setShowModal(true); }}
-                        className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
-                        <PlusIcon /> Nova cotação
-                    </button>
                     <button onClick={() => { setReprovaModalOpen(true); setReprovaSearch(''); setReprovaResults([]); setReprovaAbaAtiva('Inspeção') }}
                         className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 focus:ring-4 focus:ring-amber-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
                         <SearchIcon /> Reprova Padrão
@@ -998,28 +994,32 @@ function App() {
                             <table className="min-w-full divide-y divide-slate-200">
                                 <thead className="bg-slate-50">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonte</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Motivo</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Reprova</th>
+                                        <th className="w-16 px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"></th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Motivo / Reprova</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-100">
                                     {reprovaLoading ? (
-                                        <tr><td className="px-4 py-4 text-sm text-slate-500" colSpan="3">Carregando...</td></tr>
+                                        <tr><td className="px-4 py-4 text-sm text-slate-500" colSpan="2">Carregando...</td></tr>
                                     ) : reprovaResults.length === 0 ? (
-                                        <tr><td className="px-4 py-8 text-sm text-slate-500 text-center" colSpan="3">{reprovaSearch ? 'Nenhum registro encontrado' : 'Digite para buscar motivos de reprova.'}</td></tr>
+                                        <tr><td className="px-4 py-8 text-sm text-slate-500 text-center" colSpan="2">{reprovaSearch ? 'Nenhum registro encontrado' : 'Digite para buscar motivos de reprova.'}</td></tr>
                                     ) : (
                                         reprovaResults.map((item, idx) => {
                                             const fonte = (item.fonte || '').trim();
-                                            const tagClass = fonte.toLowerCase() === 'inspeção' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700';
-                                            const tagLabel = fonte.toLowerCase() === 'inspeção' ? 'Inspeção' : 'Input';
+                                            const isInspecao = fonte.toLowerCase() === 'inspeção';
                                             return (
                                                 <tr key={item.id ?? idx} className="hover:bg-slate-50/80 transition-colors duration-150">
-                                                    <td className="px-4 py-3 whitespace-nowrap">
-                                                        <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${tagClass}`}>{tagLabel}</span>
+                                                    <td className="px-4 py-3 whitespace-nowrap align-top pt-5">
+                                                        {isInspecao ? (
+                                                            <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
+                                                        ) : (
+                                                            <span title="Input" className="inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"><InputIcon /></span>
+                                                        )}
                                                     </td>
-                                                    <td className="px-4 py-3 text-sm text-slate-900 font-semibold whitespace-nowrap">{item.motivo}</td>
-                                                    <td className="px-4 py-3 text-sm text-slate-600 whitespace-pre-wrap break-words">{item.texto_reprova}</td>
+                                                    <td className="px-4 py-3 text-sm">
+                                                        <div className="text-slate-900 font-semibold mb-1">{item.motivo}</div>
+                                                        <div className="text-slate-600 whitespace-pre-wrap break-words">{item.texto_reprova}</div>
+                                                    </td>
                                                 </tr>
                                             );
                                         })

@@ -1438,16 +1438,6 @@ function App() {
     className: "w-40 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300"
   })), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      setEditingQuotation(null);
-      setFormData({
-        cotacao: '',
-        anotacao: ''
-      });
-      setShowModal(true);
-    },
-    className: "inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 shadow-md hover:shadow-lg"
-  }, /*#__PURE__*/React.createElement(PlusIcon, null), " Nova cota\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
       setReprovaModalOpen(true);
       setReprovaSearch('');
       setReprovaResults([]);
@@ -1928,36 +1918,39 @@ function App() {
   }, /*#__PURE__*/React.createElement("thead", {
     className: "bg-slate-50"
   }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+    className: "w-16 px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+  }), /*#__PURE__*/React.createElement("th", {
     className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Fonte"), /*#__PURE__*/React.createElement("th", {
-    className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Motivo"), /*#__PURE__*/React.createElement("th", {
-    className: "px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
-  }, "Reprova"))), /*#__PURE__*/React.createElement("tbody", {
+  }, "Motivo / Reprova"))), /*#__PURE__*/React.createElement("tbody", {
     className: "bg-white divide-y divide-slate-100"
   }, reprovaLoading ? /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
     className: "px-4 py-4 text-sm text-slate-500",
-    colSpan: "3"
+    colSpan: "2"
   }, "Carregando...")) : reprovaResults.length === 0 ? /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
     className: "px-4 py-8 text-sm text-slate-500 text-center",
-    colSpan: "3"
+    colSpan: "2"
   }, reprovaSearch ? 'Nenhum registro encontrado' : 'Digite para buscar motivos de reprova.')) : reprovaResults.map(function (item, idx) {
     var _item$id;
     var fonte = (item.fonte || '').trim();
-    var tagClass = fonte.toLowerCase() === 'inspeção' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700';
-    var tagLabel = fonte.toLowerCase() === 'inspeção' ? 'Inspeção' : 'Input';
+    var isInspecao = fonte.toLowerCase() === 'inspeção';
     return /*#__PURE__*/React.createElement("tr", {
       key: (_item$id = item.id) !== null && _item$id !== void 0 ? _item$id : idx,
       className: "hover:bg-slate-50/80 transition-colors duration-150"
     }, /*#__PURE__*/React.createElement("td", {
-      className: "px-4 py-3 whitespace-nowrap"
-    }, /*#__PURE__*/React.createElement("span", {
-      className: "inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ".concat(tagClass)
-    }, tagLabel)), /*#__PURE__*/React.createElement("td", {
-      className: "px-4 py-3 text-sm text-slate-900 font-semibold whitespace-nowrap"
-    }, item.motivo), /*#__PURE__*/React.createElement("td", {
-      className: "px-4 py-3 text-sm text-slate-600 whitespace-pre-wrap break-words"
-    }, item.texto_reprova));
+      className: "px-4 py-3 whitespace-nowrap align-top pt-5"
+    }, isInspecao ? /*#__PURE__*/React.createElement("span", {
+      title: "Inspe\xE7\xE3o",
+      className: "inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"
+    }, /*#__PURE__*/React.createElement(InspectIcon, null)) : /*#__PURE__*/React.createElement("span", {
+      title: "Input",
+      className: "inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"
+    }, /*#__PURE__*/React.createElement(InputIcon, null))), /*#__PURE__*/React.createElement("td", {
+      className: "px-4 py-3 text-sm"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "text-slate-900 font-semibold mb-1"
+    }, item.motivo), /*#__PURE__*/React.createElement("div", {
+      className: "text-slate-600 whitespace-pre-wrap break-words"
+    }, item.texto_reprova)));
   })))))));
 }
 var root = ReactDOM.createRoot(document.getElementById('root'));

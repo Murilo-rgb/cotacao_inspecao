@@ -24,7 +24,76 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* ===== DARK MODE STYLES ===== */
+        html, html *, html *::before, html *::after {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+        html.dark { background-color: #0f172a; }
+        html.dark body { background-color: #0f172a; }
+        html.dark .bg-white { background-color: #1e293b !important; }
+        html.dark .bg-slate-50, html.dark .bg-slate-50\/80 { background-color: #0f172a !important; }
+        html.dark .bg-slate-100 { background-color: #1e293b !important; }
+        html.dark .bg-slate-800 { background-color: #334155 !important; }
+        html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
+        html.dark .border-slate-700 { border-color: #475569 !important; }
+        html.dark .divide-slate-200 > *, html.dark .divide-slate-100 > * { border-color: #334155 !important; }
+        html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8 !important; }
+        html.dark .text-slate-600 { color: #cbd5e1 !important; }
+        html.dark .text-slate-700 { color: #e2e8f0 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-900 { color: #f1f5f9 !important; }
+        html.dark .text-white { color: #f8fafc !important; }
+        html.dark .placeholder-slate-400::placeholder { color: #64748b !important; }
+        html.dark header { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark table thead { background-color: #1e293b !important; }
+        html.dark table thead th { color: #94a3b8 !important; }
+        html.dark table tbody { background-color: #1e293b !important; }
+        html.dark table tbody tr { background-color: #1e293b !important; }
+        html.dark table tbody tr:hover { background-color: #334155 !important; }
+        html.dark input, html.dark select, html.dark textarea {
+            background-color: #1e293b !important;
+            border-color: #475569 !important;
+            color: #e2e8f0 !important;
+        }
+        html.dark input:focus, html.dark select:focus, html.dark textarea:focus {
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
+        }
+        html.dark input:disabled, html.dark textarea:disabled, html.dark input[readonly], html.dark textarea[readonly] {
+            background-color: #0f172a !important;
+            color: #64748b !important;
+        }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl, html.dark .shadow-2xl {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3) !important;
+        }
+        html.dark .bg-emerald-50 { background-color: rgba(5, 150, 105, 0.15) !important; }
+        html.dark .text-emerald-700 { color: #34d399 !important; }
+        html.dark .border-emerald-200 { border-color: rgba(5, 150, 105, 0.3) !important; }
+        html.dark .bg-red-50 { background-color: rgba(220, 38, 38, 0.15) !important; }
+        html.dark .text-red-700 { color: #f87171 !important; }
+        html.dark .border-red-200 { border-color: rgba(220, 38, 38, 0.3) !important; }
+        html.dark .bg-amber-50 { background-color: rgba(217, 119, 6, 0.15) !important; }
+        html.dark .text-amber-700 { color: #fbbf24 !important; }
+        html.dark .border-amber-200 { border-color: rgba(217, 119, 6, 0.3) !important; }
+        html.dark .bg-violet-50 { background-color: rgba(139, 92, 246, 0.15) !important; }
+        html.dark .text-violet-700 { color: #a78bfa !important; }
+        html.dark .border-violet-200 { border-color: rgba(139, 92, 246, 0.3) !important; }
+        html.dark .bg-indigo-100 { background-color: rgba(99, 102, 241, 0.15) !important; }
+        html.dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.15) !important; }
+        html.dark .bg-orange-50 { background-color: rgba(249, 115, 22, 0.15) !important; }
+        html.dark .modal-content { background-color: #1e293b !important; }
+        html.dark .skeleton, html.dark .animate-pulse div { background-color: #334155 !important; }
+        html.dark .bg-gradient-to-r { opacity: 0.9; }
+        html.dark .bg-emerald-50\/30 { background-color: rgba(5, 150, 105, 0.08) !important; }
     </style>
+    <script>
+    (function() {
+        const saved = localStorage.getItem('darkMode');
+        if (saved === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    })();
+    </script>
 </head>
 <body>
     <div id="root"></div>
@@ -68,6 +137,22 @@
             return React.createElement('div', { className: `fixed bottom-6 right-6 z-[60] px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 toast-enter ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}` }, type === 'success' ? React.createElement(CheckIcon) : React.createElement(AlertTriangleIcon), React.createElement('span', { className: "font-medium text-sm" }, message));
         }
 
+        // Dark mode icons
+        const SunIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "12", cy: "12", r: "5" }),
+            React.createElement('line', { x1: "12", y1: "1", x2: "12", y2: "3" }),
+            React.createElement('line', { x1: "12", y1: "21", x2: "12", y2: "23" }),
+            React.createElement('line', { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }),
+            React.createElement('line', { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }),
+            React.createElement('line', { x1: "1", y1: "12", x2: "3", y2: "12" }),
+            React.createElement('line', { x1: "21", y1: "12", x2: "23", y2: "12" }),
+            React.createElement('line', { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }),
+            React.createElement('line', { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" })
+        );
+        const MoonIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" })
+        );
+
         function App() {
             const [quotations, setQuotations] = useState([]);
             const [loading, setLoading] = useState(true);
@@ -82,8 +167,23 @@
             const [username, setUsername] = useState('');
             const [toast, setToast] = useState(null);
             const [saving, setSaving] = useState(false);
+            const [darkMode, setDarkMode] = useState(() => {
+                const saved = localStorage.getItem('darkMode');
+                return saved === 'true';
+            });
 
-                const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
+            useEffect(() => {
+                if (darkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                localStorage.setItem('darkMode', darkMode);
+            }, [darkMode]);
+
+            const toggleDarkMode = () => setDarkMode(prev => !prev);
 
             useEffect(() => {
                 const token = localStorage.getItem('token');
@@ -206,6 +306,8 @@
                 if (s === 'Devolução Parcial' || s === 'Reprova Parcial') return { label: s, bg: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' };
                 if (s === 'Devolução Indevida' || s === 'Reprova Indevida') return { label: s, bg: 'bg-red-50 text-red-700 border-red-200', dot: 'bg-red-500' };
                 if (s === 'Aprovacao Indevida') return { label: s, bg: 'bg-orange-50 text-orange-700 border-orange-200', dot: 'bg-orange-500' };
+                if (s === 'Aprovação Indevida - Qualidade') return { label: s, bg: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500' };
+                if (s === 'RCV') return { label: s, bg: 'bg-sky-50 text-sky-700 border-sky-200', dot: 'bg-sky-500' };
                 return null;
             };
 
@@ -243,6 +345,14 @@
                                 )
                             ),
                             React.createElement('div', { className: "flex items-center gap-2" },
+                                React.createElement('button', {
+                                    onClick: toggleDarkMode,
+                                    className: `p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
+                                        darkMode 
+                                            ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' 
+                                            : 'text-slate-600 bg-slate-100 hover:bg-slate-200'
+                                    }`
+                                }, darkMode ? React.createElement(SunIcon) : React.createElement(MoonIcon)),
                                 React.createElement('a', { href: `${BASE_PATH}/qualidade/calendario`, className: "flex items-center gap-1.5 px-3.5 py-2 text-sm font-semibold text-blue-600 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 hover:border-blue-300 transition-all duration-200" }, React.createElement(CalendarIcon), 'Calendário'),
                                 React.createElement('div', { className: "flex items-center gap-4" },
                                     React.createElement('div', { className: "hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm" },
@@ -453,13 +563,17 @@
                                         ? React.createElement(React.Fragment, null,
                                             React.createElement('option', { value: 'Procedimento Correto', className: "text-emerald-700" }, '✅ Procedimento Correto'),
                                             React.createElement('option', { value: 'Devolução Parcial', className: "text-amber-700" }, '⚠️ Devolução Parcial'),
-                                            React.createElement('option', { value: 'Devolução Indevida', className: "text-red-700" }, '❌ Devolução Indevida')
+                                            React.createElement('option', { value: 'Devolução Indevida', className: "text-red-700" }, '❌ Devolução Indevida'),
+                                            React.createElement('option', { value: 'Aprovação Indevida - Qualidade', className: "text-fuchsia-700" }, '🧪 Aprovação Indevida - Qualidade'),
+                                            React.createElement('option', { value: 'RCV', className: "text-sky-700" }, '📋 RCV')
                                           )
                                         : React.createElement(React.Fragment, null,
                                             React.createElement('option', { value: 'Procedimento Correto', className: "text-emerald-700" }, '✅ Procedimento Correto'),
                                             React.createElement('option', { value: 'Reprova Parcial', className: "text-amber-700" }, '⚠️ Reprova Parcial'),
                                             React.createElement('option', { value: 'Reprova Indevida', className: "text-red-700" }, '❌ Reprova Indevida'),
-                                            React.createElement('option', { value: 'Aprovacao Indevida', className: "text-orange-700" }, '⚠️ Aprovação Indevida')
+                                            React.createElement('option', { value: 'Aprovacao Indevida', className: "text-orange-700" }, '⚠️ Aprovação Indevida'),
+                                            React.createElement('option', { value: 'Aprovação Indevida - Qualidade', className: "text-fuchsia-700" }, '🧪 Aprovação Indevida - Qualidade'),
+                                            React.createElement('option', { value: 'RCV', className: "text-sky-700" }, '📋 RCV')
                                           )
                                 )
                             ),

@@ -314,6 +314,7 @@
             const [filtroTarefa, setFiltroTarefa] = useState('');
             const [filtroDataInicio, setFiltroDataInicio] = useState('');
             const [filtroDataFim, setFiltroDataFim] = useState('');
+            const [modoPeriodo, setModoPeriodo] = useState('dia');
 
             // Modal
             const [modalColaborador, setModalColaborador] = useState(null);
@@ -596,25 +597,52 @@
 
                     // Tab: Dashboard
                     activeTab === 'dashboard' && React.createElement('div', { className: 'animate-fadeIn' },
-                        React.createElement('div', { className: 'flex items-center gap-3 mb-4' },
-                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Período:'),
+                        React.createElement('div', { className: 'flex flex-wrap items-center gap-3 mb-4' },
+                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Calendário:'),
+                            React.createElement('select', {
+                                value: modoPeriodo,
+                                onChange: (e) => {
+                                    const nextMode = e.target.value;
+                                    setModoPeriodo(nextMode);
+                                    if (nextMode === 'dia') {
+                                        setFiltroDataFim('');
+                                    } else if (!filtroDataInicio) {
+                                        const hoje = new Date().toISOString().split('T')[0];
+                                        setFiltroDataInicio(hoje);
+                                        setFiltroDataFim(hoje);
+                                    }
+                                },
+                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 bg-white'
+                            },
+                                React.createElement('option', { value: 'dia' }, 'Dia'),
+                                React.createElement('option', { value: 'periodo' }, 'Período')
+                            ),
                             React.createElement('input', {
                                 type: 'date',
                                 value: filtroDataInicio,
-                                onChange: (e) => setFiltroDataInicio(e.target.value),
+                                onChange: (e) => {
+                                    const value = e.target.value;
+                                    setFiltroDataInicio(value);
+                                    if (modoPeriodo === 'dia') {
+                                        setFiltroDataFim(value);
+                                    }
+                                },
                                 className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
                             }),
-                            React.createElement('span', { className: 'text-sm text-slate-400' }, 'até'),
-                            React.createElement('input', {
-                                type: 'date',
-                                value: filtroDataFim,
-                                onChange: (e) => setFiltroDataFim(e.target.value),
-                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
-                            }),
+                            modoPeriodo === 'periodo' && React.createElement(React.Fragment, null,
+                                React.createElement('span', { className: 'text-sm text-slate-400' }, 'até'),
+                                React.createElement('input', {
+                                    type: 'date',
+                                    value: filtroDataFim,
+                                    onChange: (e) => setFiltroDataFim(e.target.value),
+                                    className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
+                                })
+                            ),
                             (filtroDataInicio || filtroDataFim) && React.createElement('button', {
                                 onClick: () => {
                                     setFiltroDataInicio('');
                                     setFiltroDataFim('');
+                                    setModoPeriodo('dia');
                                 },
                                 className: 'px-3 py-2 text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors'
                             }, 'Limpar')

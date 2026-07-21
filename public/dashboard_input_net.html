@@ -98,6 +98,20 @@
         const CheckSmallIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" },
             React.createElement('polyline', { points: "20 6 9 17 4 12" })
         );
+        const SunIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "12", cy: "12", r: "5" }),
+            React.createElement('line', { x1: "12", y1: "1", x2: "12", y2: "3" }),
+            React.createElement('line', { x1: "12", y1: "21", x2: "12", y2: "23" }),
+            React.createElement('line', { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }),
+            React.createElement('line', { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }),
+            React.createElement('line', { x1: "1", y1: "12", x2: "3", y2: "12" }),
+            React.createElement('line', { x1: "21", y1: "12", x2: "23", y2: "12" }),
+            React.createElement('line', { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }),
+            React.createElement('line', { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" })
+        );
+        const MoonIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" })
+        );
 
         // ============== TOAST ==============
         const Toast = ({ toast }) => {
@@ -214,8 +228,27 @@
             const [distribuindo, setDistribuindo] = useState(null);
             const [ultimaResposta, setUltimaResposta] = useState(null);
             const [toast, setToast] = useState(null);
+            const [darkMode, setDarkMode] = useState(() => {
+                const saved = localStorage.getItem('darkMode');
+                return saved === 'true';
+            });
 
             const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
+            useEffect(() => {
+                if (darkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                localStorage.setItem('darkMode', darkMode);
+            }, [darkMode]);
+
+            const toggleDarkMode = () => {
+                const newMode = !darkMode;
+                setDarkMode(newMode);
+                localStorage.setItem('darkMode', newMode);
+            };
 
             const showToast = (message, type = 'success') => {
                 setToast({ message, type });
@@ -430,6 +463,11 @@
                                     href: `${getBasePath()}/input_net`,
                                     className: 'text-xs text-slate-500 hover:text-violet-600 underline'
                                 }, '← Voltar para Input NET'),
+                                React.createElement('button', {
+                                    onClick: toggleDarkMode,
+                                    className: 'p-2 rounded-lg transition-all duration-200 hover:scale-110 ' + (darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200'),
+                                    title: darkMode ? 'Modo claro' : 'Modo escuro'
+                                }, darkMode ? React.createElement(SunIcon) : React.createElement(MoonIcon)),
                                 React.createElement('div', { className: 'hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm' },
                                     React.createElement('span', { className: 'text-sm font-semibold text-white' }, username)
                                 )

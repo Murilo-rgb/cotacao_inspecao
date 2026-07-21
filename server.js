@@ -537,53 +537,6 @@ app.get('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   }
 });
 
-// Create new quotation
-app.post('/api/quotations', authenticateToken, async (req, res) => {
-  try {
-    const { cotacao, anotacao } = req.body;
-    const usuarioLogin = req.user.username;
-    const usuarioId = req.user.id;
-
-    if (!cotacao) {
-      return res.status(400).json({ error: 'Cotação é obrigatória' });
-    }
-
-    const now = formatDateBR(new Date());
-    // Store tarefa (code) and cotacao (dsc) separately. Try to fetch dsc and dat_historico from r_000250.
-    let tarefaValue = cotacao;
-    let cotacaoDsc = cotacao;
-    let dataHistorico = null;
-    try {
-      const rRes = await pool.query('SELECT dsc_cotacao, dat_historico FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1', [cotacao]);
-      if (rRes.rows.length > 0) {
-        if (rRes.rows[0].dsc_cotacao) cotacaoDsc = rRes.rows[0].dsc_cotacao;
-        if (rRes.rows[0].dat_historico) dataHistorico = rRes.rows[0].dat_historico;
-      }
-    } catch (e) {
-      console.error('Erro ao buscar dados da r_000250:', e.message);
-    }
-
-    const result = await pool.query(
-      'INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, data_historico) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
-      [tarefaValue, cotacaoDsc, anotacao || '', 'pendente', 'Ativo', now, now, usuarioLogin, usuarioId, dataHistorico]
-    );
-
-    const row = result.rows[0];
-    res.status(201).json({
-      cotacao: row.tarefa,
-      dsc_cotacao: row.cotacao,
-      anotacao: row.anotacao,
-      status: row.status,
-      createdAt: formatDateBR(row.data_de_criacao),
-      updatedAt: formatDateBR(row.data_da_ultima_atualizacao),
-      usuarioLogin: row.usuario_login
-    });
-  } catch (error) {
-    console.error('Erro ao criar cotação:', error);
-    res.status(500).json({ error: 'Erro ao criar cotação' });
-  }
-});
-
 // Duplicate route with /pme_notas prefix
 app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
@@ -1174,7 +1127,7 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Status é obrigatório' });
     }
 
-    const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida'];
+    const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
     if (!statusPermitidos.includes(status)) {
       return res.status(400).json({ error: 'Status inválido' });
     }
@@ -1234,7 +1187,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
         if (!status) {
             return res.status(400).json({ error: 'Status é obrigatório' });
         }
-        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV'];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({ error: 'Status inválido' });
         }
@@ -1563,7 +1516,7 @@ app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res)
             return res.status(400).json({ error: 'Status é obrigatório' });
         }
 
-        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({ error: 'Status inválido' });
         }
@@ -1623,7 +1576,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         if (!status) {
             return res.status(400).json({ error: 'Status é obrigatório' });
         }
-        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({ error: 'Status inválido' });
         }
@@ -2824,6 +2777,65 @@ app.get('/api/inpecao_input/tarefas', authenticateToken, async (req, res) => {
     console.error('[GESTAO_INPUT] Erro ao buscar dados:', error);
     res.status(500).json({ error: 'Erro ao buscar dados' });
   }
+});
+
+// ===== ROTA: REPROVAS PADRÃO (INSPEÇÃO + INPUT) =====
+
+// API: Listar reprovas padrão com filtro por fonte e termo
+app.get('/api/reprovas', async (req, res) => {
+  try {
+    const { fonte, termo } = req.query;
+    let resultados = [];
+    let params = [];
+    let paramIndex = 1;
+
+    const queryPart = `
+      SELECT motivo, texto_reprova
+      FROM $1
+      WHERE ativo = true
+    `;
+
+    // Montar WHERE para termo de busca
+    let termoClause = '';
+    if (termo && termo.trim()) {
+      termoClause = ` AND (motivo ILIKE $${paramIndex} OR texto_reprova ILIKE $${paramIndex} OR cod_reprova ILIKE $${paramIndex})`;
+      params.push(`%${termo.trim()}%`);
+      paramIndex++;
+    }
+
+    const fontes = fonte && fonte.trim().toLowerCase() === 'input' 
+      ? [{ nome: 'Input', tabela: 'db_qualidade.reprovas_padrao_input' }]
+      : fonte && fonte.trim().toLowerCase() === 'inspeção'
+        ? [{ nome: 'Inspeção', tabela: 'db_qualidade.reprovas_padrao' }]
+        : [
+            { nome: 'Inspeção', tabela: 'db_qualidade.reprovas_padrao' },
+            { nome: 'Input', tabela: 'db_qualidade.reprovas_padrao_input' }
+          ];
+
+    for (const f of fontes) {
+      const sql = `SELECT motivo, texto_reprova FROM ${f.tabela} WHERE ativo = true${termoClause} ORDER BY motivo`;
+      const result = await pool.query(sql, params);
+      for (const row of result.rows) {
+        resultados.push({
+          motivo: row.motivo,
+          texto_reprova: row.texto_reprova,
+          fonte: f.nome
+        });
+      }
+    }
+
+    res.json(resultados);
+  } catch (error) {
+    console.error('[REPROVAS] Erro ao buscar reprovas:', error);
+    res.status(500).json({ error: 'Erro ao buscar reprovas padrão' });
+  }
+});
+
+// Espelho com prefixo /pme_notas
+app.get('/pme_notas/api/reprovas', async (req, res) => {
+  req.url = '/api/reprovas' + (req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '');
+  req.originalUrl = req.url;
+  app._router.handle(req, res);
 });
 
 // ===== ROTA PÚBLICA: DEVOLUÇÃO PADRÃO INPUT =====
