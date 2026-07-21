@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const iconv = require('iconv-lite');
 const { Pool } = require('pg');
 const AdmZip = require('adm-zip');
 
@@ -65,11 +66,21 @@ CREATE TABLE IF NOT EXISTS db_bloco_de_notas.iw_cpc_975_net (
 );
 `;
 
+/**
+ * cleanColumnName - normaliza nomes de colunas do CSV para formato padrao
+ * - Remove acentos (NFD)
+ * - Remove aspas, espacos extras
+ * - Remove caracteres especiais: ?, !, (, ), /, \, -, :, ., espaco, etc
+ * - Converte para lowercase
+ * - Substitui sequencias de underscore por um unico underscore
+ * - Remove underscores no inicio e fim
+ */
 function cleanColumnName(name) {
-    let cleaned = name.trim().replace(/"/g, '');
+    let cleaned = (name || '').toString().trim().replace(/"/g, '');
     cleaned = cleaned.toLowerCase();
     cleaned = cleaned.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    cleaned = cleaned.replace(/[ .]/g, '_');
+    // Remove caracteres especiais NAO alfanumericos (exceto underscore)
+    cleaned = cleaned.replace(/[^a-z0-9_]/g, '_');
     cleaned = cleaned.replace(/_+/g, '_');
     cleaned = cleaned.replace(/^_|_$/g, '');
     return cleaned;
@@ -144,6 +155,52 @@ function splitCsvRecords(content) {
     return records;
 }
 
+/**
+ * Constroi um mapa de colunas do CSV para as colunas esperadas da tabela.
+ * Retorna um array onde cada indice corresponde a uma coluna esperada,
+ * contendo o indice da coluna no CSV ou -1 se nao encontrada.
+ */
+function buildColumnMapping(csvHeaderColumns, expectedColumns) {
+    const csvCleaned = csvHeaderColumns.map(h => cleanColumnName(h));
+    const expectedCleaned = expectedColumns.map(h => cleanColumnName(h));
+    
+    console.log(`\n[COLUNAS] Header CSV (limpado): [${csvCleaned.join(', ')}]`);
+    console.log(`[COLUNAS] Colunas esperadas:   [${expectedCleaned.join(', ')}]`);
+    
+    const mapping = [];
+    const unmappedExpected = [];
+    
+    for (let eIdx = 0; eIdx < expectedCleaned.length; eIdx++) {
+        const expCol = expectedCleaned[eIdx];
+        // Pular data_carga pois e gerada automaticamente
+        if (expCol === 'data_carga') {
+            mapping.push(-1);
+            continue;
+        }
+        
+        const csvIdx = csvCleaned.findIndex(c => c === expCol);
+        if (csvIdx >= 0) {
+            mapping.push(csvIdx);
+        } else {
+            mapping.push(-1);
+            unmappedExpected.push(expCol);
+        }
+    }
+    
+    if (unmappedExpected.length > 0) {
+        console.log(`[AVISO] Colunas nao encontradas no CSV e serao preenchidas com vazio: ${unmappedExpected.join(', ')}`);
+    }
+    
+    // Log de colunas extra do CSV que serao ignoradas
+    for (let cIdx = 0; cIdx < csvCleaned.length; cIdx++) {
+        if (!expectedCleaned.includes(csvCleaned[cIdx])) {
+            console.log(`[AVISO] Coluna extra no CSV ignorada: "${csvCleaned[cIdx]}"`);
+        }
+    }
+    
+    return mapping;
+}
+
 async function ensureTableColumns(client, schemaName, tableName, columns) {
     const fullTablePath = `"${schemaName}"."${tableName}"`;
     const columnsQuery = `
@@ -193,7 +250,7 @@ async function processarETL_975_net(csvFilePath, pool) {
     csvFilePath = await extrairZipSeNecessario(csvFilePath);
     
     if (!fs.existsSync(csvFilePath)) {
-        throw new Error(`Arquivo não encontrado: ${csvFilePath}`);
+        throw new Error(`Arquivo nao encontrado: ${csvFilePath}`);
     }
     
     const schemaName = 'db_bloco_de_notas';
@@ -201,51 +258,82 @@ async function processarETL_975_net(csvFilePath, pool) {
     const columns = IW_CPC_975_COLUMNS;
     const expectedColumns = columns.length;
     
-    const content = fs.readFileSync(csvFilePath, 'latin1');
+    // Colunas que serao inseridas via COPY (excluindo data_carga que e DEFAULT)
+    const copyColumns = columns.filter(col => col !== 'data_carga');
+    
+    const rawBuffer = fs.readFileSync(csvFilePath);
+    const content = iconv.decode(rawBuffer, 'win1252');
     const rawLines = splitCsvRecords(content);
     
     if (rawLines.length === 0) throw new Error('CSV vazio');
     
+    // Detectar delimitador
     const headerSample = rawLines[0];
     const countSemicolon = (headerSample.match(/;/g) || []).length;
     const countComma = (headerSample.match(/,/g) || []).length;
     const usedDelimiter = countComma > countSemicolon ? ',' : ';';
     
     console.log(`Delimitador detectado: "${usedDelimiter}"`);
+    console.log(`Linhas no CSV (incluindo cabecalho): ${rawLines.length}`);
     
+    // Parsear cabecalho e construir mapeamento
+    const headerRaw = rawLines[0].replace(/\r?$/, '');
+    const csvHeaderFields = parseCsvLine(headerRaw, usedDelimiter);
+    console.log(`Colunas detectadas no CSV: ${csvHeaderFields.length}`);
+    
+    // Construir mapeamento: para cada coluna esperada, qual indice no CSV
+    const columnMapping = buildColumnMapping(csvHeaderFields, copyColumns);
+    console.log(`Mapeamento de colunas: [${columnMapping.join(', ')}]`);
+    
+    // Processar linhas de dados, reordenando conforme mapeamento
     const processedLines = [];
-    const headerFields = parseCsvLine(rawLines[0].replace(/\r?$/, ''), usedDelimiter).map(h => cleanColumnName(h));
-    processedLines.push(headerFields.join(usedDelimiter));
+    // Adicionar cabecalho NOVO com os nomes exatos das colunas esperadas
+    processedLines.push(copyColumns.join(usedDelimiter));
+    
+    let linhasProcessadas = 0;
+    let linhasIgnoradas = 0;
     
     for (let idx = 1; idx < rawLines.length; idx++) {
         const rawLine = rawLines[idx].replace(/\r?$/, '');
-        if (rawLine.trim() === '') continue;
+        if (rawLine.trim() === '') {
+            linhasIgnoradas++;
+            continue;
+        }
         
         let fields = parseCsvLine(rawLine, usedDelimiter);
         
+        // Se o delimitador parece errado, tentar alternativa
         if (fields.length < Math.min(3, expectedColumns) && usedDelimiter === ';') {
             const altFields = parseCsvLine(rawLine, ',');
-            if (altFields.length > fields.length) fields = altFields;
+            if (altFields.length > fields.length) {
+                console.log(`[DEBUG] Linha ${idx}: delimitador alternativo (,) parece mais adequado (${altFields.length} campos vs ${fields.length})`);
+                fields = altFields;
+            }
         }
         
-        if (fields.length > expectedColumns) {
-            const head = fields.slice(0, expectedColumns - 1);
-            const tail = fields.slice(expectedColumns - 1).join(usedDelimiter);
-            fields = head.concat([tail]);
+        // Reordenar campos conforme mapeamento
+        const reorderedFields = [];
+        for (let cIdx = 0; cIdx < copyColumns.length; cIdx++) {
+            const csvSrcIdx = columnMapping[cIdx];
+            if (csvSrcIdx >= 0 && csvSrcIdx < fields.length) {
+                reorderedFields.push(fields[csvSrcIdx]);
+            } else {
+                reorderedFields.push('');
+            }
         }
         
-        if (fields.length < expectedColumns) {
-            while (fields.length < expectedColumns) fields.push('');
-        }
-        
-        const outLine = fields.map(f => quoteFieldIfNeeded(f, usedDelimiter)).join(usedDelimiter);
+        const outLine = reorderedFields.map(f => quoteFieldIfNeeded(f, usedDelimiter)).join(usedDelimiter);
         processedLines.push(outLine);
+        linhasProcessadas++;
     }
+    
+    console.log(`Linhas de dados processadas: ${linhasProcessadas}, ignoradas (vazias): ${linhasIgnoradas}`);
     
     const outputFile = path.join(FILES_DIR, 'iw_cpc_975_cleaned.csv');
     fs.writeFileSync(outputFile, processedLines.join('\n'), 'utf8');
     console.log(`Arquivo limpo escrito: ${outputFile}`);
     
+    // --- Inicio do carregamento no banco ---
     let client;
     try {
         client = await pool.connect();
@@ -258,17 +346,18 @@ async function processarETL_975_net(csvFilePath, pool) {
         
         await ensureTableColumns(client, schemaName, tableName, columns);
         
+        // Tentar procedure de limpeza pre-TRUNCATE
         try {
             await client.query(`CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_net();`);
-            console.log('Stored procedure sp_limpar_iw_cpc_975_net executada com sucesso (pré-TRUNCATE).');
+            console.log('Stored procedure sp_limpar_iw_cpc_975_net executada com sucesso (pre-TRUNCATE).');
         } catch (error) {
-            console.log(`Aviso: sp_limpar_iw_cpc_975_net não executada (pré-TRUNCATE): ${error.message}`);
+            console.log(`Aviso: sp_limpar_iw_cpc_975_net nao executada (pre-TRUNCATE): ${error.message}`);
         }
         
         await client.query(`TRUNCATE TABLE ${fullTablePath}`);
         console.log('Dados antigos removidos.');
         
-        const copyColumns = columns.filter(col => col !== 'data_carga');
+        // Construir COPY com as colunas corretas
         const columnsList = copyColumns.map(col => `"${col}"`).join(', ');
         
         const copyQuery = `
@@ -278,31 +367,48 @@ async function processarETL_975_net(csvFilePath, pool) {
             ENCODING 'UTF8'
         `;
         
+        console.log(`Executando COPY: ${copyQuery.substring(0, 200)}...`);
+        
         const { from } = require('pg-copy-streams');
         const stream = client.query(from(copyQuery));
         const fileStream = fs.createReadStream(outputFile, { encoding: 'utf8' });
         
         await new Promise((resolve, reject) => {
-            fileStream.on('error', reject);
-            stream.on('error', reject);
-            stream.on('finish', resolve);
+            fileStream.on('error', (err) => {
+                console.error(`Erro no fileStream: ${err.message}`);
+                reject(err);
+            });
+            stream.on('error', (err) => {
+                console.error(`Erro no stream COPY: ${err.message}`);
+                reject(err);
+            });
+            stream.on('finish', () => {
+                console.log('Stream COPY finalizado com sucesso.');
+                resolve();
+            });
             fileStream.pipe(stream);
         });
         
         console.log('Dados carregados com sucesso via COPY.');
         
-        await client.query('CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_net();');
-        console.log('Procedimento de limpeza executado.');
+        // Executar procedure de limpeza pos-insert
+        try {
+            await client.query('CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_net();');
+            console.log('Procedimento de limpeza executado.');
+        } catch (error) {
+            console.log(`Aviso: sp_limpar_iw_cpc_975_net nao executada (pos-carga): ${error.message}`);
+        }
         
         const countResult = await client.query(`SELECT COUNT(*) as total FROM ${fullTablePath}`);
         const totalRows = parseInt(countResult.rows[0].total);
         
-        console.log(`--- ETL IW_CPC_975 CONCLUÍDO: ${totalRows} registros ---`);
+        console.log(`--- ETL IW_CPC_975 CONCLUIDO: ${totalRows} registros ---`);
         
         return { success: true, totalRows };
         
     } catch (error) {
         console.error(`Erro no ETL: ${error.message}`);
+        console.error(`Stack: ${error.stack}`);
         throw error;
     } finally {
         if (client) client.release();

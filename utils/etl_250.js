@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const iconv = require('iconv-lite');
 const { Pool } = require('pg');
 const AdmZip = require('adm-zip');
 
@@ -186,7 +187,8 @@ async function processarETL_250(csvFilePath, pool) {
     const expectedColumns = columns.length;
     
     // Ler arquivo
-    const content = fs.readFileSync(csvFilePath, 'latin1');
+    const rawBuffer = fs.readFileSync(csvFilePath);
+    const content = iconv.decode(rawBuffer, 'win1252');
     const rawLines = splitCsvRecords(content);
     
     if (rawLines.length === 0) throw new Error('CSV vazio');

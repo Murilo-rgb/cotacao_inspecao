@@ -1928,12 +1928,12 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
     }
 });
 
-// Serve calendário page
-app.get('/qualidade/calendario', authenticateToken, (req, res) => {
+// Serve calendário page (com autorização de qualidade)
+app.get('/qualidade/calendario', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
 
-app.get('/pme_notas/qualidade/calendario', authenticateToken, (req, res) => {
+app.get('/pme_notas/qualidade/calendario', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
 
@@ -2058,12 +2058,12 @@ app.get('/pme_notas/rcv', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
 });
 
-// Serve qualidade page
-app.get('/qualidade', authenticateToken, (req, res) => {
+// Serve qualidade page (com autorização de qualidade)
+app.get('/qualidade', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
-app.get('/pme_notas/qualidade', authenticateToken, (req, res) => {
+app.get('/pme_notas/qualidade', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 

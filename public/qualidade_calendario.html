@@ -64,18 +64,11 @@
             const [loading, setLoading] = useState(true);
             const [username, setUsername] = useState('');
 
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
             useEffect(() => {
-                const cookies = document.cookie.split(';').reduce((acc, c) => {
-                    const [key, val] = c.trim().split('=');
-                    acc[key] = val;
-                    return acc;
-                }, {});
-                if (cookies.token) {
-                    try {
-                        const payload = JSON.parse(atob(cookies.token.split('.')[1]));
-                        setUsername(payload.nome || payload.username || '');
-                    } catch (e) {}
-                }
+                const storedUsername = localStorage.getItem('username');
+                if (storedUsername) setUsername(storedUsername);
             }, []);
 
             const fetchDados = useCallback(() => {
@@ -108,8 +101,9 @@
             };
 
             const handleLogout = () => {
-                document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-                window.location.href = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas/login.html' : '/login.html';
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                window.location.href = BASE_PATH + '/login.html';
             };
 
             const diasNoMes = getDiasNoMes(mes, ano);
@@ -201,7 +195,16 @@
                                 const cor = getCorPercentual(pct);
                                 const isToday = dia === hoje.getDate() && mes === hoje.getMonth() + 1 && ano === hoje.getFullYear();
 
-                                return React.createElement('div', { key: dia, className: `day-card rounded-xl p-2 sm:p-3 border ${temDados ? cor.border : 'border-slate-100'} ${temDados ? cor.bg : 'bg-slate-50'} ${isToday ? 'ring-2 ring-blue-400 ring-offset-2' : ''} min-h-[80px] sm:min-h-[100px] flex flex-col cursor-default` },
+                                const handleDoubleClick = () => {
+                                    if (temDados) {
+                                        const mesStr = String(mes).padStart(2, '0');
+                                        const diaStr = String(dia).padStart(2, '0');
+                                        const dataISO = `${ano}-${mesStr}-${diaStr}`;
+                                        window.location.href = `${BASE_PATH}/qualidade?dateStart=${dataISO}`;
+                                    }
+                                };
+
+                                return React.createElement('div', { key: dia, onDoubleClick: handleDoubleClick, className: `day-card rounded-xl p-2 sm:p-3 border ${temDados ? cor.border : 'border-slate-100'} ${temDados ? cor.bg : 'bg-slate-50'} ${isToday ? 'ring-2 ring-blue-400 ring-offset-2' : ''} min-h-[80px] sm:min-h-[100px] flex flex-col ${temDados ? 'cursor-pointer' : 'cursor-default'}` },
                                     React.createElement('div', { className: "flex items-center justify-between mb-1" },
                                         React.createElement('span', { className: `text-sm sm:text-base font-bold ${isToday ? 'text-blue-600' : temDados ? 'text-slate-800' : 'text-slate-400'}` }, dia),
                                         isToday && React.createElement('span', { className: "text-[10px] font-semibold text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded-full" }, 'HOJE')
