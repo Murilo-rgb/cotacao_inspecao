@@ -114,10 +114,14 @@
                     setLoading(true);
                     const token = localStorage.getItem('token');
                     const params = new URLSearchParams();
-                    if (searchTerm) params.append('search', searchTerm);
-                    if (dateStart) params.append('dateStart', dateStart);
-                    if (filtroOrigem) params.append('origem', filtroOrigem);
-                    if (filtroStatus) params.append('status', filtroStatus);
+                    const hasSearch = Boolean(searchTerm && searchTerm.trim());
+                    if (hasSearch) {
+                        params.append('search', searchTerm.trim());
+                    } else {
+                        if (dateStart) params.append('dateStart', dateStart);
+                        if (filtroOrigem) params.append('origem', filtroOrigem);
+                        if (filtroStatus) params.append('status', filtroStatus);
+                    }
                     const response = await fetch(`${BASE_PATH}/api/qualidade?${params}`, { headers: { 'Authorization': `Bearer ${token}` } });
                     if (response.status === 401 || response.status === 403) { localStorage.removeItem('token'); localStorage.removeItem('username'); window.location.href = BASE_PATH + '/login.html'; return; }
                     const data = await response.json();
@@ -197,10 +201,7 @@
                 return null;
             };
 
-            const filteredQuotations = quotations.filter(q => {
-                if (searchTerm) { const term = searchTerm.toLowerCase(); if (!(q.usuario_login && q.usuario_login.toLowerCase().includes(term))) return false; }
-                return true;
-            });
+            const filteredQuotations = quotations;
 
             const indexOfLastItem = currentPage * itemsPerPage;
             const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -255,7 +256,7 @@
                     React.createElement('div', { className: "flex flex-col sm:flex-row gap-4 mb-6" },
                         React.createElement('div', { className: "flex-1 relative group" },
                             React.createElement('div', { className: "absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none" }, React.createElement(SearchIcon)),
-                            React.createElement('input', { type: "text", placeholder: "Buscar por usuário...", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value), className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" })
+                            React.createElement('input', { type: "text", placeholder: "Buscar por usuário, tarefa ou cotação", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value), className: "w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" })
                         ),
                         React.createElement('div', { className: "relative group" },
                             React.createElement('div', { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" }, React.createElement(CalendarIcon)),

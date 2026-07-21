@@ -1,0 +1,1756 @@
+20/07/2026 12:04:32: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "15/07/2026 14:13"
+20/07/2026 12:04:32:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 12:04:32:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 12:04:32:     at async E:\projetos_hitss\geo-pme-notas\server.js:1331:33 {
+20/07/2026 12:04:32:   length: 208,
+20/07/2026 12:04:32:   severity: 'ERROR',
+20/07/2026 12:04:32:   code: '22008',
+20/07/2026 12:04:32:   detail: undefined,
+20/07/2026 12:04:32:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 12:04:32:   position: undefined,
+20/07/2026 12:04:32:   internalPosition: undefined,
+20/07/2026 12:04:32:   internalQuery: undefined,
+20/07/2026 12:04:32:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 12:04:32:   schema: undefined,
+20/07/2026 12:04:32:   table: undefined,
+20/07/2026 12:04:32:   column: undefined,
+20/07/2026 12:04:32:   dataType: undefined,
+20/07/2026 12:04:32:   constraint: undefined,
+20/07/2026 12:04:32:   file: 'datetime.c',
+20/07/2026 12:04:32:   line: '3780',
+20/07/2026 12:04:32:   routine: 'DateTimeParseError'
+20/07/2026 12:04:32: }
+20/07/2026 12:05:00: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "15/07/2026 14:13"
+20/07/2026 12:05:00:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 12:05:00:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 12:05:00:     at async E:\projetos_hitss\geo-pme-notas\server.js:1331:33 {
+20/07/2026 12:05:00:   length: 208,
+20/07/2026 12:05:00:   severity: 'ERROR',
+20/07/2026 12:05:00:   code: '22008',
+20/07/2026 12:05:00:   detail: undefined,
+20/07/2026 12:05:00:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 12:05:00:   position: undefined,
+20/07/2026 12:05:00:   internalPosition: undefined,
+20/07/2026 12:05:00:   internalQuery: undefined,
+20/07/2026 12:05:00:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 12:05:00:   schema: undefined,
+20/07/2026 12:05:00:   table: undefined,
+20/07/2026 12:05:00:   column: undefined,
+20/07/2026 12:05:00:   dataType: undefined,
+20/07/2026 12:05:00:   constraint: undefined,
+20/07/2026 12:05:00:   file: 'datetime.c',
+20/07/2026 12:05:00:   line: '3780',
+20/07/2026 12:05:00:   routine: 'DateTimeParseError'
+20/07/2026 12:05:00: }
+20/07/2026 13:28:17: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:28:17:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:28:17:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:28:17:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:28:17:   length: 171,
+20/07/2026 13:28:17:   severity: 'ERROR',
+20/07/2026 13:28:17:   code: '22008',
+20/07/2026 13:28:17:   detail: undefined,
+20/07/2026 13:28:17:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:28:17:   position: undefined,
+20/07/2026 13:28:17:   internalPosition: undefined,
+20/07/2026 13:28:17:   internalQuery: undefined,
+20/07/2026 13:28:17:   where: undefined,
+20/07/2026 13:28:17:   schema: undefined,
+20/07/2026 13:28:17:   table: undefined,
+20/07/2026 13:28:17:   column: undefined,
+20/07/2026 13:28:17:   dataType: undefined,
+20/07/2026 13:28:17:   constraint: undefined,
+20/07/2026 13:28:17:   file: 'datetime.c',
+20/07/2026 13:28:17:   line: '3780',
+20/07/2026 13:28:17:   routine: 'DateTimeParseError'
+20/07/2026 13:28:17: }
+20/07/2026 13:28:20: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:28:20:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:28:20:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:28:20:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:28:20:   length: 171,
+20/07/2026 13:28:20:   severity: 'ERROR',
+20/07/2026 13:28:20:   code: '22008',
+20/07/2026 13:28:20:   detail: undefined,
+20/07/2026 13:28:20:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:28:20:   position: undefined,
+20/07/2026 13:28:20:   internalPosition: undefined,
+20/07/2026 13:28:20:   internalQuery: undefined,
+20/07/2026 13:28:20:   where: undefined,
+20/07/2026 13:28:20:   schema: undefined,
+20/07/2026 13:28:20:   table: undefined,
+20/07/2026 13:28:20:   column: undefined,
+20/07/2026 13:28:20:   dataType: undefined,
+20/07/2026 13:28:20:   constraint: undefined,
+20/07/2026 13:28:20:   file: 'datetime.c',
+20/07/2026 13:28:20:   line: '3780',
+20/07/2026 13:28:20:   routine: 'DateTimeParseError'
+20/07/2026 13:28:20: }
+20/07/2026 13:28:23: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:28:23:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:28:23:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:28:23:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:28:23:   length: 171,
+20/07/2026 13:28:23:   severity: 'ERROR',
+20/07/2026 13:28:23:   code: '22008',
+20/07/2026 13:28:23:   detail: undefined,
+20/07/2026 13:28:23:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:28:23:   position: undefined,
+20/07/2026 13:28:23:   internalPosition: undefined,
+20/07/2026 13:28:23:   internalQuery: undefined,
+20/07/2026 13:28:23:   where: undefined,
+20/07/2026 13:28:23:   schema: undefined,
+20/07/2026 13:28:23:   table: undefined,
+20/07/2026 13:28:23:   column: undefined,
+20/07/2026 13:28:23:   dataType: undefined,
+20/07/2026 13:28:23:   constraint: undefined,
+20/07/2026 13:28:23:   file: 'datetime.c',
+20/07/2026 13:28:23:   line: '3780',
+20/07/2026 13:28:23:   routine: 'DateTimeParseError'
+20/07/2026 13:28:23: }
+20/07/2026 13:29:07: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:29:07:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:29:07:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:29:07:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:29:07:   length: 171,
+20/07/2026 13:29:07:   severity: 'ERROR',
+20/07/2026 13:29:07:   code: '22008',
+20/07/2026 13:29:07:   detail: undefined,
+20/07/2026 13:29:07:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:29:07:   position: undefined,
+20/07/2026 13:29:07:   internalPosition: undefined,
+20/07/2026 13:29:07:   internalQuery: undefined,
+20/07/2026 13:29:07:   where: undefined,
+20/07/2026 13:29:07:   schema: undefined,
+20/07/2026 13:29:07:   table: undefined,
+20/07/2026 13:29:07:   column: undefined,
+20/07/2026 13:29:07:   dataType: undefined,
+20/07/2026 13:29:07:   constraint: undefined,
+20/07/2026 13:29:07:   file: 'datetime.c',
+20/07/2026 13:29:07:   line: '3780',
+20/07/2026 13:29:07:   routine: 'DateTimeParseError'
+20/07/2026 13:29:07: }
+20/07/2026 13:29:24: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:29:24:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:29:24:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:29:24:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:29:24:   length: 171,
+20/07/2026 13:29:24:   severity: 'ERROR',
+20/07/2026 13:29:24:   code: '22008',
+20/07/2026 13:29:24:   detail: undefined,
+20/07/2026 13:29:24:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:29:24:   position: undefined,
+20/07/2026 13:29:24:   internalPosition: undefined,
+20/07/2026 13:29:24:   internalQuery: undefined,
+20/07/2026 13:29:24:   where: undefined,
+20/07/2026 13:29:24:   schema: undefined,
+20/07/2026 13:29:24:   table: undefined,
+20/07/2026 13:29:24:   column: undefined,
+20/07/2026 13:29:24:   dataType: undefined,
+20/07/2026 13:29:24:   constraint: undefined,
+20/07/2026 13:29:24:   file: 'datetime.c',
+20/07/2026 13:29:24:   line: '3780',
+20/07/2026 13:29:24:   routine: 'DateTimeParseError'
+20/07/2026 13:29:24: }
+20/07/2026 13:30:45: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:30:45:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:30:45:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:30:45:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:30:45:   length: 171,
+20/07/2026 13:30:45:   severity: 'ERROR',
+20/07/2026 13:30:45:   code: '22008',
+20/07/2026 13:30:45:   detail: undefined,
+20/07/2026 13:30:45:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:30:45:   position: undefined,
+20/07/2026 13:30:45:   internalPosition: undefined,
+20/07/2026 13:30:45:   internalQuery: undefined,
+20/07/2026 13:30:45:   where: undefined,
+20/07/2026 13:30:45:   schema: undefined,
+20/07/2026 13:30:45:   table: undefined,
+20/07/2026 13:30:45:   column: undefined,
+20/07/2026 13:30:45:   dataType: undefined,
+20/07/2026 13:30:45:   constraint: undefined,
+20/07/2026 13:30:45:   file: 'datetime.c',
+20/07/2026 13:30:45:   line: '3780',
+20/07/2026 13:30:45:   routine: 'DateTimeParseError'
+20/07/2026 13:30:45: }
+20/07/2026 13:32:36: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:32:36:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:32:36:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:32:36:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:32:36:   length: 171,
+20/07/2026 13:32:36:   severity: 'ERROR',
+20/07/2026 13:32:36:   code: '22008',
+20/07/2026 13:32:36:   detail: undefined,
+20/07/2026 13:32:36:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:32:36:   position: undefined,
+20/07/2026 13:32:36:   internalPosition: undefined,
+20/07/2026 13:32:36:   internalQuery: undefined,
+20/07/2026 13:32:36:   where: undefined,
+20/07/2026 13:32:36:   schema: undefined,
+20/07/2026 13:32:36:   table: undefined,
+20/07/2026 13:32:36:   column: undefined,
+20/07/2026 13:32:36:   dataType: undefined,
+20/07/2026 13:32:36:   constraint: undefined,
+20/07/2026 13:32:36:   file: 'datetime.c',
+20/07/2026 13:32:36:   line: '3780',
+20/07/2026 13:32:36:   routine: 'DateTimeParseError'
+20/07/2026 13:32:36: }
+20/07/2026 13:32:39: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:32:39:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:32:39:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:32:39:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:32:39:   length: 171,
+20/07/2026 13:32:39:   severity: 'ERROR',
+20/07/2026 13:32:39:   code: '22008',
+20/07/2026 13:32:39:   detail: undefined,
+20/07/2026 13:32:39:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:32:39:   position: undefined,
+20/07/2026 13:32:39:   internalPosition: undefined,
+20/07/2026 13:32:39:   internalQuery: undefined,
+20/07/2026 13:32:39:   where: undefined,
+20/07/2026 13:32:39:   schema: undefined,
+20/07/2026 13:32:39:   table: undefined,
+20/07/2026 13:32:39:   column: undefined,
+20/07/2026 13:32:39:   dataType: undefined,
+20/07/2026 13:32:39:   constraint: undefined,
+20/07/2026 13:32:39:   file: 'datetime.c',
+20/07/2026 13:32:39:   line: '3780',
+20/07/2026 13:32:39:   routine: 'DateTimeParseError'
+20/07/2026 13:32:39: }
+20/07/2026 13:33:04: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:33:04:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:33:04:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:33:04:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:33:04:   length: 171,
+20/07/2026 13:33:04:   severity: 'ERROR',
+20/07/2026 13:33:04:   code: '22008',
+20/07/2026 13:33:04:   detail: undefined,
+20/07/2026 13:33:04:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:33:04:   position: undefined,
+20/07/2026 13:33:04:   internalPosition: undefined,
+20/07/2026 13:33:04:   internalQuery: undefined,
+20/07/2026 13:33:04:   where: undefined,
+20/07/2026 13:33:04:   schema: undefined,
+20/07/2026 13:33:04:   table: undefined,
+20/07/2026 13:33:04:   column: undefined,
+20/07/2026 13:33:04:   dataType: undefined,
+20/07/2026 13:33:04:   constraint: undefined,
+20/07/2026 13:33:04:   file: 'datetime.c',
+20/07/2026 13:33:04:   line: '3780',
+20/07/2026 13:33:04:   routine: 'DateTimeParseError'
+20/07/2026 13:33:04: }
+20/07/2026 13:35:03: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:35:03:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:35:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:35:03:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:35:03:   length: 171,
+20/07/2026 13:35:03:   severity: 'ERROR',
+20/07/2026 13:35:03:   code: '22008',
+20/07/2026 13:35:03:   detail: undefined,
+20/07/2026 13:35:03:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:35:03:   position: undefined,
+20/07/2026 13:35:03:   internalPosition: undefined,
+20/07/2026 13:35:03:   internalQuery: undefined,
+20/07/2026 13:35:03:   where: undefined,
+20/07/2026 13:35:03:   schema: undefined,
+20/07/2026 13:35:03:   table: undefined,
+20/07/2026 13:35:03:   column: undefined,
+20/07/2026 13:35:03:   dataType: undefined,
+20/07/2026 13:35:03:   constraint: undefined,
+20/07/2026 13:35:03:   file: 'datetime.c',
+20/07/2026 13:35:03:   line: '3780',
+20/07/2026 13:35:03:   routine: 'DateTimeParseError'
+20/07/2026 13:35:03: }
+20/07/2026 13:35:04: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:35:04:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:35:04:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:35:04:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:35:04:   length: 171,
+20/07/2026 13:35:04:   severity: 'ERROR',
+20/07/2026 13:35:04:   code: '22008',
+20/07/2026 13:35:04:   detail: undefined,
+20/07/2026 13:35:04:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:35:04:   position: undefined,
+20/07/2026 13:35:04:   internalPosition: undefined,
+20/07/2026 13:35:04:   internalQuery: undefined,
+20/07/2026 13:35:04:   where: undefined,
+20/07/2026 13:35:04:   schema: undefined,
+20/07/2026 13:35:04:   table: undefined,
+20/07/2026 13:35:04:   column: undefined,
+20/07/2026 13:35:04:   dataType: undefined,
+20/07/2026 13:35:04:   constraint: undefined,
+20/07/2026 13:35:04:   file: 'datetime.c',
+20/07/2026 13:35:04:   line: '3780',
+20/07/2026 13:35:04:   routine: 'DateTimeParseError'
+20/07/2026 13:35:04: }
+20/07/2026 13:35:05: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:35:05:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:35:05:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:35:05:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:35:05:   length: 171,
+20/07/2026 13:35:05:   severity: 'ERROR',
+20/07/2026 13:35:05:   code: '22008',
+20/07/2026 13:35:05:   detail: undefined,
+20/07/2026 13:35:05:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:35:05:   position: undefined,
+20/07/2026 13:35:05:   internalPosition: undefined,
+20/07/2026 13:35:05:   internalQuery: undefined,
+20/07/2026 13:35:05:   where: undefined,
+20/07/2026 13:35:05:   schema: undefined,
+20/07/2026 13:35:05:   table: undefined,
+20/07/2026 13:35:05:   column: undefined,
+20/07/2026 13:35:05:   dataType: undefined,
+20/07/2026 13:35:05:   constraint: undefined,
+20/07/2026 13:35:05:   file: 'datetime.c',
+20/07/2026 13:35:05:   line: '3780',
+20/07/2026 13:35:05:   routine: 'DateTimeParseError'
+20/07/2026 13:35:05: }
+20/07/2026 13:35:06: [QUALIDADE] Erro ao listar cotações: error: date/time field value out of range: "20/07/2026 09:01"
+20/07/2026 13:35:06:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:35:06:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:35:06:     at async E:\projetos_hitss\geo-pme-notas\server.js:1170:20 {
+20/07/2026 13:35:06:   length: 171,
+20/07/2026 13:35:06:   severity: 'ERROR',
+20/07/2026 13:35:06:   code: '22008',
+20/07/2026 13:35:06:   detail: undefined,
+20/07/2026 13:35:06:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:35:06:   position: undefined,
+20/07/2026 13:35:06:   internalPosition: undefined,
+20/07/2026 13:35:06:   internalQuery: undefined,
+20/07/2026 13:35:06:   where: undefined,
+20/07/2026 13:35:06:   schema: undefined,
+20/07/2026 13:35:06:   table: undefined,
+20/07/2026 13:35:06:   column: undefined,
+20/07/2026 13:35:06:   dataType: undefined,
+20/07/2026 13:35:06:   constraint: undefined,
+20/07/2026 13:35:06:   file: 'datetime.c',
+20/07/2026 13:35:06:   line: '3780',
+20/07/2026 13:35:06:   routine: 'DateTimeParseError'
+20/07/2026 13:35:06: }
+20/07/2026 13:39:35: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 12:55"
+20/07/2026 13:39:35:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:39:35:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:39:35:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:39:35:   length: 208,
+20/07/2026 13:39:35:   severity: 'ERROR',
+20/07/2026 13:39:35:   code: '22008',
+20/07/2026 13:39:35:   detail: undefined,
+20/07/2026 13:39:35:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:39:35:   position: undefined,
+20/07/2026 13:39:35:   internalPosition: undefined,
+20/07/2026 13:39:35:   internalQuery: undefined,
+20/07/2026 13:39:35:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:39:35:   schema: undefined,
+20/07/2026 13:39:35:   table: undefined,
+20/07/2026 13:39:35:   column: undefined,
+20/07/2026 13:39:35:   dataType: undefined,
+20/07/2026 13:39:35:   constraint: undefined,
+20/07/2026 13:39:35:   file: 'datetime.c',
+20/07/2026 13:39:35:   line: '3780',
+20/07/2026 13:39:35:   routine: 'DateTimeParseError'
+20/07/2026 13:39:35: }
+20/07/2026 13:39:50: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 12:55"
+20/07/2026 13:39:50:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:39:50:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:39:50:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:39:50:   length: 208,
+20/07/2026 13:39:50:   severity: 'ERROR',
+20/07/2026 13:39:50:   code: '22008',
+20/07/2026 13:39:50:   detail: undefined,
+20/07/2026 13:39:50:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:39:50:   position: undefined,
+20/07/2026 13:39:50:   internalPosition: undefined,
+20/07/2026 13:39:50:   internalQuery: undefined,
+20/07/2026 13:39:50:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:39:50:   schema: undefined,
+20/07/2026 13:39:50:   table: undefined,
+20/07/2026 13:39:50:   column: undefined,
+20/07/2026 13:39:50:   dataType: undefined,
+20/07/2026 13:39:50:   constraint: undefined,
+20/07/2026 13:39:50:   file: 'datetime.c',
+20/07/2026 13:39:50:   line: '3780',
+20/07/2026 13:39:50:   routine: 'DateTimeParseError'
+20/07/2026 13:39:50: }
+20/07/2026 13:40:44: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "17/07/2026 20:14"
+20/07/2026 13:40:44:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:40:44:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:40:44:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:40:44:   length: 208,
+20/07/2026 13:40:44:   severity: 'ERROR',
+20/07/2026 13:40:44:   code: '22008',
+20/07/2026 13:40:44:   detail: undefined,
+20/07/2026 13:40:44:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:40:44:   position: undefined,
+20/07/2026 13:40:44:   internalPosition: undefined,
+20/07/2026 13:40:44:   internalQuery: undefined,
+20/07/2026 13:40:44:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:40:44:   schema: undefined,
+20/07/2026 13:40:44:   table: undefined,
+20/07/2026 13:40:44:   column: undefined,
+20/07/2026 13:40:44:   dataType: undefined,
+20/07/2026 13:40:44:   constraint: undefined,
+20/07/2026 13:40:44:   file: 'datetime.c',
+20/07/2026 13:40:44:   line: '3780',
+20/07/2026 13:40:44:   routine: 'DateTimeParseError'
+20/07/2026 13:40:44: }
+20/07/2026 13:40:52: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "17/07/2026 20:14"
+20/07/2026 13:40:52:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:40:52:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:40:52:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:40:52:   length: 208,
+20/07/2026 13:40:52:   severity: 'ERROR',
+20/07/2026 13:40:52:   code: '22008',
+20/07/2026 13:40:52:   detail: undefined,
+20/07/2026 13:40:52:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:40:52:   position: undefined,
+20/07/2026 13:40:52:   internalPosition: undefined,
+20/07/2026 13:40:52:   internalQuery: undefined,
+20/07/2026 13:40:52:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:40:52:   schema: undefined,
+20/07/2026 13:40:52:   table: undefined,
+20/07/2026 13:40:52:   column: undefined,
+20/07/2026 13:40:52:   dataType: undefined,
+20/07/2026 13:40:52:   constraint: undefined,
+20/07/2026 13:40:52:   file: 'datetime.c',
+20/07/2026 13:40:52:   line: '3780',
+20/07/2026 13:40:52:   routine: 'DateTimeParseError'
+20/07/2026 13:40:52: }
+20/07/2026 13:40:55: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "17/07/2026 20:14"
+20/07/2026 13:40:55:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:40:55:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:40:55:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:40:55:   length: 208,
+20/07/2026 13:40:55:   severity: 'ERROR',
+20/07/2026 13:40:55:   code: '22008',
+20/07/2026 13:40:55:   detail: undefined,
+20/07/2026 13:40:55:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:40:55:   position: undefined,
+20/07/2026 13:40:55:   internalPosition: undefined,
+20/07/2026 13:40:55:   internalQuery: undefined,
+20/07/2026 13:40:55:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:40:55:   schema: undefined,
+20/07/2026 13:40:55:   table: undefined,
+20/07/2026 13:40:55:   column: undefined,
+20/07/2026 13:40:55:   dataType: undefined,
+20/07/2026 13:40:55:   constraint: undefined,
+20/07/2026 13:40:55:   file: 'datetime.c',
+20/07/2026 13:40:55:   line: '3780',
+20/07/2026 13:40:55:   routine: 'DateTimeParseError'
+20/07/2026 13:40:55: }
+20/07/2026 13:41:16: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "17/07/2026 18:53"
+20/07/2026 13:41:16:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:41:16:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:41:16:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:41:16:   length: 208,
+20/07/2026 13:41:16:   severity: 'ERROR',
+20/07/2026 13:41:16:   code: '22008',
+20/07/2026 13:41:16:   detail: undefined,
+20/07/2026 13:41:16:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:41:16:   position: undefined,
+20/07/2026 13:41:16:   internalPosition: undefined,
+20/07/2026 13:41:16:   internalQuery: undefined,
+20/07/2026 13:41:16:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:41:16:   schema: undefined,
+20/07/2026 13:41:16:   table: undefined,
+20/07/2026 13:41:16:   column: undefined,
+20/07/2026 13:41:16:   dataType: undefined,
+20/07/2026 13:41:16:   constraint: undefined,
+20/07/2026 13:41:16:   file: 'datetime.c',
+20/07/2026 13:41:16:   line: '3780',
+20/07/2026 13:41:16:   routine: 'DateTimeParseError'
+20/07/2026 13:41:16: }
+20/07/2026 13:41:45: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 12:55"
+20/07/2026 13:41:45:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:41:45:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:41:45:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:41:45:   length: 208,
+20/07/2026 13:41:45:   severity: 'ERROR',
+20/07/2026 13:41:45:   code: '22008',
+20/07/2026 13:41:45:   detail: undefined,
+20/07/2026 13:41:45:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:41:45:   position: undefined,
+20/07/2026 13:41:45:   internalPosition: undefined,
+20/07/2026 13:41:45:   internalQuery: undefined,
+20/07/2026 13:41:45:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:41:45:   schema: undefined,
+20/07/2026 13:41:45:   table: undefined,
+20/07/2026 13:41:45:   column: undefined,
+20/07/2026 13:41:45:   dataType: undefined,
+20/07/2026 13:41:45:   constraint: undefined,
+20/07/2026 13:41:45:   file: 'datetime.c',
+20/07/2026 13:41:45:   line: '3780',
+20/07/2026 13:41:45:   routine: 'DateTimeParseError'
+20/07/2026 13:41:45: }
+20/07/2026 13:43:48: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 12:55"
+20/07/2026 13:43:48:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:43:48:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:43:48:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:43:48:   length: 208,
+20/07/2026 13:43:48:   severity: 'ERROR',
+20/07/2026 13:43:48:   code: '22008',
+20/07/2026 13:43:48:   detail: undefined,
+20/07/2026 13:43:48:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:43:48:   position: undefined,
+20/07/2026 13:43:48:   internalPosition: undefined,
+20/07/2026 13:43:48:   internalQuery: undefined,
+20/07/2026 13:43:48:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:43:48:   schema: undefined,
+20/07/2026 13:43:48:   table: undefined,
+20/07/2026 13:43:48:   column: undefined,
+20/07/2026 13:43:48:   dataType: undefined,
+20/07/2026 13:43:48:   constraint: undefined,
+20/07/2026 13:43:48:   file: 'datetime.c',
+20/07/2026 13:43:48:   line: '3780',
+20/07/2026 13:43:48:   routine: 'DateTimeParseError'
+20/07/2026 13:43:48: }
+20/07/2026 13:57:29: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 13:57:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 13:57:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 13:57:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 13:57:29:   length: 208,
+20/07/2026 13:57:29:   severity: 'ERROR',
+20/07/2026 13:57:29:   code: '22008',
+20/07/2026 13:57:29:   detail: undefined,
+20/07/2026 13:57:29:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 13:57:29:   position: undefined,
+20/07/2026 13:57:29:   internalPosition: undefined,
+20/07/2026 13:57:29:   internalQuery: undefined,
+20/07/2026 13:57:29:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 13:57:29:   schema: undefined,
+20/07/2026 13:57:29:   table: undefined,
+20/07/2026 13:57:29:   column: undefined,
+20/07/2026 13:57:29:   dataType: undefined,
+20/07/2026 13:57:29:   constraint: undefined,
+20/07/2026 13:57:29:   file: 'datetime.c',
+20/07/2026 13:57:29:   line: '3780',
+20/07/2026 13:57:29:   routine: 'DateTimeParseError'
+20/07/2026 13:57:29: }
+20/07/2026 14:00:19: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 14:00:19:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:00:19:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:00:19:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:00:19:   length: 208,
+20/07/2026 14:00:19:   severity: 'ERROR',
+20/07/2026 14:00:19:   code: '22008',
+20/07/2026 14:00:19:   detail: undefined,
+20/07/2026 14:00:19:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:00:19:   position: undefined,
+20/07/2026 14:00:19:   internalPosition: undefined,
+20/07/2026 14:00:19:   internalQuery: undefined,
+20/07/2026 14:00:19:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:00:19:   schema: undefined,
+20/07/2026 14:00:19:   table: undefined,
+20/07/2026 14:00:19:   column: undefined,
+20/07/2026 14:00:19:   dataType: undefined,
+20/07/2026 14:00:19:   constraint: undefined,
+20/07/2026 14:00:19:   file: 'datetime.c',
+20/07/2026 14:00:19:   line: '3780',
+20/07/2026 14:00:19:   routine: 'DateTimeParseError'
+20/07/2026 14:00:19: }
+20/07/2026 14:00:32: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 14:00:32:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:00:32:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:00:32:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:00:32:   length: 208,
+20/07/2026 14:00:32:   severity: 'ERROR',
+20/07/2026 14:00:32:   code: '22008',
+20/07/2026 14:00:32:   detail: undefined,
+20/07/2026 14:00:32:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:00:32:   position: undefined,
+20/07/2026 14:00:32:   internalPosition: undefined,
+20/07/2026 14:00:32:   internalQuery: undefined,
+20/07/2026 14:00:32:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:00:32:   schema: undefined,
+20/07/2026 14:00:32:   table: undefined,
+20/07/2026 14:00:32:   column: undefined,
+20/07/2026 14:00:32:   dataType: undefined,
+20/07/2026 14:00:32:   constraint: undefined,
+20/07/2026 14:00:32:   file: 'datetime.c',
+20/07/2026 14:00:32:   line: '3780',
+20/07/2026 14:00:32:   routine: 'DateTimeParseError'
+20/07/2026 14:00:32: }
+20/07/2026 14:01:16: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 14:01:16:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:01:16:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:01:16:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:01:16:   length: 208,
+20/07/2026 14:01:16:   severity: 'ERROR',
+20/07/2026 14:01:16:   code: '22008',
+20/07/2026 14:01:16:   detail: undefined,
+20/07/2026 14:01:16:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:01:16:   position: undefined,
+20/07/2026 14:01:16:   internalPosition: undefined,
+20/07/2026 14:01:16:   internalQuery: undefined,
+20/07/2026 14:01:16:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:01:16:   schema: undefined,
+20/07/2026 14:01:16:   table: undefined,
+20/07/2026 14:01:16:   column: undefined,
+20/07/2026 14:01:16:   dataType: undefined,
+20/07/2026 14:01:16:   constraint: undefined,
+20/07/2026 14:01:16:   file: 'datetime.c',
+20/07/2026 14:01:16:   line: '3780',
+20/07/2026 14:01:16:   routine: 'DateTimeParseError'
+20/07/2026 14:01:16: }
+20/07/2026 14:02:03: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 14:02:03:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:02:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:02:03:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:02:03:   length: 208,
+20/07/2026 14:02:03:   severity: 'ERROR',
+20/07/2026 14:02:03:   code: '22008',
+20/07/2026 14:02:03:   detail: undefined,
+20/07/2026 14:02:03:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:02:03:   position: undefined,
+20/07/2026 14:02:03:   internalPosition: undefined,
+20/07/2026 14:02:03:   internalQuery: undefined,
+20/07/2026 14:02:03:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:02:03:   schema: undefined,
+20/07/2026 14:02:03:   table: undefined,
+20/07/2026 14:02:03:   column: undefined,
+20/07/2026 14:02:03:   dataType: undefined,
+20/07/2026 14:02:03:   constraint: undefined,
+20/07/2026 14:02:03:   file: 'datetime.c',
+20/07/2026 14:02:03:   line: '3780',
+20/07/2026 14:02:03:   routine: 'DateTimeParseError'
+20/07/2026 14:02:03: }
+20/07/2026 14:02:43: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 14:02:43:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:02:43:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:02:43:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:02:43:   length: 208,
+20/07/2026 14:02:43:   severity: 'ERROR',
+20/07/2026 14:02:43:   code: '22008',
+20/07/2026 14:02:43:   detail: undefined,
+20/07/2026 14:02:43:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:02:43:   position: undefined,
+20/07/2026 14:02:43:   internalPosition: undefined,
+20/07/2026 14:02:43:   internalQuery: undefined,
+20/07/2026 14:02:43:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:02:43:   schema: undefined,
+20/07/2026 14:02:43:   table: undefined,
+20/07/2026 14:02:43:   column: undefined,
+20/07/2026 14:02:43:   dataType: undefined,
+20/07/2026 14:02:43:   constraint: undefined,
+20/07/2026 14:02:43:   file: 'datetime.c',
+20/07/2026 14:02:43:   line: '3780',
+20/07/2026 14:02:43:   routine: 'DateTimeParseError'
+20/07/2026 14:02:43: }
+20/07/2026 14:03:07: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 14:03:07:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:03:07:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:03:07:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:03:07:   length: 208,
+20/07/2026 14:03:07:   severity: 'ERROR',
+20/07/2026 14:03:07:   code: '22008',
+20/07/2026 14:03:07:   detail: undefined,
+20/07/2026 14:03:07:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:03:07:   position: undefined,
+20/07/2026 14:03:07:   internalPosition: undefined,
+20/07/2026 14:03:07:   internalQuery: undefined,
+20/07/2026 14:03:07:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:03:07:   schema: undefined,
+20/07/2026 14:03:07:   table: undefined,
+20/07/2026 14:03:07:   column: undefined,
+20/07/2026 14:03:07:   dataType: undefined,
+20/07/2026 14:03:07:   constraint: undefined,
+20/07/2026 14:03:07:   file: 'datetime.c',
+20/07/2026 14:03:07:   line: '3780',
+20/07/2026 14:03:07:   routine: 'DateTimeParseError'
+20/07/2026 14:03:07: }
+20/07/2026 14:03:13: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 14:03:13:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:03:13:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:03:13:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:03:13:   length: 208,
+20/07/2026 14:03:13:   severity: 'ERROR',
+20/07/2026 14:03:13:   code: '22008',
+20/07/2026 14:03:13:   detail: undefined,
+20/07/2026 14:03:13:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:03:13:   position: undefined,
+20/07/2026 14:03:13:   internalPosition: undefined,
+20/07/2026 14:03:13:   internalQuery: undefined,
+20/07/2026 14:03:13:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:03:13:   schema: undefined,
+20/07/2026 14:03:13:   table: undefined,
+20/07/2026 14:03:13:   column: undefined,
+20/07/2026 14:03:13:   dataType: undefined,
+20/07/2026 14:03:13:   constraint: undefined,
+20/07/2026 14:03:13:   file: 'datetime.c',
+20/07/2026 14:03:13:   line: '3780',
+20/07/2026 14:03:13:   routine: 'DateTimeParseError'
+20/07/2026 14:03:13: }
+20/07/2026 14:03:31: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 13:49"
+20/07/2026 14:03:31:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:03:31:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:03:31:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:03:31:   length: 208,
+20/07/2026 14:03:31:   severity: 'ERROR',
+20/07/2026 14:03:31:   code: '22008',
+20/07/2026 14:03:31:   detail: undefined,
+20/07/2026 14:03:31:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:03:31:   position: undefined,
+20/07/2026 14:03:31:   internalPosition: undefined,
+20/07/2026 14:03:31:   internalQuery: undefined,
+20/07/2026 14:03:31:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:03:31:   schema: undefined,
+20/07/2026 14:03:31:   table: undefined,
+20/07/2026 14:03:31:   column: undefined,
+20/07/2026 14:03:31:   dataType: undefined,
+20/07/2026 14:03:31:   constraint: undefined,
+20/07/2026 14:03:31:   file: 'datetime.c',
+20/07/2026 14:03:31:   line: '3780',
+20/07/2026 14:03:31:   routine: 'DateTimeParseError'
+20/07/2026 14:03:31: }
+20/07/2026 14:11:35: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 12:55"
+20/07/2026 14:11:35:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 14:11:35:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 14:11:35:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 14:11:35:   length: 208,
+20/07/2026 14:11:35:   severity: 'ERROR',
+20/07/2026 14:11:35:   code: '22008',
+20/07/2026 14:11:35:   detail: undefined,
+20/07/2026 14:11:35:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 14:11:35:   position: undefined,
+20/07/2026 14:11:35:   internalPosition: undefined,
+20/07/2026 14:11:35:   internalQuery: undefined,
+20/07/2026 14:11:35:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 14:11:35:   schema: undefined,
+20/07/2026 14:11:35:   table: undefined,
+20/07/2026 14:11:35:   column: undefined,
+20/07/2026 14:11:35:   dataType: undefined,
+20/07/2026 14:11:35:   constraint: undefined,
+20/07/2026 14:11:35:   file: 'datetime.c',
+20/07/2026 14:11:35:   line: '3780',
+20/07/2026 14:11:35:   routine: 'DateTimeParseError'
+20/07/2026 14:11:35: }
+20/07/2026 15:16:06: [QUALIDADE] Erro ao salvar auditoria: error: date/time field value out of range: "20/07/2026 14:41"
+20/07/2026 15:16:06:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 15:16:06:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 15:16:06:     at async E:\projetos_hitss\geo-pme-notas\server.js:1334:33 {
+20/07/2026 15:16:06:   length: 208,
+20/07/2026 15:16:06:   severity: 'ERROR',
+20/07/2026 15:16:06:   code: '22008',
+20/07/2026 15:16:06:   detail: undefined,
+20/07/2026 15:16:06:   hint: 'Perhaps you need a different "datestyle" setting.',
+20/07/2026 15:16:06:   position: undefined,
+20/07/2026 15:16:06:   internalPosition: undefined,
+20/07/2026 15:16:06:   internalQuery: undefined,
+20/07/2026 15:16:06:   where: "unnamed portal parameter $8 = '...'",
+20/07/2026 15:16:06:   schema: undefined,
+20/07/2026 15:16:06:   table: undefined,
+20/07/2026 15:16:06:   column: undefined,
+20/07/2026 15:16:06:   dataType: undefined,
+20/07/2026 15:16:06:   constraint: undefined,
+20/07/2026 15:16:06:   file: 'datetime.c',
+20/07/2026 15:16:06:   line: '3780',
+20/07/2026 15:16:06:   routine: 'DateTimeParseError'
+20/07/2026 15:16:06: }
+20/07/2026 17:02:49: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:02:49:     at E:\projetos_hitss\geo-pme-notas\server.js:1270:18
+20/07/2026 17:02:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:03:14: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:03:14:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:03:14:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:03:36: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:03:36:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:03:36:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:03:41: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:03:41:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:03:41:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:05:03: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:05:03:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:05:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:05:36: [QUALIDADE] Erro ao salvar auditoria: ReferenceError: dataAnalise is not defined
+20/07/2026 17:05:36:     at E:\projetos_hitss\geo-pme-notas\server.js:1275:18
+20/07/2026 17:05:36:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:16:29: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:16:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:16:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:16:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:16:29:   length: 93,
+20/07/2026 17:16:29:   severity: 'ERROR',
+20/07/2026 17:16:29:   code: '42601',
+20/07/2026 17:16:29:   detail: undefined,
+20/07/2026 17:16:29:   hint: undefined,
+20/07/2026 17:16:29:   position: '581',
+20/07/2026 17:16:29:   internalPosition: undefined,
+20/07/2026 17:16:29:   internalQuery: undefined,
+20/07/2026 17:16:29:   where: undefined,
+20/07/2026 17:16:29:   schema: undefined,
+20/07/2026 17:16:29:   table: undefined,
+20/07/2026 17:16:29:   column: undefined,
+20/07/2026 17:16:29:   dataType: undefined,
+20/07/2026 17:16:29:   constraint: undefined,
+20/07/2026 17:16:29:   file: 'scan.l',
+20/07/2026 17:16:29:   line: '1176',
+20/07/2026 17:16:29:   routine: 'scanner_yyerror'
+20/07/2026 17:16:29: }
+20/07/2026 17:16:43: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:16:43:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:16:43:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:16:43:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:16:43:   length: 93,
+20/07/2026 17:16:43:   severity: 'ERROR',
+20/07/2026 17:16:43:   code: '42601',
+20/07/2026 17:16:43:   detail: undefined,
+20/07/2026 17:16:43:   hint: undefined,
+20/07/2026 17:16:43:   position: '581',
+20/07/2026 17:16:43:   internalPosition: undefined,
+20/07/2026 17:16:43:   internalQuery: undefined,
+20/07/2026 17:16:43:   where: undefined,
+20/07/2026 17:16:43:   schema: undefined,
+20/07/2026 17:16:43:   table: undefined,
+20/07/2026 17:16:43:   column: undefined,
+20/07/2026 17:16:43:   dataType: undefined,
+20/07/2026 17:16:43:   constraint: undefined,
+20/07/2026 17:16:43:   file: 'scan.l',
+20/07/2026 17:16:43:   line: '1176',
+20/07/2026 17:16:43:   routine: 'scanner_yyerror'
+20/07/2026 17:16:43: }
+20/07/2026 17:16:52: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:16:52:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:16:52:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:16:52:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:16:52:   length: 151,
+20/07/2026 17:16:52:   severity: 'ERROR',
+20/07/2026 17:16:52:   code: '42P10',
+20/07/2026 17:16:52:   detail: undefined,
+20/07/2026 17:16:52:   hint: undefined,
+20/07/2026 17:16:52:   position: '57',
+20/07/2026 17:16:52:   internalPosition: undefined,
+20/07/2026 17:16:52:   internalQuery: undefined,
+20/07/2026 17:16:52:   where: undefined,
+20/07/2026 17:16:52:   schema: undefined,
+20/07/2026 17:16:52:   table: undefined,
+20/07/2026 17:16:52:   column: undefined,
+20/07/2026 17:16:52:   dataType: undefined,
+20/07/2026 17:16:52:   constraint: undefined,
+20/07/2026 17:16:52:   file: 'parse_clause.c',
+20/07/2026 17:16:52:   line: '3019',
+20/07/2026 17:16:52:   routine: 'transformDistinctOnClause'
+20/07/2026 17:16:52: }
+20/07/2026 17:17:11: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:17:11:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:17:11:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:17:11:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:17:11:   length: 151,
+20/07/2026 17:17:11:   severity: 'ERROR',
+20/07/2026 17:17:11:   code: '42P10',
+20/07/2026 17:17:11:   detail: undefined,
+20/07/2026 17:17:11:   hint: undefined,
+20/07/2026 17:17:11:   position: '57',
+20/07/2026 17:17:11:   internalPosition: undefined,
+20/07/2026 17:17:11:   internalQuery: undefined,
+20/07/2026 17:17:11:   where: undefined,
+20/07/2026 17:17:11:   schema: undefined,
+20/07/2026 17:17:11:   table: undefined,
+20/07/2026 17:17:11:   column: undefined,
+20/07/2026 17:17:11:   dataType: undefined,
+20/07/2026 17:17:11:   constraint: undefined,
+20/07/2026 17:17:11:   file: 'parse_clause.c',
+20/07/2026 17:17:11:   line: '3019',
+20/07/2026 17:17:11:   routine: 'transformDistinctOnClause'
+20/07/2026 17:17:11: }
+20/07/2026 17:17:22: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:17:22:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:17:22:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:17:22:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:17:22:   length: 151,
+20/07/2026 17:17:22:   severity: 'ERROR',
+20/07/2026 17:17:22:   code: '42P10',
+20/07/2026 17:17:22:   detail: undefined,
+20/07/2026 17:17:22:   hint: undefined,
+20/07/2026 17:17:22:   position: '57',
+20/07/2026 17:17:22:   internalPosition: undefined,
+20/07/2026 17:17:22:   internalQuery: undefined,
+20/07/2026 17:17:22:   where: undefined,
+20/07/2026 17:17:22:   schema: undefined,
+20/07/2026 17:17:22:   table: undefined,
+20/07/2026 17:17:22:   column: undefined,
+20/07/2026 17:17:22:   dataType: undefined,
+20/07/2026 17:17:22:   constraint: undefined,
+20/07/2026 17:17:22:   file: 'parse_clause.c',
+20/07/2026 17:17:22:   line: '3019',
+20/07/2026 17:17:22:   routine: 'transformDistinctOnClause'
+20/07/2026 17:17:22: }
+20/07/2026 17:17:47: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:17:47:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:17:47:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:17:47:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:17:47:   length: 151,
+20/07/2026 17:17:47:   severity: 'ERROR',
+20/07/2026 17:17:47:   code: '42P10',
+20/07/2026 17:17:47:   detail: undefined,
+20/07/2026 17:17:47:   hint: undefined,
+20/07/2026 17:17:47:   position: '57',
+20/07/2026 17:17:47:   internalPosition: undefined,
+20/07/2026 17:17:47:   internalQuery: undefined,
+20/07/2026 17:17:47:   where: undefined,
+20/07/2026 17:17:47:   schema: undefined,
+20/07/2026 17:17:47:   table: undefined,
+20/07/2026 17:17:47:   column: undefined,
+20/07/2026 17:17:47:   dataType: undefined,
+20/07/2026 17:17:47:   constraint: undefined,
+20/07/2026 17:17:47:   file: 'parse_clause.c',
+20/07/2026 17:17:47:   line: '3019',
+20/07/2026 17:17:47:   routine: 'transformDistinctOnClause'
+20/07/2026 17:17:47: }
+20/07/2026 17:17:50: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:17:50:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:17:50:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:17:50:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:17:50:   length: 151,
+20/07/2026 17:17:50:   severity: 'ERROR',
+20/07/2026 17:17:50:   code: '42P10',
+20/07/2026 17:17:50:   detail: undefined,
+20/07/2026 17:17:50:   hint: undefined,
+20/07/2026 17:17:50:   position: '57',
+20/07/2026 17:17:50:   internalPosition: undefined,
+20/07/2026 17:17:50:   internalQuery: undefined,
+20/07/2026 17:17:50:   where: undefined,
+20/07/2026 17:17:50:   schema: undefined,
+20/07/2026 17:17:50:   table: undefined,
+20/07/2026 17:17:50:   column: undefined,
+20/07/2026 17:17:50:   dataType: undefined,
+20/07/2026 17:17:50:   constraint: undefined,
+20/07/2026 17:17:50:   file: 'parse_clause.c',
+20/07/2026 17:17:50:   line: '3019',
+20/07/2026 17:17:50:   routine: 'transformDistinctOnClause'
+20/07/2026 17:17:50: }
+20/07/2026 17:18:58: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:18:58:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:18:58:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:18:58:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:18:58:   length: 151,
+20/07/2026 17:18:58:   severity: 'ERROR',
+20/07/2026 17:18:58:   code: '42P10',
+20/07/2026 17:18:58:   detail: undefined,
+20/07/2026 17:18:58:   hint: undefined,
+20/07/2026 17:18:58:   position: '57',
+20/07/2026 17:18:58:   internalPosition: undefined,
+20/07/2026 17:18:58:   internalQuery: undefined,
+20/07/2026 17:18:58:   where: undefined,
+20/07/2026 17:18:58:   schema: undefined,
+20/07/2026 17:18:58:   table: undefined,
+20/07/2026 17:18:58:   column: undefined,
+20/07/2026 17:18:58:   dataType: undefined,
+20/07/2026 17:18:58:   constraint: undefined,
+20/07/2026 17:18:58:   file: 'parse_clause.c',
+20/07/2026 17:18:58:   line: '3019',
+20/07/2026 17:18:58:   routine: 'transformDistinctOnClause'
+20/07/2026 17:18:58: }
+20/07/2026 17:19:09: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:19:09:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:19:09:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:19:09:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:19:09:   length: 151,
+20/07/2026 17:19:09:   severity: 'ERROR',
+20/07/2026 17:19:09:   code: '42P10',
+20/07/2026 17:19:09:   detail: undefined,
+20/07/2026 17:19:09:   hint: undefined,
+20/07/2026 17:19:09:   position: '57',
+20/07/2026 17:19:09:   internalPosition: undefined,
+20/07/2026 17:19:09:   internalQuery: undefined,
+20/07/2026 17:19:09:   where: undefined,
+20/07/2026 17:19:09:   schema: undefined,
+20/07/2026 17:19:09:   table: undefined,
+20/07/2026 17:19:09:   column: undefined,
+20/07/2026 17:19:09:   dataType: undefined,
+20/07/2026 17:19:09:   constraint: undefined,
+20/07/2026 17:19:09:   file: 'parse_clause.c',
+20/07/2026 17:19:09:   line: '3019',
+20/07/2026 17:19:09:   routine: 'transformDistinctOnClause'
+20/07/2026 17:19:09: }
+20/07/2026 17:19:51: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:19:51:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:19:51:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:19:51:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:19:51:   length: 151,
+20/07/2026 17:19:51:   severity: 'ERROR',
+20/07/2026 17:19:51:   code: '42P10',
+20/07/2026 17:19:51:   detail: undefined,
+20/07/2026 17:19:51:   hint: undefined,
+20/07/2026 17:19:51:   position: '57',
+20/07/2026 17:19:51:   internalPosition: undefined,
+20/07/2026 17:19:51:   internalQuery: undefined,
+20/07/2026 17:19:51:   where: undefined,
+20/07/2026 17:19:51:   schema: undefined,
+20/07/2026 17:19:51:   table: undefined,
+20/07/2026 17:19:51:   column: undefined,
+20/07/2026 17:19:51:   dataType: undefined,
+20/07/2026 17:19:51:   constraint: undefined,
+20/07/2026 17:19:51:   file: 'parse_clause.c',
+20/07/2026 17:19:51:   line: '3019',
+20/07/2026 17:19:51:   routine: 'transformDistinctOnClause'
+20/07/2026 17:19:51: }
+20/07/2026 17:19:55: [QUALIDADE] Erro ao listar cotações: error: SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+20/07/2026 17:19:55:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:19:55:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:19:55:     at async E:\projetos_hitss\geo-pme-notas\server.js:1106:20 {
+20/07/2026 17:19:55:   length: 151,
+20/07/2026 17:19:55:   severity: 'ERROR',
+20/07/2026 17:19:55:   code: '42P10',
+20/07/2026 17:19:55:   detail: undefined,
+20/07/2026 17:19:55:   hint: undefined,
+20/07/2026 17:19:55:   position: '57',
+20/07/2026 17:19:55:   internalPosition: undefined,
+20/07/2026 17:19:55:   internalQuery: undefined,
+20/07/2026 17:19:55:   where: undefined,
+20/07/2026 17:19:55:   schema: undefined,
+20/07/2026 17:19:55:   table: undefined,
+20/07/2026 17:19:55:   column: undefined,
+20/07/2026 17:19:55:   dataType: undefined,
+20/07/2026 17:19:55:   constraint: undefined,
+20/07/2026 17:19:55:   file: 'parse_clause.c',
+20/07/2026 17:19:55:   line: '3019',
+20/07/2026 17:19:55:   routine: 'transformDistinctOnClause'
+20/07/2026 17:19:55: }
+20/07/2026 17:20:15: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:20:15:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:20:15:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:20:15:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:20:15:   length: 93,
+20/07/2026 17:20:15:   severity: 'ERROR',
+20/07/2026 17:20:15:   code: '42601',
+20/07/2026 17:20:15:   detail: undefined,
+20/07/2026 17:20:15:   hint: undefined,
+20/07/2026 17:20:15:   position: '581',
+20/07/2026 17:20:15:   internalPosition: undefined,
+20/07/2026 17:20:15:   internalQuery: undefined,
+20/07/2026 17:20:15:   where: undefined,
+20/07/2026 17:20:15:   schema: undefined,
+20/07/2026 17:20:15:   table: undefined,
+20/07/2026 17:20:15:   column: undefined,
+20/07/2026 17:20:15:   dataType: undefined,
+20/07/2026 17:20:15:   constraint: undefined,
+20/07/2026 17:20:15:   file: 'scan.l',
+20/07/2026 17:20:15:   line: '1176',
+20/07/2026 17:20:15:   routine: 'scanner_yyerror'
+20/07/2026 17:20:15: }
+20/07/2026 17:21:20: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:21:20:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:21:20:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:21:20:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:21:20:   length: 93,
+20/07/2026 17:21:20:   severity: 'ERROR',
+20/07/2026 17:21:20:   code: '42601',
+20/07/2026 17:21:20:   detail: undefined,
+20/07/2026 17:21:20:   hint: undefined,
+20/07/2026 17:21:20:   position: '581',
+20/07/2026 17:21:20:   internalPosition: undefined,
+20/07/2026 17:21:20:   internalQuery: undefined,
+20/07/2026 17:21:20:   where: undefined,
+20/07/2026 17:21:20:   schema: undefined,
+20/07/2026 17:21:20:   table: undefined,
+20/07/2026 17:21:20:   column: undefined,
+20/07/2026 17:21:20:   dataType: undefined,
+20/07/2026 17:21:20:   constraint: undefined,
+20/07/2026 17:21:20:   file: 'scan.l',
+20/07/2026 17:21:20:   line: '1176',
+20/07/2026 17:21:20:   routine: 'scanner_yyerror'
+20/07/2026 17:21:20: }
+20/07/2026 17:21:30: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:21:30:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:21:30:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:21:30:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:21:30:   length: 93,
+20/07/2026 17:21:30:   severity: 'ERROR',
+20/07/2026 17:21:30:   code: '42601',
+20/07/2026 17:21:30:   detail: undefined,
+20/07/2026 17:21:30:   hint: undefined,
+20/07/2026 17:21:30:   position: '581',
+20/07/2026 17:21:30:   internalPosition: undefined,
+20/07/2026 17:21:30:   internalQuery: undefined,
+20/07/2026 17:21:30:   where: undefined,
+20/07/2026 17:21:30:   schema: undefined,
+20/07/2026 17:21:30:   table: undefined,
+20/07/2026 17:21:30:   column: undefined,
+20/07/2026 17:21:30:   dataType: undefined,
+20/07/2026 17:21:30:   constraint: undefined,
+20/07/2026 17:21:30:   file: 'scan.l',
+20/07/2026 17:21:30:   line: '1176',
+20/07/2026 17:21:30:   routine: 'scanner_yyerror'
+20/07/2026 17:21:30: }
+20/07/2026 17:22:05: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:22:05:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:22:05:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:22:05:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:22:05:   length: 93,
+20/07/2026 17:22:05:   severity: 'ERROR',
+20/07/2026 17:22:05:   code: '42601',
+20/07/2026 17:22:05:   detail: undefined,
+20/07/2026 17:22:05:   hint: undefined,
+20/07/2026 17:22:05:   position: '581',
+20/07/2026 17:22:05:   internalPosition: undefined,
+20/07/2026 17:22:05:   internalQuery: undefined,
+20/07/2026 17:22:05:   where: undefined,
+20/07/2026 17:22:05:   schema: undefined,
+20/07/2026 17:22:05:   table: undefined,
+20/07/2026 17:22:05:   column: undefined,
+20/07/2026 17:22:05:   dataType: undefined,
+20/07/2026 17:22:05:   constraint: undefined,
+20/07/2026 17:22:05:   file: 'scan.l',
+20/07/2026 17:22:05:   line: '1176',
+20/07/2026 17:22:05:   routine: 'scanner_yyerror'
+20/07/2026 17:22:05: }
+20/07/2026 17:22:26: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:22:26:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:22:26:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:22:26:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:22:26:   length: 93,
+20/07/2026 17:22:26:   severity: 'ERROR',
+20/07/2026 17:22:26:   code: '42601',
+20/07/2026 17:22:26:   detail: undefined,
+20/07/2026 17:22:26:   hint: undefined,
+20/07/2026 17:22:26:   position: '581',
+20/07/2026 17:22:26:   internalPosition: undefined,
+20/07/2026 17:22:26:   internalQuery: undefined,
+20/07/2026 17:22:26:   where: undefined,
+20/07/2026 17:22:26:   schema: undefined,
+20/07/2026 17:22:26:   table: undefined,
+20/07/2026 17:22:26:   column: undefined,
+20/07/2026 17:22:26:   dataType: undefined,
+20/07/2026 17:22:26:   constraint: undefined,
+20/07/2026 17:22:26:   file: 'scan.l',
+20/07/2026 17:22:26:   line: '1176',
+20/07/2026 17:22:26:   routine: 'scanner_yyerror'
+20/07/2026 17:22:26: }
+20/07/2026 17:22:37: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:22:37:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:22:37:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:22:37:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:22:37:   length: 93,
+20/07/2026 17:22:37:   severity: 'ERROR',
+20/07/2026 17:22:37:   code: '42601',
+20/07/2026 17:22:37:   detail: undefined,
+20/07/2026 17:22:37:   hint: undefined,
+20/07/2026 17:22:37:   position: '581',
+20/07/2026 17:22:37:   internalPosition: undefined,
+20/07/2026 17:22:37:   internalQuery: undefined,
+20/07/2026 17:22:37:   where: undefined,
+20/07/2026 17:22:37:   schema: undefined,
+20/07/2026 17:22:37:   table: undefined,
+20/07/2026 17:22:37:   column: undefined,
+20/07/2026 17:22:37:   dataType: undefined,
+20/07/2026 17:22:37:   constraint: undefined,
+20/07/2026 17:22:37:   file: 'scan.l',
+20/07/2026 17:22:37:   line: '1176',
+20/07/2026 17:22:37:   routine: 'scanner_yyerror'
+20/07/2026 17:22:37: }
+20/07/2026 17:26:19: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:26:19:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:26:19:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:26:19:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:26:19:   length: 93,
+20/07/2026 17:26:19:   severity: 'ERROR',
+20/07/2026 17:26:19:   code: '42601',
+20/07/2026 17:26:19:   detail: undefined,
+20/07/2026 17:26:19:   hint: undefined,
+20/07/2026 17:26:19:   position: '581',
+20/07/2026 17:26:19:   internalPosition: undefined,
+20/07/2026 17:26:19:   internalQuery: undefined,
+20/07/2026 17:26:19:   where: undefined,
+20/07/2026 17:26:19:   schema: undefined,
+20/07/2026 17:26:19:   table: undefined,
+20/07/2026 17:26:19:   column: undefined,
+20/07/2026 17:26:19:   dataType: undefined,
+20/07/2026 17:26:19:   constraint: undefined,
+20/07/2026 17:26:19:   file: 'scan.l',
+20/07/2026 17:26:19:   line: '1176',
+20/07/2026 17:26:19:   routine: 'scanner_yyerror'
+20/07/2026 17:26:19: }
+20/07/2026 17:26:51: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:26:51:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:26:51:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:26:51:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:26:51:   length: 93,
+20/07/2026 17:26:51:   severity: 'ERROR',
+20/07/2026 17:26:51:   code: '42601',
+20/07/2026 17:26:51:   detail: undefined,
+20/07/2026 17:26:51:   hint: undefined,
+20/07/2026 17:26:51:   position: '581',
+20/07/2026 17:26:51:   internalPosition: undefined,
+20/07/2026 17:26:51:   internalQuery: undefined,
+20/07/2026 17:26:51:   where: undefined,
+20/07/2026 17:26:51:   schema: undefined,
+20/07/2026 17:26:51:   table: undefined,
+20/07/2026 17:26:51:   column: undefined,
+20/07/2026 17:26:51:   dataType: undefined,
+20/07/2026 17:26:51:   constraint: undefined,
+20/07/2026 17:26:51:   file: 'scan.l',
+20/07/2026 17:26:51:   line: '1176',
+20/07/2026 17:26:51:   routine: 'scanner_yyerror'
+20/07/2026 17:26:51: }
+20/07/2026 17:33:14: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:33:14:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:33:14:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:33:14:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:33:14:   length: 93,
+20/07/2026 17:33:14:   severity: 'ERROR',
+20/07/2026 17:33:14:   code: '42601',
+20/07/2026 17:33:14:   detail: undefined,
+20/07/2026 17:33:14:   hint: undefined,
+20/07/2026 17:33:14:   position: '581',
+20/07/2026 17:33:14:   internalPosition: undefined,
+20/07/2026 17:33:14:   internalQuery: undefined,
+20/07/2026 17:33:14:   where: undefined,
+20/07/2026 17:33:14:   schema: undefined,
+20/07/2026 17:33:14:   table: undefined,
+20/07/2026 17:33:14:   column: undefined,
+20/07/2026 17:33:14:   dataType: undefined,
+20/07/2026 17:33:14:   constraint: undefined,
+20/07/2026 17:33:14:   file: 'scan.l',
+20/07/2026 17:33:14:   line: '1176',
+20/07/2026 17:33:14:   routine: 'scanner_yyerror'
+20/07/2026 17:33:14: }
+20/07/2026 17:35:49: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:35:49:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:35:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:35:49:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:35:49:   length: 93,
+20/07/2026 17:35:49:   severity: 'ERROR',
+20/07/2026 17:35:49:   code: '42601',
+20/07/2026 17:35:49:   detail: undefined,
+20/07/2026 17:35:49:   hint: undefined,
+20/07/2026 17:35:49:   position: '581',
+20/07/2026 17:35:49:   internalPosition: undefined,
+20/07/2026 17:35:49:   internalQuery: undefined,
+20/07/2026 17:35:49:   where: undefined,
+20/07/2026 17:35:49:   schema: undefined,
+20/07/2026 17:35:49:   table: undefined,
+20/07/2026 17:35:49:   column: undefined,
+20/07/2026 17:35:49:   dataType: undefined,
+20/07/2026 17:35:49:   constraint: undefined,
+20/07/2026 17:35:49:   file: 'scan.l',
+20/07/2026 17:35:49:   line: '1176',
+20/07/2026 17:35:49:   routine: 'scanner_yyerror'
+20/07/2026 17:35:49: }
+20/07/2026 17:36:03: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:36:03:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:36:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:36:03:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:36:03:   length: 93,
+20/07/2026 17:36:03:   severity: 'ERROR',
+20/07/2026 17:36:03:   code: '42601',
+20/07/2026 17:36:03:   detail: undefined,
+20/07/2026 17:36:03:   hint: undefined,
+20/07/2026 17:36:03:   position: '581',
+20/07/2026 17:36:03:   internalPosition: undefined,
+20/07/2026 17:36:03:   internalQuery: undefined,
+20/07/2026 17:36:03:   where: undefined,
+20/07/2026 17:36:03:   schema: undefined,
+20/07/2026 17:36:03:   table: undefined,
+20/07/2026 17:36:03:   column: undefined,
+20/07/2026 17:36:03:   dataType: undefined,
+20/07/2026 17:36:03:   constraint: undefined,
+20/07/2026 17:36:03:   file: 'scan.l',
+20/07/2026 17:36:03:   line: '1176',
+20/07/2026 17:36:03:   routine: 'scanner_yyerror'
+20/07/2026 17:36:03: }
+20/07/2026 17:36:44: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:36:44:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:36:44:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:36:44:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:36:44:   length: 93,
+20/07/2026 17:36:44:   severity: 'ERROR',
+20/07/2026 17:36:44:   code: '42601',
+20/07/2026 17:36:44:   detail: undefined,
+20/07/2026 17:36:44:   hint: undefined,
+20/07/2026 17:36:44:   position: '581',
+20/07/2026 17:36:44:   internalPosition: undefined,
+20/07/2026 17:36:44:   internalQuery: undefined,
+20/07/2026 17:36:44:   where: undefined,
+20/07/2026 17:36:44:   schema: undefined,
+20/07/2026 17:36:44:   table: undefined,
+20/07/2026 17:36:44:   column: undefined,
+20/07/2026 17:36:44:   dataType: undefined,
+20/07/2026 17:36:44:   constraint: undefined,
+20/07/2026 17:36:44:   file: 'scan.l',
+20/07/2026 17:36:44:   line: '1176',
+20/07/2026 17:36:44:   routine: 'scanner_yyerror'
+20/07/2026 17:36:44: }
+20/07/2026 17:37:04: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:37:04:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:37:04:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:37:04:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:37:04:   length: 93,
+20/07/2026 17:37:04:   severity: 'ERROR',
+20/07/2026 17:37:04:   code: '42601',
+20/07/2026 17:37:04:   detail: undefined,
+20/07/2026 17:37:04:   hint: undefined,
+20/07/2026 17:37:04:   position: '581',
+20/07/2026 17:37:04:   internalPosition: undefined,
+20/07/2026 17:37:04:   internalQuery: undefined,
+20/07/2026 17:37:04:   where: undefined,
+20/07/2026 17:37:04:   schema: undefined,
+20/07/2026 17:37:04:   table: undefined,
+20/07/2026 17:37:04:   column: undefined,
+20/07/2026 17:37:04:   dataType: undefined,
+20/07/2026 17:37:04:   constraint: undefined,
+20/07/2026 17:37:04:   file: 'scan.l',
+20/07/2026 17:37:04:   line: '1176',
+20/07/2026 17:37:04:   routine: 'scanner_yyerror'
+20/07/2026 17:37:04: }
+20/07/2026 17:37:10: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:37:10:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:37:10:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:37:10:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:37:10:   length: 93,
+20/07/2026 17:37:10:   severity: 'ERROR',
+20/07/2026 17:37:10:   code: '42601',
+20/07/2026 17:37:10:   detail: undefined,
+20/07/2026 17:37:10:   hint: undefined,
+20/07/2026 17:37:10:   position: '581',
+20/07/2026 17:37:10:   internalPosition: undefined,
+20/07/2026 17:37:10:   internalQuery: undefined,
+20/07/2026 17:37:10:   where: undefined,
+20/07/2026 17:37:10:   schema: undefined,
+20/07/2026 17:37:10:   table: undefined,
+20/07/2026 17:37:10:   column: undefined,
+20/07/2026 17:37:10:   dataType: undefined,
+20/07/2026 17:37:10:   constraint: undefined,
+20/07/2026 17:37:10:   file: 'scan.l',
+20/07/2026 17:37:10:   line: '1176',
+20/07/2026 17:37:10:   routine: 'scanner_yyerror'
+20/07/2026 17:37:10: }
+20/07/2026 17:37:11: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:37:11:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:37:11:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:37:11:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:37:11:   length: 93,
+20/07/2026 17:37:11:   severity: 'ERROR',
+20/07/2026 17:37:11:   code: '42601',
+20/07/2026 17:37:11:   detail: undefined,
+20/07/2026 17:37:11:   hint: undefined,
+20/07/2026 17:37:11:   position: '581',
+20/07/2026 17:37:11:   internalPosition: undefined,
+20/07/2026 17:37:11:   internalQuery: undefined,
+20/07/2026 17:37:11:   where: undefined,
+20/07/2026 17:37:11:   schema: undefined,
+20/07/2026 17:37:11:   table: undefined,
+20/07/2026 17:37:11:   column: undefined,
+20/07/2026 17:37:11:   dataType: undefined,
+20/07/2026 17:37:11:   constraint: undefined,
+20/07/2026 17:37:11:   file: 'scan.l',
+20/07/2026 17:37:11:   line: '1176',
+20/07/2026 17:37:11:   routine: 'scanner_yyerror'
+20/07/2026 17:37:11: }
+20/07/2026 17:37:36: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:37:36:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:37:36:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:37:36:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:37:36:   length: 93,
+20/07/2026 17:37:36:   severity: 'ERROR',
+20/07/2026 17:37:36:   code: '42601',
+20/07/2026 17:37:36:   detail: undefined,
+20/07/2026 17:37:36:   hint: undefined,
+20/07/2026 17:37:36:   position: '581',
+20/07/2026 17:37:36:   internalPosition: undefined,
+20/07/2026 17:37:36:   internalQuery: undefined,
+20/07/2026 17:37:36:   where: undefined,
+20/07/2026 17:37:36:   schema: undefined,
+20/07/2026 17:37:36:   table: undefined,
+20/07/2026 17:37:36:   column: undefined,
+20/07/2026 17:37:36:   dataType: undefined,
+20/07/2026 17:37:36:   constraint: undefined,
+20/07/2026 17:37:36:   file: 'scan.l',
+20/07/2026 17:37:36:   line: '1176',
+20/07/2026 17:37:36:   routine: 'scanner_yyerror'
+20/07/2026 17:37:36: }
+20/07/2026 17:37:44: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:37:44:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:37:44:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:37:44:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:37:44:   length: 93,
+20/07/2026 17:37:44:   severity: 'ERROR',
+20/07/2026 17:37:44:   code: '42601',
+20/07/2026 17:37:44:   detail: undefined,
+20/07/2026 17:37:44:   hint: undefined,
+20/07/2026 17:37:44:   position: '581',
+20/07/2026 17:37:44:   internalPosition: undefined,
+20/07/2026 17:37:44:   internalQuery: undefined,
+20/07/2026 17:37:44:   where: undefined,
+20/07/2026 17:37:44:   schema: undefined,
+20/07/2026 17:37:44:   table: undefined,
+20/07/2026 17:37:44:   column: undefined,
+20/07/2026 17:37:44:   dataType: undefined,
+20/07/2026 17:37:44:   constraint: undefined,
+20/07/2026 17:37:44:   file: 'scan.l',
+20/07/2026 17:37:44:   line: '1176',
+20/07/2026 17:37:44:   routine: 'scanner_yyerror'
+20/07/2026 17:37:44: }
+20/07/2026 17:37:47: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:37:47:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:37:47:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:37:47:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:37:47:   length: 93,
+20/07/2026 17:37:47:   severity: 'ERROR',
+20/07/2026 17:37:47:   code: '42601',
+20/07/2026 17:37:47:   detail: undefined,
+20/07/2026 17:37:47:   hint: undefined,
+20/07/2026 17:37:47:   position: '581',
+20/07/2026 17:37:47:   internalPosition: undefined,
+20/07/2026 17:37:47:   internalQuery: undefined,
+20/07/2026 17:37:47:   where: undefined,
+20/07/2026 17:37:47:   schema: undefined,
+20/07/2026 17:37:47:   table: undefined,
+20/07/2026 17:37:47:   column: undefined,
+20/07/2026 17:37:47:   dataType: undefined,
+20/07/2026 17:37:47:   constraint: undefined,
+20/07/2026 17:37:47:   file: 'scan.l',
+20/07/2026 17:37:47:   line: '1176',
+20/07/2026 17:37:47:   routine: 'scanner_yyerror'
+20/07/2026 17:37:47: }
+20/07/2026 17:37:53: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:37:53:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:37:53:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:37:53:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:37:53:   length: 93,
+20/07/2026 17:37:53:   severity: 'ERROR',
+20/07/2026 17:37:53:   code: '42601',
+20/07/2026 17:37:53:   detail: undefined,
+20/07/2026 17:37:53:   hint: undefined,
+20/07/2026 17:37:53:   position: '581',
+20/07/2026 17:37:53:   internalPosition: undefined,
+20/07/2026 17:37:53:   internalQuery: undefined,
+20/07/2026 17:37:53:   where: undefined,
+20/07/2026 17:37:53:   schema: undefined,
+20/07/2026 17:37:53:   table: undefined,
+20/07/2026 17:37:53:   column: undefined,
+20/07/2026 17:37:53:   dataType: undefined,
+20/07/2026 17:37:53:   constraint: undefined,
+20/07/2026 17:37:53:   file: 'scan.l',
+20/07/2026 17:37:53:   line: '1176',
+20/07/2026 17:37:53:   routine: 'scanner_yyerror'
+20/07/2026 17:37:53: }
+20/07/2026 17:37:57: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:37:57:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:37:57:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:37:57:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:37:57:   length: 93,
+20/07/2026 17:37:57:   severity: 'ERROR',
+20/07/2026 17:37:57:   code: '42601',
+20/07/2026 17:37:57:   detail: undefined,
+20/07/2026 17:37:57:   hint: undefined,
+20/07/2026 17:37:57:   position: '581',
+20/07/2026 17:37:57:   internalPosition: undefined,
+20/07/2026 17:37:57:   internalQuery: undefined,
+20/07/2026 17:37:57:   where: undefined,
+20/07/2026 17:37:57:   schema: undefined,
+20/07/2026 17:37:57:   table: undefined,
+20/07/2026 17:37:57:   column: undefined,
+20/07/2026 17:37:57:   dataType: undefined,
+20/07/2026 17:37:57:   constraint: undefined,
+20/07/2026 17:37:57:   file: 'scan.l',
+20/07/2026 17:37:57:   line: '1176',
+20/07/2026 17:37:57:   routine: 'scanner_yyerror'
+20/07/2026 17:37:57: }
+20/07/2026 17:38:23: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:38:23:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:38:23:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:38:23:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:38:23:   length: 93,
+20/07/2026 17:38:23:   severity: 'ERROR',
+20/07/2026 17:38:23:   code: '42601',
+20/07/2026 17:38:23:   detail: undefined,
+20/07/2026 17:38:23:   hint: undefined,
+20/07/2026 17:38:23:   position: '581',
+20/07/2026 17:38:23:   internalPosition: undefined,
+20/07/2026 17:38:23:   internalQuery: undefined,
+20/07/2026 17:38:23:   where: undefined,
+20/07/2026 17:38:23:   schema: undefined,
+20/07/2026 17:38:23:   table: undefined,
+20/07/2026 17:38:23:   column: undefined,
+20/07/2026 17:38:23:   dataType: undefined,
+20/07/2026 17:38:23:   constraint: undefined,
+20/07/2026 17:38:23:   file: 'scan.l',
+20/07/2026 17:38:23:   line: '1176',
+20/07/2026 17:38:23:   routine: 'scanner_yyerror'
+20/07/2026 17:38:23: }
+20/07/2026 17:38:29: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:38:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:38:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:38:29:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:38:29:   length: 93,
+20/07/2026 17:38:29:   severity: 'ERROR',
+20/07/2026 17:38:29:   code: '42601',
+20/07/2026 17:38:29:   detail: undefined,
+20/07/2026 17:38:29:   hint: undefined,
+20/07/2026 17:38:29:   position: '581',
+20/07/2026 17:38:29:   internalPosition: undefined,
+20/07/2026 17:38:29:   internalQuery: undefined,
+20/07/2026 17:38:29:   where: undefined,
+20/07/2026 17:38:29:   schema: undefined,
+20/07/2026 17:38:29:   table: undefined,
+20/07/2026 17:38:29:   column: undefined,
+20/07/2026 17:38:29:   dataType: undefined,
+20/07/2026 17:38:29:   constraint: undefined,
+20/07/2026 17:38:29:   file: 'scan.l',
+20/07/2026 17:38:29:   line: '1176',
+20/07/2026 17:38:29:   routine: 'scanner_yyerror'
+20/07/2026 17:38:29: }
+20/07/2026 17:38:34: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:38:34:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:38:34:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:38:34:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:38:34:   length: 93,
+20/07/2026 17:38:34:   severity: 'ERROR',
+20/07/2026 17:38:34:   code: '42601',
+20/07/2026 17:38:34:   detail: undefined,
+20/07/2026 17:38:34:   hint: undefined,
+20/07/2026 17:38:34:   position: '581',
+20/07/2026 17:38:34:   internalPosition: undefined,
+20/07/2026 17:38:34:   internalQuery: undefined,
+20/07/2026 17:38:34:   where: undefined,
+20/07/2026 17:38:34:   schema: undefined,
+20/07/2026 17:38:34:   table: undefined,
+20/07/2026 17:38:34:   column: undefined,
+20/07/2026 17:38:34:   dataType: undefined,
+20/07/2026 17:38:34:   constraint: undefined,
+20/07/2026 17:38:34:   file: 'scan.l',
+20/07/2026 17:38:34:   line: '1176',
+20/07/2026 17:38:34:   routine: 'scanner_yyerror'
+20/07/2026 17:38:34: }
+20/07/2026 17:39:54: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:39:54:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:39:54:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:39:54:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:39:54:   length: 93,
+20/07/2026 17:39:54:   severity: 'ERROR',
+20/07/2026 17:39:54:   code: '42601',
+20/07/2026 17:39:54:   detail: undefined,
+20/07/2026 17:39:54:   hint: undefined,
+20/07/2026 17:39:54:   position: '581',
+20/07/2026 17:39:54:   internalPosition: undefined,
+20/07/2026 17:39:54:   internalQuery: undefined,
+20/07/2026 17:39:54:   where: undefined,
+20/07/2026 17:39:54:   schema: undefined,
+20/07/2026 17:39:54:   table: undefined,
+20/07/2026 17:39:54:   column: undefined,
+20/07/2026 17:39:54:   dataType: undefined,
+20/07/2026 17:39:54:   constraint: undefined,
+20/07/2026 17:39:54:   file: 'scan.l',
+20/07/2026 17:39:54:   line: '1176',
+20/07/2026 17:39:54:   routine: 'scanner_yyerror'
+20/07/2026 17:39:54: }
+20/07/2026 17:40:27: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:40:27:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:40:27:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:40:27:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:40:27:   length: 93,
+20/07/2026 17:40:27:   severity: 'ERROR',
+20/07/2026 17:40:27:   code: '42601',
+20/07/2026 17:40:27:   detail: undefined,
+20/07/2026 17:40:27:   hint: undefined,
+20/07/2026 17:40:27:   position: '581',
+20/07/2026 17:40:27:   internalPosition: undefined,
+20/07/2026 17:40:27:   internalQuery: undefined,
+20/07/2026 17:40:27:   where: undefined,
+20/07/2026 17:40:27:   schema: undefined,
+20/07/2026 17:40:27:   table: undefined,
+20/07/2026 17:40:27:   column: undefined,
+20/07/2026 17:40:27:   dataType: undefined,
+20/07/2026 17:40:27:   constraint: undefined,
+20/07/2026 17:40:27:   file: 'scan.l',
+20/07/2026 17:40:27:   line: '1176',
+20/07/2026 17:40:27:   routine: 'scanner_yyerror'
+20/07/2026 17:40:27: }
+20/07/2026 17:41:32: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:41:32:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:41:32:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:41:32:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:41:32:   length: 93,
+20/07/2026 17:41:32:   severity: 'ERROR',
+20/07/2026 17:41:32:   code: '42601',
+20/07/2026 17:41:32:   detail: undefined,
+20/07/2026 17:41:32:   hint: undefined,
+20/07/2026 17:41:32:   position: '581',
+20/07/2026 17:41:32:   internalPosition: undefined,
+20/07/2026 17:41:32:   internalQuery: undefined,
+20/07/2026 17:41:32:   where: undefined,
+20/07/2026 17:41:32:   schema: undefined,
+20/07/2026 17:41:32:   table: undefined,
+20/07/2026 17:41:32:   column: undefined,
+20/07/2026 17:41:32:   dataType: undefined,
+20/07/2026 17:41:32:   constraint: undefined,
+20/07/2026 17:41:32:   file: 'scan.l',
+20/07/2026 17:41:32:   line: '1176',
+20/07/2026 17:41:32:   routine: 'scanner_yyerror'
+20/07/2026 17:41:32: }
+20/07/2026 17:42:03: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:42:03:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:42:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:42:03:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:42:03:   length: 93,
+20/07/2026 17:42:03:   severity: 'ERROR',
+20/07/2026 17:42:03:   code: '42601',
+20/07/2026 17:42:03:   detail: undefined,
+20/07/2026 17:42:03:   hint: undefined,
+20/07/2026 17:42:03:   position: '581',
+20/07/2026 17:42:03:   internalPosition: undefined,
+20/07/2026 17:42:03:   internalQuery: undefined,
+20/07/2026 17:42:03:   where: undefined,
+20/07/2026 17:42:03:   schema: undefined,
+20/07/2026 17:42:03:   table: undefined,
+20/07/2026 17:42:03:   column: undefined,
+20/07/2026 17:42:03:   dataType: undefined,
+20/07/2026 17:42:03:   constraint: undefined,
+20/07/2026 17:42:03:   file: 'scan.l',
+20/07/2026 17:42:03:   line: '1176',
+20/07/2026 17:42:03:   routine: 'scanner_yyerror'
+20/07/2026 17:42:03: }
+20/07/2026 17:42:51: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:42:51:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:42:51:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:42:51:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:42:51:   length: 93,
+20/07/2026 17:42:51:   severity: 'ERROR',
+20/07/2026 17:42:51:   code: '42601',
+20/07/2026 17:42:51:   detail: undefined,
+20/07/2026 17:42:51:   hint: undefined,
+20/07/2026 17:42:51:   position: '581',
+20/07/2026 17:42:51:   internalPosition: undefined,
+20/07/2026 17:42:51:   internalQuery: undefined,
+20/07/2026 17:42:51:   where: undefined,
+20/07/2026 17:42:51:   schema: undefined,
+20/07/2026 17:42:51:   table: undefined,
+20/07/2026 17:42:51:   column: undefined,
+20/07/2026 17:42:51:   dataType: undefined,
+20/07/2026 17:42:51:   constraint: undefined,
+20/07/2026 17:42:51:   file: 'scan.l',
+20/07/2026 17:42:51:   line: '1176',
+20/07/2026 17:42:51:   routine: 'scanner_yyerror'
+20/07/2026 17:42:51: }
+20/07/2026 17:43:04: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:43:04:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:43:04:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:43:04:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:43:04:   length: 93,
+20/07/2026 17:43:04:   severity: 'ERROR',
+20/07/2026 17:43:04:   code: '42601',
+20/07/2026 17:43:04:   detail: undefined,
+20/07/2026 17:43:04:   hint: undefined,
+20/07/2026 17:43:04:   position: '581',
+20/07/2026 17:43:04:   internalPosition: undefined,
+20/07/2026 17:43:04:   internalQuery: undefined,
+20/07/2026 17:43:04:   where: undefined,
+20/07/2026 17:43:04:   schema: undefined,
+20/07/2026 17:43:04:   table: undefined,
+20/07/2026 17:43:04:   column: undefined,
+20/07/2026 17:43:04:   dataType: undefined,
+20/07/2026 17:43:04:   constraint: undefined,
+20/07/2026 17:43:04:   file: 'scan.l',
+20/07/2026 17:43:04:   line: '1176',
+20/07/2026 17:43:04:   routine: 'scanner_yyerror'
+20/07/2026 17:43:04: }
+20/07/2026 17:43:31: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:43:31:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:43:31:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:43:31:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:43:31:   length: 93,
+20/07/2026 17:43:31:   severity: 'ERROR',
+20/07/2026 17:43:31:   code: '42601',
+20/07/2026 17:43:31:   detail: undefined,
+20/07/2026 17:43:31:   hint: undefined,
+20/07/2026 17:43:31:   position: '581',
+20/07/2026 17:43:31:   internalPosition: undefined,
+20/07/2026 17:43:31:   internalQuery: undefined,
+20/07/2026 17:43:31:   where: undefined,
+20/07/2026 17:43:31:   schema: undefined,
+20/07/2026 17:43:31:   table: undefined,
+20/07/2026 17:43:31:   column: undefined,
+20/07/2026 17:43:31:   dataType: undefined,
+20/07/2026 17:43:31:   constraint: undefined,
+20/07/2026 17:43:31:   file: 'scan.l',
+20/07/2026 17:43:31:   line: '1176',
+20/07/2026 17:43:31:   routine: 'scanner_yyerror'
+20/07/2026 17:43:31: }
+20/07/2026 17:44:24: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:44:24:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:44:24:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:44:24:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:44:24:   length: 93,
+20/07/2026 17:44:24:   severity: 'ERROR',
+20/07/2026 17:44:24:   code: '42601',
+20/07/2026 17:44:24:   detail: undefined,
+20/07/2026 17:44:24:   hint: undefined,
+20/07/2026 17:44:24:   position: '581',
+20/07/2026 17:44:24:   internalPosition: undefined,
+20/07/2026 17:44:24:   internalQuery: undefined,
+20/07/2026 17:44:24:   where: undefined,
+20/07/2026 17:44:24:   schema: undefined,
+20/07/2026 17:44:24:   table: undefined,
+20/07/2026 17:44:24:   column: undefined,
+20/07/2026 17:44:24:   dataType: undefined,
+20/07/2026 17:44:24:   constraint: undefined,
+20/07/2026 17:44:24:   file: 'scan.l',
+20/07/2026 17:44:24:   line: '1176',
+20/07/2026 17:44:24:   routine: 'scanner_yyerror'
+20/07/2026 17:44:24: }
+20/07/2026 17:45:17: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:45:17:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:45:17:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:45:17:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:45:17:   length: 93,
+20/07/2026 17:45:17:   severity: 'ERROR',
+20/07/2026 17:45:17:   code: '42601',
+20/07/2026 17:45:17:   detail: undefined,
+20/07/2026 17:45:17:   hint: undefined,
+20/07/2026 17:45:17:   position: '581',
+20/07/2026 17:45:17:   internalPosition: undefined,
+20/07/2026 17:45:17:   internalQuery: undefined,
+20/07/2026 17:45:17:   where: undefined,
+20/07/2026 17:45:17:   schema: undefined,
+20/07/2026 17:45:17:   table: undefined,
+20/07/2026 17:45:17:   column: undefined,
+20/07/2026 17:45:17:   dataType: undefined,
+20/07/2026 17:45:17:   constraint: undefined,
+20/07/2026 17:45:17:   file: 'scan.l',
+20/07/2026 17:45:17:   line: '1176',
+20/07/2026 17:45:17:   routine: 'scanner_yyerror'
+20/07/2026 17:45:17: }
+20/07/2026 17:45:24: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:45:24:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:45:24:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:45:24:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:45:24:   length: 93,
+20/07/2026 17:45:24:   severity: 'ERROR',
+20/07/2026 17:45:24:   code: '42601',
+20/07/2026 17:45:24:   detail: undefined,
+20/07/2026 17:45:24:   hint: undefined,
+20/07/2026 17:45:24:   position: '581',
+20/07/2026 17:45:24:   internalPosition: undefined,
+20/07/2026 17:45:24:   internalQuery: undefined,
+20/07/2026 17:45:24:   where: undefined,
+20/07/2026 17:45:24:   schema: undefined,
+20/07/2026 17:45:24:   table: undefined,
+20/07/2026 17:45:24:   column: undefined,
+20/07/2026 17:45:24:   dataType: undefined,
+20/07/2026 17:45:24:   constraint: undefined,
+20/07/2026 17:45:24:   file: 'scan.l',
+20/07/2026 17:45:24:   line: '1176',
+20/07/2026 17:45:24:   routine: 'scanner_yyerror'
+20/07/2026 17:45:24: }
+20/07/2026 17:48:11: [QUALIDADE] Erro ao listar cotações: error: syntax error at or near "AND"
+20/07/2026 17:48:11:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/07/2026 17:48:11:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/07/2026 17:48:11:     at async E:\projetos_hitss\geo-pme-notas\server.js:1111:20 {
+20/07/2026 17:48:11:   length: 93,
+20/07/2026 17:48:11:   severity: 'ERROR',
+20/07/2026 17:48:11:   code: '42601',
+20/07/2026 17:48:11:   detail: undefined,
+20/07/2026 17:48:11:   hint: undefined,
+20/07/2026 17:48:11:   position: '581',
+20/07/2026 17:48:11:   internalPosition: undefined,
+20/07/2026 17:48:11:   internalQuery: undefined,
+20/07/2026 17:48:11:   where: undefined,
+20/07/2026 17:48:11:   schema: undefined,
+20/07/2026 17:48:11:   table: undefined,
+20/07/2026 17:48:11:   column: undefined,
+20/07/2026 17:48:11:   dataType: undefined,
+20/07/2026 17:48:11:   constraint: undefined,
+20/07/2026 17:48:11:   file: 'scan.l',
+20/07/2026 17:48:11:   line: '1176',
+20/07/2026 17:48:11:   routine: 'scanner_yyerror'
+20/07/2026 17:48:11: }

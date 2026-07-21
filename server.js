@@ -1055,53 +1055,66 @@ app.get('/devolucoes-padrao', authenticateToken, (req, res) => {
 app.get('/api/qualidade', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem } = req.query;
-    let query = `SELECT * FROM (
-      SELECT DISTINCT ON (c.usuario_id) c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.usuario_id, c.origem, c.id_qldd,
-        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
-        FROM db_bloco_de_notas.cotacao c 
-        LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
-        WHERE c.validacao = 'Ativo'`;
     const params = [];
     let paramIndex = 1;
+    const normalizedSearch = search && search.trim() ? search.trim() : '';
+    const hasSearch = Boolean(normalizedSearch);
+    let innerQuery = `
+      SELECT DISTINCT ON (c.tarefa) 
+        c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
+        c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
+        c.usuario_id, c.origem, c.id_qldd,
+        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+      FROM db_bloco_de_notas.cotacao c 
+      LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+      WHERE c.validacao = 'Ativo'`;
 
-    if (search && search.trim()) {
-      query += ` AND (
-        LOWER(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, ''))) LIKE LOWER($${paramIndex})
-        OR LOWER(c.usuario_login) LIKE LOWER($${paramIndex})
+    if (hasSearch) {
+      innerQuery += ` AND (
+        LOWER(COALESCE(c.tarefa, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(COALESCE(c.cotacao, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(COALESCE(c.usuario_login, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, ''))) LIKE LOWER($${paramIndex})
       )`;
-      params.push(`%${search.trim()}%`);
+      params.push(`%${normalizedSearch}%`);
       paramIndex++;
     }
 
-    const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
-    const [year, month, day] = effectiveDate.split('-');
-    const dateStartBR = `${day}/${month}/${year}`;
-    query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
-    params.push(`${dateStartBR}%`);
-    paramIndex++;
+    if (!hasSearch) {
+      const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+      const [year, month, day] = effectiveDate.split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      innerQuery += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
 
-    if (origem && origem.trim() && origem !== 'todas') {
+    if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+        innerQuery += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
-        query += ` AND c.origem = $${paramIndex}`;
+        innerQuery += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
         paramIndex++;
       }
     }
 
-    if (req.query.status && req.query.status.trim()) {
-      if (req.query.status.trim().toLowerCase() === 'reprovado') {
-        // Mostrar reprovados OU já auditados
-        query += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
-      } else {
-        query += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
-        params.push(req.query.status.trim());
-        paramIndex++;
+    if (!hasSearch) {
+      const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim() : '';
+      if (statusFilter) {
+        if (statusFilter.toLowerCase() === 'reprovado') {
+          innerQuery += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
+        } else {
+          innerQuery += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+          params.push(statusFilter);
+          paramIndex++;
+        }
       }
     }
 
-    query += ' ORDER BY c.usuario_id, c.data_de_criacao DESC) sub ORDER BY sub.data_de_criacao DESC';
+    innerQuery += ' ORDER BY c.usuario_id, TO_DATE(LEFT(c.data_de_criacao, 10), \'DD/MM/YYYY\'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()';
+
+    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
 
     const result = await pool.query(query, params);
 
@@ -1241,8 +1254,18 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
         const analistaNome = analistaRes.rows.length > 0 ? analistaRes.rows[0].nome : null;
 
         const now = new Date();
-        const dataQualidade = formatDateBR(now);
-        const semana = calcularSemana(now);
+        const parseBRDate = (value) => {
+            if (!value) return now;
+            const text = String(value).trim();
+            if (!text) return now;
+            const m = text.match(/^(\d{2})\/(\d{2})\/(\d{4})(?:[ T](\d{2}):(\d{2}))?$/);
+            if (!m) return now;
+            const [ , day, month, year, hour = '00', minute = '00' ] = m;
+            return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
+        };
+        const dataCriacao = parseBRDate(cotacao.data_de_criacao);
+        const dataQualidade = formatDateBR(dataCriacao);
+        const semana = calcularSemana(dataCriacao);
         const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
 
         const existingAudit = await pool.query(
@@ -1260,8 +1283,8 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
                     motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
                     apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
                 WHERE id_qldd = $21`,
-                [anotacao, status, now, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
-                 dataAnalise, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
                  data_envio ? new Date(data_envio) : null, semana, idQldd]
@@ -1271,8 +1294,8 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
                 `INSERT INTO db_bloco_de_notas.auditoria_qualidade
                     (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
                  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
-                [anotacao, status, now, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
-                 dataAnalise, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
                  data_envio ? new Date(data_envio) : null, semana]
@@ -1421,53 +1444,66 @@ app.get('/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, r
 app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem } = req.query;
-    let query = `SELECT * FROM (
-      SELECT DISTINCT ON (c.usuario_id) c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.usuario_id, c.origem, c.id_qldd,
-        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
-        FROM db_bloco_de_notas.cotacao c 
-        LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
-        WHERE c.validacao = 'Ativo'`;
     const params = [];
     let paramIndex = 1;
+    const normalizedSearch = search && search.trim() ? search.trim() : '';
+    const hasSearch = Boolean(normalizedSearch);
+    let innerQuery = `
+      SELECT DISTINCT ON (c.tarefa) 
+        c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
+        c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
+        c.usuario_id, c.origem, c.id_qldd,
+        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+      FROM db_bloco_de_notas.cotacao c 
+      LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+      WHERE c.validacao = 'Ativo'`;
 
-    if (search && search.trim()) {
-      query += ` AND (
-        LOWER(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, ''))) LIKE LOWER($${paramIndex})
-        OR LOWER(c.usuario_login) LIKE LOWER($${paramIndex})
+    if (hasSearch) {
+      innerQuery += ` AND (
+        LOWER(COALESCE(c.tarefa, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(COALESCE(c.cotacao, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(COALESCE(c.usuario_login, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, ''))) LIKE LOWER($${paramIndex})
       )`;
-      params.push(`%${search.trim()}%`);
+      params.push(`%${normalizedSearch}%`);
       paramIndex++;
     }
 
-    const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
-    const [year, month, day] = effectiveDate.split('-');
-    const dateStartBR = `${day}/${month}/${year}`;
-    query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
-    params.push(`${dateStartBR}%`);
-    paramIndex++;
+    if (!hasSearch) {
+      const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+      const [year, month, day] = effectiveDate.split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      innerQuery += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
 
-    if (origem && origem.trim() && origem !== 'todas') {
+    if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+        innerQuery += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
-        query += ` AND c.origem = $${paramIndex}`;
+        innerQuery += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
         paramIndex++;
       }
     }
 
-    if (req.query.status && req.query.status.trim()) {
-      if (req.query.status.trim().toLowerCase() === 'reprovado') {
-        // Mostrar reprovados OU já auditados
-        query += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
-      } else {
-        query += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
-        params.push(req.query.status.trim());
-        paramIndex++;
+    if (!hasSearch) {
+      const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim() : '';
+      if (statusFilter) {
+        if (statusFilter.toLowerCase() === 'reprovado') {
+          innerQuery += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
+        } else {
+          innerQuery += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+          params.push(statusFilter);
+          paramIndex++;
+        }
       }
     }
 
-    query += ' ORDER BY c.usuario_id, c.data_de_criacao DESC) sub ORDER BY sub.data_de_criacao DESC';
+    innerQuery += ' ORDER BY c.usuario_id, TO_DATE(LEFT(c.data_de_criacao, 10), \'DD/MM/YYYY\'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()';
+
+    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
 
     const result = await pool.query(query, params);
 
@@ -1610,7 +1646,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
             const [ , day, month, year, hour = '00', minute = '00' ] = m;
             return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
         };
-        const dataAnalise = parseBRDate(cotacao.data_de_criacao);
+        const dataCriacao = parseBRDate(cotacao.data_de_criacao) || new Date();
         const analistaRes = await pool.query(
             "SELECT TRIM(COALESCE(nome, '') || ' ' || COALESCE(sobrenome, '')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1",
             [cotacao.usuario_id]
@@ -1618,8 +1654,8 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         const analistaNome = analistaRes.rows.length > 0 ? analistaRes.rows[0].nome : null;
 
         const now = new Date();
-        const dataQualidade = formatDateBR(now);
-        const semana = calcularSemana(now);
+        const dataQualidade = formatDateBR(dataCriacao);
+        const semana = calcularSemana(dataCriacao);
         const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
 
         const existingAudit = await pool.query(
@@ -1637,8 +1673,8 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
                     motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
                     apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
                 WHERE id_qldd = $21`,
-                [anotacao, status, now, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
-                 dataAnalise, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
                  data_envio ? new Date(data_envio) : null, semana, idQldd]
@@ -1648,8 +1684,8 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
                 `INSERT INTO db_bloco_de_notas.auditoria_qualidade
                     (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
                  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
-                [anotacao, status, now, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
-                 dataAnalise, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
                  data_envio ? new Date(data_envio) : null, semana]
@@ -1678,6 +1714,159 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
         res.status(500).json({ error: 'Erro ao salvar auditoria' });
     }
+});
+
+// API: Calendário de qualidade (tarefas x auditadas por dia do mês)
+app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
+    try {
+        const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
+        const ano = parseInt(req.query.ano) || new Date().getFullYear();
+
+        // Total de tarefas criadas por dia no mês
+        const tarefasQuery = await pool.query(`
+            SELECT 
+                CAST(SPLIT_PART(data_de_criacao, '/', 1) AS INTEGER) as dia,
+                COUNT(*)::int as total
+            FROM db_bloco_de_notas.cotacao
+            WHERE validacao = 'Ativo'
+              AND CAST(SPLIT_PART(data_de_criacao, '/', 3) AS INTEGER) = $1
+              AND CAST(SPLIT_PART(data_de_criacao, '/', 2) AS INTEGER) = $2
+            GROUP BY dia
+            ORDER BY dia
+        `, [ano, mes]);
+
+        // Tarefas auditadas por dia no mês (via data_qualidade na auditoria_qualidade)
+        const auditadasQuery = await pool.query(`
+            SELECT 
+                EXTRACT(DAY FROM aq.data_qualidade)::int as dia,
+                COUNT(DISTINCT aq.id_qldd)::int as auditadas
+            FROM db_bloco_de_notas.auditoria_qualidade aq
+            INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+            WHERE c.validacao = 'Ativo'
+              AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
+              AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+            GROUP BY dia
+            ORDER BY dia
+        `, [ano, mes]);
+
+        // Montar mapa de dias
+        const diasMap = {};
+        for (const row of tarefasQuery.rows) {
+            diasMap[row.dia] = { total: row.total, auditadas: 0 };
+        }
+        for (const row of auditadasQuery.rows) {
+            if (!diasMap[row.dia]) {
+                diasMap[row.dia] = { total: 0, auditadas: 0 };
+            }
+            diasMap[row.dia].auditadas = row.auditadas;
+        }
+
+        // Calcular total do mês
+        let totalTarefas = 0;
+        let totalAuditadas = 0;
+        const dias = Object.keys(diasMap).sort((a, b) => a - b).map(d => {
+            totalTarefas += diasMap[d].total;
+            totalAuditadas += diasMap[d].auditadas;
+            return {
+                dia: parseInt(d),
+                total: diasMap[d].total,
+                auditadas: diasMap[d].auditadas
+            };
+        });
+
+        res.json({
+            mes,
+            ano,
+            dias,
+            resumo: {
+                total_tarefas: totalTarefas,
+                total_auditadas: totalAuditadas,
+                percentual: totalTarefas > 0 ? Math.round((totalAuditadas / totalTarefas) * 100) : 0
+            }
+        });
+    } catch (error) {
+        console.error('[QUALIDADE CALENDARIO] Erro:', error);
+        res.status(500).json({ error: 'Erro ao carregar calendário de qualidade' });
+    }
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, res) => {
+    try {
+        const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
+        const ano = parseInt(req.query.ano) || new Date().getFullYear();
+
+        const tarefasQuery = await pool.query(`
+            SELECT 
+                CAST(SPLIT_PART(data_de_criacao, '/', 1) AS INTEGER) as dia,
+                COUNT(*)::int as total
+            FROM db_bloco_de_notas.cotacao
+            WHERE validacao = 'Ativo'
+              AND CAST(SPLIT_PART(data_de_criacao, '/', 3) AS INTEGER) = $1
+              AND CAST(SPLIT_PART(data_de_criacao, '/', 2) AS INTEGER) = $2
+            GROUP BY dia
+            ORDER BY dia
+        `, [ano, mes]);
+
+        const auditadasQuery = await pool.query(`
+            SELECT 
+                EXTRACT(DAY FROM aq.data_qualidade)::int as dia,
+                COUNT(DISTINCT aq.id_qldd)::int as auditadas
+            FROM db_bloco_de_notas.auditoria_qualidade aq
+            INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+            WHERE c.validacao = 'Ativo'
+              AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
+              AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+            GROUP BY dia
+            ORDER BY dia
+        `, [ano, mes]);
+
+        const diasMap = {};
+        for (const row of tarefasQuery.rows) {
+            diasMap[row.dia] = { total: row.total, auditadas: 0 };
+        }
+        for (const row of auditadasQuery.rows) {
+            if (!diasMap[row.dia]) {
+                diasMap[row.dia] = { total: 0, auditadas: 0 };
+            }
+            diasMap[row.dia].auditadas = row.auditadas;
+        }
+
+        let totalTarefas = 0;
+        let totalAuditadas = 0;
+        const dias = Object.keys(diasMap).sort((a, b) => a - b).map(d => {
+            totalTarefas += diasMap[d].total;
+            totalAuditadas += diasMap[d].auditadas;
+            return {
+                dia: parseInt(d),
+                total: diasMap[d].total,
+                auditadas: diasMap[d].auditadas
+            };
+        });
+
+        res.json({
+            mes,
+            ano,
+            dias,
+            resumo: {
+                total_tarefas: totalTarefas,
+                total_auditadas: totalAuditadas,
+                percentual: totalTarefas > 0 ? Math.round((totalAuditadas / totalTarefas) * 100) : 0
+            }
+        });
+    } catch (error) {
+        console.error('[QUALIDADE CALENDARIO] Erro:', error);
+        res.status(500).json({ error: 'Erro ao carregar calendário de qualidade' });
+    }
+});
+
+// Serve calendário page
+app.get('/qualidade/calendario', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
+});
+
+app.get('/pme_notas/qualidade/calendario', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
 
 // ===== ROTAS DE RCV (Réplica) =====
