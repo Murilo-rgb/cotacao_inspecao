@@ -1,0 +1,110 @@
+21/07/2026 11:06:34: Erro no ETL: extra data after last expected column
+21/07/2026 11:06:34: [INPUT_NET] Erro: error: extra data after last expected column
+21/07/2026 11:06:34:     at parseErrorMessage (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:305:11)
+21/07/2026 11:06:34:     at Parser.handlePacket (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:143:27)
+21/07/2026 11:06:34:     at Parser.parse (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:37:38)
+21/07/2026 11:06:34:     at Socket.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\index.js:12:42)
+21/07/2026 11:06:34:     at Socket.emit (node:events:508:28)
+21/07/2026 11:06:34:     at addChunk (node:internal/streams/readable:559:12)
+21/07/2026 11:06:34:     at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+21/07/2026 11:06:34:     at Readable.push (node:internal/streams/readable:390:5)
+21/07/2026 11:06:34:     at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+21/07/2026 11:06:34:   length: 237,
+21/07/2026 11:06:34:   severity: 'ERROR',
+21/07/2026 11:06:34:   code: '22P04',
+21/07/2026 11:06:34:   detail: undefined,
+21/07/2026 11:06:34:   hint: undefined,
+21/07/2026 11:06:34:   position: undefined,
+21/07/2026 11:06:34:   internalPosition: undefined,
+21/07/2026 11:06:34:   internalQuery: undefined,
+21/07/2026 11:06:34:   where: 'COPY iw_cpc_975_net, line 2: "Input de pedidos \x96 PME \x96 Demais Canais;22576850;2026-05-08 17:18:17;2026-07-21 03:59:54;Demanda Ex..."',
+21/07/2026 11:06:34:   schema: undefined,
+21/07/2026 11:06:34:   table: undefined,
+21/07/2026 11:06:34:   column: undefined,
+21/07/2026 11:06:34:   dataType: undefined,
+21/07/2026 11:06:34:   constraint: undefined,
+21/07/2026 11:06:34:   file: 'copyfromparse.c',
+21/07/2026 11:06:34:   line: '839',
+21/07/2026 11:06:34:   routine: 'NextCopyFrom'
+21/07/2026 11:06:34: }
+21/07/2026 13:09:04: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 14:44:18: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 14:47:27: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:07:25: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:07:28: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:07:35: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:13:38: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:15:14: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:23:57: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:23:59: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:24:03: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:25:47: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:10: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:14: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:14: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:15: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:15: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:16: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:16: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:17: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:17: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:18: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:18: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:18: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:18: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:18: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:26: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:27: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:29: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:30: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:30: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:31: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:31: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:32: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:32: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:33: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:33: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:33: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:33: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:34: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:34: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:34: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:35: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:39: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:50: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:52: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:53: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:27:53: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:28:06: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:28:10: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:28:39: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:28:42: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:28:43: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:28:54: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:35:16: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:35:57: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:36:00: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:36:11: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:36:11: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:38:53: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:38:56: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:43:13: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:55:10: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:55:13: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:55:14: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:55:22: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:55:27: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:56:06: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:56:08: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:56:12: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:56:13: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:56:14: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:56:15: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:56:16: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 15:59:27: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 16:13:02: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 16:27:07: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 16:37:45: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 16:53:22: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 16:57:37: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist
+21/07/2026 17:09:44: [DASHBOARD_INPUT_NET STATS] Erro: column hc.data_historico does not exist

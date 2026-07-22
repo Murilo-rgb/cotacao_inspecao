@@ -138,6 +138,9 @@ function App() {
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState('anotacao');
     const [auditoriaData, setAuditoriaData] = useState({ anotacao: '', status: '' });
+    const [suporteData, setSuporteData] = useState({ observacao: '', anexos: [], novosAnexos: [] });
+    const [suporteLoading, setSuporteLoading] = useState(false);
+    const [suporteSaving, setSuporteSaving] = useState(false);
     const [deleteModal, setDeleteModal] = useState(null);
     const [statusModal, setStatusModal] = useState(null);
     const [username, setUsername] = useState('');
@@ -233,11 +236,35 @@ function App() {
                     return;
                 }
                 if (response.ok) {
+                    // Salvar dados de suporte
+                    if (suporteData.observacao || suporteData.novosAnexos.length > 0) {
+                        setSuporteSaving(true);
+                        try {
+                            const formDataSuporte = new FormData();
+                            formDataSuporte.append('observacao', suporteData.observacao);
+                            suporteData.novosAnexos.forEach(file => {
+                                formDataSuporte.append('anexos', file);
+                            });
+                            const suporteResponse = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/${encodeURIComponent(tarefaCode)}`, {
+                                method: 'POST',
+                                headers: { 'Authorization': `Bearer ${token}` },
+                                body: formDataSuporte
+                            });
+                            if (!suporteResponse.ok) {
+                                console.error('Erro ao salvar suporte');
+                            }
+                        } catch (suporteErr) {
+                            console.error('Erro ao salvar suporte:', suporteErr);
+                        } finally {
+                            setSuporteSaving(false);
+                        }
+                    }
                     fetchQuotations();
                     setShowModal(false);
                     setEditingQuotation(null);
                     setFormData({ cotacao: '', anotacao: '' });
                     setAuditoriaData({ anotacao: '', status: '' });
+                    setSuporteData({ observacao: '', anexos: [], novosAnexos: [] });
                     showToast('Cotação atualizada com sucesso');
                 }
             } else {
@@ -257,6 +284,7 @@ function App() {
                     setShowModal(false);
                     setFormData({ cotacao: '', anotacao: '' });
                     setAuditoriaData({ anotacao: '', status: '' });
+                    setSuporteData({ observacao: '', anexos: [], novosAnexos: [] });
                     showToast('Cotação criada com sucesso');
                 }
             }
@@ -323,6 +351,62 @@ function App() {
             console.error('Erro ao deletar cotação:', error);
             showToast('Erro ao excluir cotação', 'error');
         }
+    };
+
+    const fetchSuporteData = async () => {
+        if (!editingQuotation) return;
+        setSuporteLoading(true);
+        try {
+            const token = localStorage.getItem('token');
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
+            const response = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/${encodeURIComponent(tarefaCode)}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setSuporteData({
+                    observacao: data.observacao || '',
+                    anexos: (data.anexos || []).map(a => ({
+                        ...a,
+                        url: `${BASE_PATH}/api/anexos/${a.uuid}`
+                    })),
+                    novosAnexos: []
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao buscar dados de suporte:', error);
+        } finally {
+            setSuporteLoading(false);
+        }
+    };
+
+    const handleRemoveExistingAnexo = async (anexoId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const response = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/anexo/${anexoId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                setSuporteData(prev => ({
+                    ...prev,
+                    anexos: prev.anexos.filter(a => a.id !== anexoId)
+                }));
+                showToast('Anexo removido com sucesso');
+            }
+        } catch (error) {
+            console.error('Erro ao remover anexo:', error);
+            showToast('Erro ao remover anexo', 'error');
+        }
+    };
+
+    const handleRemoveNovoAnexo = (index) => {
+        setSuporteData(prev => ({
+            ...prev,
+            novosAnexos: prev.novosAnexos.filter((_, i) => i !== index)
+        }));
     };
 
     const handleStatusClick = (quotation) => setStatusModal(quotation);
@@ -567,6 +651,20 @@ function App() {
                                 >
                                     Auditoria {auditoriaData.status ? <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">{auditoriaData.status}</span> : null}
                                 </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setActiveTab('suporte');
+                                        fetchSuporteData();
+                                    }}
+                                    className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
+                                        activeTab === 'suporte'
+                                            ? 'border-emerald-600 text-emerald-600'
+                                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                                    }`}
+                                >
+                                    Suporte
+                                </button>
                             </div>
                         )}
 
@@ -598,20 +696,126 @@ function App() {
                                 </div>
                             )}
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Data Criação</label>
-                                    <input type="text" value={editingQuotation ? formatDate(editingQuotation.createdAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
+                            {/* Aba: Suporte */}
+                            {activeTab === 'suporte' && (
+                                <div className="space-y-4">
+                                    {suporteLoading ? (
+                                        <div className="text-center py-8">
+                                            <div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto mb-3"></div>
+                                            <p className="text-sm text-slate-500">Carregando dados de suporte...</p>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Observação (Suporte)</label>
+                                                <textarea 
+                                                    value={suporteData.observacao} 
+                                                    onChange={(e) => setSuporteData(prev => ({ ...prev, observacao: e.target.value }))} 
+                                                    className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400" 
+                                                    rows="3" 
+                                                    placeholder="Adicione uma observação de suporte..."
+                                                />
+                                            </div>
+
+                                            {/* Anexos existentes */}
+                                            {suporteData.anexos.length > 0 && (
+                                                <div>
+                                                    <label className="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-300">Anexos existentes</label>
+                                                    <div className="space-y-2">
+                                                        {suporteData.anexos.map((anexo) => (
+                                                            <div key={anexo.id} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 dark:bg-slate-700/50 dark:border-slate-600">
+                                                                <div className="flex items-center gap-2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
+                                                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                                                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                                                    </svg>
+                                                                    <a href={anexo.url} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:text-blue-800 underline dark:text-blue-400 dark:hover:text-blue-300">
+                                                                        {anexo.uuid.length > 12 ? anexo.uuid.substring(0, 12) + '...' : anexo.uuid}
+                                                                    </a>
+                                                                </div>
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => handleRemoveExistingAnexo(anexo.id)} 
+                                                                    className="p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors dark:hover:bg-red-900/30"
+                                                                    title="Remover anexo"
+                                                                >
+                                                                    <XIcon />
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Novos anexos selecionados */}
+                                            {suporteData.novosAnexos.length > 0 && (
+                                                <div>
+                                                    <label className="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-300">Novos anexos</label>
+                                                    <div className="space-y-2">
+                                                        {suporteData.novosAnexos.map((file, index) => (
+                                                            <div key={index} className="flex items-center justify-between bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200 dark:bg-emerald-900/30 dark:border-emerald-700">
+                                                                <div className="flex items-center gap-2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
+                                                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                                                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                                                    </svg>
+                                                                    <span className="text-sm text-slate-700 dark:text-slate-300">{file.name}</span>
+                                                                    <span className="text-xs text-slate-400">({(file.size / 1024).toFixed(1)} KB)</span>
+                                                                </div>
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => handleRemoveNovoAnexo(index)} 
+                                                                    className="p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors dark:hover:bg-red-900/30"
+                                                                    title="Remover"
+                                                                >
+                                                                    <XIcon />
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Input para selecionar novos anexos */}
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Selecionar anexos</label>
+                                                <input 
+                                                    type="file" 
+                                                    multiple
+                                                    onChange={(e) => {
+                                                        const files = Array.from(e.target.files);
+                                                        setSuporteData(prev => ({
+                                                            ...prev,
+                                                            novosAnexos: [...prev.novosAnexos, ...files]
+                                                        }));
+                                                        e.target.value = '';
+                                                    }}
+                                                    className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 dark:file:bg-emerald-900/40 dark:file:text-emerald-300 dark:hover:file:bg-emerald-900/60"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+
+                            {activeTab !== 'suporte' && (
+                                <>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Data Criação</label>
+                                        <input type="text" value={editingQuotation ? formatDate(editingQuotation.data_de_criacao || editingQuotation.createdAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Data Atualização</label>
+                                        <input type="text" value={editingQuotation ? formatDate(editingQuotation.data_da_ultima_atualizacao || editingQuotation.updatedAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
+                                    </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Data Atualização</label>
-                                    <input type="text" value={editingQuotation ? formatDate(editingQuotation.updatedAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
+                                    <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Status</label>
+                                    <input type="text" value={editingQuotation ? (editingQuotation.status || 'pendente') : 'pendente'} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
                                 </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Status</label>
-                                <input type="text" value={editingQuotation ? (editingQuotation.status || 'pendente') : 'pendente'} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
-                            </div>
+                                </>
+                            )}
                             <div className="flex gap-3 pt-2">
                                 <button type="submit" className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200">Salvar</button>
                                 <button type="button" onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>

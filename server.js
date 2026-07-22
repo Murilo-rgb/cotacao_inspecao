@@ -183,6 +183,10 @@ var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, autho
 // Inicializar rotas de input_net
 var inputNetRoutes = require('./routes/input_net')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
 
+// Registrar rotas com prefixo /pme_notas (API input_net)
+app.use('/api/input_net', inputNetRoutes);
+app.use('/pme_notas/api/input_net', inputNetRoutes);
+
 // API Routes
 
 // Login endpoint
@@ -2050,15 +2054,11 @@ app.get('/pme_notas/input_net/dashboard', authenticateToken, (req, res) => {
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
 
-// Usar rotas de input_net (API e dashboard)
-app.use('/api/input_net', inputNetRoutes);
-app.use('/pme_notas/api/input_net', inputNetRoutes);
-
 // ===== ROTAS DE ACESSOS (gerenciamento de permissões) =====
 
 // Mapeamento de opções para rotas
 const OPCOES_ROTAS = {
-    gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard'],
+    gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard', '/gestao'],
     qualidade: ['/pme_notas/qualidade', '/pme_notas/rcv'],
     admin: ['/pme_notas/acessos']
 };
@@ -2218,7 +2218,11 @@ app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, 
 });
 
 // Serve página de acessos
-app.get('/acessos', authenticateToken, (req, res) => {
+app.get('/acessos', authenticateToken, authorizeRoute('/pme_notas/acessos'), (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
+});
+
+app.get('/pme_notas/acessos', authenticateToken, authorizeRoute('/pme_notas/acessos'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
 
@@ -2889,6 +2893,356 @@ app.get('/api/devolucao-padrao', async (req, res) => {
   } catch (error) {
     console.error('[DEVOLUCAO_PADRAO] Erro ao buscar dados:', error);
     res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
+});
+
+// ===== ROTAS DE SUPORTE (aba Suporte na Correção Cadastral) =====
+
+// Configuração do multer para upload de anexos do suporte
+const suporteAnexosDir = path.join(__dirname, 'public', 'anexos');
+if (!fs.existsSync(suporteAnexosDir)) {
+  fs.mkdirSync(suporteAnexosDir, { recursive: true });
+}
+
+const suporteStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, suporteAnexosDir),
+  filename: (req, file, cb) => {
+    const { v4: uuidv4 } = require('crypto');
+    const uuid = crypto.randomUUID();
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `${uuid}${ext}`);
+  }
+});
+const suporteUpload = multer({
+  storage: suporteStorage,
+  limits: { fileSize: 20 * 1024 * 1024 } // 20MB
+});
+
+// GET: Buscar dados de suporte (observação + anexos) de uma tarefa
+app.get('/api/correcao-cadastral/suporte/:tarefa', authenticateToken, async (req, res) => {
+  try {
+    const { tarefa } = req.params;
+
+    // Buscar id_cotacao a partir da tarefa
+    const cotacaoRes = await pool.query(
+      'SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2',
+      [tarefa, 'Ativo']
+    );
+
+    if (cotacaoRes.rows.length === 0) {
+      return res.json({ observacao: '', anexos: [] });
+    }
+
+    const id_cotacao = cotacaoRes.rows[0].id_cotacao;
+
+    // Buscar registros de suporte para esta cotação
+    const suporteRes = await pool.query(
+      'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
+      [id_cotacao]
+    );
+
+    if (suporteRes.rows.length === 0) {
+      return res.json({ observacao: '', anexos: [] });
+    }
+
+    // Pega a observação do primeiro registro (todos compartilham o mesmo retorno)
+    const observacao = suporteRes.rows[0].retorno || '';
+
+    // Lista de anexos
+    const anexos = suporteRes.rows
+      .filter(row => row.url && row.url.trim())
+      .map(row => ({
+        id: row.id,
+        uuid: row.url,
+        url: `/api/anexos/${row.url}`
+      }));
+
+    res.json({ observacao, anexos });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao buscar dados:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados de suporte' });
+  }
+});
+
+// Duplicate with /pme_notas prefix
+app.get('/pme_notas/api/correcao-cadastral/suporte/:tarefa', authenticateToken, async (req, res) => {
+  try {
+    const { tarefa } = req.params;
+    const cotacaoRes = await pool.query(
+      'SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2',
+      [tarefa, 'Ativo']
+    );
+    if (cotacaoRes.rows.length === 0) {
+      return res.json({ observacao: '', anexos: [] });
+    }
+    const id_cotacao = cotacaoRes.rows[0].id_cotacao;
+    const suporteRes = await pool.query(
+      'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
+      [id_cotacao]
+    );
+    if (suporteRes.rows.length === 0) {
+      return res.json({ observacao: '', anexos: [] });
+    }
+    const observacao = suporteRes.rows[0].retorno || '';
+    const anexos = suporteRes.rows
+      .filter(row => row.url && row.url.trim())
+      .map(row => ({
+        id: row.id,
+        uuid: row.url,
+        url: `/api/anexos/${row.url}`
+      }));
+    res.json({ observacao, anexos });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao buscar dados:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados de suporte' });
+  }
+});
+
+// POST: Salvar dados de suporte (observação + anexos)
+app.post('/api/correcao-cadastral/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
+  try {
+    const { tarefa } = req.params;
+    const observacao = req.body.observacao || '';
+
+    // Buscar id_cotacao a partir da tarefa
+    const cotacaoRes = await pool.query(
+      'SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2',
+      [tarefa, 'Ativo']
+    );
+
+    if (cotacaoRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Cotação não encontrada' });
+    }
+
+    const id_cotacao = cotacaoRes.rows[0].id_cotacao;
+
+    // Verificar se já existem registros de suporte para esta cotação
+    const existingRes = await pool.query(
+      'SELECT COUNT(*) as total FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1',
+      [id_cotacao]
+    );
+    const hasExisting = parseInt(existingRes.rows[0].total) > 0;
+
+    if (hasExisting) {
+      // Atualizar observação (retorno) em todos os registros existentes
+      await pool.query(
+        'UPDATE db_bloco_de_notas.suporte SET retorno = $1 WHERE id_cotacao = $2',
+        [observacao, id_cotacao]
+      );
+    }
+
+    // Inserir novos anexos
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const uuid = path.parse(file.filename).name; // Remove extension to get just the UUID
+        if (hasExisting) {
+          await pool.query(
+            'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+            [id_cotacao, uuid, observacao]
+          );
+        } else {
+          await pool.query(
+            'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+            [id_cotacao, uuid, observacao]
+          );
+        }
+      }
+    } else if (!hasExisting) {
+      // Se não havia registros e não há anexos, inserir apenas a observação
+      await pool.query(
+        'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+        [id_cotacao, '', observacao]
+      );
+    }
+
+    // Retornar dados atualizados
+    const suporteRes = await pool.query(
+      'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
+      [id_cotacao]
+    );
+
+    const anexosAtualizados = suporteRes.rows
+      .filter(row => row.url && row.url.trim())
+      .map(row => ({
+        id: row.id,
+        uuid: row.url,
+        url: `/api/anexos/${row.url}`
+      }));
+
+    res.json({
+      success: true,
+      message: 'Suporte salvo com sucesso',
+      observacao: observacao,
+      anexos: anexosAtualizados
+    });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao salvar dados:', error);
+    res.status(500).json({ error: 'Erro ao salvar dados de suporte' });
+  }
+});
+
+// Duplicate with /pme_notas prefix
+app.post('/pme_notas/api/correcao-cadastral/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
+  try {
+    const { tarefa } = req.params;
+    const observacao = req.body.observacao || '';
+    const cotacaoRes = await pool.query(
+      'SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2',
+      [tarefa, 'Ativo']
+    );
+    if (cotacaoRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Cotação não encontrada' });
+    }
+    const id_cotacao = cotacaoRes.rows[0].id_cotacao;
+    const existingRes = await pool.query(
+      'SELECT COUNT(*) as total FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1',
+      [id_cotacao]
+    );
+    const hasExisting = parseInt(existingRes.rows[0].total) > 0;
+
+    if (hasExisting) {
+      await pool.query(
+        'UPDATE db_bloco_de_notas.suporte SET retorno = $1 WHERE id_cotacao = $2',
+        [observacao, id_cotacao]
+      );
+    }
+
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const uuid = path.parse(file.filename).name;
+        await pool.query(
+          'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+          [id_cotacao, uuid, observacao]
+        );
+      }
+    } else if (!hasExisting) {
+      await pool.query(
+        'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+        [id_cotacao, '', observacao]
+      );
+    }
+
+    const suporteRes = await pool.query(
+      'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
+      [id_cotacao]
+    );
+    const anexosAtualizados = suporteRes.rows
+      .filter(row => row.url && row.url.trim())
+      .map(row => ({
+        id: row.id,
+        uuid: row.url,
+        url: `/api/anexos/${row.url}`
+      }));
+    res.json({
+      success: true,
+      message: 'Suporte salvo com sucesso',
+      observacao: observacao,
+      anexos: anexosAtualizados
+    });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao salvar dados:', error);
+    res.status(500).json({ error: 'Erro ao salvar dados de suporte' });
+  }
+});
+
+// DELETE: Remover um anexo específico
+app.delete('/api/correcao-cadastral/suporte/anexo/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Buscar o registro para saber o uuid do arquivo
+    const suporteRes = await pool.query(
+      'SELECT id, url, id_cotacao FROM db_bloco_de_notas.suporte WHERE id = $1',
+      [id]
+    );
+
+    if (suporteRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Anexo não encontrado' });
+    }
+
+    const { url: uuid } = suporteRes.rows[0];
+
+    // Deletar o arquivo físico se existir
+    if (uuid && uuid.trim()) {
+      const files = fs.readdirSync(suporteAnexosDir);
+      const arquivo = files.find(f => f.startsWith(uuid));
+      if (arquivo) {
+        fs.unlinkSync(path.join(suporteAnexosDir, arquivo));
+      }
+    }
+
+    // Deletar o registro do banco
+    await pool.query('DELETE FROM db_bloco_de_notas.suporte WHERE id = $1', [id]);
+
+    res.json({ success: true, message: 'Anexo removido com sucesso' });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao remover anexo:', error);
+    res.status(500).json({ error: 'Erro ao remover anexo' });
+  }
+});
+
+// Duplicate with /pme_notas prefix
+app.delete('/pme_notas/api/correcao-cadastral/suporte/anexo/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const suporteRes = await pool.query(
+      'SELECT id, url FROM db_bloco_de_notas.suporte WHERE id = $1',
+      [id]
+    );
+    if (suporteRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Anexo não encontrado' });
+    }
+    const { url: uuid } = suporteRes.rows[0];
+    if (uuid && uuid.trim()) {
+      const files = fs.readdirSync(suporteAnexosDir);
+      const arquivo = files.find(f => f.startsWith(uuid));
+      if (arquivo) {
+        fs.unlinkSync(path.join(suporteAnexosDir, arquivo));
+      }
+    }
+    await pool.query('DELETE FROM db_bloco_de_notas.suporte WHERE id = $1', [id]);
+    res.json({ success: true, message: 'Anexo removido com sucesso' });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao remover anexo:', error);
+    res.status(500).json({ error: 'Erro ao remover anexo' });
+  }
+});
+
+// GET: Servir arquivo de anexo pelo UUID
+app.get('/api/anexos/:uuid', authenticateToken, async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const files = fs.readdirSync(suporteAnexosDir);
+    const arquivo = files.find(f => f.startsWith(uuid));
+    
+    if (!arquivo) {
+      return res.status(404).json({ error: 'Arquivo não encontrado' });
+    }
+
+    const filePath = path.join(suporteAnexosDir, arquivo);
+    res.sendFile(filePath);
+  } catch (error) {
+    console.error('[ANEXOS] Erro ao servir arquivo:', error);
+    res.status(500).json({ error: 'Erro ao servir arquivo' });
+  }
+});
+
+// Rota pública para anexos (sem autenticação, para acesso via URL direta)
+app.get('/anexos/:uuid', async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const files = fs.readdirSync(suporteAnexosDir);
+    const arquivo = files.find(f => f.startsWith(uuid));
+    
+    if (!arquivo) {
+      return res.status(404).json({ error: 'Arquivo não encontrado' });
+    }
+
+    const filePath = path.join(suporteAnexosDir, arquivo);
+    res.sendFile(filePath);
+  } catch (error) {
+    console.error('[ANEXOS] Erro ao servir arquivo:', error);
+    res.status(500).json({ error: 'Erro ao servir arquivo' });
   }
 });
 

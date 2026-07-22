@@ -1,13 +1,13 @@
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -405,29 +405,45 @@ function App() {
     _useState16 = _slicedToArray(_useState15, 2),
     auditoriaData = _useState16[0],
     setAuditoriaData = _useState16[1];
-  var _useState17 = useState(null),
+  var _useState17 = useState({
+      observacao: '',
+      anexos: [],
+      novosAnexos: []
+    }),
     _useState18 = _slicedToArray(_useState17, 2),
-    deleteModal = _useState18[0],
-    setDeleteModal = _useState18[1];
-  var _useState19 = useState(null),
+    suporteData = _useState18[0],
+    setSuporteData = _useState18[1];
+  var _useState19 = useState(false),
     _useState20 = _slicedToArray(_useState19, 2),
-    statusModal = _useState20[0],
-    setStatusModal = _useState20[1];
-  var _useState21 = useState(''),
+    suporteLoading = _useState20[0],
+    setSuporteLoading = _useState20[1];
+  var _useState21 = useState(false),
     _useState22 = _slicedToArray(_useState21, 2),
-    username = _useState22[0],
-    setUsername = _useState22[1];
+    suporteSaving = _useState22[0],
+    setSuporteSaving = _useState22[1];
   var _useState23 = useState(null),
     _useState24 = _slicedToArray(_useState23, 2),
-    toast = _useState24[0],
-    setToast = _useState24[1];
-  var _useState25 = useState(function () {
+    deleteModal = _useState24[0],
+    setDeleteModal = _useState24[1];
+  var _useState25 = useState(null),
+    _useState26 = _slicedToArray(_useState25, 2),
+    statusModal = _useState26[0],
+    setStatusModal = _useState26[1];
+  var _useState27 = useState(''),
+    _useState28 = _slicedToArray(_useState27, 2),
+    username = _useState28[0],
+    setUsername = _useState28[1];
+  var _useState29 = useState(null),
+    _useState30 = _slicedToArray(_useState29, 2),
+    toast = _useState30[0],
+    setToast = _useState30[1];
+  var _useState31 = useState(function () {
       var saved = localStorage.getItem('darkMode');
       return saved === 'true';
     }),
-    _useState26 = _slicedToArray(_useState25, 2),
-    darkMode = _useState26[0],
-    setDarkMode = _useState26[1];
+    _useState32 = _slicedToArray(_useState31, 2),
+    darkMode = _useState32[0],
+    setDarkMode = _useState32[1];
   useEffect(function () {
     var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
     var token = localStorage.getItem('token');
@@ -528,7 +544,7 @@ function App() {
   };
   var handleFormSubmit = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
-      var token, BASE_PATH, tarefaCode, response, _BASE_PATH, _response, _t2;
+      var token, BASE_PATH, tarefaCode, response, formDataSuporte, suporteResponse, _BASE_PATH, _response, _t2, _t3;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
@@ -536,7 +552,7 @@ function App() {
             token = localStorage.getItem('token');
             _context2.p = 1;
             if (!editingQuotation) {
-              _context2.n = 4;
+              _context2.n = 10;
               break;
             }
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
@@ -566,25 +582,68 @@ function App() {
             window.location.href = BASE_PATH + '/login.html';
             return _context2.a(2);
           case 3:
-            if (response.ok) {
-              fetchQuotations();
-              setShowModal(false);
-              setEditingQuotation(null);
-              setFormData({
-                cotacao: '',
-                anotacao: ''
-              });
-              setAuditoriaData({
-                anotacao: '',
-                status: ''
-              });
-              showToast('Cotação atualizada com sucesso');
+            if (!response.ok) {
+              _context2.n = 9;
+              break;
+            }
+            if (!(suporteData.observacao || suporteData.novosAnexos.length > 0)) {
+              _context2.n = 8;
+              break;
+            }
+            setSuporteSaving(true);
+            _context2.p = 4;
+            formDataSuporte = new FormData();
+            formDataSuporte.append('observacao', suporteData.observacao);
+            suporteData.novosAnexos.forEach(function (file) {
+              formDataSuporte.append('anexos', file);
+            });
+            _context2.n = 5;
+            return fetch("".concat(BASE_PATH, "/api/correcao-cadastral/suporte/").concat(encodeURIComponent(tarefaCode)), {
+              method: 'POST',
+              headers: {
+                'Authorization': "Bearer ".concat(token)
+              },
+              body: formDataSuporte
+            });
+          case 5:
+            suporteResponse = _context2.v;
+            if (!suporteResponse.ok) {
+              console.error('Erro ao salvar suporte');
             }
             _context2.n = 7;
             break;
-          case 4:
+          case 6:
+            _context2.p = 6;
+            _t2 = _context2.v;
+            console.error('Erro ao salvar suporte:', _t2);
+          case 7:
+            _context2.p = 7;
+            setSuporteSaving(false);
+            return _context2.f(7);
+          case 8:
+            fetchQuotations();
+            setShowModal(false);
+            setEditingQuotation(null);
+            setFormData({
+              cotacao: '',
+              anotacao: ''
+            });
+            setAuditoriaData({
+              anotacao: '',
+              status: ''
+            });
+            setSuporteData({
+              observacao: '',
+              anexos: [],
+              novosAnexos: []
+            });
+            showToast('Cotação atualizada com sucesso');
+          case 9:
+            _context2.n = 13;
+            break;
+          case 10:
             _BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            _context2.n = 5;
+            _context2.n = 11;
             return fetch("".concat(_BASE_PATH, "/api/quotations"), {
               method: 'POST',
               headers: {
@@ -593,17 +652,17 @@ function App() {
               },
               body: JSON.stringify(formData)
             });
-          case 5:
+          case 11:
             _response = _context2.v;
             if (!(_response.status === 401 || _response.status === 403)) {
-              _context2.n = 6;
+              _context2.n = 12;
               break;
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = _BASE_PATH + '/login.html';
             return _context2.a(2);
-          case 6:
+          case 12:
             if (_response.ok) {
               fetchQuotations();
               setShowModal(false);
@@ -615,20 +674,25 @@ function App() {
                 anotacao: '',
                 status: ''
               });
+              setSuporteData({
+                observacao: '',
+                anexos: [],
+                novosAnexos: []
+              });
               showToast('Cotação criada com sucesso');
             }
-          case 7:
-            _context2.n = 9;
+          case 13:
+            _context2.n = 15;
             break;
-          case 8:
-            _context2.p = 8;
-            _t2 = _context2.v;
-            console.error('Erro ao salvar cotação:', _t2);
+          case 14:
+            _context2.p = 14;
+            _t3 = _context2.v;
+            console.error('Erro ao salvar cotação:', _t3);
             showToast('Erro ao salvar cotação', 'error');
-          case 9:
+          case 15:
             return _context2.a(2);
         }
-      }, _callee2, null, [[1, 8]]);
+      }, _callee2, null, [[4, 6, 7, 8], [1, 14]]);
     }));
     return function handleFormSubmit(_x) {
       return _ref3.apply(this, arguments);
@@ -636,7 +700,7 @@ function App() {
   }();
   var handleEditClick = /*#__PURE__*/function () {
     var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(quotation) {
-      var token, BASE_PATH, tarefaCode, response, data, _t3;
+      var token, BASE_PATH, tarefaCode, response, data, _t4;
       return _regenerator().w(function (_context3) {
         while (1) switch (_context3.p = _context3.n) {
           case 0:
@@ -692,8 +756,8 @@ function App() {
             break;
           case 6:
             _context3.p = 6;
-            _t3 = _context3.v;
-            console.error('Erro ao buscar auditoria:', _t3);
+            _t4 = _context3.v;
+            console.error('Erro ao buscar auditoria:', _t4);
             setAuditoriaData({
               anotacao: '',
               status: ''
@@ -715,7 +779,7 @@ function App() {
   };
   var confirmDelete = /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-      var token, BASE_PATH, tarefaCode, response, _t4;
+      var token, BASE_PATH, tarefaCode, response, _t5;
       return _regenerator().w(function (_context4) {
         while (1) switch (_context4.p = _context4.n) {
           case 0:
@@ -756,8 +820,8 @@ function App() {
             break;
           case 5:
             _context4.p = 5;
-            _t4 = _context4.v;
-            console.error('Erro ao deletar cotação:', _t4);
+            _t5 = _context4.v;
+            console.error('Erro ao deletar cotação:', _t5);
             showToast('Erro ao excluir cotação', 'error');
           case 6:
             return _context4.a(2);
@@ -768,26 +832,141 @@ function App() {
       return _ref5.apply(this, arguments);
     };
   }();
-  var handleStatusClick = function handleStatusClick(quotation) {
-    return setStatusModal(quotation);
-  };
-  var handleStatusChange = /*#__PURE__*/function () {
-    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(newStatus) {
-      var token, BASE_PATH, tarefaCode, response, _t5;
+  var fetchSuporteData = /*#__PURE__*/function () {
+    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+      var token, BASE_PATH, tarefaCode, response, data, _t6;
       return _regenerator().w(function (_context5) {
         while (1) switch (_context5.p = _context5.n) {
           case 0:
-            if (statusModal) {
+            if (editingQuotation) {
               _context5.n = 1;
               break;
             }
             return _context5.a(2);
           case 1:
-            token = localStorage.getItem('token');
+            setSuporteLoading(true);
             _context5.p = 2;
+            token = localStorage.getItem('token');
+            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
+            _context5.n = 3;
+            return fetch("".concat(BASE_PATH, "/api/correcao-cadastral/suporte/").concat(encodeURIComponent(tarefaCode)), {
+              headers: {
+                'Authorization': "Bearer ".concat(token)
+              }
+            });
+          case 3:
+            response = _context5.v;
+            if (!response.ok) {
+              _context5.n = 5;
+              break;
+            }
+            _context5.n = 4;
+            return response.json();
+          case 4:
+            data = _context5.v;
+            setSuporteData({
+              observacao: data.observacao || '',
+              anexos: (data.anexos || []).map(function (a) {
+                return _objectSpread(_objectSpread({}, a), {}, {
+                  url: "".concat(BASE_PATH, "/api/anexos/").concat(a.uuid)
+                });
+              }),
+              novosAnexos: []
+            });
+          case 5:
+            _context5.n = 7;
+            break;
+          case 6:
+            _context5.p = 6;
+            _t6 = _context5.v;
+            console.error('Erro ao buscar dados de suporte:', _t6);
+          case 7:
+            _context5.p = 7;
+            setSuporteLoading(false);
+            return _context5.f(7);
+          case 8:
+            return _context5.a(2);
+        }
+      }, _callee5, null, [[2, 6, 7, 8]]);
+    }));
+    return function fetchSuporteData() {
+      return _ref6.apply(this, arguments);
+    };
+  }();
+  var handleRemoveExistingAnexo = /*#__PURE__*/function () {
+    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(anexoId) {
+      var token, BASE_PATH, response, _t7;
+      return _regenerator().w(function (_context6) {
+        while (1) switch (_context6.p = _context6.n) {
+          case 0:
+            _context6.p = 0;
+            token = localStorage.getItem('token');
+            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _context6.n = 1;
+            return fetch("".concat(BASE_PATH, "/api/correcao-cadastral/suporte/anexo/").concat(anexoId), {
+              method: 'DELETE',
+              headers: {
+                'Authorization': "Bearer ".concat(token)
+              }
+            });
+          case 1:
+            response = _context6.v;
+            if (response.ok) {
+              setSuporteData(function (prev) {
+                return _objectSpread(_objectSpread({}, prev), {}, {
+                  anexos: prev.anexos.filter(function (a) {
+                    return a.id !== anexoId;
+                  })
+                });
+              });
+              showToast('Anexo removido com sucesso');
+            }
+            _context6.n = 3;
+            break;
+          case 2:
+            _context6.p = 2;
+            _t7 = _context6.v;
+            console.error('Erro ao remover anexo:', _t7);
+            showToast('Erro ao remover anexo', 'error');
+          case 3:
+            return _context6.a(2);
+        }
+      }, _callee6, null, [[0, 2]]);
+    }));
+    return function handleRemoveExistingAnexo(_x3) {
+      return _ref7.apply(this, arguments);
+    };
+  }();
+  var handleRemoveNovoAnexo = function handleRemoveNovoAnexo(index) {
+    setSuporteData(function (prev) {
+      return _objectSpread(_objectSpread({}, prev), {}, {
+        novosAnexos: prev.novosAnexos.filter(function (_, i) {
+          return i !== index;
+        })
+      });
+    });
+  };
+  var handleStatusClick = function handleStatusClick(quotation) {
+    return setStatusModal(quotation);
+  };
+  var handleStatusChange = /*#__PURE__*/function () {
+    var _ref8 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7(newStatus) {
+      var token, BASE_PATH, tarefaCode, response, _t8;
+      return _regenerator().w(function (_context7) {
+        while (1) switch (_context7.p = _context7.n) {
+          case 0:
+            if (statusModal) {
+              _context7.n = 1;
+              break;
+            }
+            return _context7.a(2);
+          case 1:
+            token = localStorage.getItem('token');
+            _context7.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             tarefaCode = statusModal.tarefa || (statusModal.cotacao.includes(' - ') ? statusModal.cotacao.split(' - ')[1] : statusModal.cotacao);
-            _context5.n = 3;
+            _context7.n = 3;
             return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
               method: 'PUT',
               headers: {
@@ -799,35 +978,35 @@ function App() {
               })
             });
           case 3:
-            response = _context5.v;
+            response = _context7.v;
             if (!(response.status === 401 || response.status === 403)) {
-              _context5.n = 4;
+              _context7.n = 4;
               break;
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             window.location.href = BASE_PATH + '/login.html';
-            return _context5.a(2);
+            return _context7.a(2);
           case 4:
             if (response.ok) {
               fetchQuotations();
               setStatusModal(null);
               showToast('Correção efetivada com sucesso');
             }
-            _context5.n = 6;
+            _context7.n = 6;
             break;
           case 5:
-            _context5.p = 5;
-            _t5 = _context5.v;
-            console.error('Erro ao efetivar correção:', _t5);
+            _context7.p = 5;
+            _t8 = _context7.v;
+            console.error('Erro ao efetivar correção:', _t8);
             showToast('Erro ao efetivar correção', 'error');
           case 6:
-            return _context5.a(2);
+            return _context7.a(2);
         }
-      }, _callee5, null, [[2, 5]]);
+      }, _callee7, null, [[2, 5]]);
     }));
-    return function handleStatusChange(_x3) {
-      return _ref6.apply(this, arguments);
+    return function handleStatusChange(_x4) {
+      return _ref8.apply(this, arguments);
     };
   }();
   var filteredQuotations = quotations;
@@ -1192,7 +1371,14 @@ function App() {
     className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(activeTab === 'auditoria' ? 'border-purple-600 text-purple-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
   }, "Auditoria ", auditoriaData.status ? /*#__PURE__*/React.createElement("span", {
     className: "ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700"
-  }, auditoriaData.status) : null)), /*#__PURE__*/React.createElement("form", {
+  }, auditoriaData.status) : null), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      setActiveTab('suporte');
+      fetchSuporteData();
+    },
+    className: "px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ".concat(activeTab === 'suporte' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300')
+  }, "Suporte")), /*#__PURE__*/React.createElement("form", {
     onSubmit: handleFormSubmit,
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
@@ -1238,20 +1424,132 @@ function App() {
     value: auditoriaData.status,
     readOnly: true,
     className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300"
-  }))), /*#__PURE__*/React.createElement("div", {
+  }))), activeTab === 'suporte' && /*#__PURE__*/React.createElement("div", {
+    className: "space-y-4"
+  }, suporteLoading ? /*#__PURE__*/React.createElement("div", {
+    className: "text-center py-8"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto mb-3"
+  }), /*#__PURE__*/React.createElement("p", {
+    className: "text-sm text-slate-500"
+  }, "Carregando dados de suporte...")) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
+  }, "Observa\xE7\xE3o (Suporte)"), /*#__PURE__*/React.createElement("textarea", {
+    value: suporteData.observacao,
+    onChange: function onChange(e) {
+      return setSuporteData(function (prev) {
+        return _objectSpread(_objectSpread({}, prev), {}, {
+          observacao: e.target.value
+        });
+      });
+    },
+    className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400",
+    rows: "3",
+    placeholder: "Adicione uma observa\xE7\xE3o de suporte..."
+  })), suporteData.anexos.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-sm font-medium text-slate-700 mb-2 dark:text-slate-300"
+  }, "Anexos existentes"), /*#__PURE__*/React.createElement("div", {
+    className: "space-y-2"
+  }, suporteData.anexos.map(function (anexo) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: anexo.id,
+      className: "flex items-center justify-between bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 dark:bg-slate-700/50 dark:border-slate-600"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flex items-center gap-2"
+    }, /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "16",
+      height: "16",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      className: "text-emerald-600"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+    }), /*#__PURE__*/React.createElement("polyline", {
+      points: "14 2 14 8 20 8"
+    })), /*#__PURE__*/React.createElement("a", {
+      href: anexo.url,
+      target: "_blank",
+      rel: "noopener noreferrer",
+      className: "text-sm text-blue-600 hover:text-blue-800 underline dark:text-blue-400 dark:hover:text-blue-300"
+    }, anexo.uuid.length > 12 ? anexo.uuid.substring(0, 12) + '...' : anexo.uuid)), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      onClick: function onClick() {
+        return handleRemoveExistingAnexo(anexo.id);
+      },
+      className: "p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors dark:hover:bg-red-900/30",
+      title: "Remover anexo"
+    }, /*#__PURE__*/React.createElement(XIcon, null)));
+  }))), suporteData.novosAnexos.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-sm font-medium text-slate-700 mb-2 dark:text-slate-300"
+  }, "Novos anexos"), /*#__PURE__*/React.createElement("div", {
+    className: "space-y-2"
+  }, suporteData.novosAnexos.map(function (file, index) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: index,
+      className: "flex items-center justify-between bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200 dark:bg-emerald-900/30 dark:border-emerald-700"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flex items-center gap-2"
+    }, /*#__PURE__*/React.createElement("svg", {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: "16",
+      height: "16",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      className: "text-emerald-600"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+    }), /*#__PURE__*/React.createElement("polyline", {
+      points: "14 2 14 8 20 8"
+    })), /*#__PURE__*/React.createElement("span", {
+      className: "text-sm text-slate-700 dark:text-slate-300"
+    }, file.name), /*#__PURE__*/React.createElement("span", {
+      className: "text-xs text-slate-400"
+    }, "(", (file.size / 1024).toFixed(1), " KB)")), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      onClick: function onClick() {
+        return handleRemoveNovoAnexo(index);
+      },
+      className: "p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors dark:hover:bg-red-900/30",
+      title: "Remover"
+    }, /*#__PURE__*/React.createElement(XIcon, null)));
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
+  }, "Selecionar anexos"), /*#__PURE__*/React.createElement("input", {
+    type: "file",
+    multiple: true,
+    onChange: function onChange(e) {
+      var files = Array.from(e.target.files);
+      setSuporteData(function (prev) {
+        return _objectSpread(_objectSpread({}, prev), {}, {
+          novosAnexos: [].concat(_toConsumableArray(prev.novosAnexos), files)
+        });
+      });
+      e.target.value = '';
+    },
+    className: "w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 dark:file:bg-emerald-900/40 dark:file:text-emerald-300 dark:hover:file:bg-emerald-900/60"
+  })))), activeTab !== 'suporte' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-2 gap-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Data Cria\xE7\xE3o"), /*#__PURE__*/React.createElement("input", {
     type: "text",
-    value: editingQuotation ? formatDate(editingQuotation.createdAt) : formatDate(new Date().toISOString()),
+    value: editingQuotation ? formatDate(editingQuotation.data_de_criacao || editingQuotation.createdAt) : formatDate(new Date().toISOString()),
     disabled: true,
     className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300"
   }, "Data Atualiza\xE7\xE3o"), /*#__PURE__*/React.createElement("input", {
     type: "text",
-    value: editingQuotation ? formatDate(editingQuotation.updatedAt) : formatDate(new Date().toISOString()),
+    value: editingQuotation ? formatDate(editingQuotation.data_da_ultima_atualizacao || editingQuotation.updatedAt) : formatDate(new Date().toISOString()),
     disabled: true,
     className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400"
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
@@ -1261,7 +1559,7 @@ function App() {
     value: editingQuotation ? editingQuotation.status || 'pendente' : 'pendente',
     disabled: true,
     className: "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400"
-  })), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "flex gap-3 pt-2"
   }, /*#__PURE__*/React.createElement("button", {
     type: "submit",
