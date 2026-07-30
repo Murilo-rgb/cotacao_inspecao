@@ -1127,6 +1127,226 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     }
   });
 
+  // ===== ROTAS INPUT TOP (iw_cpc_975_top) =====
+  
+  // Distribuir tarefas input_top (iw_cpc_975_top)
+  router.post('/api/inspecao/distribuir_input_top', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+    try {
+      const { distribuicoes } = req.body;
+      
+      if (!distribuicoes || !Array.isArray(distribuicoes) || distribuicoes.length === 0) {
+        return res.status(400).json({ error: 'Lista de distribuições inválida' });
+      }
+      
+      const usuarioLogin = req.user.username;
+      const usuarioId = req.user.id;
+      const now = formatDateBR(new Date());
+      
+      let count = 0;
+      let errors = [];
+      
+      for (const item of distribuicoes) {
+        if (!item.cod_tarefa || !item.usuario_id) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+          continue;
+        }
+        
+        try {
+          // Verificar se já foi distribuída
+          const check = await pool.query(
+            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+            [item.cod_tarefa, 'Ativo']
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
+            continue;
+          }
+          
+          // Buscar dados da tarefa para anotação
+          const tarefaResult = await pool.query(
+            'SELECT codigo_da_tarefa, etapa_atual, data_historico FROM db_bloco_de_notas.iw_cpc_975_top WHERE codigo_da_tarefa = $1',
+            [item.cod_tarefa]
+          );
+          
+          let anotacao = '';
+          let dataHistorico = null;
+          if (tarefaResult.rows.length > 0) {
+            const tr = tarefaResult.rows[0];
+            anotacao = `Origem: iw_cpc_975_top | Etapa: ${tr.etapa_atual || ''}`;
+            if (tr.data_historico) dataHistorico = tr.data_historico;
+          }
+
+          // Buscar nome do usuário destino
+          let destinoNome = String(item.usuario_id);
+          try {
+              const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+              if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+          } catch {}
+
+          await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [item.cod_tarefa, item.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_top', dataHistorico]
+          );
+
+          // Registrar auditoria
+          try {
+              await pool.query(
+                  `INSERT INTO db_bloco_de_notas.cotacao_audit 
+                   (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+                   VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+                  [item.cod_tarefa, 'distribuido_input_top', usuarioId, usuarioLogin, item.usuario_id, destinoNome, '-', 'pendente', usuarioLogin]
+              );
+          } catch (auditErr) {
+              console.error('[DISTRIBUIR_INPUT_TOP] Erro ao registrar auditoria:', auditErr.message);
+          }
+          
+          count++;
+        } catch (err) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `${count} tarefa(s) distribuída(s) com sucesso`,
+        distribuidos: count,
+        erros: errors
+      });
+      
+    } catch (error) {
+      console.error('[DISTRIBUIR_INPUT_TOP] Erro:', error);
+      res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+    }
+  });
+
+  // Redistribuir tarefas input_top (iw_cpc_975_top)
+  router.post('/api/inspecao/redistribuir_input_top', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+    try {
+      const { redistribuicoes } = req.body;
+      
+      if (!redistribuicoes || !Array.isArray(redistribuicoes) || redistribuicoes.length === 0) {
+        return res.status(400).json({ error: 'Lista de redistribuições inválida' });
+      }
+      
+      const usuarioLogin = req.user.username;
+      const usuarioId = req.user.id;
+      const now = formatDateBR(new Date());
+      
+      let count = 0;
+      let errors = [];
+      
+      for (const item of redistribuicoes) {
+        if (!item.cod_tarefa || !item.usuario_id) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+          continue;
+        }
+        
+        try {
+          // Verificar se a tarefa existe e está ativa
+          const check = await pool.query(
+            "SELECT tarefa, usuario_id FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2 AND origem = 'iw_cpc_975_top'",
+            [item.cod_tarefa, 'Ativo']
+          );
+          
+          if (check.rows.length === 0) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa não encontrada ou origem não é iw_cpc_975_top' });
+            continue;
+          }
+
+          // Buscar nome do usuário destino
+          let destinoNome = String(item.usuario_id);
+          try {
+              const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+              if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+          } catch {}
+
+          // Registrar auditoria
+          await pool.query(
+              `INSERT INTO db_bloco_de_notas.cotacao_audit 
+               (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+              [item.cod_tarefa, 'redistribuido_input_top', usuarioId, usuarioLogin, item.usuario_id, destinoNome, null, null, usuarioLogin]
+          );
+
+          // Atualizar usuário
+          await pool.query(
+            `UPDATE db_bloco_de_notas.cotacao 
+             SET usuario_id = $1, data_da_ultima_atualizacao = $2, usuario_login = $3
+             WHERE tarefa = $4 AND validacao = 'Ativo' AND origem = 'iw_cpc_975_top'`,
+            [item.usuario_id, now, usuarioLogin, item.cod_tarefa]
+          );
+
+          count++;
+        } catch (err) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `${count} tarefa(s) redistribuída(s) com sucesso`,
+        redistribuidos: count,
+        erros: errors
+      });
+      
+    } catch (error) {
+      console.error('[REDISTRIBUIR_INPUT_TOP] Erro:', error);
+      res.status(500).json({ error: `Erro ao redistribuir tarefas: ${error.message}` });
+    }
+  });
+
+  // Atualizar dados input_top a partir da esteira
+  router.post('/api/inspecao/atualizar_input_top', authenticateToken, async (req, res) => {
+    try {
+      await pool.query(`
+        DO $$
+        DECLARE
+            v_max_esteira TIMESTAMP;
+            v_max_bloco   TIMESTAMP;
+        BEGIN
+            SELECT MAX(CAST(data_historico AS TIMESTAMP)) INTO v_max_esteira FROM db_esteira_gross.historico_input_pedido_pme_top;
+            SELECT MAX(CAST(data_historico AS TIMESTAMP)) INTO v_max_bloco FROM db_bloco_de_notas.iw_cpc_975_top;
+
+            IF v_max_esteira > COALESCE(v_max_bloco, '1900-01-01'::timestamp) THEN
+                EXECUTE 'TRUNCATE TABLE db_bloco_de_notas.iw_cpc_975_top';
+
+                INSERT INTO db_bloco_de_notas.iw_cpc_975_top (
+                    fila, codigo_da_tarefa, data_criacao, data_finalizacao, etapa_atual,
+                    data_historico, da_etapa, do_usuario_login, do_usuario_nome, para_etapa,
+                    para_usuario_login, para_usuario_nome, acao, canal_cliente, segmento_cliente,
+                    cnpj_cliente, razao_social_cliente, cliente_cpc, login_gerente_conta,
+                    nome_gerente_conta, id_cor, id_cotacao, id_ped, descricao, situacao_sistema,
+                    data_carga
+                )
+                SELECT
+                    fila, codigo_da_tarefa, data_criacao, data_finalizacao, etapa_atual,
+                    data_historico, da_etapa, do_usuario_login, do_usuario_nome, para_etapa,
+                    para_usuario_login, para_usuario_nome, acao, canal_cliente, segmento_cliente,
+                    cnpj_cliente, razao_social_cliente, cliente_cpc, login_gerente_conta,
+                    nome_gerente_conta, id_cor, id_cotacao, id_ped, descricao, situacao_sistema,
+                    CURRENT_DATE AS data_carga
+                FROM db_esteira_gross.historico_input_pedido_pme_top
+                WHERE CAST(data_historico AS TIMESTAMP)::date = CURRENT_DATE;
+
+                RAISE NOTICE 'Sucesso: Tabela truncada e dados atualizados para o dia %.', CURRENT_DATE;
+            ELSE
+                RAISE NOTICE 'Aviso: A tabela do bloco de notas já está atualizada ou a origem não possui dados mais recentes.';
+            END IF;
+        END $$;
+      `);
+      
+      await pool.query('CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_top();');
+      console.log('[ATUALIZAR_INPUT_TOP] Stored procedure sp_limpar_iw_cpc_975_top executada com sucesso.');
+      
+      res.json({ success: true, message: 'Dados atualizados com sucesso.' });
+    } catch (error) {
+      console.error('[ATUALIZAR_INPUT_TOP] Erro:', error);
+      res.status(500).json({ error: 'Erro ao atualizar dados' });
+    }
+  });
+
   // Listar dados da iw_cpc_975_net
   router.get('/api/inspecao_input/tarefas', authenticateToken, async (req, res) => {
     try {
@@ -1172,7 +1392,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     }
   });
 
-  // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard) =====
+  // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard r_000250) =====
   // Distribuir N tarefas mais antigas não distribuídas para um colaborador
   router.post('/api/inspecao/distribuir-auto', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
@@ -1283,6 +1503,232 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       
     } catch (error) {
       console.error('[DISTRIBUIR_AUTO] Erro:', error);
+      res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+    }
+  });
+
+  // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard Input TOP - iw_cpc_975_top) =====
+  // Distribuir N tarefas mais antigas não distribuídas da iw_cpc_975_top para um colaborador
+  router.post('/api/inspecao/distribuir-auto-input-top', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+    try {
+      const { usuario_id, quantidade } = req.body;
+      
+      if (!usuario_id || !quantidade || quantidade < 1 || quantidade > 10) {
+        return res.status(400).json({ error: 'Parâmetros inválidos. usuario_id e quantidade (1-10) são obrigatórios.' });
+      }
+      
+      const usuarioLogin = req.user.username;
+      const now = formatDateBR(new Date());
+      
+      // Buscar tarefas da iw_cpc_975_top não distribuídas, ordenadas por data_historico ASC (mais antigas primeiro)
+      const tarefasQuery = `
+        SELECT iw.codigo_da_tarefa AS cod_tarefa, iw.data_historico, iw.etapa_atual
+        FROM db_bloco_de_notas.iw_cpc_975_top iw
+        LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
+          AND (iw.data_historico::date = CURRENT_DATE OR (iw.etapa_atual ILIKE '%01%' OR iw.etapa_atual ILIKE '%02%'))
+        ORDER BY 
+          CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
+          iw.data_historico::timestamp ASC NULLS LAST
+        LIMIT $1
+      `;
+      
+      const tarefasResult = await pool.query(tarefasQuery, [quantidade]);
+      const tarefas = tarefasResult.rows;
+      
+      if (tarefas.length === 0) {
+        return res.json({
+          success: true,
+          message: 'Nenhuma tarefa disponível para distribuição.',
+          distribuidos: 0,
+          tarefas: []
+        });
+      }
+      
+      // Buscar nome do usuário destino
+      let destinoNome = String(usuario_id);
+      try {
+        const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [usuario_id]);
+        if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+      } catch {}
+      
+      let count = 0;
+      let errors = [];
+      const distribuidos = [];
+      
+      for (const tarefa of tarefas) {
+        try {
+          // Verificar se já não foi distribuída entre a consulta e agora
+          const check = await pool.query(
+            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+            [tarefa.cod_tarefa, 'Ativo']
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída' });
+            continue;
+          }
+          
+          let anotacao = '';
+          let dataHistorico = null;
+          if (tarefa.etapa_atual) {
+            anotacao = `Origem: iw_cpc_975_top | Etapa: ${tarefa.etapa_atual}`;
+          }
+          if (tarefa.data_historico) dataHistorico = tarefa.data_historico;
+          
+          await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [tarefa.cod_tarefa, tarefa.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'iw_cpc_975_top', dataHistorico]
+          );
+          
+          // Registrar auditoria
+          await registrarAuditoria(pool, {
+            tarefa: tarefa.cod_tarefa,
+            acao: 'distribuido_input_top',
+            usuario_origem_id: req.user.id,
+            usuario_origem_nome: req.user.nome || usuarioLogin,
+            usuario_destino_id: usuario_id,
+            usuario_destino_nome: destinoNome,
+            status_anterior: null,
+            status_novo: 'pendente',
+            criado_por: usuarioLogin
+          });
+          
+          count++;
+          distribuidos.push({
+            cod_tarefa: tarefa.cod_tarefa,
+            data_historico: tarefa.data_historico
+          });
+        } catch (err) {
+          errors.push({ cod_tarefa: tarefa.cod_tarefa, error: err.message });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `${count} tarefa(s) distribuída(s) para ${destinoNome}`,
+        distribuidos: count,
+        tarefas: distribuidos,
+        erros: errors
+      });
+      
+    } catch (error) {
+      console.error('[DISTRIBUIR_AUTO_INPUT_TOP] Erro:', error);
+      res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+    }
+  });
+
+  // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard Input NET - iw_cpc_975_net) =====
+  // Distribuir N tarefas mais antigas não distribuídas da iw_cpc_975_net para um colaborador
+  router.post('/api/inspecao/distribuir-auto-input-net', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+    try {
+      const { usuario_id, quantidade } = req.body;
+      
+      if (!usuario_id || !quantidade || quantidade < 1 || quantidade > 10) {
+        return res.status(400).json({ error: 'Parâmetros inválidos. usuario_id e quantidade (1-10) são obrigatórios.' });
+      }
+      
+      const usuarioLogin = req.user.username;
+      const now = formatDateBR(new Date());
+      
+      // Buscar tarefas da iw_cpc_975_net não distribuídas, ordenadas por data_historico ASC (mais antigas primeiro)
+      const tarefasQuery = `
+        SELECT iw.codigo_da_tarefa AS cod_tarefa, iw.data_historico, iw.etapa_atual
+        FROM db_bloco_de_notas.iw_cpc_975_net iw
+        LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
+          AND (iw.data_historico::date = CURRENT_DATE OR (iw.etapa_atual ILIKE '%01%' OR iw.etapa_atual ILIKE '%02%'))
+        ORDER BY 
+          CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
+          iw.data_historico::timestamp ASC NULLS LAST
+        LIMIT $1
+      `;
+      
+      const tarefasResult = await pool.query(tarefasQuery, [quantidade]);
+      const tarefas = tarefasResult.rows;
+      
+      if (tarefas.length === 0) {
+        return res.json({
+          success: true,
+          message: 'Nenhuma tarefa disponível para distribuição.',
+          distribuidos: 0,
+          tarefas: []
+        });
+      }
+      
+      // Buscar nome do usuário destino
+      let destinoNome = String(usuario_id);
+      try {
+        const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [usuario_id]);
+        if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+      } catch {}
+      
+      let count = 0;
+      let errors = [];
+      const distribuidos = [];
+      
+      for (const tarefa of tarefas) {
+        try {
+          // Verificar se já não foi distribuída entre a consulta e agora
+          const check = await pool.query(
+            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+            [tarefa.cod_tarefa, 'Ativo']
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída' });
+            continue;
+          }
+          
+          let anotacao = '';
+          let dataHistorico = null;
+          if (tarefa.etapa_atual) {
+            anotacao = `Origem: iw_cpc_975_net | Etapa: ${tarefa.etapa_atual}`;
+          }
+          if (tarefa.data_historico) dataHistorico = tarefa.data_historico;
+          
+          await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [tarefa.cod_tarefa, tarefa.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'iw_cpc_975_net', dataHistorico]
+          );
+          
+          // Registrar auditoria
+          await registrarAuditoria(pool, {
+            tarefa: tarefa.cod_tarefa,
+            acao: 'distribuido_input_net',
+            usuario_origem_id: req.user.id,
+            usuario_origem_nome: req.user.nome || usuarioLogin,
+            usuario_destino_id: usuario_id,
+            usuario_destino_nome: destinoNome,
+            status_anterior: null,
+            status_novo: 'pendente',
+            criado_por: usuarioLogin
+          });
+          
+          count++;
+          distribuidos.push({
+            cod_tarefa: tarefa.cod_tarefa,
+            data_historico: tarefa.data_historico
+          });
+        } catch (err) {
+          errors.push({ cod_tarefa: tarefa.cod_tarefa, error: err.message });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `${count} tarefa(s) distribuída(s) para ${destinoNome}`,
+        distribuidos: count,
+        tarefas: distribuidos,
+        erros: errors
+      });
+      
+    } catch (error) {
+      console.error('[DISTRIBUIR_AUTO_INPUT_NET] Erro:', error);
       res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
     }
   });

@@ -26,6 +26,11 @@ async function classificarPendentes() {
                 c.validacao = 'Ativo'
                 AND c.status NOT LIKE 'aprovado'
                 AND c.status NOT LIKE 'reprovado'
+                AND c.status NOT LIKE 'correcao-efetivada'
+                AND c.status NOT LIKE 'pendente-qualidade'
+                AND c.status NOT LIKE 'pendente-correcao-cadastral'
+                AND c.status NOT LIKE 'pendente-correcao-efetuada'
+                AND c.status NOT LIKE 'pendente-iphone'
                 AND c.status != $1
                 AND NOT EXISTS (
                     SELECT 1 FROM db_bloco_de_notas.r_000250 r 

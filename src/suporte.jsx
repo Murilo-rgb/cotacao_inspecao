@@ -190,7 +190,7 @@ function App() {
             setLoading(true);
             const token = localStorage.getItem('token');
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const response = await fetch(`${BASE_PATH}/api/quotations/correcao-cadastral`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const response = await fetch(`${BASE_PATH}/api/quotations/suporte`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.status === 401 || response.status === 403) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('username');
@@ -245,7 +245,7 @@ function App() {
                             suporteData.novosAnexos.forEach(file => {
                                 formDataSuporte.append('anexos', file);
                             });
-                            const suporteResponse = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/${encodeURIComponent(tarefaCode)}`, {
+                            const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURIComponent(tarefaCode)}`, {
                                 method: 'POST',
                                 headers: { 'Authorization': `Bearer ${token}` },
                                 body: formDataSuporte
@@ -360,7 +360,7 @@ function App() {
             const token = localStorage.getItem('token');
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             const tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
-            const response = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/${encodeURIComponent(tarefaCode)}`, {
+            const response = await fetch(`${BASE_PATH}/api/suporte/${encodeURIComponent(tarefaCode)}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -385,7 +385,7 @@ function App() {
         try {
             const token = localStorage.getItem('token');
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const response = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/anexo/${anexoId}`, {
+            const response = await fetch(`${BASE_PATH}/api/suporte/anexo/${anexoId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

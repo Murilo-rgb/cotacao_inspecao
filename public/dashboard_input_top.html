@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#7c3aed">
-    <title>Dashboard - Input NET</title>
+    <title>Dashboard - Input TOP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
@@ -334,7 +334,7 @@
                         params.set('data', `${day}/${month}/${year}`);
                     }
                     const queryStr = params.toString() ? `?${params.toString()}` : '';
-                    const res = await fetch(`${getBasePath()}/api/input_net/dashboard${queryStr}`, {
+                    const res = await fetch(`${getBasePath()}/api/input_top/dashboard${queryStr}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (res.status === 401 || res.status === 403) {
@@ -346,7 +346,7 @@
                     setColaboradores(Array.isArray(data.colaboradores) ? data.colaboradores : []);
                     setStats(data.stats || { em_tratamento: 0, aprovado: 0, reprovado: 0, pendente: 0, cancelado: 0 });
                 } catch (err) {
-                    console.error('[DASHBOARD_INPUT_NET] Erro:', err);
+                    console.error('[DASHBOARD_INPUT_TOP] Erro:', err);
                     setColaboradores([]);
                 } finally {
                     setLoading(false);
@@ -358,13 +358,13 @@
                 try {
                     const params = new URLSearchParams({ limit: 200 });
                     if (filtroTarefa) params.set('tarefa', filtroTarefa);
-                    const res = await fetch(`${getBasePath()}/api/input_net/historico?${params}`, {
+                    const res = await fetch(`${getBasePath()}/api/input_top/historico?${params}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     const data = await res.json();
                     setHistorico(Array.isArray(data) ? data : []);
                 } catch (err) {
-                    console.error('[HISTORICO_INPUT_NET] Erro:', err);
+                    console.error('[HISTORICO_INPUT_TOP] Erro:', err);
                     setHistorico([]);
                 }
             }, [token, filtroTarefa]);
@@ -523,15 +523,15 @@
                                     React.createElement(ChartIcon)
                                 ),
                                 React.createElement('div', null,
-                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Dashboard Input NET'),
+                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Dashboard Input TOP'),
                                     React.createElement('p', { className: 'text-xs text-slate-500' }, 'SLA e produtividade dos colaboradores')
                                 )
                             ),
                             React.createElement('div', { className: 'flex items-center gap-3' },
                                 React.createElement('a', {
-                                    href: `${getBasePath()}/input_net`,
+                                    href: `${getBasePath()}/input_top`,
                                     className: 'text-xs text-slate-500 hover:text-violet-600 underline'
-                                }, '← Voltar para Input NET'),
+                                }, '← Voltar para Input TOP'),
                                 React.createElement('button', {
                                     onClick: toggleDarkMode,
                                     className: 'p-2 rounded-lg transition-all duration-200 hover:scale-110 ' + (darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200'),
@@ -636,7 +636,7 @@
                                 React.createElement('div', { className: 'px-6 py-4 border-b border-slate-200' },
                                     React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 flex items-center gap-2' },
                                         React.createElement(UsersIcon),
-                                        'Produtividade por Colaborador - Input NET'
+                                        'Produtividade por Colaborador - Input TOP'
                                     )
                                 ),
                                 React.createElement('div', { className: 'overflow-x-auto' },

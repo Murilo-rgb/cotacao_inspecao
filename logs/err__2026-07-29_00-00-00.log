@@ -1,0 +1,44 @@
+28/07/2026 13:27:44: [INSPECAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+28/07/2026 13:27:44:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+28/07/2026 13:27:44:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+28/07/2026 13:27:44:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:649:27 {
+28/07/2026 13:27:44:   length: 120,
+28/07/2026 13:27:44:   severity: 'ERROR',
+28/07/2026 13:27:44:   code: '42703',
+28/07/2026 13:27:44:   detail: undefined,
+28/07/2026 13:27:44:   hint: undefined,
+28/07/2026 13:27:44:   position: '692',
+28/07/2026 13:27:44:   internalPosition: undefined,
+28/07/2026 13:27:44:   internalQuery: undefined,
+28/07/2026 13:27:44:   where: undefined,
+28/07/2026 13:27:44:   schema: undefined,
+28/07/2026 13:27:44:   table: undefined,
+28/07/2026 13:27:44:   column: undefined,
+28/07/2026 13:27:44:   dataType: undefined,
+28/07/2026 13:27:44:   constraint: undefined,
+28/07/2026 13:27:44:   file: 'parse_relation.c',
+28/07/2026 13:27:44:   line: '3647',
+28/07/2026 13:27:44:   routine: 'errorMissingColumn'
+28/07/2026 13:27:44: }
+28/07/2026 15:57:29: [INSPECAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+28/07/2026 15:57:29:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+28/07/2026 15:57:29:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+28/07/2026 15:57:29:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:649:27 {
+28/07/2026 15:57:29:   length: 120,
+28/07/2026 15:57:29:   severity: 'ERROR',
+28/07/2026 15:57:29:   code: '42703',
+28/07/2026 15:57:29:   detail: undefined,
+28/07/2026 15:57:29:   hint: undefined,
+28/07/2026 15:57:29:   position: '692',
+28/07/2026 15:57:29:   internalPosition: undefined,
+28/07/2026 15:57:29:   internalQuery: undefined,
+28/07/2026 15:57:29:   where: undefined,
+28/07/2026 15:57:29:   schema: undefined,
+28/07/2026 15:57:29:   table: undefined,
+28/07/2026 15:57:29:   column: undefined,
+28/07/2026 15:57:29:   dataType: undefined,
+28/07/2026 15:57:29:   constraint: undefined,
+28/07/2026 15:57:29:   file: 'parse_relation.c',
+28/07/2026 15:57:29:   line: '3647',
+28/07/2026 15:57:29:   routine: 'errorMissingColumn'
+28/07/2026 15:57:29: }

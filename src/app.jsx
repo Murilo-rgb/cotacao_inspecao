@@ -311,7 +311,7 @@ function App() {
                             suporteData.novosAnexos.forEach(file => {
                                 formDataSuporte.append('anexos', file);
                             });
-                            const suporteResponse = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/${encodeURIComponent(cotacaoCode)}`, {
+const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURIComponent(cotacaoCode)}`, {
                                 method: 'POST',
                                 headers: { 'Authorization': `Bearer ${token}` },
                                 body: formDataSuporte
@@ -453,14 +453,17 @@ function App() {
             const token = localStorage.getItem('token');
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             const cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
-            const response = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/${encodeURIComponent(cotacaoCode)}`, {
+            const response = await fetch(`${BASE_PATH}/api/suporte/${encodeURIComponent(cotacaoCode)}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
                 const data = await response.json();
                 setSuporteData({
                     observacao: data.observacao || '',
-                    anexos: data.anexos || [],
+                    anexos: (data.anexos || []).map(a => ({
+                        ...a,
+                        url: `${BASE_PATH}/api/anexos/${a.uuid}`
+                    })),
                     novosAnexos: []
                 });
             }
@@ -475,7 +478,7 @@ function App() {
         try {
             const token = localStorage.getItem('token');
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const response = await fetch(`${BASE_PATH}/api/correcao-cadastral/suporte/anexo/${anexoId}`, {
+            const response = await fetch(`${BASE_PATH}/api/suporte/anexo/${anexoId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -594,6 +597,9 @@ function App() {
         }
         if (normalized === 'pendente-maratona') {
             return { label: 'Pendente - Maratona', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
+        }
+        if (normalized === 'assumido') {
+            return { label: 'Assumido', className: 'bg-blue-200 text-blue-800 border-blue-300 hover:bg-blue-300', dotClass: 'bg-blue-600' };
         }
         return { label: 'Pendente', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
     };
@@ -1013,16 +1019,17 @@ function App() {
                                                     className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 resize-none" 
                                                     rows="3" 
                                                     placeholder="Adicione uma observação de suporte..."
+                                                    readOnly
                                                 />
                                             </div>
 
                                             {/* Anexos existentes */}
                                             {suporteData.anexos.length > 0 && (
                                                 <div>
-                                                    <label className="block text-sm font-medium text-slate-700 mb-2">Anexos existentes</label>
+                                                    <label className="block text-sm font-medium text-slate-700 mb-2">Anexos</label>
                                                     <div className="space-y-2">
                                                         {suporteData.anexos.map((anexo) => (
-                                                            <div key={anexo.id} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded-lg border border-slate-200">
+                                                            <div key={anexo.id} className="flex items-center bg-slate-50 px-3 py-2 rounded-lg border border-slate-200">
                                                                 <div className="flex items-center gap-2">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
                                                                         <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
@@ -1032,66 +1039,11 @@ function App() {
                                                                         {anexo.uuid.length > 12 ? anexo.uuid.substring(0, 12) + '...' : anexo.uuid}
                                                                     </a>
                                                                 </div>
-                                                                <button 
-                                                                    type="button"
-                                                                    onClick={() => handleRemoveExistingAnexo(anexo.id)} 
-                                                                    className="p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                                                                    title="Remover anexo"
-                                                                >
-                                                                    <XIcon />
-                                                                </button>
                                                             </div>
                                                         ))}
                                                     </div>
                                                 </div>
                                             )}
-
-                                            {/* Novos anexos selecionados */}
-                                            {suporteData.novosAnexos.length > 0 && (
-                                                <div>
-                                                    <label className="block text-sm font-medium text-slate-700 mb-2">Novos anexos</label>
-                                                    <div className="space-y-2">
-                                                        {suporteData.novosAnexos.map((file, index) => (
-                                                            <div key={index} className="flex items-center justify-between bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200">
-                                                                <div className="flex items-center gap-2">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
-                                                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
-                                                                        <polyline points="14 2 14 8 20 8"></polyline>
-                                                                    </svg>
-                                                                    <span className="text-sm text-slate-700">{file.name}</span>
-                                                                    <span className="text-xs text-slate-400">({(file.size / 1024).toFixed(1)} KB)</span>
-                                                                </div>
-                                                                <button 
-                                                                    type="button"
-                                                                    onClick={() => handleRemoveNovoAnexo(index)} 
-                                                                    className="p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                                                                    title="Remover"
-                                                                >
-                                                                    <XIcon />
-                                                                </button>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {/* Input para selecionar novos anexos */}
-                                            <div>
-                                                <label className="block text-sm font-medium text-slate-700 mb-1.5">Selecionar anexos</label>
-                                                <input 
-                                                    type="file" 
-                                                    multiple
-                                                    onChange={(e) => {
-                                                        const files = Array.from(e.target.files);
-                                                        setSuporteData(prev => ({
-                                                            ...prev,
-                                                            novosAnexos: [...prev.novosAnexos, ...files]
-                                                        }));
-                                                        e.target.value = '';
-                                                    }}
-                                                    className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
-                                                />
-                                            </div>
                                         </>
                                     )}
                                 </div>
@@ -1143,6 +1095,7 @@ function App() {
                             <button onClick={() => handleStatusChange('pendente-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Qualidade/Suporte</button>
                             <button onClick={() => handleStatusChange('pendente-correcao-cadastral')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Correção Cadastral</button>
                             <button onClick={() => handleStatusChange('pendente-maratona')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Maratona</button>
+                            <button onClick={() => handleStatusChange('assumido')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-200 text-blue-800 border border-blue-300 rounded-xl hover:bg-blue-300 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>Assumido</button>
                             <button onClick={() => handleStatusChange('aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Aprovado</button>
                             <button onClick={() => handleStatusChange('reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Reprovado</button>
                         </div>

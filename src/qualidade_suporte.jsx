@@ -1,0 +1,865 @@
+const { useState, useEffect, useCallback } = React;
+
+// Icons as SVG components
+const SearchIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+    </svg>
+);
+
+const EditIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+        <path d="m15 5 4 4"></path>
+    </svg>
+);
+
+const TrashIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 6h18"></path>
+        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+        <line x1="8" x2="8" y1="4" y2="2"></line>
+        <line x1="16" x2="16" y2="4" y1="2"></line>
+    </svg>
+);
+
+const LogoutIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" x2="9" y1="12" y2="12"></line>
+    </svg>
+);
+
+const UserIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a2 2 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+);
+
+const CheckIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+);
+
+const XIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+    </svg>
+);
+
+const InspectIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+    </svg>
+);
+
+const InputIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" x2="8" y1="13" y2="13"></line>
+        <line x1="16" x2="8" y1="17" y2="17"></line>
+    </svg>
+);
+
+const TopIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+);
+
+const AlertTriangleIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <path d="M12 9v4"></path>
+        <path d="M12 17h.01"></path>
+    </svg>
+);
+
+const FileTextIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" x2="8" y1="13" y2="13"></line>
+        <line x1="16" x2="8" y1="17" y2="17"></line>
+        <line x1="10" x2="8" y1="9" y2="9"></line>
+    </svg>
+);
+
+const SunIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+);
+
+const MoonIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+);
+
+function Toast({ message, type, onClose }) {
+    useEffect(() => {
+        const timer = setTimeout(onClose, 3000);
+        return () => clearTimeout(timer);
+    }, [onClose]);
+
+    return (
+        <div className={`fixed bottom-6 right-6 z-[60] px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 toast-enter ${
+            type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+        }`}>
+            {type === 'success' ? <CheckIcon /> : <AlertTriangleIcon />}
+            <span className="font-medium text-sm">{message}</span>
+        </div>
+    );
+}
+
+function App() {
+    const [quotations, setQuotations] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const [editingQuotation, setEditingQuotation] = useState(null);
+    const [formData, setFormData] = useState({ cotacao: '', anotacao: '' });
+    const [showModal, setShowModal] = useState(false);
+    const [activeTab, setActiveTab] = useState('anotacao');
+    const [auditoriaData, setAuditoriaData] = useState({ anotacao: '', status: '' });
+    const [suporteData, setSuporteData] = useState({ observacao: '', anexos: [], novosAnexos: [] });
+    const [suporteLoading, setSuporteLoading] = useState(false);
+    const [suporteSaving, setSuporteSaving] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(null);
+    const [statusModal, setStatusModal] = useState(null);
+    const [username, setUsername] = useState('');
+    const [toast, setToast] = useState(null);
+    const [darkMode, setDarkMode] = useState(() => {
+        const saved = localStorage.getItem('darkMode');
+        return saved === 'true';
+    });
+
+    useEffect(() => {
+        const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = BASE_PATH + '/login.html';
+            return;
+        }
+        const storedUsername = localStorage.getItem('username');
+        if (storedUsername) setUsername(storedUsername);
+        fetchQuotations();
+
+        const handlePopState = (event) => {
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const currentToken = localStorage.getItem('token');
+            if (!currentToken) window.location.href = BASE_PATH + '/login.html';
+        };
+
+        window.history.pushState(null, '', window.location.href);
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
+
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem('darkMode', darkMode);
+    }, [darkMode]);
+
+    const toggleDarkMode = () => setDarkMode(prev => !prev);
+
+    const showToast = (message, type = 'success') => setToast({ message, type });
+
+    const fetchQuotations = async () => {
+        try {
+            setLoading(true);
+            const token = localStorage.getItem('token');
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const response = await fetch(`${BASE_PATH}/api/quotations/qualidade/suporte`, { headers: { 'Authorization': `Bearer ${token}` } });
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                window.location.href = BASE_PATH + '/login.html';
+                return;
+            }
+            const data = await response.json();
+            setQuotations(data);
+        } catch (error) {
+            console.error('Erro ao buscar cotações:', error);
+            showToast('Erro ao carregar cotações', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+        try {
+            if (editingQuotation) {
+                const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+                const tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
+                const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({
+                        anotacao: formData.anotacao,
+                        status: editingQuotation.status,
+                        auditoria_anotacao: auditoriaData.anotacao,
+                        auditoria_status: auditoriaData.status
+                    })
+                });
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token'); localStorage.removeItem('username');
+                    window.location.href = BASE_PATH + '/login.html';
+                    return;
+                }
+                if (response.ok) {
+                    // Salvar dados de suporte
+                    if (suporteData.observacao || suporteData.novosAnexos.length > 0) {
+                        setSuporteSaving(true);
+                        try {
+                            const formDataSuporte = new FormData();
+                            formDataSuporte.append('observacao', suporteData.observacao);
+                            suporteData.novosAnexos.forEach(file => {
+                                formDataSuporte.append('anexos', file);
+                            });
+                            const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURIComponent(tarefaCode)}`, {
+                                method: 'POST',
+                                headers: { 'Authorization': `Bearer ${token}` },
+                                body: formDataSuporte
+                            });
+                            if (!suporteResponse.ok) {
+                                console.error('Erro ao salvar suporte');
+                            }
+                        } catch (suporteErr) {
+                            console.error('Erro ao salvar suporte:', suporteErr);
+                        } finally {
+                            setSuporteSaving(false);
+                        }
+                    }
+                    fetchQuotations();
+                    setShowModal(false);
+                    setEditingQuotation(null);
+                    setFormData({ cotacao: '', anotacao: '' });
+                    setAuditoriaData({ anotacao: '', status: '' });
+                    setSuporteData({ observacao: '', anexos: [], novosAnexos: [] });
+                    showToast('Cotação atualizada com sucesso');
+                }
+            } else {
+                const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+                const response = await fetch(`${BASE_PATH}/api/quotations`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(formData)
+                });
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token'); localStorage.removeItem('username');
+                    window.location.href = BASE_PATH + '/login.html';
+                    return;
+                }
+                if (response.ok) {
+                    fetchQuotations();
+                    setShowModal(false);
+                    setFormData({ cotacao: '', anotacao: '' });
+                    setAuditoriaData({ anotacao: '', status: '' });
+                    setSuporteData({ observacao: '', anexos: [], novosAnexos: [] });
+                    showToast('Cotação criada com sucesso');
+                }
+            }
+        } catch (error) {
+            console.error('Erro ao salvar cotação:', error);
+            showToast('Erro ao salvar cotação', 'error');
+        }
+    };
+
+    const handleEditClick = async (quotation) => {
+        setEditingQuotation(quotation);
+        setFormData({ cotacao: quotation.cotacao, anotacao: quotation.anotacao });
+        setActiveTab('anotacao');
+        setShowModal(true);
+
+        // Buscar dados de auditoria se existirem
+        try {
+            const token = localStorage.getItem('token');
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const tarefaCode = quotation.tarefa || (quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao);
+            const response = await fetch(`${BASE_PATH}/api/qualidade/auditoria/${encodeURIComponent(tarefaCode)}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if (data) {
+                    setAuditoriaData({ anotacao: data.anotacao || '', status: data.status || '' });
+                } else {
+                    setAuditoriaData({ anotacao: '', status: '' });
+                }
+            } else {
+                setAuditoriaData({ anotacao: '', status: '' });
+            }
+        } catch (error) {
+            console.error('Erro ao buscar auditoria:', error);
+            setAuditoriaData({ anotacao: '', status: '' });
+        }
+    };
+
+    const handleDeleteClick = (quotation) => setDeleteModal(quotation);
+    const cancelDelete = () => setDeleteModal(null);
+
+    const confirmDelete = async () => {
+        if (!deleteModal) return;
+        const token = localStorage.getItem('token');
+        try {
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const tarefaCode = deleteModal.tarefa || (deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao);
+                const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token'); localStorage.removeItem('username');
+                    window.location.href = BASE_PATH + '/login.html';
+                    return;
+                }
+            if (response.ok) {
+                fetchQuotations();
+                setDeleteModal(null);
+                showToast('Cotação excluída com sucesso');
+            }
+        } catch (error) {
+            console.error('Erro ao deletar cotação:', error);
+            showToast('Erro ao excluir cotação', 'error');
+        }
+    };
+
+    const fetchSuporteData = async () => {
+        if (!editingQuotation) return;
+        setSuporteLoading(true);
+        try {
+            const token = localStorage.getItem('token');
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
+            const response = await fetch(`${BASE_PATH}/api/suporte/${encodeURIComponent(tarefaCode)}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setSuporteData({
+                    observacao: data.observacao || '',
+                    anexos: (data.anexos || []).map(a => ({
+                        ...a,
+                        url: `${BASE_PATH}/api/anexos/${a.uuid}`
+                    })),
+                    novosAnexos: []
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao buscar dados de suporte:', error);
+        } finally {
+            setSuporteLoading(false);
+        }
+    };
+
+    const handleRemoveExistingAnexo = async (anexoId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const response = await fetch(`${BASE_PATH}/api/suporte/anexo/${anexoId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                setSuporteData(prev => ({
+                    ...prev,
+                    anexos: prev.anexos.filter(a => a.id !== anexoId)
+                }));
+                showToast('Anexo removido com sucesso');
+            }
+        } catch (error) {
+            console.error('Erro ao remover anexo:', error);
+            showToast('Erro ao remover anexo', 'error');
+        }
+    };
+
+    const handleRemoveNovoAnexo = (index) => {
+        setSuporteData(prev => ({
+            ...prev,
+            novosAnexos: prev.novosAnexos.filter((_, i) => i !== index)
+        }));
+    };
+
+    const handleStatusClick = (quotation) => setStatusModal(quotation);
+
+    const handleStatusChange = async (newStatus) => {
+        if (!statusModal) return;
+        const token = localStorage.getItem('token');
+        try {
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+                const tarefaCode = statusModal.tarefa || (statusModal.cotacao.includes(' - ') ? statusModal.cotacao.split(' - ')[1] : statusModal.cotacao);
+                const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token'); localStorage.removeItem('username');
+                    window.location.href = BASE_PATH + '/login.html';
+                    return;
+                }
+            if (response.ok) {
+                fetchQuotations();
+                setStatusModal(null);
+                showToast('Correção efetivada com sucesso');
+            }
+        } catch (error) {
+            console.error('Erro ao efetivar correção:', error);
+            showToast('Erro ao efetivar correção', 'error');
+        }
+    };
+
+    const filteredQuotations = quotations;
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentQuotations = filteredQuotations.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredQuotations.length / itemsPerPage);
+
+    const getStatusConfig = (status) => {
+        const normalized = (status || '').trim().toLowerCase();
+        if (normalized === 'pendente-qualidade') {
+            return { label: 'Pendente - Qualidade/Suporte', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
+        }
+        if (normalized === 'pendente-iphone') {
+            return { label: 'Pendente - iPhone', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
+        }
+        if (normalized === 'pendente-iphone-aprovado') {
+            return { label: 'Pendente - iPhone Aprovado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        if (normalized === 'pendente-iphone-reprovado') {
+            return { label: 'Pendente - iPhone Reprovado', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
+        }
+        if (normalized === 'correcao-efetivada' || normalized === 'pendente-correcao-efetuada') {
+            return { label: 'Correção Efetivada', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        return { label: 'Pendente', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
+    };
+
+    const formatDate = (dateString) => {
+        if (!dateString || dateString === '-') return '-';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            return date.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        } catch { return dateString; }
+    };
+
+    const SkeletonRow = () => (
+        <tr className="animate-pulse">
+            <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-24"></div></td>
+            <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-full max-w-xs"></div></td>
+            <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-28"></div></td>
+            <td className="px-6 py-4"><div className="h-4 bg-slate-200 rounded w-28"></div></td>
+            <td className="px-6 py-4"><div className="h-6 bg-slate-200 rounded-full w-20"></div></td>
+            <td className="px-6 py-4"><div className="flex gap-2"><div className="h-8 w-8 bg-slate-200 rounded-lg"></div><div className="h-8 w-8 bg-slate-200 rounded-lg"></div></div></td>
+        </tr>
+    );
+
+    return (
+        <div className="min-h-screen bg-slate-50/80 dark:bg-slate-900">
+            <header className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30 dark:bg-slate-800 dark:border-slate-700">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-16">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-orange-700 rounded-xl flex items-center justify-center shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h1 className="text-xl font-bold text-slate-800 dark:text-white">Pendente - Qualidade/Suporte</h1>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Efetivação de correções - Qualidade/Suporte</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <button onClick={toggleDarkMode} className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
+                                darkMode
+                                    ? 'text-amber-400 bg-slate-700 hover:bg-slate-600'
+                                    : 'text-slate-600 bg-slate-100 hover:bg-slate-200 dark:text-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600'
+                            }`} title={darkMode ? 'Modo claro' : 'Modo escuro'}>
+                                {darkMode ? <SunIcon /> : <MoonIcon />}
+                            </button>
+                            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm dark:bg-slate-700 dark:border-slate-600">
+                                <div className="w-7 h-7 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white shadow-sm">
+                                    <UserIcon />
+                                </div>
+                                <span className="text-sm font-semibold text-white">{username}</span>
+                            </div>
+                            <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 dark:text-slate-300 dark:hover:bg-red-900/30 rounded-lg transition-colors duration-200">
+                                <LogoutIcon />
+                                <span className="hidden sm:inline">Sair</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                    {loading ? (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                                <thead className="bg-slate-50 dark:bg-slate-800">
+                                    <tr><th className="px-2 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Origem</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Demanda</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Criação</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Atualização</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Status</th><th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Ações</th></tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">{[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}</tbody>
+                            </table>
+                        </div>
+                    ) : filteredQuotations.length === 0 ? (
+                        <div className="p-12 text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl text-slate-400 mb-4 dark:bg-slate-700 dark:text-slate-500"><FileTextIcon /></div>
+                        <h3 className="text-lg font-semibold text-slate-800 mb-1 dark:text-white">Nenhuma pendência de Qualidade/Suporte</h3>
+                        <p className="text-slate-500 text-sm dark:text-slate-400">Todas as pendências de qualidade foram tratadas.</p>
+                        </div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                                <thead className="bg-slate-50 dark:bg-slate-800">
+                                    <tr><th className="px-2 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Origem</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Demanda</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Criação</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Atualização</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Status</th><th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">Ações</th></tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
+                                    {currentQuotations.map((quotation) => {
+                                        const statusConfig = getStatusConfig(quotation.status);
+                                        return (
+                                            <tr key={quotation.cotacao} className="hover:bg-slate-50/80 transition-colors duration-150 dark:hover:bg-slate-700/50">
+                                                <td className="px-2 py-4 whitespace-nowrap">
+                                                    {!quotation.origem || quotation.origem === 'r_000250' ? (
+                                                        <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
+                                                    ) : quotation.origem === 'iw_cpc_975_net' ? (
+                                                        <span title="Input" className="inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"><InputIcon /></span>
+                                                    ) : quotation.origem === 'iw_cpc_975_top' ? (
+                                                        <span title="TOP" className="inline-flex items-center justify-center w-8 h-8 bg-purple-50 rounded-lg cursor-help"><TopIcon /></span>
+                                                    ) : (
+                                                        <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
+                                                    )}
+                                                </td>
+<td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md dark:bg-slate-700 dark:text-slate-300" title={quotation.anotacao}>{quotation.cotacao_display || quotation.cotacao}</span>
+                                                        {quotation.auditoria && quotation.auditoria.status && (() => {
+                                                            const s = quotation.auditoria.status.trim();
+                                                            if (s === 'Procedimento Correto') return <span title="Procedimento Correto" className="cursor-help text-sm">✅</span>;
+                                                            if (s === 'Devolução Parcial') return <span title="Devolução Parcial" className="cursor-help text-sm">⚠️</span>;
+                                                            if (s === 'Reprova Parcial') return <span title="Reprova Parcial" className="cursor-help text-sm">⚠️</span>;
+                                                            return <span title={s} className="cursor-help text-sm">❌</span>;
+                                                        })()}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">{formatDate(quotation.data_de_criacao || quotation.createdAt)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">{formatDate(quotation.data_da_ultima_atualizacao || quotation.updatedAt)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <button onClick={() => handleStatusClick(quotation)} className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 hover:shadow-sm ${statusConfig.className}`}>
+                                                        <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dotClass}`}></span>{statusConfig.label}
+                                                    </button>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-1">
+                                                        <button onClick={() => handleEditClick(quotation)} className="group p-2 text-blue-600 bg-blue-50 hover:bg-blue-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md dark:bg-blue-900/40 dark:text-blue-400 dark:hover:bg-blue-600 dark:hover:text-white" title="Editar"><EditIcon /></button>
+                                                        {false && <button onClick={() => handleDeleteClick(quotation)} className="group p-2 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-110 hover:shadow-md" title="Excluir"><TrashIcon /></button>}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+
+                {totalPages > 1 && (
+                    <div className="flex items-center justify-between mt-6 bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700">
+                        <p className="text-sm text-slate-500 hidden sm:block dark:text-slate-400">Mostrando <span className="font-medium">{indexOfFirstItem + 1}</span> a <span className="font-medium">{Math.min(indexOfLastItem, filteredQuotations.length)}</span> de <span className="font-medium">{filteredQuotations.length}</span> resultados</p>
+                        <div className="flex items-center gap-2 mx-auto sm:mx-0">
+                            <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600">Anterior</button>
+                            <div className="flex items-center gap-1">
+                                {[...Array(totalPages)].map((_, i) => {
+                                    const page = i + 1;
+                                    return (
+                                        <button key={page} onClick={() => setCurrentPage(page)} className={`w-9 h-9 text-sm font-medium rounded-lg transition-colors duration-200 ${currentPage === page ? 'bg-amber-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700'}`}>
+                                            {page}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="px-3 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600">Próxima</button>
+                        </div>
+                    </div>
+                )}
+            </main>
+
+            {showModal && (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); } }}>
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl modal-content dark:bg-slate-800">
+                        <div className="flex items-center justify-between mb-5">
+                            <h2 className="text-lg font-bold text-slate-800 dark:text-white">{editingQuotation ? 'Editar cotação' : 'Nova cotação'}</h2>
+                            <button onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200 dark:hover:bg-slate-700 dark:hover:text-slate-300"><XIcon /></button>
+                        </div>
+
+                        {/* Abas */}
+                        {editingQuotation && (
+                            <div className="flex border-b border-slate-200 mb-5">
+                                <button
+                                    type="button"
+                                    onClick={() => setActiveTab('anotacao')}
+                                    className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
+                                        activeTab === 'anotacao'
+                                            ? 'border-blue-600 text-blue-600'
+                                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                                    }`}
+                                >
+                                    Anotação (Colaborador)
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setActiveTab('auditoria')}
+                                    className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
+                                        activeTab === 'auditoria'
+                                            ? 'border-purple-600 text-purple-600'
+                                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                                    }`}
+                                >
+                                    Auditoria {auditoriaData.status ? <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">{auditoriaData.status}</span> : null}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setActiveTab('suporte');
+                                        fetchSuporteData();
+                                    }}
+                                    className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
+                                        activeTab === 'suporte'
+                                            ? 'border-emerald-600 text-emerald-600'
+                                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                                    }`}
+                                >
+                                    Suporte
+                                </button>
+                            </div>
+                        )}
+
+                        <form onSubmit={handleFormSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Cotação</label>
+                                <input type="text" value={formData.cotacao} onChange={(e) => setFormData({...formData, cotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 disabled:bg-slate-100 disabled:text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400" required disabled={!!editingQuotation} placeholder="Digite o número da cotação" />
+                            </div>
+
+                            {/* Aba: Anotação do Colaborador */}
+                            {activeTab === 'anotacao' && (
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Anotação (Colaborador)</label>
+                                    <textarea value={formData.anotacao} onChange={(e) => setFormData({...formData, anotacao: e.target.value})} className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400" rows="3" placeholder="Adicione uma observação..." />
+                                </div>
+                            )}
+
+                            {/* Aba: Auditoria (somente leitura) */}
+                            {activeTab === 'auditoria' && (
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Anotação da Auditoria</label>
+                                        <textarea value={auditoriaData.anotacao} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300" rows="3" placeholder="Sem alteração permitida" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Status da Auditoria</label>
+                                        <input type="text" value={auditoriaData.status} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300" />
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Aba: Suporte */}
+                            {activeTab === 'suporte' && (
+                                <div className="space-y-4">
+                                    {suporteLoading ? (
+                                        <div className="text-center py-8">
+                                            <div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto mb-3"></div>
+                                            <p className="text-sm text-slate-500">Carregando dados de suporte...</p>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Observação (Suporte)</label>
+                                                <textarea 
+                                                    value={suporteData.observacao} 
+                                                    onChange={(e) => setSuporteData(prev => ({ ...prev, observacao: e.target.value }))} 
+                                                    className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:placeholder-slate-400" 
+                                                    rows="3" 
+                                                    placeholder="Adicione uma observação de suporte..."
+                                                />
+                                            </div>
+
+                                            {/* Anexos existentes */}
+                                            {suporteData.anexos.length > 0 && (
+                                                <div>
+                                                    <label className="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-300">Anexos existentes</label>
+                                                    <div className="space-y-2">
+                                                        {suporteData.anexos.map((anexo) => (
+                                                            <div key={anexo.id} className="flex items-center justify-between bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 dark:bg-slate-700/50 dark:border-slate-600">
+                                                                <div className="flex items-center gap-2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
+                                                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                                                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                                                    </svg>
+                                                                    <a href={anexo.url} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:text-blue-800 underline dark:text-blue-400 dark:hover:text-blue-300">
+                                                                        {anexo.uuid.length > 12 ? anexo.uuid.substring(0, 12) + '...' : anexo.uuid}
+                                                                    </a>
+                                                                </div>
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => handleRemoveExistingAnexo(anexo.id)} 
+                                                                    className="p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors dark:hover:bg-red-900/30"
+                                                                    title="Remover anexo"
+                                                                >
+                                                                    <XIcon />
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Novos anexos selecionados */}
+                                            {suporteData.novosAnexos.length > 0 && (
+                                                <div>
+                                                    <label className="block text-sm font-medium text-slate-700 mb-2 dark:text-slate-300">Novos anexos</label>
+                                                    <div className="space-y-2">
+                                                        {suporteData.novosAnexos.map((file, index) => (
+                                                            <div key={index} className="flex items-center justify-between bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200 dark:bg-emerald-900/30 dark:border-emerald-700">
+                                                                <div className="flex items-center gap-2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
+                                                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                                                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                                                    </svg>
+                                                                    <span className="text-sm text-slate-700 dark:text-slate-300">{file.name}</span>
+                                                                    <span className="text-xs text-slate-400">({(file.size / 1024).toFixed(1)} KB)</span>
+                                                                </div>
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => handleRemoveNovoAnexo(index)} 
+                                                                    className="p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors dark:hover:bg-red-900/30"
+                                                                    title="Remover"
+                                                                >
+                                                                    <XIcon />
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Input para selecionar novos anexos */}
+                                            <div>
+                                                <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Selecionar anexos</label>
+                                                <input 
+                                                    type="file" 
+                                                    multiple
+                                                    onChange={(e) => {
+                                                        const files = Array.from(e.target.files);
+                                                        setSuporteData(prev => ({
+                                                            ...prev,
+                                                            novosAnexos: [...prev.novosAnexos, ...files]
+                                                        }));
+                                                        e.target.value = '';
+                                                    }}
+                                                    className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 dark:file:bg-emerald-900/40 dark:file:text-emerald-300 dark:hover:file:bg-emerald-900/60"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+
+                            {activeTab !== 'suporte' && (
+                                <>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Data Criação</label>
+                                        <input type="text" value={editingQuotation ? formatDate(editingQuotation.data_de_criacao || editingQuotation.createdAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Data Atualização</label>
+                                        <input type="text" value={editingQuotation ? formatDate(editingQuotation.data_da_ultima_atualizacao || editingQuotation.updatedAt) : formatDate(new Date().toISOString())} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-300">Status</label>
+                                    <input type="text" value={editingQuotation ? (editingQuotation.status || 'pendente') : 'pendente'} disabled className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-500 capitalize dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400" />
+                                </div>
+                                </>
+                            )}
+                            <div className="flex gap-3 pt-2">
+                                <button type="submit" className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200">Salvar</button>
+                                <button type="button" onClick={() => { setShowModal(false); setEditingQuotation(null); setFormData({ cotacao: '', anotacao: '' }); setAuditoriaData({ anotacao: '', status: '' }); }} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {deleteModal && (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) setDeleteModal(null); }}>
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl modal-content dark:bg-slate-800">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center text-red-600 dark:bg-red-900/50 dark:text-red-400"><AlertTriangleIcon /></div>
+                            <h2 className="text-lg font-bold text-slate-800 dark:text-white">Confirmar Exclusão</h2>
+                        </div>
+                        <p className="text-slate-600 text-sm mb-6 dark:text-slate-300">Tem certeza que deseja excluir a cotação <span className="font-semibold text-slate-800 font-mono dark:text-white">{deleteModal.cotacao}</span>? Esta ação não poderá ser desfeita.</p>
+                        <div className="flex gap-3">
+                            <button onClick={confirmDelete} className="flex-1 px-4 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-xl hover:bg-red-700 focus:ring-4 focus:ring-red-500/20 transition-all duration-200">Excluir</button>
+                            <button onClick={cancelDelete} className="flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {statusModal && (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) setStatusModal(null); }}>
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content dark:bg-slate-800">
+                        <h2 className="text-lg font-bold text-slate-800 mb-2 dark:text-white">Efetuar Mudança</h2>
+                        <p className="text-sm text-slate-500 mb-5 dark:text-slate-400">Confirme a efetivação da correção cadastral para a cotação <span className="font-semibold text-slate-800 font-mono dark:text-white">{statusModal.cotacao}</span>.</p>
+                        <div className="space-y-2.5">
+        <button onClick={() => handleStatusChange('correcao-efetivada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
+                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção - Efetuada
+                            </button>
+                        </div>
+                        <button onClick={() => setStatusModal(null)} className="w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>
+                    </div>
+                </div>
+            )}
+
+            {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+        </div>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);

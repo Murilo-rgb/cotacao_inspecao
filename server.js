@@ -183,9 +183,16 @@ var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, autho
 // Inicializar rotas de input_net
 var inputNetRoutes = require('./routes/input_net')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
 
+// Inicializar rotas de input_top
+var inputTopRoutes = require('./routes/input_top')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
+
 // Registrar rotas com prefixo /pme_notas (API input_net)
 app.use('/api/input_net', inputNetRoutes);
 app.use('/pme_notas/api/input_net', inputNetRoutes);
+
+// Registrar rotas com prefixo /pme_notas (API input_top)
+app.use('/api/input_top', inputTopRoutes);
+app.use('/pme_notas/api/input_top', inputTopRoutes);
 
 // API Routes
 
@@ -348,7 +355,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 // API: Listar cotações para correção cadastral
-app.get('/api/quotations/correcao-cadastral', authenticateToken, async (req, res) => {
+app.get('/api/quotations/suporte', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
@@ -408,7 +415,7 @@ const serialized = result.rows.map(row => ({
 });
 
 // Duplicate route with /pme_notas prefix
-app.get('/pme_notas/api/quotations/correcao-cadastral', authenticateToken, async (req, res) => {
+app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
@@ -464,6 +471,126 @@ const serialized = result.rows.map(row => ({
   } catch (error) {
     console.error('[CORRECAO_CAD] Erro ao buscar cotações:', error);
     res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
+  }
+});
+
+// API: Listar cotações pendentes de Qualidade/Suporte
+app.get('/api/quotations/qualidade/suporte', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, origem } = req.query;
+    let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
+      FROM db_bloco_de_notas.cotacao c 
+      LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
+      LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
+      WHERE c.validacao = $1 AND c.status = $2`;
+    const params = ['Ativo', 'pendente-qualidade'];
+    let paramIndex = 3;
+
+    if (search && search.trim()) {
+      query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
+      params.push(`%${search.trim()}%`);
+      paramIndex++;
+    }
+
+    if (dateStart && dateStart.trim()) {
+      const [year, month, day] = dateStart.trim().split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
+
+    if (origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        query += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
+    }
+
+    query += ' ORDER BY c.data_de_criacao DESC';
+
+    const result = await pool.query(query, params);
+const serialized = result.rows.map(row => ({
+      tarefa: row.tarefa,
+      cotacao: row.cotacao,
+      cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
+      anotacao: row.anotacao,
+      status: row.status,
+      data_de_criacao: formatDateBR(row.data_de_criacao),
+      data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
+      usuario_login: row.usuario_login,
+      origem: row.origem || null,
+      dsc_cotacao: row.dsc_cotacao || null,
+      auditoria: row.auditoria_status ? { status: row.auditoria_status, anotacao: row.auditoria_anotacao || '' } : null
+    }));
+
+    res.json(serialized);
+  } catch (error) {
+    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cotações:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotações de qualidade/suporte' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/quotations/qualidade/suporte', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, origem } = req.query;
+    let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
+      FROM db_bloco_de_notas.cotacao c 
+      LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
+      LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
+      WHERE c.validacao = $1 AND c.status = $2`;
+    const params = ['Ativo', 'pendente-qualidade'];
+    let paramIndex = 3;
+
+    if (search && search.trim()) {
+      query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
+      params.push(`%${search.trim()}%`);
+      paramIndex++;
+    }
+
+    if (dateStart && dateStart.trim()) {
+      const [year, month, day] = dateStart.trim().split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
+
+    if (origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        query += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
+    }
+
+    query += ' ORDER BY c.data_de_criacao DESC';
+
+    const result = await pool.query(query, params);
+const serialized = result.rows.map(row => ({
+      tarefa: row.tarefa,
+      cotacao: row.cotacao,
+      cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
+      anotacao: row.anotacao,
+      status: row.status,
+      data_de_criacao: formatDateBR(row.data_de_criacao),
+      data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
+      usuario_login: row.usuario_login,
+      origem: row.origem || null,
+      dsc_cotacao: row.dsc_cotacao || null,
+      auditoria: row.auditoria_status ? { status: row.auditoria_status, anotacao: row.auditoria_anotacao || '' } : null
+    }));
+
+    res.json(serialized);
+  } catch (error) {
+    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cotações:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotações de qualidade/suporte' });
   }
 });
 
@@ -2051,6 +2178,15 @@ app.get('/pme_notas/input_net/dashboard', authenticateToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_input_net.html'));
 });
 
+// Serve input_top dashboard page
+app.get('/input_top/dashboard', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_input_top.html'));
+});
+
+app.get('/pme_notas/input_top/dashboard', authenticateToken, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_input_top.html'));
+});
+
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
 
@@ -2058,7 +2194,7 @@ app.use(inspecaoRoutes);
 
 // Mapeamento de opções para rotas
 const OPCOES_ROTAS = {
-    gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard', '/gestao'],
+    gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard', '/pme_notas/gestao'],
     qualidade: ['/pme_notas/qualidade', '/pme_notas/rcv'],
     admin: ['/pme_notas/acessos']
 };
@@ -2226,10 +2362,17 @@ app.get('/pme_notas/acessos', authenticateToken, authorizeRoute('/pme_notas/aces
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
 
-app.get('/correcao_cadastral', authenticateToken, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'correcao_cadastral.html'));
+app.get('/suporte', authenticateToken, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'suporte.html'));
 });
 
+app.get('/qualidade/suporte', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qualidade_suporte.html'));
+});
+
+app.get('/pme_notas/qualidade/suporte', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qualidade_suporte.html'));
+});
 
 
 
@@ -2919,7 +3062,7 @@ const suporteUpload = multer({
 });
 
 // GET: Buscar dados de suporte (observação + anexos) de uma tarefa
-app.get('/api/correcao-cadastral/suporte/:tarefa', authenticateToken, async (req, res) => {
+app.get('/api/suporte/:tarefa', authenticateToken, async (req, res) => {
   try {
     const { tarefa } = req.params;
 
@@ -2965,7 +3108,7 @@ app.get('/api/correcao-cadastral/suporte/:tarefa', authenticateToken, async (req
 });
 
 // Duplicate with /pme_notas prefix
-app.get('/pme_notas/api/correcao-cadastral/suporte/:tarefa', authenticateToken, async (req, res) => {
+app.get('/pme_notas/api/suporte/:tarefa', authenticateToken, async (req, res) => {
   try {
     const { tarefa } = req.params;
     const cotacaoRes = await pool.query(
@@ -2999,7 +3142,7 @@ app.get('/pme_notas/api/correcao-cadastral/suporte/:tarefa', authenticateToken, 
 });
 
 // POST: Salvar dados de suporte (observação + anexos)
-app.post('/api/correcao-cadastral/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
+app.post('/api/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
   try {
     const { tarefa } = req.params;
     const observacao = req.body.observacao || '';
@@ -3082,7 +3225,7 @@ app.post('/api/correcao-cadastral/suporte/:tarefa', authenticateToken, suporteUp
 });
 
 // Duplicate with /pme_notas prefix
-app.post('/pme_notas/api/correcao-cadastral/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
+app.post('/pme_notas/api/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
   try {
     const { tarefa } = req.params;
     const observacao = req.body.observacao || '';
@@ -3146,7 +3289,7 @@ app.post('/pme_notas/api/correcao-cadastral/suporte/:tarefa', authenticateToken,
 });
 
 // DELETE: Remover um anexo específico
-app.delete('/api/correcao-cadastral/suporte/anexo/:id', authenticateToken, async (req, res) => {
+app.delete('/api/suporte/anexo/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -3182,7 +3325,7 @@ app.delete('/api/correcao-cadastral/suporte/anexo/:id', authenticateToken, async
 });
 
 // Duplicate with /pme_notas prefix
-app.delete('/pme_notas/api/correcao-cadastral/suporte/anexo/:id', authenticateToken, async (req, res) => {
+app.delete('/pme_notas/api/suporte/anexo/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const suporteRes = await pool.query(

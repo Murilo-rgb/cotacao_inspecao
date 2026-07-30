@@ -755,7 +755,7 @@ function App() {
               formDataSuporte.append('anexos', file);
             });
             _context3.n = 5;
-            return fetch("".concat(BASE_PATH, "/api/correcao-cadastral/suporte/").concat(encodeURIComponent(cotacaoCode)), {
+            return fetch("".concat(BASE_PATH, "/api/suporte/").concat(encodeURIComponent(cotacaoCode)), {
               method: 'POST',
               headers: {
                 'Authorization': "Bearer ".concat(token)
@@ -1063,7 +1063,7 @@ function App() {
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
             _context7.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/correcao-cadastral/suporte/").concat(encodeURIComponent(cotacaoCode)), {
+            return fetch("".concat(BASE_PATH, "/api/suporte/").concat(encodeURIComponent(cotacaoCode)), {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
@@ -1080,7 +1080,11 @@ function App() {
             data = _context7.v;
             setSuporteData({
               observacao: data.observacao || '',
-              anexos: data.anexos || [],
+              anexos: (data.anexos || []).map(function (a) {
+                return _objectSpread(_objectSpread({}, a), {}, {
+                  url: "".concat(BASE_PATH, "/api/anexos/").concat(a.uuid)
+                });
+              }),
               novosAnexos: []
             });
           case 5:
@@ -1113,7 +1117,7 @@ function App() {
             token = localStorage.getItem('token');
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context8.n = 1;
-            return fetch("".concat(BASE_PATH, "/api/correcao-cadastral/suporte/anexo/").concat(anexoId), {
+            return fetch("".concat(BASE_PATH, "/api/suporte/anexo/").concat(anexoId), {
               method: 'DELETE',
               headers: {
                 'Authorization': "Bearer ".concat(token)
@@ -1332,6 +1336,13 @@ function App() {
         label: 'Pendente - Maratona',
         className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
         dotClass: 'bg-amber-500'
+      };
+    }
+    if (normalized === 'assumido') {
+      return {
+        label: 'Assumido',
+        className: 'bg-blue-200 text-blue-800 border-blue-300 hover:bg-blue-300',
+        dotClass: 'bg-blue-600'
       };
     }
     return {
@@ -1936,15 +1947,16 @@ function App() {
     },
     className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 resize-none",
     rows: "3",
-    placeholder: "Adicione uma observa\xE7\xE3o de suporte..."
+    placeholder: "Adicione uma observa\xE7\xE3o de suporte...",
+    readOnly: true
   })), suporteData.anexos.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-2"
-  }, "Anexos existentes"), /*#__PURE__*/React.createElement("div", {
+  }, "Anexos"), /*#__PURE__*/React.createElement("div", {
     className: "space-y-2"
   }, suporteData.anexos.map(function (anexo) {
     return /*#__PURE__*/React.createElement("div", {
       key: anexo.id,
-      className: "flex items-center justify-between bg-slate-50 px-3 py-2 rounded-lg border border-slate-200"
+      className: "flex items-center bg-slate-50 px-3 py-2 rounded-lg border border-slate-200"
     }, /*#__PURE__*/React.createElement("div", {
       className: "flex items-center gap-2"
     }, /*#__PURE__*/React.createElement("svg", {
@@ -1967,67 +1979,8 @@ function App() {
       target: "_blank",
       rel: "noopener noreferrer",
       className: "text-sm text-blue-600 hover:text-blue-800 underline"
-    }, anexo.uuid.length > 12 ? anexo.uuid.substring(0, 12) + '...' : anexo.uuid)), /*#__PURE__*/React.createElement("button", {
-      type: "button",
-      onClick: function onClick() {
-        return handleRemoveExistingAnexo(anexo.id);
-      },
-      className: "p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors",
-      title: "Remover anexo"
-    }, /*#__PURE__*/React.createElement(XIcon, null)));
-  }))), suporteData.novosAnexos.length > 0 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-2"
-  }, "Novos anexos"), /*#__PURE__*/React.createElement("div", {
-    className: "space-y-2"
-  }, suporteData.novosAnexos.map(function (file, index) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: index,
-      className: "flex items-center justify-between bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "flex items-center gap-2"
-    }, /*#__PURE__*/React.createElement("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "16",
-      height: "16",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      className: "text-emerald-600"
-    }, /*#__PURE__*/React.createElement("path", {
-      d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-    }), /*#__PURE__*/React.createElement("polyline", {
-      points: "14 2 14 8 20 8"
-    })), /*#__PURE__*/React.createElement("span", {
-      className: "text-sm text-slate-700"
-    }, file.name), /*#__PURE__*/React.createElement("span", {
-      className: "text-xs text-slate-400"
-    }, "(", (file.size / 1024).toFixed(1), " KB)")), /*#__PURE__*/React.createElement("button", {
-      type: "button",
-      onClick: function onClick() {
-        return handleRemoveNovoAnexo(index);
-      },
-      className: "p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors",
-      title: "Remover"
-    }, /*#__PURE__*/React.createElement(XIcon, null)));
-  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-sm font-medium text-slate-700 mb-1.5"
-  }, "Selecionar anexos"), /*#__PURE__*/React.createElement("input", {
-    type: "file",
-    multiple: true,
-    onChange: function onChange(e) {
-      var files = Array.from(e.target.files);
-      setSuporteData(function (prev) {
-        return _objectSpread(_objectSpread({}, prev), {}, {
-          novosAnexos: [].concat(_toConsumableArray(prev.novosAnexos), files)
-        });
-      });
-      e.target.value = '';
-    },
-    className: "w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
-  })))), /*#__PURE__*/React.createElement("div", {
+    }, anexo.uuid.length > 12 ? anexo.uuid.substring(0, 12) + '...' : anexo.uuid)));
+  }))))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-2 gap-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-sm font-medium text-slate-700 mb-1.5"
@@ -2139,6 +2092,13 @@ function App() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
   }), "Pendente - Maratona"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('assumido');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-200 text-blue-800 border border-blue-300 rounded-xl hover:bg-blue-300 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-blue-600"
+  }), "Assumido"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('aprovado');
     },
