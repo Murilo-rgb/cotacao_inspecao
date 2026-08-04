@@ -1,0 +1,24 @@
+02/08/2026 11:10:50: [INSPECAO] Upload recebido: R_000250_1446220.csv -> E:\projetos_hitss\geo-pme-notas\files\r_000250.csv
+02/08/2026 11:10:50: --- INICIANDO ETL R_000250 ---
+02/08/2026 11:10:50: Delimitador detectado: ";"
+02/08/2026 11:10:50: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+02/08/2026 11:10:50: Tabela verificada/criada.
+02/08/2026 11:10:50: Dados antigos removidos.
+02/08/2026 11:10:50: Dados carregados com sucesso via COPY.
+02/08/2026 11:10:50: --- ETL R_000250 CONCLUÍDO: 356 registros ---
+02/08/2026 11:10:50: [CLASSIFICACAO] Conectado ao banco de dados.
+02/08/2026 11:10:50: [CLASSIFICACAO] 0 cotações classificadas.
+02/08/2026 11:10:50: [CLASSIFICACAO] Total "Pendente - Classificação": 325
+02/08/2026 11:10:50: [INSPECAO] Marcação automática de Maratona concluída.
+02/08/2026 15:28:53: [INSPECAO] Upload recebido: R_000250_1446235.csv -> E:\projetos_hitss\geo-pme-notas\files\r_000250.csv
+02/08/2026 15:28:53: --- INICIANDO ETL R_000250 ---
+02/08/2026 15:28:53: Delimitador detectado: ";"
+02/08/2026 15:28:53: Arquivo limpo escrito: E:\projetos_hitss\geo-pme-notas\files\r_000250_cleaned.csv
+02/08/2026 15:28:53: Tabela verificada/criada.
+02/08/2026 15:28:53: Dados antigos removidos.
+02/08/2026 15:28:53: Dados carregados com sucesso via COPY.
+02/08/2026 15:28:53: --- ETL R_000250 CONCLUÍDO: 360 registros ---
+02/08/2026 15:28:53: [CLASSIFICACAO] Conectado ao banco de dados.
+02/08/2026 15:28:53: [CLASSIFICACAO] 0 cotações classificadas.
+02/08/2026 15:28:53: [CLASSIFICACAO] Total "Pendente - Classificação": 325
+02/08/2026 15:28:53: [INSPECAO] Marcação automática de Maratona concluída.

@@ -599,7 +599,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart } = req.query;
     const usuarioId = req.user.id;
-    let query = `SELECT DISTINCT ON (c.tarefa) c.tarefa, c.cotacao, c.anotacao, c.status, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.origem, r.dsc_cotacao, c.data_historico, r.dat_historico as r_dat_historico, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd WHERE c.usuario_id = $1 AND c.validacao = $2`;
+    let query = `SELECT DISTINCT ON (c.tarefa) c.tarefa, c.cotacao, c.anotacao, c.status, c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, c.origem, r.dsc_cotacao, r.maratona, c.data_historico, r.dat_historico as r_dat_historico, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao FROM db_bloco_de_notas.cotacao c LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd WHERE c.usuario_id = $1 AND c.validacao = $2`;
     let params = [usuarioId, 'Ativo'];
     let paramIndex = 3;
 
@@ -625,6 +625,7 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
       dsc_cotacao: row.cotacao || row.dsc_cotacao,
       anotacao: row.anotacao,
       status: row.status,
+      maratona: row.maratona || false,
       createdAt: formatDateBR(row.data_de_criacao),
       updatedAt: formatDateBR(row.data_da_ultima_atualizacao),
       usuarioLogin: row.usuario_login,
@@ -1309,7 +1310,17 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
 // API: Salvar auditoria de qualidade completa (todos os campos)
 app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
     try {
-        const { id_cotacao, reprova_bko, apontamento, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = req.body;
+        const rawBody = req.body;
+        const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
+        // Se Motivo 1 for "Isento", forçar Motivo 2 e Motivo 3 como "Isento"
+        const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
+        let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
+        let motivo_2_erro = rawBody.motivo_2_erro || '';
+        let motivo_3_detalhamento = rawBody.motivo_3_detalhamento || '';
+        if (isIsento) {
+            motivo_2_erro = 'Isento';
+            motivo_3_detalhamento = 'Isento';
+        }
         const usuarioLogadoId = req.user.id;
 
         if (!id_cotacao) {
@@ -1698,7 +1709,17 @@ app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res)
 // Duplicate route with /pme_notas prefix
 app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
     try {
-        const { id_cotacao, reprova_bko, apontamento, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = req.body;
+        const rawBody = req.body;
+        const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
+        // Se Motivo 1 for "Isento", forçar Motivo 2 e Motivo 3 como "Isento"
+        const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
+        let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
+        let motivo_2_erro = rawBody.motivo_2_erro || '';
+        let motivo_3_detalhamento = rawBody.motivo_3_detalhamento || '';
+        if (isIsento) {
+            motivo_2_erro = 'Isento';
+            motivo_3_detalhamento = 'Isento';
+        }
         const usuarioLogadoId = req.user.id;
 
         if (!id_cotacao) {

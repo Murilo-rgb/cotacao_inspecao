@@ -595,9 +595,6 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
         if (normalized === 'correcao-efetivada') {
             return { label: 'Correção Efetivada', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
         }
-        if (normalized === 'pendente-maratona') {
-            return { label: 'Pendente - Maratona', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
-        }
         if (normalized === 'assumido') {
             return { label: 'Assumido', className: 'bg-blue-200 text-blue-800 border-blue-300 hover:bg-blue-300', dotClass: 'bg-blue-600' };
         }
@@ -844,6 +841,7 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                                                             return <span title={s} className="cursor-help text-sm">❌</span>;
                                                         })()}
                                                         <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md" title={quotation.anotacao}>{quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}</span>
+                                                        {quotation.maratona && <span title="Maratona" className="text-sm cursor-help">🏁</span>}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{formatDate(quotation.createdAt)}</td>
@@ -1094,7 +1092,6 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                             <button onClick={() => handleStatusChange('pendente-iphone')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - iPhone</button>
                             <button onClick={() => handleStatusChange('pendente-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Qualidade/Suporte</button>
                             <button onClick={() => handleStatusChange('pendente-correcao-cadastral')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Correção Cadastral</button>
-                            <button onClick={() => handleStatusChange('pendente-maratona')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Maratona</button>
                             <button onClick={() => handleStatusChange('assumido')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-200 text-blue-800 border border-blue-300 rounded-xl hover:bg-blue-300 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>Assumido</button>
                             <button onClick={() => handleStatusChange('aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Aprovado</button>
                             <button onClick={() => handleStatusChange('reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Reprovado</button>

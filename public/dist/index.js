@@ -1331,13 +1331,6 @@ function App() {
         dotClass: 'bg-emerald-500'
       };
     }
-    if (normalized === 'pendente-maratona') {
-      return {
-        label: 'Pendente - Maratona',
-        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
-        dotClass: 'bg-amber-500'
-      };
-    }
     if (normalized === 'assumido') {
       return {
         label: 'Assumido',
@@ -1734,7 +1727,10 @@ function App() {
     }(), /*#__PURE__*/React.createElement("span", {
       className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md",
       title: quotation.anotacao
-    }, quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao))), /*#__PURE__*/React.createElement("td", {
+    }, quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao), quotation.maratona && /*#__PURE__*/React.createElement("span", {
+      title: "Maratona",
+      className: "text-sm cursor-help"
+    }, "\uD83C\uDFC1"))), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
     }, formatDate(quotation.createdAt)), /*#__PURE__*/React.createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-slate-500"
@@ -2085,13 +2081,6 @@ function App() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
   }), "Pendente - Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('pendente-maratona');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
-  }), "Pendente - Maratona"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('assumido');
     },

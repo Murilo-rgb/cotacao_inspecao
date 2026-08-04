@@ -43,6 +43,20 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         console.error('[INSPECAO] Erro na classificação após ETL:', classErr.message);
       }
       
+      // Marcar automaticamente tarefas como Maratona com base nas regras de negócio
+      try {
+        await pool.query(`
+          UPDATE db_bloco_de_notas.r_000250 
+          SET maratona = (
+            COALESCE(qtd_linhas_novas, '0')::int >= 10 
+            AND COALESCE(qtd_reprovacao, '0')::int < 4
+          )
+        `);
+        console.log('[INSPECAO] Marcação automática de Maratona concluída.');
+      } catch (maratonaErr) {
+        console.error('[INSPECAO] Erro ao marcar Maratona:', maratonaErr.message);
+      }
+      
       res.json({
         success: true,
         message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`,
@@ -92,7 +106,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         status_distribuicao: row.status_distribuicao,
         cotacao_status: row.cotacao_status,
         assumido_por: row.assumido_por,
-        usuario_distribuido_nome: row.usuario_distribuido_nome || '-'
+        usuario_distribuido_nome: row.usuario_distribuido_nome || '-',
+        maratona: row.maratona || false
       }));
       
       res.json(tarefas);
@@ -428,10 +443,12 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       let query = `
         SELECT a.*, 
           u_orig.nome AS origem_nome,
-          u_dest.nome AS destino_nome
+          u_dest.nome AS destino_nome,
+          r.maratona
         FROM db_bloco_de_notas.cotacao_audit a
         LEFT JOIN db_automacao.usuarios u_orig ON a.usuario_origem_id = u_orig.id
         LEFT JOIN db_automacao.usuarios u_dest ON a.usuario_destino_id = u_dest.id
+        LEFT JOIN db_bloco_de_notas.r_000250 r ON a.tarefa = r.cod_tarefa
       `;
       let params = [];
       let conditions = [];
@@ -462,7 +479,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         status_anterior: row.status_anterior || '-',
         status_novo: row.status_novo || '-',
         data: row.data_criacao,
-        criado_por: row.criado_por
+        criado_por: row.criado_por,
+        maratona: row.maratona || false
       }));
       
       res.json(historico);
@@ -543,6 +561,20 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             ind_portabilidade, qtd_reprovacao, CURRENT_DATE
         FROM db_claro.r_000250 where data_carga = CURRENT_DATE
       `);
+
+      // Marcar automaticamente tarefas como Maratona com base nas regras de negócio
+      try {
+        await pool.query(`
+          UPDATE db_bloco_de_notas.r_000250 
+          SET maratona = (
+            COALESCE(qtd_linhas_novas, '0')::int >= 10 
+            AND COALESCE(qtd_reprovacao, '0')::int < 4
+          )
+        `);
+        console.log('[ATUALIZAR_R_000250] Marcação automática de Maratona concluída.');
+      } catch (maratonaErr) {
+        console.error('[ATUALIZAR_R_000250] Erro ao marcar Maratona:', maratonaErr.message);
+      }
 
       const elapsedTime = Date.now() - startTime;
       console.log(`[ATUALIZAR_R_000250] Concluído em ${elapsedTime}ms`);
