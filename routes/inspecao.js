@@ -1425,7 +1425,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   });
 
   // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard r_000250) =====
-  // Distribuir N tarefas mais antigas não distribuídas para um colaborador
+  // Distribuir N tarefas da r_000250 para um colaborador
+  // quantidade = 1: pega a mais antiga (SLA mais crítico)
+  // quantidade 2-10: 1ª = mais antiga, demais = aleatórias, data_historico com +1h por posição
   router.post('/api/inspecao/distribuir-auto', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
       const { usuario_id, quantidade } = req.body;
@@ -1437,30 +1439,49 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const usuarioLogin = req.user.username;
       const now = formatDateBR(new Date());
       
-      // Buscar tarefas em Fila, não distribuídas, ordenadas por dat_historico ASC (mais antigas primeiro)
-      const tarefasQuery = `
-        SELECT r.cod_tarefa, r.dat_historico, r.nom_tarefa, r.nom_fila, r.dsc_cotacao
+      // Condições base para tarefas distribuíveis na r_000250
+      const baseFrom = `
         FROM db_bloco_de_notas.r_000250 r
         LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa AND c.validacao = 'Ativo'
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
           AND (r.pendente_com IS NULL OR r.pendente_com = '' OR r.pendente_com = '-')
+      `;
+
+      // 1ª tarefa: sempre a mais antiga (maior criticidade de SLA)
+      const primeiraQuery = `
+        SELECT r.cod_tarefa, r.dat_historico, r.nom_tarefa, r.nom_fila, r.dsc_cotacao
+        ${baseFrom}
         ORDER BY 
           CASE WHEN r.dat_historico IS NULL OR r.dat_historico = '-' THEN 1 ELSE 0 END,
           r.dat_historico::timestamp ASC NULLS LAST,
           r.dat_criacao ASC
-        LIMIT $1
+        LIMIT 1
       `;
+      const primeiraResult = await pool.query(primeiraQuery);
+      const primeira = primeiraResult.rows[0];
       
-      const tarefasResult = await pool.query(tarefasQuery, [quantidade]);
-      const tarefas = tarefasResult.rows;
-      
-      if (tarefas.length === 0) {
+      if (!primeira) {
         return res.json({
           success: true,
           message: 'Nenhuma tarefa disponível para distribuição.',
           distribuidos: 0,
           tarefas: []
         });
+      }
+      
+      let tarefas = [primeira];
+      
+      // Demais tarefas (apenas quando quantidade > 1): seleção aleatória
+      if (quantidade > 1) {
+        const demaisQuery = `
+          SELECT r.cod_tarefa, r.dat_historico, r.nom_tarefa, r.nom_fila, r.dsc_cotacao
+          ${baseFrom}
+            AND r.cod_tarefa <> $1
+          ORDER BY RANDOM()
+          LIMIT $2
+        `;
+        const demaisResult = await pool.query(demaisQuery, [primeira.cod_tarefa, quantidade - 1]);
+        tarefas = tarefas.concat(demaisResult.rows);
       }
       
       // Buscar nome do usuário destino
@@ -1474,7 +1495,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       let errors = [];
       const distribuidos = [];
       
-      for (const tarefa of tarefas) {
+      for (let i = 0; i < tarefas.length; i++) {
+        const tarefa = tarefas[i];
         try {
           // Verificar se já não foi distribuída entre a consulta e agora
           const check = await pool.query(
@@ -1488,13 +1510,20 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           }
           
           let anotacao = '';
-          let dataHistorico = null;
           let cotacaoDsc = tarefa.cod_tarefa;
           if (tarefa.dsc_cotacao) cotacaoDsc = tarefa.dsc_cotacao;
           if (tarefa.nom_tarefa || tarefa.nom_fila) {
             anotacao = `Tarefa: ${tarefa.nom_tarefa || ''} | Fila: ${tarefa.nom_fila || ''}`;
           }
-          if (tarefa.dat_historico) dataHistorico = tarefa.dat_historico;
+          
+          // Ajustar data_historico: 1ª = valor original, demais = cotação anterior + 1h
+          let dataHistorico = null;
+          if (i === 0) {
+            dataHistorico = tarefa.dat_historico || null;
+          } else {
+            const anteriorSalvo = distribuidos.length > 0 ? distribuidos[distribuidos.length - 1].data_historico : null;
+            dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.dat_historico, 1);
+          }
           
           await pool.query(
             `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
@@ -1518,7 +1547,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           count++;
           distribuidos.push({
             cod_tarefa: tarefa.cod_tarefa,
-            dat_historico: tarefa.dat_historico
+            data_historico: dataHistorico
           });
         } catch (err) {
           errors.push({ cod_tarefa: tarefa.cod_tarefa, error: err.message });
@@ -1653,7 +1682,43 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   });
 
   // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard Input NET - iw_cpc_975_net) =====
-  // Distribuir N tarefas mais antigas não distribuídas da iw_cpc_975_net para um colaborador
+  // Distribuir N tarefas da iw_cpc_975_net para um colaborador
+  // quantidade = 1: pega a mais antiga (SLA mais crítico)
+  // quantidade 2-10: 1ª = mais antiga, demais = aleatórias, data_historico com +1h por posição
+
+  // Função auxiliar para somar horas ao data_historico preservando o formato original
+  function somarHorasDataHistorico(value, horas) {
+    if (!value || value === '-') return value;
+    const text = String(value).trim();
+    let dt = null;
+    let formato = 'iso';
+
+    const isoMatch = text.match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/);
+    const brMatch = text.match(/^(\d{2})\/(\d{2})\/(\d{4})[ T](\d{2}):(\d{2})(?::(\d{2}))?/);
+
+    if (isoMatch) {
+      const [, y, m, d, h, min, s = '00'] = isoMatch;
+      dt = new Date(Number(y), Number(m) - 1, Number(d), Number(h), Number(min), Number(s));
+      formato = 'iso';
+    } else if (brMatch) {
+      const [, d, m, y, h, min, s = '00'] = brMatch;
+      dt = new Date(Number(y), Number(m) - 1, Number(d), Number(h), Number(min), Number(s));
+      formato = 'br';
+    } else {
+      dt = new Date(text);
+      if (isNaN(dt.getTime())) return value;
+    }
+
+    if (isNaN(dt.getTime())) return value;
+    dt.setHours(dt.getHours() + horas);
+
+    const pad = (n) => String(n).padStart(2, '0');
+    if (formato === 'br') {
+      return `${pad(dt.getDate())}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+    }
+    return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+  }
+
   router.post('/api/inspecao/distribuir-auto-input-net', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
       const { usuario_id, quantidade } = req.body;
@@ -1665,30 +1730,49 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const usuarioLogin = req.user.username;
       const now = formatDateBR(new Date());
       
-      // Buscar tarefas da iw_cpc_975_net não distribuídas, ordenadas por data_historico ASC (mais antigas primeiro)
-      const tarefasQuery = `
-        SELECT iw.codigo_da_tarefa AS cod_tarefa, iw.data_historico, iw.etapa_atual
+      // Condições base para tarefas distribuíveis na esteira
+      const baseFrom = `
         FROM db_bloco_de_notas.iw_cpc_975_net iw
         LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa AND c.validacao = 'Ativo'
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
           AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
           AND (iw.data_historico::date = CURRENT_DATE OR (iw.etapa_atual ILIKE '%01%' OR iw.etapa_atual ILIKE '%02%'))
+      `;
+
+      // 1ª tarefa: sempre a mais antiga (maior criticidade de SLA)
+      const primeiraQuery = `
+        SELECT iw.codigo_da_tarefa AS cod_tarefa, iw.data_historico, iw.etapa_atual
+        ${baseFrom}
         ORDER BY 
           CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
           iw.data_historico::timestamp ASC NULLS LAST
-        LIMIT $1
+        LIMIT 1
       `;
+      const primeiraResult = await pool.query(primeiraQuery);
+      const primeira = primeiraResult.rows[0];
       
-      const tarefasResult = await pool.query(tarefasQuery, [quantidade]);
-      const tarefas = tarefasResult.rows;
-      
-      if (tarefas.length === 0) {
+      if (!primeira) {
         return res.json({
           success: true,
           message: 'Nenhuma tarefa disponível para distribuição.',
           distribuidos: 0,
           tarefas: []
         });
+      }
+      
+      let tarefas = [primeira];
+      
+      // Demais tarefas (apenas quando quantidade > 1): seleção aleatória
+      if (quantidade > 1) {
+        const demaisQuery = `
+          SELECT iw.codigo_da_tarefa AS cod_tarefa, iw.data_historico, iw.etapa_atual
+          ${baseFrom}
+            AND iw.codigo_da_tarefa <> $1
+          ORDER BY RANDOM()
+          LIMIT $2
+        `;
+        const demaisResult = await pool.query(demaisQuery, [primeira.cod_tarefa, quantidade - 1]);
+        tarefas = tarefas.concat(demaisResult.rows);
       }
       
       // Buscar nome do usuário destino
@@ -1702,7 +1786,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       let errors = [];
       const distribuidos = [];
       
-      for (const tarefa of tarefas) {
+      for (let i = 0; i < tarefas.length; i++) {
+        const tarefa = tarefas[i];
         try {
           // Verificar se já não foi distribuída entre a consulta e agora
           const check = await pool.query(
@@ -1716,11 +1801,18 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           }
           
           let anotacao = '';
-          let dataHistorico = null;
           if (tarefa.etapa_atual) {
             anotacao = `Origem: iw_cpc_975_net | Etapa: ${tarefa.etapa_atual}`;
           }
-          if (tarefa.data_historico) dataHistorico = tarefa.data_historico;
+          
+          // Ajustar data_historico: 1ª = valor original, demais = cotação anterior + 1h
+          let dataHistorico = null;
+          if (i === 0) {
+            dataHistorico = tarefa.data_historico || null;
+          } else {
+            const anteriorSalvo = distribuidos.length > 0 ? distribuidos[distribuidos.length - 1].data_historico : null;
+            dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.data_historico, 1);
+          }
           
           await pool.query(
             `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
@@ -1744,7 +1836,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           count++;
           distribuidos.push({
             cod_tarefa: tarefa.cod_tarefa,
-            data_historico: tarefa.data_historico
+            data_historico: dataHistorico
           });
         } catch (err) {
           errors.push({ cod_tarefa: tarefa.cod_tarefa, error: err.message });
