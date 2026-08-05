@@ -448,7 +448,8 @@ function App() {
     setActiveTab = _useState16[1];
   var _useState17 = useState({
       anotacao: '',
-      status: ''
+      status: '',
+      data_leitura: null
     }),
     _useState18 = _slicedToArray(_useState17, 2),
     auditoriaData = _useState18[0],
@@ -888,12 +889,14 @@ function App() {
             if (data) {
               setAuditoriaData({
                 anotacao: data.anotacao || '',
-                status: data.status || ''
+                status: data.status || '',
+                data_leitura: data.data_leitura || null
               });
             } else {
               setAuditoriaData({
                 anotacao: '',
-                status: ''
+                status: '',
+                data_leitura: null
               });
             }
             _context4.n = 5;
@@ -901,7 +904,8 @@ function App() {
           case 4:
             setAuditoriaData({
               anotacao: '',
-              status: ''
+              status: '',
+              data_leitura: null
             });
           case 5:
             _context4.n = 7;
@@ -912,7 +916,8 @@ function App() {
             console.error('Erro ao buscar auditoria:', _t5);
             setAuditoriaData({
               anotacao: '',
-              status: ''
+              status: '',
+              data_leitura: null
             });
           case 7:
             return _context4.a(2);
@@ -923,19 +928,13 @@ function App() {
       return _ref5.apply(this, arguments);
     };
   }();
-  var handleDeleteClick = function handleDeleteClick(quotation) {
-    return setDeleteModal(quotation);
-  };
-  var cancelDelete = function cancelDelete() {
-    return setDeleteModal(null);
-  };
-  var confirmDelete = /*#__PURE__*/function () {
+  var handleMarcarLido = /*#__PURE__*/function () {
     var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-      var token, BASE_PATH, cotacaoCode, response, _t6;
+      var token, BASE_PATH, cotacaoCode, response, data, _t6;
       return _regenerator().w(function (_context5) {
         while (1) switch (_context5.p = _context5.n) {
           case 0:
-            if (deleteModal) {
+            if (!(!editingQuotation || !auditoriaData.status)) {
               _context5.n = 1;
               break;
             }
@@ -944,10 +943,10 @@ function App() {
             token = localStorage.getItem('token');
             _context5.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            cotacaoCode = deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao;
+            cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
             _context5.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
-              method: 'DELETE',
+            return fetch("".concat(BASE_PATH, "/api/qualidade/auditoria/").concat(encodeURIComponent(cotacaoCode), "/ler"), {
+              method: 'POST',
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
@@ -963,37 +962,54 @@ function App() {
             window.location.href = BASE_PATH + '/login.html';
             return _context5.a(2);
           case 4:
-            if (response.ok) {
-              fetchQuotations();
-              setDeleteModal(null);
-              showToast('Cotação excluída com sucesso');
+            if (!response.ok) {
+              _context5.n = 6;
+              break;
             }
-            _context5.n = 6;
-            break;
+            _context5.n = 5;
+            return response.json();
           case 5:
-            _context5.p = 5;
-            _t6 = _context5.v;
-            console.error('Erro ao deletar cotação:', _t6);
-            showToast('Erro ao excluir cotação', 'error');
+            data = _context5.v;
+            setAuditoriaData(function (prev) {
+              return _objectSpread(_objectSpread({}, prev), {}, {
+                data_leitura: data.data_leitura || new Date().toISOString()
+              });
+            });
+            showToast('Auditoria marcada como lida');
+            _context5.n = 7;
+            break;
           case 6:
+            showToast('Erro ao marcar auditoria como lida', 'error');
+          case 7:
+            _context5.n = 9;
+            break;
+          case 8:
+            _context5.p = 8;
+            _t6 = _context5.v;
+            console.error('Erro ao marcar auditoria como lida:', _t6);
+            showToast('Erro ao marcar auditoria como lida', 'error');
+          case 9:
             return _context5.a(2);
         }
-      }, _callee5, null, [[2, 5]]);
+      }, _callee5, null, [[2, 8]]);
     }));
-    return function confirmDelete() {
+    return function handleMarcarLido() {
       return _ref6.apply(this, arguments);
     };
   }();
-  var handleStatusClick = function handleStatusClick(quotation) {
-    return setStatusModal(quotation);
+  var handleDeleteClick = function handleDeleteClick(quotation) {
+    return setDeleteModal(quotation);
   };
-  var handleStatusChange = /*#__PURE__*/function () {
-    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(newStatus) {
-      var token, BASE_PATH, response, _t7;
+  var cancelDelete = function cancelDelete() {
+    return setDeleteModal(null);
+  };
+  var confirmDelete = /*#__PURE__*/function () {
+    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+      var token, BASE_PATH, cotacaoCode, response, _t7;
       return _regenerator().w(function (_context6) {
         while (1) switch (_context6.p = _context6.n) {
           case 0:
-            if (statusModal) {
+            if (deleteModal) {
               _context6.n = 1;
               break;
             }
@@ -1002,16 +1018,13 @@ function App() {
             token = localStorage.getItem('token');
             _context6.p = 2;
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            cotacaoCode = deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao;
             _context6.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(statusModal.cotacao)), {
-              method: 'PUT',
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(cotacaoCode)), {
+              method: 'DELETE',
               headers: {
-                'Content-Type': 'application/json',
                 'Authorization': "Bearer ".concat(token)
-              },
-              body: JSON.stringify({
-                status: newStatus
-              })
+              }
             });
           case 3:
             response = _context6.v;
@@ -1026,58 +1039,119 @@ function App() {
           case 4:
             if (response.ok) {
               fetchQuotations();
-              setStatusModal(null);
-              showToast('Status atualizado com sucesso');
+              setDeleteModal(null);
+              showToast('Cotação excluída com sucesso');
             }
             _context6.n = 6;
             break;
           case 5:
             _context6.p = 5;
             _t7 = _context6.v;
-            console.error('Erro ao atualizar status:', _t7);
-            showToast('Erro ao atualizar status', 'error');
+            console.error('Erro ao deletar cotação:', _t7);
+            showToast('Erro ao excluir cotação', 'error');
           case 6:
             return _context6.a(2);
         }
       }, _callee6, null, [[2, 5]]);
     }));
-    return function handleStatusChange(_x3) {
+    return function confirmDelete() {
       return _ref7.apply(this, arguments);
     };
   }();
-  var fetchSuporteData = /*#__PURE__*/function () {
-    var _ref8 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
-      var token, BASE_PATH, cotacaoCode, response, data, _t8;
+  var handleStatusClick = function handleStatusClick(quotation) {
+    return setStatusModal(quotation);
+  };
+  var handleStatusChange = /*#__PURE__*/function () {
+    var _ref8 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7(newStatus) {
+      var token, BASE_PATH, response, _t8;
       return _regenerator().w(function (_context7) {
         while (1) switch (_context7.p = _context7.n) {
           case 0:
-            if (editingQuotation) {
+            if (statusModal) {
               _context7.n = 1;
               break;
             }
             return _context7.a(2);
           case 1:
-            setSuporteLoading(true);
+            token = localStorage.getItem('token');
             _context7.p = 2;
+            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _context7.n = 3;
+            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(statusModal.cotacao)), {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer ".concat(token)
+              },
+              body: JSON.stringify({
+                status: newStatus
+              })
+            });
+          case 3:
+            response = _context7.v;
+            if (!(response.status === 401 || response.status === 403)) {
+              _context7.n = 4;
+              break;
+            }
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            window.location.href = BASE_PATH + '/login.html';
+            return _context7.a(2);
+          case 4:
+            if (response.ok) {
+              fetchQuotations();
+              setStatusModal(null);
+              showToast('Status atualizado com sucesso');
+            }
+            _context7.n = 6;
+            break;
+          case 5:
+            _context7.p = 5;
+            _t8 = _context7.v;
+            console.error('Erro ao atualizar status:', _t8);
+            showToast('Erro ao atualizar status', 'error');
+          case 6:
+            return _context7.a(2);
+        }
+      }, _callee7, null, [[2, 5]]);
+    }));
+    return function handleStatusChange(_x3) {
+      return _ref8.apply(this, arguments);
+    };
+  }();
+  var fetchSuporteData = /*#__PURE__*/function () {
+    var _ref9 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+      var token, BASE_PATH, cotacaoCode, response, data, _t9;
+      return _regenerator().w(function (_context8) {
+        while (1) switch (_context8.p = _context8.n) {
+          case 0:
+            if (editingQuotation) {
+              _context8.n = 1;
+              break;
+            }
+            return _context8.a(2);
+          case 1:
+            setSuporteLoading(true);
+            _context8.p = 2;
             token = localStorage.getItem('token');
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
-            _context7.n = 3;
+            _context8.n = 3;
             return fetch("".concat(BASE_PATH, "/api/suporte/").concat(encodeURIComponent(cotacaoCode)), {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
             });
           case 3:
-            response = _context7.v;
+            response = _context8.v;
             if (!response.ok) {
-              _context7.n = 5;
+              _context8.n = 5;
               break;
             }
-            _context7.n = 4;
+            _context8.n = 4;
             return response.json();
           case 4:
-            data = _context7.v;
+            data = _context8.v;
             setSuporteData({
               observacao: data.observacao || '',
               anexos: (data.anexos || []).map(function (a) {
@@ -1088,35 +1162,35 @@ function App() {
               novosAnexos: []
             });
           case 5:
-            _context7.n = 7;
+            _context8.n = 7;
             break;
           case 6:
-            _context7.p = 6;
-            _t8 = _context7.v;
-            console.error('Erro ao buscar dados de suporte:', _t8);
+            _context8.p = 6;
+            _t9 = _context8.v;
+            console.error('Erro ao buscar dados de suporte:', _t9);
           case 7:
-            _context7.p = 7;
+            _context8.p = 7;
             setSuporteLoading(false);
-            return _context7.f(7);
+            return _context8.f(7);
           case 8:
-            return _context7.a(2);
+            return _context8.a(2);
         }
-      }, _callee7, null, [[2, 6, 7, 8]]);
+      }, _callee8, null, [[2, 6, 7, 8]]);
     }));
     return function fetchSuporteData() {
-      return _ref8.apply(this, arguments);
+      return _ref9.apply(this, arguments);
     };
   }();
   var handleRemoveExistingAnexo = /*#__PURE__*/function () {
-    var _ref9 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8(anexoId) {
-      var token, BASE_PATH, response, _t9;
-      return _regenerator().w(function (_context8) {
-        while (1) switch (_context8.p = _context8.n) {
+    var _ref0 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9(anexoId) {
+      var token, BASE_PATH, response, _t0;
+      return _regenerator().w(function (_context9) {
+        while (1) switch (_context9.p = _context9.n) {
           case 0:
-            _context8.p = 0;
+            _context9.p = 0;
             token = localStorage.getItem('token');
             BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            _context8.n = 1;
+            _context9.n = 1;
             return fetch("".concat(BASE_PATH, "/api/suporte/anexo/").concat(anexoId), {
               method: 'DELETE',
               headers: {
@@ -1124,7 +1198,7 @@ function App() {
               }
             });
           case 1:
-            response = _context8.v;
+            response = _context9.v;
             if (response.ok) {
               setSuporteData(function (prev) {
                 return _objectSpread(_objectSpread({}, prev), {}, {
@@ -1135,20 +1209,20 @@ function App() {
               });
               showToast('Anexo removido com sucesso');
             }
-            _context8.n = 3;
+            _context9.n = 3;
             break;
           case 2:
-            _context8.p = 2;
-            _t9 = _context8.v;
-            console.error('Erro ao remover anexo:', _t9);
+            _context9.p = 2;
+            _t0 = _context9.v;
+            console.error('Erro ao remover anexo:', _t0);
             showToast('Erro ao remover anexo', 'error');
           case 3:
-            return _context8.a(2);
+            return _context9.a(2);
         }
-      }, _callee8, null, [[0, 2]]);
+      }, _callee9, null, [[0, 2]]);
     }));
     return function handleRemoveExistingAnexo(_x4) {
-      return _ref9.apply(this, arguments);
+      return _ref0.apply(this, arguments);
     };
   }();
   var handleRemoveNovoAnexo = function handleRemoveNovoAnexo(index) {
@@ -1164,67 +1238,67 @@ function App() {
     var ignore = false;
     var timer;
     var loadReprovas = /*#__PURE__*/function () {
-      var _ref0 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
-        var termo, token, BASE_PATH, url, response, data, _t0;
-        return _regenerator().w(function (_context9) {
-          while (1) switch (_context9.p = _context9.n) {
+      var _ref1 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee0() {
+        var termo, token, BASE_PATH, url, response, data, _t1;
+        return _regenerator().w(function (_context0) {
+          while (1) switch (_context0.p = _context0.n) {
             case 0:
               if (reprovaModalOpen) {
-                _context9.n = 1;
+                _context0.n = 1;
                 break;
               }
-              return _context9.a(2);
+              return _context0.a(2);
             case 1:
               termo = reprovaSearch.trim();
               if (termo) {
-                _context9.n = 2;
+                _context0.n = 2;
                 break;
               }
               setReprovaResults([]);
               setReprovaLoading(false);
-              return _context9.a(2);
+              return _context0.a(2);
             case 2:
               setReprovaLoading(true);
-              _context9.p = 3;
+              _context0.p = 3;
               token = localStorage.getItem('token');
               BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
               url = "".concat(BASE_PATH, "/api/reprovas?termo=").concat(encodeURIComponent(termo), "&fonte=").concat(encodeURIComponent(reprovaAbaAtiva));
-              _context9.n = 4;
+              _context0.n = 4;
               return fetch(url, {
                 headers: {
                   'Authorization': "Bearer ".concat(token)
                 }
               });
             case 4:
-              response = _context9.v;
+              response = _context0.v;
               if (response.ok) {
-                _context9.n = 5;
+                _context0.n = 5;
                 break;
               }
               throw new Error('Falha ao buscar reprovas');
             case 5:
-              _context9.n = 6;
+              _context0.n = 6;
               return response.json();
             case 6:
-              data = _context9.v;
+              data = _context0.v;
               if (!ignore) setReprovaResults(data);
-              _context9.n = 8;
+              _context0.n = 8;
               break;
             case 7:
-              _context9.p = 7;
-              _t0 = _context9.v;
+              _context0.p = 7;
+              _t1 = _context0.v;
               if (!ignore) setReprovaResults([]);
             case 8:
-              _context9.p = 8;
+              _context0.p = 8;
               if (!ignore) setReprovaLoading(false);
-              return _context9.f(8);
+              return _context0.f(8);
             case 9:
-              return _context9.a(2);
+              return _context0.a(2);
           }
-        }, _callee9, null, [[3, 7, 8, 9]]);
+        }, _callee0, null, [[3, 7, 8, 9]]);
       }));
       return function loadReprovas() {
-        return _ref0.apply(this, arguments);
+        return _ref1.apply(this, arguments);
       };
     }();
     if (reprovaModalOpen) {
@@ -1922,7 +1996,27 @@ function App() {
     className: "w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none",
     rows: "3",
     placeholder: "Sem altera\xE7\xE3o permitida"
-  }))), activeTab === 'suporte' && /*#__PURE__*/React.createElement("div", {
+  })), auditoriaData.status && /*#__PURE__*/React.createElement("div", {
+    className: "border-t border-slate-200 pt-3"
+  }, auditoriaData.data_leitura ? /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200"
+  }, "\u2713 Lido"), /*#__PURE__*/React.createElement("span", {
+    className: "text-xs text-slate-500"
+  }, new Date(auditoriaData.data_leitura).toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })))) : /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: handleMarcarLido,
+    className: "w-full px-4 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-xl hover:bg-purple-700 focus:ring-4 focus:ring-purple-500/20 transition-all duration-200"
+  }, "Marcar como Lido"))), activeTab === 'suporte' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
   }, suporteLoading ? /*#__PURE__*/React.createElement("div", {
     className: "text-center py-8"

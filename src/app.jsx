@@ -153,7 +153,7 @@ function App() {
     const [formData, setFormData] = useState({ cotacao: '', anotacao: '' });
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState('anotacao');
-    const [auditoriaData, setAuditoriaData] = useState({ anotacao: '', status: '' });
+    const [auditoriaData, setAuditoriaData] = useState({ anotacao: '', status: '', data_leitura: null });
     const [suporteData, setSuporteData] = useState({ observacao: '', anexos: [], novosAnexos: [] });
     const [suporteLoading, setSuporteLoading] = useState(false);
     const [suporteSaving, setSuporteSaving] = useState(false);
@@ -376,16 +376,44 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
             if (response.ok) {
                 const data = await response.json();
                 if (data) {
-                    setAuditoriaData({ anotacao: data.anotacao || '', status: data.status || '' });
+                    setAuditoriaData({ anotacao: data.anotacao || '', status: data.status || '', data_leitura: data.data_leitura || null });
                 } else {
-                    setAuditoriaData({ anotacao: '', status: '' });
+                    setAuditoriaData({ anotacao: '', status: '', data_leitura: null });
                 }
             } else {
-                setAuditoriaData({ anotacao: '', status: '' });
+                setAuditoriaData({ anotacao: '', status: '', data_leitura: null });
             }
         } catch (error) {
             console.error('Erro ao buscar auditoria:', error);
-            setAuditoriaData({ anotacao: '', status: '' });
+            setAuditoriaData({ anotacao: '', status: '', data_leitura: null });
+        }
+    };
+
+    const handleMarcarLido = async () => {
+        if (!editingQuotation || !auditoriaData.status) return;
+        const token = localStorage.getItem('token');
+        try {
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const cotacaoCode = editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao;
+            const response = await fetch(`${BASE_PATH}/api/qualidade/auditoria/${encodeURIComponent(cotacaoCode)}/ler`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('token'); localStorage.removeItem('username');
+                window.location.href = BASE_PATH + '/login.html';
+                return;
+            }
+            if (response.ok) {
+                const data = await response.json();
+                setAuditoriaData(prev => ({ ...prev, data_leitura: data.data_leitura || new Date().toISOString() }));
+                showToast('Auditoria marcada como lida');
+            } else {
+                showToast('Erro ao marcar auditoria como lida', 'error');
+            }
+        } catch (error) {
+            console.error('Erro ao marcar auditoria como lida:', error);
+            showToast('Erro ao marcar auditoria como lida', 'error');
         }
     };
 
@@ -996,6 +1024,30 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                                         <label className="block text-sm font-medium text-slate-700 mb-1.5">Anotação da Auditoria</label>
                                         <textarea value={auditoriaData.anotacao} readOnly className="w-full px-3.5 py-2.5 bg-slate-100 border border-slate-300 rounded-xl text-sm text-slate-700 resize-none" rows="3" placeholder="Sem alteração permitida" />
                                     </div>
+                                    {auditoriaData.status && (
+                                        <div className="border-t border-slate-200 pt-3">
+                                            {auditoriaData.data_leitura ? (
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                                            ✓ Lido
+                                                        </span>
+                                                        <span className="text-xs text-slate-500">
+                                                            {new Date(auditoriaData.data_leitura).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    type="button"
+                                                    onClick={handleMarcarLido}
+                                                    className="w-full px-4 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-xl hover:bg-purple-700 focus:ring-4 focus:ring-purple-500/20 transition-all duration-200"
+                                                >
+                                                    Marcar como Lido
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             )}
 

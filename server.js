@@ -1208,15 +1208,34 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       let auditoria = null;
       try {
         const auditRes = await pool.query(
-          `SELECT aq.anotacao, aq.status FROM db_bloco_de_notas.auditoria_qualidade aq
+          `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.apontamento,
+                  aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento,
+                  aq.contestacao, aq.obs, aq.regional, aq.tipo_de_pedido,
+                  aq.enviado, aq.data_envio, aq.data_qualidade, aq.semana, aq.analista
+           FROM db_bloco_de_notas.auditoria_qualidade aq
            LEFT JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
            WHERE c.id_cotacao = $1`,
           [row.id_cotacao]
         );
         if (auditRes.rows.length > 0) {
+          const a = auditRes.rows[0];
           auditoria = {
-            anotacao: auditRes.rows[0].anotacao,
-            status: auditRes.rows[0].status
+            anotacao: a.anotacao,
+            status: a.status,
+            reprova_bko: a.reprova_bko,
+            apontamento: a.apontamento,
+            motivo_1_sistema_documento: a.motivo_1_sistema_documento,
+            motivo_2_erro: a.motivo_2_erro,
+            motivo_3_detalhamento: a.motivo_3_detalhamento,
+            contestacao: a.contestacao,
+            obs: a.obs,
+            regional: a.regional,
+            tipo_de_pedido: a.tipo_de_pedido,
+            enviado: a.enviado,
+            data_envio: a.data_envio,
+            data_qualidade: a.data_qualidade,
+            semana: a.semana,
+            analista: a.analista
           };
         }
       } catch (e) {
@@ -1235,6 +1254,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
         usuario_login: row.usuario_login,
         usuario_nome: row.usuario_nome || null,
         usuario_id: row.usuario_id,
+        origem: row.origem || null,
         auditoria
       };
     }));
@@ -1344,7 +1364,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
         const cotacao = cotacaoRow.rows[0];
         const analistaRes = await pool.query(
             "SELECT TRIM(COALESCE(nome, '') || ' ' || COALESCE(sobrenome, '')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1",
-            [cotacao.usuario_id]
+            [usuarioLogadoId]
         );
         const analistaNome = analistaRes.rows.length > 0 ? analistaRes.rows[0].nome : null;
 
@@ -1497,7 +1517,8 @@ app.get('/pme_notas/api/qualidade/auditoria/:id_cotacao', authenticateToken, asy
     res.json({
       cotacao: result.rows[0].cotacao,
       anotacao: result.rows[0].anotacao,
-      status: result.rows[0].status
+      status: result.rows[0].status,
+      data_leitura: result.rows[0].data_leitura || null
     });
   } catch (error) {
     console.error('[QUALIDADE] Erro ao buscar auditoria:', error);
@@ -1527,11 +1548,56 @@ app.get('/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, r
     res.json({
       cotacao: result.rows[0].cotacao,
       anotacao: result.rows[0].anotacao,
-      status: result.rows[0].status
+      status: result.rows[0].status,
+      data_leitura: result.rows[0].data_leitura || null
     });
   } catch (error) {
     console.error('[QUALIDADE] Erro ao buscar auditoria:', error);
     res.status(500).json({ error: 'Erro ao buscar auditoria' });
+  }
+});
+
+// API: Marcar auditoria como lida (atualiza data_leitura)
+app.post('/api/qualidade/auditoria/:id_cotacao/ler', authenticateToken, async (req, res) => {
+  try {
+    const row = await pool.query(
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
+      [req.params.id_cotacao]
+    );
+    if (row.rows.length === 0 || !row.rows[0].id_qldd) {
+      return res.status(404).json({ error: 'Auditoria não encontrada para esta cotação' });
+    }
+    const idQldd = row.rows[0].id_qldd;
+    await pool.query(
+      'UPDATE db_bloco_de_notas.auditoria_qualidade SET data_leitura = CURRENT_TIMESTAMP WHERE id_qldd = $1',
+      [idQldd]
+    );
+    res.json({ success: true, message: 'Auditoria marcada como lida', data_leitura: new Date() });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao marcar auditoria como lida:', error);
+    res.status(500).json({ error: 'Erro ao marcar auditoria como lida' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.post('/pme_notas/api/qualidade/auditoria/:id_cotacao/ler', authenticateToken, async (req, res) => {
+  try {
+    const row = await pool.query(
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
+      [req.params.id_cotacao]
+    );
+    if (row.rows.length === 0 || !row.rows[0].id_qldd) {
+      return res.status(404).json({ error: 'Auditoria não encontrada para esta cotação' });
+    }
+    const idQldd = row.rows[0].id_qldd;
+    await pool.query(
+      'UPDATE db_bloco_de_notas.auditoria_qualidade SET data_leitura = CURRENT_TIMESTAMP WHERE id_qldd = $1',
+      [idQldd]
+    );
+    res.json({ success: true, message: 'Auditoria marcada como lida', data_leitura: new Date() });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao marcar auditoria como lida:', error);
+    res.status(500).json({ error: 'Erro ao marcar auditoria como lida' });
   }
 });
 
@@ -1607,15 +1673,34 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
       let auditoria = null;
       try {
         const auditRes = await pool.query(
-          `SELECT aq.anotacao, aq.status FROM db_bloco_de_notas.auditoria_qualidade aq
+          `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.apontamento,
+                  aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento,
+                  aq.contestacao, aq.obs, aq.regional, aq.tipo_de_pedido,
+                  aq.enviado, aq.data_envio, aq.data_qualidade, aq.semana, aq.analista
+           FROM db_bloco_de_notas.auditoria_qualidade aq
            LEFT JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
            WHERE c.id_cotacao = $1`,
           [row.id_cotacao]
         );
         if (auditRes.rows.length > 0) {
+          const a = auditRes.rows[0];
           auditoria = {
-            anotacao: auditRes.rows[0].anotacao,
-            status: auditRes.rows[0].status
+            anotacao: a.anotacao,
+            status: a.status,
+            reprova_bko: a.reprova_bko,
+            apontamento: a.apontamento,
+            motivo_1_sistema_documento: a.motivo_1_sistema_documento,
+            motivo_2_erro: a.motivo_2_erro,
+            motivo_3_detalhamento: a.motivo_3_detalhamento,
+            contestacao: a.contestacao,
+            obs: a.obs,
+            regional: a.regional,
+            tipo_de_pedido: a.tipo_de_pedido,
+            enviado: a.enviado,
+            data_envio: a.data_envio,
+            data_qualidade: a.data_qualidade,
+            semana: a.semana,
+            analista: a.analista
           };
         }
       } catch (e) {
@@ -1634,6 +1719,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
         usuario_login: row.usuario_login,
         usuario_nome: row.usuario_nome || null,
         usuario_id: row.usuario_id,
+        origem: row.origem || null,
         auditoria
       };
     }));
@@ -1754,7 +1840,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         const dataCriacao = parseBRDate(cotacao.data_de_criacao) || new Date();
         const analistaRes = await pool.query(
             "SELECT TRIM(COALESCE(nome, '') || ' ' || COALESCE(sobrenome, '')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1",
-            [cotacao.usuario_id]
+            [usuarioLogadoId]
         );
         const analistaNome = analistaRes.rows.length > 0 ? analistaRes.rows[0].nome : null;
 
@@ -2172,6 +2258,99 @@ app.get('/pme_notas/qualidade', authenticateToken, authorizeRoute('/pme_notas/qu
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
+// ===== ROTAS DE RELATÓRIOS (auditoria_qualidade) =====
+
+// API: Extrair dados de auditoria_qualidade por período de data_qualidade
+app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), async (req, res) => {
+  try {
+    const { dataInicio, dataFim } = req.query;
+
+    if (!dataInicio || !dataFim) {
+      return res.status(400).json({ error: 'Datas de início e fim são obrigatórias' });
+    }
+
+    // Validar formato das datas (YYYY-MM-DD)
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(dataInicio) || !dateRegex.test(dataFim)) {
+      return res.status(400).json({ error: 'Formato de data inválido. Use YYYY-MM-DD' });
+    }
+
+    if (dataFim < dataInicio) {
+      return res.status(400).json({ error: 'A data final não pode ser anterior à data inicial' });
+    }
+
+    // dataFim + 1 dia para incluir todo o dia final
+    const dataFimExclusivo = new Date(dataFim);
+    dataFimExclusivo.setDate(dataFimExclusivo.getDate() + 1);
+    const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
+
+    const result = await pool.query(
+      `SELECT id_qldd, anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko,
+              codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido,
+              motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento,
+              contestacao, obs, enviado, data_envio, semana, data_leitura
+       FROM db_bloco_de_notas.auditoria_qualidade
+       WHERE data_qualidade >= $1::date AND data_qualidade < $2::date
+       ORDER BY data_qualidade DESC`,
+      [dataInicio, dataFimISO]
+    );
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('[REPORTS] Erro ao extrair relatório:', error);
+    res.status(500).json({ error: 'Erro ao extrair relatório' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), async (req, res) => {
+  try {
+    const { dataInicio, dataFim } = req.query;
+
+    if (!dataInicio || !dataFim) {
+      return res.status(400).json({ error: 'Datas de início e fim são obrigatórias' });
+    }
+
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(dataInicio) || !dateRegex.test(dataFim)) {
+      return res.status(400).json({ error: 'Formato de data inválido. Use YYYY-MM-DD' });
+    }
+
+    if (dataFim < dataInicio) {
+      return res.status(400).json({ error: 'A data final não pode ser anterior à data inicial' });
+    }
+
+    const dataFimExclusivo = new Date(dataFim);
+    dataFimExclusivo.setDate(dataFimExclusivo.getDate() + 1);
+    const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
+
+    const result = await pool.query(
+      `SELECT id_qldd, anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko,
+              codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido,
+              motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento,
+              contestacao, obs, enviado, data_envio, semana, data_leitura
+       FROM db_bloco_de_notas.auditoria_qualidade
+       WHERE data_qualidade >= $1::date AND data_qualidade < $2::date
+       ORDER BY data_qualidade DESC`,
+      [dataInicio, dataFimISO]
+    );
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('[REPORTS] Erro ao extrair relatório:', error);
+    res.status(500).json({ error: 'Erro ao extrair relatório' });
+  }
+});
+
+// Serve reports page (com autorização de qualidade)
+app.get('/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'reports.html'));
+});
+
+app.get('/pme_notas/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'reports.html'));
+});
+
 
 // Serve gestao_input page
 app.get('/inpecao_input', authenticateToken, (req, res) => {
@@ -2216,7 +2395,7 @@ app.use(inspecaoRoutes);
 // Mapeamento de opções para rotas
 const OPCOES_ROTAS = {
     gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard', '/pme_notas/gestao'],
-    qualidade: ['/pme_notas/qualidade', '/pme_notas/rcv'],
+    qualidade: ['/pme_notas/qualidade', '/pme_notas/rcv', '/pme_notas/reports'],
     admin: ['/pme_notas/acessos']
 };
 

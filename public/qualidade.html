@@ -254,17 +254,19 @@
                 const semana = Math.ceil((day + startDay) / 7);
                 const usuarioLogado = JSON.parse(localStorage.getItem('usuario') || '{}');
                 const analistaQualidade = usuarioLogado.nome ? `${usuarioLogado.nome} ${usuarioLogado.sobrenome || ''}`.trim() : '-';
-                const motivo1 = quotation.auditoria?.motivo_1_sistema_documento || '';
+                const auditoriaSalva = quotation.auditoria || {};
+                const motivo1 = auditoriaSalva.motivo_1_sistema_documento || '';
                 const isIsento = motivo1 === 'Isento';
+                const dataQualidadeSalva = auditoriaSalva.data_qualidade ? formatDateTimeLocal(auditoriaSalva.data_qualidade) : '';
                 setAuditForm({
-                    anotacao: quotation.auditoria?.anotacao || '', status: quotation.auditoria?.status || '',
-                    reprova_bko: quotation.auditoria?.reprova_bko || '', apontamento: quotation.auditoria?.apontamento || '',
-                    motivo_1_sistema_documento: motivo1, motivo_2_erro: isIsento ? 'Isento' : (quotation.auditoria?.motivo_2_erro || ''),
-                    motivo_3_detalhamento: isIsento ? 'Isento' : (quotation.auditoria?.motivo_3_detalhamento || ''), contestacao: quotation.auditoria?.contestacao || '',
-                    obs: quotation.auditoria?.obs || '', regional: quotation.auditoria?.regional || '',
-                    tipo_de_pedido: quotation.auditoria?.tipo_de_pedido || '', enviado: quotation.auditoria?.enviado || false,
-                    data_envio: formatDateTimeLocal(quotation.auditoria?.data_envio),
-                    data_qualidade: now.toLocaleString('pt-BR'), semana: semana, analista_qualidade: analistaQualidade
+                    anotacao: auditoriaSalva.anotacao || '', status: auditoriaSalva.status || '',
+                    reprova_bko: auditoriaSalva.reprova_bko || '', apontamento: auditoriaSalva.apontamento || '',
+                    motivo_1_sistema_documento: motivo1, motivo_2_erro: isIsento ? 'Isento' : (auditoriaSalva.motivo_2_erro || ''),
+                    motivo_3_detalhamento: isIsento ? 'Isento' : (auditoriaSalva.motivo_3_detalhamento || ''), contestacao: auditoriaSalva.contestacao || '',
+                    obs: auditoriaSalva.obs || '', regional: auditoriaSalva.regional || '',
+                    tipo_de_pedido: auditoriaSalva.tipo_de_pedido || '', enviado: auditoriaSalva.enviado || false,
+                    data_envio: formatDateTimeLocal(auditoriaSalva.data_envio),
+                    data_qualidade: dataQualidadeSalva || now.toLocaleString('pt-BR'), semana: auditoriaSalva.semana || semana, analista_qualidade: auditoriaSalva.analista || analistaQualidade
                 });
             }, []);
 
