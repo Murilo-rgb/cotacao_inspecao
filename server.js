@@ -138,7 +138,7 @@ const { createPermissions } = require('./app/auth/permissions');
 const permissions = createPermissions(pool);
 const authorizeRoute = permissions.authorizeRoute;
 
-// Middleware de autenticação
+// Middleware de autenticação (retorna JSON para APIs)
 function authenticateToken(req, res, next) {
     let token = null;
     const authHeader = req.headers['authorization'];
@@ -163,6 +163,32 @@ function authenticateToken(req, res, next) {
     });
 }
 
+// Middleware de autenticação para páginas (redireciona para login externo)
+const LOGIN_URL = 'https://elpis.globalhitss.com.br/pme_notas/login.html';
+function authenticatePage(req, res, next) {
+    let token = null;
+    const authHeader = req.headers['authorization'];
+    if (authHeader?.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+    }
+    if (!token && req.cookies?.token) {
+        token = req.cookies.token;
+    }
+    if (!token && req.query.token) {
+        token = req.query.token;
+    }
+    if (!token) {
+        return res.redirect(LOGIN_URL);
+    }
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.redirect(LOGIN_URL);
+        }
+        req.user = user;
+        next();
+    });
+}
+
 // Função auxiliar para registrar auditoria (usada nas rotas PUT de cotação)
 async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
   try {
@@ -178,7 +204,7 @@ async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuar
 }
 
 // Inicializar rotas de inspeção após definir authenticateToken e authorizeRoute
-var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes);
+var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage);
 
 // Inicializar rotas de input_net
 var inputNetRoutes = require('./routes/input_net')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
@@ -1009,6 +1035,11 @@ app.get('/trocar-senha', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
 });
 
+// Serve trocar-senha page com prefixo /pme_notas (necessário para o fluxo de primeiro acesso)
+app.get('/pme_notas/trocar-senha', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
+});
+
 
 // Serve the frontend
 app.get('/', (req, res) => {
@@ -1017,11 +1048,7 @@ app.get('/', (req, res) => {
 
 
 // Serve quotations page
-app.get('/cotacoes', (req, res) => {
-  let token = req.cookies.token || req.headers['authorization']?.replace('Bearer ', '');
-  if (!token) {
-    return res.redirect('/pme_notas/login.html');
-  }
+app.get('/cotacoes', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
@@ -1029,11 +1056,7 @@ app.get('/cotacoes', (req, res) => {
 
 
 
-app.get('/cotacoes', (req, res) => {
-  let token = req.cookies.token || req.headers['authorization']?.replace('Bearer ', '');
-  if (!token) {
-    return res.redirect('/pme_notas/login.html');
-  }
+app.get('/cotacoes', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
@@ -1114,7 +1137,7 @@ app.post('/api/inpecao/classificar-pendentes', authenticateToken, authorizeRoute
 });
 
 // Serve dashboard page
-app.get('/inpecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/inpecao'), (req, res) => {
+app.get('/inpecao/dashboard', authenticatePage, authorizeRoute('/pme_notas/inpecao'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_inp.html'));
 });
 
@@ -1129,7 +1152,7 @@ app.get('/api/inpecao/historico', authenticateToken, async (req, res) => {
 });
 
 // Serve devolucao padrao page
-app.get('/devolucoes-padrao', authenticateToken, (req, res) => {
+app.get('/devolucoes-padrao', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao_web.html'));
 });
 
@@ -2120,11 +2143,11 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
 });
 
 // Serve calendário page (com autorização de qualidade)
-app.get('/qualidade/calendario', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+app.get('/qualidade/calendario', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
 
-app.get('/pme_notas/qualidade/calendario', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+app.get('/pme_notas/qualidade/calendario', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
 
@@ -2241,20 +2264,20 @@ app.get('/pme_notas/api/rcv', authenticateToken, async (req, res) => {
 });
 
 // Serve rcv page
-app.get('/rcv', authenticateToken, (req, res) => {
+app.get('/rcv', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
 });
 
-app.get('/pme_notas/rcv', authenticateToken, (req, res) => {
+app.get('/pme_notas/rcv', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
 });
 
 // Serve qualidade page (com autorização de qualidade)
-app.get('/qualidade', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+app.get('/qualidade', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
-app.get('/pme_notas/qualidade', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+app.get('/pme_notas/qualidade', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
@@ -2343,47 +2366,47 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
 });
 
 // Serve reports page (com autorização de qualidade)
-app.get('/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+app.get('/reports', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'reports.html'));
 });
 
-app.get('/pme_notas/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+app.get('/pme_notas/reports', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'reports.html'));
 });
 
 
 // Serve gestao_input page
-app.get('/inpecao_input', authenticateToken, (req, res) => {
+app.get('/inpecao_input', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao_input.html'));
 });
 
-app.get('/input', authenticateToken, (req, res) => {
+app.get('/input', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao_input.html'));
 });
 
-app.get('/input_top', authenticateToken, (req, res) => {
+app.get('/input_top', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao_input_top.html'));
 });
 
-app.get('/input_net', authenticateToken, (req, res) => {
+app.get('/input_net', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gestao_input_net.html'));
 });
 
 // Serve input_net dashboard page
-app.get('/input_net/dashboard', authenticateToken, (req, res) => {
+app.get('/input_net/dashboard', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_input_net.html'));
 });
 
-app.get('/pme_notas/input_net/dashboard', authenticateToken, (req, res) => {
+app.get('/pme_notas/input_net/dashboard', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_input_net.html'));
 });
 
 // Serve input_top dashboard page
-app.get('/input_top/dashboard', authenticateToken, (req, res) => {
+app.get('/input_top/dashboard', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_input_top.html'));
 });
 
-app.get('/pme_notas/input_top/dashboard', authenticateToken, (req, res) => {
+app.get('/pme_notas/input_top/dashboard', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_input_top.html'));
 });
 
@@ -2470,6 +2493,101 @@ app.post('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, as
     app._router.handle(req, res);
 });
 
+// API: Resetar senha de um usuário (volta para senha padrão e marca deve_trocar_senha = true)
+// Rota implementada diretamente (sem espelho) para evitar erro 500 com app._router.handle
+app.post('/api/acessos/usuarios/:id/resetar-senha', authenticateToken, authorizeRoute('/pme_notas/acessos'), async (req, res) => {
+    try {
+        const { id } = req.params;
+        const alteradoPor = req.user.username || req.user.nome || 'sistema';
+
+        // Validar que o usuário existe
+        const userCheck = await pool.query(
+            'SELECT id, login, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
+            [id]
+        );
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({ success: false, error: 'Usuário não encontrado ou inativo' });
+        }
+
+        const novoHash = await bcrypt.hash(SENHA_PADRAO_TROCA, 10);
+
+        await pool.query(
+            `UPDATE db_automacao.usuarios 
+             SET senha = $1,
+                 deve_trocar_senha = true,
+                 data_ultima_troca_senha = NULL,
+                 atualizado_por = $2,
+                 atualizado_em = CURRENT_TIMESTAMP
+             WHERE id = $3`,
+            [novoHash, alteradoPor, id]
+        );
+
+        const usuario = userCheck.rows[0];
+        console.log(`[ACESSOS] Senha resetada para usuário ${id} (${usuario.login}) por ${alteradoPor}`);
+
+        res.json({
+            success: true,
+            message: `Senha de ${usuario.nome} ${usuario.sobrenome} resetada para a senha padrão`,
+            usuario: {
+                id: usuario.id,
+                login: usuario.login,
+                nome: usuario.nome,
+                sobrenome: usuario.sobrenome
+            }
+        });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao resetar senha:', error.message);
+        res.status(500).json({ success: false, error: 'Erro ao resetar senha' });
+    }
+});
+
+// Rota com prefixo /pme_notas implementada diretamente (sem espelho)
+app.post('/pme_notas/api/acessos/usuarios/:id/resetar-senha', authenticateToken, authorizeRoute('/pme_notas/acessos'), async (req, res) => {
+    try {
+        const { id } = req.params;
+        const alteradoPor = req.user.username || req.user.nome || 'sistema';
+
+        // Validar que o usuário existe
+        const userCheck = await pool.query(
+            'SELECT id, login, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
+            [id]
+        );
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({ success: false, error: 'Usuário não encontrado ou inativo' });
+        }
+
+        const novoHash = await bcrypt.hash(SENHA_PADRAO_TROCA, 10);
+
+        await pool.query(
+            `UPDATE db_automacao.usuarios 
+             SET senha = $1,
+                 deve_trocar_senha = true,
+                 data_ultima_troca_senha = NULL,
+                 atualizado_por = $2,
+                 atualizado_em = CURRENT_TIMESTAMP
+             WHERE id = $3`,
+            [novoHash, alteradoPor, id]
+        );
+
+        const usuario = userCheck.rows[0];
+        console.log(`[ACESSOS] Senha resetada para usuário ${id} (${usuario.login}) por ${alteradoPor}`);
+
+        res.json({
+            success: true,
+            message: `Senha de ${usuario.nome} ${usuario.sobrenome} resetada para a senha padrão`,
+            usuario: {
+                id: usuario.id,
+                login: usuario.login,
+                nome: usuario.nome,
+                sobrenome: usuario.sobrenome
+            }
+        });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao resetar senha:', error.message);
+        res.status(500).json({ success: false, error: 'Erro ao resetar senha' });
+    }
+});
+
 // API: Salvar permissões de um usuário (sincroniza com base nas opções selecionadas)
 app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
     try {
@@ -2554,23 +2672,23 @@ app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, 
 });
 
 // Serve página de acessos
-app.get('/acessos', authenticateToken, authorizeRoute('/pme_notas/acessos'), (req, res) => {
+app.get('/acessos', authenticatePage, authorizeRoute('/pme_notas/acessos'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
 
-app.get('/pme_notas/acessos', authenticateToken, authorizeRoute('/pme_notas/acessos'), (req, res) => {
+app.get('/pme_notas/acessos', authenticatePage, authorizeRoute('/pme_notas/acessos'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
 
-app.get('/suporte', authenticateToken, (req, res) => {
+app.get('/suporte', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'suporte.html'));
 });
 
-app.get('/qualidade/suporte', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+app.get('/qualidade/suporte', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_suporte.html'));
 });
 
-app.get('/pme_notas/qualidade/suporte', authenticateToken, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+app.get('/pme_notas/qualidade/suporte', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_suporte.html'));
 });
 

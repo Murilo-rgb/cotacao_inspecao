@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes) {
+module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage) {
 
   // Função auxiliar para registrar auditoria
   async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
@@ -20,7 +20,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   // ===== ROTAS DE INSPEÇÃO (r_000250) =====
 
   // Serve inspecao page
-  router.get('/inspecao', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+  router.get('/inspecao', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'inspecao.html'));
   });
 
@@ -606,47 +606,47 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   });
 
   // Serve dashboard page (mantém rotas antigas e novas)
-  router.get('/inspecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+  router.get('/inspecao/dashboard', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'dashboard.html'));
   });
 
-  router.get('/pme_notas/inspecao/dashboard', authenticateToken, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+  router.get('/pme_notas/inspecao/dashboard', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'dashboard.html'));
   });
 
   // Serve devolucao padrao page
-  router.get('/devolucoes-padrao', authenticateToken, (req, res) => {
+  router.get('/devolucoes-padrao', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'devolucao_padrao_web.html'));
   });
 
-  router.get('/pme_notas/devolucoes-padrao', authenticateToken, (req, res) => {
+  router.get('/pme_notas/devolucoes-padrao', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'devolucao_padrao_web.html'));
   });
 
   // ===== ROTAS DE GESTÃO INPUT (IW_CPC_975) =====
 
   // Serve gestao_input pages
-  router.get('/inspecao_input', authenticateToken, (req, res) => {
+  router.get('/inspecao_input', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_input.html'));
   });
 
-  router.get('/input', authenticateToken, (req, res) => {
+  router.get('/input', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_input.html'));
   });
 
-  router.get('/input_top', authenticateToken, (req, res) => {
+  router.get('/input_top', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_input_top.html'));
   });
 
-  router.get('/input_net', authenticateToken, (req, res) => {
+  router.get('/input_net', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_input_net.html'));
   });
 
-  router.get('/pme_notas/input_top', authenticateToken, (req, res) => {
+  router.get('/pme_notas/input_top', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_input_top.html'));
   });
 
-  router.get('/pme_notas/input_net', authenticateToken, (req, res) => {
+  router.get('/pme_notas/input_net', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_input_net.html'));
   });
 
@@ -1569,7 +1569,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   });
 
   // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard Input TOP - iw_cpc_975_top) =====
-  // Distribuir N tarefas mais antigas não distribuídas da iw_cpc_975_top para um colaborador
+  // Distribuir N tarefas da iw_cpc_975_top para um colaborador
+  // quantidade = 1: pega a mais antiga (SLA mais crítico)
+  // quantidade 2-10: 1ª = mais antiga, demais = aleatórias, data_historico com +1h por posição
   router.post('/api/inspecao/distribuir-auto-input-top', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
       const { usuario_id, quantidade } = req.body;
@@ -1581,30 +1583,49 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const usuarioLogin = req.user.username;
       const now = formatDateBR(new Date());
       
-      // Buscar tarefas da iw_cpc_975_top não distribuídas, ordenadas por data_historico ASC (mais antigas primeiro)
-      const tarefasQuery = `
-        SELECT iw.codigo_da_tarefa AS cod_tarefa, iw.data_historico, iw.etapa_atual
+      // Condições base para tarefas distribuíveis na esteira
+      const baseFrom = `
         FROM db_bloco_de_notas.iw_cpc_975_top iw
         LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa AND c.validacao = 'Ativo'
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
           AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
           AND (iw.data_historico::date = CURRENT_DATE OR (iw.etapa_atual ILIKE '%01%' OR iw.etapa_atual ILIKE '%02%'))
+      `;
+
+      // 1ª tarefa: sempre a mais antiga (maior criticidade de SLA)
+      const primeiraQuery = `
+        SELECT iw.codigo_da_tarefa AS cod_tarefa, iw.data_historico, iw.etapa_atual
+        ${baseFrom}
         ORDER BY 
           CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
           iw.data_historico::timestamp ASC NULLS LAST
-        LIMIT $1
+        LIMIT 1
       `;
+      const primeiraResult = await pool.query(primeiraQuery);
+      const primeira = primeiraResult.rows[0];
       
-      const tarefasResult = await pool.query(tarefasQuery, [quantidade]);
-      const tarefas = tarefasResult.rows;
-      
-      if (tarefas.length === 0) {
+      if (!primeira) {
         return res.json({
           success: true,
           message: 'Nenhuma tarefa disponível para distribuição.',
           distribuidos: 0,
           tarefas: []
         });
+      }
+      
+      let tarefas = [primeira];
+      
+      // Demais tarefas (apenas quando quantidade > 1): seleção aleatória
+      if (quantidade > 1) {
+        const demaisQuery = `
+          SELECT iw.codigo_da_tarefa AS cod_tarefa, iw.data_historico, iw.etapa_atual
+          ${baseFrom}
+            AND iw.codigo_da_tarefa <> $1
+          ORDER BY RANDOM()
+          LIMIT $2
+        `;
+        const demaisResult = await pool.query(demaisQuery, [primeira.cod_tarefa, quantidade - 1]);
+        tarefas = tarefas.concat(demaisResult.rows);
       }
       
       // Buscar nome do usuário destino
@@ -1618,7 +1639,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       let errors = [];
       const distribuidos = [];
       
-      for (const tarefa of tarefas) {
+      for (let i = 0; i < tarefas.length; i++) {
+        const tarefa = tarefas[i];
         try {
           // Verificar se já não foi distribuída entre a consulta e agora
           const check = await pool.query(
@@ -1632,11 +1654,18 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           }
           
           let anotacao = '';
-          let dataHistorico = null;
           if (tarefa.etapa_atual) {
             anotacao = `Origem: iw_cpc_975_top | Etapa: ${tarefa.etapa_atual}`;
           }
-          if (tarefa.data_historico) dataHistorico = tarefa.data_historico;
+          
+          // Ajustar data_historico: 1ª = valor original, demais = cotação anterior + 1h
+          let dataHistorico = null;
+          if (i === 0) {
+            dataHistorico = tarefa.data_historico || null;
+          } else {
+            const anteriorSalvo = distribuidos.length > 0 ? distribuidos[distribuidos.length - 1].data_historico : null;
+            dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.data_historico, 1);
+          }
           
           await pool.query(
             `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
@@ -1660,7 +1689,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           count++;
           distribuidos.push({
             cod_tarefa: tarefa.cod_tarefa,
-            data_historico: tarefa.data_historico
+            data_historico: dataHistorico
           });
         } catch (err) {
           errors.push({ cod_tarefa: tarefa.cod_tarefa, error: err.message });

@@ -465,44 +465,6 @@
                 }
                 
                 console.log('[AUTH] Usuário autenticado:', user.login);
-                
-                // Testar se a API está respondendo
-                console.log('[TROCAR SENHA] Testando API /api/auth/me...');
-                fetch('/api/auth/me', {
-                    headers: {
-                        'Authorization': `Bearer ${correctedToken}`,
-                        'X-Force-Token': correctedToken
-                    }
-                })
-                .then(response => {
-                    console.log('[TROCAR SENHA] Teste API /api/auth/me - Status:', response.status);
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('[TROCAR SENHA] Teste API /api/auth/me - Dados:', data);
-                })
-                .catch(error => {
-                    console.error('[TROCAR SENHA] Teste API /api/auth/me - Erro:', error);
-                });
-                
-                // Testar rota de debug
-                console.log('[TROCAR SENHA] Testando rota /debug-auth...');
-                fetch('/debug-auth', {
-                    headers: {
-                        'Authorization': `Bearer ${correctedToken}`,
-                        'X-Force-Token': correctedToken
-                    }
-                })
-                .then(response => {
-                    console.log('[TROCAR SENHA] Teste /debug-auth - Status:', response.status);
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('[TROCAR SENHA] Teste /debug-auth - Dados:', data);
-                })
-                .catch(error => {
-                    console.error('[TROCAR SENHA] Teste /debug-auth - Erro:', error);
-                });
         }
         
         // Inicializar quando o DOM estiver pronto
