@@ -1,0 +1,104 @@
+11/08/2026 12:38:05: Erro no ETL: date/time field value out of range: "14/07/2026 14:36"
+11/08/2026 12:38:05: [H_X_H] Erro: error: date/time field value out of range: "14/07/2026 14:36"
+11/08/2026 12:38:05:     at parseErrorMessage (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:305:11)
+11/08/2026 12:38:05:     at Parser.handlePacket (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:143:27)
+11/08/2026 12:38:05:     at Parser.parse (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:37:38)
+11/08/2026 12:38:05:     at Socket.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\index.js:12:42)
+11/08/2026 12:38:05:     at Socket.emit (node:events:508:28)
+11/08/2026 12:38:05:     at addChunk (node:internal/streams/readable:559:12)
+11/08/2026 12:38:05:     at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+11/08/2026 12:38:05:     at Readable.push (node:internal/streams/readable:390:5)
+11/08/2026 12:38:05:     at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+11/08/2026 12:38:05:   length: 251,
+11/08/2026 12:38:05:   severity: 'ERROR',
+11/08/2026 12:38:05:   code: '22008',
+11/08/2026 12:38:05:   detail: undefined,
+11/08/2026 12:38:05:   hint: 'Perhaps you need a different "datestyle" setting.',
+11/08/2026 12:38:05:   position: undefined,
+11/08/2026 12:38:05:   internalPosition: undefined,
+11/08/2026 12:38:05:   internalQuery: undefined,
+11/08/2026 12:38:05:   where: 'COPY hoteis_x_hospitais, line 44, column data_de_conclusao: "14/07/2026 14:36"',
+11/08/2026 12:38:05:   schema: undefined,
+11/08/2026 12:38:05:   table: undefined,
+11/08/2026 12:38:05:   column: undefined,
+11/08/2026 12:38:05:   dataType: undefined,
+11/08/2026 12:38:05:   constraint: undefined,
+11/08/2026 12:38:05:   file: 'datetime.c',
+11/08/2026 12:38:05:   line: '3780',
+11/08/2026 12:38:05:   routine: 'DateTimeParseError'
+11/08/2026 12:38:05: }
+11/08/2026 12:39:08: Erro no ETL: date/time field value out of range: "14/07/2026 14:36"
+11/08/2026 12:39:08: [H_X_H] Erro: error: date/time field value out of range: "14/07/2026 14:36"
+11/08/2026 12:39:08:     at parseErrorMessage (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:305:11)
+11/08/2026 12:39:08:     at Parser.handlePacket (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:143:27)
+11/08/2026 12:39:08:     at Parser.parse (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:37:38)
+11/08/2026 12:39:08:     at Socket.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\index.js:12:42)
+11/08/2026 12:39:08:     at Socket.emit (node:events:508:28)
+11/08/2026 12:39:08:     at addChunk (node:internal/streams/readable:559:12)
+11/08/2026 12:39:08:     at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+11/08/2026 12:39:08:     at Readable.push (node:internal/streams/readable:390:5)
+11/08/2026 12:39:08:     at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+11/08/2026 12:39:08:   length: 251,
+11/08/2026 12:39:08:   severity: 'ERROR',
+11/08/2026 12:39:08:   code: '22008',
+11/08/2026 12:39:08:   detail: undefined,
+11/08/2026 12:39:08:   hint: 'Perhaps you need a different "datestyle" setting.',
+11/08/2026 12:39:08:   position: undefined,
+11/08/2026 12:39:08:   internalPosition: undefined,
+11/08/2026 12:39:08:   internalQuery: undefined,
+11/08/2026 12:39:08:   where: 'COPY hoteis_x_hospitais, line 44, column data_de_conclusao: "14/07/2026 14:36"',
+11/08/2026 12:39:08:   schema: undefined,
+11/08/2026 12:39:08:   table: undefined,
+11/08/2026 12:39:08:   column: undefined,
+11/08/2026 12:39:08:   dataType: undefined,
+11/08/2026 12:39:08:   constraint: undefined,
+11/08/2026 12:39:08:   file: 'datetime.c',
+11/08/2026 12:39:08:   line: '3780',
+11/08/2026 12:39:08:   routine: 'DateTimeParseError'
+11/08/2026 12:39:08: }
+11/08/2026 12:39:30: Erro no ETL: date/time field value out of range: "14/07/2026 14:36"
+11/08/2026 12:39:30: [H_X_H] Erro: error: date/time field value out of range: "14/07/2026 14:36"
+11/08/2026 12:39:30:     at parseErrorMessage (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:305:11)
+11/08/2026 12:39:30:     at Parser.handlePacket (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:143:27)
+11/08/2026 12:39:30:     at Parser.parse (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:37:38)
+11/08/2026 12:39:30:     at Socket.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\index.js:12:42)
+11/08/2026 12:39:30:     at Socket.emit (node:events:508:28)
+11/08/2026 12:39:30:     at addChunk (node:internal/streams/readable:559:12)
+11/08/2026 12:39:30:     at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+11/08/2026 12:39:30:     at Readable.push (node:internal/streams/readable:390:5)
+11/08/2026 12:39:30:     at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
+11/08/2026 12:39:30:   length: 251,
+11/08/2026 12:39:30:   severity: 'ERROR',
+11/08/2026 12:39:30:   code: '22008',
+11/08/2026 12:39:30:   detail: undefined,
+11/08/2026 12:39:30:   hint: 'Perhaps you need a different "datestyle" setting.',
+11/08/2026 12:39:30:   position: undefined,
+11/08/2026 12:39:30:   internalPosition: undefined,
+11/08/2026 12:39:30:   internalQuery: undefined,
+11/08/2026 12:39:30:   where: 'COPY hoteis_x_hospitais, line 44, column data_de_conclusao: "14/07/2026 14:36"',
+11/08/2026 12:39:30:   schema: undefined,
+11/08/2026 12:39:30:   table: undefined,
+11/08/2026 12:39:30:   column: undefined,
+11/08/2026 12:39:30:   dataType: undefined,
+11/08/2026 12:39:30:   constraint: undefined,
+11/08/2026 12:39:30:   file: 'datetime.c',
+11/08/2026 12:39:30:   line: '3780',
+11/08/2026 12:39:30:   routine: 'DateTimeParseError'
+11/08/2026 12:39:30: }
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:03: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:29: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:29: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:29: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:29: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:51:29: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:53:34: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:53:34: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint
+11/08/2026 12:53:34: [AUDIT] Erro ao registrar: null value in column "criado_por" of relation "cotacao_audit" violates not-null constraint

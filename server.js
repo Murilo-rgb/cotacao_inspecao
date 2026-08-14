@@ -12,6 +12,7 @@ const fs = require('fs');
 const { processarETL_250 } = require('./utils/etl_250');
 const { processarETL_975_net } = require('./utils/etl_975_input_net');
 const { processarETL_975_top } = require('./utils/etl_975_input_top');
+const { processarETL_HoteisHospitais } = require('./utils/etl_hoteis_hospitais');
 const { classificarPendentes, STATUS_CLASSIFICACAO } = require('./scripts/classificar_cotacoes_pendentes');
 
 const app = express();
@@ -204,13 +205,16 @@ async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuar
 }
 
 // Inicializar rotas de inspeção após definir authenticateToken e authorizeRoute
-var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage);
+var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage, processarETL_HoteisHospitais);
 
 // Inicializar rotas de input_net
 var inputNetRoutes = require('./routes/input_net')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
 
 // Inicializar rotas de input_top
 var inputTopRoutes = require('./routes/input_top')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
+
+// Inicializar rotas de h_x_h
+var hXHRoutes = require('./routes/h_x_h')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
 
 // Registrar rotas com prefixo /pme_notas (API input_net)
 app.use('/api/input_net', inputNetRoutes);
@@ -219,6 +223,10 @@ app.use('/pme_notas/api/input_net', inputNetRoutes);
 // Registrar rotas com prefixo /pme_notas (API input_top)
 app.use('/api/input_top', inputTopRoutes);
 app.use('/pme_notas/api/input_top', inputTopRoutes);
+
+// Registrar rotas com prefixo /pme_notas (API hh)
+app.use('/api/hh', hXHRoutes);
+app.use('/pme_notas/api/hh', hXHRoutes);
 
 // API Routes
 
@@ -2308,13 +2316,18 @@ app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'
     const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
 
     const result = await pool.query(
-      `SELECT id_qldd, anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko,
-              codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido,
-              motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento,
-              contestacao, obs, enviado, data_envio, semana, data_leitura
-       FROM db_bloco_de_notas.auditoria_qualidade
-       WHERE data_qualidade >= $1::date AND data_qualidade < $2::date
-       ORDER BY data_qualidade DESC`,
+      `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+              aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
+              aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
+              aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
+              TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
+              TRIM(COALESCE(u_auditado.nome, '') || ' ' || COALESCE(u_auditado.sobrenome, '')) AS auditado_nome
+       FROM db_bloco_de_notas.auditoria_qualidade aq
+       LEFT JOIN db_bloco_de_notas.cotacao c ON c.tarefa = aq.codigo_tarefa
+       LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
+       LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
+       WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
+       ORDER BY aq.data_qualidade DESC`,
       [dataInicio, dataFimISO]
     );
 
@@ -2348,13 +2361,18 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
     const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
 
     const result = await pool.query(
-      `SELECT id_qldd, anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko,
-              codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido,
-              motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento,
-              contestacao, obs, enviado, data_envio, semana, data_leitura
-       FROM db_bloco_de_notas.auditoria_qualidade
-       WHERE data_qualidade >= $1::date AND data_qualidade < $2::date
-       ORDER BY data_qualidade DESC`,
+      `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+              aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
+              aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
+              aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
+              TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
+              TRIM(COALESCE(u_auditado.nome, '') || ' ' || COALESCE(u_auditado.sobrenome, '')) AS auditado_nome
+       FROM db_bloco_de_notas.auditoria_qualidade aq
+       LEFT JOIN db_bloco_de_notas.cotacao c ON c.tarefa = aq.codigo_tarefa
+       LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
+       LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
+       WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
+       ORDER BY aq.data_qualidade DESC`,
       [dataInicio, dataFimISO]
     );
 
@@ -2410,6 +2428,15 @@ app.get('/pme_notas/input_top/dashboard', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_input_top.html'));
 });
 
+// Serve hh dashboard page
+app.get('/hh/dashboard', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_h_x_h.html'));
+});
+
+app.get('/pme_notas/hh/dashboard', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_h_x_h.html'));
+});
+
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
 
@@ -2417,7 +2444,7 @@ app.use(inspecaoRoutes);
 
 // Mapeamento de opções para rotas
 const OPCOES_ROTAS = {
-    gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/inspecao', '/pme_notas/dashboard', '/pme_notas/gestao'],
+    gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/hh', '/pme_notas/inspecao', '/pme_notas/dashboard', '/pme_notas/gestao'],
     qualidade: ['/pme_notas/qualidade', '/pme_notas/rcv', '/pme_notas/reports'],
     admin: ['/pme_notas/acessos']
 };

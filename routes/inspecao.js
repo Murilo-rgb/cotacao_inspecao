@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage) {
+module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage, processarETL_HoteisHospitais) {
 
   // Função auxiliar para registrar auditoria
   async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
@@ -693,14 +693,15 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             WHEN (
               (da_etapa ILIKE '%Abert%' AND para_etapa ILIKE '%01%')
               OR (da_etapa ILIKE '%03%' AND para_etapa ILIKE '%01%')
-            ) AND COALESCE(qtd_producao_futura, 0) = 0 THEN codigo_da_tarefa 
+            ) THEN codigo_da_tarefa 
           END) as pendente,
           COUNT(DISTINCT CASE 
             WHEN (acao ILIKE 'Cancelar' OR situacao_sistema ILIKE 'CANCELADO') THEN codigo_da_tarefa 
           END) as cancelado,
           COUNT(DISTINCT CASE 
             WHEN (da_etapa ILIKE '%04%' AND (para_etapa ILIKE '%01%' OR para_etapa ILIKE '%02%' OR para_etapa ILIKE '%03%' OR para_etapa ILIKE '%Admin%')) THEN codigo_da_tarefa 
-          END) as desconsiderar
+          END) as desconsiderar,
+          COUNT(DISTINCT codigo_da_tarefa) as total
         FROM db_bloco_de_notas.iw_cpc_975_top 
         WHERE etapa_atual = '04 - Inspeção' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
       `);
@@ -1882,6 +1883,433 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       
     } catch (error) {
       console.error('[DISTRIBUIR_AUTO_INPUT_NET] Erro:', error);
+      res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+    }
+  });
+
+  // ===== ROTAS HOTEIS E HOSPITAIS (h_x_h) =====
+
+  // Serve gestao hh page
+  router.get('/hh', authenticatePage, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'gestao_h_x_h.html'));
+  });
+
+  router.get('/pme_notas/hh', authenticatePage, (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'gestao_h_x_h.html'));
+  });
+
+  // API Tarefas Hoteis e Hospitais
+  router.get('/api/inspecao/tarefas_h_x_h', authenticateToken, async (req, res) => {
+    try {
+      const { search, limit, offset = 0 } = req.query;
+      const params = [];
+      let paramIndex = 1;
+
+      let query = `
+        SELECT 
+          h.fila,
+          h.id_tarefa AS cod_tarefa,
+          h.nome_tarefa,
+          h.data_de_abertura,
+          h.data_de_historico,
+          h.data_de_conclusao,
+          h.de_etapa,
+          h.de_usuario,
+          h.acao,
+          h.para_etapa,
+          h.para_usuario_grupo,
+          h.cnpj,
+          h.razao_social,
+          h.uf_do_cartao_cnpj_do_cliente,
+          h.codigo_da_revenda,
+          h.territorio,
+          h.nome_demandante,
+          h.login_do_vendedor,
+          h.nome_do_vendedor_responsavel_pela_venda,
+          h.banda_larga,
+          h.tv,
+          h.produtos_agregados,
+          h.total_de_pontos,
+          h.valor_contratado_individual,
+          h.valor_contratado_total,
+          h.negociacao_com_desconto,
+          c.usuario_id,
+          u_dist.nome AS usuario_distribuido_nome,
+          c.status AS cotacao_status,
+          CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao
+        FROM db_bloco_de_notas.hoteis_x_hospitais h
+        LEFT JOIN db_bloco_de_notas.cotacao c ON h.id_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
+        WHERE 1=1
+      `;
+
+      if (search) {
+        query += ` AND (h.id_tarefa ILIKE $${paramIndex} OR h.nome_tarefa ILIKE $${paramIndex} OR h.fila ILIKE $${paramIndex} OR h.razao_social ILIKE $${paramIndex} OR h.cnpj ILIKE $${paramIndex})`;
+        params.push(`%${search}%`);
+        paramIndex++;
+      }
+
+      if (limit) {
+        query += ` LIMIT $${paramIndex}`;
+        params.push(parseInt(limit));
+        paramIndex++;
+      }
+      if (parseInt(offset) > 0) {
+        query += ` OFFSET $${paramIndex}`;
+        params.push(parseInt(offset));
+      }
+      query += ` ORDER BY h.data_de_historico DESC`;
+
+      const result = await pool.query(query, params);
+
+      // Stats - contagem de todos os registros da tabela
+      const statsResult = await pool.query(`
+        SELECT 
+          COUNT(DISTINCT CASE WHEN (h.de_etapa ILIKE '%Abert%' AND h.para_etapa ILIKE '%Vistoria%') THEN h.id_tarefa END) as em_tratamento,
+          COUNT(DISTINCT CASE WHEN (h.para_etapa ILIKE '%Conclu%' OR h.para_etapa ILIKE '%Aprovad%') THEN h.id_tarefa END) as aprovado,
+          COUNT(DISTINCT CASE WHEN (h.para_etapa ILIKE '%Reprov%' OR h.para_etapa ILIKE '%Cancel%') THEN h.id_tarefa END) as reprovado,
+          COUNT(DISTINCT CASE WHEN (h.de_etapa ILIKE '%Abert%' AND h.para_etapa ILIKE '%Vistoria%') THEN h.id_tarefa END) as pendente,
+          COUNT(DISTINCT CASE WHEN (h.acao ILIKE 'Cancelar' OR h.para_etapa ILIKE '%Cancel%') THEN h.id_tarefa END) as cancelado,
+          COUNT(*) as total
+        FROM db_bloco_de_notas.hoteis_x_hospitais h
+      `);
+
+      const stats = statsResult.rows[0] || {};
+      res.json({ 
+        data: result.rows, 
+        total: parseInt(stats.total || 0),
+        stats,
+        limit: parseInt(limit), 
+        offset: parseInt(offset) 
+      });
+    } catch (error) {
+      console.error('[INSPECAO_H_X_H] Erro:', error);
+      res.status(500).json({ error: 'Erro ao buscar dados' });
+    }
+  });
+
+  // Upload CSV/ZIP e processar ETL para hoteis_x_hospitais
+  router.post('/api/inspecao/upload_h_x_h', authenticateToken, inputUpload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+      const result = await processarETL_HoteisHospitais(req.file.path, pool);
+      res.json({ success: true, message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`, totalRows: result.totalRows });
+    } catch (error) {
+      console.error('[H_X_H] Erro:', error);
+      res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+    }
+  });
+
+  // Distribuir tarefas h_x_h (hoteis_x_hospitais)
+  router.post('/api/inspecao/distribuir_h_x_h', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+    try {
+      const { distribuicoes } = req.body;
+      
+      if (!distribuicoes || !Array.isArray(distribuicoes) || distribuicoes.length === 0) {
+        return res.status(400).json({ error: 'Lista de distribuições inválida' });
+      }
+      
+      const usuarioLogin = req.user.username;
+      const usuarioId = req.user.id;
+      const now = formatDateBR(new Date());
+      
+      let count = 0;
+      let errors = [];
+      
+      for (const item of distribuicoes) {
+        if (!item.cod_tarefa || !item.usuario_id) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+          continue;
+        }
+        
+        try {
+          // Verificar se já foi distribuída
+          const check = await pool.query(
+            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+            [item.cod_tarefa, 'Ativo']
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
+            continue;
+          }
+          
+          // Buscar dados da tarefa para anotação
+          const tarefaResult = await pool.query(
+            'SELECT id_tarefa, nome_tarefa, de_etapa, para_etapa, data_de_historico FROM db_bloco_de_notas.hoteis_x_hospitais WHERE id_tarefa = $1 ORDER BY data_de_historico DESC LIMIT 1',
+            [item.cod_tarefa]
+          );
+          
+          let anotacao = '';
+          let dataHistorico = null;
+          if (tarefaResult.rows.length > 0) {
+            const tr = tarefaResult.rows[0];
+            anotacao = `Origem: h_x_h | Tarefa: ${tr.nome_tarefa || ''} | Etapa: ${tr.para_etapa || tr.de_etapa || ''}`;
+            if (tr.data_de_historico) dataHistorico = tr.data_de_historico;
+          }
+
+          // Buscar nome do usuário destino
+          let destinoNome = String(item.usuario_id);
+          try {
+              const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+              if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+          } catch {}
+
+          await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [item.cod_tarefa, item.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'h_x_h', dataHistorico]
+          );
+
+          // Registrar auditoria
+          try {
+              await pool.query(
+                  `INSERT INTO db_bloco_de_notas.cotacao_audit 
+                   (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+                   VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+                  [item.cod_tarefa, 'distribuido_h_x_h', usuarioId, usuarioLogin, item.usuario_id, destinoNome, '-', 'pendente', usuarioLogin]
+              );
+          } catch (auditErr) {
+              console.error('[DISTRIBUIR_H_X_H] Erro ao registrar auditoria:', auditErr.message);
+          }
+          
+          count++;
+        } catch (err) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `${count} tarefa(s) distribuída(s) com sucesso`,
+        distribuidos: count,
+        erros: errors
+      });
+      
+    } catch (error) {
+      console.error('[DISTRIBUIR_H_X_H] Erro:', error);
+      res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+    }
+  });
+
+  // Redistribuir tarefas h_x_h (hoteis_x_hospitais)
+  router.post('/api/inspecao/redistribuir_h_x_h', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+    try {
+      const { redistribuicoes } = req.body;
+      
+      if (!redistribuicoes || !Array.isArray(redistribuicoes) || redistribuicoes.length === 0) {
+        return res.status(400).json({ error: 'Lista de redistribuições inválida' });
+      }
+      
+      const usuarioLogin = req.user.username;
+      const usuarioId = req.user.id;
+      const now = formatDateBR(new Date());
+      
+      let count = 0;
+      let errors = [];
+      
+      for (const item of redistribuicoes) {
+        if (!item.cod_tarefa || !item.usuario_id) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+          continue;
+        }
+        
+        try {
+          // Verificar se a tarefa existe e está ativa
+          const check = await pool.query(
+            "SELECT tarefa, usuario_id FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2 AND origem = 'h_x_h'",
+            [item.cod_tarefa, 'Ativo']
+          );
+          
+          if (check.rows.length === 0) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa não encontrada ou origem não é h_x_h' });
+            continue;
+          }
+
+          // Buscar nome do usuário destino
+          let destinoNome = String(item.usuario_id);
+          try {
+              const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+              if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+          } catch {}
+
+          // Registrar auditoria
+          await pool.query(
+              `INSERT INTO db_bloco_de_notas.cotacao_audit 
+               (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+              [item.cod_tarefa, 'redistribuido_h_x_h', usuarioId, usuarioLogin, item.usuario_id, destinoNome, null, null, usuarioLogin]
+          );
+
+          // Atualizar usuário
+          await pool.query(
+            `UPDATE db_bloco_de_notas.cotacao 
+             SET usuario_id = $1, data_da_ultima_atualizacao = $2, usuario_login = $3
+             WHERE tarefa = $4 AND validacao = 'Ativo' AND origem = 'h_x_h'`,
+            [item.usuario_id, now, usuarioLogin, item.cod_tarefa]
+          );
+
+          count++;
+        } catch (err) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `${count} tarefa(s) redistribuída(s) com sucesso`,
+        redistribuidos: count,
+        erros: errors
+      });
+      
+    } catch (error) {
+      console.error('[REDISTRIBUIR_H_X_H] Erro:', error);
+      res.status(500).json({ error: `Erro ao redistribuir tarefas: ${error.message}` });
+    }
+  });
+
+  // ===== DISTRIBUIÇÃO AUTOMÁTICA (Dashboard Hoteis e Hospitais - h_x_h) =====
+  router.post('/api/inspecao/distribuir-auto-h_x_h', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+    try {
+      const { usuario_id, quantidade } = req.body;
+      
+      if (!usuario_id || !quantidade || quantidade < 1 || quantidade > 10) {
+        return res.status(400).json({ error: 'Parâmetros inválidos. usuario_id e quantidade (1-10) são obrigatórios.' });
+      }
+      
+      const usuarioLogin = req.user.username;
+      const now = formatDateBR(new Date());
+      
+      // Condições base para tarefas distribuíveis na hoteis_x_hospitais
+      const baseFrom = `
+        FROM (
+          SELECT DISTINCT ON (h.id_tarefa)
+            h.id_tarefa AS cod_tarefa,
+            h.data_de_historico,
+            h.nome_tarefa,
+            h.para_etapa,
+            h.de_etapa
+          FROM db_bloco_de_notas.hoteis_x_hospitais h
+          ORDER BY h.id_tarefa, h.data_de_historico DESC
+        ) h
+        LEFT JOIN db_bloco_de_notas.cotacao c ON h.cod_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+      `;
+
+      // 1ª tarefa: sempre a mais antiga (maior criticidade de SLA)
+      const primeiraQuery = `
+        SELECT h.cod_tarefa, h.data_de_historico, h.nome_tarefa, h.para_etapa, h.de_etapa
+        ${baseFrom}
+        ORDER BY 
+          CASE WHEN h.data_de_historico IS NULL THEN 1 ELSE 0 END,
+          h.data_de_historico ASC NULLS LAST
+        LIMIT 1
+      `;
+      const primeiraResult = await pool.query(primeiraQuery);
+      const primeira = primeiraResult.rows[0];
+      
+      if (!primeira) {
+        return res.json({
+          success: true,
+          message: 'Nenhuma tarefa disponível para distribuição.',
+          distribuidos: 0,
+          tarefas: []
+        });
+      }
+      
+      let tarefas = [primeira];
+      
+      // Demais tarefas (apenas quando quantidade > 1): seleção aleatória
+      if (quantidade > 1) {
+        const demaisQuery = `
+          SELECT h.cod_tarefa, h.data_de_historico, h.nome_tarefa, h.para_etapa, h.de_etapa
+          ${baseFrom}
+            AND h.cod_tarefa <> $1
+          ORDER BY RANDOM()
+          LIMIT $2
+        `;
+        const demaisResult = await pool.query(demaisQuery, [primeira.cod_tarefa, quantidade - 1]);
+        tarefas = tarefas.concat(demaisResult.rows);
+      }
+      
+      // Buscar nome do usuário destino
+      let destinoNome = String(usuario_id);
+      try {
+        const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [usuario_id]);
+        if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+      } catch {}
+      
+      let count = 0;
+      let errors = [];
+      const distribuidos = [];
+      
+      for (let i = 0; i < tarefas.length; i++) {
+        const tarefa = tarefas[i];
+        try {
+          // Verificar se já não foi distribuída entre a consulta e agora
+          const check = await pool.query(
+            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+            [tarefa.cod_tarefa, 'Ativo']
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída' });
+            continue;
+          }
+          
+          let anotacao = '';
+          if (tarefa.nome_tarefa || tarefa.para_etapa) {
+            anotacao = `Origem: h_x_h | Tarefa: ${tarefa.nome_tarefa || ''} | Etapa: ${tarefa.para_etapa || tarefa.de_etapa || ''}`;
+          }
+          
+          // Ajustar data_historico: 1ª = valor original, demais = cotação anterior + 1h
+          let dataHistorico = null;
+          if (i === 0) {
+            dataHistorico = tarefa.data_de_historico || null;
+          } else {
+            const anteriorSalvo = distribuidos.length > 0 ? distribuidos[distribuidos.length - 1].data_historico : null;
+            dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.data_de_historico, 1);
+          }
+          
+          await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+            [tarefa.cod_tarefa, tarefa.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'h_x_h', dataHistorico]
+          );
+          
+          // Registrar auditoria
+          await registrarAuditoria(pool, {
+            tarefa: tarefa.cod_tarefa,
+            acao: 'distribuido_h_x_h',
+            usuario_origem_id: req.user.id,
+            usuario_origem_nome: req.user.nome || usuarioLogin,
+            usuario_destino_id: usuario_id,
+            usuario_destino_nome: destinoNome,
+            status_anterior: null,
+            status_novo: 'pendente',
+            criado_por: usuarioLogin
+          });
+          
+          count++;
+          distribuidos.push({
+            cod_tarefa: tarefa.cod_tarefa,
+            data_historico: dataHistorico
+          });
+        } catch (err) {
+          errors.push({ cod_tarefa: tarefa.cod_tarefa, error: err.message });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `${count} tarefa(s) distribuída(s) para ${destinoNome}`,
+        distribuidos: count,
+        tarefas: distribuidos,
+        erros: errors
+      });
+      
+    } catch (error) {
+      console.error('[DISTRIBUIR_AUTO_H_X_H] Erro:', error);
       res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
     }
   });

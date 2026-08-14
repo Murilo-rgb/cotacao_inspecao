@@ -1,0 +1,110 @@
+13/08/2026 17:41:24: [INSPECAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+13/08/2026 17:41:24:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+13/08/2026 17:41:24:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+13/08/2026 17:41:24:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:681:27 {
+13/08/2026 17:41:24:   length: 120,
+13/08/2026 17:41:24:   severity: 'ERROR',
+13/08/2026 17:41:24:   code: '42703',
+13/08/2026 17:41:24:   detail: undefined,
+13/08/2026 17:41:24:   hint: undefined,
+13/08/2026 17:41:24:   position: '692',
+13/08/2026 17:41:24:   internalPosition: undefined,
+13/08/2026 17:41:24:   internalQuery: undefined,
+13/08/2026 17:41:24:   where: undefined,
+13/08/2026 17:41:24:   schema: undefined,
+13/08/2026 17:41:24:   table: undefined,
+13/08/2026 17:41:24:   column: undefined,
+13/08/2026 17:41:24:   dataType: undefined,
+13/08/2026 17:41:24:   constraint: undefined,
+13/08/2026 17:41:24:   file: 'parse_relation.c',
+13/08/2026 17:41:24:   line: '3647',
+13/08/2026 17:41:24:   routine: 'errorMissingColumn'
+13/08/2026 17:41:24: }
+13/08/2026 17:43:54: [INSPECAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+13/08/2026 17:43:54:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+13/08/2026 17:43:54:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+13/08/2026 17:43:54:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:681:27 {
+13/08/2026 17:43:54:   length: 120,
+13/08/2026 17:43:54:   severity: 'ERROR',
+13/08/2026 17:43:54:   code: '42703',
+13/08/2026 17:43:54:   detail: undefined,
+13/08/2026 17:43:54:   hint: undefined,
+13/08/2026 17:43:54:   position: '692',
+13/08/2026 17:43:54:   internalPosition: undefined,
+13/08/2026 17:43:54:   internalQuery: undefined,
+13/08/2026 17:43:54:   where: undefined,
+13/08/2026 17:43:54:   schema: undefined,
+13/08/2026 17:43:54:   table: undefined,
+13/08/2026 17:43:54:   column: undefined,
+13/08/2026 17:43:54:   dataType: undefined,
+13/08/2026 17:43:54:   constraint: undefined,
+13/08/2026 17:43:54:   file: 'parse_relation.c',
+13/08/2026 17:43:54:   line: '3647',
+13/08/2026 17:43:54:   routine: 'errorMissingColumn'
+13/08/2026 17:43:54: }
+13/08/2026 17:44:10: [INSPECAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+13/08/2026 17:44:10:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+13/08/2026 17:44:10:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+13/08/2026 17:44:10:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:681:27 {
+13/08/2026 17:44:10:   length: 120,
+13/08/2026 17:44:10:   severity: 'ERROR',
+13/08/2026 17:44:10:   code: '42703',
+13/08/2026 17:44:10:   detail: undefined,
+13/08/2026 17:44:10:   hint: undefined,
+13/08/2026 17:44:10:   position: '692',
+13/08/2026 17:44:10:   internalPosition: undefined,
+13/08/2026 17:44:10:   internalQuery: undefined,
+13/08/2026 17:44:10:   where: undefined,
+13/08/2026 17:44:10:   schema: undefined,
+13/08/2026 17:44:10:   table: undefined,
+13/08/2026 17:44:10:   column: undefined,
+13/08/2026 17:44:10:   dataType: undefined,
+13/08/2026 17:44:10:   constraint: undefined,
+13/08/2026 17:44:10:   file: 'parse_relation.c',
+13/08/2026 17:44:10:   line: '3647',
+13/08/2026 17:44:10:   routine: 'errorMissingColumn'
+13/08/2026 17:44:10: }
+13/08/2026 17:45:49: [ATUALIZAR_INPUT_TOP] Erro: error: procedure db_bloco_de_notas.sp_limpar_iw_cpc_975_top() does not exist
+13/08/2026 17:45:49:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+13/08/2026 17:45:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+13/08/2026 17:45:49:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:1372:7 {
+13/08/2026 17:45:49:   length: 238,
+13/08/2026 17:45:49:   severity: 'ERROR',
+13/08/2026 17:45:49:   code: '42883',
+13/08/2026 17:45:49:   detail: undefined,
+13/08/2026 17:45:49:   hint: 'No procedure matches the given name and argument types. You might need to add explicit type casts.',
+13/08/2026 17:45:49:   position: '6',
+13/08/2026 17:45:49:   internalPosition: undefined,
+13/08/2026 17:45:49:   internalQuery: undefined,
+13/08/2026 17:45:49:   where: undefined,
+13/08/2026 17:45:49:   schema: undefined,
+13/08/2026 17:45:49:   table: undefined,
+13/08/2026 17:45:49:   column: undefined,
+13/08/2026 17:45:49:   dataType: undefined,
+13/08/2026 17:45:49:   constraint: undefined,
+13/08/2026 17:45:49:   file: 'parse_func.c',
+13/08/2026 17:45:49:   line: '620',
+13/08/2026 17:45:49:   routine: 'ParseFuncOrColumn'
+13/08/2026 17:45:49: }
+13/08/2026 17:49:10: [INSPECAO_TOP] Erro: error: column "qtd_producao_futura" does not exist
+13/08/2026 17:49:10:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+13/08/2026 17:49:10:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+13/08/2026 17:49:10:     at async E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:681:27 {
+13/08/2026 17:49:10:   length: 120,
+13/08/2026 17:49:10:   severity: 'ERROR',
+13/08/2026 17:49:10:   code: '42703',
+13/08/2026 17:49:10:   detail: undefined,
+13/08/2026 17:49:10:   hint: undefined,
+13/08/2026 17:49:10:   position: '692',
+13/08/2026 17:49:10:   internalPosition: undefined,
+13/08/2026 17:49:10:   internalQuery: undefined,
+13/08/2026 17:49:10:   where: undefined,
+13/08/2026 17:49:10:   schema: undefined,
+13/08/2026 17:49:10:   table: undefined,
+13/08/2026 17:49:10:   column: undefined,
+13/08/2026 17:49:10:   dataType: undefined,
+13/08/2026 17:49:10:   constraint: undefined,
+13/08/2026 17:49:10:   file: 'parse_relation.c',
+13/08/2026 17:49:10:   line: '3647',
+13/08/2026 17:49:10:   routine: 'errorMissingColumn'
+13/08/2026 17:49:10: }

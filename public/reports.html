@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -198,10 +198,10 @@
 
             const handleExportCSV = useCallback(() => {
                 if (!resultados || resultados.length === 0) return;
-                const headers = ['Código Tarefa', 'Cotação', 'Status', 'Data Qualidade', 'Analista', 'Regional', 'Tipo de Pedido', 'Motivo 1', 'Motivo 2', 'Motivo 3', 'Reprova BKO', 'Apontamento', 'Contestação', 'Observação', 'Enviado', 'Data Envio', 'Semana', 'Data Leitura'];
+                const headers = ['Código Tarefa', 'Cotação', 'Status', 'Data Qualidade', 'Analista', 'Auditado', 'Regional', 'Tipo de Pedido', 'Motivo 1', 'Motivo 2', 'Motivo 3', 'Reprova BKO', 'Apontamento', 'Contestação', 'Observação', 'Enviado', 'Data Envio', 'Semana', 'Data Leitura'];
                 const rows = resultados.map(r => [
                     r.codigo_tarefa || '', r.cotacao || '', r.status || '', formatDateTimeBR(r.data_qualidade),
-                    r.analista || '', r.regional || '', r.tipo_de_pedido || '',
+                    r.analista || '', r.auditado_nome || '', r.regional || '', r.tipo_de_pedido || '',
                     r.motivo_1_sistema_documento || '', r.motivo_2_erro || '', r.motivo_3_detalhamento || '',
                     r.reprova_bko || '', r.apontamento || '', r.contestacao || '', r.obs || '',
                     r.enviado ? 'Sim' : 'Não', formatDateTimeBR(r.data_envio), r.semana || '',
@@ -326,6 +326,7 @@
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Status'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Data Qualidade'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Analista'),
+                                                React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Auditado'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Regional'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Tipo Pedido'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Motivo 1'),
@@ -351,6 +352,7 @@
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap" }, React.createElement('span', { className: `inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full border ${statusConf.bg}` }, statusConf.label)),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-500" }, formatDateTimeBR(r.data_qualidade)),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.analista || '-'),
+                                                    React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.auditado_nome || '-'),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.regional || '-'),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.tipo_de_pedido || '-'),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.motivo_1_sistema_documento || '-'),
@@ -373,5 +375,6 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(React.createElement(App));
     </script>
+    <script src="/pme_notas/menu_navegacao.js"></script>
 </body>
 </html>

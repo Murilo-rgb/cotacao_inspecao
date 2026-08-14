@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#2563eb">
-    <title>Dashboard - Distribuição de cotações</title>
+    <meta name="theme-color" content="#7c3aed">
+    <title>Dashboard - Hotéis e Hospitais</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
@@ -22,7 +22,6 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* Overlay do modal */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -34,7 +33,6 @@
             z-index: 50;
         }
 
-        /* Cards de quantidade */
         .qty-card {
             cursor: pointer;
             transition: all 0.2s ease;
@@ -47,90 +45,77 @@
         .qty-card:active {
             transform: scale(0.95);
         }
-        .qty-card.loading {
-            pointer-events: none;
-            opacity: 0.6;
-        }
-        .qty-card .check-anim {
-            display: none;
-        }
-        .qty-card.done .check-anim {
-            display: flex;
-        }
-        .qty-card.done .qty-number {
-            display: none;
-        }
-
-        /* ===== DARK MODE STYLES ===== */
-        html, html *, html *::before, html *::after {
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-        }
-        html.dark { background-color: #0f172a; }
-        html.dark body { background-color: #0f172a; }
-        html.dark .bg-white { background-color: #1e293b !important; }
-        html.dark .bg-slate-50, html.dark .bg-slate-50\/80 { background-color: #0f172a !important; }
-        html.dark .bg-slate-100 { background-color: #1e293b !important; }
-        html.dark .bg-slate-800 { background-color: #334155 !important; }
-        html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
-        html.dark .border-slate-700 { border-color: #475569 !important; }
-        html.dark .divide-slate-200 > *, html.dark .divide-slate-100 > * { border-color: #334155 !important; }
-        html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8 !important; }
-        html.dark .text-slate-600 { color: #cbd5e1 !important; }
-        html.dark .text-slate-700 { color: #e2e8f0 !important; }
-        html.dark .text-slate-800, html.dark .text-slate-900 { color: #f1f5f9 !important; }
-        html.dark .text-white { color: #f8fafc !important; }
-        html.dark .placeholder-slate-400::placeholder { color: #64748b !important; }
-        html.dark header { background-color: #1e293b !important; border-color: #334155 !important; }
-        html.dark table thead { background-color: #1e293b !important; }
-        html.dark table thead th { color: #94a3b8 !important; }
-        html.dark table tbody { background-color: #1e293b !important; }
-        html.dark table tbody tr { background-color: #1e293b !important; }
-        html.dark table tbody tr:hover { background-color: #334155 !important; }
-        html.dark input, html.dark select, html.dark textarea {
-            background-color: #1e293b !important;
-            border-color: #475569 !important;
-            color: #e2e8f0 !important;
-        }
-        html.dark input:focus, html.dark select:focus, html.dark textarea:focus {
-            border-color: #8b5cf6 !important;
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
-        }
-        html.dark input:disabled, html.dark textarea:disabled, html.dark input[readonly], html.dark textarea[readonly] {
-            background-color: #0f172a !important;
-            color: #64748b !important;
-        }
-        html.dark .bg-slate-100 { background-color: #1e293b !important; }
-        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl, html.dark .shadow-2xl {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3) !important;
-        }
-        html.dark .bg-emerald-50 { background-color: rgba(5, 150, 105, 0.15) !important; }
-        html.dark .text-emerald-700 { color: #34d399 !important; }
-        html.dark .border-emerald-200 { border-color: rgba(5, 150, 105, 0.3) !important; }
-        html.dark .bg-red-50 { background-color: rgba(220, 38, 38, 0.15) !important; }
-        html.dark .text-red-700 { color: #f87171 !important; }
-        html.dark .border-red-200 { border-color: rgba(220, 38, 38, 0.3) !important; }
-        html.dark .bg-amber-50 { background-color: rgba(217, 119, 6, 0.15) !important; }
-        html.dark .text-amber-700 { color: #fbbf24 !important; }
-        html.dark .border-amber-200 { border-color: rgba(217, 119, 6, 0.3) !important; }
-        html.dark .bg-violet-50 { background-color: rgba(139, 92, 246, 0.15) !important; }
-        html.dark .text-violet-700 { color: #a78bfa !important; }
-        html.dark .border-violet-200 { border-color: rgba(139, 92, 246, 0.3) !important; }
-        html.dark .bg-indigo-100 { background-color: rgba(99, 102, 241, 0.15) !important; }
-        html.dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.15) !important; }
-        html.dark .bg-orange-50 { background-color: rgba(249, 115, 22, 0.15) !important; }
-        html.dark .modal-content { background-color: #1e293b !important; }
-        html.dark .skeleton, html.dark .animate-pulse div { background-color: #334155 !important; }
-        html.dark .bg-gradient-to-r { opacity: 0.9; }
-    </style>
-    <script>
-    (function() {
-        const saved = localStorage.getItem('darkMode');
-        if (saved === 'true') {
-            document.documentElement.classList.add('dark');
-        }
-    })();
-    </script>
-</head>
+     /* ===== DARK MODE STYLES ===== */
+     html, html *, html *::before, html *::after {
+         transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+     }
+     html.dark { background-color: #0f172a; }
+     html.dark body { background-color: #0f172a; }
+     html.dark .bg-white { background-color: #1e293b !important; }
+     html.dark .bg-slate-50, html.dark .bg-slate-50\/80 { background-color: #0f172a !important; }
+     html.dark .bg-slate-100 { background-color: #1e293b !important; }
+     html.dark .bg-slate-800 { background-color: #334155 !important; }
+     html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
+     html.dark .border-slate-700 { border-color: #475569 !important; }
+     html.dark .divide-slate-200 > *, html.dark .divide-slate-100 > * { border-color: #334155 !important; }
+     html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8 !important; }
+     html.dark .text-slate-600 { color: #cbd5e1 !important; }
+     html.dark .text-slate-700 { color: #e2e8f0 !important; }
+     html.dark .text-slate-800, html.dark .text-slate-900 { color: #f1f5f9 !important; }
+     html.dark .text-white { color: #f8fafc !important; }
+     html.dark .placeholder-slate-400::placeholder { color: #64748b !important; }
+     html.dark header { background-color: #1e293b !important; border-color: #334155 !important; }
+     html.dark table thead { background-color: #1e293b !important; }
+     html.dark table thead th { color: #94a3b8 !important; }
+     html.dark table tbody { background-color: #1e293b !important; }
+     html.dark table tbody tr { background-color: #1e293b !important; }
+     html.dark table tbody tr:hover { background-color: #334155 !important; }
+     html.dark input, html.dark select, html.dark textarea {
+         background-color: #1e293b !important;
+         border-color: #475569 !important;
+         color: #e2e8f0 !important;
+     }
+     html.dark input:focus, html.dark select:focus, html.dark textarea:focus {
+         border-color: #8b5cf6 !important;
+         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
+     }
+     html.dark input:disabled, html.dark textarea:disabled, html.dark input[readonly], html.dark textarea[readonly] {
+         background-color: #0f172a !important;
+         color: #64748b !important;
+     }
+     html.dark .bg-slate-100 { background-color: #1e293b !important; }
+     html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl, html.dark .shadow-2xl {
+         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3) !important;
+     }
+     html.dark .bg-emerald-50 { background-color: rgba(5, 150, 105, 0.15) !important; }
+     html.dark .text-emerald-700 { color: #34d399 !important; }
+     html.dark .border-emerald-200 { border-color: rgba(5, 150, 105, 0.3) !important; }
+     html.dark .bg-red-50 { background-color: rgba(220, 38, 38, 0.15) !important; }
+     html.dark .text-red-700 { color: #f87171 !important; }
+     html.dark .border-red-200 { border-color: rgba(220, 38, 38, 0.3) !important; }
+     html.dark .bg-amber-50 { background-color: rgba(217, 119, 6, 0.15) !important; }
+     html.dark .text-amber-700 { color: #fbbf24 !important; }
+     html.dark .border-amber-200 { border-color: rgba(217, 119, 6, 0.3) !important; }
+     html.dark .bg-violet-50 { background-color: rgba(139, 92, 246, 0.15) !important; }
+     html.dark .text-violet-700 { color: #a78bfa !important; }
+     html.dark .border-violet-200 { border-color: rgba(139, 92, 246, 0.3) !important; }
+     html.dark .bg-indigo-100 { background-color: rgba(99, 102, 241, 0.15) !important; }
+     html.dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.15) !important; }
+     html.dark .bg-orange-50 { background-color: rgba(249, 115, 22, 0.15) !important; }
+     html.dark .modal-overlay { background-color: rgba(0,0,0,0.6) !important; }
+     html.dark .modal-content { background-color: #1e293b !important; }
+     html.dark .skeleton, html.dark .animate-pulse div { background-color: #334155 !important; }
+     html.dark .bg-gradient-to-r { opacity: 0.9; }
+     </style>
+     <script>
+     (function() {
+         const saved = localStorage.getItem('darkMode');
+         if (saved === 'true') {
+             document.documentElement.classList.add('dark');
+         }
+     })();
+     </script>
+     </head>
 <body>
     <div id="root"></div>
     <script>
@@ -197,7 +182,7 @@
             React.createElement('path', { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" })
         );
 
-        // ============== COMPONENTE DE TOAST ==============
+        // ============== TOAST ==============
         const Toast = ({ toast }) => {
             if (!toast) return null;
             return React.createElement('div', {
@@ -213,7 +198,6 @@
         // ============== MODAL DE DISTRIBUIÇÃO ==============
         const DistribuirModal = ({ colaborador, onClose, onDistribuir, distribuindo, ultimaResposta }) => {
             if (!colaborador) return null;
-
             const cards = Array.from({ length: 10 }, (_, i) => i + 1);
 
             const handleCardClick = (quantidade) => {
@@ -225,7 +209,6 @@
                 onClick: (e) => { if (e.target === e.currentTarget) onClose(); }
             },
                 React.createElement('div', { className: 'bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg mx-4 animate-scaleIn overflow-hidden' },
-                    // Header
                     React.createElement('div', { className: 'flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-violet-50 to-purple-50' },
                         React.createElement('div', { className: 'flex items-center gap-3' },
                             React.createElement('div', { className: 'w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md' },
@@ -244,13 +227,11 @@
                             className: 'p-2 text-slate-400 hover:text-slate-600 hover:bg-white/60 rounded-lg transition-colors'
                         }, React.createElement(CloseIcon))
                     ),
-                    // Corpo
                     React.createElement('div', { className: 'px-6 py-5' },
                         React.createElement('p', { className: 'text-sm text-slate-600 mb-4 flex items-center gap-2' },
                             React.createElement(RocketIcon),
                             'Quantas tarefas deseja distribuir? As mais antigas serão priorizadas.'
                         ),
-                        // Grid de cards 1-10
                         React.createElement('div', { className: 'grid grid-cols-5 gap-3 mb-4' },
                             cards.map(qtd => {
                                 const estaCarregando = distribuindo === qtd;
@@ -280,7 +261,6 @@
                                 );
                             })
                         ),
-                        // Mensagem de resposta
                         ultimaResposta && React.createElement('div', {
                             className: `p-3 rounded-lg text-sm ${
                                 ultimaResposta.success
@@ -289,7 +269,6 @@
                             }`
                         }, ultimaResposta.message)
                     ),
-                    // Footer
                     React.createElement('div', { className: 'px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center' },
                         React.createElement('span', { className: 'text-xs text-slate-400' },
                             colaborador.usuario_login ? `@${colaborador.usuario_login}` : ''
@@ -308,22 +287,22 @@
             const [token, setToken] = useState(localStorage.getItem('token'));
             const [username, setUsername] = useState(localStorage.getItem('username') || '');
             const [colaboradores, setColaboradores] = useState([]);
+            const [stats, setStats] = useState({ em_tratamento: 0, aprovado: 0, reprovado: 0, pendente: 0, cancelado: 0 });
             const [historico, setHistorico] = useState([]);
             const [loading, setLoading] = useState(true);
             const [activeTab, setActiveTab] = useState('dashboard');
             const [filtroTarefa, setFiltroTarefa] = useState('');
-            const [filtroDataInicio, setFiltroDataInicio] = useState('');
-            const [filtroDataFim, setFiltroDataFim] = useState('');
-            const [modoPeriodo, setModoPeriodo] = useState('dia');
-
-            // Modal
+            const [filtroDataDashboard, setFiltroDataDashboard] = useState('');
             const [modalColaborador, setModalColaborador] = useState(null);
             const [distribuindo, setDistribuindo] = useState(null);
             const [ultimaResposta, setUltimaResposta] = useState(null);
+            const [toast, setToast] = useState(null);
             const [darkMode, setDarkMode] = useState(() => {
                 const saved = localStorage.getItem('darkMode');
                 return saved === 'true';
             });
+
+            const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
 
             useEffect(() => {
                 if (darkMode) {
@@ -334,25 +313,28 @@
                 localStorage.setItem('darkMode', darkMode);
             }, [darkMode]);
 
-            const toggleDarkMode = () => setDarkMode(prev => !prev);
+            const toggleDarkMode = () => {
+                const newMode = !darkMode;
+                setDarkMode(newMode);
+                localStorage.setItem('darkMode', newMode);
+            };
 
-            const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const showToast = (message, type = 'success') => {
+                setToast({ message, type });
+                setTimeout(() => setToast(null), 4000);
+            };
 
             const fetchDashboard = useCallback(async () => {
                 if (!token) return;
                 try {
                     setLoading(true);
                     const params = new URLSearchParams();
-                    if (filtroDataInicio) {
-                        const [yearInicio, monthInicio, dayInicio] = filtroDataInicio.split('-');
-                        params.set('dataInicio', `${dayInicio}/${monthInicio}/${yearInicio}`);
-                    }
-                    if (filtroDataFim) {
-                        const [yearFim, monthFim, dayFim] = filtroDataFim.split('-');
-                        params.set('dataFim', `${dayFim}/${monthFim}/${yearFim}`);
+                    if (filtroDataDashboard) {
+                        const [year, month, day] = filtroDataDashboard.split('-');
+                        params.set('data', `${day}/${month}/${year}`);
                     }
                     const queryStr = params.toString() ? `?${params.toString()}` : '';
-                    const res = await fetch(`${getBasePath()}/api/inspecao/dashboard${queryStr}`, {
+                    const res = await fetch(`${getBasePath()}/api/hh/dashboard${queryStr}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (res.status === 401 || res.status === 403) {
@@ -361,27 +343,28 @@
                         return;
                     }
                     const data = await res.json();
-                    setColaboradores(Array.isArray(data) ? data : []);
+                    setColaboradores(Array.isArray(data.colaboradores) ? data.colaboradores : []);
+                    setStats(data.stats || { em_tratamento: 0, aprovado: 0, reprovado: 0, pendente: 0, cancelado: 0 });
                 } catch (err) {
-                    console.error('[DASHBOARD] Erro:', err);
+                    console.error('[DASHBOARD_H_X_H] Erro:', err);
                     setColaboradores([]);
                 } finally {
                     setLoading(false);
                 }
-            }, [token, filtroDataInicio, filtroDataFim]);
+            }, [token, filtroDataDashboard]);
 
             const fetchHistorico = useCallback(async () => {
                 if (!token) return;
                 try {
                     const params = new URLSearchParams({ limit: 200 });
                     if (filtroTarefa) params.set('tarefa', filtroTarefa);
-                    const res = await fetch(`${getBasePath()}/api/inspecao/historico?${params}`, {
+                    const res = await fetch(`${getBasePath()}/api/hh/historico?${params}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     const data = await res.json();
                     setHistorico(Array.isArray(data) ? data : []);
                 } catch (err) {
-                    console.error('[HISTORICO] Erro:', err);
+                    console.error('[HISTORICO_H_X_H] Erro:', err);
                     setHistorico([]);
                 }
             }, [token, filtroTarefa]);
@@ -404,64 +387,34 @@
                 }
             }, [token, fetchDashboard, fetchHistorico]);
 
-            // ===== DISTRIBUIR AUTOMÁTICO =====
             const handleDistribuir = async (usuarioLogin, quantidade) => {
                 setDistribuindo(quantidade);
                 setUltimaResposta(null);
-
                 try {
-                    // Precisamos do ID do usuário - buscar a partir do login
-                    const usuariosRes = await fetch(`${getBasePath()}/api/inspecao/usuarios`, {
+                    const usuariosRes = await fetch(`${getBasePath()}/api/hh/usuarios`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     const usuarios = await usuariosRes.json();
                     const usuario = usuarios.find(u => u.login === usuarioLogin);
-                    
                     if (!usuario) {
-                        setUltimaResposta({
-                            success: false,
-                            message: 'Usuário não encontrado no sistema.',
-                            quantidade
-                        });
+                        setUltimaResposta({ success: false, message: 'Usuário não encontrado no sistema.', quantidade });
                         setDistribuindo(null);
                         return;
                     }
-
-                    const res = await fetch(`${getBasePath()}/api/inspecao/distribuir-auto`, {
+                    const res = await fetch(`${getBasePath()}/api/inspecao/distribuir-auto-h_x_h`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({
-                            usuario_id: usuario.id,
-                            quantidade
-                        })
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify({ usuario_id: usuario.id, quantidade })
                     });
-
                     const data = await res.json();
-
                     if (res.ok) {
-                        setUltimaResposta({
-                            success: true,
-                            message: data.message || `${data.distribuidos} tarefa(s) distribuída(s) com sucesso!`,
-                            quantidade
-                        });
-                        // Recarregar dashboard após distribuir
+                        setUltimaResposta({ success: true, message: data.message || `${data.distribuidos} tarefa(s) distribuída(s) com sucesso!`, quantidade });
                         fetchDashboard();
                     } else {
-                        setUltimaResposta({
-                            success: false,
-                            message: data.error || 'Erro ao distribuir tarefas.',
-                            quantidade
-                        });
+                        setUltimaResposta({ success: false, message: data.error || 'Erro ao distribuir tarefas.', quantidade });
                     }
                 } catch (err) {
-                    setUltimaResposta({
-                        success: false,
-                        message: 'Erro de conexão: ' + err.message,
-                        quantidade
-                    });
+                    setUltimaResposta({ success: false, message: 'Erro de conexão: ' + err.message, quantidade });
                 } finally {
                     setDistribuindo(null);
                 }
@@ -520,31 +473,65 @@
                 }
             };
 
-            const totalPendentes = colaboradores.reduce((s, c) => s + (c.pendentes || 0), 0);
-            const totalTratados = colaboradores.reduce((s, c) => s + (c.tratados || 0), 0);
-            const totalAprovados = colaboradores.reduce((s, c) => s + (c.aprovados || 0), 0);
-            const totalReprovados = colaboradores.reduce((s, c) => s + (c.reprovados || 0), 0);
+            const statusConfig = {
+                'pendente': { label: 'Pendente', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-classificacao': { label: 'Pendente - Classificação', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-iphone': { label: 'Pendente - iPhone', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-iphone-aprovado': { label: 'Pendente - iPhone Aprovado', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+                'pendente-iphone-reprovado': { label: 'Pendente - iPhone Reprovado', color: 'bg-red-100 text-red-700 border-red-200', dot: 'bg-red-500' },
+                'pendente-qualidade': { label: 'Pendente - Qualidade/Suporte', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-correcao-cadastral': { label: 'Pendente - Correção Cadastral', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-correcao-efetuada': { label: 'Pendente - Correção Efetuada', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+                'pendente-suporte': { label: 'Pendente - Suporte', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'aprovado': { label: 'Aprovado', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+                'reprovado': { label: 'Reprovado', color: 'bg-red-100 text-red-700 border-red-200', dot: 'bg-red-500' }
+            };
+
+            const statusTotals = {};
+            colaboradores.forEach(c => {
+                if (c.statusCounts) {
+                    Object.entries(c.statusCounts).forEach(([status, count]) => {
+                        statusTotals[status] = (statusTotals[status] || 0) + count;
+                    });
+                }
+            });
             const totalGeral = colaboradores.reduce((s, c) => s + (c.total || 0), 0);
 
+            const colaboradoresOrdenados = [...colaboradores].sort((a, b) => {
+                const tratadosA = (a.statusCounts?.aprovado || 0) + (a.statusCounts?.reprovado || 0);
+                const tratadosB = (b.statusCounts?.aprovado || 0) + (b.statusCounts?.reprovado || 0);
+                return tratadosB - tratadosA;
+            });
+
+            const totalPendentesTabela = colaboradores.reduce((s, c) => {
+                if (!c.statusCounts) return s;
+                return s + Object.entries(c.statusCounts)
+                    .filter(([status]) => status.startsWith('pendente'))
+                    .reduce((sum, [_, count]) => sum + count, 0);
+            }, 0);
+            const totalTratadosTabela = colaboradores.reduce((s, c) => {
+                if (!c.statusCounts) return s;
+                return s + (c.statusCounts.aprovado || 0) + (c.statusCounts.reprovado || 0);
+            }, 0);
+
             return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
-                // Header
                 React.createElement('header', { className: 'bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30' },
                     React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
                         React.createElement('div', { className: 'flex justify-between items-center h-16' },
                             React.createElement('div', { className: 'flex items-center gap-3' },
-                                React.createElement('div', { className: 'w-10 h-10 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-xl flex items-center justify-center shadow-md' },
+                                React.createElement('div', { className: 'w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md' },
                                     React.createElement(ChartIcon)
                                 ),
                                 React.createElement('div', null,
-                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Dashboard de Distribuição'),
+                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Dashboard Hotéis e Hospitais'),
                                     React.createElement('p', { className: 'text-xs text-slate-500' }, 'SLA e produtividade dos colaboradores')
                                 )
                             ),
                             React.createElement('div', { className: 'flex items-center gap-3' },
                                 React.createElement('a', {
-                                    href: `${getBasePath()}/inspecao`,
+                                    href: `${getBasePath()}/hh`,
                                     className: 'text-xs text-slate-500 hover:text-violet-600 underline'
-                                }, '← Voltar para Inspeção'),
+                                }, '← Voltar para Hotéis e Hospitais'),
                                 React.createElement('button', {
                                     onClick: toggleDarkMode,
                                     className: 'p-2 rounded-lg transition-all duration-200 hover:scale-110 ' + (darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200'),
@@ -565,7 +552,7 @@
                             onClick: () => setActiveTab('dashboard'),
                             className: `px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
                                 activeTab === 'dashboard'
-                                    ? 'text-emerald-700 border-b-2 border-emerald-600 bg-emerald-50'
+                                    ? 'text-violet-700 border-b-2 border-violet-600 bg-violet-50'
                                     : 'text-slate-500 hover:text-slate-700'
                             }`
                         },
@@ -578,7 +565,7 @@
                             onClick: () => setActiveTab('historico'),
                             className: `px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
                                 activeTab === 'historico'
-                                    ? 'text-emerald-700 border-b-2 border-emerald-600 bg-emerald-50'
+                                    ? 'text-violet-700 border-b-2 border-violet-600 bg-violet-50'
                                     : 'text-slate-500 hover:text-slate-700'
                             }`
                         },
@@ -595,80 +582,47 @@
                         )
                     ),
 
-                    // Tab: Dashboard
+                    // Tab Dashboard
                     activeTab === 'dashboard' && React.createElement('div', { className: 'animate-fadeIn' },
-                        React.createElement('div', { className: 'flex flex-wrap items-center gap-3 mb-4' },
-                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Calendário:'),
-                            React.createElement('select', {
-                                value: modoPeriodo,
-                                onChange: (e) => {
-                                    const nextMode = e.target.value;
-                                    setModoPeriodo(nextMode);
-                                    if (nextMode === 'dia') {
-                                        setFiltroDataFim('');
-                                    } else if (!filtroDataInicio) {
-                                        const hoje = new Date().toISOString().split('T')[0];
-                                        setFiltroDataInicio(hoje);
-                                        setFiltroDataFim(hoje);
-                                    }
-                                },
-                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 bg-white'
-                            },
-                                React.createElement('option', { value: 'dia' }, 'Dia'),
-                                React.createElement('option', { value: 'periodo' }, 'Período')
-                            ),
+                        React.createElement('div', { className: 'flex items-center gap-3 mb-4' },
+                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Filtrar por data:'),
                             React.createElement('input', {
                                 type: 'date',
-                                value: filtroDataInicio,
-                                onChange: (e) => {
-                                    const value = e.target.value;
-                                    setFiltroDataInicio(value);
-                                    if (modoPeriodo === 'dia') {
-                                        setFiltroDataFim(value);
-                                    }
-                                },
-                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
+                                value: filtroDataDashboard,
+                                onChange: (e) => setFiltroDataDashboard(e.target.value),
+                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500'
                             }),
-                            modoPeriodo === 'periodo' && React.createElement(React.Fragment, null,
-                                React.createElement('span', { className: 'text-sm text-slate-400' }, 'até'),
-                                React.createElement('input', {
-                                    type: 'date',
-                                    value: filtroDataFim,
-                                    onChange: (e) => setFiltroDataFim(e.target.value),
-                                    className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
-                                })
-                            ),
-                            (filtroDataInicio || filtroDataFim) && React.createElement('button', {
-                                onClick: () => {
-                                    setFiltroDataInicio('');
-                                    setFiltroDataFim('');
-                                    setModoPeriodo('dia');
-                                },
+                            filtroDataDashboard && React.createElement('button', {
+                                onClick: () => setFiltroDataDashboard(''),
                                 className: 'px-3 py-2 text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors'
                             }, 'Limpar')
                         ),
 
-                        // Stats Cards
-                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6' },
+                        // Cards de status da hoteis_x_hospitais
+                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6' },
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-sm font-medium text-slate-500' }, 'Total Distribuído'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, totalGeral)
+                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Em Tratamento'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-amber-600 mt-1' }, stats.em_tratamento)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-sm font-medium text-amber-600' }, 'Pendentes'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-amber-700 mt-1' }, totalPendentes)
+                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Aprovados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-emerald-600 mt-1' }, stats.aprovado)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-sm font-medium text-indigo-600' }, 'Tratados'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-indigo-700 mt-1' }, totalTratados)
+                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Reprovados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-red-600 mt-1' }, stats.reprovado)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-sm font-medium text-emerald-600' }, 'Aprovados'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-emerald-700 mt-1' }, totalAprovados)
+                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Pendentes'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-yellow-600 mt-1' }, stats.pendente)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-sm font-medium text-red-600' }, 'Reprovados'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-red-700 mt-1' }, totalReprovados)
+                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Cancelados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-slate-600 mt-1' }, stats.cancelado)
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Total Colaboradores'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-violet-600 mt-1' }, totalGeral)
                             )
                         ),
 
@@ -682,7 +636,7 @@
                                 React.createElement('div', { className: 'px-6 py-4 border-b border-slate-200' },
                                     React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 flex items-center gap-2' },
                                         React.createElement(UsersIcon),
-                                        'Produtividade por Colaborador'
+                                        'Produtividade por Colaborador - Hotéis e Hospitais'
                                     )
                                 ),
                                 React.createElement('div', { className: 'overflow-x-auto' },
@@ -700,44 +654,41 @@
                                         React.createElement('tbody', { className: 'bg-white divide-y divide-slate-100' },
                                             colaboradores.length === 0
                                                 ? React.createElement('tr', null,
-                                                    React.createElement('td', { colSpan: 8, className: 'px-6 py-8 text-center text-sm text-slate-400' },
+                                                    React.createElement('td', { colSpan: 6, className: 'px-6 py-8 text-center text-sm text-slate-400' },
                                                         'Nenhum dado disponível'
                                                     )
                                                   )
-                                                : [...colaboradores].sort((a, b) => {
-                                                    const tratadosA = (a.tratados || 0);
-                                                    const tratadosB = (b.tratados || 0);
-                                                    return tratadosB - tratadosA;
-                                                }).map((col, idx) => {
-                                                    const precisaDistribuir = col.pendentes === 0 && (col.tratados || 0) === 0;
+                                                : colaboradoresOrdenados.map((col, idx) => {
+                                                    const pendentesCol = col.statusCounts
+                                                        ? Object.entries(col.statusCounts)
+                                                            .filter(([s]) => s.startsWith('pendente'))
+                                                            .reduce((sum, [_, cnt]) => sum + cnt, 0)
+                                                        : 0;
+                                                    const tratadosCol = (col.statusCounts?.aprovado || 0) + (col.statusCounts?.reprovado || 0);
+                                                    const precisaDistribuir = pendentesCol === 0 && tratadosCol === 0;
                                                     return React.createElement('tr', {
                                                         key: col.usuario_login,
                                                         className: `hover:bg-slate-50/80 transition-colors ${precisaDistribuir ? 'bg-amber-50/30' : ''}`
                                                     },
-                                                        React.createElement('td', {
-                                                            className: 'px-6 py-4 whitespace-nowrap',
-                                                            onDoubleClick: () => openModal(col),
-                                                            style: { cursor: 'pointer' }
-                                                        },
+                                                        React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
                                                             React.createElement('div', { className: 'flex items-center gap-2' },
                                                                 getRankingMedal(idx) && React.createElement('span', {
                                                                     className: 'text-lg',
                                                                     title: getRankingMedal(idx).tooltip
                                                                 }, getRankingMedal(idx).emoji),
                                                                 React.createElement('div', null,
-                                                                    React.createElement('p', {
-                                                                        className: `text-sm font-semibold ${precisaDistribuir ? 'text-amber-700' : col.pendentes === 0 ? 'text-emerald-700' : 'text-slate-900'}`,
-                                                                        title: 'Clique duas vezes para distribuir'
-                                                                    }, col.usuario_nome),
+                                                                    React.createElement('p', { className: `text-sm font-semibold ${precisaDistribuir ? 'text-amber-700' : 'text-slate-900'}` },
+                                                                        col.usuario_nome
+                                                                    ),
                                                                     React.createElement('p', { className: 'text-xs text-slate-400' }, col.usuario_login)
                                                                 )
                                                             )
                                                         ),
                                                         React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
-                                                            React.createElement('span', { className: 'text-sm font-bold text-amber-600' }, col.pendentes)
+                                                            React.createElement('span', { className: 'text-sm font-bold text-amber-600' }, pendentesCol)
                                                         ),
                                                         React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
-                                                            React.createElement('span', { className: 'text-sm font-bold text-indigo-600' }, col.tratados || 0)
+                                                            React.createElement('span', { className: 'text-sm font-bold text-indigo-600' }, tratadosCol)
                                                         ),
                                                         React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
                                                             React.createElement('span', { className: 'text-sm font-bold text-slate-700' }, col.total)
@@ -762,7 +713,7 @@
                               )
                     ),
 
-                    // Tab: Histórico
+                    // Tab Histórico
                     activeTab === 'historico' && React.createElement('div', { className: 'animate-fadeIn' },
                         React.createElement('div', { className: 'bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden' },
                             React.createElement('div', { className: 'px-6 py-4 border-b border-slate-200 flex items-center justify-between' },
@@ -775,11 +726,11 @@
                                         value: filtroTarefa,
                                         onChange: (e) => setFiltroTarefa(e.target.value),
                                         placeholder: 'Filtrar por tarefa...',
-                                        className: 'w-40 px-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500'
+                                        className: 'w-40 px-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500'
                                     }),
                                     React.createElement('button', {
                                         onClick: fetchHistorico,
-                                        className: 'px-3 py-1.5 text-xs font-medium bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors'
+                                        className: 'px-3 py-1.5 text-xs font-medium bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors'
                                     }, 'Buscar')
                                 )
                             ),
@@ -848,7 +799,6 @@
                     )
                 ),
 
-                // Modal de Distribuição
                 React.createElement(DistribuirModal, {
                     colaborador: modalColaborador,
                     onClose: closeModal,
@@ -857,8 +807,7 @@
                     ultimaResposta: ultimaResposta
                 }),
 
-                // Toast (placeholder, sem gerenciamento de estado ainda)
-                null
+                React.createElement(Toast, { toast: toast })
             );
         }
 
