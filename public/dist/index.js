@@ -1412,6 +1412,55 @@ function App() {
         dotClass: 'bg-blue-600'
       };
     }
+    if (normalized === 'troca-de-territorio') {
+      return {
+        label: 'Troca de Território',
+        className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
+        dotClass: 'bg-blue-500'
+      };
+    }
+    if (normalized === 'troca-de-segmento') {
+      return {
+        label: 'Troca de Segmento',
+        className: 'bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100',
+        dotClass: 'bg-violet-500'
+      };
+    }
+    if (normalized === 'cadastro-de-membro') {
+      return {
+        label: 'Cadastro de Membro',
+        className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100',
+        dotClass: 'bg-cyan-500'
+      };
+    }
+    if (normalized === 'aguardando-chamado') {
+      return {
+        label: 'Aguardando Chamado',
+        className: 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100',
+        dotClass: 'bg-orange-500'
+      };
+    }
+    if (normalized === 'aguardando-qualidade') {
+      return {
+        label: 'Aguardando Qualidade',
+        className: 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100',
+        dotClass: 'bg-purple-500'
+      };
+    }
+    if (normalized === 'aguardando-dupla-validacao') {
+      return {
+        label: 'Aguardando Dupla Validação',
+        className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100',
+        dotClass: 'bg-cyan-500'
+      };
+    }
+    if (normalized === 'aguardando-pre-analise') {
+      return {
+        label: 'Aguardando Pré-Análise',
+        className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
+        dotClass: 'bg-blue-500'
+      };
+    }
     return {
       label: 'Pendente',
       className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
@@ -2146,7 +2195,7 @@ function App() {
     className: "font-semibold text-slate-800 font-mono"
   }, statusModal.cotacao), "."), /*#__PURE__*/React.createElement("div", {
     className: "space-y-2.5 max-h-[50vh] overflow-y-auto"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, (!statusModal.origem || statusModal.origem === 'r_000250') && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente');
     },
@@ -2195,7 +2244,78 @@ function App() {
     className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-red-500"
-  }), "Reprovado")), /*#__PURE__*/React.createElement("button", {
+  }), "Reprovado")), statusModal.origem === 'iw_cpc_975_net' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "pt-2 border-t border-slate-200"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2"
+  }, "Input NET")), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('troca-de-territorio');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-blue-500"
+  }), "Troca de Territ\xF3rio"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('troca-de-segmento');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-violet-50 text-violet-700 border border-violet-200 rounded-xl hover:bg-violet-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-violet-500"
+  }), "Troca de Segmento"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('cadastro-de-membro');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-xl hover:bg-cyan-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-cyan-500"
+  }), "Cadastro de Membro"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-chamado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-orange-50 text-orange-700 border border-orange-200 rounded-xl hover:bg-orange-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-orange-500"
+  }), "Aguardando Chamado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-qualidade');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-xl hover:bg-purple-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-purple-500"
+  }), "Aguardando Qualidade")), statusModal.origem === 'iw_cpc_975_top' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "pt-2 border-t border-slate-200"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2"
+  }, "Input TOP")), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-qualidade');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-xl hover:bg-purple-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-purple-500"
+  }), "Aguardando Qualidade"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-chamado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-orange-50 text-orange-700 border border-orange-200 rounded-xl hover:bg-orange-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-orange-500"
+  }), "Aguardando Chamado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-dupla-validacao');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-xl hover:bg-cyan-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-cyan-500"
+  }), "Aguardando Dupla Valida\xE7\xE3o"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-pre-analise');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-blue-500"
+  }), "Aguardando Pr\xE9-An\xE1lise"))), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setStatusModal(null);
     },

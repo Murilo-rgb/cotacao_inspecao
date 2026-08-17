@@ -32,6 +32,11 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'pendente-correcao-cadastral') AS pendente_correcao_cadastral,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'pendente-correcao-efetuada') AS pendente_correcao_efetuada,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'pendente-suporte') AS pendente_suporte,
+          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'troca-de-territorio') AS troca_de_territorio,
+          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'troca-de-segmento') AS troca_de_segmento,
+          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'cadastro-de-membro') AS cadastro_de_membro,
+          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aguardando-chamado') AS aguardando_chamado,
+          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aguardando-qualidade') AS aguardando_qualidade,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aprovado') AS aprovados,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'reprovado') AS reprovados
         FROM db_gp.listafuncionarios l
@@ -67,7 +72,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             WHERE u.login = $1 
               AND c.validacao = 'Ativo' 
               AND c.status IS NOT NULL AND c.status != '' AND c.status != 'pendente'
-              AND LOWER(c.status) IN ('aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte')${slaWhereData}
+              AND LOWER(c.status) IN ('aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'troca-de-territorio', 'troca-de-segmento', 'cadastro-de-membro', 'aguardando-chamado', 'aguardando-qualidade')${slaWhereData}
           `, slaParams);
           slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
         } catch (slaErr) {
@@ -84,6 +89,11 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           'pendente-correcao-cadastral': parseInt(row.pendente_correcao_cadastral || 0),
           'pendente-correcao-efetuada': parseInt(row.pendente_correcao_efetuada || 0),
           'pendente-suporte': parseInt(row.pendente_suporte || 0),
+          'troca-de-territorio': parseInt(row.troca_de_territorio || 0),
+          'troca-de-segmento': parseInt(row.troca_de_segmento || 0),
+          'cadastro-de-membro': parseInt(row.cadastro_de_membro || 0),
+          'aguardando-chamado': parseInt(row.aguardando_chamado || 0),
+          'aguardando-qualidade': parseInt(row.aguardando_qualidade || 0),
           'aprovado': parseInt(row.aprovados || 0),
           'reprovado': parseInt(row.reprovados || 0)
         };

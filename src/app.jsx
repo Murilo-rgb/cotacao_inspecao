@@ -626,6 +626,27 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
         if (normalized === 'assumido') {
             return { label: 'Assumido', className: 'bg-blue-200 text-blue-800 border-blue-300 hover:bg-blue-300', dotClass: 'bg-blue-600' };
         }
+        if (normalized === 'troca-de-territorio') {
+            return { label: 'Troca de Território', className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100', dotClass: 'bg-blue-500' };
+        }
+        if (normalized === 'troca-de-segmento') {
+            return { label: 'Troca de Segmento', className: 'bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100', dotClass: 'bg-violet-500' };
+        }
+        if (normalized === 'cadastro-de-membro') {
+            return { label: 'Cadastro de Membro', className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100', dotClass: 'bg-cyan-500' };
+        }
+        if (normalized === 'aguardando-chamado') {
+            return { label: 'Aguardando Chamado', className: 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100', dotClass: 'bg-orange-500' };
+        }
+        if (normalized === 'aguardando-qualidade') {
+            return { label: 'Aguardando Qualidade', className: 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100', dotClass: 'bg-purple-500' };
+        }
+        if (normalized === 'aguardando-dupla-validacao') {
+            return { label: 'Aguardando Dupla Validação', className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100', dotClass: 'bg-cyan-500' };
+        }
+        if (normalized === 'aguardando-pre-analise') {
+            return { label: 'Aguardando Pré-Análise', className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100', dotClass: 'bg-blue-500' };
+        }
         return { label: 'Pendente', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
     };
 
@@ -1140,6 +1161,8 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                         <h2 className="text-lg font-bold text-slate-800 mb-2">Alterar Status</h2>
                         <p className="text-sm text-slate-500 mb-5">Selecione o novo status para a cotação <span className="font-semibold text-slate-800 font-mono">{statusModal.cotacao}</span>.</p>
                         <div className="space-y-2.5 max-h-[50vh] overflow-y-auto">
+                            {(!statusModal.origem || statusModal.origem === 'r_000250') && (
+                            <>
                             <button onClick={() => handleStatusChange('pendente')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente</button>
                             <button onClick={() => handleStatusChange('pendente-iphone')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - iPhone</button>
                             <button onClick={() => handleStatusChange('pendente-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pendente - Qualidade/Suporte</button>
@@ -1147,6 +1170,31 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                             <button onClick={() => handleStatusChange('assumido')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-200 text-blue-800 border border-blue-300 rounded-xl hover:bg-blue-300 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>Assumido</button>
                             <button onClick={() => handleStatusChange('aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Aprovado</button>
                             <button onClick={() => handleStatusChange('reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Reprovado</button>
+                            </>
+                            )}
+                            {statusModal.origem === 'iw_cpc_975_net' && (
+                                <>
+                                    <div className="pt-2 border-t border-slate-200">
+                                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Input NET</p>
+                                    </div>
+                                    <button onClick={() => handleStatusChange('troca-de-territorio')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Troca de Território</button>
+                                    <button onClick={() => handleStatusChange('troca-de-segmento')} className="w-full flex items-center gap-3 px-4 py-3 bg-violet-50 text-violet-700 border border-violet-200 rounded-xl hover:bg-violet-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-violet-500"></span>Troca de Segmento</button>
+                                    <button onClick={() => handleStatusChange('cadastro-de-membro')} className="w-full flex items-center gap-3 px-4 py-3 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-xl hover:bg-cyan-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>Cadastro de Membro</button>
+                                    <button onClick={() => handleStatusChange('aguardando-chamado')} className="w-full flex items-center gap-3 px-4 py-3 bg-orange-50 text-orange-700 border border-orange-200 rounded-xl hover:bg-orange-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>Aguardando Chamado</button>
+                                    <button onClick={() => handleStatusChange('aguardando-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-xl hover:bg-purple-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-purple-500"></span>Aguardando Qualidade</button>
+                                </>
+                            )}
+                            {statusModal.origem === 'iw_cpc_975_top' && (
+                                <>
+                                    <div className="pt-2 border-t border-slate-200">
+                                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Input TOP</p>
+                                    </div>
+                                    <button onClick={() => handleStatusChange('aguardando-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-xl hover:bg-purple-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-purple-500"></span>Aguardando Qualidade</button>
+                                    <button onClick={() => handleStatusChange('aguardando-chamado')} className="w-full flex items-center gap-3 px-4 py-3 bg-orange-50 text-orange-700 border border-orange-200 rounded-xl hover:bg-orange-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>Aguardando Chamado</button>
+                                    <button onClick={() => handleStatusChange('aguardando-dupla-validacao')} className="w-full flex items-center gap-3 px-4 py-3 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-xl hover:bg-cyan-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>Aguardando Dupla Validação</button>
+                                    <button onClick={() => handleStatusChange('aguardando-pre-analise')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Aguardando Pré-Análise</button>
+                                </>
+                            )}
                         </div>
                         <button onClick={() => setStatusModal(null)} className="w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200">Cancelar</button>
                     </div>
