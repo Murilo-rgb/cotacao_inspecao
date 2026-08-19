@@ -3012,8 +3012,15 @@ app.post('/api/inpecao_input/upload', authenticateToken, inputUpload.single('fil
 
 // Atualizar tabela iw_cpc_975_net a partir da esteira (somente dados do dia)
 app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res) => {
+  let client;
   try {
-    await pool.query(`
+    client = await pool.connect();
+    // Evita que o ETL fique preso segurando locks por muito tempo, o que degrada a
+    // leitura da página de inspeção (que consome a tabela cotacao).
+    // Usamos um cliente dedicado para que os SETs valham para o mesmo statement.
+    await client.query('SET lock_timeout = \'30s\'');
+    await client.query('SET statement_timeout = 0');
+    await client.query(`
       DO $$
       DECLARE
           v_max_esteira TIMESTAMP;
@@ -3023,7 +3030,11 @@ app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res)
           SELECT MAX(CAST(data_historico AS TIMESTAMP)) INTO v_max_bloco FROM db_bloco_de_notas.iw_cpc_975_net;
 
           IF v_max_esteira > COALESCE(v_max_bloco, '1900-01-01'::timestamp) THEN
-              EXECUTE 'TRUNCATE TABLE db_bloco_de_notas.iw_cpc_975_net';
+              -- Otimização de IO/lock: em vez de TRUNCATE (AccessExclusiveLock, bloqueia leitores
+              -- da iw_cpc durante toda a transação), usamos DELETE (RowExclusiveLock). O resultado
+              -- final é o mesmo (tabela passa a conter somente os dados re-carregados abaixo), mas
+              -- as leituras concorrentes (dashboard / distribuição) não ficam bloqueadas.
+              DELETE FROM db_bloco_de_notas.iw_cpc_975_net;
 
               INSERT INTO db_bloco_de_notas.iw_cpc_975_net (
                   fila, codigo_da_tarefa, data_criacao, data_finalizacao, etapa_atual,
@@ -3053,6 +3064,8 @@ app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res)
   } catch (error) {
     console.error('[ATUALIZAR_INPUT_NET] Erro:', error);
     res.status(500).json({ error: 'Erro ao atualizar dados' });
+  } finally {
+    if (client) client.release();
   }
 });
 

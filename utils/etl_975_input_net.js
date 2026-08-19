@@ -244,7 +244,7 @@ async function extrairZipSeNecessario(filePath) {
     return filePath;
 }
 
-async function processarETL_975_net(csvFilePath, pool) {
+async function processarETL_975_net(csvFilePath, pool, filaEsperada) {
     console.log('--- INICIANDO ETL IW_CPC_975 ---');
     
     csvFilePath = await extrairZipSeNecessario(csvFilePath);
@@ -284,6 +284,47 @@ async function processarETL_975_net(csvFilePath, pool) {
     // Construir mapeamento: para cada coluna esperada, qual indice no CSV
     const columnMapping = buildColumnMapping(csvHeaderFields, copyColumns);
     console.log(`Mapeamento de colunas: [${columnMapping.join(', ')}]`);
+    
+    // ===== VALIDACAO DE FILA =====
+    if (!filaEsperada) {
+        throw new Error('Fila esperada nao informada para validar o arquivo.');
+    }
+    
+    // Indice da coluna 'fila' no CSV (primeira coluna esperada)
+    const filaCsvIdx = columnMapping[0];
+    
+    if (filaCsvIdx < 0) {
+        throw new Error('Coluna "fila" nao encontrada no CSV. Upload bloqueado.');
+    }
+    
+    // Verificar fila em todas as linhas antes de qualquer operacao no banco
+    const linhasComFilaErrada = [];
+    for (let idx = 1; idx < rawLines.length; idx++) {
+        const rawLine = rawLines[idx].replace(/\r?$/, '');
+        if (rawLine.trim() === '') continue;
+        
+        let fields = parseCsvLine(rawLine, usedDelimiter);
+        
+        if (fields.length < Math.min(3, expectedColumns) && usedDelimiter === ';') {
+            const altFields = parseCsvLine(rawLine, ',');
+            if (altFields.length > fields.length) fields = altFields;
+        }
+        
+        const filaArquivo = (filaCsvIdx < fields.length) ? String(fields[filaCsvIdx] || '').trim() : '';
+        
+        if (filaArquivo !== filaEsperada) {
+            if (linhasComFilaErrada.length < 5) {
+                linhasComFilaErrada.push(`Linha ${idx + 1}: fila "${filaArquivo || '(vazia)'}" (esperado "${filaEsperada}")`);
+            }
+        }
+    }
+    
+    if (linhasComFilaErrada.length > 0) {
+        throw new Error(
+            `FILA INCOMPATIVEL: o arquivo contém linhas com fila incorreta. Upload bloqueado antes de qualquer alteracao no banco.\n  ${linhasComFilaErrada.join('\n  ')}`
+        );
+    }
+    // ===== FIM VALIDACAO DE FILA =====
     
     // Processar linhas de dados, reordenando conforme mapeamento
     const processedLines = [];
