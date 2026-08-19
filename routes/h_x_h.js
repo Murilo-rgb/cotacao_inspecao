@@ -12,7 +12,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const params = [];
       let whereData = '';
       if (data && data.trim()) {
-        whereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date($${params.length + 1},'dd/MM/yyyy')`;
+        whereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date($${params.length + 1}::text,'dd/MM/yyyy')`;
         params.push(data.trim());
       }
 
@@ -52,7 +52,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           const slaParams = [row.usuario_login];
           let slaWhereData = '';
           if (data && data.trim()) {
-            slaWhereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date(${slaParams.length + 1},'dd/MM/yyyy')`;
+            slaWhereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date(${slaParams.length + 1}::text,'dd/MM/yyyy')`;
             slaParams.push(data.trim());
           }
           const slaRes = await pool.query(`

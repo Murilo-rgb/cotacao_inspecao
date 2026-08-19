@@ -12,7 +12,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const params = [];
       let whereData = '';
       if (data && data.trim()) {
-        whereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date($${params.length + 1},'dd/MM/yyyy')`;
+        whereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date($${params.length + 1}::text,'dd/MM/yyyy')`;
         params.push(data.trim());
       }
 
@@ -36,6 +36,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aguardando-chamado') AS aguardando_chamado,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aguardando-dupla-validacao') AS aguardando_dupla_validacao,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aguardando-pre-analise') AS aguardando_pre_analise,
+          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'em-tratamento') AS em_tratamento,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aprovado') AS aprovados,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'reprovado') AS reprovados
         FROM db_gp.listafuncionarios l
@@ -56,7 +57,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           const slaParams = [row.usuario_login];
           let slaWhereData = '';
           if (data && data.trim()) {
-            slaWhereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date(${slaParams.length + 1},'dd/MM/yyyy')`;
+            slaWhereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date(${slaParams.length + 1}::text,'dd/MM/yyyy')`;
             slaParams.push(data.trim());
           }
           const slaRes = await pool.query(`
@@ -71,7 +72,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             WHERE u.login = $1 
               AND c.validacao = 'Ativo' 
               AND c.status IS NOT NULL AND c.status != '' AND c.status != 'pendente'
-              AND LOWER(c.status) IN ('aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'aguardando-qualidade', 'aguardando-chamado', 'aguardando-dupla-validacao', 'aguardando-pre-analise')${slaWhereData}
+              AND LOWER(c.status) IN ('em-tratamento', 'aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'aguardando-qualidade', 'aguardando-chamado', 'aguardando-dupla-validacao', 'aguardando-pre-analise')${slaWhereData}
           `, slaParams);
           slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
         } catch (slaErr) {
@@ -79,6 +80,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         }
 
         const statusCounts = {
+          'em-tratamento': parseInt(row.em_tratamento || 0),
           'pendente': parseInt(row.pendentes) + parseInt(row.pendente_simples || 0),
           'pendente-classificacao': parseInt(row.pendente_classificacao || 0),
           'pendente-iphone': parseInt(row.pendente_iphone || 0),
@@ -126,6 +128,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
               iw.acao,
               iw.situacao_sistema,
               iw.etapa_atual,
+              iw.data_historico,
               COUNT(*) FILTER (WHERE para_etapa LIKE '%02%') OVER (
                 PARTITION BY iw.codigo_da_tarefa 
                 ORDER BY iw.data_historico 

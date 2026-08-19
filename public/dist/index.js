@@ -1335,6 +1335,13 @@ function App() {
   var totalPages = Math.ceil(filteredQuotations.length / itemsPerPage);
   var getStatusConfig = function getStatusConfig(status) {
     var normalized = (status || '').trim().toLowerCase();
+    if (normalized === 'em-tratamento') {
+      return {
+        label: 'Em Tratamento',
+        className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
+        dotClass: 'bg-blue-500'
+      };
+    }
     if (normalized === 'aprovado') {
       return {
         label: 'Aprovado',
@@ -2195,7 +2202,11 @@ function App() {
     className: "font-semibold text-slate-800 font-mono"
   }, statusModal.cotacao), "."), /*#__PURE__*/React.createElement("div", {
     className: "space-y-2.5 max-h-[50vh] overflow-y-auto"
-  }, (!statusModal.origem || statusModal.origem === 'r_000250') && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
+  }, (!statusModal.origem || statusModal.origem === 'r_000250') && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "pt-2 border-t border-slate-200"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2"
+  }, "Inspe\xE7\xE3o")), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('pendente');
     },
@@ -2250,6 +2261,13 @@ function App() {
     className: "text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2"
   }, "Input NET")), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
+      return handleStatusChange('em-tratamento');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-blue-500"
+  }), "Em Tratamento"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
       return handleStatusChange('troca-de-territorio');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"
@@ -2283,7 +2301,21 @@ function App() {
     className: "w-full flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-xl hover:bg-purple-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-purple-500"
-  }), "Aguardando Qualidade")), statusModal.origem === 'iw_cpc_975_top' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }), "Aguardando Qualidade"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aprovado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
+  }), "Aprovado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('reprovado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-red-500"
+  }), "Reprovado")), statusModal.origem === 'iw_cpc_975_top' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "pt-2 border-t border-slate-200"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2"
@@ -2315,7 +2347,28 @@ function App() {
     className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-blue-500"
-  }), "Aguardando Pr\xE9-An\xE1lise"))), /*#__PURE__*/React.createElement("button", {
+  }), "Aguardando Pr\xE9-An\xE1lise"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('em-tratamento');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-blue-500"
+  }), "Em Tratamento"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aprovado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
+  }), "Aprovado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('reprovado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-red-500"
+  }), "Reprovado"))), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setStatusModal(null);
     },
