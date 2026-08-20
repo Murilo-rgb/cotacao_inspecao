@@ -1,177 +1,58 @@
-19/08/2026 14:50:13: error: terminating connection due to administrator command
-19/08/2026 14:50:13:     at parseErrorMessage (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:305:11)
-19/08/2026 14:50:13:     at Parser.handlePacket (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:143:27)
-19/08/2026 14:50:13:     at Parser.parse (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\parser.js:37:38)
-19/08/2026 14:50:13:     at Socket.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\pg-protocol\dist\index.js:12:42)
-19/08/2026 14:50:13:     at Socket.emit (node:events:508:28)
-19/08/2026 14:50:13:     at addChunk (node:internal/streams/readable:559:12)
-19/08/2026 14:50:13:     at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
-19/08/2026 14:50:13:     at Readable.push (node:internal/streams/readable:390:5)
-19/08/2026 14:50:13:     at TCP.onStreamRead (node:internal/stream_base_commons:189:23) {
-19/08/2026 14:50:13:   length: 116,
-19/08/2026 14:50:13:   severity: 'FATAL',
-19/08/2026 14:50:13:   code: '57P01',
-19/08/2026 14:50:13:   detail: undefined,
-19/08/2026 14:50:13:   hint: undefined,
-19/08/2026 14:50:13:   position: undefined,
-19/08/2026 14:50:13:   internalPosition: undefined,
-19/08/2026 14:50:13:   internalQuery: undefined,
-19/08/2026 14:50:13:   where: undefined,
-19/08/2026 14:50:13:   schema: undefined,
-19/08/2026 14:50:13:   table: undefined,
-19/08/2026 14:50:13:   column: undefined,
-19/08/2026 14:50:13:   dataType: undefined,
-19/08/2026 14:50:13:   constraint: undefined,
-19/08/2026 14:50:13:   file: 'postgres.c',
-19/08/2026 14:50:13:   line: '3197',
-19/08/2026 14:50:13:   routine: 'ProcessInterrupts',
-19/08/2026 14:50:13:   client: Client {
-19/08/2026 14:50:13:     _events: [Object: null prototype] { error: [Function (anonymous)] },
-19/08/2026 14:50:13:     _eventsCount: 1,
-19/08/2026 14:50:13:     _maxListeners: undefined,
-19/08/2026 14:50:13:     connectionParameters: ConnectionParameters {
-19/08/2026 14:50:13:       user: 'jose_faria',
-19/08/2026 14:50:13:       database: 'db_operacao',
-19/08/2026 14:50:13:       port: 5432,
-19/08/2026 14:50:13:       host: '10.230.43.181',
-19/08/2026 14:50:13:       binary: false,
-19/08/2026 14:50:13:       options: undefined,
-19/08/2026 14:50:13:       ssl: false,
-19/08/2026 14:50:13:       sslnegotiation: undefined,
-19/08/2026 14:50:13:       client_encoding: '',
-19/08/2026 14:50:13:       replication: undefined,
-19/08/2026 14:50:13:       isDomainSocket: false,
-19/08/2026 14:50:13:       application_name: undefined,
-19/08/2026 14:50:13:       fallback_application_name: undefined,
-19/08/2026 14:50:13:       statement_timeout: false,
-19/08/2026 14:50:13:       lock_timeout: false,
-19/08/2026 14:50:13:       idle_in_transaction_session_timeout: false,
-19/08/2026 14:50:13:       query_timeout: false,
-19/08/2026 14:50:13:       connect_timeout: 0
-19/08/2026 14:50:13:     },
-19/08/2026 14:50:13:     user: 'jose_faria',
-19/08/2026 14:50:13:     database: 'db_operacao',
-19/08/2026 14:50:13:     port: 5432,
-19/08/2026 14:50:13:     host: '10.230.43.181',
-19/08/2026 14:50:13:     replication: undefined,
-19/08/2026 14:50:13:     _Promise: [Function: Promise],
-19/08/2026 14:50:13:     _types: TypeOverrides { _types: [Object], text: {}, binary: {} },
-19/08/2026 14:50:13:     _ending: true,
-19/08/2026 14:50:13:     _ended: false,
-19/08/2026 14:50:13:     _connecting: false,
-19/08/2026 14:50:13:     _connected: true,
-19/08/2026 14:50:13:     _connectionError: false,
-19/08/2026 14:50:13:     _queryable: false,
-19/08/2026 14:50:13:     _activeQuery: null,
-19/08/2026 14:50:13:     _txStatus: 'I',
-19/08/2026 14:50:13:     enableChannelBinding: false,
-19/08/2026 14:50:13:     scramMaxIterations: 100000,
-19/08/2026 14:50:13:     connection: Connection {
-19/08/2026 14:50:13:       _events: [Object: null prototype],
-19/08/2026 14:50:13:       _eventsCount: 23,
-19/08/2026 14:50:13:       _maxListeners: undefined,
-19/08/2026 14:50:13:       stream: [Socket],
-19/08/2026 14:50:13:       _keepAlive: false,
-19/08/2026 14:50:13:       _keepAliveInitialDelayMillis: 0,
-19/08/2026 14:50:13:       parsedStatements: {},
-19/08/2026 14:50:13:       ssl: false,
-19/08/2026 14:50:13:       sslNegotiation: 'postgres',
-19/08/2026 14:50:13:       _ending: true,
-19/08/2026 14:50:13:       _emitMessage: false,
-19/08/2026 14:50:13:       _connecting: true,
-19/08/2026 14:50:13:       Symbol(shapeMode): false,
-19/08/2026 14:50:13:       Symbol(kCapture): false
-19/08/2026 14:50:13:     },
-19/08/2026 14:50:13:     _queryQueue: [],
-19/08/2026 14:50:13:     binary: false,
-19/08/2026 14:50:13:     processID: 1040875,
-19/08/2026 14:50:13:     secretKey: 1680440132,
-19/08/2026 14:50:13:     ssl: false,
-19/08/2026 14:50:13:     sslNegotiation: 'postgres',
-19/08/2026 14:50:13:     _connectionTimeoutMillis: 0,
-19/08/2026 14:50:13:     _connectionCallback: null,
-19/08/2026 14:50:13:     saslSession: null,
-19/08/2026 14:50:13:     release: [Function (anonymous)],
-19/08/2026 14:50:13:     readyForQuery: true,
-19/08/2026 14:50:13:     hasExecuted: true,
-19/08/2026 14:50:13:     _poolUseCount: 4,
-19/08/2026 14:50:13:     Symbol(shapeMode): false,
-19/08/2026 14:50:13:     Symbol(kCapture): false
-19/08/2026 14:50:13:   }
-19/08/2026 14:50:13: }
-19/08/2026 15:29:09: [INSPECAO] Erro ao marcar Maratona: invalid input syntax for type integer: "Cancelar"
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario aline.brito.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario ana.gouveia.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario erika.dias : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario josicleide.soledade : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario laura.oliveira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:18:50: [DASHBOARD_INPUT_NET SLA] Erro para usuario vitor.ribeiro : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario aline.brito.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario ana.gouveia.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario erika.dias : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario josicleide.soledade : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario laura.oliveira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:35:25: [DASHBOARD_INPUT_NET SLA] Erro para usuario vitor.ribeiro : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:03: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:03: [DASHBOARD_INPUT_NET SLA] Erro para usuario aline.brito.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:03: [DASHBOARD_INPUT_NET SLA] Erro para usuario ana.gouveia.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:03: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:03: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:03: [DASHBOARD_INPUT_NET SLA] Erro para usuario erika.dias : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:03: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:03: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario josicleide.soledade : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario laura.oliveira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:36:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario vitor.ribeiro : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario aline.brito.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario ana.gouveia.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario erika.dias : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario josicleide.soledade : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario laura.oliveira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 16:42:49: [DASHBOARD_INPUT_NET SLA] Erro para usuario vitor.ribeiro : bind message supplies 2 parameters, but prepared statement "" requires 1
-19/08/2026 17:01:25: MulterError: File too large
-19/08/2026 17:01:25:     at abortWithCode (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:107:22)
-19/08/2026 17:01:25:     at FileStream.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:221:11)
-19/08/2026 17:01:25:     at FileStream.emit (node:events:508:28)
-19/08/2026 17:01:25:     at SBMH.ssCb [as _cb] (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:479:32)
-19/08/2026 17:01:25:     at feed (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:248:10)
-19/08/2026 17:01:25:     at SBMH.push (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:104:16)
-19/08/2026 17:01:25:     at Multipart._write (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:567:19)
-19/08/2026 17:01:25:     at writeOrBuffer (node:internal/streams/writable:570:12)
-19/08/2026 17:01:25:     at _write (node:internal/streams/writable:499:10)
-19/08/2026 17:01:25:     at Writable.write (node:internal/streams/writable:508:10)
+20/08/2026 05:46:10: Error: Request aborted
+20/08/2026 05:46:10:     at IncomingMessage.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:124:28)
+20/08/2026 05:46:10:     at IncomingMessage.emit (node:events:508:28)
+20/08/2026 05:46:10:     at IncomingMessage._destroy (node:_http_incoming:221:10)
+20/08/2026 05:46:10:     at _destroy (node:internal/streams/destroy:122:10)
+20/08/2026 05:46:10:     at IncomingMessage.destroy (node:internal/streams/destroy:84:5)
+20/08/2026 05:46:10:     at abortIncoming (node:_http_server:838:9)
+20/08/2026 05:46:10:     at socketOnClose (node:_http_server:832:3)
+20/08/2026 05:46:10:     at Socket.emit (node:events:520:35)
+20/08/2026 05:46:10:     at TCP.<anonymous> (node:net:346:12)
+20/08/2026 05:47:01: Error: Request aborted
+20/08/2026 05:47:01:     at IncomingMessage.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:124:28)
+20/08/2026 05:47:01:     at IncomingMessage.emit (node:events:508:28)
+20/08/2026 05:47:01:     at IncomingMessage._destroy (node:_http_incoming:221:10)
+20/08/2026 05:47:01:     at _destroy (node:internal/streams/destroy:122:10)
+20/08/2026 05:47:01:     at IncomingMessage.destroy (node:internal/streams/destroy:84:5)
+20/08/2026 05:47:01:     at abortIncoming (node:_http_server:838:9)
+20/08/2026 05:47:01:     at socketOnClose (node:_http_server:832:3)
+20/08/2026 05:47:01:     at Socket.emit (node:events:520:35)
+20/08/2026 05:47:01:     at TCP.<anonymous> (node:net:346:12)
+20/08/2026 05:49:02: MulterError: File too large
+20/08/2026 05:49:02:     at abortWithCode (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:107:22)
+20/08/2026 05:49:02:     at FileStream.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:221:11)
+20/08/2026 05:49:02:     at FileStream.emit (node:events:508:28)
+20/08/2026 05:49:02:     at SBMH.ssCb [as _cb] (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:479:32)
+20/08/2026 05:49:02:     at feed (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:248:10)
+20/08/2026 05:49:02:     at SBMH.push (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:104:16)
+20/08/2026 05:49:02:     at Multipart._write (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:567:19)
+20/08/2026 05:49:02:     at writeOrBuffer (node:internal/streams/writable:570:12)
+20/08/2026 05:49:02:     at _write (node:internal/streams/writable:499:10)
+20/08/2026 05:49:02:     at Writable.write (node:internal/streams/writable:508:10)
+20/08/2026 06:00:11: MulterError: File too large
+20/08/2026 06:00:11:     at abortWithCode (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:107:22)
+20/08/2026 06:00:11:     at FileStream.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:221:11)
+20/08/2026 06:00:11:     at FileStream.emit (node:events:508:28)
+20/08/2026 06:00:11:     at SBMH.ssCb [as _cb] (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:479:32)
+20/08/2026 06:00:11:     at feed (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:248:10)
+20/08/2026 06:00:11:     at SBMH.push (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:104:16)
+20/08/2026 06:00:11:     at Multipart._write (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:567:19)
+20/08/2026 06:00:11:     at writeOrBuffer (node:internal/streams/writable:570:12)
+20/08/2026 06:00:11:     at _write (node:internal/streams/writable:499:10)
+20/08/2026 06:00:11:     at Writable.write (node:internal/streams/writable:508:10)
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario aline.brito.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario ana.gouveia.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario erika.dias : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario josicleide.soledade : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario laura.oliveira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario vitor.ribeiro : bind message supplies 2 parameters, but prepared statement "" requires 1

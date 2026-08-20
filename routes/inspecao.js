@@ -664,7 +664,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
                c.usuario_id,
                u_dist.nome as usuario_distribuido_nome
         FROM db_bloco_de_notas.iw_cpc_975_top iw
-        LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa
+        LEFT JOIN db_bloco_de_notas.cotacao c
+          ON iw.codigo_da_tarefa = c.tarefa
+         AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
         WHERE etapa_atual ilike '%01%' or etapa_atual ilike '%02%'
           AND situacao_sistema = 'ATIVO'
@@ -775,7 +777,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             ) THEN 1 ELSE 0 END AS desconsiderar,
           hc.*
         FROM historico_calculado hc
-        LEFT JOIN db_bloco_de_notas.cotacao c ON hc.cod_tarefa = c.tarefa
+        LEFT JOIN db_bloco_de_notas.cotacao c
+          ON hc.cod_tarefa = c.tarefa
+         AND NULLIF(hc.data_historico, '-')::timestamp = c.data_historico
         LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
         WHERE 
           hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
@@ -1025,18 +1029,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         }
         
         try {
-          // Verificar se já foi distribuída
-          const check = await pool.query(
-            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-            [item.cod_tarefa, 'Ativo']
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
-            continue;
-          }
-          
-          // Buscar nome da tarefa para anotação e data_historico
+          // Buscar nome da tarefa para anotação e data_historico (necessário para o cruzamento por tarefa + data_historico)
           const tarefaResult = await pool.query(
             'SELECT codigo_da_tarefa, etapa_atual, data_historico FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
             [item.cod_tarefa]
@@ -1050,6 +1043,21 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             const tr = tarefaResult.rows[0];
             anotacao = `Origem: iw_cpc_975_net | Etapa: ${tr.etapa_atual || ''}`;
             if (tr.data_historico) dataHistorico = tr.data_historico;
+          }
+
+          // Verificar se já foi distribuída para este data_historico.
+          // Agora considera tarefa + data_historico: se o pedido voltou com data_historico
+          // atualizado, é tratado como nova entrada e não é bloqueado por uma cotação antiga.
+          const check = await pool.query(
+            `SELECT tarefa FROM db_bloco_de_notas.cotacao
+             WHERE tarefa = $1 AND validacao = $2
+               AND data_historico IS NOT DISTINCT FROM NULLIF($3, '-')::timestamp`,
+            [item.cod_tarefa, 'Ativo', dataHistorico]
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
           }
 
           // Buscar nome do usuário destino
@@ -1197,18 +1205,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         }
         
         try {
-          // Verificar se já foi distribuída
-          const check = await pool.query(
-            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-            [item.cod_tarefa, 'Ativo']
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
-            continue;
-          }
-          
-          // Buscar dados da tarefa para anotação
+          // Buscar dados da tarefa para anotação e data_historico (necessário para o cruzamento por tarefa + data_historico)
           const tarefaResult = await pool.query(
             'SELECT codigo_da_tarefa, etapa_atual, data_historico FROM db_bloco_de_notas.iw_cpc_975_top WHERE codigo_da_tarefa = $1',
             [item.cod_tarefa]
@@ -1222,6 +1219,21 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             if (tr.data_historico) dataHistorico = tr.data_historico;
           }
 
+          // Verificar se já foi distribuída para este data_historico.
+          // Agora considera tarefa + data_historico: se o pedido voltou com data_historico
+          // atualizado, é tratado como nova entrada e não é bloqueado por uma cotação antiga.
+          const check = await pool.query(
+            `SELECT tarefa FROM db_bloco_de_notas.cotacao
+             WHERE tarefa = $1 AND validacao = $2
+               AND data_historico IS NOT DISTINCT FROM NULLIF($3, '-')::timestamp`,
+            [item.cod_tarefa, 'Ativo', dataHistorico]
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
+          
           // Buscar nome do usuário destino
           let destinoNome = String(item.usuario_id);
           try {
@@ -1612,7 +1624,10 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       // Condições base para tarefas distribuíveis na esteira
       const baseFrom = `
         FROM db_bloco_de_notas.iw_cpc_975_top iw
-        LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        LEFT JOIN db_bloco_de_notas.cotacao c
+          ON iw.codigo_da_tarefa = c.tarefa
+         AND c.validacao = 'Ativo'
+         AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
           AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
           AND (iw.data_historico::date = CURRENT_DATE OR (iw.etapa_atual ILIKE '%01%' OR iw.etapa_atual ILIKE '%02%'))
@@ -1668,22 +1683,6 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       for (let i = 0; i < tarefas.length; i++) {
         const tarefa = tarefas[i];
         try {
-          // Verificar se já não foi distribuída entre a consulta e agora
-          const check = await pool.query(
-            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-            [tarefa.cod_tarefa, 'Ativo']
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída' });
-            continue;
-          }
-          
-          let anotacao = '';
-          if (tarefa.etapa_atual) {
-            anotacao = `Origem: iw_cpc_975_top | Etapa: ${tarefa.etapa_atual}`;
-          }
-          
           // Ajustar data_historico: 1ª = valor original, demais = cotação anterior + 1h
           let dataHistorico = null;
           if (i === 0) {
@@ -1691,6 +1690,26 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           } else {
             const anteriorSalvo = distribuidos.length > 0 ? distribuidos[distribuidos.length - 1].data_historico : null;
             dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.data_historico, 1);
+          }
+
+          // Verificar se já não foi distribuída entre a consulta e agora.
+          // Agora considera tarefa + data_historico: se o pedido voltou com data_historico
+          // atualizado, é tratado como nova entrada e não é bloqueado por uma cotação antiga.
+          const check = await pool.query(
+            `SELECT tarefa FROM db_bloco_de_notas.cotacao
+             WHERE tarefa = $1 AND validacao = $2
+               AND data_historico IS NOT DISTINCT FROM NULLIF($3, '-')::timestamp`,
+            [tarefa.cod_tarefa, 'Ativo', dataHistorico]
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
+          
+          let anotacao = '';
+          if (tarefa.etapa_atual) {
+            anotacao = `Origem: iw_cpc_975_top | Etapa: ${tarefa.etapa_atual}`;
           }
           
           await pool.query(
@@ -1788,7 +1807,10 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       // Condições base para tarefas distribuíveis na esteira
       const baseFrom = `
         FROM db_bloco_de_notas.iw_cpc_975_net iw
-        LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        LEFT JOIN db_bloco_de_notas.cotacao c
+          ON iw.codigo_da_tarefa = c.tarefa
+         AND c.validacao = 'Ativo'
+         AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
           AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
           AND (iw.data_historico::date = CURRENT_DATE OR (iw.etapa_atual ILIKE '%01%' OR iw.etapa_atual ILIKE '%02%'))
@@ -1844,22 +1866,6 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       for (let i = 0; i < tarefas.length; i++) {
         const tarefa = tarefas[i];
         try {
-          // Verificar se já não foi distribuída entre a consulta e agora
-          const check = await pool.query(
-            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-            [tarefa.cod_tarefa, 'Ativo']
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída' });
-            continue;
-          }
-          
-          let anotacao = '';
-          if (tarefa.etapa_atual) {
-            anotacao = `Origem: iw_cpc_975_net | Etapa: ${tarefa.etapa_atual}`;
-          }
-          
           // Ajustar data_historico: 1ª = valor original, demais = cotação anterior + 1h
           let dataHistorico = null;
           if (i === 0) {
@@ -1867,6 +1873,26 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           } else {
             const anteriorSalvo = distribuidos.length > 0 ? distribuidos[distribuidos.length - 1].data_historico : null;
             dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.data_historico, 1);
+          }
+
+          // Verificar se já não foi distribuída entre a consulta e agora.
+          // Agora considera tarefa + data_historico: se o pedido voltou com data_historico
+          // atualizado, é tratado como nova entrada e não é bloqueado por uma cotação antiga.
+          const check = await pool.query(
+            `SELECT tarefa FROM db_bloco_de_notas.cotacao
+             WHERE tarefa = $1 AND validacao = $2
+               AND data_historico IS NOT DISTINCT FROM NULLIF($3, '-')::timestamp`,
+            [tarefa.cod_tarefa, 'Ativo', dataHistorico]
+          );
+          
+          if (check.rows.length > 0) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
+          
+          let anotacao = '';
+          if (tarefa.etapa_atual) {
+            anotacao = `Origem: iw_cpc_975_net | Etapa: ${tarefa.etapa_atual}`;
           }
           
           await pool.query(
