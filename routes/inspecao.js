@@ -668,7 +668,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           ON iw.codigo_da_tarefa = c.tarefa
          AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
-        WHERE etapa_atual ilike '%01%' or etapa_atual ilike '%02%'
+        WHERE (etapa_atual ILIKE '01%' OR etapa_atual ILIKE '02%')
           AND situacao_sistema = 'ATIVO'
           AND acao = 'Alterar Status'
       `;
@@ -711,7 +711,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           END) as fila,
           COUNT(DISTINCT codigo_da_tarefa) as total
         FROM db_bloco_de_notas.iw_cpc_975_top 
-        WHERE etapa_atual = '04 - Inspeção' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
+        WHERE etapa_atual ILIKE '01%' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
       `);
       const stats = countResult.rows[0] || {};
       res.json({ 
@@ -788,8 +788,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
          AND NULLIF(hc.data_historico, '-')::timestamp = c.data_historico
         LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
         WHERE 
-          hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
-          AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+          (hc.etapa_atual ILIKE '01%' OR hc.etapa_atual ILIKE '02%')
       `;
 
       if (search) {
@@ -832,8 +831,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         foto_recente AS (
           SELECT DISTINCT ON (hc.cod_tarefa) hc.cod_tarefa, hc.data_historico, hc.assumido_por, hc.da_etapa, hc.para_etapa, hc.acao, hc.situacao_sistema, hc.etapa_atual, hc.qtd_producao_futura
           FROM historico_calculado hc
-          WHERE hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
-            AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+          WHERE hc.etapa_atual ILIKE '01%'
           ORDER BY hc.cod_tarefa, hc.data_historico DESC
         )
         SELECT 
@@ -860,6 +858,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           END) as fila,
           COUNT(DISTINCT foto_recente.cod_tarefa) as total
         FROM foto_recente
+        WHERE foto_recente.etapa_atual ILIKE '01%'
       `);
 
       const stats = statsResult.rows[0] || {};
@@ -1679,8 +1678,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
          AND c.validacao = 'Ativo'
          AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
-          AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
-          AND (iw.data_historico::date = CURRENT_DATE OR (iw.etapa_atual ILIKE '%01%' OR iw.etapa_atual ILIKE '%02%'))
+          AND iw.etapa_atual ILIKE '01%'
       `;
 
       // 1ª tarefa: sempre a mais antiga (maior criticidade de SLA)
@@ -1862,8 +1860,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
          AND c.validacao = 'Ativo'
          AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
-          AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
-          AND (iw.data_historico::date = CURRENT_DATE OR (iw.etapa_atual ILIKE '%01%' OR iw.etapa_atual ILIKE '%02%'))
+          AND iw.etapa_atual ILIKE '01%'
       `;
 
       // 1ª tarefa: sempre a mais antiga (maior criticidade de SLA)
@@ -2506,7 +2503,7 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
           AND c.validacao = 'Ativo'
           AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
-          AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
+          AND iw.etapa_atual ILIKE '01%'
         ORDER BY
           CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
           iw.data_historico::timestamp ASC NULLS LAST
@@ -2523,7 +2520,7 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
           AND c.validacao = 'Ativo'
           AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
-          AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
+          AND iw.etapa_atual ILIKE '01%'
         ORDER BY
           CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
           iw.data_historico::timestamp ASC NULLS LAST

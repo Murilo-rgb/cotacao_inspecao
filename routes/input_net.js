@@ -162,8 +162,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           foto_recente AS (
             SELECT DISTINCT ON (hc.cod_tarefa) hc.cod_tarefa, hc.da_etapa, hc.para_etapa, hc.acao, hc.situacao_sistema, hc.etapa_atual, hc.qtd_producao_futura
             FROM historico_calculado hc
-            WHERE hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
-              AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+            WHERE hc.etapa_atual ILIKE '01%'
             ORDER BY hc.cod_tarefa, hc.data_historico DESC
           )
           SELECT 
@@ -179,6 +178,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             END) as pendente,
             COUNT(DISTINCT CASE WHEN (foto_recente.acao ILIKE 'Cancelar' OR foto_recente.situacao_sistema ILIKE 'CANCELADO') THEN foto_recente.cod_tarefa END) as cancelado
           FROM foto_recente
+          WHERE foto_recente.etapa_atual ILIKE '01%'
         `);
         if (statsRes.rows.length > 0) {
           statsNet = {

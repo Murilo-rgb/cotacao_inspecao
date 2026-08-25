@@ -2760,7 +2760,7 @@ app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
       FROM db_bloco_de_notas.iw_cpc_975_top iw
       LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa
       LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
-      WHERE etapa_atual ilike '%01%' or etapa_atual ilike '%02%'
+      WHERE (etapa_atual ILIKE '01%' OR etapa_atual ILIKE '02%')
         AND situacao_sistema = 'ATIVO'
         AND acao = 'Alterar Status'
     `;
@@ -2796,7 +2796,7 @@ app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
           WHEN (da_etapa ILIKE '%04%' AND (para_etapa ILIKE '%01%' OR para_etapa ILIKE '%02%' OR para_etapa ILIKE '%03%' OR para_etapa ILIKE '%Admin%')) THEN codigo_da_tarefa 
         END) as desconsiderar
       FROM db_bloco_de_notas.iw_cpc_975_top 
-      WHERE etapa_atual = '04 - Inspeção' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
+      WHERE etapa_atual ILIKE '01%' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
     `);
     const stats = countResult.rows[0] || {};
 
@@ -2902,8 +2902,7 @@ app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
       LEFT JOIN db_bloco_de_notas.cotacao c ON hc.cod_tarefa = c.tarefa
       LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
       WHERE 
-        hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
-        AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+        (hc.etapa_atual ILIKE '01%' OR hc.etapa_atual ILIKE '02%')
     `;
 
     if (search) {
@@ -2946,8 +2945,7 @@ app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
       foto_recente AS (
         SELECT DISTINCT ON (hc.cod_tarefa) hc.cod_tarefa, hc.data_historico, hc.assumido_por, hc.da_etapa, hc.para_etapa, hc.acao, hc.situacao_sistema, hc.etapa_atual, hc.qtd_producao_futura
         FROM historico_calculado hc
-        WHERE hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
-          AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+        WHERE hc.etapa_atual ILIKE '01%'
         ORDER BY hc.cod_tarefa, hc.data_historico DESC
       )
       SELECT 
@@ -2968,6 +2966,7 @@ app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
         END) as desconsiderar,
         COUNT(DISTINCT foto_recente.cod_tarefa) as total
       FROM foto_recente
+      WHERE foto_recente.etapa_atual ILIKE '01%'
     `);
 
     const stats = statsResult.rows[0] || {};
@@ -3203,6 +3202,11 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
         let cotacaoDsc = item.cod_tarefa;
         if (tarefaResult.rows.length > 0) {
           const tr = tarefaResult.rows[0];
+          // Distribuição manual restrita à etapa 01 (entrada da esteira)
+          if (!tr.etapa_atual || !String(tr.etapa_atual).trim().toUpperCase().startsWith('01')) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: `Etapa não permitida para distribuição: ${tr.etapa_atual || 'indefinida'} (apenas etapa 01)` });
+            continue;
+          }
           anotacao = `Origem: iw_cpc_975_net | Etapa: ${tr.etapa_atual || ''}`;
           if (tr.data_historico) dataHistorico = tr.data_historico;
         }
