@@ -174,6 +174,10 @@ function App() {
         const saved = localStorage.getItem('darkMode');
         return saved === 'true';
     });
+const [filasDisponibles, setFilasDisponibles] = useState([]);
+    const [pegarModalOpen, setPegarModalOpen] = useState(false);
+    const [pegandoFila, setPegandoFila] = useState(false);
+    const [pegadoExtra, setPegadoExtra] = useState(false);
 
     useEffect(() => {
         const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
@@ -277,6 +281,65 @@ function App() {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
+    };
+const preferBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
+    const confirmarPegarExtra = async (origen) => {
+        const token = localStorage.getItem('token');
+        setPegandoFila(true);
+        try {
+            const resp = await fetch(`${preferBasePath()}/api/inspecao/pegar-extra`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ origen })
+            });
+            const data = await resp.json();
+            if (resp.ok) {
+                showToast(data.message || 'Você pegou 1 tarefa a mais da fila.');
+                setPegadoExtra(true);
+                setPegarModalOpen(false);
+                fetchQuotations();
+            } else {
+                showToast(data.error || data.message || 'Não foi possível pegar a tarefa.', 'error');
+            }
+        } catch (error) {
+            console.error('[PEGAR_EXTRA] Error:', error);
+            showToast('Erro de conexão ao pegar tarefa.', 'error');
+        } finally {
+            setPegandoFila(false);
+        }
+    };
+
+    const handlePegarExtra = async () => {
+        if (quotations.some(q => isPendenteStatus(q.status))) {
+            showToast('Termine seus pedidos pendentes antes de pegar outro.', 'error');
+            return;
+        }
+        const token = localStorage.getItem('token');
+        setPegandoFila(true);
+        try {
+            const resp = await fetch(`${preferBasePath()}/api/inspecao/mis-filas`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await resp.json();
+            const filas = Array.isArray(data.filas) ? data.filas : [];
+            if (filas.length === 0) {
+                showToast('Não foi possível determinar sua fila. Contate o supervisor.', 'error');
+                setPegandoFila(false);
+                return;
+            }
+            if (filas.length === 1) {
+                await confirmarPegarExtra(filas[0].origen);
+                return;
+            }
+            setFilasDisponibles(filas);
+            setPegarModalOpen(true);
+        } catch (error) {
+            console.error('[PEGAR] Error:', error);
+            showToast('Erro ao consultar suas filas.', 'error');
+        } finally {
+            setPegandoFila(false);
+        }
     };
 
     const handleFormSubmit = async (e) => {
@@ -826,7 +889,7 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                    <div className="flex-1 relative group">
+                    <div className="w-60 sm:w-72 relative group">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><SearchIcon /></div>
                         <input type="text" placeholder="Buscar por cotação, anotação ou status..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
                             className="w-full pl-11 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" />
@@ -842,6 +905,13 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                     <button onClick={() => { setReprovaModalOpen(true); setReprovaSearch(''); setReprovaResults([]); setReprovaAbaAtiva('Inspeção') }}
                         className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-xl hover:from-amber-600 hover:to-orange-700 focus:ring-4 focus:ring-amber-500/20 transition-all duration-200 shadow-md hover:shadow-lg">
                         <SearchIcon /> Reprova Padrão
+                    </button>
+                    <button
+                        onClick={handlePegarExtra}
+                        disabled={quotations.some(q => isPendenteStatus(q.status)) || pegandoFila}
+                        title={quotations.some(q => isPendenteStatus(q.status)) ? 'Termine seus pedidos pendentes antes de pegar outro' : 'Pegar 1 tarefa a mais da fila da sua ilha'}
+                        className="inline-flex items-center justify-center gap-1 px-3.5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 focus:ring-4 focus:ring-emerald-500/20 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed">
+                        <PlusIcon /> +1
                     </button>
                 </div>
 
@@ -876,7 +946,7 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                                                     {!quotation.origem || quotation.origem === 'r_000250' ? (
                                                         <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
                                                     ) : quotation.origem === 'iw_cpc_975_net' ? (
-                                                        <span title="Input" className="inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"><InputIcon /></span>
+                                                        <span title="NET" className="inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"><InputIcon /></span>
                                                     ) : quotation.origem === 'iw_cpc_975_top' ? (
                                                         <span title="TOP" className="inline-flex items-center justify-center w-8 h-8 bg-purple-50 rounded-lg cursor-help"><TopIcon /></span>
                                                     ) : (
@@ -1288,6 +1358,26 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                                     )}
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            )}
+{pegarModalOpen && (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) setPegarModalOpen(false); }}>
+                    <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl modal-content">
+                        <div className="flex items-center justify-between mb-5">
+                            <h2 className="text-lg font-bold text-slate-800">Escolher fila para pegar +1</h2>
+                            <button onClick={() => setPegarModalOpen(false)} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200"><XIcon /></button>
+                        </div>
+                        <p className="text-sm text-slate-500 mb-4">Selecione de qual fila deseja pegar 1 tarefa extra.</p>
+                        <div className="space-y-3">
+                            {filasDisponibles.map((fila, idx) => (
+                                <button key={idx} onClick={() => confirmarPegarExtra(fila.origen)} disabled={pegandoFila}
+                                    className="w-full flex items-center justify-between px-4 py-3 bg-slate-100 border border-slate-200 rounded-xl hover:bg-emerald-50 disabled:opacity-60 transition-all duration-200 font-semibold text-sm">
+                                    <span>{fila.etiqueta}</span>
+                                    <span className="text-xs text-slate-400 font-mono">{fila.origen}</span>
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>

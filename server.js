@@ -416,7 +416,7 @@ app.get('/api/quotations/suporte', authenticateToken, async (req, res) => {
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -476,7 +476,7 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -536,7 +536,7 @@ app.get('/api/quotations/qualidade/suporte', authenticateToken, async (req, res)
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -596,7 +596,7 @@ app.get('/pme_notas/api/quotations/qualidade/suporte', authenticateToken, async 
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -1207,7 +1207,15 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
 
     if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        innerQuery += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+        innerQuery += ` AND (
+          c.origem = 'r_000250'
+          OR (
+            (c.origem IS NULL OR c.origem = '')
+            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa)
+            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa)
+            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa)
+          )
+        )`;
       } else {
         innerQuery += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -1672,7 +1680,15 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
 
     if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        innerQuery += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+        innerQuery += ` AND (
+          c.origem = 'r_000250'
+          OR (
+            (c.origem IS NULL OR c.origem = '')
+            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa)
+            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa)
+            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa)
+          )
+        )`;
       } else {
         innerQuery += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -1943,6 +1959,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
     try {
         const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
         const ano = parseInt(req.query.ano) || new Date().getFullYear();
+        const origem = req.query.origem && req.query.origem !== 'todos' ? req.query.origem : null;
 
         // Total de tarefas criadas por dia no mês, considerando apenas uma tarefa por usuário por dia
         const tarefasQuery = await pool.query(`
@@ -1955,6 +1972,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
                   AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
             ),
             dedup AS (
                 SELECT DISTINCT ON (usuario_id, data_base)
@@ -1970,7 +1988,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
             FROM dedup
             GROUP BY dia
             ORDER BY dia
-        `, [ano, mes]);
+        `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
 
         // Tarefas auditadas por dia no mês, considerando apenas uma tarefa por usuário por dia
         const auditadasQuery = await pool.query(`
@@ -1984,6 +2002,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
                   AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
             ),
             dedup AS (
                 SELECT DISTINCT ON (usuario_id, data_base)
@@ -1999,7 +2018,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
             FROM dedup
             GROUP BY dia
             ORDER BY dia
-        `, [ano, mes]);
+        `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
 
         // Montar mapa de dias
         const diasMap = {};
@@ -2047,6 +2066,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
     try {
         const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
         const ano = parseInt(req.query.ano) || new Date().getFullYear();
+        const origem = req.query.origem && req.query.origem !== 'todos' ? req.query.origem : null;
 
         const tarefasQuery = await pool.query(`
             WITH base AS (
@@ -2058,6 +2078,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
                   AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
             ),
             ranked AS (
                 SELECT
@@ -2077,7 +2098,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
             WHERE rn = 1
             GROUP BY dia
             ORDER BY dia
-        `, [ano, mes]);
+        `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
 
         const auditadasQuery = await pool.query(`
             WITH base AS (
@@ -2090,6 +2111,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
                   AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
             ),
             ranked AS (
                 SELECT
@@ -2109,7 +2131,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
             WHERE rn = 1
             GROUP BY dia
             ORDER BY dia
-        `, [ano, mes]);
+        `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
 
         const diasMap = {};
         for (const row of tarefasQuery.rows) {

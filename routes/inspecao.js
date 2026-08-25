@@ -2365,5 +2365,243 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     }
   });
 
+// ===== PEGAR EXTRA (colaborador) =====
+  // Mapear la "ilha" del colaborador a las filas disponibles
+  function filasPorIlha(ilha) {
+    const u = String(ilha || '').toLowerCase();
+    const filas = [];
+    if (u.includes('ins')) filas.push({ origen: 'r_000250', etiqueta: 'Inspeção' });
+    if (u.includes('top')) filas.push({ origen: 'iw_cpc_975_top', etiqueta: 'Input TOP' });
+    if (u.includes('net')) filas.push({ origen: 'iw_cpc_975_net', etiqueta: 'Input NET' });
+    if (u.includes('hotel') || u.includes('hot') || u.includes('hosp')) filas.push({ origen: 'h_x_h', etiqueta: 'Hoteis' });
+    return filas;
+  }
+
+  function etiquetaPorOrigen(origen) {
+    switch (origen) {
+      case 'r_000250': return 'Inspeccion';
+      case 'iw_cpc_975_top': return 'Input TOP';
+      case 'iw_cpc_975_net': return 'Input NET';
+      case 'h_x_h': return 'Hoteis';
+      default: return origen;
+    }
+  }
+
+  // Filas (origenes) del colaborador autenticado: para boton y modal
+  const handlerMisFilas = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const usuarioLogin = req.user.username;
+
+      const ilhaRes = await pool.query(
+        `SELECT DISTINCT ilha FROM db_gp.listafuncionarios WHERE login = $1 AND ativo = true ORDER BY ilha`,
+        [usuarioLogin]
+      );
+      const ilhas = ilhaRes.rows.map(r => r && r.ilha).filter(Boolean);
+
+      const filasMap = new Map();
+      const agregarFila = (f) => { if (!filasMap.has(f.origen)) filasMap.set(f.origen, f.etiqueta); };
+      for (const ilha of ilhas) filasPorIlha(ilha).forEach(f => agregarFila(f));
+
+      if (filasMap.size === 0) {
+        ['r_000250', 'iw_cpc_975_top', 'iw_cpc_975_net', 'h_x_h'].forEach((o) => {
+          agregarFila({ origen: o, etiqueta: etiquetaPorOrigen(o) });
+        });
+      }
+
+      const origenesRes = await pool.query(
+        `SELECT DISTINCT origem FROM db_bloco_de_notas.cotacao WHERE usuario_id::text = $1 AND validacao = 'Ativo' AND origem != ''`,
+        [String(userId)]
+      );
+      const origenesUsado = origenesRes.rows.map(r => r.origem).filter(Boolean);
+
+      const filas = [...filasMap.entries()].map(([origen, etiqueta]) => ({ origen, etiqueta }));
+      filas.sort((a, b) => {
+        const aUsa = origenesUsado.includes(a.origen) ? 0 : 1;
+        const bUsa = origenesUsado.includes(b.origen) ? 0 : 1;
+        return (aUsa - bUsa) || (a.origen.localeCompare(b.origen));
+      });
+
+      res.json({ ilhas, filas, filas_con_cotizaciones: origenesUsado });
+    } catch (error) {
+      console.error('[MIS_FILAS] Error:', error);
+      res.status(500).json({ error: 'Erro ao carregar filas.' });
+    }
+  };
+router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
+  router.get('/pme_notas/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
+// Devuelve la tarea mas antigua (SLA) de la fila seleccionada
+  async function obtenerTareaMasAntigua(pool, origen) {
+    if (origen === 'r_000250') {
+      const res = await pool.query(`
+        SELECT r.cod_tarefa AS cod_tarefa, r.dat_historico, r.nom_tarefa, r.nom_fila, r.dsc_cotacao
+        FROM db_bloco_de_notas.r_000250 r
+        LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND (r.pendente_com IS NULL OR r.pendente_com = '' OR r.pendente_com = '-')
+        ORDER BY
+          CASE WHEN r.dat_historico IS NULL OR r.dat_historico = '-' THEN 1 ELSE 0 END,
+          r.dat_historico::timestamp ASC NULLS LAST,
+          r.dat_criacao ASC
+        LIMIT 1`);
+      const f = res.rows[0];
+      if (!f) return null;
+      return { cod_tarefa: f.cod_tarefa, cotacao: f.cod_tarefa, data_historico: f.dat_historico || null, nom_fila: f.nom_fila, nom_tarefa: f.nom_tarefa };
+    }
+    if (origen === 'iw_cpc_975_top') {
+      const res = await pool.query(`
+        SELECT COALESCE(iw.codigo_da_tarefa,'') AS cod_tarefa, iw.data_historico, iw.etapa_atual
+        FROM db_bloco_de_notas.iw_cpc_975_top iw
+        LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa
+          AND c.validacao = 'Ativo'
+          AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
+        WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
+        ORDER BY
+          CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
+          iw.data_historico::timestamp ASC NULLS LAST
+        LIMIT 1`);
+      const f = res.rows[0];
+      if (!f) return null;
+      return { cod_tarefa: f.cod_tarefa, cotacao: f.cod_tarefa, data_historico: f.data_historico || null, etapa_atual: f.etapa_atual };
+    }
+    if (origen === 'iw_cpc_975_net') {
+      const res = await pool.query(`
+        SELECT COALESCE(iw.codigo_da_tarefa,'') AS cod_tarefa, iw.data_historico, iw.etapa_atual
+        FROM db_bloco_de_notas.iw_cpc_975_net iw
+        LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa
+          AND c.validacao = 'Ativo'
+          AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
+        WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND iw.etapa_atual NOT ILIKE '%Demanda Expirada%'
+        ORDER BY
+          CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
+          iw.data_historico::timestamp ASC NULLS LAST
+        LIMIT 1
+      `);
+      const f = res.rows[0];
+      if (!f) return null;
+      return { cod_tarefa: f.cod_tarefa, cotacao: f.cod_tarefa, data_historico: f.data_historico || null, etapa_atual: f.etapa_atual };
+    }
+    if (origen === 'h_x_h') {
+      const res = await pool.query(`
+        SELECT h.cod_tarefa, h.data_de_historico, h.nome_tarefa, h.para_etapa, h.de_etapa
+        FROM (
+          SELECT DISTINCT ON (h2.id_tarefa)
+            h2.id_tarefa AS cod_tarefa, h2.data_de_historico, h2.nome_tarefa, h2.para_etapa, h2.de_etapa
+          FROM db_bloco_de_notas.hoteis_x_hospitais h2
+          ORDER BY h2.id_tarefa, h2.data_de_historico DESC
+        ) h
+        LEFT JOIN db_bloco_de_notas.cotacao c ON h.cod_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+        ORDER BY
+          CASE WHEN h.data_de_historico IS NULL OR h.data_de_historico = '-' THEN 1 ELSE 0 END,
+          h.data_de_historico::timestamp ASC NULLS LAST
+        LIMIT 1`);
+      const f = res.rows[0];
+      if (!f) return null;
+      return { cod_tarefa: f.cod_tarefa, cotacao: f.cod_tarefa, data_historico: f.data_de_historico || null, nom_tarefa: f.nome_tarefa, para_etapa: f.para_etapa, origen: 'h_x_h' };
+    }
+    return null;
+  }
+const handlerPegarExtra = async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const usuarioLogin = req.user.username;
+      const usuarioNom = req.user.nome || usuarioLogin;
+      const ahora = formatDateBR(new Date());
+      const origReq = (req.body && req.body.origen) ? String(req.body.origen).trim() : null;
+
+      // No permitir si ya tiene pedidos pendientes
+      const pendRes = await pool.query(
+        `SELECT COUNT(DISTINCT cot.id_cotacao) AS total
+         FROM db_bloco_de_notas.cotacao cot
+         WHERE cot.usuario_id::text = $1 AND cot.validacao = 'Ativo'
+           AND (cot.status IS NULL OR cot.status = '' OR lower(cot.status) LIKE 'pendiente%')`,
+        [String(userId)]
+      );
+      if (parseInt(pendRes.rows[0].total || 0) > 0) {
+        return res.status(400).json({ success: false, error: 'Você já tem pedidos pendentes. Termine os que tem antes de pegar outro.' });
+      }
+
+      // Determinar la fila (origen) a usar
+      let filaElegida = origReq;
+      if (!filaElegida) {
+        const ilhaRes = await pool.query(
+          `SELECT DISTINCT ilha FROM db_gp.listafuncionarios WHERE login = $1 AND ativo = true LIMIT 1`,
+          [usuarioLogin]
+        );
+        const ilha = (ilhaRes.rows[0] && ilhaRes.rows[0].ilha) || '';
+        const candFilas = filasPorIlha(ilha);
+        const usados = await pool.query(
+          `SELECT DISTINCT origem FROM db_bloco_de_notas.cotacao WHERE usuario_id::text = $1 AND validacao = 'Ativo' AND origem != ''`,
+          [String(userId)]
+        );
+        const origenesUsados = usados.rows.map(r => r.origem).filter(Boolean);
+        const prio = candFilas.filter(c => origenesUsados.includes(c.origen));
+        if (prio.length > 0) filaElegida = prio[0].origen;
+        else if (candFilas.length === 1) filaElegida = candFilas[0].origen;
+        else if (candFilas.length > 1) {
+          const x = candFilas.find(c => origenesUsados.includes(c.origen));
+          filaElegida = x ? x.origen : candFilas[0].origen;
+        } else if (origenesUsados.length >= 1) {
+          filaElegida = origenesUsados[0];
+        }
+      }
+
+      if (!filaElegida) {
+        return res.status(400).json({ success: false, error: 'Não foi possível determinar a fila da sua ilha. Contate o supervisor.' });
+      }
+
+      const tarea = await obtenerTareaMasAntigua(pool, filaElegida);
+      if (!tarea) {
+        return res.json({ success: true, message: 'Não há mais tarefas na fila ' + etiquetaPorOrigen(filaElegida) + '.', cantidad: 1, distribuidos: 0 });
+      }
+
+      // Evitar duplicado en caso de carrera
+      const dup = await pool.query(
+        `SELECT cot.tarefa FROM db_bloco_de_notas.cotacao cot WHERE cot.tarefa = $1 AND cot.validacao = 'Ativo'`,
+        [tarea.cod_tarefa]
+      );
+      if (dup.rows.length > 0) {
+        return res.status(409).json({ success: false, error: 'A tarefa ' + tarea.cod_tarea + ' já foi pega. Tente novamente.' });
+      }
+
+      let anotacion = '';
+      if (filaElegida === 'r_000250') {
+        anotacion = 'Tarea: ' + (tarea.nom_tarefa || '') + ' | Fila: ' + (tarea.nom_fila || '');
+      } else if (filaElegida === 'iw_cpc_975_top' || filaElegida === 'iw_cpc_975_net') {
+        anotacion = 'Origen: ' + filaElegida + ' | Etapa: ' + (tarea.etapa_atual || '');
+      } else if (filaElegida === 'h_x_h') {
+        anotacion = 'Origen: h_x_h | Tarea: ' + (tarea.nom_tarefa || '') + ' | Etapa: ' + (tarea.para_etapa || '');
+      }
+
+      await pool.query(
+        `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+        [tarea.cod_tarefa, tarea.cotacao, anotacion, 'pendiente', 'Activo', ahora, ahora, usuarioLogin, userId, filaElegida, tarea.data_historico || null]
+      );
+
+      registrarAuditoria(pool, {
+        tarefa: tarea.cod_tarefa,
+        acao: 'tomado_extra_' + filaElegida,
+        usuario_origem_id: userId,
+        usuario_origem_nome: usuarioNom,
+        usuario_destino_id: userId,
+        usuario_destino_nome: usuarioNom,
+        status_anterior: null,
+        status_nuevo: 'pendiente',
+        criado_por: usuarioLogin
+      });
+
+      res.json({ success: true, message: 'Você pegou 1 tarefa a mais da fila ' + etiquetaPorOrigen(filaElegida) + '.', cantidad: 1, distribuidos: 1, origen: filaElegida, tarea: tarea.cod_tarefa });
+    } catch (error) {
+      console.error('[PEGAR_EXTRA] Error:', error);
+      res.status(500).json({ error: 'Erro ao pegar tarefa extra: ' + error.message });
+    }
+  };
+
+  router.post('/api/inspecao/pegar-extra', authenticateToken, handlerPegarExtra);
+  router.post('/pme_notas/api/inspecao/pegar-extra', authenticateToken, handlerPegarExtra);
   return router;
 };
