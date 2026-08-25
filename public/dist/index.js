@@ -1611,6 +1611,20 @@ function App() {
         dotClass: 'bg-blue-500'
       };
     }
+    if (normalized === 'renovacao-aparelho') {
+      return {
+        label: 'Renovação/Aparelho',
+        className: 'bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100',
+        dotClass: 'bg-teal-500'
+      };
+    }
+    if (normalized === 'pendente-input-hitss') {
+      return {
+        label: 'Pendente Input - Hitss',
+        className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
+        dotClass: 'bg-amber-500'
+      };
+    }
     return {
       label: 'Pendente',
       className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
@@ -2388,6 +2402,13 @@ function App() {
     className: "w-2.5 h-2.5 rounded-full bg-amber-500"
   }), "Pendente - Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
+      return handleStatusChange('pendente-input-hitss');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl hover:bg-amber-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-amber-500"
+  }), "Pendente Input - Hitss"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
       return handleStatusChange('assumido');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-200 text-blue-800 border border-blue-300 rounded-xl hover:bg-blue-300 transition-all duration-200 font-semibold text-sm"
@@ -2454,6 +2475,13 @@ function App() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-purple-500"
   }), "Aguardando Qualidade"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('renovacao-aparelho');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-teal-50 text-teal-700 border border-teal-200 rounded-xl hover:bg-teal-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-teal-500"
+  }), "Renova\xE7\xE3o/Aparelho"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('aprovado');
     },

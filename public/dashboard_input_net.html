@@ -298,7 +298,9 @@
             const [loading, setLoading] = useState(true);
             const [activeTab, setActiveTab] = useState('dashboard');
             const [filtroTarefa, setFiltroTarefa] = useState('');
-            const [filtroDataDashboard, setFiltroDataDashboard] = useState('');
+            const [filtroDataInicio, setFiltroDataInicio] = useState('');
+            const [filtroDataFim, setFiltroDataFim] = useState('');
+            const [modoPeriodo, setModoPeriodo] = useState('dia');
             const [modalColaborador, setModalColaborador] = useState(null);
             const [distribuindo, setDistribuindo] = useState(null);
             const [ultimaResposta, setUltimaResposta] = useState(null);
@@ -335,9 +337,13 @@
                 try {
                     setLoading(true);
                     const params = new URLSearchParams();
-                    if (filtroDataDashboard) {
-                        const [year, month, day] = filtroDataDashboard.split('-');
-                        params.set('data', `${day}/${month}/${year}`);
+                    if (filtroDataInicio) {
+                        const [y1, m1, d1] = filtroDataInicio.split('-');
+                        params.set('dataInicio', `${d1}/${m1}/${y1}`);
+                    }
+                    if (filtroDataFim) {
+                        const [y2, m2, d2] = filtroDataFim.split('-');
+                        params.set('dataFim', `${d2}/${m2}/${y2}`);
                     }
                     const queryStr = params.toString() ? `?${params.toString()}` : '';
                     const res = await fetch(`${getBasePath()}/api/input_net/dashboard${queryStr}`, {
@@ -357,7 +363,7 @@
                 } finally {
                     setLoading(false);
                 }
-            }, [token, filtroDataDashboard]);
+            }, [token, filtroDataInicio, filtroDataFim]);
 
             const fetchHistorico = useCallback(async () => {
                 if (!token) return;
@@ -596,45 +602,79 @@
 
                     // Tab Dashboard
                     activeTab === 'dashboard' && React.createElement('div', { className: 'animate-fadeIn' },
-                        React.createElement('div', { className: 'flex items-center gap-3 mb-4' },
-                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Filtrar por data:'),
+                        // Filtro Calendário (Dia / Período)
+                        React.createElement('div', { className: 'flex flex-wrap items-center gap-3 mb-4' },
+                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Calendário:'),
+                            React.createElement('select', {
+                                value: modoPeriodo,
+                                onChange: (e) => {
+                                    const nextMode = e.target.value;
+                                    setModoPeriodo(nextMode);
+                                    if (nextMode === 'dia') {
+                                        setFiltroDataFim('');
+                                    } else if (!filtroDataInicio) {
+                                        const hoje = new Date().toISOString().split('T')[0];
+                                        setFiltroDataInicio(hoje);
+                                        setFiltroDataFim(hoje);
+                                    }
+                                },
+                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 bg-white'
+                            },
+                                React.createElement('option', { value: 'dia' }, 'Dia'),
+                                React.createElement('option', { value: 'periodo' }, 'Período')
+                            ),
                             React.createElement('input', {
                                 type: 'date',
-                                value: filtroDataDashboard,
-                                onChange: (e) => setFiltroDataDashboard(e.target.value),
+                                value: filtroDataInicio,
+                                onChange: (e) => {
+                                    const value = e.target.value;
+                                    setFiltroDataInicio(value);
+                                    if (modoPeriodo === 'dia') {
+                                        setFiltroDataFim(value);
+                                    }
+                                },
                                 className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500'
                             }),
-                            filtroDataDashboard && React.createElement('button', {
-                                onClick: () => setFiltroDataDashboard(''),
+                            modoPeriodo === 'periodo' && React.createElement(React.Fragment, null,
+                                React.createElement('span', { className: 'text-sm text-slate-400' }, 'até'),
+                                React.createElement('input', {
+                                    type: 'date',
+                                    value: filtroDataFim,
+                                    onChange: (e) => setFiltroDataFim(e.target.value),
+                                    className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500'
+                                })
+                            ),
+                            (filtroDataInicio || filtroDataFim) && React.createElement('button', {
+                                onClick: () => {
+                                    setFiltroDataInicio('');
+                                    setFiltroDataFim('');
+                                    setModoPeriodo('dia');
+                                },
                                 className: 'px-3 py-2 text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors'
                             }, 'Limpar')
                         ),
 
-                        // Cards de status da iw_cpc_975_net
-                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6' },
+                        // Cards de status - idênticos aos da Inspeção
+                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6' },
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Em Tratamento'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-amber-600 mt-1' }, stats.em_tratamento)
+                                React.createElement('p', { className: 'text-sm font-medium text-slate-500' }, 'Total Distribuído'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, totalGeral)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Aprovados'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-emerald-600 mt-1' }, stats.aprovado)
+                                React.createElement('p', { className: 'text-sm font-medium text-amber-600' }, 'Pendentes'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-amber-700 mt-1' }, totalPendentesTabela)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Reprovados'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-red-600 mt-1' }, stats.reprovado)
+                                React.createElement('p', { className: 'text-sm font-medium text-indigo-600' }, 'Tratados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-indigo-700 mt-1' }, totalTratadosTabela)
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Pendentes'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-yellow-600 mt-1' }, stats.pendente)
+                                React.createElement('p', { className: 'text-sm font-medium text-emerald-600' }, 'Aprovados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-emerald-700 mt-1' }, colaboradores.reduce((s, c) => s + (c.statusCounts?.aprovado || 0), 0))
                             ),
                             React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Cancelados'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-slate-600 mt-1' }, stats.cancelado)
-                            ),
-                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Total Colaboradores'),
-                                React.createElement('p', { className: 'text-2xl font-bold text-violet-600 mt-1' }, totalGeral)
+                                React.createElement('p', { className: 'text-sm font-medium text-red-600' }, 'Reprovados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-red-700 mt-1' }, colaboradores.reduce((s, c) => s + (c.statusCounts?.reprovado || 0), 0))
                             )
                         ),
 

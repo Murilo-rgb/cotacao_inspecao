@@ -8,10 +8,21 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   // API Dashboard Input NET
   router.get('/dashboard', authenticateToken, async (req, res) => {
     try {
-      const { data } = req.query;
+      const { data, dataInicio, dataFim } = req.query;
       const params = [];
       let whereData = '';
-      if (data && data.trim()) {
+      if (dataInicio && dataFim) {
+        // Range de datas - converter para timestamp para comparação correta
+        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI') 
+                      AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP($${params.length + 2}, 'DD/MM/YYYY HH24:MI')`;
+        params.push(dataInicio.trim() + ' 00:00', dataFim.trim() + ' 23:59');
+      } else if (dataInicio) {
+        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+        params.push(dataInicio.trim() + ' 00:00');
+      } else if (dataFim) {
+        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+        params.push(dataFim.trim() + ' 23:59');
+      } else if (data && data.trim()) {
         whereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date($${params.length + 1}::text,'dd/MM/yyyy')`;
         params.push(data.trim());
       }
@@ -57,7 +68,17 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         try {
           const slaParams = [row.usuario_login];
           let slaWhereData = '';
-          if (data && data.trim()) {
+          if (dataInicio && dataFim) {
+            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI') 
+                             AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP(${slaParams.length + 2}, 'DD/MM/YYYY HH24:MI')`;
+            slaParams.push(dataInicio.trim() + ' 00:00', dataFim.trim() + ' 23:59');
+          } else if (dataInicio) {
+            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+            slaParams.push(dataInicio.trim() + ' 00:00');
+          } else if (dataFim) {
+            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+            slaParams.push(dataFim.trim() + ' 23:59');
+          } else if (data && data.trim()) {
             slaWhereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date(${slaParams.length + 1}::text,'dd/MM/yyyy')`;
             slaParams.push(data.trim());
           }
@@ -73,7 +94,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             WHERE u.login = $1 
               AND c.validacao = 'Ativo' 
               AND c.status IS NOT NULL AND c.status != '' AND c.status != 'pendente'
-              AND LOWER(c.status) IN ('em-tratamento', 'aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'troca-de-territorio', 'troca-de-segmento', 'cadastro-de-membro', 'aguardando-chamado', 'aguardando-qualidade')${slaWhereData}
+              AND LOWER(c.status) IN ('em-tratamento', 'aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'troca-de-territorio', 'troca-de-segmento', 'cadastro-de-membro', 'aguardando-chamado', 'aguardando-qualidade', 'renovacao-aparelho')${slaWhereData}
           `, slaParams);
           slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
         } catch (slaErr) {

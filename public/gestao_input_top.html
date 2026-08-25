@@ -189,6 +189,7 @@
             const [fileInfo, setFileInfo] = useState(null);
             const [toast, setToast] = useState(null);
             const [stats, setStats] = useState({ total: 0, em_tratamento: 0, aprovado: 0, reprovado: 0, pendente: 0, cancelado: 0, desconsiderar: 0 });
+            const [statusCounts, setStatusCounts] = useState({});
             const [selectedIds, setSelectedIds] = useState(new Set());
             const [massAssignUsuario, setMassAssignUsuario] = useState('');
             const [redistribuirMode, setRedistribuirMode] = useState(false);
@@ -251,6 +252,7 @@
                       cancelado: data.stats?.cancelado || 0,
                       desconsiderar: data.stats?.desconsiderar || 0
                     });
+                    setStatusCounts(data.statusCounts || {});
                 } catch (err) {
                     console.error('Erro ao buscar tarefas:', err);
                     showToast('Erro ao carregar tarefas', 'error');
@@ -550,6 +552,18 @@
             };
 
             const tarefasFila = tarefas.filter(t => t.status_distribuicao === 'Fila');
+
+            // Cards específicos por status de cotação (INPUT TOP)
+            const STATUS_CARDS = [
+                { key: 'fila', label: 'Fila', color: 'text-amber-500' },
+                { key: 'aprovado', label: 'Aprovado', color: 'text-emerald-700' },
+                { key: 'reprovado', label: 'Reprovado', color: 'text-red-700' },
+                { key: 'aguardando_chamado', label: 'Aguardando Chamado', color: 'text-orange-700' },
+                { key: 'aguardando_qualidade', label: 'Aguardando Qualidade', color: 'text-purple-700' },
+                { key: 'aguardando_dupla_validacao', label: 'Aguardando Dupla Validação', color: 'text-cyan-600' },
+                { key: 'aguardando_pre_analise', label: 'Aguardando Pré-Análise', color: 'text-blue-700' },
+                { key: 'em_tratamento', label: 'Em Tratamento', color: 'text-blue-600' }
+            ];
             const allSelected = filteredTarefas.length > 0 && selectedIds.size === filteredTarefas.length;
 
             return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
@@ -611,32 +625,12 @@
                 ),
 
                 React.createElement('main', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8' },
-                    React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6' },
-                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Em Tratamento'),
-                            React.createElement('p', { className: 'text-xl font-bold text-amber-600 mt-1' }, stats.em_tratamento)
+React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6' },
+                            STATUS_CARDS.map(card => React.createElement('div', { key: card.key, className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, card.label),
+                                React.createElement('p', { className: `text-xl font-bold ${card.color} mt-1` }, statusCounts[card.key] ?? 0)
+                            ))
                         ),
-                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Aprovados'),
-                            React.createElement('p', { className: 'text-xl font-bold text-emerald-600 mt-1' }, stats.aprovado)
-                        ),
-                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Reprovados'),
-                            React.createElement('p', { className: 'text-xl font-bold text-red-600 mt-1' }, stats.reprovado)
-                        ),
-                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Pendentes'),
-                            React.createElement('p', { className: 'text-xl font-bold text-yellow-600 mt-1' }, stats.pendente)
-                        ),
-                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Cancelados'),
-                            React.createElement('p', { className: 'text-xl font-bold text-slate-600 mt-1' }, stats.cancelado)
-                        ),
-                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Desconsiderar'),
-                            React.createElement('p', { className: 'text-xl font-bold text-rose-600 mt-1' }, stats.desconsiderar)
-                        )
-                    ),
 
                     React.createElement('div', { className: 'bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6' },
                         React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2' },

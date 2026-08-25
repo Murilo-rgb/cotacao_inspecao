@@ -703,6 +703,12 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           COUNT(DISTINCT CASE 
             WHEN (da_etapa ILIKE '%04%' AND (para_etapa ILIKE '%01%' OR para_etapa ILIKE '%02%' OR para_etapa ILIKE '%03%' OR para_etapa ILIKE '%Admin%')) THEN codigo_da_tarefa 
           END) as desconsiderar,
+          COUNT(DISTINCT CASE
+            WHEN NOT EXISTS (
+              SELECT 1 FROM db_bloco_de_notas.cotacao c2
+              WHERE c2.tarefa = codigo_da_tarefa AND c2.validacao = 'Ativo'
+            ) THEN codigo_da_tarefa
+          END) as fila,
           COUNT(DISTINCT codigo_da_tarefa) as total
         FROM db_bloco_de_notas.iw_cpc_975_top 
         WHERE etapa_atual = '04 - Inspeção' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
@@ -721,8 +727,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     }
   });
 
-  // API Tarefas Input NET
-  router.get('/api/inspecao/tarefas_net', authenticateToken, async (req, res) => {
+  // API Tarefas Input NET (registrada com e sem prefixo /pme_notas)
+  const handlerTarefasNet = async (req, res) => {
     try {
       const { search, limit, offset = 0 } = req.query;
       const params = [];
@@ -846,23 +852,67 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             WHEN (foto_recente.da_etapa LIKE '%04%' AND (foto_recente.para_etapa LIKE '%01%' OR foto_recente.para_etapa LIKE '%02%' OR foto_recente.para_etapa LIKE '%03%' OR foto_recente.para_etapa ILIKE '%Admin%'))
             THEN foto_recente.cod_tarefa 
           END) as desconsiderar,
+          COUNT(DISTINCT CASE
+            WHEN NOT EXISTS (
+              SELECT 1 FROM db_bloco_de_notas.cotacao c2
+              WHERE c2.tarefa = foto_recente.cod_tarefa AND c2.validacao = 'Ativo'
+            ) THEN foto_recente.cod_tarefa
+          END) as fila,
           COUNT(DISTINCT foto_recente.cod_tarefa) as total
         FROM foto_recente
       `);
 
       const stats = statsResult.rows[0] || {};
-      res.json({ 
-        data: result.rows, 
+
+      // Contagem por status específico de cotação (ilha INPUT NET)
+      let statusCounts = {
+        fila: 0, em_tratamento: 0, troca_de_territorio: 0, troca_de_segmento: 0,
+        cadastro_de_membro: 0, aguardando_chamado: 0, aguardando_qualidade: 0,
+        renovacao_aparelho: 0, aprovado: 0, reprovado: 0
+      };
+      try {
+        const statusResult = await pool.query(`
+          SELECT
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE c.status IS NULL OR c.status = '') AS fila,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'em-tratamento') AS em_tratamento,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'troca-de-territorio') AS troca_de_territorio,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'troca-de-segmento') AS troca_de_segmento,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'cadastro-de-membro') AS cadastro_de_membro,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-chamado') AS aguardando_chamado,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-qualidade') AS aguardando_qualidade,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) LIKE '%aparelho%') AS renovacao_aparelho,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aprovado') AS aprovado,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'reprovado') AS reprovado
+          FROM db_gp.listafuncionarios l
+          INNER JOIN db_automacao.usuarios u ON u.login = l.login
+          LEFT JOIN db_bloco_de_notas.cotacao c ON c.usuario_id::text = u.id::text AND c.validacao = 'Ativo'
+          WHERE l.ilha = 'INPUT NET' AND l.ativo = true AND c.origem = 'iw_cpc_975_net'
+        `);
+        const st = statusResult.rows[0] || {};
+        Object.keys(statusCounts).forEach(k => {
+          statusCounts[k] = parseInt(st[k] || 0);
+        });
+      } catch (statusErr) {
+        console.error('[INSPECAO_NET STATUS] Erro:', statusErr.message);
+      }
+
+      res.json({
+        data: result.rows,
         total: parseInt(stats.total || 0),
         stats,
-        limit: parseInt(limit), 
-        offset: parseInt(offset) 
+        statusCounts,
+        limit: parseInt(limit),
+        offset: parseInt(offset)
       });
     } catch (error) {
       console.error('[INSPECAO_NET] Erro:', error);
       res.status(500).json({ error: 'Erro ao buscar dados' });
     }
-  });
+  };
+
+  // Registra o handler com e sem prefixo /pme_notas (a página usa getBasePath())
+  router.get('/api/inspecao/tarefas_net', authenticateToken, handlerTarefasNet);
+  router.get('/pme_notas/api/inspecao/tarefas_net', authenticateToken, handlerTarefasNet);
 
   // Upload CSV/ZIP e processar ETL para iw_cpc_975_top
   router.post('/api/inspecao/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {

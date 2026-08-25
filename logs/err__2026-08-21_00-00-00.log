@@ -1,0 +1,2326 @@
+20/08/2026 05:46:10: Error: Request aborted
+20/08/2026 05:46:10:     at IncomingMessage.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:124:28)
+20/08/2026 05:46:10:     at IncomingMessage.emit (node:events:508:28)
+20/08/2026 05:46:10:     at IncomingMessage._destroy (node:_http_incoming:221:10)
+20/08/2026 05:46:10:     at _destroy (node:internal/streams/destroy:122:10)
+20/08/2026 05:46:10:     at IncomingMessage.destroy (node:internal/streams/destroy:84:5)
+20/08/2026 05:46:10:     at abortIncoming (node:_http_server:838:9)
+20/08/2026 05:46:10:     at socketOnClose (node:_http_server:832:3)
+20/08/2026 05:46:10:     at Socket.emit (node:events:520:35)
+20/08/2026 05:46:10:     at TCP.<anonymous> (node:net:346:12)
+20/08/2026 05:47:01: Error: Request aborted
+20/08/2026 05:47:01:     at IncomingMessage.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:124:28)
+20/08/2026 05:47:01:     at IncomingMessage.emit (node:events:508:28)
+20/08/2026 05:47:01:     at IncomingMessage._destroy (node:_http_incoming:221:10)
+20/08/2026 05:47:01:     at _destroy (node:internal/streams/destroy:122:10)
+20/08/2026 05:47:01:     at IncomingMessage.destroy (node:internal/streams/destroy:84:5)
+20/08/2026 05:47:01:     at abortIncoming (node:_http_server:838:9)
+20/08/2026 05:47:01:     at socketOnClose (node:_http_server:832:3)
+20/08/2026 05:47:01:     at Socket.emit (node:events:520:35)
+20/08/2026 05:47:01:     at TCP.<anonymous> (node:net:346:12)
+20/08/2026 05:49:02: MulterError: File too large
+20/08/2026 05:49:02:     at abortWithCode (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:107:22)
+20/08/2026 05:49:02:     at FileStream.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:221:11)
+20/08/2026 05:49:02:     at FileStream.emit (node:events:508:28)
+20/08/2026 05:49:02:     at SBMH.ssCb [as _cb] (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:479:32)
+20/08/2026 05:49:02:     at feed (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:248:10)
+20/08/2026 05:49:02:     at SBMH.push (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:104:16)
+20/08/2026 05:49:02:     at Multipart._write (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:567:19)
+20/08/2026 05:49:02:     at writeOrBuffer (node:internal/streams/writable:570:12)
+20/08/2026 05:49:02:     at _write (node:internal/streams/writable:499:10)
+20/08/2026 05:49:02:     at Writable.write (node:internal/streams/writable:508:10)
+20/08/2026 06:00:11: MulterError: File too large
+20/08/2026 06:00:11:     at abortWithCode (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:107:22)
+20/08/2026 06:00:11:     at FileStream.<anonymous> (E:\projetos_hitss\geo-pme-notas\node_modules\multer\lib\make-middleware.js:221:11)
+20/08/2026 06:00:11:     at FileStream.emit (node:events:508:28)
+20/08/2026 06:00:11:     at SBMH.ssCb [as _cb] (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:479:32)
+20/08/2026 06:00:11:     at feed (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:248:10)
+20/08/2026 06:00:11:     at SBMH.push (E:\projetos_hitss\geo-pme-notas\node_modules\streamsearch\lib\sbmh.js:104:16)
+20/08/2026 06:00:11:     at Multipart._write (E:\projetos_hitss\geo-pme-notas\node_modules\busboy\lib\types\multipart.js:567:19)
+20/08/2026 06:00:11:     at writeOrBuffer (node:internal/streams/writable:570:12)
+20/08/2026 06:00:11:     at _write (node:internal/streams/writable:499:10)
+20/08/2026 06:00:11:     at Writable.write (node:internal/streams/writable:508:10)
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario aline.brito.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario ana.gouveia.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario erika.dias : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario josicleide.soledade : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario laura.oliveira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 09:52:52: [DASHBOARD_INPUT_NET SLA] Erro para usuario vitor.ribeiro : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 11:12:48: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:12:48:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:12:48:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:12:48: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:12:48:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:12:48:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:13:03: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:13:03:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:13:03:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:13:49: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:13:49:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2421:22
+20/08/2026 11:13:49:     at Array.sort (<anonymous>)
+20/08/2026 11:13:49:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2420:13
+20/08/2026 11:13:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:13:53: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:13:53:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2421:22
+20/08/2026 11:13:53:     at Array.sort (<anonymous>)
+20/08/2026 11:13:53:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2420:13
+20/08/2026 11:13:53:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:13:56: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:13:56:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2421:22
+20/08/2026 11:13:56:     at Array.sort (<anonymous>)
+20/08/2026 11:13:56:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2420:13
+20/08/2026 11:13:56:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:14:09: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:14:09:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:14:09:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:14:13: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:14:13:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2421:22
+20/08/2026 11:14:13:     at Array.sort (<anonymous>)
+20/08/2026 11:14:13:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2420:13
+20/08/2026 11:14:13:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:36:41: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:36:41:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:36:41:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:36:50: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:36:50:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:36:50:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:37:23: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:37:23:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:37:23:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:47:02: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:47:02:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:47:02:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:53:05: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:53:05:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:53:05:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:56:13: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:56:13:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:56:13:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:56:17: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:56:17:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:56:17:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:56:27: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:56:27:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:56:27:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:56:49: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:56:49:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:56:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:57:00: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:57:00:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:57:00:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 11:57:18: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 11:57:18:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 11:57:18:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:03:12: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:03:12:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:03:12:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:06:06: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:06:06:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:06:06:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:17:32: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:17:32:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:17:32:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:18:38: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:18:38:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:18:38:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:18:43: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:18:43:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:18:43:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:18:56: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:18:56:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:18:56:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:19:04: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:19:04:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:19:04:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:19:09: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:19:09:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:19:09:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:19:12: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:19:12:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 12:19:12:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 12:21:09: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 12:21:09:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2421:22
+20/08/2026 12:21:09:     at Array.sort (<anonymous>)
+20/08/2026 12:21:09:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2420:13
+20/08/2026 12:21:09:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 13:06:59: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 13:06:59:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2421:22
+20/08/2026 13:06:59:     at Array.sort (<anonymous>)
+20/08/2026 13:06:59:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2420:13
+20/08/2026 13:06:59:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 13:23:35: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 13:23:35:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 13:23:35:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 13:23:40: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 13:23:40:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 13:23:40:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 13:29:51: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 13:29:51:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 13:29:51:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 13:32:45: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 13:32:45:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 13:32:45:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 13:36:11: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 13:36:11:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2421:22
+20/08/2026 13:36:11:     at Array.sort (<anonymous>)
+20/08/2026 13:36:11:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2420:13
+20/08/2026 13:36:11:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 13:46:08: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 13:46:08:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 13:46:08:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 13:54:22: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:54:22:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:54:22:                                                                ^^^
+20/08/2026 13:54:22: 
+20/08/2026 13:54:22: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:54:22:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:54:22:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:54:22:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:54:22:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:54:22:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:54:22:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:54:22:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:54:22:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:54:22:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:54:22:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:54:29: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:54:29:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:54:29:                                                                ^^^
+20/08/2026 13:54:29: 
+20/08/2026 13:54:29: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:54:29:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:54:29:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:54:29:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:54:29:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:54:29:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:54:29:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:54:29:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:54:29:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:54:29:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:54:29:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:54:35: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:54:35:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:54:35:                                                                ^^^
+20/08/2026 13:54:35: 
+20/08/2026 13:54:35: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:54:35:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:54:35:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:54:35:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:54:35:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:54:35:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:54:35:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:54:35:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:54:35:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:54:35:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:54:35:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:54:41: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:54:41:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:54:41:                                                                ^^^
+20/08/2026 13:54:41: 
+20/08/2026 13:54:41: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:54:41:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:54:41:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:54:41:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:54:41:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:54:41:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:54:41:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:54:41:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:54:41:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:54:41:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:54:41:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:54:48: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:54:48:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:54:48:                                                                ^^^
+20/08/2026 13:54:48: 
+20/08/2026 13:54:48: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:54:48:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:54:48:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:54:48:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:54:48:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:54:48:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:54:48:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:54:48:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:54:48:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:54:48:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:54:48:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:54:54: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:54:54:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:54:54:                                                                ^^^
+20/08/2026 13:54:54: 
+20/08/2026 13:54:54: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:54:54:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:54:54:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:54:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:54:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:54:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:54:54:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:54:54:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:54:54:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:54:54:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:54:54:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:01: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:01:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:01:                                                                ^^^
+20/08/2026 13:55:01: 
+20/08/2026 13:55:01: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:01:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:01:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:01:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:01:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:01:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:01:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:01:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:01:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:01:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:01:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:07: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:07:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:07:                                                                ^^^
+20/08/2026 13:55:07: 
+20/08/2026 13:55:07: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:07:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:07:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:07:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:07:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:07:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:07:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:07:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:14: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:14:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:14:                                                                ^^^
+20/08/2026 13:55:14: 
+20/08/2026 13:55:14: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:14:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:14:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:14:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:14:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:14:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:14:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:14:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:20: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:20:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:20:                                                                ^^^
+20/08/2026 13:55:20: 
+20/08/2026 13:55:20: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:20:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:20:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:20:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:20:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:20:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:20:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:20:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:20:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:20:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:20:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:27: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:27:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:27:                                                                ^^^
+20/08/2026 13:55:27: 
+20/08/2026 13:55:27: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:27:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:27:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:27:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:27:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:27:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:27:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:27:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:27:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:27:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:27:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:34: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:34:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:34:                                                                ^^^
+20/08/2026 13:55:34: 
+20/08/2026 13:55:34: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:34:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:34:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:34:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:34:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:34:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:34:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:34:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:34:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:34:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:34:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:42: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:42:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:42:                                                                ^^^
+20/08/2026 13:55:42: 
+20/08/2026 13:55:42: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:42:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:42:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:42:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:42:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:42:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:42:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:42:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:42:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:42:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:42:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:49: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:49:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:49:                                                                ^^^
+20/08/2026 13:55:49: 
+20/08/2026 13:55:49: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:49:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:49:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:49:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:49:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:49:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:49:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:49:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:49:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:49:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:49:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:55:57: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:55:57:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:55:57:                                                                ^^^
+20/08/2026 13:55:57: 
+20/08/2026 13:55:57: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:55:57:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:55:57:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:55:57:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:55:57:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:55:57:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:55:57:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:55:57:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:55:57:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:55:57:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:55:57:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:05: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:05:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:05:                                                                ^^^
+20/08/2026 13:56:05: 
+20/08/2026 13:56:05: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:05:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:05:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:05:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:05:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:05:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:05:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:05:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:05:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:05:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:05:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:11: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:11:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:11:                                                                ^^^
+20/08/2026 13:56:11: 
+20/08/2026 13:56:11: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:11:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:11:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:11:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:11:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:11:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:11:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:11:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:11:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:11:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:11:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:18: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:18:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:18:                                                                ^^^
+20/08/2026 13:56:18: 
+20/08/2026 13:56:18: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:18:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:18:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:18:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:18:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:18:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:18:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:18:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:18:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:18:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:18:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:24: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:24:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:24:                                                                ^^^
+20/08/2026 13:56:24: 
+20/08/2026 13:56:24: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:24:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:24:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:24:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:24:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:24:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:24:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:24:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:24:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:24:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:24:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:31: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:31:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:31:                                                                ^^^
+20/08/2026 13:56:31: 
+20/08/2026 13:56:31: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:31:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:31:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:31:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:31:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:31:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:31:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:31:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:31:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:31:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:31:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:37: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:37:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:37:                                                                ^^^
+20/08/2026 13:56:37: 
+20/08/2026 13:56:37: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:37:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:37:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:37:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:37:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:37:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:37:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:37:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:37:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:37:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:37:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:44: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:44:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:44:                                                                ^^^
+20/08/2026 13:56:44: 
+20/08/2026 13:56:44: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:44:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:44:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:44:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:44:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:44:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:44:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:44:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:44:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:44:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:44:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:50: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:50:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:50:                                                                ^^^
+20/08/2026 13:56:50: 
+20/08/2026 13:56:50: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:50:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:50:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:50:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:50:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:50:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:50:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:50:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:50:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:50:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:50:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:56:56: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:56:56:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:56:56:                                                                ^^^
+20/08/2026 13:56:56: 
+20/08/2026 13:56:56: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:56:56:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:56:56:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:56:56:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:56:56:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:56:56:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:56:56:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:56:56:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:56:56:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:56:56:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:56:56:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:03: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:03:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:03:                                                                ^^^
+20/08/2026 13:57:03: 
+20/08/2026 13:57:03: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:03:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:03:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:03:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:03:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:03:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:03:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:03:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:03:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:03:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:03:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:09: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:09:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:09:                                                                ^^^
+20/08/2026 13:57:09: 
+20/08/2026 13:57:09: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:09:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:09:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:09:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:09:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:09:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:09:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:09:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:09:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:09:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:09:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:16: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:16:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:16:                                                                ^^^
+20/08/2026 13:57:16: 
+20/08/2026 13:57:16: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:16:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:16:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:16:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:16:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:16:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:16:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:16:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:16:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:16:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:16:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:22: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:22:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:22:                                                                ^^^
+20/08/2026 13:57:22: 
+20/08/2026 13:57:22: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:22:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:22:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:22:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:22:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:22:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:22:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:22:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:22:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:22:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:22:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:28: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:28:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:28:                                                                ^^^
+20/08/2026 13:57:28: 
+20/08/2026 13:57:28: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:28:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:28:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:28:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:28:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:28:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:28:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:28:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:28:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:28:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:28:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:35: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:35:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:35:                                                                ^^^
+20/08/2026 13:57:35: 
+20/08/2026 13:57:35: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:35:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:35:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:35:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:35:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:35:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:35:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:35:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:35:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:35:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:35:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:41: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:41:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:41:                                                                ^^^
+20/08/2026 13:57:41: 
+20/08/2026 13:57:41: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:41:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:41:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:41:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:41:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:41:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:41:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:41:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:41:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:41:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:41:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:48: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:48:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:48:                                                                ^^^
+20/08/2026 13:57:48: 
+20/08/2026 13:57:48: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:48:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:48:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:48:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:48:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:48:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:48:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:48:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:48:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:48:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:48:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:57:54: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:57:54:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:57:54:                                                                ^^^
+20/08/2026 13:57:54: 
+20/08/2026 13:57:54: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:57:54:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:57:54:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:57:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:57:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:57:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:57:54:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:57:54:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:57:54:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:57:54:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:57:54:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:01: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:01:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:01:                                                                ^^^
+20/08/2026 13:58:01: 
+20/08/2026 13:58:01: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:01:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:01:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:01:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:01:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:01:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:01:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:01:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:01:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:01:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:01:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:07: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:07:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:07:                                                                ^^^
+20/08/2026 13:58:07: 
+20/08/2026 13:58:07: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:07:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:07:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:07:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:07:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:07:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:07:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:07:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:13: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:13:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:13:                                                                ^^^
+20/08/2026 13:58:13: 
+20/08/2026 13:58:13: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:13:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:13:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:13:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:13:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:13:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:13:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:13:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:13:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:13:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:13:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:20: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:20:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:20:                                                                ^^^
+20/08/2026 13:58:20: 
+20/08/2026 13:58:20: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:20:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:20:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:20:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:20:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:20:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:20:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:20:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:20:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:20:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:20:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:26: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:26:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:26:                                                                ^^^
+20/08/2026 13:58:26: 
+20/08/2026 13:58:26: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:26:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:26:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:26:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:26:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:26:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:26:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:26:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:26:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:26:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:26:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:32: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:32:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:32:                                                                ^^^
+20/08/2026 13:58:32: 
+20/08/2026 13:58:32: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:32:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:32:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:32:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:32:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:32:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:32:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:32:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:32:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:32:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:32:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:39: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:39:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:39:                                                                ^^^
+20/08/2026 13:58:39: 
+20/08/2026 13:58:39: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:39:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:39:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:39:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:39:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:39:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:39:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:39:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:39:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:39:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:39:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:45: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:45:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:45:                                                                ^^^
+20/08/2026 13:58:45: 
+20/08/2026 13:58:45: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:45:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:45:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:45:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:45:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:45:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:45:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:45:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:51: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:51:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:51:                                                                ^^^
+20/08/2026 13:58:51: 
+20/08/2026 13:58:51: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:51:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:51:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:51:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:51:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:51:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:51:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:51:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:51:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:51:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:51:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:58:57: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:58:57:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:58:57:                                                                ^^^
+20/08/2026 13:58:57: 
+20/08/2026 13:58:57: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:58:57:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:58:57:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:58:57:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:58:57:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:58:57:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:58:57:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:58:57:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:58:57:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:58:57:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:58:57:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:04: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:04:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:04:                                                                ^^^
+20/08/2026 13:59:04: 
+20/08/2026 13:59:04: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:04:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:04:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:04:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:04:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:04:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:04:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:04:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:04:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:04:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:04:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:10: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:10:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:10:                                                                ^^^
+20/08/2026 13:59:10: 
+20/08/2026 13:59:10: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:10:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:10:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:10:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:10:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:10:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:10:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:10:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:10:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:10:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:10:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:17: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:17:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:17:                                                                ^^^
+20/08/2026 13:59:17: 
+20/08/2026 13:59:17: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:17:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:17:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:17:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:17:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:17:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:17:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:17:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:17:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:17:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:17:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:23: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:23:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:23:                                                                ^^^
+20/08/2026 13:59:23: 
+20/08/2026 13:59:23: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:23:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:23:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:23:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:23:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:23:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:23:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:23:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:23:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:23:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:23:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:29: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:29:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:29:                                                                ^^^
+20/08/2026 13:59:29: 
+20/08/2026 13:59:29: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:29:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:29:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:29:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:29:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:29:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:29:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:29:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:29:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:29:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:29:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:35: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:35:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:35:                                                                ^^^
+20/08/2026 13:59:35: 
+20/08/2026 13:59:35: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:35:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:35:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:35:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:35:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:35:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:35:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:35:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:35:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:35:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:35:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:42: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:42:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:42:                                                                ^^^
+20/08/2026 13:59:42: 
+20/08/2026 13:59:42: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:42:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:42:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:42:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:42:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:42:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:42:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:42:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:42:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:42:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:42:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:48: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:48:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:48:                                                                ^^^
+20/08/2026 13:59:48: 
+20/08/2026 13:59:48: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:48:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:48:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:48:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:48:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:48:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:48:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:48:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:48:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:48:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:48:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 13:59:54: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 13:59:54:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 13:59:54:                                                                ^^^
+20/08/2026 13:59:54: 
+20/08/2026 13:59:54: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 13:59:54:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 13:59:54:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 13:59:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 13:59:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 13:59:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 13:59:54:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 13:59:54:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 13:59:54:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 13:59:54:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 13:59:54:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:01: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:01:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:01:                                                                ^^^
+20/08/2026 14:00:01: 
+20/08/2026 14:00:01: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:01:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:01:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:01:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:01:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:01:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:01:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:01:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:01:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:01:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:01:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:07: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:07:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:07:                                                                ^^^
+20/08/2026 14:00:07: 
+20/08/2026 14:00:07: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:07:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:07:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:07:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:07:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:07:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:07:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:07:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:14: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:14:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:14:                                                                ^^^
+20/08/2026 14:00:14: 
+20/08/2026 14:00:14: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:14:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:14:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:14:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:14:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:14:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:14:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:14:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:14:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:14:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:14:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:20: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:20:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:20:                                                                ^^^
+20/08/2026 14:00:20: 
+20/08/2026 14:00:20: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:20:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:20:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:20:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:20:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:20:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:20:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:20:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:20:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:20:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:20:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:27: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:27:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:27:                                                                ^^^
+20/08/2026 14:00:27: 
+20/08/2026 14:00:27: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:27:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:27:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:27:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:27:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:27:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:27:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:27:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:27:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:27:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:27:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:33: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:33:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:33:                                                                ^^^
+20/08/2026 14:00:33: 
+20/08/2026 14:00:33: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:33:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:33:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:33:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:33:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:33:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:33:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:33:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:33:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:33:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:33:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:39: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:39:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:39:                                                                ^^^
+20/08/2026 14:00:39: 
+20/08/2026 14:00:39: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:39:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:39:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:39:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:39:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:39:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:39:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:39:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:39:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:39:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:39:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:46: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:46:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:46:                                                                ^^^
+20/08/2026 14:00:46: 
+20/08/2026 14:00:46: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:46:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:46:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:46:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:46:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:46:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:46:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:46:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:46:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:46:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:46:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:00:52: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:00:52:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:00:52:                                                                ^^^
+20/08/2026 14:00:52: 
+20/08/2026 14:00:52: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:00:52:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:00:52:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:00:52:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:00:52:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:00:52:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:00:52:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:00:52:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:00:52:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:00:52:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:00:52:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:00: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:00:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:00:                                                                ^^^
+20/08/2026 14:01:00: 
+20/08/2026 14:01:00: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:00:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:00:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:00:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:00:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:00:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:00:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:00:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:00:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:00:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:00:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:07: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:07:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:07:                                                                ^^^
+20/08/2026 14:01:07: 
+20/08/2026 14:01:07: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:07:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:07:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:07:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:07:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:07:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:07:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:07:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:13: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:13:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:13:                                                                ^^^
+20/08/2026 14:01:13: 
+20/08/2026 14:01:13: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:13:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:13:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:13:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:13:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:13:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:13:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:13:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:13:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:13:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:13:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:19: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:19:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:19:                                                                ^^^
+20/08/2026 14:01:19: 
+20/08/2026 14:01:19: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:19:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:19:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:19:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:19:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:19:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:19:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:19:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:26: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:26:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:26:                                                                ^^^
+20/08/2026 14:01:26: 
+20/08/2026 14:01:26: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:26:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:26:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:26:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:26:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:26:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:26:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:26:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:26:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:26:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:26:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:32: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:32:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:32:                                                                ^^^
+20/08/2026 14:01:32: 
+20/08/2026 14:01:32: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:32:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:32:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:32:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:32:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:32:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:32:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:32:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:32:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:32:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:32:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:38: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:38:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:38:                                                                ^^^
+20/08/2026 14:01:38: 
+20/08/2026 14:01:38: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:38:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:38:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:38:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:38:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:38:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:38:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:38:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:38:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:38:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:38:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:45: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:45:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:45:                                                                ^^^
+20/08/2026 14:01:45: 
+20/08/2026 14:01:45: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:45:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:45:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:45:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:45:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:45:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:45:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:45:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:51: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:51:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:51:                                                                ^^^
+20/08/2026 14:01:51: 
+20/08/2026 14:01:51: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:51:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:51:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:51:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:51:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:51:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:51:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:51:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:51:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:51:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:51:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:01:57: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:01:57:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:01:57:                                                                ^^^
+20/08/2026 14:01:57: 
+20/08/2026 14:01:57: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:01:57:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:01:57:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:01:57:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:01:57:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:01:57:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:01:57:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:01:57:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:01:57:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:01:57:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:01:57:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:04: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:04:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:04:                                                                ^^^
+20/08/2026 14:02:04: 
+20/08/2026 14:02:04: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:04:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:04:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:04:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:04:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:04:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:04:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:04:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:04:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:04:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:04:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:10: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:10:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:10:                                                                ^^^
+20/08/2026 14:02:10: 
+20/08/2026 14:02:10: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:10:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:10:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:10:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:10:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:10:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:10:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:10:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:10:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:10:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:10:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:16: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:16:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:16:                                                                ^^^
+20/08/2026 14:02:16: 
+20/08/2026 14:02:16: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:16:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:16:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:16:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:16:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:16:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:16:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:16:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:16:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:16:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:16:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:23: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:23:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:23:                                                                ^^^
+20/08/2026 14:02:23: 
+20/08/2026 14:02:23: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:23:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:23:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:23:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:23:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:23:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:23:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:23:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:23:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:23:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:23:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:29: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:29:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:29:                                                                ^^^
+20/08/2026 14:02:29: 
+20/08/2026 14:02:29: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:29:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:29:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:29:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:29:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:29:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:29:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:29:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:29:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:29:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:29:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:35: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:35:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:35:                                                                ^^^
+20/08/2026 14:02:35: 
+20/08/2026 14:02:35: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:35:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:35:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:35:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:35:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:35:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:35:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:35:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:35:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:35:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:35:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:41: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:41:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:41:                                                                ^^^
+20/08/2026 14:02:41: 
+20/08/2026 14:02:41: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:41:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:41:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:41:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:41:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:41:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:41:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:41:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:41:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:41:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:41:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:48: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:48:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:48:                                                                ^^^
+20/08/2026 14:02:48: 
+20/08/2026 14:02:48: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:48:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:48:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:48:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:48:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:48:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:48:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:48:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:48:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:48:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:48:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:02:54: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:02:54:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:02:54:                                                                ^^^
+20/08/2026 14:02:54: 
+20/08/2026 14:02:54: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:02:54:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:02:54:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:02:54:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:02:54:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:02:54:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:02:54:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:02:54:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:02:54:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:02:54:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:02:54:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:01: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:01:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:01:                                                                ^^^
+20/08/2026 14:03:01: 
+20/08/2026 14:03:01: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:01:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:01:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:01:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:01:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:01:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:01:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:01:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:01:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:01:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:01:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:07: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:07:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:07:                                                                ^^^
+20/08/2026 14:03:07: 
+20/08/2026 14:03:07: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:07:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:07:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:07:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:07:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:07:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:07:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:07:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:07:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:07:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:07:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:13: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:13:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:13:                                                                ^^^
+20/08/2026 14:03:13: 
+20/08/2026 14:03:13: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:13:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:13:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:13:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:13:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:13:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:13:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:13:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:13:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:13:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:13:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:19: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:19:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:19:                                                                ^^^
+20/08/2026 14:03:19: 
+20/08/2026 14:03:19: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:19:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:19:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:19:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:19:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:19:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:19:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:19:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:19:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:19:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:19:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:26: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:26:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:26:                                                                ^^^
+20/08/2026 14:03:26: 
+20/08/2026 14:03:26: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:26:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:26:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:26:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:26:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:26:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:26:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:26:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:26:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:26:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:26:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:32: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:32:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:32:                                                                ^^^
+20/08/2026 14:03:32: 
+20/08/2026 14:03:32: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:32:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:32:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:32:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:32:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:32:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:32:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:32:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:32:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:32:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:32:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:39: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:39:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:39:                                                                ^^^
+20/08/2026 14:03:39: 
+20/08/2026 14:03:39: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:39:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:39:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:39:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:39:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:39:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:39:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:39:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:39:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:39:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:39:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:45: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:45:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:45:                                                                ^^^
+20/08/2026 14:03:45: 
+20/08/2026 14:03:45: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:45:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:45:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:45:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:45:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:45:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:45:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:45:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:45:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:45:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:45:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:52: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:52:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:52:                                                                ^^^
+20/08/2026 14:03:52: 
+20/08/2026 14:03:52: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:52:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:52:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:52:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:52:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:52:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:52:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:52:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:52:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:52:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:52:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:03:58: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:03:58:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:03:58:                                                                ^^^
+20/08/2026 14:03:58: 
+20/08/2026 14:03:58: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:03:58:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:03:58:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:03:58:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:03:58:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:03:58:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:03:58:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:03:58:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:03:58:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:03:58:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:03:58:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:04:04: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:04:04:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:04:04:                                                                ^^^
+20/08/2026 14:04:04: 
+20/08/2026 14:04:04: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:04:04:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:04:04:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:04:04:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:04:04:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:04:04:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:04:04:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:04:04:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:04:04:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:04:04:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:04:04:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:04:11: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:04:11:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:04:11:                                                                ^^^
+20/08/2026 14:04:11: 
+20/08/2026 14:04:11: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:04:11:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:04:11:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:04:11:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:04:11:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:04:11:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:04:11:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:04:11:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:04:11:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:04:11:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:04:11:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:04:17: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:04:17:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:04:17:                                                                ^^^
+20/08/2026 14:04:17: 
+20/08/2026 14:04:17: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:04:17:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:04:17:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:04:17:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:04:17:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:04:17:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:04:17:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:04:17:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:04:17:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:04:17:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:04:17:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:04:23: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:04:23:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:04:23:                                                                ^^^
+20/08/2026 14:04:23: 
+20/08/2026 14:04:23: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:04:23:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:04:23:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:04:23:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:04:23:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:04:23:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:04:23:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:04:23:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:04:23:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:04:23:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:04:23:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:04:30: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:04:30:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:04:30:                                                                ^^^
+20/08/2026 14:04:30: 
+20/08/2026 14:04:30: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:04:30:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:04:30:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:04:30:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:04:30:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:04:30:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:04:30:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:04:30:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:04:30:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:04:30:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:04:30:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:04:36: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2552
+20/08/2026 14:04:36:         return res.status(400).json({ success: false, error: ''Não foi possível determinar a fila da sua ilha. Contate o supervisor.'' });
+20/08/2026 14:04:36:                                                                ^^^
+20/08/2026 14:04:36: 
+20/08/2026 14:04:36: SyntaxError: Unexpected identifier 'Não'
+20/08/2026 14:04:36:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 14:04:36:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 14:04:36:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 14:04:36:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 14:04:36:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 14:04:36:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 14:04:36:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 14:04:36:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 14:04:36:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 14:04:36:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 14:07:31: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:07:31:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:07:31:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:08:41: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:08:41:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:08:41:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:11:50: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:11:50:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:11:50:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:23:27: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:23:27:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2421:22
+20/08/2026 14:23:27:     at Array.sort (<anonymous>)
+20/08/2026 14:23:27:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2420:13
+20/08/2026 14:23:27:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:30:06: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:30:06:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:30:06:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:50:19: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:50:19:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:50:19:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:55:34: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:55:34:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:55:34:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:55:45: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:55:45:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:55:45:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:55:53: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:55:53:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:55:53:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:56:06: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 14:56:06:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 14:56:06:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario aline.brito.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario ana.gouveia.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario erika.dias : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario josicleide.soledade : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario laura.oliveira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:09: [DASHBOARD_INPUT_NET SLA] Erro para usuario vitor.ribeiro : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario aline.brito.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario ana.gouveia.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario erika.dias : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario josicleide.soledade : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario laura.oliveira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:10: [DASHBOARD_INPUT_NET SLA] Erro para usuario vitor.ribeiro : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:14: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:17: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:17: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:18: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:18: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 14:57:19: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 15:02:25: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:02:25:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 15:02:25:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:02:49: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:02:49:     at E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56
+20/08/2026 15:02:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:06:50: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:06:50:   });
+20/08/2026 15:06:50:    ^
+20/08/2026 15:06:50: 
+20/08/2026 15:06:50: SyntaxError: Unexpected token ')'
+20/08/2026 15:06:50:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:06:50:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:06:50:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:06:50:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:06:50:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:06:50:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:06:50:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:06:50:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:06:50:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:06:50:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:06:56: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:06:56:   });
+20/08/2026 15:06:56:    ^
+20/08/2026 15:06:56: 
+20/08/2026 15:06:56: SyntaxError: Unexpected token ')'
+20/08/2026 15:06:56:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:06:56:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:06:56:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:06:56:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:06:56:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:06:56:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:06:56:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:06:56:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:06:56:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:06:56:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:02: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:02:   });
+20/08/2026 15:07:02:    ^
+20/08/2026 15:07:02: 
+20/08/2026 15:07:02: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:02:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:02:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:02:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:02:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:02:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:02:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:02:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:02:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:02:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:02:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:08: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:08:   });
+20/08/2026 15:07:08:    ^
+20/08/2026 15:07:08: 
+20/08/2026 15:07:08: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:08:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:08:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:08:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:08:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:08:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:08:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:08:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:08:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:08:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:08:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:15: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:15:   });
+20/08/2026 15:07:15:    ^
+20/08/2026 15:07:15: 
+20/08/2026 15:07:15: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:15:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:15:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:15:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:15:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:15:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:15:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:15:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:15:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:15:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:15:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:21: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:21:   });
+20/08/2026 15:07:21:    ^
+20/08/2026 15:07:21: 
+20/08/2026 15:07:21: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:21:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:21:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:21:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:21:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:21:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:21:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:21:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:21:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:21:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:21:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:27: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:27:   });
+20/08/2026 15:07:27:    ^
+20/08/2026 15:07:27: 
+20/08/2026 15:07:27: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:27:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:27:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:27:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:27:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:27:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:27:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:27:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:27:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:27:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:27:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:33: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:33:   });
+20/08/2026 15:07:33:    ^
+20/08/2026 15:07:33: 
+20/08/2026 15:07:33: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:33:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:33:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:33:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:33:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:33:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:33:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:33:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:33:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:33:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:33:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:40: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:40:   });
+20/08/2026 15:07:40:    ^
+20/08/2026 15:07:40: 
+20/08/2026 15:07:40: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:40:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:40:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:40:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:40:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:40:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:40:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:40:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:40:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:40:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:40:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:46: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:46:   });
+20/08/2026 15:07:46:    ^
+20/08/2026 15:07:46: 
+20/08/2026 15:07:46: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:46:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:46:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:46:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:46:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:46:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:46:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:46:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:46:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:46:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:46:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:52: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:52:   });
+20/08/2026 15:07:52:    ^
+20/08/2026 15:07:52: 
+20/08/2026 15:07:52: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:52:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:52:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:52:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:52:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:52:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:52:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:52:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:52:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:52:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:52:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:07:58: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:07:58:   });
+20/08/2026 15:07:58:    ^
+20/08/2026 15:07:58: 
+20/08/2026 15:07:58: SyntaxError: Unexpected token ')'
+20/08/2026 15:07:58:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:07:58:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:07:58:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:07:58:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:07:58:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:07:58:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:07:58:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:07:58:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:07:58:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:07:58:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:08:04: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:08:04:   });
+20/08/2026 15:08:04:    ^
+20/08/2026 15:08:04: 
+20/08/2026 15:08:04: SyntaxError: Unexpected token ')'
+20/08/2026 15:08:04:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:08:04:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:08:04:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:08:04:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:08:04:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:08:04:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:08:04:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:08:04:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:08:04:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:08:04:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:08:11: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:08:11:   });
+20/08/2026 15:08:11:    ^
+20/08/2026 15:08:11: 
+20/08/2026 15:08:11: SyntaxError: Unexpected token ')'
+20/08/2026 15:08:11:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:08:11:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:08:11:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:08:11:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:08:11:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:08:11:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:08:11:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:08:11:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:08:11:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:08:11:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:08:17: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:08:17:   });
+20/08/2026 15:08:17:    ^
+20/08/2026 15:08:17: 
+20/08/2026 15:08:17: SyntaxError: Unexpected token ')'
+20/08/2026 15:08:17:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:08:17:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:08:17:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:08:17:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:08:17:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:08:17:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:08:17:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:08:17:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:08:17:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:08:17:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:08:23: E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2431
+20/08/2026 15:08:23:   });
+20/08/2026 15:08:23:    ^
+20/08/2026 15:08:23: 
+20/08/2026 15:08:23: SyntaxError: Unexpected token ')'
+20/08/2026 15:08:23:     at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+20/08/2026 15:08:23:     at Module._compile (node:internal/modules/cjs/loader:1734:20)
+20/08/2026 15:08:23:     at Object..js (node:internal/modules/cjs/loader:1893:10)
+20/08/2026 15:08:23:     at Module.load (node:internal/modules/cjs/loader:1480:32)
+20/08/2026 15:08:23:     at Module._load (node:internal/modules/cjs/loader:1299:12)
+20/08/2026 15:08:23:     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+20/08/2026 15:08:23:     at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+20/08/2026 15:08:23:     at Module.<anonymous> (node:internal/modules/cjs/loader:1503:12)
+20/08/2026 15:08:23:     at Hook._require.Module.require (C:\Users\jose.faria\AppData\Roaming\npm\node_modules\pm2\node_modules\require-in-the-middle\index.js:101:39)
+20/08/2026 15:08:23:     at require (node:internal/modules/helpers:152:16)
+20/08/2026 15:33:58: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:33:58:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:33:58:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:33:58: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:33:58:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:33:58:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:34:05: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:34:05:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:34:05:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:36:38: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:36:38:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:36:38:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:37:06: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:37:06:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:37:06:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:37:49: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:37:49:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:37:49:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:48:16: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:48:16:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:48:16:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:49:32: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:49:32:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:49:32:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:51:36: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:51:36:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:51:36:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:51:48: [MIS_FILAS] Error: ReferenceError: origenesUsado is not defined
+20/08/2026 15:51:48:     at handlerMisFilas (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2426:56)
+20/08/2026 15:51:48:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:58:53: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 15:58:53:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 15:58:53:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 15:58:53:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2517:23) {
+20/08/2026 15:58:53:   length: 104,
+20/08/2026 15:58:53:   severity: 'ERROR',
+20/08/2026 15:58:53:   code: '42703',
+20/08/2026 15:58:53:   detail: undefined,
+20/08/2026 15:58:53:   hint: undefined,
+20/08/2026 15:58:53:   position: '23',
+20/08/2026 15:58:53:   internalPosition: undefined,
+20/08/2026 15:58:53:   internalQuery: undefined,
+20/08/2026 15:58:53:   where: undefined,
+20/08/2026 15:58:53:   schema: undefined,
+20/08/2026 15:58:53:   table: undefined,
+20/08/2026 15:58:53:   column: undefined,
+20/08/2026 15:58:53:   dataType: undefined,
+20/08/2026 15:58:53:   constraint: undefined,
+20/08/2026 15:58:53:   file: 'parse_relation.c',
+20/08/2026 15:58:53:   line: '3647',
+20/08/2026 15:58:53:   routine: 'errorMissingColumn'
+20/08/2026 15:58:53: }
+20/08/2026 16:09:01: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 16:09:01:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 16:09:01:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 16:09:01:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 16:09:01:   length: 104,
+20/08/2026 16:09:01:   severity: 'ERROR',
+20/08/2026 16:09:01:   code: '42703',
+20/08/2026 16:09:01:   detail: undefined,
+20/08/2026 16:09:01:   hint: undefined,
+20/08/2026 16:09:01:   position: '23',
+20/08/2026 16:09:01:   internalPosition: undefined,
+20/08/2026 16:09:01:   internalQuery: undefined,
+20/08/2026 16:09:01:   where: undefined,
+20/08/2026 16:09:01:   schema: undefined,
+20/08/2026 16:09:01:   table: undefined,
+20/08/2026 16:09:01:   column: undefined,
+20/08/2026 16:09:01:   dataType: undefined,
+20/08/2026 16:09:01:   constraint: undefined,
+20/08/2026 16:09:01:   file: 'parse_relation.c',
+20/08/2026 16:09:01:   line: '3647',
+20/08/2026 16:09:01:   routine: 'errorMissingColumn'
+20/08/2026 16:09:01: }
+20/08/2026 16:09:09: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 16:09:09:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 16:09:09:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 16:09:09:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 16:09:09:   length: 104,
+20/08/2026 16:09:09:   severity: 'ERROR',
+20/08/2026 16:09:09:   code: '42703',
+20/08/2026 16:09:09:   detail: undefined,
+20/08/2026 16:09:09:   hint: undefined,
+20/08/2026 16:09:09:   position: '23',
+20/08/2026 16:09:09:   internalPosition: undefined,
+20/08/2026 16:09:09:   internalQuery: undefined,
+20/08/2026 16:09:09:   where: undefined,
+20/08/2026 16:09:09:   schema: undefined,
+20/08/2026 16:09:09:   table: undefined,
+20/08/2026 16:09:09:   column: undefined,
+20/08/2026 16:09:09:   dataType: undefined,
+20/08/2026 16:09:09:   constraint: undefined,
+20/08/2026 16:09:09:   file: 'parse_relation.c',
+20/08/2026 16:09:09:   line: '3647',
+20/08/2026 16:09:09:   routine: 'errorMissingColumn'
+20/08/2026 16:09:09: }
+20/08/2026 16:09:10: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 16:09:10:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 16:09:10:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 16:09:10:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 16:09:10:   length: 104,
+20/08/2026 16:09:10:   severity: 'ERROR',
+20/08/2026 16:09:10:   code: '42703',
+20/08/2026 16:09:10:   detail: undefined,
+20/08/2026 16:09:10:   hint: undefined,
+20/08/2026 16:09:10:   position: '23',
+20/08/2026 16:09:10:   internalPosition: undefined,
+20/08/2026 16:09:10:   internalQuery: undefined,
+20/08/2026 16:09:10:   where: undefined,
+20/08/2026 16:09:10:   schema: undefined,
+20/08/2026 16:09:10:   table: undefined,
+20/08/2026 16:09:10:   column: undefined,
+20/08/2026 16:09:10:   dataType: undefined,
+20/08/2026 16:09:10:   constraint: undefined,
+20/08/2026 16:09:10:   file: 'parse_relation.c',
+20/08/2026 16:09:10:   line: '3647',
+20/08/2026 16:09:10:   routine: 'errorMissingColumn'
+20/08/2026 16:09:10: }
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:38:36: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 16:49:48: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 16:49:48:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 16:49:48:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 16:49:48:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 16:49:48:   length: 104,
+20/08/2026 16:49:48:   severity: 'ERROR',
+20/08/2026 16:49:48:   code: '42703',
+20/08/2026 16:49:48:   detail: undefined,
+20/08/2026 16:49:48:   hint: undefined,
+20/08/2026 16:49:48:   position: '23',
+20/08/2026 16:49:48:   internalPosition: undefined,
+20/08/2026 16:49:48:   internalQuery: undefined,
+20/08/2026 16:49:48:   where: undefined,
+20/08/2026 16:49:48:   schema: undefined,
+20/08/2026 16:49:48:   table: undefined,
+20/08/2026 16:49:48:   column: undefined,
+20/08/2026 16:49:48:   dataType: undefined,
+20/08/2026 16:49:48:   constraint: undefined,
+20/08/2026 16:49:48:   file: 'parse_relation.c',
+20/08/2026 16:49:48:   line: '3647',
+20/08/2026 16:49:48:   routine: 'errorMissingColumn'
+20/08/2026 16:49:48: }
+20/08/2026 16:51:54: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 16:51:54:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 16:51:54:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 16:51:54:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 16:51:54:   length: 104,
+20/08/2026 16:51:54:   severity: 'ERROR',
+20/08/2026 16:51:54:   code: '42703',
+20/08/2026 16:51:54:   detail: undefined,
+20/08/2026 16:51:54:   hint: undefined,
+20/08/2026 16:51:54:   position: '23',
+20/08/2026 16:51:54:   internalPosition: undefined,
+20/08/2026 16:51:54:   internalQuery: undefined,
+20/08/2026 16:51:54:   where: undefined,
+20/08/2026 16:51:54:   schema: undefined,
+20/08/2026 16:51:54:   table: undefined,
+20/08/2026 16:51:54:   column: undefined,
+20/08/2026 16:51:54:   dataType: undefined,
+20/08/2026 16:51:54:   constraint: undefined,
+20/08/2026 16:51:54:   file: 'parse_relation.c',
+20/08/2026 16:51:54:   line: '3647',
+20/08/2026 16:51:54:   routine: 'errorMissingColumn'
+20/08/2026 16:51:54: }
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:11:04: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario adriana.camparini : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario beatriz.silva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario caio.valerio : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario ewellim.araujo.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario gustavo.moraes.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario jessica.santossilva : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario leonardo.henrique : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario matheus.pierozzi.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario mylena.pereira.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:12:05: [DASHBOARD_INPUT_NET SLA] Erro para usuario samuel.marques.3 : bind message supplies 2 parameters, but prepared statement "" requires 1
+20/08/2026 17:22:18: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 17:22:18:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:22:18:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:22:18:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 17:22:18:   length: 104,
+20/08/2026 17:22:18:   severity: 'ERROR',
+20/08/2026 17:22:18:   code: '42703',
+20/08/2026 17:22:18:   detail: undefined,
+20/08/2026 17:22:18:   hint: undefined,
+20/08/2026 17:22:18:   position: '23',
+20/08/2026 17:22:18:   internalPosition: undefined,
+20/08/2026 17:22:18:   internalQuery: undefined,
+20/08/2026 17:22:18:   where: undefined,
+20/08/2026 17:22:18:   schema: undefined,
+20/08/2026 17:22:18:   table: undefined,
+20/08/2026 17:22:18:   column: undefined,
+20/08/2026 17:22:18:   dataType: undefined,
+20/08/2026 17:22:18:   constraint: undefined,
+20/08/2026 17:22:18:   file: 'parse_relation.c',
+20/08/2026 17:22:18:   line: '3647',
+20/08/2026 17:22:18:   routine: 'errorMissingColumn'
+20/08/2026 17:22:18: }
+20/08/2026 17:22:35: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 17:22:35:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:22:35:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:22:35:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 17:22:35:   length: 104,
+20/08/2026 17:22:35:   severity: 'ERROR',
+20/08/2026 17:22:35:   code: '42703',
+20/08/2026 17:22:35:   detail: undefined,
+20/08/2026 17:22:35:   hint: undefined,
+20/08/2026 17:22:35:   position: '23',
+20/08/2026 17:22:35:   internalPosition: undefined,
+20/08/2026 17:22:35:   internalQuery: undefined,
+20/08/2026 17:22:35:   where: undefined,
+20/08/2026 17:22:35:   schema: undefined,
+20/08/2026 17:22:35:   table: undefined,
+20/08/2026 17:22:35:   column: undefined,
+20/08/2026 17:22:35:   dataType: undefined,
+20/08/2026 17:22:35:   constraint: undefined,
+20/08/2026 17:22:35:   file: 'parse_relation.c',
+20/08/2026 17:22:35:   line: '3647',
+20/08/2026 17:22:35:   routine: 'errorMissingColumn'
+20/08/2026 17:22:35: }
+20/08/2026 17:22:43: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 17:22:43:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:22:43:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:22:43:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 17:22:43:   length: 104,
+20/08/2026 17:22:43:   severity: 'ERROR',
+20/08/2026 17:22:43:   code: '42703',
+20/08/2026 17:22:43:   detail: undefined,
+20/08/2026 17:22:43:   hint: undefined,
+20/08/2026 17:22:43:   position: '23',
+20/08/2026 17:22:43:   internalPosition: undefined,
+20/08/2026 17:22:43:   internalQuery: undefined,
+20/08/2026 17:22:43:   where: undefined,
+20/08/2026 17:22:43:   schema: undefined,
+20/08/2026 17:22:43:   table: undefined,
+20/08/2026 17:22:43:   column: undefined,
+20/08/2026 17:22:43:   dataType: undefined,
+20/08/2026 17:22:43:   constraint: undefined,
+20/08/2026 17:22:43:   file: 'parse_relation.c',
+20/08/2026 17:22:43:   line: '3647',
+20/08/2026 17:22:43:   routine: 'errorMissingColumn'
+20/08/2026 17:22:43: }
+20/08/2026 17:25:48: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 17:25:48:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:25:48:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:25:48:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 17:25:48:   length: 104,
+20/08/2026 17:25:48:   severity: 'ERROR',
+20/08/2026 17:25:48:   code: '42703',
+20/08/2026 17:25:48:   detail: undefined,
+20/08/2026 17:25:48:   hint: undefined,
+20/08/2026 17:25:48:   position: '23',
+20/08/2026 17:25:48:   internalPosition: undefined,
+20/08/2026 17:25:48:   internalQuery: undefined,
+20/08/2026 17:25:48:   where: undefined,
+20/08/2026 17:25:48:   schema: undefined,
+20/08/2026 17:25:48:   table: undefined,
+20/08/2026 17:25:48:   column: undefined,
+20/08/2026 17:25:48:   dataType: undefined,
+20/08/2026 17:25:48:   constraint: undefined,
+20/08/2026 17:25:48:   file: 'parse_relation.c',
+20/08/2026 17:25:48:   line: '3647',
+20/08/2026 17:25:48:   routine: 'errorMissingColumn'
+20/08/2026 17:25:48: }
+20/08/2026 17:25:53: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 17:25:53:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:25:53:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:25:53:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 17:25:53:   length: 104,
+20/08/2026 17:25:53:   severity: 'ERROR',
+20/08/2026 17:25:53:   code: '42703',
+20/08/2026 17:25:53:   detail: undefined,
+20/08/2026 17:25:53:   hint: undefined,
+20/08/2026 17:25:53:   position: '23',
+20/08/2026 17:25:53:   internalPosition: undefined,
+20/08/2026 17:25:53:   internalQuery: undefined,
+20/08/2026 17:25:53:   where: undefined,
+20/08/2026 17:25:53:   schema: undefined,
+20/08/2026 17:25:53:   table: undefined,
+20/08/2026 17:25:53:   column: undefined,
+20/08/2026 17:25:53:   dataType: undefined,
+20/08/2026 17:25:53:   constraint: undefined,
+20/08/2026 17:25:53:   file: 'parse_relation.c',
+20/08/2026 17:25:53:   line: '3647',
+20/08/2026 17:25:53:   routine: 'errorMissingColumn'
+20/08/2026 17:25:53: }
+20/08/2026 17:26:05: [PEGAR_EXTRA] Error: error: column cot.id does not exist
+20/08/2026 17:26:05:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:26:05:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:26:05:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2516:23) {
+20/08/2026 17:26:05:   length: 104,
+20/08/2026 17:26:05:   severity: 'ERROR',
+20/08/2026 17:26:05:   code: '42703',
+20/08/2026 17:26:05:   detail: undefined,
+20/08/2026 17:26:05:   hint: undefined,
+20/08/2026 17:26:05:   position: '23',
+20/08/2026 17:26:05:   internalPosition: undefined,
+20/08/2026 17:26:05:   internalQuery: undefined,
+20/08/2026 17:26:05:   where: undefined,
+20/08/2026 17:26:05:   schema: undefined,
+20/08/2026 17:26:05:   table: undefined,
+20/08/2026 17:26:05:   column: undefined,
+20/08/2026 17:26:05:   dataType: undefined,
+20/08/2026 17:26:05:   constraint: undefined,
+20/08/2026 17:26:05:   file: 'parse_relation.c',
+20/08/2026 17:26:05:   line: '3647',
+20/08/2026 17:26:05:   routine: 'errorMissingColumn'
+20/08/2026 17:26:05: }
+20/08/2026 17:27:32: [PEGAR_EXTRA] Error: error: column cot.tarea does not exist
+20/08/2026 17:27:32:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:27:32:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:27:32:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2562:19) {
+20/08/2026 17:27:32:   length: 163,
+20/08/2026 17:27:32:   severity: 'ERROR',
+20/08/2026 17:27:32:   code: '42703',
+20/08/2026 17:27:32:   detail: undefined,
+20/08/2026 17:27:32:   hint: 'Perhaps you meant to reference the column "cot.tarefa".',
+20/08/2026 17:27:32:   position: '8',
+20/08/2026 17:27:32:   internalPosition: undefined,
+20/08/2026 17:27:32:   internalQuery: undefined,
+20/08/2026 17:27:32:   where: undefined,
+20/08/2026 17:27:32:   schema: undefined,
+20/08/2026 17:27:32:   table: undefined,
+20/08/2026 17:27:32:   column: undefined,
+20/08/2026 17:27:32:   dataType: undefined,
+20/08/2026 17:27:32:   constraint: undefined,
+20/08/2026 17:27:32:   file: 'parse_relation.c',
+20/08/2026 17:27:32:   line: '3647',
+20/08/2026 17:27:32:   routine: 'errorMissingColumn'
+20/08/2026 17:27:32: }
+20/08/2026 17:27:37: [PEGAR_EXTRA] Error: error: column cot.tarea does not exist
+20/08/2026 17:27:37:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:27:37:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:27:37:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2562:19) {
+20/08/2026 17:27:37:   length: 163,
+20/08/2026 17:27:37:   severity: 'ERROR',
+20/08/2026 17:27:37:   code: '42703',
+20/08/2026 17:27:37:   detail: undefined,
+20/08/2026 17:27:37:   hint: 'Perhaps you meant to reference the column "cot.tarefa".',
+20/08/2026 17:27:37:   position: '8',
+20/08/2026 17:27:37:   internalPosition: undefined,
+20/08/2026 17:27:37:   internalQuery: undefined,
+20/08/2026 17:27:37:   where: undefined,
+20/08/2026 17:27:37:   schema: undefined,
+20/08/2026 17:27:37:   table: undefined,
+20/08/2026 17:27:37:   column: undefined,
+20/08/2026 17:27:37:   dataType: undefined,
+20/08/2026 17:27:37:   constraint: undefined,
+20/08/2026 17:27:37:   file: 'parse_relation.c',
+20/08/2026 17:27:37:   line: '3647',
+20/08/2026 17:27:37:   routine: 'errorMissingColumn'
+20/08/2026 17:27:37: }
+20/08/2026 17:27:40: [PEGAR_EXTRA] Error: error: column cot.tarea does not exist
+20/08/2026 17:27:40:     at E:\projetos_hitss\geo-pme-notas\node_modules\pg-pool\index.js:45:11
+20/08/2026 17:27:40:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+20/08/2026 17:27:40:     at async handlerPegarExtra (E:\projetos_hitss\geo-pme-notas\routes\inspecao.js:2562:19) {
+20/08/2026 17:27:40:   length: 163,
+20/08/2026 17:27:40:   severity: 'ERROR',
+20/08/2026 17:27:40:   code: '42703',
+20/08/2026 17:27:40:   detail: undefined,
+20/08/2026 17:27:40:   hint: 'Perhaps you meant to reference the column "cot.tarefa".',
+20/08/2026 17:27:40:   position: '8',
+20/08/2026 17:27:40:   internalPosition: undefined,
+20/08/2026 17:27:40:   internalQuery: undefined,
+20/08/2026 17:27:40:   where: undefined,
+20/08/2026 17:27:40:   schema: undefined,
+20/08/2026 17:27:40:   table: undefined,
+20/08/2026 17:27:40:   column: undefined,
+20/08/2026 17:27:40:   dataType: undefined,
+20/08/2026 17:27:40:   constraint: undefined,
+20/08/2026 17:27:40:   file: 'parse_relation.c',
+20/08/2026 17:27:40:   line: '3647',
+20/08/2026 17:27:40:   routine: 'errorMissingColumn'
+20/08/2026 17:27:40: }

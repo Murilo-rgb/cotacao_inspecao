@@ -68,7 +68,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
               AND c.validacao = 'Ativo' 
               AND c.origem = 'h_x_h'
               AND c.status IS NOT NULL AND c.status != '' AND c.status != 'pendente'
-              AND LOWER(c.status) IN ('aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte')${slaWhereData}
+              AND LOWER(c.status) IN ('aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'pendente-input-hitss')${slaWhereData}
           `, slaParams);
           slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
         } catch (slaErr) {

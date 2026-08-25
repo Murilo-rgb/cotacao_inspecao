@@ -74,6 +74,7 @@
             const hoje = new Date();
             const [mes, setMes] = useState(hoje.getMonth() + 1);
             const [ano, setAno] = useState(hoje.getFullYear());
+            const [origem, setOrigem] = useState('todos');
             const [dados, setDados] = useState(null);
             const [loading, setLoading] = useState(true);
             const [username, setUsername] = useState('');
@@ -103,8 +104,8 @@
             const fetchDados = useCallback(() => {
                 setLoading(true);
                 const apiUrl = window.location.pathname.startsWith('/pme_notas')
-                    ? `/pme_notas/api/qualidade/calendario?mes=${mes}&ano=${ano}`
-                    : `/api/qualidade/calendario?mes=${mes}&ano=${ano}`;
+                    ? `/pme_notas/api/qualidade/calendario?mes=${mes}&ano=${ano}&origem=${origem}`
+                    : `/api/qualidade/calendario?mes=${mes}&ano=${ano}&origem=${origem}`;
                 fetch(apiUrl)
                     .then(r => r.json())
                     .then(data => {
@@ -115,7 +116,7 @@
                         console.error('[CALENDARIO] Erro:', err);
                         setLoading(false);
                     });
-            }, [mes, ano]);
+            }, [mes, ano, origem]);
 
             useEffect(() => { fetchDados(); }, [fetchDados]);
 
@@ -180,7 +181,20 @@
                         React.createElement('div', { className: "flex items-center gap-4" },
                             React.createElement('button', { onClick: handlePrevMonth, className: "p-2.5 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 shadow-sm" }, React.createElement(ArrowLeftIcon)),
                             React.createElement('h2', { className: "text-2xl font-bold text-slate-800 min-w-[200px] text-center" }, `${MESES[mes - 1]} ${ano}`),
-                            React.createElement('button', { onClick: handleNextMonth, className: "p-2.5 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 shadow-sm" }, React.createElement(ArrowRightIcon))
+                            React.createElement('button', { onClick: handleNextMonth, className: "p-2.5 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 shadow-sm" }, React.createElement(ArrowRightIcon)),
+                            React.createElement('div', { className: "flex items-center gap-2 ml-2" },
+                                React.createElement('label', { className: "text-sm font-medium text-slate-600 whitespace-nowrap" }, 'Origem:'),
+                                React.createElement('select', {
+                                    value: origem,
+                                    onChange: (e) => setOrigem(e.target.value),
+                                    className: "px-3 py-2 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 shadow-sm cursor-pointer"
+                                },
+                                    React.createElement('option', { value: "todos" }, 'Todos'),
+                                    React.createElement('option', { value: "r_000250" }, 'Inspeção'),
+                                    React.createElement('option', { value: "iw_cpc_975_net" }, 'Input NET'),
+                                    React.createElement('option', { value: "iw_cpc_975_top" }, 'Input TOP')
+                                )
+                            )
                         ),
                         React.createElement('div', { className: `flex items-center gap-6 px-6 py-3 rounded-2xl border ${corResumo.border} ${corResumo.bg} shadow-sm scale-in` },
                             React.createElement('div', { className: "flex items-center gap-2" },

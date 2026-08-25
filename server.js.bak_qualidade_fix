@@ -416,7 +416,7 @@ app.get('/api/quotations/suporte', authenticateToken, async (req, res) => {
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -476,7 +476,7 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -536,7 +536,7 @@ app.get('/api/quotations/qualidade/suporte', authenticateToken, async (req, res)
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -596,7 +596,7 @@ app.get('/pme_notas/api/quotations/qualidade/suporte', authenticateToken, async 
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -1207,15 +1207,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
 
     if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        innerQuery += ` AND (
-          c.origem = 'r_000250'
-          OR (
-            (c.origem IS NULL OR c.origem = '')
-            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa)
-            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa)
-            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa)
-          )
-        )`;
+        innerQuery += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         innerQuery += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -1680,15 +1672,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
 
     if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        innerQuery += ` AND (
-          c.origem = 'r_000250'
-          OR (
-            (c.origem IS NULL OR c.origem = '')
-            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa)
-            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa)
-            AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa)
-          )
-        )`;
+        innerQuery += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         innerQuery += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -1972,7 +1956,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
                   AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
-                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
+                  ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
             ),
             dedup AS (
                 SELECT DISTINCT ON (usuario_id, data_base)
@@ -2002,7 +1986,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
                   AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
-                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
+                  ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
             ),
             dedup AS (
                 SELECT DISTINCT ON (usuario_id, data_base)
@@ -2078,7 +2062,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
                   AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
-                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
+                  ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
             ),
             ranked AS (
                 SELECT
@@ -2111,7 +2095,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
                   AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
-                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
+                  ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
             ),
             ranked AS (
                 SELECT
@@ -2799,42 +2783,10 @@ app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
       WHERE etapa_atual = '04 - Inspeção' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
     `);
     const stats = countResult.rows[0] || {};
-
-    // Contagem por status específico de cotação (ilha INPUT TOP)
-    let statusCounts = {
-      fila: 0, aprovado: 0, reprovado: 0, aguardando_chamado: 0,
-      aguardando_qualidade: 0, aguardando_dupla_validacao: 0,
-      aguardando_pre_analise: 0, em_tratamento: 0
-    };
-    try {
-      const statusResult = await pool.query(`
-        SELECT 
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE c.status IS NULL OR c.status = '') AS fila,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aprovado') AS aprovado,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'reprovado') AS reprovado,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-chamado') AS aguardando_chamado,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-qualidade') AS aguardando_qualidade,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-dupla-validacao') AS aguardando_dupla_validacao,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) LIKE 'aguardando-pre-analise%') AS aguardando_pre_analise,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'em-tratamento') AS em_tratamento
-        FROM db_gp.listafuncionarios l
-        INNER JOIN db_automacao.usuarios u ON u.login = l.login
-        LEFT JOIN db_bloco_de_notas.cotacao c ON c.usuario_id::text = u.id::text AND c.validacao = 'Ativo'
-        WHERE l.ilha = 'TOP' AND l.ativo = true AND c.origem = 'iw_cpc_975_top'
-      `);
-      const st = statusResult.rows[0] || {};
-      Object.keys(statusCounts).forEach(k => {
-        statusCounts[k] = parseInt(st[k] || 0);
-      });
-    } catch (statusErr) {
-      console.error('[GESTAO_TOP STATUS] Erro:', statusErr.message);
-    }
-
     res.json({ 
       data: result.rows, 
       total: parseInt(countResult.rows[0].total || 0),
       stats,
-      statusCounts,
       limit: parseInt(limit), 
       offset: parseInt(offset) 
     });
@@ -2971,44 +2923,10 @@ app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
     `);
 
     const stats = statsResult.rows[0] || {};
-
-    // Contagem por status específico de cotação (ilha INPUT NET)
-    let statusCounts = {
-      fila: 0, em_tratamento: 0, troca_de_territorio: 0, troca_de_segmento: 0,
-      cadastro_de_membro: 0, aguardando_chamado: 0, aguardando_qualidade: 0,
-      renovacao_aparelho: 0, aprovado: 0, reprovado: 0
-    };
-    try {
-      const statusResult = await pool.query(`
-        SELECT 
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE c.status IS NULL OR c.status = '') AS fila,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'em-tratamento') AS em_tratamento,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'troca-de-territorio') AS troca_de_territorio,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'troca-de-segmento') AS troca_de_segmento,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'cadastro-de-membro') AS cadastro_de_membro,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-chamado') AS aguardando_chamado,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-qualidade') AS aguardando_qualidade,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) LIKE '%aparelho%') AS renovacao_aparelho,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aprovado') AS aprovado,
-          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'reprovado') AS reprovado
-        FROM db_gp.listafuncionarios l
-        INNER JOIN db_automacao.usuarios u ON u.login = l.login
-        LEFT JOIN db_bloco_de_notas.cotacao c ON c.usuario_id::text = u.id::text AND c.validacao = 'Ativo'
-        WHERE l.ilha = 'INPUT NET' AND l.ativo = true AND c.origem = 'iw_cpc_975_net'
-      `);
-      const st = statusResult.rows[0] || {};
-      Object.keys(statusCounts).forEach(k => {
-        statusCounts[k] = parseInt(st[k] || 0);
-      });
-    } catch (statusErr) {
-      console.error('[GESTAO_NET STATUS] Erro:', statusErr.message);
-    }
-
     res.json({ 
       data: result.rows, 
       total: parseInt(stats.total || 0),
       stats,
-      statusCounts,
       limit: parseInt(limit), 
       offset: parseInt(offset) 
     });
