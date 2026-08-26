@@ -27,7 +27,7 @@
 <body>
     <div id="root"></div>
     <script>
-        const { useState, useEffect, useCallback } = React;
+        const { useState, useEffect, useCallback, useRef } = React;
 
         const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         const DIAS_SEMANA = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -53,6 +53,7 @@
         const MoonIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
             React.createElement('path', { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" })
         );
+        const ClockIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('circle', { cx: "12", cy: "12", r: "10" }), React.createElement('polyline', { points: "12 6 12 12 16 14" }));
 
         function getDiasNoMes(mes, ano) {
             return new Date(ano, mes, 0).getDate();
@@ -101,24 +102,32 @@
                 if (storedUsername) setUsername(storedUsername);
             }, []);
 
+            const fetchDadosControllerRef = useRef(null);
+
             const fetchDados = useCallback(() => {
+                if (fetchDadosControllerRef.current) fetchDadosControllerRef.current.abort();
+                const controller = new AbortController();
+                fetchDadosControllerRef.current = controller;
                 setLoading(true);
                 const apiUrl = window.location.pathname.startsWith('/pme_notas')
                     ? `/pme_notas/api/qualidade/calendario?mes=${mes}&ano=${ano}&origem=${origem}`
                     : `/api/qualidade/calendario?mes=${mes}&ano=${ano}&origem=${origem}`;
-                fetch(apiUrl)
+                fetch(apiUrl, { signal: controller.signal })
                     .then(r => r.json())
                     .then(data => {
+                        // Descarta resposta de uma busca que já foi superada por uma troca de mês/ano/origem
+                        if (fetchDadosControllerRef.current !== controller) return;
                         setDados(data);
                         setLoading(false);
                     })
                     .catch(err => {
+                        if (err && err.name === 'AbortError') return;
                         console.error('[CALENDARIO] Erro:', err);
                         setLoading(false);
                     });
             }, [mes, ano, origem]);
 
-            useEffect(() => { fetchDados(); }, [fetchDados]);
+            useEffect(() => { fetchDados(); return () => { if (fetchDadosControllerRef.current) fetchDadosControllerRef.current.abort(); }; }, [fetchDados]);
 
             const handlePrevMonth = () => {
                 if (mes === 1) { setMes(12); setAno(a => a - 1); }
@@ -212,6 +221,12 @@
                             React.createElement('div', { className: "flex items-center gap-2" },
                                 React.createElement('span', { className: "text-sm font-medium text-slate-600" }, '%:'),
                                 React.createElement('span', { className: `text-lg font-bold ${corResumo.text}` }, `${resumo.percentual}%`)
+                            ),
+                            React.createElement('div', { className: "w-px h-8 bg-slate-300" }),
+                            React.createElement('div', { className: "flex items-center gap-2" },
+                                React.createElement(ClockIcon),
+                                React.createElement('span', { className: "text-sm font-medium text-slate-600" }, 'Backlog:'),
+                                React.createElement('span', { className: "text-lg font-bold text-amber-600" }, resumo.total_tarefas - resumo.total_auditadas)
                             )
                         )
                     ),
@@ -243,7 +258,10 @@
                                         const mesStr = String(mes).padStart(2, '0');
                                         const diaStr = String(dia).padStart(2, '0');
                                         const dataISO = `${ano}-${mesStr}-${diaStr}`;
-                                        window.location.href = `${BASE_PATH}/qualidade?dateStart=${dataISO}`;
+                                        let url = `${BASE_PATH}/qualidade?dateStart=${dataISO}`;
+                                        // Repassa a origem selecionada (Input NET, Input TOP ou Inspeção)
+                                        if (origem && origem !== 'todos') url += `&origem=${encodeURIComponent(origem)}`;
+                                        window.location.href = url;
                                     }
                                 };
 

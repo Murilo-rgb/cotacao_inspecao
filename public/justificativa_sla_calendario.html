@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
+    <title>Calendário - Justificativa SLA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
+        .animate-scaleIn { animation: scaleIn 0.3s ease-out; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .day-card { transition: all 0.2s ease; }
+        .day-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        html.dark { background-color: #0f172a; }
+        html.dark body { background-color: #0f172a; }
+        html.dark .bg-white { background-color: #1e293b !important; }
+        html.dark .bg-slate-50 { background-color: #0f172a !important; }
+        html.dark .bg-slate-100 { background-color: #1e293b !important; }
+        html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
+        html.dark .text-slate-500 { color: #94a3b8 !important; }
+        html.dark .text-slate-600 { color: #cbd5e1 !important; }
+        html.dark .text-slate-700 { color: #e2e8f0 !important; }
+        html.dark .text-slate-800 { color: #f1f5f9 !important; }
+        html.dark header { background-color: #1e293b !important; border-color: #334155 !important; }
+    </style>
+    <script>
+    (function(){ const s=localStorage.getItem('darkMode'); if(s==='true') document.documentElement.classList.add('dark'); })();
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const { useState, useEffect, useCallback } = React;
+        const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+        const ArrowLeft = () => React.createElement('svg', { xmlns:"http://www.w3.org/2000/svg", width:"20", height:"20", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2.5", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"m15 18-6-6 6-6" }));
+        const ArrowRight = () => React.createElement('svg', { xmlns:"http://www.w3.org/2000/svg", width:"20", height:"20", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2.5", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"m9 18 6-6-6-6" }));
+        const BackIcon = () => React.createElement('svg', { xmlns:"http://www.w3.org/2000/svg", width:"14", height:"14", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2.5", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('line', { x1:"19", y1:"12", x2:"5", y2:"12" }), React.createElement('polyline', { points:"12 19 5 12 12 5" }));
+
+        function getCor(pct) {
+            if (pct >= 80) return { bg:'bg-emerald-100', border:'border-emerald-300', bar:'bg-emerald-500' };
+            if (pct >= 50) return { bg:'bg-amber-100', border:'border-amber-300', bar:'bg-amber-500' };
+            if (pct > 0) return { bg:'bg-red-100', border:'border-red-300', bar:'bg-red-500' };
+            return { bg:'bg-slate-50', border:'border-slate-100', bar:'bg-slate-200' };
+        }
+        function App() {
+            const hoje = new Date();
+            const [token, setToken] = useState(localStorage.getItem('token'));
+            const [mes, setMes] = useState(hoje.getMonth() + 1);
+            const [ano, setAno] = useState(hoje.getFullYear());
+            const [dados, setDados] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true');
+
+            useEffect(() => {
+                if (darkMode) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+                localStorage.setItem('darkMode', darkMode);
+            }, [darkMode]);
+
+            const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
+            useEffect(() => { if (!localStorage.getItem('token')) window.location.href = getBasePath() + '/login.html'; else setToken(localStorage.getItem('token')); }, []);
+
+            const fetchDados = useCallback(async () => {
+                if (!token) return;
+                try {
+                    setLoading(true);
+                    const res = await fetch(getBasePath() + '/api/inspecao/justificativa-sla/calendario?mes=' + mes + '&ano=' + ano, { headers: { 'Authorization': 'Bearer ' + token } });
+                    if (res.status === 401 || res.status === 403) { localStorage.removeItem('token'); window.location.href = getBasePath() + '/login.html'; return; }
+                    const data = await res.json();
+                    setDados(data);
+                } catch (err) { console.error('[CAL-JUSTIFICATIVA]', err); }
+                finally { setLoading(false); }
+            }, [token, mes, ano]);
+
+            useEffect(() => { if (token) fetchDados(); }, [token, mes, ano, fetchDados]);
+
+            const mesAnterior = () => { if (mes === 1) { setMes(12); setAno(ano - 1); } else setMes(mes - 1); };
+            const mesProximo = () => { if (mes === 12) { setMes(1); setAno(ano + 1); } else setMes(mes + 1); };
+
+            // Constroi a grade de dias do mês
+            const primeiroDia = new Date(ano, mes - 1, 1);
+            const numDias = new Date(ano, mes, 0).getDate();
+            const inicioSemana = primeiroDia.getDay();
+            const diasArray = [];
+            for (let i = 0; i < inicioSemana; i++) diasArray.push(null);
+            for (let d = 1; d <= numDias; d++) diasArray.push(d);
+
+            const dadosMap = {};
+            if (dados && dados.dias) dados.dias.forEach(d => { dadosMap[d.dia] = d; });
+            const resumo = dados?.resumo || { total: 0, justificados: 0, pendentes: 0, percentual: 0 };
+
+            return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
+                React.createElement('header', { className: 'bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30' },
+                    React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+                        React.createElement('div', { className: 'flex justify-between items-center h-16' },
+                            React.createElement('div', { className: 'flex items-center gap-3' },
+                                React.createElement('a', { href: getBasePath() + '/inspecao/justificativa-sla', className: 'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-200 transition-colors' }, React.createElement(BackIcon), 'Lista'),
+                                React.createElement('div', null,
+                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Calendário - Justificativa SLA'),
+                                    React.createElement('p', { className: 'text-xs text-slate-500' }, 'Quantidade de tarefas por dia (por data de saída) e % justificado')
+                                )
+                            ),
+                            React.createElement('div', { className: 'flex items-center gap-3' },
+                                React.createElement('button', { onClick: () => setDarkMode(prev => !prev), className: 'p-2 rounded-lg transition-all duration-200 hover:scale-110 ' + (darkMode ? 'text-amber-400 bg-slate-700' : 'text-slate-600 bg-slate-100'), title: darkMode ? 'Modo claro' : 'Modo escuro' }, darkMode ? '☀️' : '🌙')
+                            )
+                        )
+                    )
+                ),
+                React.createElement('main', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6' },
+                    React.createElement('div', { className: 'flex flex-wrap items-center justify-between gap-3 mb-6' },
+                        React.createElement('div', { className: 'flex items-center gap-2' },
+                            React.createElement('button', { onClick: mesAnterior, className: 'p-2 text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors' }, React.createElement(ArrowLeft)),
+                            React.createElement('h2', { className: 'text-2xl font-bold text-slate-800 capitalize' }, MESES[mes - 1] + ' ' + ano),
+                            React.createElement('button', { onClick: mesProximo, className: 'p-2 text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors' }, React.createElement(ArrowRight))
+                        ),
+                        React.createElement('div', { className: 'flex flex-wrap gap-3' },
+                            React.createElement('div', { className: 'bg-white rounded-xl px-4 py-2 border border-slate-200 shadow-sm' }, React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Total'), React.createElement('p', { className: 'text-xl font-bold text-slate-800' }, resumo.total)),
+                            React.createElement('div', { className: 'bg-white rounded-xl px-4 py-2 border border-slate-200 shadow-sm' }, React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Pendentes'), React.createElement('p', { className: 'text-xl font-bold text-red-600' }, resumo.pendentes)),
+                            React.createElement('div', { className: 'bg-white rounded-xl px-4 py-2 border border-slate-200 shadow-sm' }, React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Justificados'), React.createElement('p', { className: 'text-xl font-bold text-emerald-600' }, resumo.justificados)),
+                            React.createElement('div', { className: 'bg-white rounded-xl px-4 py-2 border border-slate-200 shadow-sm' }, React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, '% justificado'), React.createElement('p', { className: 'text-xl font-bold text-slate-800' }, resumo.percentual + '%'))
+                        )
+                    ),
+                    React.createElement('div', { className: 'flex flex-wrap items-center gap-4 mb-4 text-xs text-slate-600' },
+                        React.createElement('span', { className: 'font-medium' }, 'Proporção de justificados (%):'),
+                        React.createElement('span', { className: 'flex items-center gap-1' }, React.createElement('span', { className: 'w-3 h-3 rounded-sm bg-emerald-100 border border-emerald-300' }), '≥ 80%'),
+                        React.createElement('span', { className: 'flex items-center gap-1' }, React.createElement('span', { className: 'w-3 h-3 rounded-sm bg-amber-100 border border-amber-300' }), '50-79%'),
+                        React.createElement('span', { className: 'flex items-center gap-1' }, React.createElement('span', { className: 'w-3 h-3 rounded-sm bg-red-100 border border-red-300' }), '< 50%'),
+                        React.createElement('span', { className: 'flex items-center gap-1' }, React.createElement('span', { className: 'w-3 h-3 rounded-sm bg-slate-50 border border-slate-200' }), 'Sem registros')
+                    ),
+                    loading
+                        ? React.createElement('div', { className: 'p-12 text-center bg-white rounded-xl border border-slate-200' }, React.createElement('div', { className: 'w-12 h-12 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin mx-auto' }))
+                        : React.createElement('div', { className: 'bg-white rounded-xl border border-slate-200 shadow-sm p-4' },
+                            React.createElement('div', { className: 'grid grid-cols-7 gap-2 mb-2' },
+                                DIAS_SEMANA.map(d => React.createElement('div', { key: d, className: 'text-center text-xs font-semibold text-slate-500 py-1' }, d))
+                            ),
+                            React.createElement('div', { className: 'grid grid-cols-7 gap-2' },
+                                diasArray.map((dia, idx) => {
+                                    if (!dia) return React.createElement('div', { key: 'e' + idx, className: 'min-h-[70px] sm:min-h-[90px]' });
+                                    const info = dadosMap[dia];
+                                    const total = info?.total || 0;
+                                    const just = info?.justificados || 0;
+                                    const pct = total > 0 ? Math.round((just / total) * 100) : 0;
+                                    const cor = getCor(pct);
+                                    const isToday = dia === hoje.getDate() && mes === hoje.getMonth() + 1 && ano === hoje.getFullYear();
+                                    return React.createElement('div', { key: dia, className: 'day-card rounded-xl p-2 border ' + (total > 0 ? cor.bg + ' ' + cor.border : 'border-slate-100 bg-slate-50') + ' min-h-[70px] sm:min-h-[90px] flex flex-col ' + (isToday ? 'ring-2 ring-blue-400 ring-offset-2' : '') },
+                                        React.createElement('div', { className: 'flex items-center justify-between mb-1' },
+                                            React.createElement('span', { className: 'text-sm font-bold ' + (isToday ? 'text-blue-600' : total > 0 ? 'text-slate-800' : 'text-slate-400') }, dia),
+                                            isToday && React.createElement('span', { className: 'text-[10px] font-semibold text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded-full' }, 'HOJE')
+                                        ),
+                                        total > 0
+                                            ? React.createElement('div', { className: 'flex-1 flex flex-col justify-between gap-1' },
+                                                React.createElement('div', { className: 'flex items-center gap-1 text-[11px] sm:text-xs' },
+                                                    React.createElement('span', { className: 'font-semibold text-slate-700' }, total),
+                                                    React.createElement('span', { className: 'text-slate-400' }, '·'),
+                                                    React.createElement('span', { className: 'font-semibold text-emerald-700' }, just)
+                                                ),
+                                                React.createElement('div', { className: 'w-full h-1.5 bg-slate-200 rounded-full overflow-hidden' },
+                                                    React.createElement('div', { className: 'h-full rounded-full ' + cor.bar, style: { width: Math.min(pct, 100) + '%' } })
+                                                )
+                                            )
+                                            : React.createElement('span', { className: 'text-[11px] text-slate-400' }, '—')
+                                    );
+                                })
+                            )
+                        )
+                ),
+            );
+        }
+
+        if (!localStorage.getItem('token')) {
+            window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
+        } else {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(React.createElement(App));
+        }
+    </script>
+    <script src="/pme_notas/menu_navegacao.js"></script>
+</body>
+</html>

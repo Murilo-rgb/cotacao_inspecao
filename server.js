@@ -1135,7 +1135,7 @@ app.post('/api/inpecao/classificar-pendentes', authenticateToken, authorizeRoute
     
     res.json({
       success: true,
-      message: `${result.classificados} cotações classificadas como "Pendente - Classificação"`,
+      message: `${result.classificados} cotações classificadas como "Pendente - Classificação" (status gravado: pendente-classificacao)`,
       ...result
     });
   } catch (error) {

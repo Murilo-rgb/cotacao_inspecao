@@ -8,7 +8,35 @@ const DB_CONFIG = {
     port: 5432,
 };
 
-const STATUS_CLASSIFICACAO = 'Pendente - Classificação';
+// Status canônico gravado no banco (kebab-case, mesmo padrão do restante do sistema).
+// O rótulo amigável "Pendente - Classificação" é usado apenas na exibição nos frontends.
+const STATUS_CLASSIFICACAO = 'pendente-classificacao';
+
+// Passo 0a: auto-normaliza qualquer variante legada de classificação
+// (ex.: 'Pendente - Classificação', 'PENDENTE - CLASSIFICACAO',
+// 'pendiente-clasificacion'), cobrindo espaços, acentos e maiúsculas.
+const NORMALIZAR_CLASSIFICACAO_SQL = `
+    UPDATE db_bloco_de_notas.cotacao
+    SET status = $1,
+        data_da_ultima_atualizacao = TO_CHAR(NOW(), 'DD/MM/YYYY HH24:MI')
+    WHERE validacao = 'Ativo'
+      AND lower(trim(status)) <> $1
+      AND (
+            lower(trim(status)) LIKE 'pendiente%classif%'
+         OR lower(trim(status)) LIKE 'pendiente%clasific%'
+         OR lower(trim(status)) LIKE 'pendente%classif%'
+         OR lower(trim(status)) LIKE 'pendente%clasific%'
+      )
+`;
+
+// Passo 0b: typo histórico em espanhol puro ('pendiente') -> 'pendente'
+const NORMALIZAR_PENDIENTE_SQL = `
+    UPDATE db_bloco_de_notas.cotacao
+    SET status = 'pendente',
+        data_da_ultima_atualizacao = TO_CHAR(NOW(), 'DD/MM/YYYY HH24:MI')
+    WHERE validacao = 'Ativo'
+      AND lower(trim(status)) IN ('pendiente', 'pendientes')
+`;
 
 async function classificarPendentes() {
     const pool = new Pool(DB_CONFIG);
@@ -31,7 +59,9 @@ async function classificarPendentes() {
                 AND c.status NOT LIKE 'pendente-correcao-cadastral'
                 AND c.status NOT LIKE 'pendente-correcao-efetuada'
                 AND c.status NOT LIKE 'pendente-iphone'
-                AND c.status != $1
+                -- Não reprocessa o valor canônico nem legados já classificados
+                -- (ex.: 'Pendente - Classificação', 'pendiente-clasificacion', etc.)
+                AND lower(trim(c.status)) NOT LIKE 'pendente%classifica%'
                 AND NOT EXISTS (
                     SELECT 1 FROM db_bloco_de_notas.r_000250 r 
                     WHERE r.cod_tarefa = c.tarefa
@@ -40,6 +70,13 @@ async function classificarPendentes() {
                 AND c.tarefa != ''
             RETURNING c.tarefa, c.usuario_login, c.status;
         `;
+
+        // Passo 0: auto-normaliza legados antes de classificar (idempotente)
+        const normClass = await client.query(NORMALIZAR_CLASSIFICACAO_SQL, [STATUS_CLASSIFICACAO]);
+        const normPend = await client.query(NORMALIZAR_PENDIENTE_SQL);
+        if ((normClass.rowCount || 0) > 0 || (normPend.rowCount || 0) > 0) {
+            console.log(`[CLASSIFICACAO] Legados normalizados: classificacao=${normClass.rowCount}, pendiente=${normPend.rowCount}`);
+        }
 
         const result = await client.query(updateQuery, [STATUS_CLASSIFICACAO]);
         const classificados = result.rows;
@@ -59,7 +96,7 @@ async function classificarPendentes() {
             WHERE validacao = 'Ativo' AND status = $1
         `, [STATUS_CLASSIFICACAO]);
 
-        console.log(`[CLASSIFICACAO] Total "Pendente - Classificação": ${countClassificados.rows[0].total}`);
+        console.log(`[CLASSIFICACAO] Total "${STATUS_CLASSIFICACAO}": ${countClassificados.rows[0].total}`);
 
         return { success: true, classificados: classificados.length, totalClassificados: countClassificados.rows[0].total };
 
@@ -81,4 +118,4 @@ if (require.main === module) {
         });
 }
 
-module.exports = { classificarPendentes, STATUS_CLASSIFICACAO };
+module.exports = { classificarPendentes, STATUS_CLASSIFICACAO, NORMALIZAR_CLASSIFICACAO_SQL, NORMALIZAR_PENDIENTE_SQL };

@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
+    <title>Justificativa SLA - Inspeção</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
+        .animate-scaleIn { animation: scaleIn 0.3s ease-out; }
+        .animate-slideUp { animation: slideUp 0.3s ease-out; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .row-click { cursor: pointer; transition: background-color 0.15s ease; }
+        .row-click:hover { background-color: #f8fafc; }
+        html, html *, html *::before, html *::after { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+        html.dark { background-color: #0f172a; }
+        html.dark body { background-color: #0f172a; }
+        html.dark .bg-white { background-color: #1e293b !important; }
+        html.dark .bg-slate-50, html.dark .bg-slate-50\/80 { background-color: #0f172a !important; }
+        html.dark .bg-slate-100 { background-color: #1e293b !important; }
+        html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
+        html.dark .divide-slate-200 > * { border-color: #334155 !important; }
+        html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8 !important; }
+        html.dark .text-slate-600 { color: #cbd5e1 !important; }
+        html.dark .text-slate-700 { color: #e2e8f0 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-900 { color: #f1f5f9 !important; }
+        html.dark header { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark .row-click:hover { background-color: rgba(51, 65, 85, 0.5) !important; }
+    </style>
+    <script>
+    (function() {
+        const saved = localStorage.getItem('darkMode');
+        if (saved === 'true') document.documentElement.classList.add('dark');
+    })();
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const { useState, useEffect, useCallback } = React;
+        // ============== ÍCONES ==============
+        const ClockIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('circle', { cx: "12", cy: "12", r: "10" }), React.createElement('polyline', { points: "12 6 12 12 16 14" }));
+        const CalendarIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('rect', { x: "3", y: "4", width: "18", height: "18", rx: "2", ry: "2" }), React.createElement('line', { x1: "16", y1: "2", x2: "16", y2: "6" }), React.createElement('line', { x1: "8", y1: "2", x2: "8", y2: "6" }), React.createElement('line', { x1: "3", y1: "10", x2: "21", y2: "10" }));
+        const RefreshIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('polyline', { points: "23 4 23 10 17 10" }), React.createElement('path', { d: "M20.49 15a9 9 0 1 1-2.12-9.36L23 10" }));
+        const CheckIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('polyline', { points: "20 6 9 17 4 12" }));
+        const AlertIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('path', { d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" }), React.createElement('path', { d: "M12 9v4" }), React.createElement('path', { d: "M12 17h.01" }));
+        const SunIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('circle', { cx: "12", cy: "12", r: "5" }), React.createElement('line', { x1: "12", y1: "1", x2: "12", y2: "3" }), React.createElement('line', { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }), React.createElement('line', { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }), React.createElement('line', { x1: "1", y1: "12", x2: "3", y2: "12" }), React.createElement('line', { x1: "21", y1: "12", x2: "23", y2: "12" }), React.createElement('line', { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }), React.createElement('line', { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" }));
+        const MoonIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('path', { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }));
+        const SearchIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('circle', { cx: "11", cy: "11", r: "8" }), React.createElement('line', { x1: "21", y1: "21", x2: "16.65", y2: "16.65" }));
+        const BackIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('line', { x1: "19", y1: "12", x2: "5", y2: "12" }), React.createElement('polyline', { points: "12 19 5 12 12 5" }));
+        // ============ APP ============
+        function App() {
+            const [token, setToken] = useState(localStorage.getItem('token'));
+            const [registros, setRegistros] = useState([]);
+            const [motivos, setMotivos] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [atualizando, setAtualizando] = useState(false);
+            const [salvando, setSalvando] = useState(false);
+            const [toast, setToast] = useState(null);
+            const [busca, setBusca] = useState('');
+            const [filtro, setFiltro] = useState('todos');
+            const [dataDe, setDataDe] = useState('');
+            const [dataAte, setDataAte] = useState('');
+            const [modalRegistro, setModalRegistro] = useState(null);
+            const [motivoSelecionado, setMotivoSelecionado] = useState('');
+            const [observacao, setObservacao] = useState('');
+            const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true');
+
+            useEffect(() => {
+                if (darkMode) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+                localStorage.setItem('darkMode', darkMode);
+            }, [darkMode]);
+
+            const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const showToast = (message, type) => {
+                setToast({ message, type });
+                setTimeout(() => setToast(null), 4000);
+            };
+
+            useEffect(() => {
+                const t = localStorage.getItem('token');
+                if (!t) { window.location.href = getBasePath() + '/login.html'; return; }
+                setToken(t);
+            }, []);
+
+            // "DD/MM/YYYY HH:MM" -> Date local (meia-noite)
+            const parseDataFmt = (str) => {
+                const m = String(str || '').match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+                return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null;
+            };
+            // "YYYY-MM-DD" (input date) -> Date local (meia-noite)
+            const parseDataIso = (iso) => {
+                const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+                return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+            };
+
+            const fetchRegistros = useCallback(async (silencioso) => {
+                if (!token) return;
+                try {
+                    if (!silencioso) setLoading(true);
+                    const res = await fetch(getBasePath() + '/api/inspecao/justificativa-sla', { headers: { 'Authorization': 'Bearer ' + token } });
+                    if (res.status === 401 || res.status === 403) { localStorage.removeItem('token'); window.location.href = getBasePath() + '/login.html'; return; }
+                    const data = await res.json();
+                    setRegistros(Array.isArray(data.registros) ? data.registros : []);
+                    if (Array.isArray(data.motivos) && data.motivos.length > 0) setMotivos(data.motivos);
+                } catch (err) { console.error('[JUSTIFICATIVA-SLA]', err); showToast('Erro ao carregar registros', 'error'); }
+                finally { setLoading(false); }
+            }, [token]);
+
+            useEffect(() => { if (token) fetchRegistros(); }, [token, fetchRegistros]);
+            const handleAtualizar = async () => {
+                try {
+                    setAtualizando(true);
+                    const res = await fetch(getBasePath() + '/api/inspecao/justificativa-sla/atualizar', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: '{}' });
+                    const data = await res.json();
+                    if (res.ok) { showToast(data.message || 'Registros atualizados!', 'success'); fetchRegistros(true); }
+                    else showToast(data.error || 'Erro ao atualizar registros', 'error');
+                } catch (err) { showToast('Erro ao atualizar: ' + err.message, 'error'); }
+                finally { setAtualizando(false); }
+            };
+
+            const handleSalvarJustificativa = async () => {
+                if (!modalRegistro) return;
+                if (!motivoSelecionado) { showToast('Selecione o motivo da justificativa', 'error'); return; }
+                try {
+                    setSalvando(true);
+                    const res = await fetch(getBasePath() + '/api/inspecao/justificativa-sla/' + modalRegistro.id + '/justificar', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ motivo_justificativa: motivoSelecionado, observacao: observacao }) });
+                    const data = await res.json();
+                    if (res.ok) { showToast(data.message || 'Justificativa registrada!', 'success'); setModalRegistro(null); setMotivoSelecionado(''); setObservacao(''); fetchRegistros(true); }
+                    else showToast(data.error || 'Erro ao registrar justificativa', 'error');
+                } catch (err) { showToast('Erro ao salvar: ' + err.message, 'error'); }
+                finally { setSalvando(false); }
+            };
+
+            const abrirModal = (r) => { setModalRegistro(r); setMotivoSelecionado(r.motivo_justificativa || ''); setObservacao(r.observacao || ''); };
+
+            const registrosFiltrados = registros.filter(r => {
+                if (filtro === 'pendentes' && r.motivo_justificativa) return false;
+                if (filtro === 'justificados' && !r.motivo_justificativa) return false;
+                if (busca) {
+                    const b = busca.toLowerCase();
+                    if (!(String(r.codigo_tarefa || '').toLowerCase().includes(b) || String(r.status || '').toLowerCase().includes(b) || String(r.tipo_pedido || '').toLowerCase().includes(b))) return false;
+                }
+                const dt = parseDataFmt(r.data_inicio_fmt);
+                if (dt) {
+                    const dDe = parseDataIso(dataDe), dAte = parseDataIso(dataAte);
+                    if (dDe && dt < dDe) return false;
+                    if (dAte && dt > dAte) return false;
+                }
+                return true;
+            });
+
+            const totalPendentes = registros.filter(r => !r.motivo_justificativa).length;
+            const totalJustificados = registros.filter(r => r.motivo_justificativa).length;
+
+            const Toast = ({ toast }) => {
+                if (!toast) return null;
+                return React.createElement('div', { className: 'fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-slideUp ' + (toast.type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white') }, toast.type === 'success' ? React.createElement(CheckIcon) : React.createElement(AlertIcon), React.createElement('span', { className: 'font-medium text-sm' }, toast.message));
+            };
+            return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
+                React.createElement('header', { className: 'bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30' },
+                    React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+                        React.createElement('div', { className: 'flex justify-between items-center h-16' },
+                            React.createElement('div', { className: 'flex items-center gap-3' },
+                                React.createElement('div', { className: 'w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md' }, React.createElement(ClockIcon)),
+                                React.createElement('div', null,
+                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Justificativa SLA'),
+                                    React.createElement('p', { className: 'text-xs text-slate-500' }, 'Abonos das tarefas de inspeção com SLA acima de 12h')
+                                )
+                            ),
+                            React.createElement('div', { className: 'flex items-center gap-3' },
+                                React.createElement('a', { href: getBasePath() + '/inspecao/justificativa-sla/calendario', className: 'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors', title: 'Calendário' }, React.createElement(CalendarIcon), 'Calendário'),
+                                React.createElement('a', { href: getBasePath() + '/inspecao', className: 'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-200 transition-colors' }, React.createElement(BackIcon), 'Voltar'),
+                                React.createElement('button', { onClick: handleAtualizar, disabled: atualizando, className: 'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-violet-50 text-violet-700 border border-violet-200 rounded-lg hover:bg-violet-100 transition-colors disabled:opacity-50' }, atualizando ? React.createElement('div', { className: 'w-3.5 h-3.5 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' }) : React.createElement(RefreshIcon), atualizando ? 'Importando...' : 'Atualizar'),
+                                React.createElement('button', { onClick: () => setDarkMode(prev => !prev), className: 'p-2 rounded-lg transition-all duration-200 hover:scale-110 ' + (darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200'), title: darkMode ? 'Modo claro' : 'Modo escuro' }, darkMode ? React.createElement(SunIcon) : React.createElement(MoonIcon)),
+                                React.createElement('button', { onClick: fetchRegistros, disabled: loading, className: 'p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors duration-200 disabled:opacity-50', title: 'Recarregar lista' }, loading ? React.createElement('div', { className: 'w-4 h-4 border-2 border-slate-500 border-t-transparent rounded-full animate-spin' }) : React.createElement(SearchIcon))
+                            )
+                        )
+                    )
+                ),
+
+                React.createElement('main', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6' },
+                    React.createElement('div', { className: 'grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6' },
+                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' }, React.createElement('p', { className: 'text-sm font-medium text-slate-500' }, 'Total na tabela'), React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, registros.length)),
+                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' }, React.createElement('div', { className: 'flex items-center gap-2' }, React.createElement('span', { className: 'w-2.5 h-2.5 rounded-full bg-red-500 inline-block' }), React.createElement('p', { className: 'text-sm font-medium text-red-600' }, 'Pendentes de justificativa')), React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, totalPendentes)),
+                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' }, React.createElement('div', { className: 'flex items-center gap-2' }, React.createElement('span', { className: 'w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block' }), React.createElement('p', { className: 'text-sm font-medium text-emerald-600' }, 'Justificados')), React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, totalJustificados))
+                    ),
+                    React.createElement('div', { className: 'bg-white rounded-xl border border-slate-200 shadow-sm p-3 mb-4 flex flex-wrap items-end gap-3' },
+                        React.createElement('div', { className: 'relative flex-1 min-w-[220px]' },
+                            React.createElement('input', { type: 'text', value: busca, onChange: (e) => setBusca(e.target.value), placeholder: 'Buscar por código da tarefa, status ou tipo...', className: 'w-full px-3 py-2 pl-9 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all' }),
+                            React.createElement('span', { className: 'absolute left-3 top-1/2 -translate-y-1/2 text-slate-400' }, React.createElement(SearchIcon))
+                        ),
+                        React.createElement('select', { value: filtro, onChange: (e) => setFiltro(e.target.value), className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all' }, React.createElement('option', { value: 'todos' }, 'Todos'), React.createElement('option', { value: 'pendentes' }, 'Pendentes'), React.createElement('option', { value: 'justificados' }, 'Justificados')),
+                        React.createElement('div', { className: 'flex items-center gap-2' }, React.createElement('label', { className: 'text-xs font-medium text-slate-500' }, 'De'), React.createElement('input', { type: 'date', value: dataDe, onChange: (e) => setDataDe(e.target.value), className: 'px-2 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all' })),
+                        React.createElement('div', { className: 'flex items-center gap-2' }, React.createElement('label', { className: 'text-xs font-medium text-slate-500' }, 'Até'), React.createElement('input', { type: 'date', value: dataAte, onChange: (e) => setDataAte(e.target.value), className: 'px-2 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all' })),
+                        React.createElement('button', { onClick: () => { setDataDe(''); setDataAte(''); setBusca(''); setFiltro('todos'); }, className: 'px-3 py-2 text-xs font-medium text-slate-500 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors' }, 'Limpar')
+                    ),
+                    React.createElement('div', { className: 'bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden' },
+                        loading
+                            ? React.createElement('div', { className: 'p-12 text-center' }, React.createElement('div', { className: 'w-12 h-12 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin mx-auto mb-4' }), React.createElement('p', { className: 'text-sm text-slate-500' }, 'Carregando registros...'))
+                            : registrosFiltrados.length === 0
+                                ? React.createElement('div', { className: 'p-12 text-center' }, React.createElement(ClockIcon), React.createElement('p', { className: 'text-sm text-slate-500 mt-3' }, 'Nenhum registro encontrado.'), React.createElement('p', { className: 'text-xs text-slate-400 mt-1' }, 'Use o botão "Atualizar" para importar as tarefas com SLA acima de 12h.'))
+                                : React.createElement('div', { className: 'overflow-x-auto' },
+                                    React.createElement('table', { className: 'w-full text-left border-collapse' },
+                                        React.createElement('thead', null, React.createElement('tr', { className: 'bg-slate-50 border-b border-slate-200' }, ['Código Tarefa', 'Status', 'Tipo Pedido', 'SLA Auto', 'Dt Início', 'Dt Fim', 'Faixa SLA', 'Situação', 'Motivo', 'Observação'].map(h => React.createElement('th', { key: h, className: 'px-3 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider whitespace-nowrap' }, h)))),
+                                        React.createElement('tbody', { className: 'divide-y divide-slate-200' },
+                                            registrosFiltrados.map(r => {
+                                                const justificado = !!r.motivo_justificativa;
+                                                return React.createElement('tr', { key: r.id, onClick: () => abrirModal(r), className: 'row-click' },
+                                                    React.createElement('td', { className: 'px-3 py-3 text-sm font-semibold text-slate-800 whitespace-nowrap' }, r.codigo_tarefa),
+                                                    React.createElement('td', { className: 'px-3 py-3 text-sm text-slate-600 max-w-[220px] truncate', title: r.status }, r.status || '-'),
+                                                    React.createElement('td', { className: 'px-3 py-3 text-sm text-slate-600 whitespace-nowrap' }, r.tipo_pedido || '-'),
+                                                    React.createElement('td', { className: 'px-3 py-3 text-sm font-mono font-medium text-slate-700 whitespace-nowrap' }, r.sla_auto || '-'),
+                                                    React.createElement('td', { className: 'px-3 py-3 text-sm text-slate-600 whitespace-nowrap' }, r.data_inicio_fmt || '-'),
+                                                    React.createElement('td', { className: 'px-3 py-3 text-sm text-slate-600 whitespace-nowrap' }, r.data_fim_fmt || '-'),
+                                                    React.createElement('td', { className: 'px-3 py-3 whitespace-nowrap' }, React.createElement('span', { className: 'inline-flex px-2 py-0.5 text-xs font-semibold rounded-full border ' + (r.faixa_sla === 'Acima de 24h' ? 'bg-red-50 text-red-700 border-red-200' : 'bg-orange-50 text-orange-700 border-orange-200') }, r.faixa_sla || '-')),
+                                                    React.createElement('td', { className: 'px-3 py-3 whitespace-nowrap' }, React.createElement('span', { className: 'inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded-full border ' + (justificado ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200') }, React.createElement('span', { className: 'w-1.5 h-1.5 rounded-full ' + (justificado ? 'bg-emerald-500' : 'bg-red-500') }), justificado ? 'Justificado' : 'Pendente')),
+                                                    React.createElement('td', { className: 'px-3 py-3 text-xs text-slate-600 max-w-[260px] truncate', title: r.motivo_justificativa }, r.motivo_justificativa || '-'),
+                                                    React.createElement('td', { className: 'px-3 py-3 text-xs text-slate-600 max-w-[200px] truncate', title: r.observacao }, r.observacao || '-')
+                                                );
+                                            })
+                                        )
+                                    )
+                                )
+                    ),
+                    React.createElement('p', { className: 'text-xs text-slate-400 mt-3' }, 'Exibindo ' + registrosFiltrados.length + ' de ' + registros.length + ' registro(s). Clique em uma linha para justificar.')
+                ),
+                modalRegistro && React.createElement('div', { className: 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 animate-fadeIn', onClick: (e) => { if (e.target === e.currentTarget) setModalRegistro(null); } },
+                    React.createElement('div', { className: 'bg-white rounded-2xl shadow-2xl w-full max-w-lg modal-content animate-scaleIn' },
+                        React.createElement('div', { className: 'flex items-center justify-between px-6 py-4 border-b border-slate-200' }, React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 flex items-center gap-2' }, React.createElement(ClockIcon), 'Justificar SLA'), React.createElement('button', { onClick: () => setModalRegistro(null), className: 'p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors' }, '✕')),
+                        React.createElement('div', { className: 'p-6 space-y-4' },
+                            React.createElement('div', { className: 'bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-1.5' },
+                                React.createElement('p', { className: 'text-sm' }, React.createElement('span', { className: 'font-semibold text-slate-700' }, 'Tarefa: '), React.createElement('span', { className: 'text-slate-600' }, modalRegistro.codigo_tarefa)),
+                                React.createElement('p', { className: 'text-sm' }, React.createElement('span', { className: 'font-semibold text-slate-700' }, 'Período: '), React.createElement('span', { className: 'text-slate-600' }, (modalRegistro.data_inicio_fmt || '-') + ' até ' + (modalRegistro.data_fim_fmt || '-'))),
+                                React.createElement('p', { className: 'text-sm' }, React.createElement('span', { className: 'font-semibold text-slate-700' }, 'Tempo total (SLA Auto): '), React.createElement('span', { className: 'font-mono font-semibold text-red-600' }, modalRegistro.sla_auto || '-'))
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('label', { className: 'block text-sm font-medium text-slate-700 mb-1' }, 'Motivo da justificativa *'),
+                                React.createElement('select', { value: motivoSelecionado, onChange: (e) => setMotivoSelecionado(e.target.value), className: 'w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all' },
+                                    React.createElement('option', { value: '' }, 'Selecione o motivo...'),
+                                    motivos.map(m => React.createElement('option', { key: m, value: m }, m))
+                                )
+                            ),
+                            React.createElement('div', null, React.createElement('label', { className: 'block text-sm font-medium text-slate-700 mb-1' }, 'Observação'), React.createElement('textarea', { value: observacao, onChange: (e) => setObservacao(e.target.value), rows: 3, placeholder: 'Detalhes adicionais sobre a justificativa (opcional)...', className: 'w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all resize-none' })),
+                            modalRegistro.justificado_por_nome && React.createElement('div', { className: 'flex items-center gap-2 text-xs text-slate-500 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2' }, React.createElement('span', { className: 'w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block' }), 'Justificado anteriormente por ' + modalRegistro.justificado_por_nome + (modalRegistro.data_justificativa_fmt ? ' em ' + modalRegistro.data_justificativa_fmt : '') + '. Salvar novamente irá atualizar o registro.')
+                        ),
+                        React.createElement('div', { className: 'flex justify-end gap-2 px-6 py-4 border-t border-slate-200' },
+                            React.createElement('button', { onClick: () => setModalRegistro(null), className: 'px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors' }, 'Cancelar'),
+                            React.createElement('button', { onClick: handleSalvarJustificativa, disabled: salvando, className: 'inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 rounded-xl transition-all duration-200 shadow-md disabled:opacity-50' }, salvando && React.createElement('div', { className: 'w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' }), salvando ? 'Salvando...' : 'Salvar Justificativa')
+                        )
+                    )
+                ),
+                React.createElement(Toast, { toast })
+            );
+        }
+
+        if (!localStorage.getItem('token')) {
+            window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
+        } else {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(React.createElement(App));
+        }
+    </script>
+    <script src="/pme_notas/menu_navegacao.js"></script>
+</body>
+</html>

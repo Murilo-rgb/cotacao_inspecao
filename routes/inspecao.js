@@ -183,11 +183,27 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   });
 
   // Listar usuários para distribuição
+  // Parâmetro opcional ?ilha=xxx: retorna apenas usuários cuja ilha (db_gp.listafuncionarios)
+  // contenha o termo (ILIKE %termo%). Usado pela tela de Inspeção (ilha%insp%). Sem o parâmetro
+  // mantém o comportamento original (todos os usuários ativos).
   router.get('/api/inspecao/usuarios', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
-      const result = await pool.query(
-        'SELECT id, login, nome FROM db_automacao.usuarios WHERE ativo = true ORDER BY nome'
-      );
+      const ilha = req.query && req.query.ilha ? String(req.query.ilha).trim() : '';
+      let result;
+      if (ilha) {
+        result = await pool.query(
+          `SELECT u.id, u.login, u.nome
+           FROM db_automacao.usuarios u
+           INNER JOIN db_gp.listafuncionarios l ON l.login = u.login AND l.ativo = true
+           WHERE u.ativo = true AND l.ilha ILIKE '%' || $1 || '%'
+           ORDER BY u.nome`,
+          [ilha]
+        );
+      } else {
+        result = await pool.query(
+          'SELECT id, login, nome FROM db_automacao.usuarios WHERE ativo = true ORDER BY nome'
+        );
+      }
       res.json(result.rows);
     } catch (error) {
       console.error('[INSPECAO] Erro ao buscar usuários:', error);
@@ -660,7 +676,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       
       res.json({
         success: true,
-        message: `${result.classificados} cotações classificadas como "Pendente - Classificação"`,
+        message: `${result.classificados} cotações classificadas como "Pendente - Classificação" (status gravado: pendente-classificacao)`,
         ...result
       });
     } catch (error) {
@@ -676,6 +692,301 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
 
   router.get('/pme_notas/inspecao/dashboard', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'dashboard.html'));
+  });
+
+  // ============================================================
+  // ===== JUSTIFICATIVA SLA (inspeção) ==========================
+  // Tabela: db_qualidade.ins_justificativa_sla
+  // Página: /inspecao/justificativa-sla
+  // ============================================================
+
+  const TABELA_JUSTIFICATIVA_SLA = 'db_qualidade.ins_justificativa_sla';
+
+  // Motivos válidos de abono/justificativa para perda de SLA
+  const MOTIVOS_JUSTIFICATIVA_SLA = [
+    'ABONOS',
+    'RECEBIDO E TRATADO NO MESMO DIA FORA DO EXPEDIENTE',
+    'ABONO - PRIORIZAÇÃO MARATONA DE GROSS FINAL MÊS',
+    'ABONO - PRIORIZAÇÃO MARATONA DE PORTABILIDADE',
+    'AJUSTE FERIADO',
+    'ABONO - IMPACTO SISTÊMICO',
+    'ABONO - IMPACTO LISTA DE PRIORIDADE',
+    'ABONO - IMPACTO SISTÊMICO 2FA',
+    'ABONO - ESCALA REDUZIDA COPA',
+    'ABONO - IMPACTO LISTA DE PRIORIDADE PORTABILIDADE',
+    'ABONO - IMPACTO TREINAMENTOS',
+    'ABONO - FREEZING CPC',
+    'DESOCUPAÇÃO/ALTERAÇÃO PREDIAL'
+  ];
+
+  // Cria a tabela caso ainda não exista (idempotente / defesa em deploy)
+  async function garantirTabelaJustificativaSLA() {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS ${TABELA_JUSTIFICATIVA_SLA} (
+        id SERIAL PRIMARY KEY,
+        codigo_tarefa VARCHAR(255) NOT NULL,
+        status VARCHAR(255),
+        tipo_pedido VARCHAR(255),
+        data_entrada TIMESTAMP NOT NULL,
+        data_saida TIMESTAMP,
+        qtd_horas NUMERIC(12, 2),
+        sla_auto VARCHAR(10),
+        faixa_sla VARCHAR(50),
+        justificado_por INTEGER,
+        motivo_justificativa TEXT,
+        observacao TEXT,
+        data_justificativa TIMESTAMP,
+        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        atualizado_em TIMESTAMP,
+        CONSTRAINT uq_justificativa_sla_tarefa_data UNIQUE (codigo_tarefa, data_entrada)
+      );
+    `);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_ins_just_sla_tarefa ON ${TABELA_JUSTIFICATIVA_SLA}(codigo_tarefa);`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_ins_just_sla_saida ON ${TABELA_JUSTIFICATIVA_SLA}(data_saida);`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_ins_just_sla_justif ON ${TABELA_JUSTIFICATIVA_SLA}(justificado_por);`);
+  }
+
+  // Query base que extrai as tarefas com SLA estourado (> 12h) do mês corrente.
+  // Colunas adicionais data_entrada_bruta/data_saida_bruta expõem os timestamps
+  // originais para alimentar a tabela (a chave anti-duplicação usa data_entrada).
+  const QUERY_BASE_JUSTIFICATIVA_SLA = `
+    WITH consulta_base AS (
+      SELECT DISTINCT ON (q.codigo_tarefa, q.data_saida)
+          q.codigo_tarefa AS "CÓDIGO TAREFA",
+          q.status AS "STATUS",
+          UPPER(q.tipo_pedido_aux) AS "TIPO PEDIDO2",
+          TO_CHAR(q.data_entrada, 'DD/MM/YYYY HH24:MI') AS "C3_DT_INICIO",
+          TO_CHAR(q.data_saida, 'DD/MM/YYYY HH24:MI') AS "C3_DT_FIM",
+          q.data_entrada AS data_entrada_bruta,
+          q.data_saida AS data_saida_bruta,
+          hrs.qtd_horas,
+          LPAD(FLOOR(ROUND(hrs.qtd_horas * 3600) / 3600)::text, 2, '0') || ':' ||
+          LPAD(FLOOR((ROUND(hrs.qtd_horas * 3600)::integer % 3600) / 60)::text, 2, '0') || ':' ||
+          LPAD((ROUND(hrs.qtd_horas * 3600)::integer % 60)::text, 2, '0') AS "SLA_AUTO"
+      FROM db_qualidade.qualidade_de_pedidos_inspecao q
+      LEFT JOIN LATERAL (
+          SELECT db_esteira_gross.fn_calcular_horas_uteis(q.data_entrada, q.data_saida) AS qtd_horas
+      ) hrs ON TRUE
+      WHERE q.data_saida_aux >= DATE_TRUNC('month', CURRENT_DATE)
+        AND q.data_saida_aux < DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month'
+        AND COALESCE(q.analista, '') NOT ILIKE 'administrador'
+        AND COALESCE(q.operacao_login_criador_cor_aux, '') NOT ILIKE 'BACK OFFICE LOJA PRÓPRIA'
+        AND COALESCE(q.operacao_login_aprovador_cor_tarefa, '') NOT ILIKE 'BACK OFFICE LOJA PRÓPRIA'
+        AND COALESCE(q.fila, '') NOT ILIKE 'CPC - Loja Própria'
+        AND NOT (
+            COALESCE(q.operacao_login_criador_cor_aux, '') ILIKE 'BACK OFFICE INPUT PME'
+            AND COALESCE(q.status, '') ILIKE 'Inspeção Reprovada'
+        )
+        AND COALESCE(q.submotivo_devolucao, '') NOT ILIKE 'Erro sistêmico'
+      ORDER BY q.codigo_tarefa, q.data_saida
+    )
+    SELECT 
+        "CÓDIGO TAREFA",
+        "STATUS",
+        "TIPO PEDIDO2",
+        data_entrada_bruta,
+        data_saida_bruta,
+        "SLA_AUTO",
+        "C3_DT_INICIO",
+        "C3_DT_FIM",
+        qtd_horas,
+        "SLA_AUTO" AS "C3_SLA_FORMATADO",
+        CASE 
+            WHEN qtd_horas > 24 THEN 'Acima de 24h'
+            WHEN qtd_horas > 12 THEN 'Entre 12h e 24h'
+            ELSE 'Dentro do SLA'
+        END AS "C3_FAIXA_SLA"
+    FROM consulta_base
+    WHERE qtd_horas > 12
+  `;
+
+  // GET /api/inspecao/justificativa-sla — lista registros já importados na tabela
+  async function handlerListarJustificativaSLA(req, res) {
+    try {
+      const { filtro } = req.query;
+      let where = '';
+      if (filtro === 'pendentes') {
+        where = 'WHERE j.motivo_justificativa IS NULL';
+      } else if (filtro === 'justificados') {
+        where = 'WHERE j.motivo_justificativa IS NOT NULL';
+      }
+
+      const result = await pool.query(`
+        SELECT 
+          j.id,
+          j.codigo_tarefa,
+          j.status,
+          j.tipo_pedido,
+          TO_CHAR(j.data_entrada, 'DD/MM/YYYY HH24:MI') AS data_inicio_fmt,
+          TO_CHAR(j.data_saida, 'DD/MM/YYYY HH24:MI') AS data_fim_fmt,
+          j.qtd_horas,
+          j.sla_auto,
+          j.faixa_sla,
+          j.motivo_justificativa,
+          j.observacao,
+          j.justificado_por,
+          u.nome AS justificado_por_nome,
+          TO_CHAR(j.data_justificativa, 'DD/MM/YYYY HH24:MI') AS data_justificativa_fmt
+        FROM ${TABELA_JUSTIFICATIVA_SLA} j
+        LEFT JOIN db_automacao.usuarios u ON u.id = j.justificado_por
+        ${where}
+        ORDER BY j.id DESC
+      `, []);
+
+      res.json({
+        registros: result.rows,
+        motivos: MOTIVOS_JUSTIFICATIVA_SLA
+      });
+    } catch (err) {
+      console.error('[JUSTIFICATIVA-SLA] Erro ao listar:', err.message);
+      res.status(500).json({ error: 'Erro ao listar registros: ' + err.message });
+    }
+  }
+
+  // POST /api/inspecao/justificativa-sla/atualizar — roda a query fonte e insere
+  // apenas as linhas novas (não apaga as antigas e não repete existentes).
+  // Chave anti-duplicação: (codigo_tarefa, data_entrada)
+  async function handlerAtualizarJustificativaSLA(req, res) {
+    try {
+      await garantirTabelaJustificativaSLA();
+
+      const insertResult = await pool.query(`
+        INSERT INTO ${TABELA_JUSTIFICATIVA_SLA} 
+          (codigo_tarefa, status, tipo_pedido, data_entrada, data_saida, qtd_horas, sla_auto, faixa_sla)
+        SELECT 
+          cb."CÓDIGO TAREFA", cb."STATUS", cb."TIPO PEDIDO2",
+          cb.data_entrada_bruta, cb.data_saida_bruta, cb.qtd_horas,
+          cb."SLA_AUTO", cb."C3_FAIXA_SLA"
+        FROM (${QUERY_BASE_JUSTIFICATIVA_SLA}) cb
+        WHERE cb."CÓDIGO TAREFA" IS NOT NULL AND cb.data_entrada_bruta IS NOT NULL
+        ON CONFLICT (codigo_tarefa, data_entrada) DO NOTHING
+        RETURNING id
+      `);
+
+      const totalTabela = await pool.query(`SELECT COUNT(*)::int AS total FROM ${TABELA_JUSTIFICATIVA_SLA}`);
+
+      console.log(`[JUSTIFICATIVA-SLA] Atualização manual: ${insertResult.rowCount} nova(s) linha(s), total na tabela: ${totalTabela.rows[0].total}`);
+      res.json({
+        message: `${insertResult.rowCount || 0} novo(s) registro(s) importado(s).`,
+        inseridos: insertResult.rowCount || 0,
+        total: totalTabela.rows[0].total
+      });
+    } catch (err) {
+      console.error('[JUSTIFICATIVA-SLA] Erro ao atualizar:', err.message);
+      res.status(500).json({ error: 'Erro ao atualizar registros: ' + err.message });
+    }
+  }
+
+  // PUT /api/inspecao/justificativa-sla/:id/justificar — registra abono de SLA.
+  // justificado_por recebe o id do usuário logado (JWT).
+  async function handlerJustificarSLA(req, res) {
+    try {
+      const { id } = req.params;
+      const { motivo_justificativa, observacao } = req.body;
+
+      if (!id || isNaN(parseInt(id))) {
+        return res.status(400).json({ error: 'ID inválido.' });
+      }
+      if (!motivo_justificativa || !String(motivo_justificativa).trim()) {
+        return res.status(400).json({ error: 'O motivo da justificativa é obrigatório.' });
+      }
+      const motivoNormalizado = String(motivo_justificativa).trim().toUpperCase();
+      if (!MOTIVOS_JUSTIFICATIVA_SLA.includes(motivoNormalizado)) {
+        return res.status(400).json({ error: 'Motivo de justificativa inválido.' });
+      }
+
+      const result = await pool.query(`
+        UPDATE ${TABELA_JUSTIFICATIVA_SLA}
+        SET motivo_justificativa = $1,
+            observacao = $2,
+            justificado_por = $3,
+            data_justificativa = CURRENT_TIMESTAMP,
+            atualizado_em = CURRENT_TIMESTAMP
+        WHERE id = $4
+        RETURNING id, codigo_tarefa, motivo_justificativa, observacao, justificado_por
+      `, [motivoNormalizado, observacao ? String(observacao).trim() : null, req.user.id, parseInt(id)]);
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Registro não encontrado.' });
+      }
+      res.json({ message: 'Justificativa registrada com sucesso!', registro: result.rows[0] });
+    } catch (err) {
+      console.error('[JUSTIFICATIVA-SLA] Erro ao justificar:', err.message);
+      res.status(500).json({ error: 'Erro ao registrar justificativa: ' + err.message });
+    }
+  }
+
+  router.get('/api/inspecao/justificativa-sla', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerListarJustificativaSLA);
+  router.get('/pme_notas/api/inspecao/justificativa-sla', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerListarJustificativaSLA);
+  router.post('/api/inspecao/justificativa-sla/atualizar', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerAtualizarJustificativaSLA);
+  router.post('/pme_notas/api/inspecao/justificativa-sla/atualizar', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerAtualizarJustificativaSLA);
+  router.put('/api/inspecao/justificativa-sla/:id/justificar', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerJustificarSLA);
+  router.put('/pme_notas/api/inspecao/justificativa-sla/:id/justificar', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerJustificarSLA);
+
+  // GET /api/inspecao/justificativa-sla/calendario — quantidade por dia da data_saida
+  async function handlerCalendarioJustificativaSLA(req, res) {
+    try {
+      const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
+      const ano = parseInt(req.query.ano) || new Date().getFullYear();
+
+      const result = await pool.query(`
+        SELECT
+          EXTRACT(DAY FROM j.data_saida)::int AS dia,
+          COUNT(*)::int AS total,
+          COUNT(*) FILTER (WHERE j.motivo_justificativa IS NOT NULL)::int AS justificados,
+          COUNT(*) FILTER (WHERE j.motivo_justificativa IS NULL)::int AS pendentes
+        FROM ${TABELA_JUSTIFICATIVA_SLA} j
+        WHERE EXTRACT(YEAR FROM j.data_saida) = $1
+          AND EXTRACT(MONTH FROM j.data_saida) = $2
+        GROUP BY dia
+        ORDER BY dia
+      `, [ano, mes]);
+
+      const diasMap = {};
+      let totalGeral = 0, totalJustificados = 0, totalPendentes = 0;
+      result.rows.forEach(r => {
+        diasMap[r.dia] = { dia: r.dia, total: r.total, justificados: r.justificados, pendentes: r.pendentes };
+        totalGeral += r.total;
+        totalJustificados += r.justificados;
+        totalPendentes += r.pendentes;
+      });
+
+      res.json({
+        mes,
+        ano,
+        dias: result.rows,
+        resumo: {
+          total: totalGeral,
+          justificados: totalJustificados,
+          pendentes: totalPendentes,
+          percentual: totalGeral > 0 ? Math.round((totalJustificados / totalGeral) * 100) : 0
+        }
+      });
+    } catch (err) {
+      console.error('[JUSTIFICATIVA-SLA] Erro no calendário:', err.message);
+      res.status(500).json({ error: 'Erro ao carregar calendário: ' + err.message });
+    }
+  }
+
+  router.get('/api/inspecao/justificativa-sla/calendario', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerCalendarioJustificativaSLA);
+  router.get('/pme_notas/api/inspecao/justificativa-sla/calendario', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerCalendarioJustificativaSLA);
+
+  // Serve página de justificativa SLA (mantém rotas antigas e novas)
+  router.get('/inspecao/justificativa-sla', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'justificativa_sla.html'));
+  });
+
+  router.get('/pme_notas/inspecao/justificativa-sla', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'justificativa_sla.html'));
+  });
+
+  // Serve página do calendário de justificativa SLA (mantém rotas antigas e novas)
+  router.get('/inspecao/justificativa-sla/calendario', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'justificativa_sla_calendario.html'));
+  });
+
+  router.get('/pme_notas/inspecao/justificativa-sla/calendario', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'justificativa_sla_calendario.html'));
   });
 
   // Serve devolucao padrao page
@@ -2665,7 +2976,7 @@ const handlerPegarExtra = async (req, res) => {
         `SELECT COUNT(DISTINCT cot.id_cotacao) AS total
          FROM db_bloco_de_notas.cotacao cot
          WHERE cot.usuario_id::text = $1 AND cot.validacao = 'Ativo'
-           AND (cot.status IS NULL OR cot.status = '' OR lower(cot.status) LIKE 'pendiente%')`,
+           AND (cot.status IS NULL OR cot.status = '' OR lower(cot.status) LIKE 'pendent%')`,
         [String(userId)]
       );
       if (parseInt(pendRes.rows[0].total || 0) > 0) {
@@ -2727,7 +3038,7 @@ const handlerPegarExtra = async (req, res) => {
       await pool.query(
         `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico)
          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
-        [tarea.cod_tarefa, tarea.cotacao, anotacion, 'pendiente', 'Activo', ahora, ahora, usuarioLogin, userId, filaElegida, tarea.data_historico || null]
+        [tarea.cod_tarefa, tarea.cotacao, anotacion, 'pendente', 'Activo', ahora, ahora, usuarioLogin, userId, filaElegida, tarea.data_historico || null]
       );
 
       registrarAuditoria(pool, {
@@ -2738,7 +3049,7 @@ const handlerPegarExtra = async (req, res) => {
         usuario_destino_id: userId,
         usuario_destino_nome: usuarioNom,
         status_anterior: null,
-        status_nuevo: 'pendiente',
+        status_nuevo: 'pendente',
         criado_por: usuarioLogin
       });
 

@@ -665,7 +665,11 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
         if (normalized === 'reprovado') {
             return { label: 'Reprovado', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
         }
-        if (normalized === 'pendente-classificacao') {
+        // Tolerante a legados: casa também 'Pendente - Classificação', 'PENDENTE - CLASSIFICAÇÃO', etc.
+        const compactClassificacao = normalized
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s*-\s*/g, '-');
+        if (normalized === 'pendente-classificacao' || compactClassificacao === 'pendente-classificacao') {
             return { label: 'Pendente - Classificação', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
         }
         if (normalized === 'pendente-iphone') {

@@ -1007,7 +1007,8 @@ function App() {
         dotClass: 'bg-red-500'
       };
     }
-    if (normalized === 'pendente-classificacao') {
+    var compactClassificacao = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s*-\s*/g, '-');
+    if (normalized === 'pendente-classificacao' || compactClassificacao === 'pendente-classificacao') {
       return {
         label: 'Pendente - Classificação',
         className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
