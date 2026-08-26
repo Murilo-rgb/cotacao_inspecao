@@ -17,6 +17,69 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     }
   }
 
+  // Normaliza o tipo do pedido nas categorias de negócio
+  // Espelha o CASE ... ILIKE da query de referência sobre r_000250:
+  // %novo% -> NOVO | %reno% -> RENOVACAO | %incre% -> INCREMENTO | %trans% -> TRANSFERENCIA | else -> DEMAIS
+  function classificarTipoPedido(tipoPedido) {
+    try {
+      const t = String(tipoPedido || '').toLowerCase();
+      if (!t) return 'DEMAIS';
+      if (t.includes('novo')) return 'NOVO';
+      if (t.includes('reno')) return 'RENOVACAO';
+      if (t.includes('incre')) return 'INCREMENTO';
+      if (t.includes('trans')) return 'TRANSFERENCIA';
+      return 'DEMAIS';
+    } catch {
+      return 'DEMAIS';
+    }
+  }
+
+  // ===== REGRAS DE MARATONA / PRIORIDADE 1 (r_000250) =====
+  //
+  // Regra de negócio (válida APENAS a partir do dia 20 de cada mês):
+  //   - Dias 01-19: nenhuma tarefa é maratona; todos seguem dat_historico.
+  //   - Dias 20+ (maratona = prioridade 1):
+  //       Tipo do pedido NOVO ou INCREMENTO
+  //       AND qtd_reprovacao < 4
+  //       AND qtd_linhas_novas >= 10  (limiar 4 quando nom_territorio ILIKE '%YT4R%')
+  //
+  // Esta nova regra SUBSTITUI a antiga (qtd_linhas_novas >= 10 AND qtd_reprovacao < 4,
+  // sem considerar data nem tipo do pedido nem nom_territorio).
+  //
+  // A expressão abaixo é usada tanto para gravar o flag `maratona` quanto para ordenar a fila.
+
+  // Expressão de prioridade em 3 níveis para ORDER BY (já considerando o dia do mês).
+  // Regra: maratona = prioridade 1 (nível 0). Válida APENAS a partir do dia 20 de cada mês.
+  //   - Dias 01-19: tudo cai no nível 2 -> somente dat_historico (sem maratona).
+  //   - Dias 20+: nível 0 (NOVO/INCREMENTO + qtd_reprovacao<4 + limiar linhas novas)
+  //              nível 1 (demais NOVO/INCREMENTO, independente de quantidade)
+  //              nível 2 (restante)
+  const PRIORIDADE_FILA_SQL = `
+    CASE
+      WHEN (
+        COALESCE(dat_criacao, '') ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+        AND EXTRACT(DAY FROM SUBSTRING(dat_criacao FROM 1 FOR 10)::date)::int >= 20
+        AND (tipo_pedido ILIKE '%novo%' OR tipo_pedido ILIKE '%incre%')
+        AND COALESCE(qtd_reprovacao, '0')::int < 4
+        AND COALESCE(qtd_linhas_novas, '0')::int >= CASE WHEN nom_territorio ILIKE '%YT4R%' THEN 4 ELSE 10 END
+      ) THEN 0
+      WHEN (
+        COALESCE(dat_criacao, '') ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+        AND EXTRACT(DAY FROM SUBSTRING(dat_criacao FROM 1 FOR 10)::date)::int >= 20
+        AND (tipo_pedido ILIKE '%novo%' OR tipo_pedido ILIKE '%incre%')
+      ) THEN 1
+      ELSE 2
+    END`;
+
+  // Expressão booleana usada para gravar o flag `maratona` (= prioridade 1 / nível 0).
+  const MAR_IS_MARATONA_SQL = `(
+      COALESCE(dat_criacao, '') ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+      AND EXTRACT(DAY FROM SUBSTRING(dat_criacao FROM 1 FOR 10)::date)::int >= 20
+      AND (tipo_pedido ILIKE '%novo%' OR tipo_pedido ILIKE '%incre%')
+      AND COALESCE(qtd_reprovacao, '0')::int < 4
+      AND COALESCE(qtd_linhas_novas, '0')::int >= CASE WHEN nom_territorio ILIKE '%YT4R%' THEN 4 ELSE 10 END
+    )`;
+
   // ===== ROTAS DE INSPEÇÃO (r_000250) =====
 
   // Serve inspecao page
@@ -43,14 +106,14 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         console.error('[INSPECAO] Erro na classificação após ETL:', classErr.message);
       }
       
-      // Marcar automaticamente tarefas como Maratona com base nas regras de negócio
+      // Marcar automaticamente tarefas como Maratona (prioridade 1) com a regra de negócio.
+      // Regra atual: somente a partir do dia 20 de cada mês, pedidos NOVO/INCREMENTO com
+      // qtd_reprovacao<4 e qtd_linhas_novas >= 10 (>= 4 quando nom_territorio ILIKE '%YT4R%').
+      // Dias 01-19: nenhuma tarefa é maratona. (Substitui a regra antiga de quantidade.)
       try {
         await pool.query(`
           UPDATE db_bloco_de_notas.r_000250 
-          SET maratona = (
-            COALESCE(qtd_linhas_novas, '0')::int >= 10 
-            AND COALESCE(qtd_reprovacao, '0')::int < 4
-          )
+          SET maratona = ${MAR_IS_MARATONA_SQL}
         `);
         console.log('[INSPECAO] Marcação automática de Maratona concluída.');
       } catch (maratonaErr) {
@@ -98,6 +161,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         nom_fila: row.nom_fila,
         dsc_cotacao: row.dsc_cotacao,
         tipo_pedido: row.tipo_pedido,
+        tipo_pedido_categoria: classificarTipoPedido(row.tipo_pedido),
         qtd_linhas: row.qtd_linhas,
         qtd_linhas_novas: row.qtd_linhas_novas,
         nom_territorio: row.nom_territorio,
@@ -562,14 +626,14 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         FROM db_claro.r_000250 where data_carga = CURRENT_DATE
       `);
 
-      // Marcar automaticamente tarefas como Maratona com base nas regras de negócio
+      // Marcar automaticamente tarefas como Maratona (prioridade 1) com a regra de negócio.
+      // Regra atual: somente a partir do dia 20 de cada mês, pedidos NOVO/INCREMENTO com
+      // qtd_reprovacao<4 e qtd_linhas_novas >= 10 (>= 4 quando nom_territorio ILIKE '%YT4R%').
+      // Dias 01-19: nenhuma tarefa é maratona. (Substitui a regra antiga de quantidade.)
       try {
         await pool.query(`
           UPDATE db_bloco_de_notas.r_000250 
-          SET maratona = (
-            COALESCE(qtd_linhas_novas, '0')::int >= 10 
-            AND COALESCE(qtd_reprovacao, '0')::int < 4
-          )
+          SET maratona = ${MAR_IS_MARATONA_SQL}
         `);
         console.log('[ATUALIZAR_R_000250] Marcação automática de Maratona concluída.');
       } catch (maratonaErr) {
@@ -714,10 +778,44 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         WHERE etapa_atual ILIKE '01%' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
       `);
       const stats = countResult.rows[0] || {};
+
+      // Contagem por status específico de cotação (ilha INPUT TOP)
+      // Mesma lógica da ilha INPUT NET (tarefas_net), adaptada para o TOP.
+      let statusCounts = {
+        fila: 0, aprovado: 0, reprovado: 0, aguardando_chamado: 0,
+        aguardando_qualidade: 0, aguardando_dupla_validacao: 0,
+        aguardando_pre_analise: 0, em_tratamento: 0
+      };
+      try {
+        const statusResult = await pool.query(`
+          SELECT
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE c.status IS NULL OR c.status = '') AS fila,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aprovado') AS aprovado,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'reprovado') AS reprovado,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-chamado') AS aguardando_chamado,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-qualidade') AS aguardando_qualidade,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-dupla-validacao') AS aguardando_dupla_validacao,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-pre-analise') AS aguardando_pre_analise,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'em-tratamento') AS em_tratamento
+          FROM db_gp.listafuncionarios l
+          INNER JOIN db_automacao.usuarios u ON u.login = l.login
+          LEFT JOIN db_bloco_de_notas.cotacao c
+            ON c.usuario_id::text = u.id::text AND c.validacao = 'Ativo'
+          WHERE UPPER(l.ilha) LIKE '%TOP%' AND l.ativo = true AND c.origem = 'iw_cpc_975_top'
+        `);
+        const st = statusResult.rows[0] || {};
+        Object.keys(statusCounts).forEach(k => {
+          statusCounts[k] = parseInt(st[k] || 0);
+        });
+      } catch (statusErr) {
+        console.error('[INSPECAO_TOP STATUS] Erro:', statusErr.message);
+      }
+
       res.json({ 
         data: result.rows, 
         total: parseInt(countResult.rows[0].total || 0),
         stats,
+        statusCounts,
         limit: parseInt(limit), 
         offset: parseInt(offset) 
       });
@@ -1534,11 +1632,13 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           AND (r.pendente_com IS NULL OR r.pendente_com = '' OR r.pendente_com = '-')
       `;
 
-      // 1ª tarefa: sempre a mais antiga (maior criticidade de SLA)
+      // 1ª tarefa: prioridade de hoje (maratona p/ dia 20+ -> NOVO/INCREMENTO -> restante),
+      // e dentro de cada nível a mais antiga pelo dat_historico (maior criticidade de SLA).
       const primeiraQuery = `
         SELECT r.cod_tarefa, r.dat_historico, r.nom_tarefa, r.nom_fila, r.dsc_cotacao
         ${baseFrom}
-        ORDER BY 
+        ORDER BY
+          ${PRIORIDADE_FILA_SQL},
           CASE WHEN r.dat_historico IS NULL OR r.dat_historico = '-' THEN 1 ELSE 0 END,
           r.dat_historico::timestamp ASC NULLS LAST,
           r.dat_criacao ASC
@@ -2487,6 +2587,7 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
           AND (r.pendente_com IS NULL OR r.pendente_com = '' OR r.pendente_com = '-')
         ORDER BY
+          ${PRIORIDADE_FILA_SQL},
           CASE WHEN r.dat_historico IS NULL OR r.dat_historico = '-' THEN 1 ELSE 0 END,
           r.dat_historico::timestamp ASC NULLS LAST,
           r.dat_criacao ASC

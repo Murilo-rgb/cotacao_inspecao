@@ -187,7 +187,7 @@
             const [dragActive, setDragActive] = useState(false);
             const [fileInfo, setFileInfo] = useState(null);
             const [toast, setToast] = useState(null);
-            const [stats, setStats] = useState({ total: 0, fila: 0, enviado: 0, statusCounts: {} });
+            const [stats, setStats] = useState({ total: 0, fila: 0, enviado: 0, statusCounts: {}, tipoCounts: {} });
             const [selectedIds, setSelectedIds] = useState(new Set());
             const [massAssignUsuario, setMassAssignUsuario] = useState('');
             const [redistribuirMode, setRedistribuirMode] = useState(false);
@@ -209,6 +209,44 @@
             const toggleDarkMode = () => setDarkMode(prev => !prev);
 
             const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
+            // ============== TIPOS DE PEDIDO (r_000250) ==============
+            const TIPO_PEDIDO_META = {
+                NOVO: {
+                    emoji: '\uD83C\uDD95', label: 'Novo', descricao: 'Pedido novo',
+                    text: 'text-emerald-600', cardActive: 'bg-emerald-50 border-emerald-400', ring: 'ring-emerald-300'
+                },
+                RENOVACAO: {
+                    emoji: '\uD83D\uDCC5\uD83D\uDD04', label: 'Renovação', descricao: 'Extensão / renovação de prazo',
+                    text: 'text-blue-600', cardActive: 'bg-blue-50 border-blue-400', ring: 'ring-blue-300'
+                },
+                INCREMENTO: {
+                    emoji: '\u2B06\uFE0F', label: 'Incremento', descricao: 'Upgrade / expansão de linhas',
+                    text: 'text-violet-600', cardActive: 'bg-violet-50 border-violet-400', ring: 'ring-violet-300'
+                },
+                TRANSFERENCIA: {
+                    emoji: '\uD83D\uDD00', label: 'Transferência', descricao: 'Troca de titularidade ou de base',
+                    text: 'text-orange-600', cardActive: 'bg-orange-50 border-orange-400', ring: 'ring-orange-300'
+                },
+                DEMAIS: {
+                    emoji: '\uD83D\uDCCC', label: 'Demais', descricao: 'Pedidos diversos ou sem categoria específica',
+                    text: 'text-slate-500', cardActive: 'bg-slate-100 border-slate-400', ring: 'ring-slate-300'
+                }
+            };
+
+            // Classificação espelha o CASE ... ILIKE do backend (novo/reno/incre/trans/demais).
+            // Aceita tanto o texto bruto da r_000250 quanto uma categoria já normalizada.
+            const classificarTipoPedido = (tipo) => {
+                try {
+                    const s = String(tipo || '').toLowerCase();
+                    if (!s) return 'DEMAIS';
+                    if (s.includes('novo')) return 'NOVO';
+                    if (s.includes('reno')) return 'RENOVACAO';
+                    if (s.includes('incre')) return 'INCREMENTO';
+                    if (s.includes('trans')) return 'TRANSFERENCIA';
+                    return 'DEMAIS';
+                } catch { return 'DEMAIS'; }
+            };
 
             const showToast = (message, type = 'success') => {
                 setToast({ message, type });
@@ -246,11 +284,14 @@
                     const enviado = data.filter(t => t.status_distribuicao === 'Enviado').length;
                     const fila = data.filter(t => t.status_distribuicao === 'Fila' && (!t.pendente_com || t.pendente_com === '-')).length;
                     const statusCounts = {};
+                    const tipoCounts = {};
                     data.forEach(t => {
                         const status = getCotacaoStatus(t);
                         statusCounts[status] = (statusCounts[status] || 0) + 1;
+                        const cat = classificarTipoPedido(t.tipo_pedido_categoria || t.tipo_pedido);
+                        tipoCounts[cat] = (tipoCounts[cat] || 0) + 1;
                     });
-                    setStats({ total, fila, enviado, statusCounts });
+                    setStats({ total, fila, enviado, statusCounts, tipoCounts });
                 } catch (err) {
                     console.error('Erro ao buscar tarefas:', err);
                     showToast('Erro ao carregar tarefas', 'error');
@@ -527,6 +568,7 @@
 
             const [filters, setFilters] = useState({
                 cod_tarefa: '',
+                tipo_pedido: '',
                 dat_historico: '',
                 qtd_linhas: '',
                 qtd_linhas_novas: '',
@@ -575,6 +617,9 @@
                     matchesQtd(t.qtd_linhas_novas, filters.qtd_linhas_novas) &&
                     matchesQtd(t.qtd_reprovacao, filters.qtd_reprovacao)
                 )) return false;
+
+                const tp = filters.tipo_pedido;
+                if (tp && classificarTipoPedido(t.tipo_pedido_categoria || t.tipo_pedido) !== tp) return false;
 
                 const sf = filters.status_cotacao;
                 if (sf && sf !== '') {
@@ -814,6 +859,28 @@
                         )
                     ),
 
+                    // Tipo de Pedido Cards
+                    React.createElement('div', { className: 'mb-6' },
+                        React.createElement('h3', { className: 'text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3' }, 'Tipo de Pedido'),
+                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-5 gap-3' },
+                            Object.entries(TIPO_PEDIDO_META).map(([cat, meta]) => {
+                                const active = filters.tipo_pedido === cat;
+                                return React.createElement('div', {
+                                    key: cat,
+                                    onClick: () => updateFilter('tipo_pedido', active ? '' : cat),
+                                    title: `${meta.label} (${cat}) — ${meta.descricao}. Clique para filtrar a tabela.`,
+                                    className: 'rounded-xl p-4 border shadow-sm cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ' + (active ? meta.cardActive + ' ring-2 ' + meta.ring : 'bg-white border-slate-200')
+                                },
+                                    React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                                        React.createElement('span', { className: 'text-lg leading-none' }, meta.emoji),
+                                        React.createElement('p', { className: 'text-xs font-medium ' + meta.text }, meta.label)
+                                    ),
+                                    React.createElement('p', { className: 'text-xl font-bold text-slate-800 mt-1' }, stats.tipoCounts[cat] || 0)
+                                );
+                            })
+                        )
+                    ),
+
                     // Upload Section
                     React.createElement('div', { className: 'bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6' },
                         React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2' },
@@ -953,7 +1020,8 @@
                                                         className: 'rounded border-slate-300'
                                                     })
                                                 ),
-                                                React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider w-1/4' }, 'Cód. Tarefa'),
+                                                React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider w-[18%]' }, 'Cód. Tarefa'),
+                                                React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider w-14' }, 'Pedido'),
                                                 React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Status'),
                                                 React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Histórico'),
                                                 React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Qtd L'),
@@ -971,6 +1039,18 @@
                                                         placeholder: 'filtrar...',
                                                         className: 'w-full px-1 py-1 text-xs border border-slate-200 rounded'
                                                     })
+                                                ),
+                                                React.createElement('th', { className: 'px-1.5 py-2' },
+                                                    React.createElement('select', {
+                                                        value: filters.tipo_pedido,
+                                                        onChange: (e) => updateFilter('tipo_pedido', e.target.value),
+                                                        className: 'w-full px-1 py-1 text-xs border border-slate-200 rounded'
+                                                    },
+                                                        React.createElement('option', { value: '' }, 'Todos'),
+                                                        Object.entries(TIPO_PEDIDO_META).map(([cat, meta]) =>
+                                                            React.createElement('option', { key: cat, value: cat }, `${meta.emoji} ${cat}`)
+                                                        )
+                                                    )
                                                 ),
                                                 React.createElement('th', { className: 'px-1.5 py-2' },
                                                                                     React.createElement('select', {
@@ -1075,7 +1155,7 @@
                                                     React.createElement('td', { className: 'px-1.5 py-3 whitespace-nowrap overflow-hidden text-ellipsis' },
                                                         React.createElement('span', {
                                                             className: 'text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-1.5 py-0.5 rounded-md inline-block max-w-full overflow-hidden text-ellipsis',
-                                                            title: tarefa.pendente_com || '-'
+                                                            title: displayCodTarefa(tarefa) + (tarefa.pendente_com && tarefa.pendente_com !== '-' ? ' · Pendente c/: ' + tarefa.pendente_com : '')
                                                         },
                                                             displayCodTarefa(tarefa)
                                                         ),
@@ -1083,6 +1163,20 @@
                                                             className: 'ml-1 inline-flex items-center px-1 py-0.5 text-xs font-bold bg-red-100 text-red-700 border border-red-300 rounded-full'
                                                         }, '\uD83C\uDFC1')
                                                     ),
+                                                    // Tipo do Pedido (ícone compacto + tooltip nativo)
+                                                    (() => {
+                                                        const cat = classificarTipoPedido(tarefa.tipo_pedido_categoria || tarefa.tipo_pedido);
+                                                        const meta = TIPO_PEDIDO_META[cat] || TIPO_PEDIDO_META.DEMAIS;
+                                                        const original = String(tarefa.tipo_pedido || '').trim();
+                                                        const tipParts = [`${meta.emoji} ${meta.label} (${cat})`, meta.descricao];
+                                                        if (original && original.toLowerCase() !== cat.toLowerCase()) tipParts.push(`Original: ${original}`);
+                                                        return React.createElement('td', { className: 'px-1.5 py-3 whitespace-nowrap text-center' },
+                                                            React.createElement('span', {
+                                                                className: 'inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 text-base cursor-help',
+                                                                title: tipParts.join('\n')
+                                                            }, meta.emoji)
+                                                        );
+                                                    })(),
                                                     // Status Cotação - agora apenas como span, sem clique
                                                     React.createElement('td', { className: 'px-1.5 py-3 whitespace-nowrap' },
                                                         React.createElement('span', {
