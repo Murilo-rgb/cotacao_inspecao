@@ -3,6 +3,8 @@ const router = express.Router();
 
 module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage, processarETL_HoteisHospitais) {
 
+  const { jaDistribuida, inserirDistribuicaoAtomica } = require('../utils/distribuicao');
+
   // Função auxiliar para registrar auditoria
   async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
     try {
@@ -313,17 +315,6 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         }
         
         try {
-          // Primeiro verificar se já não foi distribuída
-          const check = await pool.query(
-            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-            [item.cod_tarefa, 'Ativo']
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
-            continue;
-          }
-          
           // Buscar dados da tarefa para preencher anotação e data_historico
           const tarefaResult = await pool.query(
             'SELECT nom_tarefa, nom_fila, dsc_cotacao, dat_historico FROM db_bloco_de_notas.r_000250 WHERE cod_tarefa = $1',
@@ -348,11 +339,23 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
               if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
           } catch {}
 
-          await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'r_000250', dataHistorico]
-          );
+          // Inserção atômica: garante que não haja (tarefa + data_historico) duplicado,
+          // mesmo com requisições simultâneas para colaboradores diferentes.
+          const inserido = await inserirDistribuicaoAtomica(pool, {
+            tarefa: tarefaValue,
+            cotacao: cotacaoDsc,
+            anotacao,
+            agora: now,
+            usuarioLogin,
+            usuarioId: item.usuario_id,
+            origem: 'r_000250',
+            dataHistorico,
+          });
+
+          if (!inserido) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
 
           // Registrar auditoria da distribuição
           await registrarAuditoria(pool, {
@@ -1503,21 +1506,6 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             if (tr.data_historico) dataHistorico = tr.data_historico;
           }
 
-          // Verificar se já foi distribuída para este data_historico.
-          // Agora considera tarefa + data_historico: se o pedido voltou com data_historico
-          // atualizado, é tratado como nova entrada e não é bloqueado por uma cotação antiga.
-          const check = await pool.query(
-            `SELECT tarefa FROM db_bloco_de_notas.cotacao
-             WHERE tarefa = $1 AND validacao = $2
-               AND data_historico IS NOT DISTINCT FROM NULLIF($3, '-')::timestamp`,
-            [item.cod_tarefa, 'Ativo', dataHistorico]
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
-            continue;
-          }
-
           // Buscar nome do usuário destino
           let destinoNome = String(item.usuario_id);
           try {
@@ -1525,11 +1513,23 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
               if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
           } catch {}
 
-          await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_net', dataHistorico]
-          );
+          // Inserção atômica: tarefa + data_historico nunca duplicada,
+          // mesmo com requisições simultâneas para colaboradores diferentes.
+          const inserido = await inserirDistribuicaoAtomica(pool, {
+            tarefa: tarefaValue,
+            cotacao: cotacaoDsc,
+            anotacao,
+            agora: now,
+            usuarioLogin,
+            usuarioId: item.usuario_id,
+            origem: 'iw_cpc_975_net',
+            dataHistorico,
+          });
+
+          if (!inserido) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
 
           // Registrar auditoria
           try {
@@ -1677,21 +1677,6 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             if (tr.data_historico) dataHistorico = tr.data_historico;
           }
 
-          // Verificar se já foi distribuída para este data_historico.
-          // Agora considera tarefa + data_historico: se o pedido voltou com data_historico
-          // atualizado, é tratado como nova entrada e não é bloqueado por uma cotação antiga.
-          const check = await pool.query(
-            `SELECT tarefa FROM db_bloco_de_notas.cotacao
-             WHERE tarefa = $1 AND validacao = $2
-               AND data_historico IS NOT DISTINCT FROM NULLIF($3, '-')::timestamp`,
-            [item.cod_tarefa, 'Ativo', dataHistorico]
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
-            continue;
-          }
-          
           // Buscar nome do usuário destino
           let destinoNome = String(item.usuario_id);
           try {
@@ -1699,11 +1684,22 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
               if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
           } catch {}
 
-          await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [item.cod_tarefa, item.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_top', dataHistorico]
-          );
+          // Inserção atômica: tarefa + data_historico nunca duplicada.
+          const inserido = await inserirDistribuicaoAtomica(pool, {
+            tarefa: item.cod_tarefa,
+            cotacao: item.cod_tarefa,
+            anotacao,
+            agora: now,
+            usuarioLogin,
+            usuarioId: item.usuario_id,
+            origem: 'iw_cpc_975_top',
+            dataHistorico,
+          });
+
+          if (!inserido) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
 
           // Registrar auditoria
           try {
@@ -1996,17 +1992,6 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       for (let i = 0; i < tarefas.length; i++) {
         const tarefa = tarefas[i];
         try {
-          // Verificar se já não foi distribuída entre a consulta e agora
-          const check = await pool.query(
-            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-            [tarefa.cod_tarefa, 'Ativo']
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída' });
-            continue;
-          }
-          
           let anotacao = '';
           let cotacaoDsc = tarefa.cod_tarefa;
           if (tarefa.dsc_cotacao) cotacaoDsc = tarefa.dsc_cotacao;
@@ -2023,11 +2008,23 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.dat_historico, 1);
           }
           
-          await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [tarefa.cod_tarefa, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'r_000250', dataHistorico]
-          );
+          // Inserção atômica: tarefa + data_historico nunca duplicada,
+          // mesmo com requisições simultâneas para colaboradores diferentes.
+          const inserido = await inserirDistribuicaoAtomica(pool, {
+            tarefa: tarefa.cod_tarefa,
+            cotacao: cotacaoDsc,
+            anotacao,
+            agora: now,
+            usuarioLogin,
+            usuarioId: usuario_id,
+            origem: 'r_000250',
+            dataHistorico,
+          });
+
+          if (!inserido) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
           
           // Registrar auditoria
           await registrarAuditoria(pool, {
@@ -2081,7 +2078,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const usuarioLogin = req.user.username;
       const now = formatDateBR(new Date());
       
-      // Condições base para tarefas distribuíveis na esteira
+      // Condições base para tarefas distribuíveis na esteira.
+      // NOT EXISTS com IS NOT DISTINCT FROM garante que um pedido já distribuído
+      // (mesmo com data_historico NULL ou '-') não volte a ser oferecido.
       const baseFrom = `
         FROM db_bloco_de_notas.iw_cpc_975_top iw
         LEFT JOIN db_bloco_de_notas.cotacao c
@@ -2089,6 +2088,13 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
          AND c.validacao = 'Ativo'
          AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND NOT EXISTS (
+            SELECT 1
+              FROM db_bloco_de_notas.cotacao c2
+             WHERE c2.tarefa = iw.codigo_da_tarefa
+               AND c2.validacao = 'Ativo'
+               AND c2.data_historico IS NOT DISTINCT FROM NULLIF(iw.data_historico, '-')::timestamp
+          )
           AND iw.etapa_atual ILIKE '01%'
       `;
 
@@ -2151,31 +2157,27 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.data_historico, 1);
           }
 
-          // Verificar se já não foi distribuída entre a consulta e agora.
-          // Agora considera tarefa + data_historico: se o pedido voltou com data_historico
-          // atualizado, é tratado como nova entrada e não é bloqueado por uma cotação antiga.
-          const check = await pool.query(
-            `SELECT tarefa FROM db_bloco_de_notas.cotacao
-             WHERE tarefa = $1 AND validacao = $2
-               AND data_historico IS NOT DISTINCT FROM NULLIF($3, '-')::timestamp`,
-            [tarefa.cod_tarefa, 'Ativo', dataHistorico]
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
-            continue;
-          }
-          
           let anotacao = '';
           if (tarefa.etapa_atual) {
             anotacao = `Origem: iw_cpc_975_top | Etapa: ${tarefa.etapa_atual}`;
           }
           
-          await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [tarefa.cod_tarefa, tarefa.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'iw_cpc_975_top', dataHistorico]
-          );
+          // Inserção atômica: tarefa + data_historico nunca duplicada.
+          const inserido = await inserirDistribuicaoAtomica(pool, {
+            tarefa: tarefa.cod_tarefa,
+            cotacao: tarefa.cod_tarefa,
+            anotacao,
+            agora: now,
+            usuarioLogin,
+            usuarioId: usuario_id,
+            origem: 'iw_cpc_975_top',
+            dataHistorico,
+          });
+
+          if (!inserido) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
           
           // Registrar auditoria
           await registrarAuditoria(pool, {
@@ -2263,7 +2265,9 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const usuarioLogin = req.user.username;
       const now = formatDateBR(new Date());
       
-      // Condições base para tarefas distribuíveis na esteira
+      // Condições base para tarefas distribuíveis na esteira.
+      // NOT EXISTS com IS NOT DISTINCT FROM garante que um pedido já distribuído
+      // (mesmo com data_historico NULL ou '-') não volte a ser oferecido.
       const baseFrom = `
         FROM db_bloco_de_notas.iw_cpc_975_net iw
         LEFT JOIN db_bloco_de_notas.cotacao c
@@ -2271,6 +2275,13 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
          AND c.validacao = 'Ativo'
          AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND NOT EXISTS (
+            SELECT 1
+              FROM db_bloco_de_notas.cotacao c2
+             WHERE c2.tarefa = iw.codigo_da_tarefa
+               AND c2.validacao = 'Ativo'
+               AND c2.data_historico IS NOT DISTINCT FROM NULLIF(iw.data_historico, '-')::timestamp
+          )
           AND iw.etapa_atual ILIKE '01%'
       `;
 
@@ -2333,31 +2344,27 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.data_historico, 1);
           }
 
-          // Verificar se já não foi distribuída entre a consulta e agora.
-          // Agora considera tarefa + data_historico: se o pedido voltou com data_historico
-          // atualizado, é tratado como nova entrada e não é bloqueado por uma cotação antiga.
-          const check = await pool.query(
-            `SELECT tarefa FROM db_bloco_de_notas.cotacao
-             WHERE tarefa = $1 AND validacao = $2
-               AND data_historico IS NOT DISTINCT FROM NULLIF($3, '-')::timestamp`,
-            [tarefa.cod_tarefa, 'Ativo', dataHistorico]
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
-            continue;
-          }
-          
           let anotacao = '';
           if (tarefa.etapa_atual) {
             anotacao = `Origem: iw_cpc_975_net | Etapa: ${tarefa.etapa_atual}`;
           }
           
-          await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [tarefa.cod_tarefa, tarefa.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'iw_cpc_975_net', dataHistorico]
-          );
+          // Inserção atômica: tarefa + data_historico nunca duplicada.
+          const inserido = await inserirDistribuicaoAtomica(pool, {
+            tarefa: tarefa.cod_tarefa,
+            cotacao: tarefa.cod_tarefa,
+            anotacao,
+            agora: now,
+            usuarioLogin,
+            usuarioId: usuario_id,
+            origem: 'iw_cpc_975_net',
+            dataHistorico,
+          });
+
+          if (!inserido) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
           
           // Registrar auditoria
           await registrarAuditoria(pool, {
@@ -2532,17 +2539,6 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         }
         
         try {
-          // Verificar se já foi distribuída
-          const check = await pool.query(
-            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-            [item.cod_tarefa, 'Ativo']
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
-            continue;
-          }
-          
           // Buscar dados da tarefa para anotação
           const tarefaResult = await pool.query(
             'SELECT id_tarefa, nome_tarefa, de_etapa, para_etapa, data_de_historico FROM db_bloco_de_notas.hoteis_x_hospitais WHERE id_tarefa = $1 ORDER BY data_de_historico DESC LIMIT 1',
@@ -2564,11 +2560,22 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
               if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
           } catch {}
 
-          await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [item.cod_tarefa, item.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'h_x_h', dataHistorico]
-          );
+          // Inserção atômica: tarefa + data_historico nunca duplicada.
+          const inserido = await inserirDistribuicaoAtomica(pool, {
+            tarefa: item.cod_tarefa,
+            cotacao: item.cod_tarefa,
+            anotacao,
+            agora: now,
+            usuarioLogin,
+            usuarioId: item.usuario_id,
+            origem: 'h_x_h',
+            dataHistorico,
+          });
+
+          if (!inserido) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
 
           // Registrar auditoria
           try {
@@ -2756,16 +2763,6 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         const tarefa = tarefas[i];
         try {
           // Verificar se já não foi distribuída entre a consulta e agora
-          const check = await pool.query(
-            "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-            [tarefa.cod_tarefa, 'Ativo']
-          );
-          
-          if (check.rows.length > 0) {
-            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída' });
-            continue;
-          }
-          
           let anotacao = '';
           if (tarefa.nome_tarefa || tarefa.para_etapa) {
             anotacao = `Origem: h_x_h | Tarefa: ${tarefa.nome_tarefa || ''} | Etapa: ${tarefa.para_etapa || tarefa.de_etapa || ''}`;
@@ -2780,11 +2777,22 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             dataHistorico = somarHorasDataHistorico(anteriorSalvo || tarefa.data_de_historico, 1);
           }
           
-          await pool.query(
-            `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-            [tarefa.cod_tarefa, tarefa.cod_tarefa, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, usuario_id, 'h_x_h', dataHistorico]
-          );
+          // Inserção atômica: tarefa + data_historico nunca duplicada.
+          const inserido = await inserirDistribuicaoAtomica(pool, {
+            tarefa: tarefa.cod_tarefa,
+            cotacao: tarefa.cod_tarefa,
+            anotacao,
+            agora: now,
+            usuarioLogin,
+            usuarioId: usuario_id,
+            origem: 'h_x_h',
+            dataHistorico,
+          });
+
+          if (!inserido) {
+            errors.push({ cod_tarefa: tarefa.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+            continue;
+          }
           
           // Registrar auditoria
           await registrarAuditoria(pool, {
@@ -2896,6 +2904,12 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
         FROM db_bloco_de_notas.r_000250 r
         LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa AND c.validacao = 'Ativo'
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND NOT EXISTS (
+            SELECT 1 FROM db_bloco_de_notas.cotacao c2
+             WHERE c2.tarefa = r.cod_tarefa
+               AND c2.validacao = 'Ativo'
+               AND c2.data_historico IS NOT DISTINCT FROM NULLIF(r.dat_historico, '-')::timestamp
+          )
           AND (r.pendente_com IS NULL OR r.pendente_com = '' OR r.pendente_com = '-')
         ORDER BY
           ${PRIORIDADE_FILA_SQL},
@@ -2915,6 +2929,12 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
           AND c.validacao = 'Ativo'
           AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND NOT EXISTS (
+            SELECT 1 FROM db_bloco_de_notas.cotacao c2
+             WHERE c2.tarefa = iw.codigo_da_tarefa
+               AND c2.validacao = 'Ativo'
+               AND c2.data_historico IS NOT DISTINCT FROM NULLIF(iw.data_historico, '-')::timestamp
+          )
           AND iw.etapa_atual ILIKE '01%'
         ORDER BY
           CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
@@ -2932,6 +2952,12 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
           AND c.validacao = 'Ativo'
           AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND NOT EXISTS (
+            SELECT 1 FROM db_bloco_de_notas.cotacao c2
+             WHERE c2.tarefa = iw.codigo_da_tarefa
+               AND c2.validacao = 'Ativo'
+               AND c2.data_historico IS NOT DISTINCT FROM NULLIF(iw.data_historico, '-')::timestamp
+          )
           AND iw.etapa_atual ILIKE '01%'
         ORDER BY
           CASE WHEN iw.data_historico IS NULL OR iw.data_historico = '-' THEN 1 ELSE 0 END,
@@ -2953,6 +2979,12 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
         ) h
         LEFT JOIN db_bloco_de_notas.cotacao c ON h.cod_tarefa = c.tarefa AND c.validacao = 'Ativo'
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
+          AND NOT EXISTS (
+            SELECT 1 FROM db_bloco_de_notas.cotacao c2
+             WHERE c2.tarefa = h.cod_tarefa
+               AND c2.validacao = 'Ativo'
+               AND c2.data_historico IS NOT DISTINCT FROM NULLIF(h.data_de_historico, '-')::timestamp
+          )
         ORDER BY
           CASE WHEN h.data_de_historico IS NULL OR h.data_de_historico = '-' THEN 1 ELSE 0 END,
           h.data_de_historico::timestamp ASC NULLS LAST
@@ -3017,15 +3049,6 @@ const handlerPegarExtra = async (req, res) => {
         return res.json({ success: true, message: 'Não há mais tarefas na fila ' + etiquetaPorOrigen(filaElegida) + '.', cantidad: 1, distribuidos: 0 });
       }
 
-      // Evitar duplicado en caso de carrera
-      const dup = await pool.query(
-        `SELECT cot.tarefa FROM db_bloco_de_notas.cotacao cot WHERE cot.tarefa = $1 AND cot.validacao = 'Ativo'`,
-        [tarea.cod_tarefa]
-      );
-      if (dup.rows.length > 0) {
-        return res.status(409).json({ success: false, error: 'A tarefa ' + tarea.cod_tarea + ' já foi pega. Tente novamente.' });
-      }
-
       let anotacion = '';
       if (filaElegida === 'r_000250') {
         anotacion = 'Tarea: ' + (tarea.nom_tarefa || '') + ' | Fila: ' + (tarea.nom_fila || '');
@@ -3035,11 +3058,22 @@ const handlerPegarExtra = async (req, res) => {
         anotacion = 'Origen: h_x_h | Tarea: ' + (tarea.nom_tarefa || '') + ' | Etapa: ' + (tarea.para_etapa || '');
       }
 
-      await pool.query(
-        `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
-        [tarea.cod_tarefa, tarea.cotacao, anotacion, 'pendente', 'Activo', ahora, ahora, usuarioLogin, userId, filaElegida, tarea.data_historico || null]
-      );
+      // Inserção atômica: tarefa + data_historico nunca duplicada (evita corrida).
+      const inserido = await inserirDistribuicaoAtomica(pool, {
+        tarefa: tarea.cod_tarefa,
+        cotacao: tarea.cotacao || tarea.cod_tarefa,
+        anotacao: anotacion,
+        validacao: 'Ativo',
+        agora: ahora,
+        usuarioLogin,
+        usuarioId: userId,
+        origem: filaElegida,
+        dataHistorico: tarea.data_historico || null,
+      });
+
+      if (!inserido) {
+        return res.status(409).json({ success: false, error: 'A tarefa ' + tarea.cod_tarefa + ' já foi pega. Tente novamente.' });
+      }
 
       registrarAuditoria(pool, {
         tarefa: tarea.cod_tarefa,

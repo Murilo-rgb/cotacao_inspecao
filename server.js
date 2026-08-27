@@ -14,6 +14,7 @@ const { processarETL_975_net } = require('./utils/etl_975_input_net');
 const { processarETL_975_top } = require('./utils/etl_975_input_top');
 const { processarETL_HoteisHospitais } = require('./utils/etl_hoteis_hospitais');
 const { classificarPendentes, STATUS_CLASSIFICACAO } = require('./scripts/classificar_cotacoes_pendentes');
+const { jaDistribuida, inserirDistribuicaoAtomica } = require('./utils/distribuicao');
 
 const app = express();
 const PORT = 3016;
@@ -1972,7 +1973,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
                   AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
-                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
+                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""} AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)
             ),
             dedup AS (
                 SELECT DISTINCT ON (usuario_id, data_base)
@@ -2002,7 +2003,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
                   AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
-                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
+                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""} AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)
             ),
             dedup AS (
                 SELECT DISTINCT ON (usuario_id, data_base)
@@ -2078,7 +2079,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
                   AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
-                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
+                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""} AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)
             ),
             ranked AS (
                 SELECT
@@ -2111,7 +2112,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
                   AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
-                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""}
+                  ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""} AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)
             ),
             ranked AS (
                 SELECT
@@ -3179,17 +3180,6 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
       }
       
       try {
-        // Verificar se já foi distribuída
-        const check = await pool.query(
-          "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
-          [item.cod_tarefa, 'Ativo']
-        );
-        
-        if (check.rows.length > 0) {
-          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
-          continue;
-        }
-        
         // Buscar nome da tarefa para anotação e data_historico
         const tarefaResult = await pool.query(
           'SELECT codigo_da_tarefa, etapa_atual, data_historico FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
@@ -3218,11 +3208,22 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
             if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
         } catch {}
 
-        await pool.query(
-          `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-          [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_net', dataHistorico]
-        );
+        // Inserção atômica: tarefa + data_historico nunca duplicada.
+        const inserido = await inserirDistribuicaoAtomica(pool, {
+          tarefa: tarefaValue,
+          cotacao: cotacaoDsc,
+          anotacao,
+          agora: now,
+          usuarioLogin,
+          usuarioId: item.usuario_id,
+          origem: 'iw_cpc_975_net',
+          dataHistorico,
+        });
+
+        if (!inserido) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída para este data_historico' });
+          continue;
+        }
 
         // Registrar auditoria
         try {
