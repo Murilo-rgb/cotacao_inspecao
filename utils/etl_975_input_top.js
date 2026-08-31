@@ -201,6 +201,8 @@ async function processarETL_975_top(csvFilePath, pool, filaEsperada) {
     const tableName = 'iw_cpc_975_top';
     const columns = IW_CPC_975_COLUMNS;
     const expectedColumns = columns.length;
+    // Colunas que serao inseridas via COPY (excluindo data_carga, gerada automaticamente)
+    const copyColumns = columns.filter(col => col !== 'data_carga');
     
     const rawBuffer = fs.readFileSync(csvFilePath);
     const content = iconv.decode(rawBuffer, 'win1252');
@@ -259,7 +261,8 @@ async function processarETL_975_top(csvFilePath, pool, filaEsperada) {
     // ===== FIM VALIDACAO DE FILA =====
     
     const processedLines = [];
-    processedLines.push(headerFields.map(h => cleanColumnName(h)).join(usedDelimiter));
+    // Adicionar cabecalho novo com os nomes exatos das colunas esperadas (sem data_carga)
+    processedLines.push(copyColumns.join(usedDelimiter));
     
     for (let idx = 1; idx < rawLines.length; idx++) {
         const rawLine = rawLines[idx].replace(/\r?$/, '');
@@ -272,14 +275,14 @@ async function processarETL_975_top(csvFilePath, pool, filaEsperada) {
             if (altFields.length > fields.length) fields = altFields;
         }
         
-        if (fields.length > expectedColumns) {
-            const head = fields.slice(0, expectedColumns - 1);
-            const tail = fields.slice(expectedColumns - 1).join(usedDelimiter);
+        if (fields.length > copyColumns.length) {
+            const head = fields.slice(0, copyColumns.length - 1);
+            const tail = fields.slice(copyColumns.length - 1).join(usedDelimiter);
             fields = head.concat([tail]);
         }
         
-        if (fields.length < expectedColumns) {
-            while (fields.length < expectedColumns) fields.push('');
+        if (fields.length < copyColumns.length) {
+            while (fields.length < copyColumns.length) fields.push('');
         }
         
         const outLine = fields.map(f => quoteFieldIfNeeded(f, usedDelimiter)).join(usedDelimiter);
@@ -297,7 +300,7 @@ async function processarETL_975_top(csvFilePath, pool, filaEsperada) {
         const fullTablePath = `"${schemaName}"."${tableName}"`;
         
         await client.query('CREATE SCHEMA IF NOT EXISTS "db_bloco_de_notas";');
-        await client.query(IW_CPC_975_CREATE_TABLE_SQL);
+        await client.query(IW_CPC_975_top_CREATE_TABLE_SQL);
         console.log('Tabela verificada/criada.');
         
         await ensureTableColumns(client, schemaName, tableName, columns);
@@ -305,7 +308,6 @@ async function processarETL_975_top(csvFilePath, pool, filaEsperada) {
         await client.query(`TRUNCATE TABLE ${fullTablePath}`);
         console.log('Dados antigos removidos.');
         
-        const copyColumns = columns.filter(col => col !== 'data_carga');
         const columnsList = copyColumns.map(col => `"${col}"`).join(', ');
         
         const copyQuery = `

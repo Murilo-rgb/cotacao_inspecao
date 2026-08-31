@@ -11,6 +11,7 @@ ALTER TABLE db_bloco_de_notas.auditoria_qualidade
   ADD COLUMN IF NOT EXISTS motivo_1_sistema_documento TEXT,
   ADD COLUMN IF NOT EXISTS motivo_2_erro TEXT,
   ADD COLUMN IF NOT EXISTS motivo_3_detalhamento TEXT,
+  ADD COLUMN IF NOT EXISTS tipo_apontamento TEXT,
   ADD COLUMN IF NOT EXISTS apontamento TEXT,
   ADD COLUMN IF NOT EXISTS contestacao TEXT,
   ADD COLUMN IF NOT EXISTS obs TEXT,

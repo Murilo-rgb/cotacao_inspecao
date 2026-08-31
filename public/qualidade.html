@@ -132,6 +132,46 @@
           "TCO": {"Não_enviada": [],"Fora_dos_padrões": ["Editada","Cortada","Rasurada","Anexo","Ilegível","Regra RCG"],"Editada": [],"Cortada": [],"Rasurada": [],"Anexo": [],"Ilegível": [],"Regra_RCG": []}
         };
 
+        // Mapeamento: Tipo de Apontamento/Amostra → Status válidos da Auditoria
+        var TIPO_APONTAMENTO_STATUS = {
+            'APROVAÇÃO INDEVIDA': ['Aprovação Indevida - Qualidade'],
+            'APROVADO': ['Procedimento Correto', 'Aprovação Indevida - Qualidade'],
+            'DEVOLUÇÃO PARCIAL/INDEVIDA': ['Devolução Indevida', 'Procedimento Correto', 'Devolução Parcial'],
+            'ERRO INTERNO': ['Erro Interno - Inspeção'],
+            'RCV': ['Apontamento RCV']
+        };
+        var TIPO_APONTAMENTO_LABELS = {
+            'APROVAÇÃO INDEVIDA': '🚫 Aprovação Indevida',
+            'APROVADO': '✅ Aprovado',
+            'DEVOLUÇÃO PARCIAL/INDEVIDA': '↩️ Devolução Parcial/Indevida',
+            'ERRO INTERNO': '🛠️ Erro Interno',
+            'RCV': '📋 RCV'
+        };
+        var STATUS_AUDITORIA_LABELS = {
+            'Procedimento Correto': '✅ Procedimento Correto',
+            'Devolução Parcial': '⚠️ Devolução Parcial',
+            'Devolução Indevida': '❌ Devolução Indevida',
+            'Reprova Parcial': '⚠️ Reprova Parcial',
+            'Reprova Indevida': '❌ Reprova Indevida',
+            'Aprovacao Indevida': '⚠️ Aprovação Indevida',
+            'Aprovação Indevida - Qualidade': '🧪 Aprovação Indevida - Qualidade',
+            'RCV': '📋 RCV',
+            'Erro Interno - Inspeção': '🛠️ Erro Interno - Inspeção',
+            'Apontamento RCV': '📋 Apontamento RCV'
+        };
+        var STATUS_AUDITORIA_CLASSES = {
+            'Procedimento Correto': 'text-emerald-700',
+            'Devolução Parcial': 'text-amber-700',
+            'Devolução Indevida': 'text-red-700',
+            'Reprova Parcial': 'text-amber-700',
+            'Reprova Indevida': 'text-red-700',
+            'Aprovacao Indevida': 'text-orange-700',
+            'Aprovação Indevida - Qualidade': 'text-fuchsia-700',
+            'RCV': 'text-sky-700',
+            'Erro Interno - Inspeção': 'text-purple-700',
+            'Apontamento RCV': 'text-sky-700'
+        };
+
         function Toast({ message, type, onClose }) {
             useEffect(() => { const timer = setTimeout(onClose, 3000); return () => clearTimeout(timer); }, [onClose]);
             return React.createElement('div', { className: `fixed bottom-6 right-6 z-[60] px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 toast-enter ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}` }, type === 'success' ? React.createElement(CheckIcon) : React.createElement(AlertTriangleIcon), React.createElement('span', { className: "font-medium text-sm" }, message));
@@ -163,7 +203,7 @@
             const [currentPage, setCurrentPage] = useState(1);
             const [itemsPerPage] = useState(15);
             const [auditModal, setAuditModal] = useState(null);
-            const [auditForm, setAuditForm] = useState({ anotacao: '', status: '', reprova_bko: '', apontamento: '', motivo_1_sistema_documento: '', motivo_2_erro: '', motivo_3_detalhamento: '', contestacao: '', obs: '', regional: '', tipo_de_pedido: '', enviado: false, data_envio: '' });
+            const [auditForm, setAuditForm] = useState({ anotacao: '', status: '', tipo_apontamento: '', reprova_bko: '', apontamento: '', motivo_1_sistema_documento: '', motivo_2_erro: '', motivo_3_detalhamento: '', contestacao: '', obs: '', regional: '', tipo_de_pedido: '', enviado: false, data_envio: '' });
             const [username, setUsername] = useState('');
             const [toast, setToast] = useState(null);
             const [saving, setSaving] = useState(false);
@@ -269,9 +309,16 @@
                 const motivo1 = auditoriaSalva.motivo_1_sistema_documento || '';
                 const isIsento = motivo1 === 'Isento';
                 const dataQualidadeSalva = auditoriaSalva.data_qualidade ? formatDateTimeLocal(auditoriaSalva.data_qualidade) : '';
+                const apontamentoSalvo = auditoriaSalva.apontamento || '';
+                const statusSalvo = auditoriaSalva.status || '';
+                // Prioriza a coluna tipo_apontamento (backfill). Como fallback para registros antigos,
+                // infere pelo apontamento que coincidia com um tipo.
+                const tipoApontamentoSalvo = auditoriaSalva.tipo_apontamento
+                    || Object.keys(TIPO_APONTAMENTO_STATUS).find(t => apontamentoSalvo === t && TIPO_APONTAMENTO_STATUS[t].indexOf(statusSalvo) !== -1)
+                    || '';
                 setAuditForm({
-                    anotacao: auditoriaSalva.anotacao || '', status: auditoriaSalva.status || '',
-                    reprova_bko: auditoriaSalva.reprova_bko || '', apontamento: auditoriaSalva.apontamento || '',
+                    anotacao: auditoriaSalva.anotacao || '', status: statusSalvo, tipo_apontamento: tipoApontamentoSalvo,
+                    reprova_bko: auditoriaSalva.reprova_bko || '', apontamento: apontamentoSalvo,
                     motivo_1_sistema_documento: motivo1, motivo_2_erro: isIsento ? 'Isento' : (auditoriaSalva.motivo_2_erro || ''),
                     motivo_3_detalhamento: isIsento ? 'Isento' : (auditoriaSalva.motivo_3_detalhamento || ''), contestacao: auditoriaSalva.contestacao || '',
                     obs: auditoriaSalva.obs || '', regional: auditoriaSalva.regional || '',
@@ -291,6 +338,7 @@
                         method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                         body: JSON.stringify({
                             id_cotacao: auditModal.id_cotacao, reprova_bko: auditForm.reprova_bko, apontamento: auditForm.apontamento,
+                            tipo_apontamento: auditForm.tipo_apontamento,
                             motivo_1_sistema_documento: auditForm.motivo_1_sistema_documento, motivo_2_erro: auditForm.motivo_2_erro,
                             motivo_3_detalhamento: auditForm.motivo_3_detalhamento, contestacao: auditForm.contestacao, obs: auditForm.obs,
                             regional: auditForm.regional, tipo_de_pedido: auditForm.tipo_de_pedido, enviado: auditForm.enviado,
@@ -300,7 +348,7 @@
                     if (response.status === 401 || response.status === 403) { localStorage.removeItem('token'); localStorage.removeItem('username'); window.location.href = BASE_PATH + '/login.html'; return; }
                     if (response.ok) {
                         setAuditModal(null);
-                        setAuditForm({ anotacao: '', status: '', reprova_bko: '', apontamento: '', motivo_1_sistema_documento: '', motivo_2_erro: '', motivo_3_detalhamento: '', contestacao: '', obs: '', regional: '', tipo_de_pedido: '', enviado: false, data_envio: '' });
+                        setAuditForm({ anotacao: '', status: '', tipo_apontamento: '', reprova_bko: '', apontamento: '', motivo_1_sistema_documento: '', motivo_2_erro: '', motivo_3_detalhamento: '', contestacao: '', obs: '', regional: '', tipo_de_pedido: '', enviado: false, data_envio: '' });
                         showToast('Auditoria salva com sucesso');
                         fetchQuotations();
                     } else { const err = await response.json(); showToast(err.error || 'Erro ao salvar auditoria', 'error'); }
@@ -323,6 +371,8 @@
                 if (s === 'Aprovacao Indevida') return { label: s, bg: 'bg-orange-50 text-orange-700 border-orange-200', dot: 'bg-orange-500' };
                 if (s === 'Aprovação Indevida - Qualidade') return { label: s, bg: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500' };
                 if (s === 'RCV') return { label: s, bg: 'bg-sky-50 text-sky-700 border-sky-200', dot: 'bg-sky-500' };
+                if (s === 'Erro Interno - Inspeção') return { label: s, bg: 'bg-purple-50 text-purple-700 border-purple-200', dot: 'bg-purple-500' };
+                if (s === 'Apontamento RCV') return { label: s, bg: 'bg-sky-50 text-sky-700 border-sky-200', dot: 'bg-sky-500' };
                 return null;
             };
 
@@ -489,14 +539,14 @@
                     )
                 ),
 
-                auditModal && React.createElement('div', { className: "fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4", onClick: (e) => { if (e.target === e.currentTarget) { setAuditModal(null); setAuditForm({ anotacao: '', status: '' }); } } },
+                auditModal && React.createElement('div', { className: "fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4", onClick: (e) => { if (e.target === e.currentTarget) { setAuditModal(null); setAuditForm({ anotacao: '', status: '', tipo_apontamento: '' }); } } },
                     React.createElement('div', { className: "bg-white rounded-2xl p-6 w-full max-w-2xl shadow-2xl modal-content max-h-[90vh] overflow-y-auto" },
                         React.createElement('div', { className: "flex items-center justify-between mb-5" },
                             React.createElement('div', { className: "flex items-center gap-3" },
                                 React.createElement('div', { className: "w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600" }, React.createElement(ClipboardCheckIcon)),
                                 React.createElement('div', null, React.createElement('h2', { className: "text-lg font-bold text-slate-800" }, 'Auditoria de Qualidade'), React.createElement('p', { className: "text-xs text-slate-500" }, 'Registrar auditoria para a cotação'))
                             ),
-                            React.createElement('button', { onClick: () => { setAuditModal(null); setAuditForm({ anotacao: '', status: '' }); }, className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200" }, React.createElement(XIcon))
+                            React.createElement('button', { onClick: () => { setAuditModal(null); setAuditForm({ anotacao: '', status: '', tipo_apontamento: '' }); }, className: "p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors duration-200" }, React.createElement(XIcon))
                         ),
                         React.createElement('div', { className: "space-y-4" },
                             React.createElement('div', { className: "grid grid-cols-2 gap-3" },
@@ -517,7 +567,7 @@
                                 React.createElement('h3', { className: "text-sm font-semibold text-slate-800 mb-3" }, 'Dados da Auditoria'),
                                 React.createElement('div', { className: "mb-3" },
                                     React.createElement('label', { className: "block text-sm font-medium text-slate-700 mb-1" }, 'Reprova BKO'),
-                                    React.createElement('input', { type: "text", value: auditForm.reprova_bko || '', onChange: (e) => setAuditForm({ ...auditForm, reprova_bko: e.target.value }), className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200", placeholder: "Digite o motivo da reprova..." })
+                                    React.createElement('textarea', { value: auditForm.reprova_bko || '', onChange: (e) => setAuditForm({ ...auditForm, reprova_bko: e.target.value }), className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200 resize-none", rows: "2", placeholder: "Digite o motivo da reprova..." })
                                 ),
                                 React.createElement('div', { className: "mb-3" },
                                     React.createElement('label', { className: "block text-sm font-medium text-slate-700 mb-1" }, 'Apontamento'),
@@ -584,26 +634,39 @@
                                 )
                             ),
 
-                            React.createElement('div', { className: "border-t border-slate-200 pt-4 mt-4" },
-                                React.createElement('label', { className: "block text-sm font-medium text-slate-700 mb-1.5" }, 'Status da Auditoria'),
-                                React.createElement('select', { value: auditForm.status, onChange: (e) => setAuditForm({ ...auditForm, status: e.target.value }), className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200" },
-                                    React.createElement('option', { value: '', disabled: true }, 'Selecione um status...'),
-                                    (!auditModal.origem || auditModal.origem === 'r_000250')
-                                        ? React.createElement(React.Fragment, null,
-                                            React.createElement('option', { value: 'Procedimento Correto', className: "text-emerald-700" }, '✅ Procedimento Correto'),
-                                            React.createElement('option', { value: 'Devolução Parcial', className: "text-amber-700" }, '⚠️ Devolução Parcial'),
-                                            React.createElement('option', { value: 'Devolução Indevida', className: "text-red-700" }, '❌ Devolução Indevida'),
-                                            React.createElement('option', { value: 'Aprovação Indevida - Qualidade', className: "text-fuchsia-700" }, '🧪 Aprovação Indevida - Qualidade'),
-                                            React.createElement('option', { value: 'RCV', className: "text-sky-700" }, '📋 RCV')
-                                          )
-                                        : React.createElement(React.Fragment, null,
-                                            React.createElement('option', { value: 'Procedimento Correto', className: "text-emerald-700" }, '✅ Procedimento Correto'),
-                                            React.createElement('option', { value: 'Reprova Parcial', className: "text-amber-700" }, '⚠️ Reprova Parcial'),
-                                            React.createElement('option', { value: 'Reprova Indevida', className: "text-red-700" }, '❌ Reprova Indevida'),
-                                            React.createElement('option', { value: 'Aprovacao Indevida', className: "text-orange-700" }, '⚠️ Aprovação Indevida'),
-                                            React.createElement('option', { value: 'Aprovação Indevida - Qualidade', className: "text-fuchsia-700" }, '🧪 Aprovação Indevida - Qualidade'),
-                                            React.createElement('option', { value: 'RCV', className: "text-sky-700" }, '📋 RCV')
-                                          )
+                            React.createElement('div', { className: "border-t border-slate-200 pt-4 mt-4 grid grid-cols-2 gap-3" },
+                                React.createElement('div', null,
+                                    React.createElement('label', { className: "block text-sm font-medium text-slate-700 mb-1.5" }, 'Tipo de Apontamento/Amostra'),
+                                    React.createElement('select', { value: auditForm.tipo_apontamento || '', onChange: (e) => { const t = e.target.value; const permitidos = TIPO_APONTAMENTO_STATUS[t] || []; setAuditForm(prev => ({ ...prev, tipo_apontamento: t, status: t && permitidos.indexOf(prev.status) === -1 ? '' : prev.status })); }, className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200" },
+                                        React.createElement('option', { value: '' }, 'Selecione...'),
+                                        Object.keys(TIPO_APONTAMENTO_STATUS).map(t => React.createElement('option', { key: t, value: t }, TIPO_APONTAMENTO_LABELS[t] || t))
+                                    )
+                                ),
+                                React.createElement('div', null,
+                                    React.createElement('label', { className: "block text-sm font-medium text-slate-700 mb-1.5" }, 'Status da Auditoria'),
+                                    React.createElement('select', { value: auditForm.status, onChange: (e) => setAuditForm({ ...auditForm, status: e.target.value }), className: "w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200" },
+                                        React.createElement('option', { value: '', disabled: true }, 'Selecione um status...'),
+                                        auditForm.tipo_apontamento && TIPO_APONTAMENTO_STATUS[auditForm.tipo_apontamento]
+                                            ? React.createElement(React.Fragment, null,
+                                                TIPO_APONTAMENTO_STATUS[auditForm.tipo_apontamento].map(s => React.createElement('option', { key: s, value: s, className: STATUS_AUDITORIA_CLASSES[s] || '' }, STATUS_AUDITORIA_LABELS[s] || s))
+                                              )
+                                            : (!auditModal.origem || auditModal.origem === 'r_000250')
+                                                ? React.createElement(React.Fragment, null,
+                                                    React.createElement('option', { value: 'Procedimento Correto', className: "text-emerald-700" }, '✅ Procedimento Correto'),
+                                                    React.createElement('option', { value: 'Devolução Parcial', className: "text-amber-700" }, '⚠️ Devolução Parcial'),
+                                                    React.createElement('option', { value: 'Devolução Indevida', className: "text-red-700" }, '❌ Devolução Indevida'),
+                                                    React.createElement('option', { value: 'Aprovação Indevida - Qualidade', className: "text-fuchsia-700" }, '🧪 Aprovação Indevida - Qualidade'),
+                                                    React.createElement('option', { value: 'RCV', className: "text-sky-700" }, '📋 RCV')
+                                                  )
+                                                : React.createElement(React.Fragment, null,
+                                                    React.createElement('option', { value: 'Procedimento Correto', className: "text-emerald-700" }, '✅ Procedimento Correto'),
+                                                    React.createElement('option', { value: 'Reprova Parcial', className: "text-amber-700" }, '⚠️ Reprova Parcial'),
+                                                    React.createElement('option', { value: 'Reprova Indevida', className: "text-red-700" }, '❌ Reprova Indevida'),
+                                                    React.createElement('option', { value: 'Aprovacao Indevida', className: "text-orange-700" }, '⚠️ Aprovação Indevida'),
+                                                    React.createElement('option', { value: 'Aprovação Indevida - Qualidade', className: "text-fuchsia-700" }, '🧪 Aprovação Indevida - Qualidade'),
+                                                    React.createElement('option', { value: 'RCV', className: "text-sky-700" }, '📋 RCV')
+                                                  )
+                                    )
                                 )
                             ),
 
@@ -615,7 +678,7 @@
                                     ),
                                     saving ? 'Salvando...' : 'Salvar Auditoria'
                                 ),
-                                React.createElement('button', { onClick: () => { setAuditModal(null); setAuditForm({ anotacao: '', status: '' }); }, className: "flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200" }, 'Cancelar')
+                                React.createElement('button', { onClick: () => { setAuditModal(null); setAuditForm({ anotacao: '', status: '', tipo_apontamento: '' }); }, className: "flex-1 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-50 focus:ring-4 focus:ring-slate-500/10 transition-all duration-200" }, 'Cancelar')
                             )
                         )
                     )

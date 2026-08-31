@@ -293,7 +293,7 @@
                 const formData = new FormData();
                 formData.append('file', file);
                 try {
-                    const res = await fetch(`${getBasePath()}/api/inspecao/upload`, {
+                    const res = await fetch(`${getBasePath()}/api/input_top/upload`, {
                         method: 'POST',
                         headers: { 'Authorization': `Bearer ${token}` },
                         body: formData
@@ -562,6 +562,7 @@
                 { key: 'aguardando_qualidade', label: 'Aguardando Qualidade', color: 'text-purple-700' },
                 { key: 'aguardando_dupla_validacao', label: 'Aguardando Dupla Validação', color: 'text-cyan-600' },
                 { key: 'aguardando_pre_analise', label: 'Aguardando Pré-Análise', color: 'text-blue-700' },
+                { key: 'aguardando_bilhete', label: 'Aguardando Bilhete', color: 'text-rose-600' },
                 { key: 'em_tratamento', label: 'Em Tratamento', color: 'text-blue-600' }
             ];
             const allSelected = filteredTarefas.length > 0 && selectedIds.size === filteredTarefas.length;

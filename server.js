@@ -1239,7 +1239,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
 
     innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
 
-    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
+    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY CASE WHEN subquery.id_qldd IS NOT NULL THEN 0 ELSE 1 END, subquery.data_de_criacao DESC`;
 
     const result = await pool.query(query, params);
 
@@ -1249,6 +1249,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       try {
         const auditRes = await pool.query(
           `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.apontamento,
+                  aq.tipo_apontamento,
                   aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento,
                   aq.contestacao, aq.obs, aq.regional, aq.tipo_de_pedido,
                   aq.enviado, aq.data_envio, aq.data_qualidade, aq.semana, aq.analista
@@ -1263,6 +1264,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
             anotacao: a.anotacao,
             status: a.status,
             reprova_bko: a.reprova_bko,
+            tipo_apontamento: a.tipo_apontamento,
             apontamento: a.apontamento,
             motivo_1_sistema_documento: a.motivo_1_sistema_documento,
             motivo_2_erro: a.motivo_2_erro,
@@ -1319,7 +1321,7 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Status é obrigatório' });
     }
 
-    const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
+    const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV', 'Erro Interno - Inspeção', 'Apontamento RCV'];
     if (!statusPermitidos.includes(status)) {
       return res.status(400).json({ error: 'Status inválido' });
     }
@@ -1348,12 +1350,6 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
       );
     }
 
-    // Atualizar o status na tabela cotacao também
-    await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
-      [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
-    );
-
     res.json({
       success: true,
       message: 'Auditoria salva com sucesso',
@@ -1371,7 +1367,7 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
 app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
     try {
         const rawBody = req.body;
-        const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
+        const { id_cotacao, tipo_apontamento, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
         // Se Motivo 1 for "Isento", forçar Motivo 2 e Motivo 3 como "Isento"
         const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
         let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
@@ -1389,7 +1385,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
         if (!status) {
             return res.status(400).json({ error: 'Status é obrigatório' });
         }
-        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV', 'Erro Interno - Inspeção', 'Apontamento RCV'];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({ error: 'Status inválido' });
         }
@@ -1421,7 +1417,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
         const dataCriacao = parseBRDate(cotacao.data_de_criacao);
         const dataQualidade = formatDateBR(dataCriacao);
         const semana = calcularSemana(dataCriacao);
-        const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
+        const anotacao = [reprova_bko, tipo_apontamento, apontamento].filter(Boolean).join('\n');
 
         const existingAudit = await pool.query(
             'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
@@ -1436,24 +1432,25 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
                     reprova_bko = $5, codigo_tarefa = $6, analista = $7, data_analise = $8,
                     cotacao = $9, regional = $10, tipo_de_pedido = $11,
                     motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
-                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
+                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20,
+                    tipo_apontamento = $22
                 WHERE id_qldd = $21`,
                 [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
                  now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
-                 data_envio ? new Date(data_envio) : null, semana, idQldd]
+                 data_envio ? new Date(data_envio) : null, semana, idQldd, tipo_apontamento || '']
             );
         } else {
             const insertAudit = await pool.query(
                 `INSERT INTO db_bloco_de_notas.auditoria_qualidade
-                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
-                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
+                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana, tipo_apontamento)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21) RETURNING id_qldd`,
                 [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
                  now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
-                 data_envio ? new Date(data_envio) : null, semana]
+                 data_envio ? new Date(data_envio) : null, semana, tipo_apontamento || '']
             );
             const newIdQldd = insertAudit.rows[0].id_qldd;
             await pool.query(
@@ -1461,11 +1458,6 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
                 [newIdQldd, id_cotacao]
             );
         }
-
-        await pool.query(
-            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
-            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
-        );
 
         res.json({
             success: true,
@@ -1712,7 +1704,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
 
     innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
 
-    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
+    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY CASE WHEN subquery.id_qldd IS NOT NULL THEN 0 ELSE 1 END, subquery.data_de_criacao DESC`;
 
     const result = await pool.query(query, params);
 
@@ -1722,6 +1714,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
       try {
         const auditRes = await pool.query(
           `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.apontamento,
+                  aq.tipo_apontamento,
                   aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento,
                   aq.contestacao, aq.obs, aq.regional, aq.tipo_de_pedido,
                   aq.enviado, aq.data_envio, aq.data_qualidade, aq.semana, aq.analista
@@ -1734,6 +1727,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
           const a = auditRes.rows[0];
           auditoria = {
             anotacao: a.anotacao,
+            tipo_apontamento: a.tipo_apontamento,
             status: a.status,
             reprova_bko: a.reprova_bko,
             apontamento: a.apontamento,
@@ -1792,7 +1786,7 @@ app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res)
             return res.status(400).json({ error: 'Status é obrigatório' });
         }
 
-        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV', 'Erro Interno - Inspeção', 'Apontamento RCV'];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({ error: 'Status inválido' });
         }
@@ -1821,12 +1815,6 @@ app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res)
             );
         }
 
-        // Atualizar o status na tabela cotacao também
-        await pool.query(
-            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
-            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
-        );
-
         res.json({
             success: true,
             message: 'Auditoria salva com sucesso',
@@ -1844,7 +1832,7 @@ app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res)
 app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
     try {
         const rawBody = req.body;
-        const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
+        const { id_cotacao, tipo_apontamento, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
         // Se Motivo 1 for "Isento", forçar Motivo 2 e Motivo 3 como "Isento"
         const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
         let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
@@ -1862,7 +1850,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         if (!status) {
             return res.status(400).json({ error: 'Status é obrigatório' });
         }
-        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV', 'Erro Interno - Inspeção', 'Apontamento RCV'];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({ error: 'Status inválido' });
         }
@@ -1895,7 +1883,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         const now = new Date();
         const dataQualidade = formatDateBR(dataCriacao);
         const semana = calcularSemana(dataCriacao);
-        const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
+        const anotacao = [reprova_bko, tipo_apontamento, apontamento].filter(Boolean).join('\n');
 
         const existingAudit = await pool.query(
             'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
@@ -1910,24 +1898,25 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
                     reprova_bko = $5, codigo_tarefa = $6, analista = $7, data_analise = $8,
                     cotacao = $9, regional = $10, tipo_de_pedido = $11,
                     motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
-                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
+                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20,
+                    tipo_apontamento = $22
                 WHERE id_qldd = $21`,
                 [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
                  now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
-                 data_envio ? new Date(data_envio) : null, semana, idQldd]
+                 data_envio ? new Date(data_envio) : null, semana, idQldd, tipo_apontamento || '']
             );
         } else {
             const insertAudit = await pool.query(
                 `INSERT INTO db_bloco_de_notas.auditoria_qualidade
-                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
-                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
+                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana, tipo_apontamento)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21) RETURNING id_qldd`,
                 [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
                  now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
-                 data_envio ? new Date(data_envio) : null, semana]
+                 data_envio ? new Date(data_envio) : null, semana, tipo_apontamento || '']
             );
             const newIdQldd = insertAudit.rows[0].id_qldd;
             await pool.query(
@@ -1935,11 +1924,6 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
                 [newIdQldd, id_cotacao]
             );
         }
-
-        await pool.query(
-            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
-            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
-        );
 
         res.json({
             success: true,
@@ -2342,6 +2326,7 @@ app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'
       `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
               aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
               aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
+              aq.tipo_apontamento,
               aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
               TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
               TRIM(COALESCE(u_auditado.nome, '') || ' ' || COALESCE(u_auditado.sobrenome, '')) AS auditado_nome
@@ -2386,6 +2371,7 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
     const result = await pool.query(
       `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
               aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
+              aq.tipo_apontamento,
               aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
               aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
               TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
@@ -3018,19 +3004,6 @@ app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
   }
 });
 
-// Upload CSV/ZIP e processar ETL para iw_cpc_975
-app.post('/api/inpecao/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
-    const result = await processarETL_975_top(req.file.path, pool);
-    await pool.query(`UPDATE db_bloco_de_notas.iw_cpc_975_top SET fila = 'Input de Pedidos PME'`);
-    res.json({ success: true, message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`, totalRows: result.totalRows });
-  } catch (error) {
-    console.error('[INPUT_TOP] Erro:', error);
-    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
-  }
-});
-
 // API Input NET
 app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
   try {
@@ -3060,41 +3033,6 @@ app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('[INPUT_NET] Erro:', error);
     res.status(500).json({ error: 'Erro ao buscar dados' });
-  }
-});
-
-app.post('/api/input_net/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
-    const result = await processarETL_975_net(req.file.path, pool);
-    res.json({ success: true, message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`, totalRows: result.totalRows });
-  } catch (error) {
-    console.error('[INPUT_NET] Erro:', error);
-    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
-  }
-});
-
-// Upload CSV/ZIP e processar ETL para iw_cpc_975
-app.post('/api/inpecao_input/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'Nenhum arquivo enviado' });
-    }
-    
-    const filePath = req.file.path;
-    console.log(`[GESTAO_INPUT] Upload recebido: ${req.file.originalname} -> ${filePath}`);
-    
-    const result = await processarETL_975_net(filePath, pool);
-    
-    res.json({
-      success: true,
-      message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`,
-      totalRows: result.totalRows
-    });
-    
-  } catch (error) {
-    console.error('[GESTAO_INPUT] Erro no upload/ETL:', error);
-    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
   }
 });
 

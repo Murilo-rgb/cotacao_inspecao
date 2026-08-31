@@ -198,12 +198,12 @@
 
             const handleExportCSV = useCallback(() => {
                 if (!resultados || resultados.length === 0) return;
-                const headers = ['Código Tarefa', 'Cotação', 'Status', 'Data Qualidade', 'Analista', 'Auditado', 'Regional', 'Tipo de Pedido', 'Motivo 1', 'Motivo 2', 'Motivo 3', 'Reprova BKO', 'Apontamento', 'Contestação', 'Observação', 'Enviado', 'Data Envio', 'Semana', 'Data Leitura'];
+                const headers = ['Código Tarefa', 'Cotação', 'Status', 'Data Qualidade', 'Analista', 'Auditado', 'Regional', 'Tipo de Pedido', 'Motivo 1', 'Motivo 2', 'Motivo 3', 'Tipo de Apontamento', 'Reprova BKO', 'Apontamento', 'Contestação', 'Observação', 'Enviado', 'Data Envio', 'Semana', 'Data Leitura'];
                 const rows = resultados.map(r => [
                     r.codigo_tarefa || '', r.cotacao || '', r.status || '', formatDateTimeBR(r.data_qualidade),
                     r.analista || '', r.auditado_nome || '', r.regional || '', r.tipo_de_pedido || '',
                     r.motivo_1_sistema_documento || '', r.motivo_2_erro || '', r.motivo_3_detalhamento || '',
-                    r.reprova_bko || '', r.apontamento || '', r.contestacao || '', r.obs || '',
+                    r.reprova_bko || '', r.tipo_apontamento || '', r.apontamento || '', r.contestacao || '', r.obs || '',
                     r.enviado ? 'Sim' : 'Não', formatDateTimeBR(r.data_envio), r.semana || '',
                     formatDateTimeBR(r.data_leitura)
                 ]);

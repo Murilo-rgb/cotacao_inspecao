@@ -201,6 +201,17 @@ async function processarETL_250(csvFilePath, pool) {
     
     console.log(`Delimitador detectado: "${usedDelimiter}"`);
     
+// ===== VALIDACAO DA PRIMEIRA COLUNA =====
+    // A primeira coluna do arquivo de Inspecao deve ser "cod_tarefa".
+    // Se nao for, o upload e bloqueado antes de qualquer alteracao no banco.
+    const headerFieldsRaw = parseCsvLine(rawLines[0].replace(/\r?$/, ''), usedDelimiter);
+    const primeiraColunaLimpa = headerFieldsRaw.length > 0 ? cleanColumnName(headerFieldsRaw[0]) : '';
+    if (primeiraColunaLimpa !== 'cod_tarefa') {
+        throw new Error(
+            `PRIMEIRA COLUNA INCOMPATIVEL: a primeira coluna do arquivo deve ser "cod_tarefa", mas foi encontrado "${headerFieldsRaw[0] || '(vazia)'}". Upload bloqueado antes de qualquer alteracao no banco.`
+        );
+    }
+    // ===== FIM VALIDACAO DA PRIMEIRA COLUNA =====
     // Processar linhas
     const processedLines = [];
     const headerFields = parseCsvLine(rawLines[0].replace(/\r?$/, ''), usedDelimiter).map(h => cleanColumnName(h));

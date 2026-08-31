@@ -1098,7 +1098,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       let statusCounts = {
         fila: 0, aprovado: 0, reprovado: 0, aguardando_chamado: 0,
         aguardando_qualidade: 0, aguardando_dupla_validacao: 0,
-        aguardando_pre_analise: 0, em_tratamento: 0
+        aguardando_pre_analise: 0, aguardando_bilhete: 0, em_tratamento: 0
       };
       try {
         const statusResult = await pool.query(`
@@ -1110,6 +1110,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-qualidade') AS aguardando_qualidade,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-dupla-validacao') AS aguardando_dupla_validacao,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-pre-analise') AS aguardando_pre_analise,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-bilhete') AS aguardando_bilhete,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'em-tratamento') AS em_tratamento
           FROM db_gp.listafuncionarios l
           INNER JOIN db_automacao.usuarios u ON u.login = l.login
@@ -1279,7 +1280,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       let statusCounts = {
         fila: 0, em_tratamento: 0, troca_de_territorio: 0, troca_de_segmento: 0,
         cadastro_de_membro: 0, aguardando_chamado: 0, aguardando_qualidade: 0,
-        renovacao_aparelho: 0, aprovado: 0, reprovado: 0
+        aguardando_bilhete: 0, renovacao_aparelho: 0, aprovado: 0, reprovado: 0
       };
       try {
         const statusResult = await pool.query(`
@@ -1291,6 +1292,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'cadastro-de-membro') AS cadastro_de_membro,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-chamado') AS aguardando_chamado,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-qualidade') AS aguardando_qualidade,
+            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-bilhete') AS aguardando_bilhete,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) LIKE '%aparelho%') AS renovacao_aparelho,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aprovado') AS aprovado,
             COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'reprovado') AS reprovado
@@ -1326,7 +1328,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
   router.get('/pme_notas/api/inspecao/tarefas_net', authenticateToken, handlerTarefasNet);
 
   // Upload CSV/ZIP e processar ETL para iw_cpc_975_top
-  router.post('/api/inspecao/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+  router.post('/api/input_top/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
     try {
       if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
       const result = await processarETL_975_top(req.file.path, pool, 'Input de Pedidos PME');

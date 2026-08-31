@@ -1499,6 +1499,7 @@ function App() {
         dotClass: 'bg-red-500'
       };
     }
+    // Tolerante a legados: casa também 'Pendente - Classificação', 'PENDENTE - CLASSIFICAÇÃO', etc.
     var compactClassificacao = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s*-\s*/g, '-');
     if (normalized === 'pendente-classificacao' || compactClassificacao === 'pendente-classificacao') {
       return {
@@ -1624,6 +1625,13 @@ function App() {
         label: 'Pendente Input - Hitss',
         className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
         dotClass: 'bg-amber-500'
+      };
+    }
+    if (normalized === 'aguardando-bilhete') {
+      return {
+        label: 'Aguardando Bilhete',
+        className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
+        dotClass: 'bg-rose-500'
       };
     }
     return {
@@ -2484,6 +2492,13 @@ function App() {
     className: "w-2.5 h-2.5 rounded-full bg-teal-500"
   }), "Renova\xE7\xE3o/Aparelho"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
+      return handleStatusChange('aguardando-bilhete');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl hover:bg-rose-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-rose-500"
+  }), "Aguardando Bilhete"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
       return handleStatusChange('aprovado');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
@@ -2529,6 +2544,13 @@ function App() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-blue-500"
   }), "Aguardando Pr\xE9-An\xE1lise"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-bilhete');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl hover:bg-rose-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-rose-500"
+  }), "Aguardando Bilhete"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('em-tratamento');
     },

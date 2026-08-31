@@ -48,6 +48,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'cadastro-de-membro') AS cadastro_de_membro,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aguardando-chamado') AS aguardando_chamado,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aguardando-qualidade') AS aguardando_qualidade,
+          COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aguardando-bilhete') AS aguardando_bilhete,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'em-tratamento') AS em_tratamento,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'aprovado') AS aprovados,
           COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(c.status) = 'reprovado') AS reprovados
@@ -94,7 +95,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             WHERE u.login = $1 
               AND c.validacao = 'Ativo' 
               AND c.status IS NOT NULL AND c.status != '' AND c.status != 'pendente'
-              AND LOWER(c.status) IN ('em-tratamento', 'aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'troca-de-territorio', 'troca-de-segmento', 'cadastro-de-membro', 'aguardando-chamado', 'aguardando-qualidade', 'renovacao-aparelho')${slaWhereData}
+              AND LOWER(c.status) IN ('em-tratamento', 'aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'troca-de-territorio', 'troca-de-segmento', 'cadastro-de-membro', 'aguardando-chamado', 'aguardando-qualidade', 'aguardando-bilhete', 'renovacao-aparelho')${slaWhereData}
           `, slaParams);
           slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
         } catch (slaErr) {
@@ -117,6 +118,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           'cadastro-de-membro': parseInt(row.cadastro_de_membro || 0),
           'aguardando-chamado': parseInt(row.aguardando_chamado || 0),
           'aguardando-qualidade': parseInt(row.aguardando_qualidade || 0),
+          'aguardando-bilhete': parseInt(row.aguardando_bilhete || 0),
           'aprovado': parseInt(row.aprovados || 0),
           'reprovado': parseInt(row.reprovados || 0)
         };
