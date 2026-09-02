@@ -1028,8 +1028,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_input_net.html'));
   });
 
-  // API Tarefas Input TOP
-  router.get('/api/inspecao/tarefas_top', authenticateToken, async (req, res) => {
+  // API Tarefas Input TOP (registrada com e sem prefixo /pme_notas)
+  const handlerTarefasTop = async (req, res) => {
     try {
       const { search, limit = 100, offset = 0 } = req.query;
       const params = [];
@@ -1040,6 +1040,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
                iw.para_usuario_nome assumido_por,
                iw.*,
                c.usuario_id,
+               c.status AS cotacao_status,
                u_dist.nome as usuario_distribuido_nome
         FROM db_bloco_de_notas.iw_cpc_975_top iw
         LEFT JOIN db_bloco_de_notas.cotacao c
@@ -1138,7 +1139,11 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       console.error('[INSPECAO_TOP] Erro:', error);
       res.status(500).json({ error: 'Erro ao buscar dados' });
     }
-  });
+  };
+
+  // Registra o handler com e sem prefixo /pme_notas (a página usa getBasePath())
+  router.get('/api/inspecao/tarefas_top', authenticateToken, handlerTarefasTop);
+  router.get('/pme_notas/api/inspecao/tarefas_top', authenticateToken, handlerTarefasTop);
 
   // API Tarefas Input NET (registrada com e sem prefixo /pme_notas)
   const handlerTarefasNet = async (req, res) => {

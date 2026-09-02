@@ -25,7 +25,8 @@ async function simular() {
 
         // Consulta CORRIGIDA (mesma do server.js após a alteração)
         const result = await pool.query(
-            `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+            `SELECT * FROM (
+                    SELECT DISTINCT ON (aq.codigo_tarefa) aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
                     aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
                     aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
                     aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
@@ -36,7 +37,13 @@ async function simular() {
              LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
              LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
              WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
-             ORDER BY aq.data_qualidade DESC
+             ORDER BY aq.codigo_tarefa,
+                      CASE WHEN c.id_qldd IS NOT NULL AND c.id_qldd = aq.id_qldd THEN 0
+                           WHEN COALESCE(aq.anotacao, '') <> '' THEN 1
+                           ELSE 2 END,
+                      aq.id_qldd DESC
+             ) sub
+             ORDER BY sub.data_qualidade DESC
              LIMIT 10`,
             [dataInicioISO, dataFimISO]
         );
@@ -45,7 +52,8 @@ async function simular() {
             console.log('Nenhum registro encontrado no período. Tentando buscar qualquer registro...');
             // Buscar qualquer registro para demonstrar
             const anyResult = await pool.query(
-                `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+                `SELECT * FROM (
+                        SELECT DISTINCT ON (aq.codigo_tarefa) aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
                         aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
                         aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
                         aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
@@ -55,7 +63,13 @@ async function simular() {
                  LEFT JOIN db_bloco_de_notas.cotacao c ON c.tarefa = aq.codigo_tarefa
                  LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
                  LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
-                 ORDER BY aq.data_qualidade DESC
+                 ORDER BY aq.codigo_tarefa,
+                          CASE WHEN c.id_qldd IS NOT NULL AND c.id_qldd = aq.id_qldd THEN 0
+                               WHEN COALESCE(aq.anotacao, '') <> '' THEN 1
+                               ELSE 2 END,
+                          aq.id_qldd DESC
+                 ) sub
+                 ORDER BY sub.data_qualidade DESC
                  LIMIT 10`
             );
             result.rows = anyResult.rows;

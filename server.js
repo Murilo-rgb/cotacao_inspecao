@@ -216,6 +216,8 @@ var inputTopRoutes = require('./routes/input_top')(pool, authenticateToken, auth
 
 // Inicializar rotas de h_x_h
 var hXHRoutes = require('./routes/h_x_h')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
+// Inicializar rotas de cortesia
+var cortesiaRoutes = require('./routes/cortesia')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, { JIRA_SITE: 'https://clarobr-jsm-negocios.atlassian.net', JIRA_EMAIL: 'felipe.holanda.terceiros@claro.com.br' });
 
 // Registrar rotas com prefixo /pme_notas (API input_net)
 app.use('/api/input_net', inputNetRoutes);
@@ -226,6 +228,9 @@ app.use('/api/input_top', inputTopRoutes);
 app.use('/pme_notas/api/input_top', inputTopRoutes);
 
 // Registrar rotas com prefixo /pme_notas (API hh)
+// Registrar rotas de cortesia (API)
+app.use('/api/cortesia', cortesiaRoutes);
+app.use('/pme_notas/api/cortesia', cortesiaRoutes);
 app.use('/api/hh', hXHRoutes);
 app.use('/pme_notas/api/hh', hXHRoutes);
 
@@ -2323,7 +2328,9 @@ app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'
     const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
 
     const result = await pool.query(
-      `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+      `SELECT * FROM (
+      SELECT DISTINCT ON (aq.codigo_tarefa)
+             aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
               aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
               aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
               aq.tipo_apontamento,
@@ -2335,7 +2342,13 @@ app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'
        LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
        LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
        WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
-       ORDER BY aq.data_qualidade DESC`,
+       ORDER BY aq.codigo_tarefa,
+                CASE WHEN c.id_qldd IS NOT NULL AND c.id_qldd = aq.id_qldd THEN 0
+                     WHEN COALESCE(aq.anotacao, '') <> '' THEN 1
+                     ELSE 2 END,
+                aq.id_qldd DESC
+       ) sub
+       ORDER BY sub.data_qualidade DESC`,
       [dataInicio, dataFimISO]
     );
 
@@ -2369,7 +2382,9 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
     const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
 
     const result = await pool.query(
-      `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+      `SELECT * FROM (
+      SELECT DISTINCT ON (aq.codigo_tarefa)
+             aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
               aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
               aq.tipo_apontamento,
               aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
@@ -2381,7 +2396,13 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
        LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
        LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
        WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
-       ORDER BY aq.data_qualidade DESC`,
+       ORDER BY aq.codigo_tarefa,
+                CASE WHEN c.id_qldd IS NOT NULL AND c.id_qldd = aq.id_qldd THEN 0
+                     WHEN COALESCE(aq.anotacao, '') <> '' THEN 1
+                     ELSE 2 END,
+                aq.id_qldd DESC
+       ) sub
+       ORDER BY sub.data_qualidade DESC`,
       [dataInicio, dataFimISO]
     );
 
@@ -2446,6 +2467,22 @@ app.get('/pme_notas/hh/dashboard', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_h_x_h.html'));
 });
 
+// Serve cortesia page (distribuicao - padrao gestao_input_net)
+app.get('/cortesia', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao_cortesia.html'));
+});
+
+app.get('/pme_notas/cortesia', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'gestao_cortesia.html'));
+});
+
+app.get('/cortesia/dashboard', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_cortesia.html'));
+});
+
+app.get('/pme_notas/cortesia/dashboard', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard_cortesia.html'));
+});
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
 

@@ -171,6 +171,15 @@
             'Erro Interno - Inspeção': 'text-purple-700',
             'Apontamento RCV': 'text-sky-700'
         };
+        // Cores dos cards de percentual por Tipo de Apontamento
+        var TIPO_APONTAMENTO_CORES = {
+            'APROVADO': { barra: 'bg-emerald-500', texto: 'text-emerald-600', borda: 'border-emerald-200' },
+            'APROVAÇÃO INDEVIDA': { barra: 'bg-red-500', texto: 'text-red-600', borda: 'border-red-200' },
+            'DEVOLUÇÃO PARCIAL/INDEVIDA': { barra: 'bg-amber-500', texto: 'text-amber-600', borda: 'border-amber-200' },
+            'ERRO INTERNO': { barra: 'bg-purple-500', texto: 'text-purple-600', borda: 'border-purple-200' },
+            'RCV': { barra: 'bg-sky-500', texto: 'text-sky-600', borda: 'border-sky-200' },
+            'SEM TIPO': { barra: 'bg-slate-400', texto: 'text-slate-600', borda: 'border-slate-200' }
+        };
 
         function Toast({ message, type, onClose }) {
             useEffect(() => { const timer = setTimeout(onClose, 3000); return () => clearTimeout(timer); }, [onClose]);
@@ -378,6 +387,18 @@
 
             const filteredQuotations = quotations;
 
+            // Agregação dos cards de percentual por Tipo de Apontamento (apenas auditorias efetuadas)
+            const auditadasNoRecorte = filteredQuotations.filter(q => q.auditoria);
+            const totalAuditadas = auditadasNoRecorte.length;
+            const porTipoApontamento = {};
+            for (const q of auditadasNoRecorte) {
+                const tipo = (q.auditoria.tipo_apontamento || '').trim();
+                const chave = tipo && TIPO_APONTAMENTO_STATUS[tipo] ? tipo : 'SEM TIPO';
+                porTipoApontamento[chave] = (porTipoApontamento[chave] || 0) + 1;
+            }
+            const ordemTipos = Object.keys(TIPO_APONTAMENTO_STATUS)
+                .concat(porTipoApontamento['SEM TIPO'] > 0 ? ['SEM TIPO'] : []);
+
             const indexOfLastItem = currentPage * itemsPerPage;
             const indexOfFirstItem = indexOfLastItem - itemsPerPage;
             const currentQuotations = filteredQuotations.slice(indexOfFirstItem, indexOfLastItem);
@@ -432,11 +453,30 @@
                 ),
 
                 React.createElement('main', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" },
-                    React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" },
+                    React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4" },
                         React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-slate-500" }, 'Total de Cotações'), React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" }, filteredQuotations.length)),
                         React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-emerald-600" }, 'Auditadas'), React.createElement('p', { className: "text-2xl font-bold text-emerald-700 mt-1" }, filteredQuotations.filter(q => q.auditoria).length)),
                         React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-amber-600" }, 'Não Auditadas'), React.createElement('p', { className: "text-2xl font-bold text-amber-700 mt-1" }, filteredQuotations.filter(q => !q.auditoria).length)),
                         React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-red-600" }, 'Reprovadas'), React.createElement('p', { className: "text-2xl font-bold text-red-700 mt-1" }, filteredQuotations.filter(q => q.auditoria && q.auditoria.status === 'Reprovado').length))
+                    ),
+
+                    React.createElement('div', { className: "flex flex-wrap gap-4 mb-6" },
+                        ordemTipos.map(t => {
+                            const cores = TIPO_APONTAMENTO_CORES[t] || TIPO_APONTAMENTO_CORES['SEM TIPO'];
+                            const qtd = porTipoApontamento[t] || 0;
+                            const pct = totalAuditadas > 0 ? (qtd / totalAuditadas) * 100 : 0;
+                            const pctFmt = totalAuditadas > 0 ? `${pct.toFixed(1).replace('.', ',')}%` : '—';
+                            return React.createElement('div', { key: t, className: `flex-1 min-w-[180px] bg-white rounded-xl p-4 border ${cores.borda} shadow-sm`, title: 'Percentual sobre o total de auditorias efetuadas no recorte' },
+                                React.createElement('p', { className: `text-sm font-medium ${cores.texto}` }, TIPO_APONTAMENTO_LABELS[t] || t),
+                                React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" },
+                                    qtd,
+                                    React.createElement('span', { className: "text-sm font-semibold text-slate-400 ml-1.5" }, pctFmt)
+                                ),
+                                React.createElement('div', { className: "w-full h-1.5 bg-slate-100 rounded-full mt-2 overflow-hidden" },
+                                    React.createElement('div', { className: `h-full rounded-full transition-all duration-300 ${cores.barra}`, style: { width: `${pct}%` } })
+                                )
+                            );
+                        })
                     ),
 
                     React.createElement('div', { className: "flex flex-col sm:flex-row gap-4 mb-6" },
