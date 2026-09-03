@@ -578,6 +578,7 @@
                 status_cotacao: '',
                 ind_portabilidade: '',
                 status_distribuicao: '',
+                usuario: '',
             });
 
             const updateFilter = (key, value) => {
@@ -629,7 +630,13 @@
                     matches(formatDate(t.dat_historico), filters.dat_historico) &&
                     matchesQtd(t.qtd_linhas, filters.qtd_linhas) &&
                     matchesQtd(t.qtd_linhas_novas, filters.qtd_linhas_novas) &&
-                    matchesQtd(t.qtd_reprovacao, filters.qtd_reprovacao)
+                    matchesQtd(t.qtd_reprovacao, filters.qtd_reprovacao) &&
+                    matches(
+                        t.usuario_distribuido_nome ||
+                        (t.usuarioSelecionado ? getUserLabel(t.usuarioSelecionado) : '') ||
+                        '',
+                        filters.usuario
+                    )
                 )) return false;
 
                 // Multi-seleção de tipos de pedido: passa se a categoria da tarefa
@@ -1206,7 +1213,14 @@
                                                         React.createElement('option', { value: 'Enviado' }, 'Enviado')
                                                     )
                                                 ),
-                                                React.createElement('th', { className: 'px-1.5 py-2' }, '')
+                                                React.createElement('th', { className: 'px-1.5 py-2' },
+                                                    React.createElement('input', {
+                                                        value: filters.usuario,
+                                                        onChange: (e) => updateFilter('usuario', e.target.value),
+                                                        placeholder: 'filtrar...',
+                                                        className: 'w-full px-1 py-1 text-xs border border-slate-200 rounded'
+                                                    })
+                                                )
                                             ),
                                         ),
                                         React.createElement('tbody', { className: 'bg-white divide-y divide-slate-100' },
@@ -1338,7 +1352,10 @@
                                                                     )
                                                                 )
                                                             )
-                                                            : React.createElement('span', { className: 'text-sm text-slate-500' }, tarefa.usuario_distribuido_nome || '-')
+                                                            : React.createElement('span', {
+                                                                className: 'text-sm text-slate-500',
+                                                                title: tarefa.usuario_distribuido_nome && tarefa.usuario_distribuido_nome !== '-' ? tarefa.usuario_distribuido_nome : undefined
+                                                            }, tarefa.usuario_distribuido_nome || '-')
                                                     ),
                                                                                                                 
                                                 );

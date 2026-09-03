@@ -1,0 +1,872 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7c3aed">
+    <title>Dashboard - Cortesia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
+        .animate-slideUp { animation: slideUp 0.3s ease-out; }
+        .animate-scaleIn { animation: scaleIn 0.3s ease-out; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+
+        .qty-card {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .qty-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15);
+        }
+        .qty-card:active {
+            transform: scale(0.95);
+        }
+     /* ===== DARK MODE STYLES ===== */
+     html, html *, html *::before, html *::after {
+         transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+     }
+     html.dark { background-color: #0f172a; }
+     html.dark body { background-color: #0f172a; }
+     html.dark .bg-white { background-color: #1e293b !important; }
+     html.dark .bg-slate-50, html.dark .bg-slate-50\/80 { background-color: #0f172a !important; }
+     html.dark .bg-slate-100 { background-color: #1e293b !important; }
+     html.dark .bg-slate-800 { background-color: #334155 !important; }
+     html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
+     html.dark .border-slate-700 { border-color: #475569 !important; }
+     html.dark .divide-slate-200 > *, html.dark .divide-slate-100 > * { border-color: #334155 !important; }
+     html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8 !important; }
+     html.dark .text-slate-600 { color: #cbd5e1 !important; }
+     html.dark .text-slate-700 { color: #e2e8f0 !important; }
+     html.dark .text-slate-800, html.dark .text-slate-900 { color: #f1f5f9 !important; }
+     html.dark .text-white { color: #f8fafc !important; }
+     html.dark .placeholder-slate-400::placeholder { color: #64748b !important; }
+     html.dark header { background-color: #1e293b !important; border-color: #334155 !important; }
+     html.dark table thead { background-color: #1e293b !important; }
+     html.dark table thead th { color: #94a3b8 !important; }
+     html.dark table tbody { background-color: #1e293b !important; }
+     html.dark table tbody tr { background-color: #1e293b !important; }
+     html.dark table tbody tr:hover { background-color: #334155 !important; }
+     html.dark input, html.dark select, html.dark textarea {
+         background-color: #1e293b !important;
+         border-color: #475569 !important;
+         color: #e2e8f0 !important;
+     }
+     html.dark input:focus, html.dark select:focus, html.dark textarea:focus {
+         border-color: #8b5cf6 !important;
+         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
+     }
+     html.dark input:disabled, html.dark textarea:disabled, html.dark input[readonly], html.dark textarea[readonly] {
+         background-color: #0f172a !important;
+         color: #64748b !important;
+     }
+     html.dark .bg-slate-100 { background-color: #1e293b !important; }
+     html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl, html.dark .shadow-2xl {
+         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3) !important;
+     }
+     html.dark .bg-emerald-50 { background-color: rgba(5, 150, 105, 0.15) !important; }
+     html.dark .text-emerald-700 { color: #34d399 !important; }
+     html.dark .border-emerald-200 { border-color: rgba(5, 150, 105, 0.3) !important; }
+     html.dark .bg-red-50 { background-color: rgba(220, 38, 38, 0.15) !important; }
+     html.dark .text-red-700 { color: #f87171 !important; }
+     html.dark .border-red-200 { border-color: rgba(220, 38, 38, 0.3) !important; }
+     html.dark .bg-amber-50 { background-color: rgba(217, 119, 6, 0.15) !important; }
+     html.dark .text-amber-700 { color: #fbbf24 !important; }
+     html.dark .border-amber-200 { border-color: rgba(217, 119, 6, 0.3) !important; }
+     html.dark .bg-violet-50 { background-color: rgba(139, 92, 246, 0.15) !important; }
+     html.dark .text-violet-700 { color: #a78bfa !important; }
+     html.dark .border-violet-200 { border-color: rgba(139, 92, 246, 0.3) !important; }
+     html.dark .bg-indigo-100 { background-color: rgba(99, 102, 241, 0.15) !important; }
+     html.dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.15) !important; }
+     html.dark .bg-orange-50 { background-color: rgba(249, 115, 22, 0.15) !important; }
+     html.dark .bg-cyan-50 { background-color: rgba(6, 182, 212, 0.15) !important; }
+     html.dark .text-cyan-700 { color: #22d3ee !important; }
+     html.dark .border-cyan-200 { border-color: rgba(6, 182, 212, 0.3) !important; }
+     html.dark .bg-purple-50 { background-color: rgba(139, 92, 246, 0.15) !important; }
+     html.dark .text-purple-700 { color: #a78bfa !important; }
+     html.dark .border-purple-200 { border-color: rgba(139, 92, 246, 0.3) !important; }
+     html.dark .modal-overlay { background-color: rgba(0,0,0,0.6) !important; }
+     html.dark .modal-content { background-color: #1e293b !important; }
+     html.dark .skeleton, html.dark .animate-pulse div { background-color: #334155 !important; }
+     html.dark .bg-gradient-to-r { opacity: 0.9; }
+     </style>
+     <script>
+     (function() {
+         const saved = localStorage.getItem('darkMode');
+         if (saved === 'true') {
+             document.documentElement.classList.add('dark');
+         }
+     })();
+     </script>
+     </head>
+<body>
+    <div id="root"></div>
+    <script>
+        const { useState, useEffect, useCallback } = React;
+
+        // ============== ICONES ==============
+        const ChartIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('line', { x1: "18", y1: "20", x2: "18", y2: "10" }),
+            React.createElement('line', { x1: "12", y1: "20", x2: "12", y2: "4" }),
+            React.createElement('line', { x1: "6", y1: "20", x2: "6", y2: "14" })
+        );
+        const UsersIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" }),
+            React.createElement('circle', { cx: "9", cy: "7", r: "4" }),
+            React.createElement('path', { d: "M23 21v-2a4 4 0 0 0-3-3.87" }),
+            React.createElement('path', { d: "M16 3.13a4 4 0 0 1 0 7.75" })
+        );
+        const RefreshIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('polyline', { points: "23 4 23 10 17 10" }),
+            React.createElement('path', { d: "M20.49 15a9 9 0 1 1-2.12-9.36L23 10" })
+        );
+        const HistoryIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "12", cy: "12", r: "10" }),
+            React.createElement('polyline', { points: "12 6 12 12 16 14" })
+        );
+        const CloseIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('line', { x1: "18", y1: "6", x2: "6", y2: "18" }),
+            React.createElement('line', { x1: "6", y1: "6", x2: "18", y2: "18" })
+        );
+        const TargetIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "12", cy: "12", r: "10" }),
+            React.createElement('circle', { cx: "12", cy: "12", r: "6" }),
+            React.createElement('circle', { cx: "12", cy: "12", r: "2" })
+        );
+        const CheckIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('polyline', { points: "20 6 9 17 4 12" })
+        );
+        const AlertIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" }),
+            React.createElement('path', { d: "M12 9v4" }),
+            React.createElement('path', { d: "M12 17h.01" })
+        );
+        const RocketIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" }),
+            React.createElement('path', { d: "M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" }),
+            React.createElement('path', { d: "M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" }),
+            React.createElement('path', { d: "M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" })
+        );
+        const CheckSmallIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('polyline', { points: "20 6 9 17 4 12" })
+        );
+        const SunIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "12", cy: "12", r: "5" }),
+            React.createElement('line', { x1: "12", y1: "1", x2: "12", y2: "3" }),
+            React.createElement('line', { x1: "12", y1: "21", x2: "12", y2: "23" }),
+            React.createElement('line', { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }),
+            React.createElement('line', { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }),
+            React.createElement('line', { x1: "1", y1: "12", x2: "3", y2: "12" }),
+            React.createElement('line', { x1: "21", y1: "12", x2: "23", y2: "12" }),
+            React.createElement('line', { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }),
+            React.createElement('line', { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" })
+        );
+        const MoonIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" })
+        );
+
+        // ============== TOAST ==============
+        const Toast = ({ toast }) => {
+            if (!toast) return null;
+            return React.createElement('div', {
+                className: `fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-slideUp ${
+                    toast.type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+                }`
+            },
+                toast.type === 'success' ? React.createElement(CheckIcon) : React.createElement(AlertIcon),
+                React.createElement('span', { className: 'font-medium text-sm' }, toast.message)
+            );
+        };
+
+        // ============== MODAL DE DISTRIBUIÇÃO ==============
+        const DistribuirModal = ({ colaborador, onClose, onDistribuir, distribuindo, ultimaResposta }) => {
+            if (!colaborador) return null;
+            const cards = Array.from({ length: 10 }, (_, i) => i + 1);
+
+            const handleCardClick = (quantidade) => {
+                onDistribuir(colaborador.usuario_login, quantidade);
+            };
+
+            return React.createElement('div', {
+                className: 'modal-overlay animate-fadeIn',
+                onClick: (e) => { if (e.target === e.currentTarget) onClose(); }
+            },
+                React.createElement('div', { className: 'bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg mx-4 animate-scaleIn overflow-hidden' },
+                    React.createElement('div', { className: 'flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-violet-50 to-purple-50' },
+                        React.createElement('div', { className: 'flex items-center gap-3' },
+                            React.createElement('div', { className: 'w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md' },
+                                React.createElement(TargetIcon)
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('h3', { className: 'text-lg font-bold text-slate-800' }, 'Distribuir tarefas'),
+                                React.createElement('p', { className: 'text-sm text-slate-500' },
+                                    'para ',
+                                    React.createElement('span', { className: 'font-semibold text-violet-700' }, colaborador.usuario_nome || colaborador.usuario_login)
+                                )
+                            )
+                        ),
+                        React.createElement('button', {
+                            onClick: onClose,
+                            className: 'p-2 text-slate-400 hover:text-slate-600 hover:bg-white/60 rounded-lg transition-colors'
+                        }, React.createElement(CloseIcon))
+                    ),
+                    React.createElement('div', { className: 'px-6 py-5' },
+                        React.createElement('p', { className: 'text-sm text-slate-600 mb-4 flex items-center gap-2' },
+                            React.createElement(RocketIcon),
+                            'Quantas tarefas deseja distribuir? As mais antigas serão priorizadas.'
+                        ),
+                        React.createElement('div', { className: 'grid grid-cols-5 gap-3 mb-4' },
+                            cards.map(qtd => {
+                                const estaCarregando = distribuindo === qtd;
+                                const estaCompleto = ultimaResposta && ultimaResposta.quantidade === qtd && ultimaResposta.success;
+                                return React.createElement('button', {
+                                    key: qtd,
+                                    onClick: () => handleCardClick(qtd),
+                                    disabled: !!distribuindo,
+                                    className: `qty-card relative flex flex-col items-center justify-center p-4 rounded-xl border-2 font-bold transition-all ${
+                                        estaCompleto
+                                            ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
+                                            : estaCarregando
+                                                ? 'border-violet-400 bg-violet-50 text-violet-700'
+                                                : 'border-slate-200 bg-white text-slate-700 hover:border-violet-300 hover:bg-violet-50 hover:text-violet-700'
+                                    }`
+                                },
+                                    estaCarregando
+                                        ? React.createElement('div', { className: 'w-6 h-6 border-2 border-violet-500 border-t-transparent rounded-full animate-spin' })
+                                        : estaCompleto
+                                            ? React.createElement('span', { className: 'text-emerald-600' }, React.createElement(CheckSmallIcon))
+                                            : React.createElement('span', { className: 'text-2xl font-bold' }, qtd),
+                                    React.createElement('span', { className: `text-xs mt-1 font-medium ${
+                                        estaCompleto ? 'text-emerald-600' : estaCarregando ? 'text-violet-600' : 'text-slate-400'
+                                    }` },
+                                        estaCompleto ? 'Feito!' : estaCarregando ? 'Enviando...' : 'tarefas'
+                                    )
+                                );
+                            })
+                        ),
+                        ultimaResposta && React.createElement('div', {
+                            className: `p-3 rounded-lg text-sm ${
+                                ultimaResposta.success
+                                    ? 'bg-emerald-50 border border-emerald-200 text-emerald-700'
+                                    : 'bg-red-50 border border-red-200 text-red-700'
+                            }`
+                        }, ultimaResposta.message)
+                    ),
+                    React.createElement('div', { className: 'px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center' },
+                        React.createElement('span', { className: 'text-xs text-slate-400' },
+                            colaborador.usuario_login ? `@${colaborador.usuario_login}` : ''
+                        ),
+                        React.createElement('button', {
+                            onClick: onClose,
+                            className: 'px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-200 rounded-lg transition-colors'
+                        }, 'Fechar')
+                    )
+                )
+            );
+        };
+
+        // ============== COMPONENTE PRINCIPAL ==============
+        function App() {
+            const [token, setToken] = useState(localStorage.getItem('token'));
+            const [username, setUsername] = useState(localStorage.getItem('username') || '');
+            const [colaboradores, setColaboradores] = useState([]);
+            const [stats, setStats] = useState({ em_tratamento: 0, aprovado: 0, reprovado: 0, pendente: 0, cancelado: 0 });
+            const [historico, setHistorico] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [activeTab, setActiveTab] = useState('dashboard');
+            const [filtroTarefa, setFiltroTarefa] = useState('');
+            const [filtroDataInicio, setFiltroDataInicio] = useState('');
+            const [filtroDataFim, setFiltroDataFim] = useState('');
+            const [modoPeriodo, setModoPeriodo] = useState('dia');
+            const [modalColaborador, setModalColaborador] = useState(null);
+            const [distribuindo, setDistribuindo] = useState(null);
+            const [ultimaResposta, setUltimaResposta] = useState(null);
+            const [toast, setToast] = useState(null);
+            const [darkMode, setDarkMode] = useState(() => {
+                const saved = localStorage.getItem('darkMode');
+                return saved === 'true';
+            });
+
+            const getBasePath = () => window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
+            useEffect(() => {
+                if (darkMode) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                localStorage.setItem('darkMode', darkMode);
+            }, [darkMode]);
+
+            const toggleDarkMode = () => {
+                const newMode = !darkMode;
+                setDarkMode(newMode);
+                localStorage.setItem('darkMode', newMode);
+            };
+
+            const showToast = (message, type = 'success') => {
+                setToast({ message, type });
+                setTimeout(() => setToast(null), 4000);
+            };
+
+            const fetchDashboard = useCallback(async () => {
+                if (!token) return;
+                try {
+                    setLoading(true);
+                    const params = new URLSearchParams();
+                    if (filtroDataInicio) {
+                        const [y1, m1, d1] = filtroDataInicio.split('-');
+                        params.set('dataInicio', `${d1}/${m1}/${y1}`);
+                    }
+                    if (filtroDataFim) {
+                        const [y2, m2, d2] = filtroDataFim.split('-');
+                        params.set('dataFim', `${d2}/${m2}/${y2}`);
+                    }
+                    const queryStr = params.toString() ? `?${params.toString()}` : '';
+                    const res = await fetch(`${getBasePath()}/api/cortesia/dashboard${queryStr}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (res.status === 401 || res.status === 403) {
+                        localStorage.removeItem('token');
+                        window.location.href = getBasePath() + '/login.html';
+                        return;
+                    }
+                    const data = await res.json();
+                    setColaboradores(Array.isArray(data.colaboradores) ? data.colaboradores : []);
+                    setStats(data.stats || { em_tratamento: 0, aprovado: 0, reprovado: 0, pendente: 0, cancelado: 0 });
+                } catch (err) {
+                    console.error('[DASHBOARD_CORTESIA] Erro:', err);
+                    setColaboradores([]);
+                } finally {
+                    setLoading(false);
+                }
+            }, [token, filtroDataInicio, filtroDataFim]);
+
+            const fetchHistorico = useCallback(async () => {
+                if (!token) return;
+                try {
+                    const params = new URLSearchParams({ limit: 200 });
+                    if (filtroTarefa) params.set('tarefa', filtroTarefa);
+                    const res = await fetch(`${getBasePath()}/api/cortesia/historico?${params}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const data = await res.json();
+                    setHistorico(Array.isArray(data) ? data : []);
+                } catch (err) {
+                    console.error('[HISTORICO_CORTESIA] Erro:', err);
+                    setHistorico([]);
+                }
+            }, [token, filtroTarefa]);
+
+            useEffect(() => {
+                const t = localStorage.getItem('token');
+                if (!t) {
+                    window.location.href = getBasePath() + '/login.html';
+                    return;
+                }
+                setToken(t);
+                const storedUser = localStorage.getItem('username');
+                if (storedUser) setUsername(storedUser);
+            }, []);
+
+            useEffect(() => {
+                if (token) {
+                    fetchDashboard();
+                    fetchHistorico();
+                }
+            }, [token, fetchDashboard, fetchHistorico]);
+
+            const handleDistribuir = async (usuarioLogin, quantidade) => {
+                setDistribuindo(quantidade);
+                setUltimaResposta(null);
+                try {
+                    const usuariosRes = await fetch(`${getBasePath()}/api/cortesia/usuarios`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const usuarios = await usuariosRes.json();
+                    const usuario = usuarios.find(u => u.login === usuarioLogin);
+                    if (!usuario) {
+                        setUltimaResposta({ success: false, message: 'Usuário não encontrado no sistema.', quantidade });
+                        setDistribuindo(null);
+                        return;
+                    }
+                    const res = await fetch(`${getBasePath()}/api/cortesia/distribuir`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify({ usuario_id: usuario.id, quantidade })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        setUltimaResposta({ success: true, message: data.message || `${data.distribuidos} tarefa(s) distribuída(s) com sucesso!`, quantidade });
+                        fetchDashboard();
+                    } else {
+                        setUltimaResposta({ success: false, message: data.error || 'Erro ao distribuir tarefas.', quantidade });
+                    }
+                } catch (err) {
+                    setUltimaResposta({ success: false, message: 'Erro de conexão: ' + err.message, quantidade });
+                } finally {
+                    setDistribuindo(null);
+                }
+            };
+
+            const openModal = (col) => {
+                setModalColaborador(col);
+                setUltimaResposta(null);
+                setDistribuindo(null);
+            };
+
+            const closeModal = () => {
+                setModalColaborador(null);
+                setUltimaResposta(null);
+                setDistribuindo(null);
+            };
+
+            const formatDate = (dateStr) => {
+                if (!dateStr) return '-';
+                try {
+                    const d = new Date(dateStr);
+                    if (isNaN(d.getTime())) return dateStr;
+                    return d.toLocaleString('pt-BR', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    });
+                } catch { return dateStr; }
+            };
+
+            const getRankingMedal = (rankIndex) => {
+                const medals = [
+                    { pos: 1, emoji: '🥇', tooltip: '1º Lugar - Ouro' },
+                    { pos: 2, emoji: '🥈', tooltip: '2º Lugar - Prata' },
+                    { pos: 3, emoji: '🥉', tooltip: '3º Lugar - Bronze' },
+                    { pos: 4, emoji: '🏅', tooltip: '4º Lugar - Medalha de Honra' },
+                    { pos: 5, emoji: '🎖️', tooltip: '5º Lugar - Medalha de Mérito' }
+                ];
+                return medals[rankIndex] || null;
+            };
+
+            const getStatusColor = (status) => {
+                switch ((status || '').toLowerCase()) {
+                    case 'aprovado': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+                    case 'reprovado': return 'bg-red-100 text-red-700 border-red-200';
+                    case 'pendente': return 'bg-amber-100 text-amber-700 border-amber-200';
+                    default: return 'bg-slate-100 text-slate-600 border-slate-200';
+                }
+            };
+
+            const getAcaoColor = (acao) => {
+                switch (acao) {
+                    case 'distribuido': return 'bg-blue-100 text-blue-700 border-blue-200';
+                    case 'redistribuido': return 'bg-amber-100 text-amber-700 border-amber-200';
+                    case 'status_alterado': return 'bg-purple-100 text-purple-700 border-purple-200';
+                    default: return 'bg-slate-100 text-slate-600 border-slate-200';
+                }
+            };
+
+            const statusConfig = {
+                'em-tratamento': { label: 'Em Tratamento', color: 'bg-blue-100 text-blue-700 border-blue-200', dot: 'bg-blue-500' },
+                'pendente': { label: 'Pendente', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-classificacao': { label: 'Pendente - Classificação', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-iphone': { label: 'Pendente - iPhone', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-iphone-aprovado': { label: 'Pendente - iPhone Aprovado', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+                'pendente-iphone-reprovado': { label: 'Pendente - iPhone Reprovado', color: 'bg-red-100 text-red-700 border-red-200', dot: 'bg-red-500' },
+                'pendente-qualidade': { label: 'Pendente - Qualidade/Suporte', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-correcao-cadastral': { label: 'Pendente - Correção Cadastral', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'pendente-correcao-efetuada': { label: 'Pendente - Correção Efetuada', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+                'pendente-suporte': { label: 'Pendente - Suporte', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+                'troca-de-territorio': { label: 'Troca de Território', color: 'bg-blue-100 text-blue-700 border-blue-200', dot: 'bg-blue-500' },
+                'troca-de-segmento': { label: 'Troca de Segmento', color: 'bg-violet-100 text-violet-700 border-violet-200', dot: 'bg-violet-500' },
+                'cadastro-de-membro': { label: 'Cadastro de Membro', color: 'bg-cyan-100 text-cyan-700 border-cyan-200', dot: 'bg-cyan-500' },
+                'aguardando-chamado': { label: 'Aguardando Chamado', color: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500' },
+                'aguardando-qualidade': { label: 'Aguardando Qualidade', color: 'bg-purple-100 text-purple-700 border-purple-200', dot: 'bg-purple-500' },
+                'aguardando-bilhete': { label: 'Aguardando Bilhete', color: 'bg-rose-100 text-rose-700 border-rose-200', dot: 'bg-rose-500' },
+                'aprovado': { label: 'Aprovado', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+                'reprovado': { label: 'Reprovado', color: 'bg-red-100 text-red-700 border-red-200', dot: 'bg-red-500' }
+            };
+
+            const statusTotals = {};
+            colaboradores.forEach(c => {
+                if (c.statusCounts) {
+                    Object.entries(c.statusCounts).forEach(([status, count]) => {
+                        statusTotals[status] = (statusTotals[status] || 0) + count;
+                    });
+                }
+            });
+            const totalGeral = colaboradores.reduce((s, c) => s + (c.total || 0), 0);
+
+            const colaboradoresOrdenados = [...colaboradores].sort((a, b) => {
+                const tratadosA = (a.statusCounts?.aprovado || 0) + (a.statusCounts?.reprovado || 0);
+                const tratadosB = (b.statusCounts?.aprovado || 0) + (b.statusCounts?.reprovado || 0);
+                return tratadosB - tratadosA;
+            });
+
+            const totalPendentesTabela = colaboradores.reduce((s, c) => {
+                if (!c.statusCounts) return s;
+                return s + Object.entries(c.statusCounts)
+                    .filter(([status]) => status.startsWith('pendente'))
+                    .reduce((sum, [_, count]) => sum + count, 0);
+            }, 0);
+            const totalTratadosTabela = colaboradores.reduce((s, c) => {
+                if (!c.statusCounts) return s;
+                return s + (c.statusCounts.aprovado || 0) + (c.statusCounts.reprovado || 0);
+            }, 0);
+
+            return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
+                React.createElement('header', { className: 'bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30' },
+                    React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
+                        React.createElement('div', { className: 'flex justify-between items-center h-16' },
+                            React.createElement('div', { className: 'flex items-center gap-3' },
+                                React.createElement('div', { className: 'w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md' },
+                                    React.createElement(ChartIcon)
+                                ),
+                                React.createElement('div', null,
+                                    React.createElement('h1', { className: 'text-xl font-bold text-slate-800' }, 'Dashboard Cortesia'),
+                                    React.createElement('p', { className: 'text-xs text-slate-500' }, 'SLA e produtividade dos colaboradores')
+                                )
+                            ),
+                            React.createElement('div', { className: 'flex items-center gap-3' },
+                                React.createElement('a', {
+                                    href: `${getBasePath()}/cortesia`,
+                                    className: 'text-xs text-slate-500 hover:text-violet-600 underline'
+                                }, '← Voltar para Cortesia'),
+                                React.createElement('button', {
+                                    onClick: toggleDarkMode,
+                                    className: 'p-2 rounded-lg transition-all duration-200 hover:scale-110 ' + (darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200'),
+                                    title: darkMode ? 'Modo claro' : 'Modo escuro'
+                                }, darkMode ? React.createElement(SunIcon) : React.createElement(MoonIcon)),
+                                React.createElement('div', { className: 'hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm' },
+                                    React.createElement('span', { className: 'text-sm font-semibold text-white' }, username)
+                                )
+                            )
+                        )
+                    )
+                ),
+
+                React.createElement('main', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8' },
+                    // Tabs
+                    React.createElement('div', { className: 'flex items-center gap-4 mb-6 border-b border-slate-200 pb-2' },
+                        React.createElement('button', {
+                            onClick: () => setActiveTab('dashboard'),
+                            className: `px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
+                                activeTab === 'dashboard'
+                                    ? 'text-violet-700 border-b-2 border-violet-600 bg-violet-50'
+                                    : 'text-slate-500 hover:text-slate-700'
+                            }`
+                        },
+                            React.createElement('span', { className: 'flex items-center gap-2' },
+                                React.createElement(ChartIcon),
+                                'Dashboard'
+                            )
+                        ),
+                        React.createElement('button', {
+                            onClick: () => setActiveTab('historico'),
+                            className: `px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
+                                activeTab === 'historico'
+                                    ? 'text-violet-700 border-b-2 border-violet-600 bg-violet-50'
+                                    : 'text-slate-500 hover:text-slate-700'
+                            }`
+                        },
+                            React.createElement('span', { className: 'flex items-center gap-2' },
+                                React.createElement(HistoryIcon),
+                                'Histórico'
+                            )
+                        ),
+                        React.createElement('button', {
+                            onClick: () => { fetchDashboard(); fetchHistorico(); },
+                            className: 'ml-auto p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors'
+                        },
+                            React.createElement(RefreshIcon)
+                        )
+                    ),
+
+                    // Tab Dashboard
+                    activeTab === 'dashboard' && React.createElement('div', { className: 'animate-fadeIn' },
+                        // Filtro Calendário (Dia / Período)
+                        React.createElement('div', { className: 'flex flex-wrap items-center gap-3 mb-4' },
+                            React.createElement('label', { className: 'text-sm font-medium text-slate-600' }, 'Calendário:'),
+                            React.createElement('select', {
+                                value: modoPeriodo,
+                                onChange: (e) => {
+                                    const nextMode = e.target.value;
+                                    setModoPeriodo(nextMode);
+                                    if (nextMode === 'dia') {
+                                        setFiltroDataFim('');
+                                    } else if (!filtroDataInicio) {
+                                        const hoje = new Date().toISOString().split('T')[0];
+                                        setFiltroDataInicio(hoje);
+                                        setFiltroDataFim(hoje);
+                                    }
+                                },
+                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 bg-white'
+                            },
+                                React.createElement('option', { value: 'dia' }, 'Dia'),
+                                React.createElement('option', { value: 'periodo' }, 'Período')
+                            ),
+                            React.createElement('input', {
+                                type: 'date',
+                                value: filtroDataInicio,
+                                onChange: (e) => {
+                                    const value = e.target.value;
+                                    setFiltroDataInicio(value);
+                                    if (modoPeriodo === 'dia') {
+                                        setFiltroDataFim(value);
+                                    }
+                                },
+                                className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500'
+                            }),
+                            modoPeriodo === 'periodo' && React.createElement(React.Fragment, null,
+                                React.createElement('span', { className: 'text-sm text-slate-400' }, 'até'),
+                                React.createElement('input', {
+                                    type: 'date',
+                                    value: filtroDataFim,
+                                    onChange: (e) => setFiltroDataFim(e.target.value),
+                                    className: 'px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500'
+                                })
+                            ),
+                            (filtroDataInicio || filtroDataFim) && React.createElement('button', {
+                                onClick: () => {
+                                    setFiltroDataInicio('');
+                                    setFiltroDataFim('');
+                                    setModoPeriodo('dia');
+                                },
+                                className: 'px-3 py-2 text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors'
+                            }, 'Limpar')
+                        ),
+
+                        // Cards de status - idênticos aos da Inspeção
+                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6' },
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-sm font-medium text-slate-500' }, 'Total Distribuído'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, totalGeral)
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-sm font-medium text-amber-600' }, 'Pendentes'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-amber-700 mt-1' }, totalPendentesTabela)
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-sm font-medium text-indigo-600' }, 'Tratados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-indigo-700 mt-1' }, totalTratadosTabela)
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-sm font-medium text-emerald-600' }, 'Aprovados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-emerald-700 mt-1' }, colaboradores.reduce((s, c) => s + (c.statusCounts?.aprovado || 0), 0))
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-sm font-medium text-red-600' }, 'Reprovados'),
+                                React.createElement('p', { className: 'text-2xl font-bold text-red-700 mt-1' }, colaboradores.reduce((s, c) => s + (c.statusCounts?.reprovado || 0), 0))
+                            )
+                        ),
+
+                        // Tabela de colaboradores
+                        loading
+                            ? React.createElement('div', { className: 'p-12 text-center' },
+                                React.createElement('div', { className: 'w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4' }),
+                                React.createElement('p', { className: 'text-sm text-slate-500' }, 'Carregando dashboard...')
+                              )
+                            : React.createElement('div', { className: 'bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden' },
+                                React.createElement('div', { className: 'px-6 py-4 border-b border-slate-200' },
+                                    React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 flex items-center gap-2' },
+                                        React.createElement(UsersIcon),
+                                        'Produtividade por Colaborador - Cortesia'
+                                    )
+                                ),
+                                React.createElement('div', { className: 'overflow-x-auto' },
+                                    React.createElement('table', { className: 'min-w-full divide-y divide-slate-200' },
+                                        React.createElement('thead', { className: 'bg-slate-50' },
+                                            React.createElement('tr', null,
+                                                React.createElement('th', { className: 'px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Colaborador'),
+                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-amber-600 uppercase tracking-wider' }, 'Pendente'),
+                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-indigo-600 uppercase tracking-wider' }, 'Tratados'),
+                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Total'),
+                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'SLA Médio'),
+                                                React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Ação')
+                                            )
+                                        ),
+                                        React.createElement('tbody', { className: 'bg-white divide-y divide-slate-100' },
+                                            colaboradores.length === 0
+                                                ? React.createElement('tr', null,
+                                                    React.createElement('td', { colSpan: 6, className: 'px-6 py-8 text-center text-sm text-slate-400' },
+                                                        'Nenhum dado disponível'
+                                                    )
+                                                  )
+                                                : colaboradoresOrdenados.map((col, idx) => {
+                                                    const pendentesCol = col.statusCounts
+                                                        ? Object.entries(col.statusCounts)
+                                                            .filter(([s]) => s.startsWith('pendente'))
+                                                            .reduce((sum, [_, cnt]) => sum + cnt, 0)
+                                                        : 0;
+                                                    const tratadosCol = (col.statusCounts?.aprovado || 0) + (col.statusCounts?.reprovado || 0);
+                                                    const precisaDistribuir = pendentesCol === 0 && tratadosCol === 0;
+                                                    return React.createElement('tr', {
+                                                        key: col.usuario_login,
+                                                        className: `hover:bg-slate-50/80 transition-colors ${precisaDistribuir ? 'bg-amber-50/30' : ''}`
+                                                    },
+                                                        React.createElement('td', { className: 'px-6 py-4 whitespace-nowrap' },
+                                                            React.createElement('div', { className: 'flex items-center gap-2' },
+                                                                getRankingMedal(idx) && React.createElement('span', {
+                                                                    className: 'text-lg',
+                                                                    title: getRankingMedal(idx).tooltip
+                                                                }, getRankingMedal(idx).emoji),
+                                                                React.createElement('div', null,
+                                                                    React.createElement('p', { className: `text-sm font-semibold ${precisaDistribuir ? 'text-amber-700' : 'text-slate-900'}` },
+                                                                        col.usuario_nome
+                                                                    ),
+                                                                    React.createElement('p', { className: 'text-xs text-slate-400' }, col.usuario_login)
+                                                                )
+                                                            )
+                                                        ),
+                                                        React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
+                                                            React.createElement('span', { className: 'text-sm font-bold text-amber-600' }, pendentesCol)
+                                                        ),
+                                                        React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
+                                                            React.createElement('span', { className: 'text-sm font-bold text-indigo-600' }, tratadosCol)
+                                                        ),
+                                                        React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
+                                                            React.createElement('span', { className: 'text-sm font-bold text-slate-700' }, col.total)
+                                                        ),
+                                                        React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
+                                                            React.createElement('span', { className: 'text-sm font-medium text-slate-600' }, col.sla_medio)
+                                                        ),
+                                                        React.createElement('td', { className: 'px-4 py-4 whitespace-nowrap text-center' },
+                                                            React.createElement('button', {
+                                                                onClick: () => openModal(col),
+                                                                className: 'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors shadow-sm'
+                                                            },
+                                                                React.createElement(TargetIcon),
+                                                                'Distribuir'
+                                                            )
+                                                        )
+                                                    );
+                                                })
+                                        )
+                                    )
+                                )
+                              )
+                    ),
+
+                    // Tab Histórico
+                    activeTab === 'historico' && React.createElement('div', { className: 'animate-fadeIn' },
+                        React.createElement('div', { className: 'bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden' },
+                            React.createElement('div', { className: 'px-6 py-4 border-b border-slate-200 flex items-center justify-between' },
+                                React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 flex items-center gap-2' },
+                                    React.createElement(HistoryIcon),
+                                    'Histórico de Movimentações'
+                                ),
+                                React.createElement('div', { className: 'flex items-center gap-2' },
+                                    React.createElement('input', {
+                                        value: filtroTarefa,
+                                        onChange: (e) => setFiltroTarefa(e.target.value),
+                                        placeholder: 'Filtrar por tarefa...',
+                                        className: 'w-40 px-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500'
+                                    }),
+                                    React.createElement('button', {
+                                        onClick: fetchHistorico,
+                                        className: 'px-3 py-1.5 text-xs font-medium bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors'
+                                    }, 'Buscar')
+                                )
+                            ),
+                            React.createElement('div', { className: 'overflow-x-auto' },
+                                React.createElement('table', { className: 'min-w-full divide-y divide-slate-200' },
+                                    React.createElement('thead', { className: 'bg-slate-50' },
+                                        React.createElement('tr', null,
+                                            React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Data/Hora'),
+                                            React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Tarefa'),
+                                            React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Ação'),
+                                            React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'De'),
+                                            React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Para'),
+                                            React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Status Anterior'),
+                                            React.createElement('th', { className: 'px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Status Novo'),
+                                            React.createElement('th', { className: 'px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Realizado por')
+                                        )
+                                    ),
+                                    React.createElement('tbody', { className: 'bg-white divide-y divide-slate-100' },
+                                        historico.length === 0
+                                            ? React.createElement('tr', null,
+                                                React.createElement('td', { colSpan: 8, className: 'px-6 py-8 text-center text-sm text-slate-400' },
+                                                    'Nenhuma movimentação registrada ainda'
+                                                )
+                                              )
+                                            : historico.map(h =>
+                                                React.createElement('tr', {
+                                                    key: h.id,
+                                                    className: 'hover:bg-slate-50/80 transition-colors'
+                                                },
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-xs text-slate-500' },
+                                                        formatDate(h.data)
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
+                                                        React.createElement('span', { className: 'text-sm font-mono font-semibold text-slate-900' }, h.tarefa)
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap' },
+                                                        React.createElement('span', { className: `inline-block px-2 py-0.5 text-xs font-semibold rounded-full border ${getAcaoColor(h.acao)}` },
+                                                            h.acao
+                                                        )
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-600' },
+                                                        h.usuario_origem
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-600' },
+                                                        h.usuario_destino
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-center' },
+                                                        React.createElement('span', { className: `inline-block px-2 py-0.5 text-xs font-medium rounded-full border ${getStatusColor(h.status_anterior)}` },
+                                                            h.status_anterior
+                                                        )
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-center' },
+                                                        React.createElement('span', { className: `inline-block px-2 py-0.5 text-xs font-medium rounded-full border ${getStatusColor(h.status_novo)}` },
+                                                            h.status_novo
+                                                        )
+                                                    ),
+                                                    React.createElement('td', { className: 'px-4 py-3 whitespace-nowrap text-sm text-slate-500' },
+                                                        h.criado_por
+                                                    )
+                                                )
+                                              )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+
+                React.createElement(DistribuirModal, {
+                    colaborador: modalColaborador,
+                    onClose: closeModal,
+                    onDistribuir: handleDistribuir,
+                    distribuindo: distribuindo,
+                    ultimaResposta: ultimaResposta
+                }),
+
+                React.createElement(Toast, { toast: toast })
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(App));
+    </script>
+    <script src="/pme_notas/menu_navegacao.js"></script>
+</body>
+</html>

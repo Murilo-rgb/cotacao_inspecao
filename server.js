@@ -2780,7 +2780,7 @@ app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
              iw.para_usuario_nome assumido_por,
              iw.*,
              c.usuario_id,
-             u_dist.nome as usuario_distribuido_nome
+             NULLIF(TRIM(COALESCE(u_dist.nome, '') || ' ' || COALESCE(u_dist.sobrenome, '')), '') as usuario_distribuido_nome
       FROM db_bloco_de_notas.iw_cpc_975_top iw
       LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa
       LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
@@ -2900,7 +2900,7 @@ app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
         hc.assumido_por,
         hc.etapa_atual,
         c.usuario_id,
-        u_dist.nome AS usuario_distribuido_nome,
+        NULLIF(TRIM(COALESCE(u_dist.nome, '') || ' ' || COALESCE(u_dist.sobrenome, '')), '') AS usuario_distribuido_nome,
         CASE WHEN (hc.da_etapa LIKE '%01%' AND hc.para_etapa LIKE '%02%') THEN 1 ELSE 0 END AS em_tratamento,
         CASE WHEN (hc.da_etapa LIKE '%02%' AND hc.para_etapa LIKE '%04%') THEN 1 ELSE 0 END AS aprovado,
         CASE WHEN (hc.da_etapa LIKE '%02%' AND hc.para_etapa LIKE '%03%') THEN 1 ELSE 0 END AS reprovado,

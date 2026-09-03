@@ -305,6 +305,14 @@ async function processarETL_975_top(csvFilePath, pool, filaEsperada) {
         
         await ensureTableColumns(client, schemaName, tableName, columns);
         
+        // Tentar procedure de limpeza pre-TRUNCATE
+        try {
+            await client.query(`CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_top();`);
+            console.log('Stored procedure sp_limpar_iw_cpc_975_top executada com sucesso (pre-TRUNCATE).');
+        } catch (error) {
+            console.log(`Aviso: sp_limpar_iw_cpc_975_top nao executada (pre-TRUNCATE): ${error.message}`);
+        }
+        
         await client.query(`TRUNCATE TABLE ${fullTablePath}`);
         console.log('Dados antigos removidos.');
         
@@ -329,6 +337,14 @@ async function processarETL_975_top(csvFilePath, pool, filaEsperada) {
         });
         
         console.log('Dados carregados com sucesso via COPY.');
+        
+        // Executar procedure de limpeza pos-insert
+        try {
+            await client.query('CALL db_bloco_de_notas.sp_limpar_iw_cpc_975_top();');
+            console.log('Procedimento de limpeza executado.');
+        } catch (error) {
+            console.log(`Aviso: sp_limpar_iw_cpc_975_top nao executada (pos-carga): ${error.message}`);
+        }
         
         const countResult = await client.query(`SELECT COUNT(*) as total FROM ${fullTablePath}`);
         const totalRows = parseInt(countResult.rows[0].total);

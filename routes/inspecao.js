@@ -141,7 +141,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         SELECT r.*, 
           c.status AS cotacao_status,
           CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao,
-          COALESCE(u_dist.nome, c.usuario_login) AS usuario_distribuido_nome
+          COALESCE(NULLIF(TRIM(COALESCE(u_dist.nome, '') || ' ' || COALESCE(u_dist.sobrenome, '')), ''), c.usuario_login) AS usuario_distribuido_nome
         FROM db_bloco_de_notas.r_000250 r
         LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa
         LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
@@ -1041,7 +1041,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
                iw.*,
                c.usuario_id,
                c.status AS cotacao_status,
-               u_dist.nome as usuario_distribuido_nome
+               NULLIF(TRIM(COALESCE(u_dist.nome, '') || ' ' || COALESCE(u_dist.sobrenome, '')), '') as usuario_distribuido_nome
         FROM db_bloco_de_notas.iw_cpc_975_top iw
         LEFT JOIN db_bloco_de_notas.cotacao c
           ON iw.codigo_da_tarefa = c.tarefa
@@ -1177,7 +1177,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           hc.assumido_por,
           hc.etapa_atual,
           c.usuario_id,
-          u_dist.nome AS usuario_distribuido_nome,
+          NULLIF(TRIM(COALESCE(u_dist.nome, '') || ' ' || COALESCE(u_dist.sobrenome, '')), '') AS usuario_distribuido_nome,
           c.status AS cotacao_status,
           CASE WHEN (hc.da_etapa LIKE '%01%' AND hc.para_etapa LIKE '%02%') THEN 1 ELSE 0 END AS em_tratamento,
           CASE WHEN (hc.da_etapa LIKE '%02%' AND hc.para_etapa LIKE '%04%') THEN 1 ELSE 0 END AS aprovado,
@@ -2457,7 +2457,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           h.valor_contratado_total,
           h.negociacao_com_desconto,
           c.usuario_id,
-          u_dist.nome AS usuario_distribuido_nome,
+          NULLIF(TRIM(COALESCE(u_dist.nome, '') || ' ' || COALESCE(u_dist.sobrenome, '')), '') AS usuario_distribuido_nome,
           c.status AS cotacao_status,
           CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao
         FROM db_bloco_de_notas.hoteis_x_hospitais h

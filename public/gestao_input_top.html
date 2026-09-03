@@ -856,7 +856,10 @@ React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid
                                                     React.createElement('datalist', { id: `usuarios-list-${tarefa.cod_tarefa}` },
                                                         usuarios.map(u => React.createElement('option', { key: u.id, value: `${u.id} - ${u.nome} (${u.login})` }))
                                                     )
-                                                ) : React.createElement('span', { className: 'text-sm text-slate-500' }, tarefa.usuario_distribuido_nome || '-')
+                                                ) : React.createElement('span', {
+                                                        className: 'text-sm text-slate-500',
+                                                        title: tarefa.usuario_distribuido_nome && tarefa.usuario_distribuido_nome !== '-' ? tarefa.usuario_distribuido_nome : undefined
+                                                    }, tarefa.usuario_distribuido_nome || '-')
                                             ),
                                         );
                                     })
