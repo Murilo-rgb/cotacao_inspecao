@@ -300,6 +300,32 @@ var TopIcon = function TopIcon() {
     points: "18 15 12 9 6 15"
   }));
 };
+var CortesiaIcon = function CortesiaIcon() {
+  return /*#__PURE__*/React.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "18",
+    height: "18",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    className: "text-fuchsia-600"
+  }, /*#__PURE__*/React.createElement("rect", {
+    x: "3",
+    y: "8",
+    width: "18",
+    height: "4",
+    rx: "1"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M12 8v13"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"
+  }));
+};
 var AlertTriangleIcon = function AlertTriangleIcon() {
   return /*#__PURE__*/React.createElement("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -1599,6 +1625,27 @@ function App() {
         dotClass: 'bg-purple-500'
       };
     }
+    if (normalized === 'aguardando-vendas') {
+      return {
+        label: 'Aguardando Vendas',
+        className: 'bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100',
+        dotClass: 'bg-teal-500'
+      };
+    }
+    if (normalized === 'aguardando-suporte') {
+      return {
+        label: 'Aguardando Suporte',
+        className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100',
+        dotClass: 'bg-cyan-500'
+      };
+    }
+    if (normalized === 'liberacao-de-pendencia') {
+      return {
+        label: 'Liberação de Pendência',
+        className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
+        dotClass: 'bg-blue-500'
+      };
+    }
     if (normalized === 'aguardando-dupla-validacao') {
       return {
         label: 'Aguardando Dupla Validação',
@@ -2004,7 +2051,10 @@ function App() {
     }, /*#__PURE__*/React.createElement(InputIcon, null)) : quotation.origem === 'iw_cpc_975_top' ? /*#__PURE__*/React.createElement("span", {
       title: "TOP",
       className: "inline-flex items-center justify-center w-8 h-8 bg-purple-50 rounded-lg cursor-help"
-    }, /*#__PURE__*/React.createElement(TopIcon, null)) : /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement(TopIcon, null)) : quotation.origem === 'cortesia' ? /*#__PURE__*/React.createElement("span", {
+      title: "Cortesia",
+      className: "inline-flex items-center justify-center w-8 h-8 bg-fuchsia-50 rounded-lg cursor-help"
+    }, /*#__PURE__*/React.createElement(CortesiaIcon, null)) : /*#__PURE__*/React.createElement("span", {
       title: "Inspe\xE7\xE3o",
       className: "inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"
     }, /*#__PURE__*/React.createElement(InspectIcon, null))), /*#__PURE__*/React.createElement("td", {
@@ -2032,7 +2082,7 @@ function App() {
     }(), /*#__PURE__*/React.createElement("span", {
       className: "text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md",
       title: quotation.anotacao
-    }, quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao), quotation.maratona && /*#__PURE__*/React.createElement("span", {
+    }, quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' || quotation.origem === 'cortesia' ? quotation.cotacao : (quotation.dsc_cotacao ? "".concat(quotation.dsc_cotacao, " - ") : '') + quotation.cotacao), quotation.maratona && /*#__PURE__*/React.createElement("span", {
       title: "Maratona",
       className: "text-sm cursor-help"
     }, "\uD83C\uDFC1"))), /*#__PURE__*/React.createElement("td", {
@@ -2511,7 +2561,67 @@ function App() {
     className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-red-500"
-  }), "Reprovado")), statusModal.origem === 'iw_cpc_975_top' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }), "Reprovado")), statusModal.origem === 'cortesia' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "pt-2 border-t border-slate-200"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2"
+  }, "Cortesia")), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('em-tratamento');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-blue-500"
+  }), "Em Tratamento"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aprovado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
+  }), "Aprovado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('reprovado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-red-500"
+  }), "Reprovado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-vendas');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-teal-50 text-teal-700 border border-teal-200 rounded-xl hover:bg-teal-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-teal-500"
+  }), "Aguardando Vendas"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-chamado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-orange-50 text-orange-700 border border-orange-200 rounded-xl hover:bg-orange-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-orange-500"
+  }), "Aguardando Chamado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-suporte');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-xl hover:bg-cyan-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-cyan-500"
+  }), "Aguardando Suporte"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('aguardando-qualidade');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-xl hover:bg-purple-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-purple-500"
+  }), "Aguardando Qualidade"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('liberacao-de-pendencia');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-blue-500"
+  }), "Libera\xE7\xE3o de Pend\xEAncia")), statusModal.origem === 'iw_cpc_975_top' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "pt-2 border-t border-slate-200"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2"

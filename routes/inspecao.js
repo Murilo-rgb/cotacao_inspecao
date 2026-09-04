@@ -1103,21 +1103,30 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       };
       try {
         const statusResult = await pool.query(`
+          WITH base AS (
+            SELECT DISTINCT ON (iw.codigo_da_tarefa)
+                   iw.codigo_da_tarefa AS cod_tarefa,
+                   c.status AS st
+            FROM db_bloco_de_notas.iw_cpc_975_top iw
+            LEFT JOIN db_bloco_de_notas.cotacao c
+              ON iw.codigo_da_tarefa = c.tarefa
+             AND NULLIF(iw.data_historico, '-')::timestamp = c.data_historico
+            WHERE (iw.etapa_atual ILIKE '01%' OR iw.etapa_atual ILIKE '02%')
+              AND iw.situacao_sistema = 'ATIVO'
+              AND iw.acao = 'Alterar Status'
+            ORDER BY iw.codigo_da_tarefa, iw.data_historico::timestamp DESC
+          )
           SELECT
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE c.status IS NULL OR c.status = '') AS fila,
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aprovado') AS aprovado,
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'reprovado') AS reprovado,
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-chamado') AS aguardando_chamado,
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-qualidade') AS aguardando_qualidade,
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-dupla-validacao') AS aguardando_dupla_validacao,
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-pre-analise') AS aguardando_pre_analise,
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'aguardando-bilhete') AS aguardando_bilhete,
-            COUNT(DISTINCT c.tarefa) FILTER (WHERE LOWER(REPLACE(c.status,' ','')) = 'em-tratamento') AS em_tratamento
-          FROM db_gp.listafuncionarios l
-          INNER JOIN db_automacao.usuarios u ON u.login = l.login
-          LEFT JOIN db_bloco_de_notas.cotacao c
-            ON c.usuario_id::text = u.id::text AND c.validacao = 'Ativo'
-          WHERE UPPER(l.ilha) LIKE '%TOP%' AND l.ativo = true AND c.origem = 'iw_cpc_975_top'
+  COUNT(*) FILTER (WHERE st IS NULL OR trim(st) = '') AS fila,
+  COUNT(*) FILTER (WHERE LOWER(REPLACE(st,' ','')) = 'aprovado') AS aprovado,
+  COUNT(*) FILTER (WHERE LOWER(REPLACE(st,' ','')) = 'reprovado') AS reprovado,
+  COUNT(*) FILTER (WHERE LOWER(REPLACE(st,' ','')) = 'aguardando-chamado') AS aguardando_chamado,
+  COUNT(*) FILTER (WHERE LOWER(REPLACE(st,' ','')) = 'aguardando-qualidade') AS aguardando_qualidade,
+  COUNT(*) FILTER (WHERE LOWER(REPLACE(st,' ','')) = 'aguardando-dupla-validacao') AS aguardando_dupla_validacao,
+  COUNT(*) FILTER (WHERE LOWER(REPLACE(st,' ','')) = 'aguardando-pre-analise') AS aguardando_pre_analise,
+  COUNT(*) FILTER (WHERE LOWER(REPLACE(st,' ','')) = 'aguardando-bilhete') AS aguardando_bilhete,
+  COUNT(*) FILTER (WHERE LOWER(REPLACE(st,' ','')) = 'em-tratamento') AS em_tratamento
+FROM base
         `);
         const st = statusResult.rows[0] || {};
         Object.keys(statusCounts).forEach(k => {
@@ -2846,6 +2855,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     if (u.includes('ins')) filas.push({ origen: 'r_000250', etiqueta: 'Inspeção' });
     if (u.includes('top')) filas.push({ origen: 'iw_cpc_975_top', etiqueta: 'Input TOP' });
     if (u.includes('net')) filas.push({ origen: 'iw_cpc_975_net', etiqueta: 'Input NET' });
+    if (u.includes('cort')) filas.push({ origen: 'cortesia', etiqueta: 'Cortesia' });
     if (u.includes('hotel') || u.includes('hot') || u.includes('hosp')) filas.push({ origen: 'h_x_h', etiqueta: 'Hoteis' });
     return filas;
   }
@@ -2856,6 +2866,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       case 'iw_cpc_975_top': return 'Input TOP';
       case 'iw_cpc_975_net': return 'Input NET';
       case 'h_x_h': return 'Hoteis';
+      case 'cortesia': return 'Cortesia';
       default: return origen;
     }
   }
@@ -3000,6 +3011,25 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
       if (!f) return null;
       return { cod_tarefa: f.cod_tarefa, cotacao: f.cod_tarefa, data_historico: f.data_de_historico || null, nom_tarefa: f.nome_tarefa, para_etapa: f.para_etapa, origen: 'h_x_h' };
     }
+    if (origen === 'cortesia') {
+      const res = await pool.query(`
+        SELECT c.chave AS cod_tarefa, c.chave AS cotacao, c.atualizada_em AS data_historico, c.resumo, c.status, c.criada_em
+        FROM db_bloco_de_notas.cortesia c
+        LEFT JOIN db_bloco_de_notas.cotacao cc
+          ON cc.tarefa = c.chave AND cc.origem = 'cortesia' AND cc.validacao = 'Ativo'
+        WHERE cc.id_cotacao IS NULL
+          AND c.status ILIKE '%apr5%'
+        ORDER BY
+          CASE WHEN c.criada_em IS NULL OR c.criada_em = '' OR c.criada_em = '-' THEN 1 ELSE 0 END,
+          c.criada_em ASC NULLS LAST,
+          c.atualizada_em ASC NULLS LAST
+        LIMIT 1
+      `
+      );
+      const f = res.rows && res.rows[0];
+      if (!f) return null;
+      return { cod_tarefa: f.cod_tarefa, cotacao: f.cotacao, data_historico: f.data_historico || null, nom_tarefa: f.resumo, etapa_atual: f.status, origen: 'cortesia' };
+    }
     return null;
   }
 const handlerPegarExtra = async (req, res) => {
@@ -3051,6 +3081,17 @@ const handlerPegarExtra = async (req, res) => {
         return res.status(400).json({ success: false, error: 'Não foi possível determinar a fila da sua ilha. Contate o supervisor.' });
       }
 
+      // Cortesia: apenas colaboradores da ilha CORTESIA podem pegar tarefa extra de cortesia.
+      if (filaElegida === 'cortesia') {
+        const ilhaCortRes = await pool.query(`
+          SELECT 1 FROM db_gp.listafuncionarios WHERE login = $1 AND ativo = true AND upper(ilha) = 'CORTESIA' LIMIT 1`,
+          [usuarioLogin]
+        );
+        if (ilhaCortRes.rows.length === 0) {
+          return res.status(403).json({ success: false, error: 'Você não pertence à ilha CORTESIA.' });
+        }
+      }
+
       const tarea = await obtenerTareaMasAntigua(pool, filaElegida);
       if (!tarea) {
         return res.json({ success: true, message: 'Não há mais tarefas na fila ' + etiquetaPorOrigen(filaElegida) + '.', cantidad: 1, distribuidos: 0 });
@@ -3063,6 +3104,8 @@ const handlerPegarExtra = async (req, res) => {
         anotacion = 'Origen: ' + filaElegida + ' | Etapa: ' + (tarea.etapa_atual || '');
       } else if (filaElegida === 'h_x_h') {
         anotacion = 'Origen: h_x_h | Tarea: ' + (tarea.nom_tarefa || '') + ' | Etapa: ' + (tarea.para_etapa || '');
+      } else if (filaElegida === 'cortesia') {
+        anotacion = 'Origen: cortesia | Resumo: ' + (tarea.nom_tarefa || '') + ' | Status: ' + (tarea.etapa_atual || '');
       }
 
       // Inserção atômica: tarefa + data_historico nunca duplicada (evita corrida).

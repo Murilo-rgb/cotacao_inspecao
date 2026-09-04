@@ -303,41 +303,124 @@
                 else setSelectedIds(new Set(visiveisApr5.map(t => t.cod_tarefa)));
             };
 
+            // Normaliza texto (remove acentos, caixa baixa e espaços duplicados) para
+            // permitir comparação robusta de nomes/logins digitados.
+            const normalizarTexto = (s) => {
+                return String(s || '')
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .toLowerCase()
+                    .replace(/\s+/g, ' ')
+                    .trim();
+            };
+
+            // Resuelve el id numérico del usuario de forma EXACTA (para não "roubar" a
+            // digitação do campo): id puro, padrão do datalist ("id - nome (login)") ou
+            // nome/login exatos (insensível a acentos e maiúsculas). Retorna '' se não houver
+            // coincidência exata.
+            const resolverUsuarioId = (texto) => {
+                if (texto === undefined || texto === null) return '';
+                const t = String(texto).trim();
+                if (!t) return '';
+                // 1) ID numérico puro
+                if (/^\d+$/.test(t)) return t;
+                // 2) Padrão do datalist: "id - nome (login)" ou "id - ..."
+                const m = t.match(/^(\d+)\s*[-–—]/);
+                if (m) return m[1];
+                // 3) Nome/login exatos (insensível a acentos/caixa)
+                const nt = normalizarTexto(t);
+                if (!nt) return '';
+                const u = usuarios.find(u =>
+                    normalizarTexto(u.nome) === nt ||
+                    normalizarTexto(u.login) === nt
+                );
+                return u ? String(u.id) : '';
+            };
+
+            // Variante usada NO MOMENTO da distribuição: além da resolução exata, aceita
+            // correspondência PARCIAL por nome/login (ex.: digitar só o primeiro nome, com
+            // ou sem acento) para garantir que o colaborador digitado seja encontrado.
+            const resolverUsuarioIdDistribuicao = (texto) => {
+                const exato = resolverUsuarioId(texto);
+                if (exato) return exato;
+                const nt = normalizarTexto(texto);
+                if (!nt || nt.length < 3) return '';
+                const u = usuarios.find(u => {
+                    const nomeNorm = normalizarTexto(u.nome);
+                    const loginNorm = normalizarTexto(u.login);
+                    return nomeNorm.includes(nt) || loginNorm.includes(nt);
+                });
+                return u ? String(u.id) : '';
+            };
+
             const handleMassAssign = (usuarioId) => {
-                let id = usuarioId;
-                if (typeof usuarioId === 'string') {
-                    const m = usuarioId.match(/^(\d+)\s*-/);
-                    if (m) id = m[1];
-                }
-                setMassAssignUsuario(id);
+                // Guardamos el texto bruto para no bloquear la digitación del
+                // nombre; el id se resuelve al momento de distribuir.
+                setMassAssignUsuario(usuarioId || '');
                 const selecionaveis = tarefas.filter(t => selectedIds.has(t.cod_tarefa) && ehApr5(t));
                 if (selecionaveis.length === 0) {
                     showToast('Selecione ao menos uma tarefa com status AP5 primeiro', 'error');
                     return;
                 }
                 setTarefas(prev => prev.map(t =>
-                    selecionaveis.some(s => s.cod_tarefa === t.cod_tarefa) ? { ...t, usuarioSelecionado: id } : t
+                    selecionaveis.some(s => s.cod_tarefa === t.cod_tarefa) ? { ...t, usuarioSelecionado: usuarioId || '' } : t
                 ));
-                showToast(`Usuário atribuído a ${selecionaveis.length} tarefa(s)`, 'success');
+                const resolto = resolverUsuarioIdDistribuicao(usuarioId);
+                if (!resolto) {
+                    showToast('Atribuído. Confirme que el usuario resuelve correctamente antes de distribuir.', 'error');
+                } else {
+                    showToast(`Usuário atribuído a ${selecionaveis.length} tarefa(s)`, 'success');
+                }
             };
 
             const handleDistribuir = async () => {
-                const podeDistribuir = (t) => {
-                    if (!ehApr5(t)) return false;
-                    if (redistribuirMode) return t.usuarioSelecionado;
-                    const jaDistribuido = t.usuario_distribuido_nome && String(t.usuario_distribuido_nome).trim() !== '' && String(t.usuario_distribuido_nome).trim() !== '-';
-                    return !jaDistribuido && t.usuarioSelecionado;
-                };
+                // Separa em: tarefas que podem ser distribuídas agora e tarefas que já estão
+                // distribuídas (não estão mais na Fila) mas receberam um usuário.
+                const elegiveis = [];
+                const jaDistribuidas = [];
+                for (const t of tarefas) {
+                    if (!ehApr5(t) || !t.usuarioSelecionado) continue;
+                    const estaDistribuida = t.usuario_distribuido_nome && String(t.usuario_distribuido_nome).trim() !== '' && String(t.usuario_distribuido_nome).trim() !== '-';
+                    if (redistribuirMode || !estaDistribuida) elegiveis.push(t);
+                    else jaDistribuidas.push(t);
+                }
 
-                const selecionadas = tarefas.filter(podeDistribuir);
+                const comUid = elegiveis.map(t => ({ ...t, _uid: resolverUsuarioIdDistribuicao(t.usuarioSelecionado) }));
+                const selecionadas = comUid.filter(t => {
+                    const n = Number(t._uid);
+                    return Number.isInteger(n) && n > 0;
+                });
+                const invalidas = comUid.filter(t => {
+                    const n = Number(t._uid);
+                    return !(Number.isInteger(n) && n > 0);
+                });
+
+                const avisos = [];
+                if (invalidas.length > 0) {
+                    const amostraI = invalidas.slice(0, 3).map(t => t.cod_tarefa).join(', ');
+                    avisos.push(`${invalidas.length} sem usuário válido (confira nome/id digitado): ${amostraI}${invalidas.length > 3 ? '...' : ''}`);
+                }
+                if (jaDistribuidas.length > 0 && !redistribuirMode) {
+                    const amostraJ = jaDistribuidas.slice(0, 3).map(t => t.cod_tarefa).join(', ');
+                    avisos.push(`${jaDistribuidas.length} já distribuída(s) — use o modo Redistribuir: ${amostraJ}${jaDistribuidas.length > 3 ? '...' : ''}`);
+                }
+
                 if (selecionadas.length === 0) {
-                    showToast(redistribuirMode ? 'Selecione tarefas e atribua um usuário para redistribuir' : 'Selecione usuários para as tarefas em "Fila"', 'error');
+                    if (avisos.length > 0) {
+                        showToast(avisos.join(' | '), 'error');
+                    } else {
+                        showToast(redistribuirMode ? 'Selecione tarefas e atribua um usuário para redistribuir' : 'Selecione usuários para as tarefas em "Fila"', 'error');
+                    }
                     return;
+                }
+
+                if (avisos.length > 0) {
+                    showToast('Atenção: ' + avisos.join(' | '), 'error');
                 }
 
                 const countPorUsuario = {};
                 selecionadas.forEach(t => {
-                    const uid = String(t.usuarioSelecionado);
+                    const uid = String(t._uid);
                     countPorUsuario[uid] = (countPorUsuario[uid] || 0) + 1;
                 });
                 const usuarioNome = (id) => {
@@ -354,7 +437,7 @@
                 setDistribuindo(true);
                 const distribuicoes = selecionadas.map(t => ({
                     cod_tarefa: t.cod_tarefa,
-                    usuario_id: parseInt(t.usuarioSelecionado)
+                    usuario_id: Number(t._uid)
                 }));
 
                 const endpoint = redistribuirMode ? `${getBasePath()}/api/cortesia/redistribuir` : `${getBasePath()}/api/cortesia/distribuir-lista`;
@@ -368,7 +451,13 @@
                     });
                     const data = await res.json();
                     if (res.ok) {
-                        showToast(data.message, 'success');
+                        if (data.erros && data.erros.length > 0) {
+                            const amostraE = data.erros.slice(0, 3).map(e => `${e.cod_tarefa || ''}: ${e.error}`).join(' | ');
+                            const restoE = data.erros.length > 3 ? ` | ...mais ${data.erros.length - 3}` : '';
+                            showToast(`${data.message} — ${data.erros.length} erro(s): ${amostraE}${restoE}`, 'error');
+                        } else {
+                            showToast(data.message, 'success');
+                        }
                         setSelectedIds(new Set());
                         setMassAssignUsuario('');
                         fetchTarefas();
@@ -413,24 +502,40 @@
             };
 
             const updateUsuarioSelecionado = (codTarefa, usuarioId) => {
-                let id = usuarioId;
-                if (typeof usuarioId === 'string') {
-                    const m = usuarioId.match(/^(\d+)\s*-/);
-                    if (m) id = m[1];
-                }
+                // Guardamos el texto bruto para permitir digitar el nombre;
+                // el id se resuelve al momento de distribuir.
                 setTarefas(prev => prev.map(t =>
-                    t.cod_tarefa === codTarefa ? { ...t, usuarioSelecionado: id } : t
+                    t.cod_tarefa === codTarefa ? { ...t, usuarioSelecionado: usuarioId || '' } : t
                 ));
             };
 
-            const getUserLabel = (id) => {
-                if (!id) return '';
-                const u = usuarios.find(u => String(u.id) === String(id));
-                return u ? `${u.id} - ${u.nome} (${u.login})` : String(id);
+            const getUserDisplay = (valor) => {
+                // Muestra el rótulo del usuario si `valor` es/resuelve a un id,
+                // o el texto digitado tal cual (para no borrar mientras se teclea).
+                const resolto = resolverUsuarioId(valor);
+                if (resolto) {
+                    const u = usuarios.find(u => String(u.id) === resolto);
+                    return u ? `${u.id} - ${u.nome} (${u.login})` : String(valor);
+                }
+                return String(valor || '');
             };
 
             const getOrigemLabel = (t) => {
                 return t.origem || 'iw_cpc_975_net';
+            };
+
+            const getStatusStyle = (status) => {
+                const s = String(status || '').trim().toLowerCase();
+                if (s === 'em-tratamento') return { label: 'Em Tratamento', cls: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-500' };
+                if (s === 'aprovado') return { label: 'Aprovado', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
+                if (s === 'reprovado') return { label: 'Reprovado', cls: 'bg-red-50 text-red-700 border-red-200', dot: 'bg-red-500' };
+                if (s === 'aguardando-vendas') return { label: 'Aguardando Vendas', cls: 'bg-teal-50 text-teal-700 border-teal-200', dot: 'bg-teal-500' };
+                if (s === 'aguardando-chamado') return { label: 'Aguardando Chamado', cls: 'bg-orange-50 text-orange-700 border-orange-200', dot: 'bg-orange-500' };
+                if (s === 'aguardando-suporte') return { label: 'Aguardando Suporte', cls: 'bg-cyan-50 text-cyan-700 border-cyan-200', dot: 'bg-cyan-500' };
+                if (s === 'aguardando-qualidade') return { label: 'Aguardando Qualidade', cls: 'bg-purple-50 text-purple-700 border-purple-200', dot: 'bg-purple-500' };
+                if (s === 'liberacao-de-pendencia') return { label: 'Liberação de Pendência', cls: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-500' };
+                if (s.includes('pendent')) return { label: 'Pendente', cls: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' };
+                return { label: String(status || 'Pendente'), cls: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' };
             };
 
             const formatDate = (dateStr) => {
@@ -448,6 +553,7 @@
             const [filters, setFilters] = useState({
                 cod_tarefa: '',
                 etapa_atual: '',
+                status: '',
                 approver_groups: '',
                 atualizada_em: '',
                 usuario: '',
@@ -474,9 +580,10 @@
                 if (!(
                     matches(t.cod_tarefa, filters.cod_tarefa) &&
                     matches(t.etapa_atual, filters.etapa_atual) &&
+                    matches(t.cotacao_status, filters.status) &&
                     matches(t.approver_groups, filters.approver_groups) &&
                     matches(formatDate(t.atualizada_em), filters.atualizada_em) &&
-                    matches(t.usuario_distribuido_nome || (t.usuarioSelecionado ? getUserLabel(t.usuarioSelecionado) : '') || '', filters.usuario)
+                    matches(t.usuario_distribuido_nome || (t.usuarioSelecionado ? getUserDisplay(t.usuarioSelecionado) : '') || '', filters.usuario)
                 )) return false;
 
                 return true;
@@ -508,15 +615,41 @@
 
             const tarefasFila = tarefas.filter(t => t.status_distribuicao === 'Fila');
 
-            // Cards específicos por status de cotação (INPUT NET)
-            const STATUS_CARDS = [
-                { key: 'fila', label: 'Fila', color: 'text-amber-500' },
-                { key: 'em_tratamento', label: 'Em Tratamento', color: 'text-blue-600' },
-                { key: 'pendente', label: 'Pendente', color: 'text-orange-700' },
-                { key: 'aprovado', label: 'Aprovado', color: 'text-emerald-700' },
-                { key: 'reprovado', label: 'Reprovado', color: 'text-red-700' },
-                { key: 'cancelado', label: 'Cancelado', color: 'text-slate-500' }
-            ];
+            // Cards dinámicos por status real da cotização (se mostram todos os
+            // status presentes na origem 'cortesia', com a sua contagem exata).
+            const STATUS_META = {
+                fila: { label: 'Fila', color: 'text-amber-500' },
+                'em-tratamento': { label: 'Em Tratamento', color: 'text-blue-600' },
+                pendente: { label: 'Pendente', color: 'text-orange-700' },
+                'pendente-classificacao': { label: 'Pendente - Classificação', color: 'text-orange-700' },
+                'aguardando-chamado': { label: 'Aguardando Chamado', color: 'text-orange-600' },
+                'aguardando-qualidade': { label: 'Aguardando Qualidade', color: 'text-purple-700' },
+                'aguardando-vendas': { label: 'Aguardando Vendas', color: 'text-teal-600' },
+                'aguardando-suporte': { label: 'Aguardando Suporte', color: 'text-cyan-700' },
+                'aguardando-bilhete': { label: 'Aguardando Bilhete', color: 'text-rose-600' },
+                'aguardando-dupla-validacao': { label: 'Aguardando Dupla Validação', color: 'text-cyan-600' },
+                'aguardando-pre-analise': { label: 'Aguardando Pré-Análise', color: 'text-blue-600' },
+                'liberacao-de-pendencia': { label: 'Liberação de Pendência', color: 'text-blue-600' },
+                // Status de Jira "Aguardando aprovação (APR4)" / "(APR5)" (claves normalizadas
+                // en el backend: sin espacios y en minúsculas). Se muestran como un solo card legible.
+                'aguardandoaprovação(apr4)': { label: 'Aguardando Aprovação', color: 'text-violet-700' },
+                'aguardandoaprovação(apr5)': { label: 'Aguardando Aprovação', color: 'text-violet-700' },
+                aprovado: { label: 'Aprovado', color: 'text-emerald-700' },
+                reprovado: { label: 'Reprovado', color: 'text-red-700' },
+                cancelado: { label: 'Cancelado', color: 'text-slate-500' }
+            };
+            const statusLabel = (key) => {
+                const k = String(key || '').toLowerCase().replace(/\s+/g, '');
+                if (STATUS_META[key]) return STATUS_META[key].label;
+                if (k.indexOf('aguardandoaprova') >= 0) return 'Aguardando Aprovação';
+                return (STATUS_META[key] || { label: key }).label;
+            };
+            const statusColor = (key) => {
+                const k = String(key || '').toLowerCase().replace(/\s+/g, '');
+                if (STATUS_META[key]) return STATUS_META[key].color;
+                if (k.indexOf('aguardandoaprova') >= 0) return 'text-violet-700';
+                return (STATUS_META[key] || { color: 'text-slate-600' }).color;
+            };
             const visiveisApr5 = filteredTarefas.filter(ehApr5);
             const allSelected = visiveisApr5.length > 0 && selectedIds.size === visiveisApr5.length && Array.from(selectedIds).every(id => visiveisApr5.some(t => t.cod_tarefa === id));
 
@@ -580,9 +713,9 @@
 
                 React.createElement('main', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8' },
 React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6' },
-                            STATUS_CARDS.map(card => React.createElement('div', { key: card.key, className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, card.label),
-                                React.createElement('p', { className: `text-xl font-bold ${card.color} mt-1` }, statusCounts[card.key] ?? 0)
+                            Object.keys(statusCounts).map(key => React.createElement('div', { key, className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, statusLabel(key)),
+                                React.createElement('p', { className: `text-xl font-bold ${statusColor(key)} mt-1` }, statusCounts[key] ?? 0)
                             ))
                         ),
 
@@ -612,7 +745,7 @@ React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid
                                     React.createElement('span', { className: 'text-xs text-slate-500 font-medium' }, 'Atribuir p/:'),
                                     React.createElement('input', {
                                         list: 'mass-assign-list',
-                                        value: getUserLabel(massAssignUsuario),
+                                        value: getUserDisplay(massAssignUsuario),
                                         onChange: (e) => handleMassAssign(e.target.value),
                                         placeholder: 'Usuário...',
                                         className: 'w-32 px-2 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all'
@@ -646,7 +779,9 @@ React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid
                                         if (!ehApr5(t)) return false;
                                         if (redistribuirMode) return t.usuarioSelecionado;
                                         const jaDistribuido = t.usuario_distribuido_nome && String(t.usuario_distribuido_nome).trim() !== '' && String(t.usuario_distribuido_nome).trim() !== '-';
-                                        return !jaDistribuido && t.usuarioSelecionado;
+                                        if (jaDistribuido) return false;
+                                        const n = Number(resolverUsuarioIdDistribuicao(t.usuarioSelecionado));
+                                        return Number.isInteger(n) && n > 0;
                                     }).length === 0,
                                     className: `inline-flex items-center gap-2 px-5 py-2.5 text-white text-sm font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md ${
                                         redistribuirMode ? 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700' : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700'
@@ -675,6 +810,7 @@ React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid
                                             React.createElement('input', { type: 'checkbox', checked: allSelected, onChange: toggleSelectAll, className: 'rounded border-slate-300' })
                                         ),
                                         React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Chave'),
+                                        React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Status Operador'),
                                         React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Status'),
                                         React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Grupo Aprovador'),
                                         React.createElement('th', { className: 'px-1.5 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider' }, 'Atualizado em'),
@@ -687,6 +823,9 @@ React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid
                                         ),
                                         React.createElement('th', { className: 'px-1.5 py-2' },
                                             React.createElement('input', { value: filters.etapa_atual, onChange: (e) => updateFilter('etapa_atual', e.target.value), placeholder: 'filtrar...', className: 'w-full px-1 py-1 text-xs border border-slate-200 rounded' })
+                                        ),
+                                        React.createElement('th', { className: 'px-1.5 py-2' },
+                                            React.createElement('input', { value: filters.status, onChange: (e) => updateFilter('status', e.target.value), placeholder: 'filtrar...', className: 'w-full px-1 py-1 text-xs border border-slate-200 rounded' })
                                         ),
                                         React.createElement('th', { className: 'px-1.5 py-2' },
                                             React.createElement('input', { value: filters.approver_groups, onChange: (e) => updateFilter('approver_groups', e.target.value), placeholder: 'filtrar...', className: 'w-full px-1 py-1 text-xs border border-slate-200 rounded' })
@@ -713,6 +852,7 @@ React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid
                                         const jaDistribuido = tarefa.usuario_distribuido_nome && String(tarefa.usuario_distribuido_nome).trim() !== '' && String(tarefa.usuario_distribuido_nome).trim() !== '-';
                                         const showUserField = isApr5 && (redistribuirMode || !jaDistribuido);
                                         const statusCotacaoRow = tarefa.cotacao_status && String(tarefa.cotacao_status).trim() !== '' ? String(tarefa.cotacao_status) : null;
+                                        const esFila = tarefa.status_distribuicao === 'Fila';
                                         return React.createElement('tr', {
                                             key: tarefa.cod_tarefa,
                                             className: `hover:bg-slate-50/80 transition-colors duration-150 ${
@@ -733,6 +873,12 @@ React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid
                                                 React.createElement('span', { className: 'text-xs text-slate-700' }, tarefa.etapa_atual || '-')
                                             ),
                                             React.createElement('td', { className: 'px-1.5 py-3 whitespace-nowrap' },
+                                                statusCotacaoRow ? React.createElement('span', { className: 'inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-semibold rounded-full border ' + (getStatusStyle(statusCotacaoRow).cls) },
+                                                    React.createElement('span', { className: 'w-1.5 h-1.5 rounded-full ' + (getStatusStyle(statusCotacaoRow).dot) }),
+                                                    getStatusStyle(statusCotacaoRow).label
+                                                ) : (esFila ? React.createElement('span', { className: 'inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-semibold rounded-full border bg-amber-50 text-amber-700 border-amber-200' }, React.createElement('span', { className: 'w-1.5 h-1.5 rounded-full bg-amber-500' }), 'Fila') : React.createElement('span', { className: 'text-xs text-slate-400' }, '-'))
+                                            ),
+                                            React.createElement('td', { className: 'px-1.5 py-3 whitespace-nowrap' },
                                                 React.createElement('span', { className: 'text-xs text-slate-700' }, tarefa.approver_groups || '-')
                                             ),
                                             React.createElement('td', { className: 'px-1.5 py-3 whitespace-nowrap' },
@@ -742,7 +888,7 @@ React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid
                                                 showUserField ? React.createElement('div', null,
                                                     React.createElement('input', {
                                                         list: `usuarios-list-${tarefa.cod_tarefa}`,
-                                                        value: getUserLabel(tarefa.usuarioSelecionado),
+                                                        value: getUserDisplay(tarefa.usuarioSelecionado),
                                                         onChange: (e) => updateUsuarioSelecionado(tarefa.cod_tarefa, e.target.value),
                                                         placeholder: 'Selecione...',
                                                         className: 'w-24 px-2 py-1.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all duration-200'

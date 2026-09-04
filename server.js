@@ -1181,8 +1181,13 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
     let paramIndex = 1;
     const normalizedSearch = search && search.trim() ? search.trim() : '';
     const hasSearch = Boolean(normalizedSearch);
+    // Conversão segura de data_de_criacao (text): aceita dd/MM/yyyy e ISO 8601 (origem 'cortesia').
+    const DATA_BASE_SQL = `CASE
+      WHEN c.data_de_criacao ~ '^[0-9]{2}/[0-9]{2}/[0-9]{4}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'DD/MM/YYYY')
+      WHEN c.data_de_criacao ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'YYYY-MM-DD')
+      ELSE NULL END`;
     let innerQuery = `
-      SELECT DISTINCT ON (c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) 
+      SELECT DISTINCT ON (c.usuario_id, ${DATA_BASE_SQL}) 
         c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
         c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
         c.usuario_id, c.origem, c.id_qldd,
@@ -1242,7 +1247,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
+    innerQuery += " ORDER BY c.usuario_id, " + DATA_BASE_SQL + ", CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
 
     const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY CASE WHEN subquery.id_qldd IS NOT NULL THEN 0 ELSE 1 END, subquery.data_de_criacao DESC`;
 
@@ -1646,8 +1651,13 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
     let paramIndex = 1;
     const normalizedSearch = search && search.trim() ? search.trim() : '';
     const hasSearch = Boolean(normalizedSearch);
+    // Conversão segura de data_de_criacao (text): aceita dd/MM/yyyy e ISO 8601 (origem 'cortesia').
+    const DATA_BASE_SQL = `CASE
+      WHEN c.data_de_criacao ~ '^[0-9]{2}/[0-9]{2}/[0-9]{4}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'DD/MM/YYYY')
+      WHEN c.data_de_criacao ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'YYYY-MM-DD')
+      ELSE NULL END`;
     let innerQuery = `
-      SELECT DISTINCT ON (c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) 
+      SELECT DISTINCT ON (c.usuario_id, ${DATA_BASE_SQL}) 
         c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
         c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
         c.usuario_id, c.origem, c.id_qldd,
@@ -1707,7 +1717,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
+    innerQuery += " ORDER BY c.usuario_id, " + DATA_BASE_SQL + ", CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
 
     const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY CASE WHEN subquery.id_qldd IS NOT NULL THEN 0 ELSE 1 END, subquery.data_de_criacao DESC`;
 
@@ -1951,17 +1961,24 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
         const ano = parseInt(req.query.ano) || new Date().getFullYear();
         const origem = req.query.origem && req.query.origem !== 'todos' ? req.query.origem : null;
 
+        // Conversão segura de data_de_criacao (text), aceitando dd/MM/yyyy e ISO 8601.
+        // Valores mal formatados retornam NULL (ignorados) em vez de derrubar a query.
+        const DATA_BASE_SQL = `CASE
+                    WHEN c.data_de_criacao ~ '^[0-9]{2}/[0-9]{2}/[0-9]{4}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'DD/MM/YYYY')
+                    WHEN c.data_de_criacao ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'YYYY-MM-DD')
+                    ELSE NULL END`;
+
         // Total de tarefas criadas por dia no mês, considerando apenas uma tarefa por usuário por dia
         const tarefasQuery = await pool.query(`
             WITH base AS (
                 SELECT
                     c.usuario_id,
-                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    ${DATA_BASE_SQL} AS data_base,
                     c.id_qldd
                 FROM db_bloco_de_notas.cotacao c
                 WHERE c.validacao = 'Ativo'
-                  AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
-                  AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+                  AND EXTRACT(YEAR FROM ${DATA_BASE_SQL}) = $1
+                  AND EXTRACT(MONTH FROM ${DATA_BASE_SQL}) = $2
                   ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""} AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)
             ),
             dedup AS (
@@ -1985,7 +2002,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
             WITH base AS (
                 SELECT
                     c.usuario_id,
-                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    ${DATA_BASE_SQL} AS data_base,
                     c.id_qldd
                 FROM db_bloco_de_notas.auditoria_qualidade aq
                 INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
@@ -2058,16 +2075,23 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
         const ano = parseInt(req.query.ano) || new Date().getFullYear();
         const origem = req.query.origem && req.query.origem !== 'todos' ? req.query.origem : null;
 
+        // Conversão segura de data_de_criacao (text), aceitando dd/MM/yyyy e ISO 8601.
+        // Valores mal formatados retornam NULL (ignorados) em vez de derrubar a query.
+        const DATA_BASE_SQL = `CASE
+                    WHEN c.data_de_criacao ~ '^[0-9]{2}/[0-9]{2}/[0-9]{4}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'DD/MM/YYYY')
+                    WHEN c.data_de_criacao ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'YYYY-MM-DD')
+                    ELSE NULL END`;
+
         const tarefasQuery = await pool.query(`
             WITH base AS (
                 SELECT
                     c.usuario_id,
-                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    ${DATA_BASE_SQL} AS data_base,
                     c.id_qldd
                 FROM db_bloco_de_notas.cotacao c
                 WHERE c.validacao = 'Ativo'
-                  AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
-                  AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+                  AND EXTRACT(YEAR FROM ${DATA_BASE_SQL}) = $1
+                  AND EXTRACT(MONTH FROM ${DATA_BASE_SQL}) = $2
                   ${origem === 'r_000250' ? "AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )" : origem ? "AND c.origem = $3" : ""} AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)
             ),
             ranked AS (
@@ -2094,7 +2118,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
             WITH base AS (
                 SELECT
                     c.usuario_id,
-                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    ${DATA_BASE_SQL} AS data_base,
                     c.id_qldd
                 FROM db_bloco_de_notas.auditoria_qualidade aq
                 INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd

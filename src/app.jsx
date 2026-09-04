@@ -99,6 +99,15 @@ const TopIcon = () => (
     </svg>
 );
 
+const CortesiaIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-600">
+        <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+        <path d="M12 8v13"></path>
+        <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+        <path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"></path>
+    </svg>
+);
+
 const AlertTriangleIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
@@ -711,6 +720,15 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
         if (normalized === 'aguardando-qualidade') {
             return { label: 'Aguardando Qualidade', className: 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100', dotClass: 'bg-purple-500' };
         }
+        if (normalized === 'aguardando-vendas') {
+            return { label: 'Aguardando Vendas', className: 'bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100', dotClass: 'bg-teal-500' };
+        }
+        if (normalized === 'aguardando-suporte') {
+            return { label: 'Aguardando Suporte', className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100', dotClass: 'bg-cyan-500' };
+        }
+        if (normalized === 'liberacao-de-pendencia') {
+            return { label: 'Liberação de Pendência', className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100', dotClass: 'bg-blue-500' };
+        }
         if (normalized === 'aguardando-dupla-validacao') {
             return { label: 'Aguardando Dupla Validação', className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100', dotClass: 'bg-cyan-500' };
         }
@@ -962,6 +980,8 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                                                         <span title="NET" className="inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"><InputIcon /></span>
                                                     ) : quotation.origem === 'iw_cpc_975_top' ? (
                                                         <span title="TOP" className="inline-flex items-center justify-center w-8 h-8 bg-purple-50 rounded-lg cursor-help"><TopIcon /></span>
+                                                    ) : quotation.origem === 'cortesia' ? (
+                                                        <span title="Cortesia" className="inline-flex items-center justify-center w-8 h-8 bg-fuchsia-50 rounded-lg cursor-help"><CortesiaIcon /></span>
                                                     ) : (
                                                         <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
                                                     )}
@@ -975,7 +995,7 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                                                             if (s === 'Reprova Parcial') return <span title="Reprova Parcial" className="cursor-help text-sm">⚠️</span>;
                                                             return <span title={s} className="cursor-help text-sm">❌</span>;
                                                         })()}
-                                                        <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md" title={quotation.anotacao}>{quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' ? quotation.cotacao : (quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}</span>
+                                                        <span className="text-sm font-semibold text-slate-900 font-mono bg-slate-100 px-2 py-1 rounded-md" title={quotation.anotacao}>{quotation.origem === 'iw_cpc_975_net' || quotation.origem === 'iw_cpc_975_top' || quotation.origem === 'cortesia' ? quotation.cotacao : (quotation.dsc_cotacao ? `${quotation.dsc_cotacao} - ` : '') + quotation.cotacao}</span>
                                                         {quotation.maratona && <span title="Maratona" className="text-sm cursor-help">🏁</span>}
                                                     </div>
                                                 </td>
@@ -1277,6 +1297,21 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
                                     <button onClick={() => handleStatusChange('aguardando-bilhete')} className="w-full flex items-center gap-3 px-4 py-3 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl hover:bg-rose-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>Aguardando Bilhete</button>
                                     <button onClick={() => handleStatusChange('aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Aprovado</button>
                                     <button onClick={() => handleStatusChange('reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Reprovado</button>
+                                </>
+                            )}
+                            {statusModal.origem === 'cortesia' && (
+                                <>
+                                    <div className="pt-2 border-t border-slate-200">
+                                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Cortesia</p>
+                                    </div>
+                                    <button onClick={() => handleStatusChange('em-tratamento')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Em Tratamento</button>
+                                    <button onClick={() => handleStatusChange('aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Aprovado</button>
+                                    <button onClick={() => handleStatusChange('reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Reprovado</button>
+                                    <button onClick={() => handleStatusChange('aguardando-vendas')} className="w-full flex items-center gap-3 px-4 py-3 bg-teal-50 text-teal-700 border border-teal-200 rounded-xl hover:bg-teal-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-teal-500"></span>Aguardando Vendas</button>
+                                    <button onClick={() => handleStatusChange('aguardando-chamado')} className="w-full flex items-center gap-3 px-4 py-3 bg-orange-50 text-orange-700 border border-orange-200 rounded-xl hover:bg-orange-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-orange-500"></span>Aguardando Chamado</button>
+                                    <button onClick={() => handleStatusChange('aguardando-suporte')} className="w-full flex items-center gap-3 px-4 py-3 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-xl hover:bg-cyan-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>Aguardando Suporte</button>
+                                    <button onClick={() => handleStatusChange('aguardando-qualidade')} className="w-full flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 border border-purple-200 rounded-xl hover:bg-purple-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-purple-500"></span>Aguardando Qualidade</button>
+                                    <button onClick={() => handleStatusChange('liberacao-de-pendencia')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm"><span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Liberação de Pendência</button>
                                 </>
                             )}
                             {statusModal.origem === 'iw_cpc_975_top' && (

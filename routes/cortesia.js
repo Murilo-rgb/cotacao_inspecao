@@ -262,7 +262,10 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
                CASE WHEN cc.id_cotacao IS NULL THEN 'Fila' ELSE 'Distribuido' END AS status_distribuicao
         FROM db_bloco_de_notas.cortesia c
         LEFT JOIN db_bloco_de_notas.cotacao cc
-          ON cc.tarefa = c.chave AND cc.origem = 'cortesia' AND cc.validacao = 'Ativo'
+          ON cc.tarefa = c.chave
+         AND cc.origem = 'cortesia'
+         AND cc.validacao = 'Ativo'
+         AND c.atualizada_em::timestamp = cc.data_historico
         LEFT JOIN db_automacao.usuarios u ON u.id::text = cc.usuario_id::text
         WHERE (c.status ILIKE '%apr5%' OR c.status ILIKE '%apr4%')
         ORDER BY c.criada_em DESC
@@ -270,24 +273,21 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
       const result = await pool.query(query);
       const rows = result.rows;
 
-      const statusCounts = { fila: 0, em_tratamento: 0, pendente: 0, aprovado: 0, reprovado: 0, cancelado: 0 };
+      const statusCounts = { fila: 0 };
       for (const r of rows) {
         if (r.status_distribuicao === 'Fila' || !r.cotacao_status) { statusCounts.fila++; continue; }
-        const st = String(r.cotacao_status).toLowerCase();
-        if (st === 'em-tratamento') statusCounts.em_tratamento++;
-        else if (st === 'aprovado') statusCounts.aprovado++;
-        else if (st === 'reprovado') statusCounts.reprovado++;
-        else if (st.includes('cancel')) statusCounts.cancelado++;
-        else statusCounts.pendente++;
+        const st = String(r.cotacao_status).toLowerCase().replace(/\s+/g, '');
+        if (!st) { statusCounts.fila++; continue; }
+        statusCounts[st] = (statusCounts[st] || 0) + 1;
       }
 
       const stats = {
         total: rows.length,
-        em_tratamento: statusCounts.em_tratamento,
-        aprovado: statusCounts.aprovado,
-        reprovado: statusCounts.reprovado,
-        pendente: statusCounts.pendente,
-        cancelado: statusCounts.cancelado,
+        em_tratamento: statusCounts['em-tratamento'] || 0,
+        aprovado: statusCounts['aprovado'] || 0,
+        reprovado: statusCounts['reprovado'] || 0,
+        cancelado: statusCounts['cancelado'] || 0,
+        pendente: statusCounts['pendente'] || 0,
         desconsiderar: 0
       };
 
@@ -312,13 +312,21 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
     const cliente = await pool.connect();
     try {
       for (const item of distribuicoes) {
-        if (!item.cod_tarefa || !item.usuario_id) {
-          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+        const okTarefa = item && typeof item.cod_tarefa === 'string' && item.cod_tarefa.trim() !== '';
+        const idNum = Number(item && item.usuario_id);
+        const okUsuario = Number.isInteger(idNum) && idNum > 0;
+        if (!okTarefa || !okUsuario) {
+          errors.push({
+            cod_tarefa: item && item.cod_tarefa,
+            error: okTarefa && !okUsuario
+              ? 'usuario_id invalido (debe ser un entero positivo)'
+              : 'Datos incompletos (cod_tarefa requerido)'
+          });
           continue;
         }
         try {
           const tarefaRes = await cliente.query(
-            'SELECT chave, resumo, status FROM db_bloco_de_notas.cortesia WHERE chave = $1',
+            'SELECT chave, resumo, status, atualizada_em FROM db_bloco_de_notas.cortesia WHERE chave = $1',
             [item.cod_tarefa]
           );
           if (tarefaRes.rows.length === 0) {
@@ -333,24 +341,26 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
             continue;
           }
 
-          let destinoNome = String(item.usuario_id);
-          try {
-            const uRes = await cliente.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
-            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
-          } catch {}
+          const uRes = await cliente.query('SELECT id, nome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true', [item.usuario_id]);
+          if (uRes.rows.length === 0) {
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Colaborador de destino nao encontrado ou inativo' });
+            continue;
+          }
+          const destinoNome = uRes.rows[0].nome;
 
           // Insercao atomica: evita duplicidade em requisicoes simultaneas
           const inserido = await cliente.query(`
             INSERT INTO db_bloco_de_notas.cotacao
               (tarefa, cotacao, anotacao, status, validacao, data_de_criacao,
                data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico)
-            SELECT $1,$2,$3,$4,'Ativo',$5,$5,$6,$7,'cortesia',NULL
+            SELECT $1,$2,$3,$4,'Ativo',$5,$5,$6,$7,'cortesia',
+                   CASE WHEN $8::text <> '' THEN $8::timestamp ELSE NULL END
             WHERE NOT EXISTS (
               SELECT 1 FROM db_bloco_de_notas.cotacao
               WHERE tarefa = $1 AND origem = 'cortesia' AND validacao = 'Ativo'
             )
-            RETURNING id
-          `, [item.cod_tarefa, item.cod_tarefa, t.resumo || '', t.status || 'pendente', agora, usuarioLogin, item.usuario_id]);
+            RETURNING id_cotacao
+          `, [item.cod_tarefa, item.cod_tarefa, t.resumo || '', t.status || 'pendente', agora, usuarioLogin, item.usuario_id, t.atualizada_em || '']);
 
           if (inserido.rows.length === 0) {
             errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa jÃ¡ distribuÃ­da' });
@@ -594,7 +604,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
 
       // Seleciona itens de cortesia ainda nÃ£o distribuÃ­dos (nÃ£o estÃ£o em cotacao origem='cortesia')
       const pending = await cliente.query(`
-        SELECT c.chave, c.resumo, c.status
+        SELECT c.chave, c.resumo, c.status, c.atualizada_em
         FROM db_bloco_de_notas.cortesia c
         LEFT JOIN db_bloco_de_notas.cotacao cc
           ON cc.tarefa = c.chave AND cc.origem = 'cortesia'
@@ -615,8 +625,9 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
             `INSERT INTO db_bloco_de_notas.cotacao
                (tarefa, cotacao, anotacao, status, validacao, data_de_criacao,
                 data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico)
-             VALUES ($1,$2,$3,$4,'Ativo',$5,$5,$6,$7,'cortesia', NULL)`,
-            [item.chave, item.chave, item.resumo || '', item.status || 'pendente', agora, usuario.login, usuario.id]
+             VALUES ($1,$2,$3,$4,'Ativo',$5,$5,$6,$7,'cortesia',
+                     CASE WHEN $8::text <> '' THEN $8::timestamp ELSE NULL END)`,
+            [item.chave, item.chave, item.resumo || '', item.status || 'pendente', agora, usuario.login, usuario.id, item.atualizada_em || '']
           );
           await cliente.query(
             `INSERT INTO db_bloco_de_notas.cotacao_audit

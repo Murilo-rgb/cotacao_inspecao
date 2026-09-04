@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const router = express.Router();
 
 module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs) {
@@ -12,7 +12,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const params = [];
       let whereData = '';
       if (dataInicio && dataFim) {
-        // Range de datas - converter para timestamp para comparação correta
+        // Range de datas - converter para timestamp para comparaÃ§Ã£o correta
         whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI') 
                       AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP($${params.length + 2}, 'DD/MM/YYYY HH24:MI')`;
         params.push(dataInicio.trim() + ' 00:00', dataFim.trim() + ' 23:59');
@@ -162,7 +162,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           foto_recente AS (
             SELECT DISTINCT ON (hc.cod_tarefa) hc.cod_tarefa, hc.da_etapa, hc.para_etapa, hc.acao, hc.situacao_sistema, hc.etapa_atual, hc.qtd_producao_futura
             FROM historico_calculado hc
-            WHERE hc.etapa_atual ILIKE '01%'
+            WHERE (hc.etapa_atual ILIKE '01%' OR hc.etapa_atual ILIKE '02%')
             ORDER BY hc.cod_tarefa, hc.data_historico DESC
           )
           SELECT 
@@ -178,7 +178,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             END) as pendente,
             COUNT(DISTINCT CASE WHEN (foto_recente.acao ILIKE 'Cancelar' OR foto_recente.situacao_sistema ILIKE 'CANCELADO') THEN foto_recente.cod_tarefa END) as cancelado
           FROM foto_recente
-          WHERE foto_recente.etapa_atual ILIKE '01%'
+          WHERE (foto_recente.etapa_atual ILIKE '01%' OR foto_recente.etapa_atual ILIKE '02%')
         `);
         if (statsRes.rows.length > 0) {
           statsTop = {
@@ -205,7 +205,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     res.sendFile(path.join(__dirname, '..', 'public', 'dashboard_input_top.html'));
   });
 
-  // Listar usuários (reaproveitado)
+  // Listar usuÃ¡rios (reaproveitado)
   router.get('/usuarios', authenticateToken, async (req, res) => {
     try {
       const result = await pool.query(
@@ -214,11 +214,11 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       res.json(result.rows);
     } catch (error) {
       console.error('[INPUT_TOP USUARIOS] Erro:', error);
-      res.status(500).json({ error: 'Erro ao buscar usuários' });
+      res.status(500).json({ error: 'Erro ao buscar usuÃ¡rios' });
     }
   });
 
-  // Histórico de movimentações
+  // HistÃ³rico de movimentaÃ§Ãµes
   router.get('/historico', authenticateToken, async (req, res) => {
     try {
       const { tarefa, limit = 100, offset = 0 } = req.query;
@@ -268,7 +268,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       res.json(historico);
     } catch (error) {
       console.error('[INPUT_TOP HISTORICO] Erro:', error);
-      res.status(500).json({ error: 'Erro ao carregar histórico' });
+      res.status(500).json({ error: 'Erro ao carregar histÃ³rico' });
     }
   });
 
