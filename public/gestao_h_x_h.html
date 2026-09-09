@@ -156,6 +156,7 @@
             const [redistribuindo, setRedistribuindo] = useState(false);
             const [dragActive, setDragActive] = useState(false);
             const [fileInfo, setFileInfo] = useState(null);
+            const [uploadModalOpen, setUploadModalOpen] = useState(false);
             const [toast, setToast] = useState(null);
             const [stats, setStats] = useState({ total: 0, em_tratamento: 0, aprovado: 0, reprovado: 0, pendente: 0, cancelado: 0, desconsiderar: 0 });
             const [selectedIds, setSelectedIds] = useState(new Set());
@@ -509,6 +510,64 @@ const displayCodTarefa = (t) => {
             };
 
             const allSelected = filteredTarefas.length > 0 && selectedIds.size === filteredTarefas.length;
+// ===== Contagem de status a partir das MESMAS filas da tabela =====
+            const computeStatusCounts = (rows) => {
+                const counts = {
+                    fila: 0, em_tratamento: 0, troca_de_territorio: 0, troca_de_segmento: 0,
+                    cadastro_de_membro: 0, aguardando_chamado: 0, aguardando_qualidade: 0,
+                    aguardando_bilhete: 0, renovacao_aparelho: 0, aprovado: 0, reprovado: 0
+                };
+                (rows || []).forEach(t => {
+                    const raw = t.cotacao_status ? String(t.cotacao_status) : '';
+                    const st = raw.trim().toLowerCase().split(' ').join('');
+                    if (st === '') { counts.fila++; }
+                    else if (st === 'em-tratamento') { counts.em_tratamento++; }
+                    else if (st === 'troca-de-territorio') { counts.troca_de_territorio++; }
+                    else if (st === 'troca-de-segmento') { counts.troca_de_segmento++; }
+                    else if (st === 'cadastro-de-membro') { counts.cadastro_de_membro++; }
+                    else if (st === 'aguardando-chamado') { counts.aguardando_chamado++; }
+                    else if (st === 'aguardando-qualidade') { counts.aguardando_qualidade++; }
+                    else if (st === 'aguardando-bilhete') { counts.aguardando_bilhete++; }
+                    else if (st.includes('aparelho')) { counts.renovacao_aparelho++; }
+                    else if (st === 'aprovado') { counts.aprovado++; }
+                    else if (st === 'reprovado') { counts.reprovado++; }
+                });
+                return counts;
+            };
+
+            // ===== SLA (24h a partir do Histórico) - replicando layout inspecao =====
+            const computeFilaEnviado = (rows) => {
+                let fila = 0, enviado = 0;
+                (rows || []).forEach(t => {
+                    const esFila = String(t.status_distribuida || '').trim().toLowerCase() === 'fila';
+                    if (esFila) fila++; else enviado++;
+                });
+                return { total: (rows || []).length, fila, enviado };
+            };
+            const calculateSlaStats = (rows, getFecha) => {
+                let dentroSla = 0, atencao = 0, critico = 0, proximoVencimento = 0;
+                (rows || []).forEach(t => {
+                    const dateStr = getFecha ? getFecha(t) : t.data_de_historico;
+                    if (!dateStr || dateStr === '-') return;
+                    try {
+                        const then = new Date(dateStr);
+                        if (isNaN(then.getTime())) return;
+                        const diffHours = (Date.now() - then.getTime()) / (1000 * 60 * 60);
+                        if (diffHours <= 6) { dentroSla++; }
+                        else if (diffHours <= 12) { atencao++; }
+                        else if (diffHours <= 20) { critico++; }
+                        else if (diffHours <= 24) { proximoVencimento++; }
+                        else { critico++; }
+                    } catch {}
+                });
+                return { dentroSla, atencao, critico, proximoVencimento };
+            };
+            const statusCountsLocal = computeStatusCounts(tarefas);
+            const statsLayout = computeFilaEnviado(tarefas);
+            const statsTotal = statsLayout.total;
+            const statsFila = statsLayout.fila;
+            const statsEnviado = statsLayout.enviado;
+            const slaStats = calculateSlaStats(tarefas, t => t.data_de_historico);
 
             return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
                 React.createElement('header', { className: 'bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30' },
@@ -561,74 +620,109 @@ const displayCodTarefa = (t) => {
                 ),
 
                 React.createElement('main', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8' },
-                    React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6' },
+                    // Stats Cards
+                    React.createElement('div', { className: 'grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6' },
                         React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Em Tratamento'),
-                            React.createElement('p', { className: 'text-xl font-bold text-amber-600 mt-1' }, stats.em_tratamento)
+                            React.createElement('p', { className: 'text-sm font-medium text-slate-500' }, 'Total'),
+                            React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, statsTotal)
                         ),
                         React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Aprovados'),
-                            React.createElement('p', { className: 'text-xl font-bold text-emerald-600 mt-1' }, stats.aprovado)
+                            React.createElement('p', { className: 'text-sm font-medium text-blue-600' }, 'Em Fila'),
+                            React.createElement('p', { className: 'text-2xl font-bold text-blue-700 mt-1' }, statsFila)
                         ),
                         React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Reprovados'),
-                            React.createElement('p', { className: 'text-xl font-bold text-red-600 mt-1' }, stats.reprovado)
+                            React.createElement('p', { className: 'text-sm font-medium text-emerald-600' }, 'Enviados'),
+                            React.createElement('p', { className: 'text-2xl font-bold text-emerald-700 mt-1' }, statsEnviado)
                         ),
                         React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Pendentes'),
-                            React.createElement('p', { className: 'text-xl font-bold text-yellow-600 mt-1' }, stats.pendente)
-                        ),
-                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Cancelados'),
-                            React.createElement('p', { className: 'text-xl font-bold text-slate-600 mt-1' }, stats.cancelado)
-                        ),
-                        React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
-                            React.createElement('p', { className: 'text-xs font-medium text-slate-500' }, 'Desconsiderar'),
-                            React.createElement('p', { className: 'text-xl font-bold text-rose-600 mt-1' }, stats.desconsiderar)
+                            React.createElement('p', { className: 'text-sm font-medium text-slate-500' }, 'Qtd. Usuários'),
+                            React.createElement('p', { className: 'text-2xl font-bold text-slate-800 mt-1' }, usuarios.length)
                         )
                     ),
 
-                    React.createElement('div', { className: 'bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6' },
-                        React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2' },
-                            React.createElement(UploadIcon),
-                            'Upload do Arquivo Hotéis e Hospitais'
-                        ),
-                        React.createElement('div', {
-                            className: `dropzone relative rounded-xl p-8 text-center cursor-pointer ${dragActive ? 'active' : ''} ${fileInfo ? 'has-file' : ''}`,
-                            onDragEnter: handleDrag,
-                            onDragLeave: handleDrag,
-                            onDragOver: handleDrag,
-                            onDrop: handleDrop,
-                            onClick: () => fileInputRef.current?.click()
-                        },
-                            React.createElement('input', {
-                                ref: fileInputRef,
-                                type: 'file',
-                                accept: '.csv,.zip',
-                                className: 'hidden',
-                                onChange: handleFileSelect
-                            }),
-                            uploading ? React.createElement('div', { className: 'flex flex-col items-center gap-3' },
-                                React.createElement('div', { className: 'w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin' }),
-                                React.createElement('p', { className: 'text-sm font-medium text-blue-600' }, 'Processando arquivo...')
-                              ) : fileInfo ? React.createElement('div', { className: 'flex flex-col items-center gap-2' },
-                                React.createElement(FileIcon),
-                                React.createElement('p', { className: 'text-sm font-medium text-emerald-700' }, fileInfo.name),
-                                React.createElement('p', { className: 'text-xs text-emerald-500' }, fileInfo.size),
-                                React.createElement('p', { className: 'text-xs text-slate-400 mt-1' }, 'Clique ou arraste para trocar o arquivo')
-                              ) : React.createElement('div', { className: 'flex flex-col items-center gap-3' },
-                                React.createElement('div', { className: 'w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-400' },
-                                    React.createElement(UploadIcon)
-                                ),
-                                React.createElement('div', null,
-                                    React.createElement('p', { className: 'text-sm font-medium text-slate-700' },
-                                        'Arraste o arquivo .csv ou .zip aqui, ou ',
-                                        React.createElement('span', { className: 'text-blue-600 underline' }, 'clique para selecionar')
-                                    ),
-                                    React.createElement('p', { className: 'text-xs text-slate-400 mt-1' }, 'O arquivo deve ser o histórico da fila Hotéis e Hospitais')
-                                )
-                              )
+                    // Status Cotación Cards
+                    React.createElement('div', { className: 'mb-6' },
+                        React.createElement('h3', { className: 'text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3' }, 'Status Cotação'),
+                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3' },
+                            Object.entries({
+                                Fila: statusCountsLocal.fila || 0,
+                                'Em Tratamento': statusCountsLocal.em_tratamento || 0,
+                                'Troca de Território': statusCountsLocal.troca_de_territorio || 0,
+                                'Troca de Segmento': statusCountsLocal.troca_de_segmento || 0,
+                                'Cadastro de Membro': statusCountsLocal.cadastro_de_membro || 0,
+                                'Aguardando Chamado': statusCountsLocal.aguardando_chamado || 0,
+                                'Aguardando Qualidade': statusCountsLocal.aguardando_qualidade || 0,
+                                'Aguardando Bilhete': statusCountsLocal.aguardando_bilhete || 0,
+                                'Renovação/Aparelho': statusCountsLocal.renovacao_aparelho || 0,
+                                Aprovado: statusCountsLocal.aprovado || 0,
+                                Reprovado: statusCountsLocal.reprovado || 0
+                            }).filter(entry => entry[1] > 0).map(([status, count]) => {
+                                let colorClass = 'text-slate-500';
+                                const s = (status || '').toLowerCase();
+                                if (s.includes('fila')) { colorClass = 'text-amber-600'; }
+                                else if (s.includes('aprov')) { colorClass = 'text-emerald-600'; }
+                                else if (s.includes('reprov')) { colorClass = 'text-red-600'; }
+                                else if (s.includes('em tr')) { colorClass = 'text-blue-600'; }
+                                else if (s.includes('territ')) { colorClass = 'text-sky-600'; }
+                                else if (s.includes('segment')) { colorClass = 'text-violet-600'; }
+                                else if (s.includes('membro')) { colorClass = 'text-cyan-600'; }
+                                else if (s.includes('chamado')) { colorClass = 'text-orange-700'; }
+                                else if (s.includes('qualidade')) { colorClass = 'text-purple-700'; }
+                                else if (s.includes('bilhete')) { colorClass = 'text-rose-600'; }
+                                else if (s.includes('aparelho')) { colorClass = 'text-teal-600'; }
+                                return React.createElement('div', { key: status, className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                    React.createElement('p', { className: `text-xs font-medium ${colorClass}` }, status),
+                                    React.createElement('p', { className: 'text-xl font-bold text-slate-800 mt-1' }, count)
+                                );
+                            })
                         )
+                    ),
+
+// SLA Cards
+                    React.createElement('div', { className: 'mb-6' },
+                        React.createElement('h3', { className: 'text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3' }, 'SLA (24h a partir do Histórico)'),
+                        React.createElement('div', { className: 'grid grid-cols-2 sm:grid-cols-4 gap-3' },
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                                    React.createElement('span', { className: 'w-3 h-3 rounded-full bg-emerald-500 inline-block' }),
+                                    React.createElement('p', { className: 'text-xs font-medium text-emerald-600' }, 'Dentro do SLA')
+                                ),
+                                React.createElement('p', { className: 'text-xl font-bold text-slate-800 mt-1' }, slaStats.dentroSla)
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                                    React.createElement('span', { className: 'w-3 h-3 rounded-full bg-yellow-500 inline-block' }),
+                                    React.createElement('p', { className: 'text-xs font-medium text-yellow-600' }, 'Atenção')
+                                ),
+                                React.createElement('p', { className: 'text-xl font-bold text-slate-800 mt-1' }, slaStats.atencao)
+                            ),
+                            React.createElement('div', { className: 'bg-orange-50 rounded-xl p-4 border border-orange-200 shadow-sm' },
+                                React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                                    React.createElement('span', { className: 'w-3 h-3 rounded-full bg-orange-500 inline-block' }),
+                                    React.createElement('p', { className: 'text-xs font-medium text-orange-600' }, 'Próximo do Vencimento')
+                                ),
+                                React.createElement('p', { className: 'text-xl font-bold text-slate-800 mt-1' }, slaStats.proximoVencimento)
+                            ),
+                            React.createElement('div', { className: 'bg-white rounded-xl p-4 border border-slate-200 shadow-sm' },
+                                React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                                    React.createElement('span', { className: 'w-3 h-3 rounded-full bg-red-600 inline-block' }),
+                                    React.createElement('p', { className: 'text-xs font-medium text-red-600' }, 'Crítico')
+                                ),
+                                React.createElement('p', { className: 'text-xl font-bold text-slate-800 mt-1' }, slaStats.critico)
+                            )
+                        )
+                    ),
+                    // Upload compacto (botão que abre modal)
+                    React.createElement('div', { className: 'flex items-center justify-between mb-6' },
+                        React.createElement('button', {
+                            onClick: () => setUploadModalOpen(true),
+                            title: 'Enviar o arquivo Hotéis e Hospitais',
+                            className: 'inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-sm hover:from-blue-700 hover:to-indigo-700 transition-all duration-200'
+                        },
+                            React.createElement(UploadIcon),
+                            'Upload Hotéis e Hospitais'
+                        ),
+                        React.createElement('span', { className: 'text-xs text-slate-400' }, fileInfo ? `Arquivo: ${fileInfo.name}` : '')
                     ),
 
                     React.createElement('div', { className: 'bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden' },
@@ -829,7 +923,73 @@ const displayCodTarefa = (t) => {
                             )
                         )
                     ),
-                    toast && React.createElement(Toast, { toast: toast })
+                    // Modal de Upload
+                uploadModalOpen && React.createElement('div', {
+                    className: 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 animate-fadeIn',
+                    onClick: (e) => { if (e.target === e.currentTarget) setUploadModalOpen(false); }
+                },
+                    React.createElement('div', { className: 'bg-white rounded-2xl shadow-2xl w-full max-w-lg modal-content' },
+                        React.createElement('div', { className: 'flex items-center justify-between px-6 py-4 border-b border-slate-200' },
+                            React.createElement('h2', { className: 'text-lg font-semibold text-slate-800 flex items-center gap-2' },
+                                React.createElement(UploadIcon),
+                                'Upload do Arquivo Hotéis e Hospitais'
+                            ),
+                            React.createElement('button', {
+                                onClick: () => setUploadModalOpen(false),
+                                className: 'p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors'
+                            }, '✕')
+                        ),
+                        React.createElement('div', { className: 'p-6' },
+                            React.createElement('div', {
+                                className: `dropzone relative rounded-xl p-8 text-center cursor-pointer ${dragActive ? 'active' : ''} ${fileInfo ? 'has-file' : ''}`,
+                                onDragEnter: handleDrag,
+                                onDragLeave: handleDrag,
+                                onDragOver: handleDrag,
+                                onDrop: handleDrop,
+                                onClick: () => fileInputRef.current?.click()
+                            },
+                                React.createElement('input', {
+                                    ref: fileInputRef,
+                                    type: 'file',
+                                    accept: '.csv,.zip',
+                                    className: 'hidden',
+                                    onChange: handleFileSelect
+                                }),
+                                uploading 
+                                    ? React.createElement('div', { className: 'flex flex-col items-center gap-3' },
+                                        React.createElement('div', { className: 'w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin' }),
+                                        React.createElement('p', { className: 'text-sm font-medium text-blue-600' }, 'Processando arquivo...')
+                                      )
+                                    : fileInfo
+                                        ? React.createElement('div', { className: 'flex flex-col items-center gap-2' },
+                                            React.createElement(FileIcon),
+                                            React.createElement('p', { className: 'text-sm font-medium text-emerald-700' }, fileInfo.name),
+                                            React.createElement('p', { className: 'text-xs text-emerald-500' }, fileInfo.size),
+                                            React.createElement('p', { className: 'text-xs text-slate-400 mt-1' }, 'Clique ou arraste para trocar o arquivo')
+                                          )
+                                        : React.createElement('div', { className: 'flex flex-col items-center gap-3' },
+                                            React.createElement('div', { className: 'w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-400' },
+                                                React.createElement(UploadIcon)
+                                            ),
+                                            React.createElement('div', null,
+                                                React.createElement('p', { className: 'text-sm font-medium text-slate-700' },
+                                                    'Arraste o arquivo .csv ou .zip aqui, ou ',
+                                                    React.createElement('span', { className: 'text-blue-600 underline' }, 'clique para selecionar')
+                                                ),
+                                                React.createElement('p', { className: 'text-xs text-slate-400 mt-1' }, 'O arquivo deve ser o histórico da fila Hotéis e Hospitais')
+                                            )
+                                          )
+                            ),
+                            React.createElement('div', { className: 'flex justify-end gap-2 mt-4' },
+                                React.createElement('button', {
+                                    onClick: () => setUploadModalOpen(false),
+                                    className: 'px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors'
+                                }, 'Fechar')
+                            )
+                        )
+                    ),
+                ),
+                toast && React.createElement(Toast, { toast: toast })
                 )
             );
         } // Fim da função App

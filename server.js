@@ -219,6 +219,9 @@ var hXHRoutes = require('./routes/h_x_h')(pool, authenticateToken, authorizeRout
 // Inicializar rotas de cortesia
 var cortesiaRoutes = require('./routes/cortesia')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, { JIRA_SITE: 'https://clarobr-jsm-negocios.atlassian.net', JIRA_EMAIL: 'felipe.holanda.terceiros@claro.com.br' });
 
+// Inicializar rotas de parcial PME
+var parcialPmeRoutes = require('./routes/parcial_pme')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, authenticatePage);
+
 // Registrar rotas com prefixo /pme_notas (API input_net)
 app.use('/api/input_net', inputNetRoutes);
 app.use('/pme_notas/api/input_net', inputNetRoutes);
@@ -2509,6 +2512,8 @@ app.get('/pme_notas/cortesia/dashboard', authenticatePage, (req, res) => {
 });
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
+// Usar rotas de parcial PME
+app.use(parcialPmeRoutes);
 
 // ===== ROTAS DE ACESSOS (gerenciamento de permissões) =====
 
