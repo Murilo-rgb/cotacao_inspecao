@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const router = express.Router();
 const https = require('https');
 
@@ -6,13 +6,19 @@ const https = require('https');
 // ROTAS DE CORTESIA (Jira -> Tabela cortesia -> Distribuicao)
 // Padrao replicado de routes/input_net.js
 // ============================================================
-module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, config) {
+const { asDeps } = require('../app/route_deps');
 
-  const JIRA_SITE = (config && config.JIRA_SITE) || 'https://clarobr-jsm-negocios.atlassian.net';
-  const JIRA_EMAIL = (config && config.JIRA_EMAIL) || 'felipe.holanda.terceiros@claro.com.br';
-  const JIRA_FILTRO = (config && config.JIRA_FILTRO) || '10288';
+module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, config) {
+  // Item 3: aceita (deps) ou posicional; Item 4: Jira via app/config.js.
+  const deps = asDeps(arguments, ['pool', 'authenticateToken', 'authorizeRoute', 'formatDateBR', 'path', 'fs', 'config']);
+  pool = deps.pool; authenticateToken = deps.authenticateToken; authorizeRoute = deps.authorizeRoute;
+  formatDateBR = deps.formatDateBR; path = deps.path; fs = deps.fs; config = deps.config || require('../app/config');
+
+  const JIRA_SITE = config.JIRA_SITE;
+  const JIRA_EMAIL = config.JIRA_EMAIL;
+  const JIRA_FILTRO = config.JIRA_FILTRO;
   // Dias de retrospectiva quando a tabela ainda nao foi populada (primeira sincronizacao)
-  const JIRA_DIAS_ATRAS = (config && config.JIRA_DIAS_ATRAS) || 60;
+  const JIRA_DIAS_ATRAS = config.JIRA_DIAS_ATRAS;
   const FIELDS = 'summary,status,priority,assignee,creator,created,updated,customfield_10038';
 
   // Helper para buscar uma pagina no Jira (Basic Auth com o token informado)
@@ -90,20 +96,27 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
   }
 
 // ===== DASHBOARD CORTESIA (modelo replicado do input_net) =====
+  // data_de_criacao/data_da_ultima_atualizacao misturam formatos (DD/MM/YYYY HH24:MI
+  // e ISO com 'T', ex. 2026-09-15T13:37). TO_TIMESTAMP direto quebra com
+  // invalid value "T1" for "HH24". Expressoes tolerantes: so convertem quando o
+  // padrao confere, senao retornam NULL (nunca erro). CASE no Postgres so avalia
+  // o branch correspondente, entao e seguro por linha.
+  const TS_CRIACAO = `(CASE WHEN c.data_de_criacao IS NULL OR btrim(c.data_de_criacao::text) = '' THEN NULL WHEN c.data_de_criacao::text ~ '^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}' THEN TO_TIMESTAMP(substring(c.data_de_criacao::text from 1 for 16), 'DD/MM/YYYY HH24:MI') WHEN c.data_de_criacao::text ~ '^\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}' THEN replace(substring(c.data_de_criacao::text from 1 for 16), 'T', ' ')::timestamp ELSE NULL END)`;
+  const TS_ATUAL = `(CASE WHEN c.data_da_ultima_atualizacao IS NULL OR btrim(c.data_da_ultima_atualizacao::text) = '' THEN NULL WHEN c.data_da_ultima_atualizacao::text ~ '^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}' THEN TO_TIMESTAMP(substring(c.data_da_ultima_atualizacao::text from 1 for 16), 'DD/MM/YYYY HH24:MI') WHEN c.data_da_ultima_atualizacao::text ~ '^\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}' THEN replace(substring(c.data_da_ultima_atualizacao::text from 1 for 16), 'T', ' ')::timestamp ELSE NULL END)`;
   router.get('/dashboard', authenticateToken, async (req, res) => {
     try {
       const { data, dataInicio, dataFim } = req.query;
       const params = [];
       let whereData = '';
       if (dataInicio && dataFim) {
-        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')
-                      AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP($${params.length + 2}, 'DD/MM/YYYY HH24:MI')`;
+        whereData = ` AND ${TS_CRIACAO} >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')
+                      AND ${TS_CRIACAO} <= TO_TIMESTAMP($${params.length + 2}, 'DD/MM/YYYY HH24:MI')`;
         params.push(dataInicio.trim() + ' 00:00', dataFim.trim() + ' 23:59');
       } else if (dataInicio) {
-        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+        whereData = ` AND ${TS_CRIACAO} >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
         params.push(dataInicio.trim() + ' 00:00');
       } else if (dataFim) {
-        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+        whereData = ` AND ${TS_CRIACAO} <= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
         params.push(dataFim.trim() + ' 23:59');
       } else if (data && data.trim()) {
         whereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date($${params.length + 1}::text,'dd/MM/yyyy')`;
@@ -138,14 +151,14 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
           const slaParams = [row.usuario_login];
           let slaWhereData = '';
           if (dataInicio && dataFim) {
-            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')
-                             AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP(${slaParams.length + 2}, 'DD/MM/YYYY HH24:MI')`;
+            slaWhereData = ` AND ${TS_CRIACAO} >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')
+                             AND ${TS_CRIACAO} <= TO_TIMESTAMP(${slaParams.length + 2}, 'DD/MM/YYYY HH24:MI')`;
             slaParams.push(dataInicio.trim() + ' 00:00', dataFim.trim() + ' 23:59');
           } else if (dataInicio) {
-            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+            slaWhereData = ` AND ${TS_CRIACAO} >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
             slaParams.push(dataInicio.trim() + ' 00:00');
           } else if (dataFim) {
-            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+            slaWhereData = ` AND ${TS_CRIACAO} <= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
             slaParams.push(dataFim.trim() + ' 23:59');
           } else if (data && data.trim()) {
             slaWhereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date(${slaParams.length + 1}::text,'dd/MM/yyyy')`;
@@ -154,8 +167,8 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
           const slaRes = await pool.query(`
             SELECT AVG(
               EXTRACT(EPOCH FROM (
-                TO_TIMESTAMP(data_da_ultima_atualizacao, 'DD/MM/YYYY HH24:MI') -
-                TO_TIMESTAMP(data_de_criacao, 'DD/MM/YYYY HH24:MI')
+                ${TS_ATUAL} -
+                ${TS_CRIACAO}
               )) / 3600
             ) AS sla_medio
             FROM db_bloco_de_notas.cotacao c
@@ -243,47 +256,53 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
       res.json(result.rows);
     } catch (error) {
       console.error('[CORTESIA USUARIOS] Erro:', error.message);
-      res.status(500).json({ error: 'Erro ao buscar usuÃ¡rios' });
+      res.status(500).json({ error: 'Erro ao buscar usuários' });
     }
   });
   // Lista tarefas de cortesia (distribuidas e em fila) - padrao tarefas_net
   router.get('/tarefas', authenticateToken, async (req, res) => {
     try {
+      // foto_recente por chave (DISTINCT ON) + s� APR5 + JOIN cotacao por tarefa+data
       const query = `
-        SELECT c.chave AS cod_tarefa,
-               c.status AS etapa_atual,
-               c.responsavel,
-               c.approver_groups,
-               c.atualizada_em,
-               c.criada_em,
+        WITH foto AS (
+          SELECT DISTINCT ON (chave) *
+          FROM db_bloco_de_notas.cortesia
+          ORDER BY chave, atualizada_em DESC
+        )
+        SELECT f.chave AS cod_tarefa,
+               f.status AS etapa_atual,
+               f.responsavel,
+               f.approver_groups,
+               f.atualizada_em,
+               f.criada_em,
                cc.status AS cotacao_status,
                COALESCE(NULLIF(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')), ''), '-'::text) AS usuario_distribuido_nome,
                cc.data_historico,
-               CASE WHEN cc.id_cotacao IS NULL THEN 'Fila' ELSE 'Distribuido' END AS status_distribuicao
-        FROM db_bloco_de_notas.cortesia c
+               CASE WHEN cc.id_cotacao IS NULL THEN 'pendente' ELSE 'em andamento' END AS status_distribuicao
+        FROM foto f
         LEFT JOIN db_bloco_de_notas.cotacao cc
-          ON cc.tarefa = c.chave
+          ON cc.tarefa = f.chave
          AND cc.origem = 'cortesia'
          AND cc.validacao = 'Ativo'
-         AND c.atualizada_em::timestamp = cc.data_historico
+         AND cc.data_historico IS NOT DISTINCT FROM f.atualizada_em::timestamp
         LEFT JOIN db_automacao.usuarios u ON u.id::text = cc.usuario_id::text
-        WHERE (c.status ILIKE '%apr5%' OR c.status ILIKE '%apr4%')
-        ORDER BY c.criada_em DESC
+        WHERE f.status ILIKE '%apr5%'
+        ORDER BY f.criada_em DESC
       `;
       const result = await pool.query(query);
       const rows = result.rows;
 
-      const statusCounts = { fila: 0 };
+      const statusCounts = { pendente: 0 };
       for (const r of rows) {
-        if (r.status_distribuicao === 'Fila' || !r.cotacao_status) { statusCounts.fila++; continue; }
+        if (r.status_distribuicao === 'pendente' || !r.cotacao_status) { statusCounts.pendente++; continue; }
         const st = String(r.cotacao_status).toLowerCase().replace(/\s+/g, '');
-        if (!st) { statusCounts.fila++; continue; }
+        if (!st) { statusCounts.pendente++; continue; }
         statusCounts[st] = (statusCounts[st] || 0) + 1;
       }
 
       const stats = {
         total: rows.length,
-        em_tratamento: statusCounts['em-tratamento'] || 0,
+        em_tratamento: statusCounts['emandamento'] || 0,
         aprovado: statusCounts['aprovado'] || 0,
         reprovado: statusCounts['reprovado'] || 0,
         cancelado: statusCounts['cancelado'] || 0,
@@ -302,7 +321,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
   router.post('/distribuir-lista', authenticateToken, async (req, res) => {
     const { distribuicoes } = req.body;
     if (!distribuicoes || !Array.isArray(distribuicoes) || distribuicoes.length === 0) {
-      return res.status(400).json({ error: 'Lista de distribuiÃ§Ãµes invÃ¡lida' });
+      return res.status(400).json({ error: 'Lista de distribuições inválida' });
     }
     const usuarioLogin = req.user.username;
     const usuarioId = req.user.id;
@@ -330,7 +349,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
             [item.cod_tarefa]
           );
           if (tarefaRes.rows.length === 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa nÃ£o encontrada na tabela cortesia' });
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa não encontrada na tabela cortesia' });
             continue;
           }
           const t = tarefaRes.rows[0];
@@ -363,7 +382,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
           `, [item.cod_tarefa, item.cod_tarefa, t.resumo || '', t.status || 'pendente', agora, usuarioLogin, item.usuario_id, t.atualizada_em || '']);
 
           if (inserido.rows.length === 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa jÃ¡ distribuÃ­da' });
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
             continue;
           }
 
@@ -384,7 +403,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
       }
       res.json({
         success: true,
-        message: count + ' tarefa(s) distribuÃ­da(s) com sucesso',
+        message: count + ' tarefa(s) distribuída(s) com sucesso',
         distribuidos: count,
         erros: errors
       });
@@ -400,7 +419,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
   router.post('/redistribuir', authenticateToken, async (req, res) => {
     const { redistribuicoes } = req.body;
     if (!redistribuicoes || !Array.isArray(redistribuicoes) || redistribuicoes.length === 0) {
-      return res.status(400).json({ error: 'Lista de redistribuiÃ§Ãµes invÃ¡lida' });
+      return res.status(400).json({ error: 'Lista de redistribuições inválida' });
     }
     const usuarioLogin = req.user.username;
     const usuarioId = req.user.id;
@@ -419,7 +438,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
             [item.cod_tarefa]
           );
           if (check.rows.length === 0) {
-            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa nÃ£o encontrada ou origem nÃ£o Ã© cortesia' });
+            errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa não encontrada ou origem não é cortesia' });
             continue;
           }
 
@@ -449,7 +468,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
       }
       res.json({
         success: true,
-        message: count + ' tarefa(s) redistribuÃ­da(s) com sucesso',
+        message: count + ' tarefa(s) redistribuída(s) com sucesso',
         redistribuidos: count,
         erros: errors
       });
@@ -463,7 +482,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
   router.post('/sync', authenticateToken, async (req, res) => {
     const tokenJira = (req.body && req.body.chaveApi) || '';
     if (!tokenJira) {
-      return res.status(400).json({ error: 'Chave da API nÃ£o informada' });
+      return res.status(400).json({ error: 'Chave da API não informada' });
     }
     try {
       // Sincronizacao incremental: busca apenas issues atualizadas desde o
@@ -473,7 +492,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
         const last = await pool.query('SELECT MAX(importada_em) AS max FROM db_bloco_de_notas.cortesia');
         const maxDate = last.rows[0] && last.rows[0].max;
         if (maxDate) {
-          // Retrocede 2 dias de margem para pegar updates que caÃ­ram entre sincronizaÃ§Ãµes
+          // Retrocede 2 dias de margem para pegar updates que caíram entre sincronizações
           const d = new Date(maxDate);
           d.setDate(d.getDate() - 2);
           cut = d.toISOString().substring(0, 10);
@@ -541,7 +560,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
       res.status(500).json({ error: 'Erro ao sincronizar: ' + error.message });
     }
   });
-// HistÃ³rico de movimentaÃ§Ãµes (origem = cortesia)
+// Histórico de movimentações (origem = cortesia)
   router.get('/historico', authenticateToken, async (req, res) => {
     try {
       const { tarefa, limit = 100, offset = 0 } = req.query;
@@ -581,7 +600,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
       res.json(historico);
     } catch (error) {
       console.error('[CORTESIA HISTORICO] Erro:', error.message);
-      res.status(500).json({ error: 'Erro ao carregar histÃ³rico' });
+      res.status(500).json({ error: 'Erro ao carregar histórico' });
     }
   });
 // Distribuir tarefas cortesia (origem = 'cortesia')
@@ -589,7 +608,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
     const usuarioId = req.body && req.body.usuario_id;
     const quantidade = parseInt((req.body && req.body.quantidade), 10) || 0;
     if (!usuarioId || quantidade <= 0) {
-      return res.status(400).json({ error: 'usuÃ¡rio e quantidade obrigatÃ³rios' });
+      return res.status(400).json({ error: 'usuário e quantidade obrigatórios' });
     }
     const cliente = await pool.connect();
     try {
@@ -598,11 +617,11 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
         [usuarioId]
       );
       if (userRes.rows.length === 0) {
-        return res.status(404).json({ error: 'UsuÃ¡rio nÃ£o encontrado' });
+        return res.status(404).json({ error: 'Usuário não encontrado' });
       }
       const usuario = userRes.rows[0];
 
-      // Seleciona itens de cortesia ainda nÃ£o distribuÃ­dos (nÃ£o estÃ£o em cotacao origem='cortesia')
+      // Seleciona itens de cortesia ainda não distribuídos (não estão em cotacao origem='cortesia')
       const pending = await cliente.query(`
         SELECT c.chave, c.resumo, c.status, c.atualizada_em
         FROM db_bloco_de_notas.cortesia c
@@ -641,7 +660,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
         }
       }
 
-      res.json({ success: true, distribuidos, message: distribuidos + ' tarefa(s) distribuÃ­da(s) com sucesso!' });
+      res.json({ success: true, distribuidos, message: distribuidos + ' tarefa(s) distribuída(s) com sucesso!' });
     } catch (error) {
       console.error('[CORTESIA DISTRIBUIR] Erro:', error.message);
       res.status(500).json({ error: 'Erro ao distribuir tarefas cortesia' });
@@ -651,3 +670,4 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
   });
   return router;
 };
+

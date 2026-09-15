@@ -1,7 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const { asDeps } = require('../app/route_deps');
 
-module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs) {
+module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR, path, fs) {
+  const deps = asDeps(arguments, ['pool', 'authenticateToken', 'authorizeRoute', 'formatDateBR', 'path', 'fs']);
+  pool = deps.pool;
+  authenticateToken = deps.authenticateToken;
+  authorizeRoute = deps.authorizeRoute;
+  formatDateBR = deps.formatDateBR;
+  path = deps.path;
+  fs = deps.fs;
 
   // ===== DASHBOARD HOTEIS E HOSPITAIS =====
 

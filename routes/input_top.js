@@ -1,7 +1,15 @@
-﻿const express = require('express');
+const express = require('express');
 const router = express.Router();
+const { asDeps } = require('../app/route_deps');
 
-module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs) {
+module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR, path, fs) {
+  const deps = asDeps(arguments, ['pool', 'authenticateToken', 'authorizeRoute', 'formatDateBR', 'path', 'fs']);
+  pool = deps.pool;
+  authenticateToken = deps.authenticateToken;
+  authorizeRoute = deps.authorizeRoute;
+  formatDateBR = deps.formatDateBR;
+  path = deps.path;
+  fs = deps.fs;
 
   // ===== DASHBOARD INPUT TOP =====
 
@@ -12,7 +20,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       const params = [];
       let whereData = '';
       if (dataInicio && dataFim) {
-        // Range de datas - converter para timestamp para comparaÃ§Ã£o correta
+        // Range de datas - converter para timestamp para comparação correta
         whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI') 
                       AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP($${params.length + 2}, 'DD/MM/YYYY HH24:MI')`;
         params.push(dataInicio.trim() + ' 00:00', dataFim.trim() + ' 23:59');
@@ -205,7 +213,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
     res.sendFile(path.join(__dirname, '..', 'public', 'dashboard_input_top.html'));
   });
 
-  // Listar usuÃ¡rios (reaproveitado)
+  // Listar usuários (reaproveitado)
   router.get('/usuarios', authenticateToken, async (req, res) => {
     try {
       const result = await pool.query(
@@ -214,11 +222,11 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       res.json(result.rows);
     } catch (error) {
       console.error('[INPUT_TOP USUARIOS] Erro:', error);
-      res.status(500).json({ error: 'Erro ao buscar usuÃ¡rios' });
+      res.status(500).json({ error: 'Erro ao buscar usuários' });
     }
   });
 
-  // HistÃ³rico de movimentaÃ§Ãµes
+  // Histórico de movimentações
   router.get('/historico', authenticateToken, async (req, res) => {
     try {
       const { tarefa, limit = 100, offset = 0 } = req.query;
@@ -268,7 +276,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       res.json(historico);
     } catch (error) {
       console.error('[INPUT_TOP HISTORICO] Erro:', error);
-      res.status(500).json({ error: 'Erro ao carregar histÃ³rico' });
+      res.status(500).json({ error: 'Erro ao carregar histórico' });
     }
   });
 

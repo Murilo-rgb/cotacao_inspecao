@@ -198,7 +198,7 @@
 
             const handleExportCSV = useCallback(() => {
                 if (!resultados || resultados.length === 0) return;
-                const headers = ['Código Tarefa', 'Cotação', 'Status', 'Data Qualidade', 'Analista', 'Auditado', 'Regional', 'Tipo de Pedido', 'Motivo 1', 'Motivo 2', 'Motivo 3', 'Tipo de Apontamento', 'Reprova BKO', 'Apontamento', 'Contestação', 'Observação', 'Enviado', 'Data Envio', 'Semana', 'Data Leitura'];
+                const headers = ['Código Tarefa', 'Cotação', 'Status', 'Data Qualidade', 'Analista', 'Auditado', 'Regional', 'Tipo de Pedido', 'Motivo 1', 'Motivo 2', 'Motivo 3', 'Reprova BKO', 'Tipo de Apontamento', 'Apontamento', 'Contestação', 'Observação', 'Enviado', 'Data Envio', 'Semana', 'Data Leitura'];
                 const rows = resultados.map(r => [
                     r.codigo_tarefa || '', r.cotacao || '', r.status || '', formatDateTimeBR(r.data_qualidade),
                     r.analista || '', r.auditado_nome || '', r.regional || '', r.tipo_de_pedido || '',
@@ -332,6 +332,7 @@
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Motivo 1'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Motivo 2'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Motivo 3'),
+                                    React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Tipo Apontamento'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Enviado'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Semana'),
                                                 React.createElement('th', { className: "px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider" }, 'Data Leitura')
@@ -358,6 +359,7 @@
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.motivo_1_sistema_documento || '-'),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.motivo_2_erro || '-'),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.motivo_3_detalhamento || '-'),
+                                    React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.tipo_apontamento || '-'),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap" }, React.createElement('span', { className: `inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full ${r.enviado ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-500'}` }, r.enviado ? 'Sim' : 'Não')),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, r.semana || '-'),
                                                     React.createElement('td', { className: "px-4 py-3 whitespace-nowrap text-sm text-slate-600" }, formatDateTimeBR(r.data_leitura))

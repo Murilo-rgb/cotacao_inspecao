@@ -1,7 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const { asDeps } = require('../app/route_deps');
 
 module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage, processarETL_HoteisHospitais) {
+  const deps = asDeps(arguments, ['pool', 'authenticateToken', 'authorizeRoute', 'formatDateBR', 'path', 'fs', 'upload', 'inputUpload', 'processarETL_250', 'processarETL_975_top', 'processarETL_975_net', 'classificarPendentes', 'authenticatePage', 'processarETL_HoteisHospitais']);
+  pool = deps.pool;
+  authenticateToken = deps.authenticateToken;
+  authorizeRoute = deps.authorizeRoute;
+  formatDateBR = deps.formatDateBR;
+  path = deps.path;
+  fs = deps.fs;
+  upload = deps.upload;
+  inputUpload = deps.inputUpload;
+  processarETL_250 = deps.processarETL_250;
+  processarETL_975_top = deps.processarETL_975_top;
+  processarETL_975_net = deps.processarETL_975_net;
+  classificarPendentes = deps.classificarPendentes;
+  authenticatePage = deps.authenticatePage;
+  processarETL_HoteisHospitais = deps.processarETL_HoteisHospitais;
 
   const { jaDistribuida, inserirDistribuicaoAtomica } = require('../utils/distribuicao');
 
@@ -1392,7 +1408,8 @@ FROM base
       res.json({ success: true, message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`, totalRows: result.totalRows });
     } catch (error) {
       console.error('[INPUT_NET] Erro:', error);
-      res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+      const status = /FILA INCOMPATIVEL/i.test(error.message || '') ? 400 : 500;
+      res.status(status).json({ error: `Erro ao processar arquivo: ${error.message}` });
     }
   });
 
@@ -2426,7 +2443,7 @@ FROM base
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_h_x_h.html'));
   });
 
-  router.get('/pme_notas/hh', authenticatePage, (req, res) => {
+    router.get('/pme_notas/hh', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'gestao_h_x_h.html'));
   });
 
@@ -2437,7 +2454,12 @@ FROM base
       const params = [];
       let paramIndex = 1;
 
-      let query = `
+            let query = `
+        WITH foto AS (
+          SELECT DISTINCT ON (h.id_tarefa) h.*
+          FROM db_bloco_de_notas.hoteis_x_hospitais h
+          ORDER BY h.id_tarefa, h.data_de_historico::timestamp DESC
+        )
         SELECT 
           h.fila,
           h.id_tarefa AS cod_tarefa,
@@ -2469,10 +2491,13 @@ FROM base
           NULLIF(TRIM(COALESCE(u_dist.nome, '') || ' ' || COALESCE(u_dist.sobrenome, '')), '') AS usuario_distribuido_nome,
           c.status AS cotacao_status,
           CASE WHEN c.cotacao IS NOT NULL THEN 'Enviado' ELSE 'Fila' END as status_distribuicao
-        FROM db_bloco_de_notas.hoteis_x_hospitais h
-        LEFT JOIN db_bloco_de_notas.cotacao c ON h.id_tarefa = c.tarefa AND c.validacao = 'Ativo'
+        FROM foto h
+        LEFT JOIN db_bloco_de_notas.cotacao c
+               ON c.tarefa::text = h.id_tarefa::text
+              AND c.validacao = 'Ativo'
+              AND c.data_historico IS NOT DISTINCT FROM h.data_de_historico::timestamp
         LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
-        WHERE 1=1
+        WHERE h.para_etapa = 'BKO Comercial'
       `;
 
       if (search) {
@@ -2494,16 +2519,29 @@ FROM base
 
       const result = await pool.query(query, params);
 
-      // Stats - contagem de todos os registros da tabela
+            // Stats - contagem sobre a foto_recente (ultima historia) filtrada por BKO Comercial.
+      // Uma tarefa esta "distribuida" (em_tratamento) SOLO si existe cotacao activa
+      // con la MISMA tarea (tarefa) Y la MISMA data_historico. Si no, esta en fila (pendente).
       const statsResult = await pool.query(`
-        SELECT 
-          COUNT(DISTINCT CASE WHEN (h.de_etapa ILIKE '%Abert%' AND h.para_etapa ILIKE '%Vistoria%') THEN h.id_tarefa END) as em_tratamento,
-          COUNT(DISTINCT CASE WHEN (h.para_etapa ILIKE '%Conclu%' OR h.para_etapa ILIKE '%Aprovad%') THEN h.id_tarefa END) as aprovado,
-          COUNT(DISTINCT CASE WHEN (h.para_etapa ILIKE '%Reprov%' OR h.para_etapa ILIKE '%Cancel%') THEN h.id_tarefa END) as reprovado,
-          COUNT(DISTINCT CASE WHEN (h.de_etapa ILIKE '%Abert%' AND h.para_etapa ILIKE '%Vistoria%') THEN h.id_tarefa END) as pendente,
-          COUNT(DISTINCT CASE WHEN (h.acao ILIKE 'Cancelar' OR h.para_etapa ILIKE '%Cancel%') THEN h.id_tarefa END) as cancelado,
-          COUNT(*) as total
-        FROM db_bloco_de_notas.hoteis_x_hospitais h
+        WITH foto AS (
+          SELECT DISTINCT ON (h.id_tarefa) h.id_tarefa, h.data_de_historico, h.para_etapa
+          FROM db_bloco_de_notas.hoteis_x_hospitais h
+          ORDER BY h.id_tarefa, h.data_de_historico::timestamp DESC
+        )
+        SELECT
+          COUNT(*) AS total,
+          COUNT(CASE WHEN c.tarefa IS NOT NULL AND c.cotacao IS NOT NULL THEN 1 END) AS em_tratamento,
+          COUNT(CASE WHEN c.tarefa IS NULL THEN 1 END) AS pendente,
+          0 AS aprovado,
+          0 AS reprovado,
+          0 AS cancelado,
+          0 AS desconsiderar
+        FROM foto h
+        LEFT JOIN db_bloco_de_notas.cotacao c
+               ON c.tarefa::text = h.id_tarefa::text
+              AND c.validacao = 'Ativo'
+              AND c.data_historico IS NOT DISTINCT FROM h.data_de_historico::timestamp
+        WHERE h.para_etapa = 'BKO Comercial'
       `);
 
       const stats = statsResult.rows[0] || {};
@@ -3148,3 +3186,4 @@ const handlerPegarExtra = async (req, res) => {
   router.post('/pme_notas/api/inspecao/pegar-extra', authenticateToken, handlerPegarExtra);
   return router;
 };
+

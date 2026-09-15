@@ -86,6 +86,23 @@ function cleanColumnName(name) {
     return cleaned;
 }
 
+// Compara valores de "fila" ignorando case, acentos, espacos extras e
+// tracos diferentes (hifen, en-dash, em-dash). Evita falso "FILA INCOMPATIVEL"
+// quando o CSV traz "Input de Pedidos PME" vs esperado "Input de pedidos – ...".
+function normFila(s) {
+    return String(s == null ? '' : s)
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[–—−]/g, '-')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+// Alias aceitos por endpoint: o arquivo TOP ("Input de Pedidos PME") nao pode
+// cair na validacao do endpoint NET e vice-versa. Mensagem orienta o endpoint certo.
+const FILA_TOP_ALIASES = ['input de pedidos pme'].map(normFila);
+const FILA_NET_ALIASES = ['input de pedidos - pme - demais canais'].map(normFila);
+
 function parseCsvLine(line, delim) {
     const fields = [];
     let cur = '';
@@ -312,7 +329,7 @@ async function processarETL_975_net(csvFilePath, pool, filaEsperada) {
         
         const filaArquivo = (filaCsvIdx < fields.length) ? String(fields[filaCsvIdx] || '').trim() : '';
         
-        if (filaArquivo !== filaEsperada) {
+        if (normFila(filaArquivo) !== normFila(filaEsperada)) {
             if (linhasComFilaErrada.length < 5) {
                 linhasComFilaErrada.push(`Linha ${idx + 1}: fila "${filaArquivo || '(vazia)'}" (esperado "${filaEsperada}")`);
             }
@@ -320,8 +337,15 @@ async function processarETL_975_net(csvFilePath, pool, filaEsperada) {
     }
     
     if (linhasComFilaErrada.length > 0) {
+        let dica = '';
+        try {
+            const f1raw = rawLines.length > 1 ? parseCsvLine(rawLines[1].replace(/\r?$/, ''), usedDelimiter)[filaCsvIdx] : '';
+            if (FILA_TOP_ALIASES.includes(normFila(f1raw)) && FILA_NET_ALIASES.includes(normFila(filaEsperada))) {
+                dica = '\n  DICA: este arquivo parece ser do INPUT TOP ("Input de Pedidos PME"). Envie pelo endpoint /api/input_top/upload, nao pelo endpoint NET.';
+            }
+        } catch {}
         throw new Error(
-            `FILA INCOMPATIVEL: o arquivo contém linhas com fila incorreta. Upload bloqueado antes de qualquer alteracao no banco.\n  ${linhasComFilaErrada.join('\n  ')}`
+            `FILA INCOMPATIVEL: o arquivo contém linhas com fila incorreta. Upload bloqueado antes de qualquer alteracao no banco.\n  ${linhasComFilaErrada.join('\n  ')}${dica}`
         );
     }
     // ===== FIM VALIDACAO DE FILA =====
