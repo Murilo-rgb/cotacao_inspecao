@@ -236,8 +236,46 @@
                 }
             };
 
+            // ============== PORTABILIDADE (r_000250) ==============
+            // Regra de negócio única: o indicador de portabilidade é DERIVADO do tipo do pedido
+            // (contém "port", ex.: "2907 - Portabilidade Cruzada PF/PJ").
+            // Espelha a mesma regra do backend (utils/etl_250.js -> PORTABILIDADE_IF_SQL),
+            // garantindo que a coluna PORT/filtro/ordenação nunca dependam do valor bruto
+            // gravado na coluna ind_portabilidade.
+            //
+            // ATENÇÃO: o campo `tipo_pedido_categoria` enviado pela API é uma categoria
+            // NORMALIZADA (ex.: "INCREMENTO"), que perde o texto original — uma tarefa pode
+            // ser simultaneamente "2907 - Portabilidade Cruzada" E "Incremento de Franquias".
+            // Por isso é obrigatório testar AMBOS os campos (bruto + categoria), e nunca
+            // usar `categoria || bruto`, que descartaria o texto bruto quando a categoria
+            // existir e faria todos os portabilidade virarem "NAO".
+            const getPortabilidade = (t) => {
+                try {
+                    const campos = [
+                        t && t.tipo_pedido,
+                        t && t.tipo_pedido_categoria,
+                        t && t.ind_portabilidade
+                    ];
+                    for (const campo of campos) {
+                        const v = String(campo || '').trim().toUpperCase();
+                        if (!v) continue;
+                        // Valor já normalizado pela regra do backend (SIM/NAO/S/N)
+                        if (v === 'SIM' || v === 'S') return 'SIM';
+                        if (v === 'NAO' || v === 'NÃO' || v === 'N') return 'NAO';
+                        // Texto bruto do tipo de pedido: contém "port"? (ex.: Portabilidade Cruzada)
+                        if (v.includes('PORT')) return 'SIM';
+                    }
+                    return 'NAO';
+                } catch { return 'NAO'; }
+            };
+
             // Classificação espelha o CASE ... ILIKE do backend (novo/reno/incre/trans/demais).
             // Aceita tanto o texto bruto da r_000250 quanto uma categoria já normalizada.
+            //
+            // NOTA: `classificarTipoPedido` deve ser chamada preferencialmente com a CATEGORIA
+            // já normalizada pelo backend. Use `getCategoriaTipoPedido(tarefa)` para obter a
+            // categoria correta de uma tarefa (trata o caso "2907 - Portabilidade Cruzada /
+            // 2023 - Combo - Incremento de Franquias", cujo texto bruto é multi-tipo).
             const classificarTipoPedido = (tipo) => {
                 try {
                     const s = String(tipo || '').toLowerCase();
@@ -247,6 +285,23 @@
                     if (s.includes('incre')) return 'INCREMENTO';
                     if (s.includes('trans')) return 'TRANSFERENCIA';
                     return 'DEMAIS';
+                } catch { return 'DEMAIS'; }
+            };
+
+            // Retorna a categoria de tipo de pedido de uma TAREFA (não de uma string).
+            // Diferente de `classificarTipoPedido(t.categoria || t.bruto)`, aqui a categoria
+            // normalizada do backend tem PRIORIDADE quando presente e válida; caso contrário
+            // cai no texto bruto. Evita o bug de o texto bruto ser descartado (ou de um texto
+            // bruto multi-tipo — ex.: "2907 - Portabilidade / 2023 - Incremento de Franquias" —
+            // ser classificado pela primeira palavra encontrada em vez da categoria oficial).
+            const getCategoriaTipoPedido = (tarefa) => {
+                try {
+                    const catBackend = String((tarefa && tarefa.tipo_pedido_categoria) || '').trim();
+                    if (catBackend && catBackend.toUpperCase() !== 'DEMAIS') {
+                        return catBackend.toUpperCase();
+                    }
+                    const classificado = classificarTipoPedido((tarefa && tarefa.tipo_pedido) || '');
+                    return classificado !== 'DEMAIS' ? classificado : (catBackend.toUpperCase() || 'DEMAIS');
                 } catch { return 'DEMAIS'; }
             };
 
@@ -290,7 +345,7 @@
                     data.forEach(t => {
                         const status = getCotacaoStatus(t);
                         statusCounts[status] = (statusCounts[status] || 0) + 1;
-                        const cat = classificarTipoPedido(t.tipo_pedido_categoria || t.tipo_pedido);
+                        const cat = getCategoriaTipoPedido(t);
                         tipoCounts[cat] = (tipoCounts[cat] || 0) + 1;
                     });
                     setStats({ total, fila, enviado, statusCounts, tipoCounts });
@@ -642,14 +697,11 @@
                 // Multi-seleção de tipos de pedido: passa se a categoria da tarefa
                 // estiver entre as selecionadas (união dos tipos), ou se nenhuma foi escolhida
                 const tps = filters.tipos_pedido;
-                if (tps.length > 0 && !tps.includes(classificarTipoPedido(t.tipo_pedido_categoria || t.tipo_pedido))) return false;
+                if (tps.length > 0 && !tps.includes(getCategoriaTipoPedido(t))) return false;
 
-                // Filtro de portabilidade (SIM/NAO)
+                // Filtro de portabilidade (SIM/NAO) — derivado do tipo do pedido
                 const pf = filters.ind_portabilidade;
-                if (pf) {
-                    const pv = String(t.ind_portabilidade || '').toUpperCase().trim();
-                    if (!(pv === pf || (pf === 'NAO' && !pv))) return false;
-                }
+                if (pf && getPortabilidade(t) !== pf) return false;
 
                 // Filtro de status de distribuição (Fila/Enviado)
                 const df = filters.status_distribuicao;
@@ -683,7 +735,7 @@
                 qtd_linhas: (t) => parseInt(t.qtd_linhas, 10) || 0,
                 qtd_linhas_novas: (t) => parseInt(t.qtd_linhas_novas, 10) || 0,
                 qtd_reprovacao: (t) => parseInt(t.qtd_reprovacao, 10) || 0,
-                ind_portabilidade: (t) => (String(t.ind_portabilidade || '').toUpperCase() === 'SIM' ? 'Sim' : String(t.ind_portabilidade || '').toUpperCase() === 'NAO' ? 'Não' : '—'),
+                ind_portabilidade: (t) => getPortabilidade(t),
                 status_distribuicao: (t) => String(t.status_distribuicao || ''),
                 cotacao_status: (t) => getCotacaoStatus(t),
                 cod_tarefa: (t) => displayCodTarefa(t)
@@ -1133,19 +1185,20 @@
                                                         )
                                                     )
                                                 ),
+                                                // Filtro de Status (cotação) — 4ª coluna, alinhada ao header
                                                 React.createElement('th', { className: 'px-1.5 py-2' },
-                                                                                    React.createElement('select', {
-                                                                                            value: filters.status_cotacao,
-                                                                                            onChange: (e) => updateFilter('status_cotacao', e.target.value),
-                                                                                            className: 'w-full px-1 py-1 text-xs border border-slate-200 rounded'
-                                                                                        },
-                                                                                            React.createElement('option', { value: '' }, 'Todos'),
-                                                                                            React.createElement('option', { value: 'Pendente' }, 'Pendente'),
-                                                                                            React.createElement('option', { value: 'Aprovado' }, 'Aprovado'),
-                                                                                            React.createElement('option', { value: 'Reprovado' }, 'Reprovado'),
-                                                                                            React.createElement('option', { value: 'ASSUMIDO' }, 'Assumido'),
-                                                                                            React.createElement('option', { value: 'NAO_ASSUMIDO' }, 'Não Dist.')
-                                                                                        )
+                                                    React.createElement('select', {
+                                                        value: filters.status_cotacao,
+                                                        onChange: (e) => updateFilter('status_cotacao', e.target.value),
+                                                        className: 'w-full px-1 py-1 text-xs border border-slate-200 rounded'
+                                                    },
+                                                        React.createElement('option', { value: '' }, 'Todos'),
+                                                        React.createElement('option', { value: 'Pendente' }, 'Pendente'),
+                                                        React.createElement('option', { value: 'Aprovado' }, 'Aprovado'),
+                                                        React.createElement('option', { value: 'Reprovado' }, 'Reprovado'),
+                                                        React.createElement('option', { value: 'ASSUMIDO' }, 'Assumido'),
+                                                        React.createElement('option', { value: 'NAO_ASSUMIDO' }, 'Não Dist.')
+                                                    )
                                                 ),
                                                 React.createElement('th', { className: 'px-1.5 py-2' },
                                                     React.createElement('input', {
@@ -1267,7 +1320,7 @@
                                                     ),
                                                     // Tipo do Pedido (ícone compacto + tooltip nativo)
                                                     (() => {
-                                                        const cat = classificarTipoPedido(tarefa.tipo_pedido_categoria || tarefa.tipo_pedido);
+                                                        const cat = getCategoriaTipoPedido(tarefa);
                                                         const meta = TIPO_PEDIDO_META[cat] || TIPO_PEDIDO_META.DEMAIS;
                                                         const original = String(tarefa.tipo_pedido || '').trim();
                                                         const tipParts = [`${meta.emoji} ${meta.label} (${cat})`, meta.descricao];
@@ -1312,16 +1365,9 @@
                                                         tarefa.qtd_reprovacao || '-'
                                                     ),
                                                     // PORT — indicador de portabilidade (Sim / Não), após Reprov.
+                                                    // Derivado do tipo do pedido (regra única em getPortabilidade).
                                                     React.createElement('td', { className: 'px-1.5 py-3 whitespace-nowrap text-center' }, (() => {
-                                                        const port = String(tarefa.ind_portabilidade || '').toUpperCase().trim();
-                                                        const ehSim = port === 'SIM' || port === 'S';
-                                                        const ehNao = port === 'NAO' || port === 'N';
-                                                        if (!ehSim && !ehNao) {
-                                                            return React.createElement('span', {
-                                                                className: 'inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50 text-slate-400',
-                                                                title: 'Portabilidade: não informado'
-                                                            }, '—');
-                                                        }
+                                                        const ehSim = getPortabilidade(tarefa) === 'SIM';
                                                         return React.createElement('span', {
                                                             title: 'Portabilidade: ' + (ehSim ? 'Sim' : 'Não'),
                                                             className: 'inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold rounded-full border ' + (ehSim ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200')

@@ -21,6 +21,14 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
 
   const { jaDistribuida, inserirDistribuicaoAtomica } = require('../utils/distribuicao');
 
+  // Regra de portabilidade (fonte de verdade única, compartilhada com o ETL de upload).
+  // ind_portabilidade é sempre DERIVADO de tipo_pedido — o valor da planilha/db_claro é ignorado.
+  const {
+    PORTABILIDADE_CASE_SQL,
+    buildNormalizarPortabilidadeSQL,
+    classificarPortabilidade
+  } = require('../utils/etl_250');
+
   // Função auxiliar para registrar auditoria
   async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
     try {
@@ -98,6 +106,16 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
       AND COALESCE(qtd_linhas_novas, '0')::int >= CASE WHEN nom_territorio ILIKE '%YT4R%' THEN 4 ELSE 10 END
     )`;
 
+  // ===== BLOQUEIO LOJA PRÓPRIA (r_000250) =====
+  // Pedidos de lojas próprias (nom_fila = 'CPC - Loja Própria') NÃO devem entrar
+  // na base de inspeção nem ser distribuídos (cobre com/sem acento, case-insensitive).
+  const FILTRO_SEM_LOJA_PROPRIA_R = `AND r.nom_fila NOT ILIKE 'CPC - Loja Pr_pria' AND r.nom_fila NOT ILIKE 'CPC - Loja Propria'`;
+  const FILTRO_SEM_LOJA_PROPRIA = `AND nom_fila NOT ILIKE 'CPC - Loja Pr_pria' AND nom_fila NOT ILIKE 'CPC - Loja Propria'`;
+  function isFilaLojaPropria(nomFila) {
+    const v = String(nomFila || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return v === 'cpc - loja propria';
+  }
+
   // ===== ROTAS DE INSPEÇÃO (r_000250) =====
 
   // Serve inspecao page
@@ -161,6 +179,7 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         FROM db_bloco_de_notas.r_000250 r
         LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa
         LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
+        WHERE r.nom_fila NOT ILIKE 'CPC - Loja Pr_pria' AND r.nom_fila NOT ILIKE 'CPC - Loja Propria'
         ORDER BY r.dat_criacao DESC
       `;
       
@@ -183,7 +202,8 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
         qtd_linhas: row.qtd_linhas,
         qtd_linhas_novas: row.qtd_linhas_novas,
         nom_territorio: row.nom_territorio,
-        ind_portabilidade: row.ind_portabilidade,
+        // Sempre derivado do tipo do pedido, independente do que está gravado na coluna.
+        ind_portabilidade: classificarPortabilidade(row.tipo_pedido),
         qtd_reprovacao: row.qtd_reprovacao,
         status_distribuicao: row.status_distribuicao,
         cotacao_status: row.cotacao_status,
@@ -343,6 +363,10 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
           let cotacaoDsc = item.cod_tarefa;
           if (tarefaResult.rows.length > 0) {
             const tr = tarefaResult.rows[0];
+            if (isFilaLojaPropria(tr.nom_fila)) {
+              errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa da fila CPC - Loja Própria: não distribuída como inspeção' });
+              continue;
+            }
             anotacao = `Tarefa: ${tr.nom_tarefa || ''} | Fila: ${tr.nom_fila || ''}`;
             if (tr.dsc_cotacao) cotacaoDsc = tr.dsc_cotacao;
             if (tr.dat_historico) dataHistorico = tr.dat_historico;
@@ -657,9 +681,19 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             cod_tarefa, dat_criacao, dat_historico, criado_por, pendente_com,
             nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
             tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
-            ind_portabilidade, qtd_reprovacao, CURRENT_DATE
+            ${PORTABILIDADE_CASE_SQL}, qtd_reprovacao, CURRENT_DATE
         FROM db_claro.r_000250 where data_carga = CURRENT_DATE
+          ${FILTRO_SEM_LOJA_PROPRIA}
       `);
+
+      // Reforço: normaliza a portabilidade de TODA a tabela (cobre registros legados e
+      // qualquer origem cujo ind_portabilidade venha incorreto/vazio).
+      try {
+        const portRes = await pool.query(buildNormalizarPortabilidadeSQL('db_bloco_de_notas.r_000250'));
+        console.log(`[ATUALIZAR_R_000250] Portabilidade normalizada: ${portRes.rowCount || 0} registro(s).`);
+      } catch (portErr) {
+        console.error('[ATUALIZAR_R_000250] Erro ao normalizar Portabilidade:', portErr.message);
+      }
 
       // Marcar automaticamente tarefas como Maratona (prioridade 1) com a regra de negócio.
       // Regra atual: somente a partir do dia 20 de cada mês, pedidos NOVO/INCREMENTO com
@@ -1964,12 +1998,13 @@ FROM base
       const usuarioLogin = req.user.username;
       const now = formatDateBR(new Date());
       
-      // Condições base para tarefas distribuíveis na r_000250
+      // Condições base para tarefas distribuíveis na r_000250 (sem Loja Própria)
       const baseFrom = `
         FROM db_bloco_de_notas.r_000250 r
         LEFT JOIN db_bloco_de_notas.cotacao c ON r.cod_tarefa = c.tarefa AND c.validacao = 'Ativo'
         WHERE (c.tarefa IS NULL OR c.status IS NULL OR c.status = '')
           AND (r.pendente_com IS NULL OR r.pendente_com = '' OR r.pendente_com = '-')
+          ${FILTRO_SEM_LOJA_PROPRIA_R}
       `;
 
       // 1ª tarefa: prioridade de hoje (maratona p/ dia 20+ -> NOVO/INCREMENTO -> restante),
@@ -2967,6 +3002,7 @@ router.get('/api/inspecao/mis-filas', authenticateToken, handlerMisFilas);
                AND c2.data_historico IS NOT DISTINCT FROM NULLIF(r.dat_historico, '-')::timestamp
           )
           AND (r.pendente_com IS NULL OR r.pendente_com = '' OR r.pendente_com = '-')
+          ${FILTRO_SEM_LOJA_PROPRIA_R}
         ORDER BY
           ${PRIORIDADE_FILA_SQL},
           CASE WHEN r.dat_historico IS NULL OR r.dat_historico = '-' THEN 1 ELSE 0 END,

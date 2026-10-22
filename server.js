@@ -74,8 +74,12 @@ const pool = new Pool({
 app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public'), { index: false }));
-app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
+
+// IMPORTANTE: desabilitar cache ANTES do express.static.
+// O express.static responde e encerra a cadeia (não chama next()), portanto qualquer
+// middleware registrado DEPOIS dele jamais define os headers de cache para .html/.js —
+// o navegador passa a servir o HTML/JS antigo do cache, e correções no front
+// (ex.: coluna PORT) não aparecem para o usuário mesmo com o deploy feito.
 app.use((req, res, next) => {
     if (req.path.endsWith('.js') || req.path.endsWith('.html')) {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -84,6 +88,9 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+app.use(express.static(path.join(__dirname, 'public'), { index: false }));
+app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
 
 // Configuração do multer para upload de arquivos r_000250
 const filesDir = path.join(__dirname, 'files');
@@ -217,7 +224,7 @@ var inputTopRoutes = require('./routes/input_top')(pool, authenticateToken, auth
 // Inicializar rotas de h_x_h
 var hXHRoutes = require('./routes/h_x_h')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
 // Inicializar rotas de cortesia
-var cortesiaRoutes = require('./routes/cortesia')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, { JIRA_SITE: 'https://clarobr-jsm-negocios.atlassian.net', JIRA_EMAIL: 'felipe.holanda.terceiros@claro.com.br' });
+var cortesiaRoutes = require('./routes/cortesia')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, require('./app/config'));
 
 // Inicializar rotas de parcial PME
 var parcialPmeRoutes = require('./routes/parcial_pme')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, authenticatePage);
@@ -748,17 +755,27 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
     console.log(`[PUT] Usuário: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
-    // Buscar status anterior antes de atualizar (TODAS as cotações, não apenas do usuário)
+    // Buscar status anterior antes de atualizar (linha mais recente da tarefa)
     const beforeRes = await pool.query(
-      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo'",
+      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo' ORDER BY data_da_ultima_atualizacao DESC LIMIT 1",
       [req.params.cotacao]
     );
     const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
 
-    const result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' RETURNING *",
-      [anotacao, status, now, req.params.cotacao]
+    // UPDATE cirurgico (fix "status que nao fixa" input_net/top): mira a linha do
+    // dono (usuario_id); sem linha do dono (redistribuicao/legado), mira a mais
+    // recente da tarefa. Evita sobrescrever N irmas com o mesmo timestamp e a
+    // listagem (DISTINCT ON) exibir linha "errada".
+    let result = await pool.query(
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' AND usuario_id = $5 RETURNING *",
+      [anotacao, status, now, req.params.cotacao, usuarioId]
     );
+    if (result.rows.length === 0) {
+      result = await pool.query(
+        "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE id_cotacao = (SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $4 AND validacao = 'Ativo' ORDER BY data_da_ultima_atualizacao DESC LIMIT 1) RETURNING *",
+        [anotacao, status, now, req.params.cotacao]
+      );
+    }
 
     console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
 
@@ -848,17 +865,27 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[PUT] Usuário: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
-    // Buscar status anterior antes de atualizar (TODAS as cotações, não apenas do usuário)
+    // Buscar status anterior antes de atualizar (linha mais recente da tarefa)
     const beforeRes = await pool.query(
-      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo'",
+      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo' ORDER BY data_da_ultima_atualizacao DESC LIMIT 1",
       [req.params.cotacao]
     );
     const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
 
-    const result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' RETURNING *",
-      [anotacao, status, now, req.params.cotacao]
+    // UPDATE cirurgico (fix "status que nao fixa" input_net/top): mira a linha do
+    // dono (usuario_id); sem linha do dono (redistribuicao/legado), mira a mais
+    // recente da tarefa. Evita sobrescrever N irmas com o mesmo timestamp e a
+    // listagem (DISTINCT ON) exibir linha "errada".
+    let result = await pool.query(
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' AND usuario_id = $5 RETURNING *",
+      [anotacao, status, now, req.params.cotacao, usuarioId]
     );
+    if (result.rows.length === 0) {
+      result = await pool.query(
+        "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE id_cotacao = (SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $4 AND validacao = 'Ativo' ORDER BY data_da_ultima_atualizacao DESC LIMIT 1) RETURNING *",
+        [anotacao, status, now, req.params.cotacao]
+      );
+    }
 
     console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
 

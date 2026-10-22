@@ -22,6 +22,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .day-card { transition: all 0.2s ease; }
         .day-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        html.dark .info-tooltip, html.dark .info-tooltip-arrow { background-color: #475569 !important; }
     </style>
 </head>
 <body>
@@ -55,6 +56,56 @@
         );
         const ClockIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('circle', { cx: "12", cy: "12", r: "10" }), React.createElement('polyline', { points: "12 6 12 12 16 14" }));
         const ChartIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('line', { x1: "12", y1: "20", x2: "12", y2: "10" }), React.createElement('line', { x1: "18", y1: "20", x2: "18", y2: "4" }), React.createElement('line', { x1: "6", y1: "20", x2: "6", y2: "16" }));
+        // Icone discreto de informacao com tooltip. Abre por hover, clique/toque e foco
+        // (a pagina e usada em tablet, onde nao existe hover), fecha no Esc ou ao sair.
+        // ATENCAO: os textos explicam a regra de deduplicacao do backend —
+        // routes/qualidade.js usa DISTINCT ON (c.usuario_id, DATA_BASE_SQL), ou seja,
+        // conta 1 auditoria por pessoa por dia. Se essa regra mudar no servidor,
+        // revise os textos dos tooltips e os numeros dos cards.
+        const InfoTooltip = ({ text, align }) => {
+            const [open, setOpen] = React.useState(false);
+            React.useEffect(() => {
+                if (!open) return;
+                const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+                window.addEventListener('keydown', onKey);
+                return () => window.removeEventListener('keydown', onKey);
+            }, [open]);
+            const stop = (e) => { e.stopPropagation(); };
+            const posClass = align === 'right' ? 'right-0' : 'left-0';
+            const arrowClass = align === 'right' ? 'right-3' : 'left-3';
+            return React.createElement('span', {
+                className: "relative inline-flex items-center",
+                onMouseEnter: () => setOpen(true),
+                onMouseLeave: () => setOpen(false),
+                onClick: stop,
+                onDoubleClick: stop
+            },
+                React.createElement('button', {
+                    type: "button",
+                    tabIndex: 0,
+                    'aria-label': 'Explicação deste indicador',
+                    'aria-expanded': open ? 'true' : 'false',
+                    onFocus: () => setOpen(true),
+                    onBlur: () => setOpen(false),
+                    onClick: (e) => { e.stopPropagation(); setOpen(o => !o); },
+                    onDoubleClick: stop,
+                    className: "inline-flex items-center justify-center text-slate-400 hover:text-slate-600 focus:text-slate-600 focus:outline-none transition-colors duration-200 cursor-help"
+                },
+                    React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                        React.createElement('circle', { cx: "12", cy: "12", r: "10" }),
+                        React.createElement('line', { x1: "12", y1: "16", x2: "12", y2: "12" }),
+                        React.createElement('line', { x1: "12", y1: "8", x2: "12.01", y2: "8" })
+                    )
+                ),
+                open && React.createElement('span', {
+                    role: "tooltip",
+                    className: `info-tooltip absolute z-50 ${posClass} top-full mt-2 w-64 max-w-[calc(100vw-2rem)] bg-slate-800 text-white text-xs leading-relaxed rounded-lg p-3 shadow-xl font-normal text-left block`
+                },
+                    React.createElement('span', { className: `info-tooltip-arrow absolute ${arrowClass} -top-1 w-2 h-2 bg-slate-800 rotate-45` }),
+                    React.createElement('span', { className: "block" }, text)
+                )
+            );
+        };
 
         function getDiasNoMes(mes, ano) {
             return new Date(ano, mes, 0).getDate();
@@ -207,17 +258,19 @@
                                 )
                             )
                         ),
-                        React.createElement('div', { className: `flex items-center gap-6 px-6 py-3 rounded-2xl border ${corResumo.border} ${corResumo.bg} shadow-sm scale-in` },
+                        React.createElement('div', { className: `flex flex-wrap items-center gap-x-6 gap-y-2 px-6 py-3 rounded-2xl border ${corResumo.border} ${corResumo.bg} shadow-sm scale-in` },
                             React.createElement('div', { className: "flex items-center gap-2" },
                                 React.createElement(TargetIcon),
                                 React.createElement('span', { className: "text-sm font-medium text-slate-600" }, 'Tarefas:'),
-                                React.createElement('span', { className: "text-lg font-bold text-slate-800" }, resumo.total_tarefas)
+                                React.createElement('span', { className: "text-lg font-bold text-slate-800" }, resumo.total_tarefas),
+                                React.createElement(InfoTooltip, { text: 'Cotações do mês exibido. Quando a mesma pessoa possui mais de uma cotação no mesmo dia, apenas uma é contada — por isso este número pode ser menor que a extração completa da página Relatórios.', align: 'left' })
                             ),
                             React.createElement('div', { className: "w-px h-8 bg-slate-300" }),
                             React.createElement('div', { className: "flex items-center gap-2" },
                                 React.createElement(CheckCircleIcon),
                                 React.createElement('span', { className: "text-sm font-medium text-slate-600" }, 'Auditadas:'),
-                                React.createElement('span', { className: "text-lg font-bold text-green-700" }, resumo.total_auditadas)
+                                React.createElement('span', { className: "text-lg font-bold text-green-700" }, resumo.total_auditadas),
+                                React.createElement(InfoTooltip, { text: 'Conta 1 auditoria por pessoa por dia. Auditorias excedentes da mesma pessoa no mesmo dia não são somadas, então este NÃO é o total absoluto de auditorias do período: a página Relatórios exibe o extrato completo, tarefa por tarefa.', align: 'left' })
                             ),
                             React.createElement('div', { className: "w-px h-8 bg-slate-300" }),
                             React.createElement('div', { className: "flex items-center gap-2" },
@@ -228,7 +281,8 @@
                             React.createElement('div', { className: "flex items-center gap-2" },
                                 React.createElement(ClockIcon),
                                 React.createElement('span', { className: "text-sm font-medium text-slate-600" }, 'Backlog:'),
-                                React.createElement('span', { className: "text-lg font-bold text-amber-600" }, resumo.total_tarefas - resumo.total_auditadas)
+                                React.createElement('span', { className: "text-lg font-bold text-amber-600" }, resumo.total_tarefas - resumo.total_auditadas),
+                                React.createElement(InfoTooltip, { text: 'Tarefas do mês que ainda não possuem auditoria registrada. Usa a mesma regra de uma cotação por pessoa por dia aplicada aos indicadores anteriores.', align: 'right' })
                             )
                         )
                     ),
@@ -261,7 +315,7 @@
                                         const mesStr = String(mes).padStart(2, '0');
                                         const diaStr = String(dia).padStart(2, '0');
                                         const dataISO = `${ano}-${mesStr}-${diaStr}`;
-                                        let url = `${BASE_PATH}/qualidade?dateStart=${dataISO}`;
+                                        let url = `${BASE_PATH}/qualidade?dateStart=${dataISO}&status=dia`;
                                         // Repassa a origem selecionada (Input NET, Input TOP ou Inspeção)
                                         if (origem && origem !== 'todos') url += `&origem=${encodeURIComponent(origem)}`;
                                         window.location.href = url;

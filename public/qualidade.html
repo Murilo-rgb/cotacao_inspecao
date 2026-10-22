@@ -35,6 +35,7 @@
         html.dark .bg-slate-50, html.dark .bg-slate-50\/80 { background-color: #0f172a !important; }
         html.dark .bg-slate-100 { background-color: #1e293b !important; }
         html.dark .bg-slate-800 { background-color: #334155 !important; }
+        html.dark .info-tooltip, html.dark .info-tooltip-arrow { background-color: #475569 !important; }
         html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
         html.dark .border-slate-700 { border-color: #475569 !important; }
         html.dark .divide-slate-200 > *, html.dark .divide-slate-100 > * { border-color: #334155 !important; }
@@ -112,6 +113,59 @@
         const XIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('path', { d: "M18 6 6 18" }), React.createElement('path', { d: "m6 6 12 12" }));
         const FileTextIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "48", height: "48", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('path', { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }), React.createElement('polyline', { points: "14 2 14 8 20 8" }), React.createElement('line', { x1: "16", x2: "8", y1: "13", y2: "13" }), React.createElement('line', { x1: "16", x2: "8", y1: "17", y2: "17" }), React.createElement('line', { x1: "10", x2: "8", y1: "9", y2: "9" }));
         const ClipboardCheckIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('path', { d: "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" }), React.createElement('rect', { x: "9", y: "3", width: "6", height: "4", rx: "1" }), React.createElement('path', { d: "m9 14 2 2 4-4" }));
+        // Icone discreto de informacao com tooltip. Abre por hover, clique/toque e foco
+        // (a pagina e usada em tablet, onde nao existe hover), fecha no Esc ou ao sair.
+        // ATENCAO: os textos explicam a regra de deduplicacao do backend —
+        // routes/qualidade.js usa DISTINCT ON (c.usuario_id, DATA_BASE_SQL), ou seja,
+        // conta 1 auditoria por pessoa por dia. Se essa regra mudar no servidor,
+        // revise os textos dos tooltips e os numeros dos cards.
+        // O card DEVOLUÇÃO PARCIAL/INDEVIDA usa regra propria: percentual de devolucoes
+        // efetivas (status em STATUS_DEVOLUCAO_EFETIVA) sobre o total do tipo. A origem da
+        // classificacao do tipo esta em scripts/backfill_tipo_apontamento.js: status
+        // 'Procedimento Correto' com a linha DEVOLUÇÃO PARCIAL/INDEVIDA na anotacao recebe
+        // esse tipo, mas nao conta como devolucao efetiva no numerador.
+        const InfoTooltip = ({ text }) => {
+            const [open, setOpen] = React.useState(false);
+            React.useEffect(() => {
+                if (!open) return;
+                const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+                window.addEventListener('keydown', onKey);
+                return () => window.removeEventListener('keydown', onKey);
+            }, [open]);
+            const stop = (e) => { e.stopPropagation(); };
+            return React.createElement('span', {
+                className: "relative inline-flex items-center",
+                onMouseEnter: () => setOpen(true),
+                onMouseLeave: () => setOpen(false),
+                onClick: stop,
+                onDoubleClick: stop
+            },
+                React.createElement('button', {
+                    type: "button",
+                    tabIndex: 0,
+                    'aria-label': 'Explicação deste indicador',
+                    'aria-expanded': open ? 'true' : 'false',
+                    onFocus: () => setOpen(true),
+                    onBlur: () => setOpen(false),
+                    onClick: (e) => { e.stopPropagation(); setOpen(o => !o); },
+                    onDoubleClick: stop,
+                    className: "inline-flex items-center justify-center text-slate-400 hover:text-slate-600 focus:text-slate-600 focus:outline-none transition-colors duration-200 cursor-help"
+                },
+                    React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                        React.createElement('circle', { cx: "12", cy: "12", r: "10" }),
+                        React.createElement('line', { x1: "12", y1: "16", x2: "12", y2: "12" }),
+                        React.createElement('line', { x1: "12", y1: "8", x2: "12.01", y2: "8" })
+                    )
+                ),
+                open && React.createElement('span', {
+                    role: "tooltip",
+                    className: "info-tooltip absolute z-50 left-0 top-full mt-2 w-64 sm:w-72 max-w-[calc(100vw-2rem)] bg-slate-800 text-white text-xs leading-relaxed rounded-lg p-3 shadow-xl font-normal normal-case tracking-normal text-left block"
+                },
+                    React.createElement('span', { className: "info-tooltip-arrow absolute left-3 -top-1 w-2 h-2 bg-slate-800 rotate-45" }),
+                    React.createElement('span', { className: "block" }, text)
+                )
+            );
+        };
 
         var MOTIVOS_SUBMOTIVOS = {
           "Isento": {"Assinatura": [],"Assinatura_Manual": [],"Falta_assinatura": [],"Fora_dos_Padrões": []},
@@ -125,7 +179,7 @@
           "Planilha_de_Produtos_Instalados": {"Descrição": [],"Documento_com_erro": [],"Documento_Vencido": [],"Falta_documento": [],"Incompleto": [],"Titulo": [],"Linhas": ["Doador","Número","Operadora","Quantidade"],"Fora_dos_padrões": ["Editada","Cortada","Rasurada","Anexo","Ilegível","Regra RCG"],"Aparelho": ["Cor","Modelo","Quantidade","Valor"],"Cor": [],"Modelo": [],"Quantidade": [],"Valor": []},
           "Print_do_Relatório_de_Relacionamento": {"Documento_com_erro": [],"Documento_Vencido": [],"Falta_documento": [],"Documento_Incompleto": ["Falta_Páginas","Falta_parte_da_frente","Falta_parte_de_trás","Falta_QRcode","Falta_campos","Campos_vazios"],"Fora_dos_padrões": ["Editada","Cortada","Rasurada","Anexo","Ilegível","Regra RCG"],"Linhas": ["Doador","Número","Operadora","Quantidade"],"Doador": [],"Número": [],"Operadora": [],"Quantidade": []},
           "Tcpj": {"Administrador": ["E-Mail_Administrador","Telefone_Administrador","Nome_Administrador","Quantidade_Administrador","Diverge_Administrador","E-mail_duplicado"],"Aparelho": ["Cor","Modelo","Quantidade","Valor"],"Assinatura": ["Assinatura_Manual","Falta_assinatura","Fora_dos_Padrões"],"Check_Box": ["Não_preenchido","Cliente_Novo"],"Dados_Cadastrais": ["CNAE","CNPJ","Inscrição_Estadual","Razão_Social","Representante_legal"],"Dados_da_Revenda": ["Código_da_Revenda","Fora_dos_padrões","Incompleto","Segmento"],"Data": [],"Documento_Incompleto": ["Falta_Páginas","Falta_parte_da_frente","Falta_parte_de_trás","Falta_QRcode","Falta_campos","Campos_vazios"],"Documento_Vencido": [],"Endereço": ["Entrega","Incompleto","Negociado","Principal"],"Falta_documento": [],"Fora_dos_padrões": ["Editada","Cortada","Rasurada","Anexo","Ilegível","Regra RCG"],"Franquias": ["Diverge","Valor","Não_apto"],"Código_único": [],"Id_Docusign": ["Ilegível","ID_não_Localizado","Falta_ID"],"Ilegível": [],"Linhas": ["Doador","Número","Operadora","Quantidade"],"Local": ["Fora_dos_Padrões","Ilegível","Não_preenchido"],"Não_pertence": ["À_Cotação","Ao_CNPJ","Ao_Receptor","Ao_Doador","Ao_Representante"]},
-          "Regras_de_Negócio": {"Forma_de_pagamento": ["Sem_tempo_médio","Incorreta","Diverge"],"Inapto_a_Renovação": ["Falta_email"],"Inapto_a_Transferência": ["Falta_email"],"Mega_Bônus": ["Não_apto","Preenchido_Incorreto"],"Sim_Cards": [],"Franquia_Descontinuada": ["Falta_email"],"Transferência_Parcial": ["Falta_email","Quantidade_de_linhas"],"Renovação_Parcial": ["Falta_email","Quantidade_de_linhas"],"Transferência_Massa": [],"NBO": [],"Documento_Incompleto": ["Falta_Páginas","Falta_parte_da_frente","Falta_parte_de_trás","Falta_QRcode","Falta_campos","Campos_vazios"],"Falta_Páginas": [],"Falta_parte_da_frente": [],"Falta_parte_de_trás": [],"Falta_QRcode": [],"Falta_campos": [],"Campos_vazios": []},
+          "Regras_de_Negócio": {"Forma_de_pagamento": ["Sem_tempo_médio","Incorreta","Diverge"],"Inapto_a_Renovação": ["Falta_email","Rentabilização"],"Inapto_a_Transferência": ["Falta_email"],"Mega_Bônus": ["Não_apto","Preenchido_Incorreto"],"Sim_Cards": [],"Franquia_Descontinuada": ["Falta_email"],"Transferência_Parcial": ["Falta_email","Quantidade_de_linhas"],"Renovação_Parcial": ["Falta_email","Quantidade_de_linhas"],"Transferência_Massa": [],"NBO": [],"Documento_Incompleto": ["Falta_Páginas","Falta_parte_da_frente","Falta_parte_de_trás","Falta_QRcode","Falta_campos","Campos_vazios"],"Falta_Páginas": [],"Falta_parte_da_frente": [],"Falta_parte_de_trás": [],"Falta_QRcode": [],"Falta_campos": [],"Campos_vazios": []},
           "Solar": {"Documento_Manual": [],"Documento_Solar": [],"Mega_Bônus": ["Não_apto","Preenchido_Incorreto"],"Não_apto": [],"Preenchido_Incorreto": []},
           "Evidência": {"Fora_dos_padrões": ["Editada","Cortada","Rasurada","Anexo","Ilegível","Regra RCG"],"Incompleta": ["Receita Federal","Inscrição Estadual","CCC/SINTEGRA","Valores Totais","Motivo da Reprova"],"Não_enviada": [],"Check_Box": ["Não_preenchido","Cliente_Novo"],"Não_preenchido": [],"Cliente_Novo": []},
           "Etiqueta_Padrão": {"Fora_dos_padrões": ["Editada","Cortada","Rasurada","Anexo","Ilegível","Regra RCG"],"Incompleta": [],"Não_enviada": [],"Oferta_diverge": [],"Administrador": ["E-Mail_Administrador","Telefone_Administrador","Nome_Administrador","Quantidade_Administrador","Diverge_Administrador","E-mail_duplicado"],"E-Mail_Administrador": [],"Telefone_Administrador": [],"Nome_Administrador": [],"Quantidade_Administrador": [],"Diverge_Administrador": [],"E-mail_duplicado": []},
@@ -147,6 +201,13 @@
             'ERRO INTERNO': '🛠️ Erro Interno',
             'RCV': '📋 RCV'
         };
+        // Status que representam devolucao efetiva da cotacao. Usado APENAS no card
+        // DEVOLUÇÃO PARCIAL/INDEVIDA (numerador do percentual de erro).
+        var STATUS_DEVOLUCAO_EFETIVA = ['Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida'];
+        // Tipos exibidos como card. O tipo 'APROVADO' continua existindo em
+        // TIPO_APONTAMENTO_STATUS (usado pelo modal de auditoria e pela inferência de
+        // registros antigos), mas NAO e renderizado como card.
+        var TIPOS_CARD_EXIBIDOS = Object.keys(TIPO_APONTAMENTO_STATUS).filter(function (t) { return t !== 'APROVADO'; });
         var STATUS_AUDITORIA_LABELS = {
             'Procedimento Correto': '✅ Procedimento Correto',
             'Devolução Parcial': '⚠️ Devolução Parcial',
@@ -173,7 +234,6 @@
         };
         // Cores dos cards de percentual por Tipo de Apontamento
         var TIPO_APONTAMENTO_CORES = {
-            'APROVADO': { barra: 'bg-emerald-500', texto: 'text-emerald-600', borda: 'border-emerald-200' },
             'APROVAÇÃO INDEVIDA': { barra: 'bg-red-500', texto: 'text-red-600', borda: 'border-red-200' },
             'DEVOLUÇÃO PARCIAL/INDEVIDA': { barra: 'bg-amber-500', texto: 'text-amber-600', borda: 'border-amber-200' },
             'ERRO INTERNO': { barra: 'bg-purple-500', texto: 'text-purple-600', borda: 'border-purple-200' },
@@ -250,6 +310,13 @@
                 const origemFromUrl = params.get('origem');
                 if (origemFromUrl) {
                     setFiltroOrigem(origemFromUrl);
+                }
+                // Status vindo do calendario: 'dia' = reprovadas + TODAS as auditadas do dia
+                // (data canonica = data_qualidade). Sem param, mantem o padrao 'reprovado',
+                // que no backend tambem inclui todas as auditadas (id_qldd NOT NULL).
+                const statusFromUrl = params.get('status');
+                if (statusFromUrl) {
+                    setFiltroStatus(statusFromUrl);
                 }
 
                 fetchQuotations();
@@ -391,12 +458,26 @@
             const auditadasNoRecorte = filteredQuotations.filter(q => q.auditoria);
             const totalAuditadas = auditadasNoRecorte.length;
             const porTipoApontamento = {};
+            const statusDentroDoTipo = {};
             for (const q of auditadasNoRecorte) {
                 const tipo = (q.auditoria.tipo_apontamento || '').trim();
                 const chave = tipo && TIPO_APONTAMENTO_STATUS[tipo] ? tipo : 'SEM TIPO';
                 porTipoApontamento[chave] = (porTipoApontamento[chave] || 0) + 1;
+                if (!statusDentroDoTipo[chave]) statusDentroDoTipo[chave] = {};
+                const st = (q.auditoria.status || '').trim();
+                statusDentroDoTipo[chave][st] = (statusDentroDoTipo[chave][st] || 0) + 1;
             }
-            const ordemTipos = Object.keys(TIPO_APONTAMENTO_STATUS)
+            // Percentual de erro do card DEVOLUÇÃO PARCIAL/INDEVIDA: devolucoes efetivas
+            // (numerador) sobre TODAS as auditorias do tipo (denominador = volume do card).
+            // Auditorias do tipo com status 'Procedimento Correto' entram so no denominador,
+            // pois pertencem ao tipo de amostra mas nao geraram devolucao. Nao confundir com
+            // o percentual dos demais cards, que usa totalAuditadas como base.
+            const qtdDevolucaoTipo = porTipoApontamento['DEVOLUÇÃO PARCIAL/INDEVIDA'] || 0;
+            const statusDev = statusDentroDoTipo['DEVOLUÇÃO PARCIAL/INDEVIDA'] || {};
+            const qtdDevolucaoEfetiva = STATUS_DEVOLUCAO_EFETIVA.reduce((acc, s) => acc + (statusDev[s] || 0), 0);
+            const pctDevolucaoEfetiva = qtdDevolucaoTipo > 0 ? (qtdDevolucaoEfetiva / qtdDevolucaoTipo) * 100 : 0;
+            const pctDevolucaoFmt = qtdDevolucaoTipo > 0 ? `${pctDevolucaoEfetiva.toFixed(1).replace('.', ',')}%` : '—';
+            const ordemTipos = TIPOS_CARD_EXIBIDOS
                 .concat(porTipoApontamento['SEM TIPO'] > 0 ? ['SEM TIPO'] : []);
 
             const indexOfLastItem = currentPage * itemsPerPage;
@@ -453,27 +534,39 @@
                 ),
 
                 React.createElement('main', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" },
-                    React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4" },
-                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-slate-500" }, 'Total de Cotações'), React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" }, filteredQuotations.length)),
-                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-emerald-600" }, 'Auditadas'), React.createElement('p', { className: "text-2xl font-bold text-emerald-700 mt-1" }, filteredQuotations.filter(q => q.auditoria).length)),
-                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-amber-600" }, 'Não Auditadas'), React.createElement('p', { className: "text-2xl font-bold text-amber-700 mt-1" }, filteredQuotations.filter(q => !q.auditoria).length)),
-                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-red-600" }, 'Reprovadas'), React.createElement('p', { className: "text-2xl font-bold text-red-700 mt-1" }, filteredQuotations.filter(q => q.auditoria && q.auditoria.status === 'Reprovado').length))
+                    React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4" },
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-slate-500 flex items-center gap-1.5" }, React.createElement('span', null, 'Total de Cotações'), React.createElement(InfoTooltip, { text: 'Cotações consideradas no recorte selecionado. Quando a mesma pessoa possui mais de uma cotação no mesmo dia, apenas uma é contada — por isso este número pode ser menor que a extração completa da página Relatórios.' })), React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" }, filteredQuotations.length)),
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-emerald-600 flex items-center gap-1.5" }, React.createElement('span', null, 'Auditadas'), React.createElement(InfoTooltip, { text: 'Conta 1 auditoria por pessoa por dia. Se a mesma pessoa teve mais de uma cotação auditada no mesmo dia, o excedente não entra neste card. Portanto este NÃO é o total absoluto de auditorias do período: a página Relatórios exibe o extrato completo, tarefa por tarefa.' })), React.createElement('p', { className: "text-2xl font-bold text-emerald-700 mt-1" }, filteredQuotations.filter(q => q.auditoria).length)),
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" }, React.createElement('p', { className: "text-sm font-medium text-amber-600 flex items-center gap-1.5" }, React.createElement('span', null, 'Não Auditadas'), React.createElement(InfoTooltip, { text: 'Cotações do recorte que ainda não possuem auditoria registrada. Aplica a mesma regra de uma cotação por pessoa por dia usada nos demais cards.' })), React.createElement('p', { className: "text-2xl font-bold text-amber-700 mt-1" }, filteredQuotations.filter(q => !q.auditoria).length))
                     ),
 
                     React.createElement('div', { className: "flex flex-wrap gap-4 mb-6" },
                         ordemTipos.map(t => {
                             const cores = TIPO_APONTAMENTO_CORES[t] || TIPO_APONTAMENTO_CORES['SEM TIPO'];
                             const qtd = porTipoApontamento[t] || 0;
+                            const isDevolucao = t === 'DEVOLUÇÃO PARCIAL/INDEVIDA';
                             const pct = totalAuditadas > 0 ? (qtd / totalAuditadas) * 100 : 0;
                             const pctFmt = totalAuditadas > 0 ? `${pct.toFixed(1).replace('.', ',')}%` : '—';
-                            return React.createElement('div', { key: t, className: `flex-1 min-w-[180px] bg-white rounded-xl p-4 border ${cores.borda} shadow-sm`, title: 'Percentual sobre o total de auditorias efetuadas no recorte' },
-                                React.createElement('p', { className: `text-sm font-medium ${cores.texto}` }, TIPO_APONTAMENTO_LABELS[t] || t),
-                                React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" },
-                                    qtd,
-                                    React.createElement('span', { className: "text-sm font-semibold text-slate-400 ml-1.5" }, pctFmt)
+                            // Card de devolucao: exibe o percentual de erro do proprio tipo
+                            // (devolucoes efetivas / total do tipo), e nao o volume do tipo.
+                            const valorExibido = isDevolucao ? qtdDevolucaoEfetiva : qtd;
+                            const pctExibido = isDevolucao ? pctDevolucaoFmt : pctFmt;
+                            const pctBarra = isDevolucao ? pctDevolucaoEfetiva : pct;
+                            const tooltip = isDevolucao
+                                ? `Percentual de erro do tipo: ${qtdDevolucaoEfetiva} de ${qtd} auditorias deste tipo tiveram status de devolução (Devolução Parcial/Indevida, Reprova Parcial/Indevida). As ${qtd - qtdDevolucaoEfetiva} auditorias do tipo com status "Procedimento Correto" entram apenas no denominador — o tipo de amostra foi registrado, mas a cotação foi considerada correta. Elas aparecem em outro indicador e não são somadas aqui. Base: auditorias contadas no recorte (1 auditoria por pessoa por dia).`
+                                : 'Quantidade e percentual calculados sobre as auditorias contadas no recorte (1 auditoria por pessoa por dia). Auditorias excedentes do mesmo dia não entram na base do cálculo.';
+                            return React.createElement('div', { key: t, className: `flex-1 min-w-[180px] bg-white rounded-xl p-4 border ${cores.borda} shadow-sm` },
+                                React.createElement('div', { className: "flex items-center gap-1.5" },
+                                    React.createElement('p', { className: `text-sm font-medium ${cores.texto}` }, TIPO_APONTAMENTO_LABELS[t] || t),
+                                    React.createElement(InfoTooltip, { text: tooltip })
                                 ),
+                                React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" },
+                                    valorExibido,
+                                    React.createElement('span', { className: "text-sm font-semibold text-slate-400 ml-1.5" }, pctExibido)
+                                ),
+                                isDevolucao ? React.createElement('p', { className: "text-xs text-slate-400 mt-0.5" }, `${qtdDevolucaoEfetiva} de ${qtd} auditorias do tipo`) : null,
                                 React.createElement('div', { className: "w-full h-1.5 bg-slate-100 rounded-full mt-2 overflow-hidden" },
-                                    React.createElement('div', { className: `h-full rounded-full transition-all duration-300 ${cores.barra}`, style: { width: `${pct}%` } })
+                                    React.createElement('div', { className: `h-full rounded-full transition-all duration-300 ${cores.barra}`, style: { width: `${pctBarra}%` } })
                                 )
                             );
                         })
@@ -499,9 +592,11 @@
                         React.createElement('div', { className: "relative group" },
                             React.createElement('select', { value: filtroStatus, onChange: (e) => setFiltroStatus(e.target.value), className: "w-44 px-3.5 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" },
                                 React.createElement('option', { value: '' }, 'Todos os status'),
-                                React.createElement('option', { value: 'reprovado' }, 'Reprovado'),
-                                React.createElement('option', { value: 'aprovado' }, 'Aprovado'),
-                                React.createElement('option', { value: 'pendente' }, 'Pendente')
+                                React.createElement('option', { value: 'dia' }, 'Do dia - calendario (reprovadas + auditadas)'),
+                                React.createElement('option', { value: 'todos' }, 'Tudo (sem filtro)'),
+                                React.createElement('option', { value: 'reprovado' }, 'Reprovado (somente)'),
+                                React.createElement('option', { value: 'aprovado' }, 'Aprovado (somente)'),
+                                React.createElement('option', { value: 'pendente' }, 'Pendente (somente)')
                             )
                         )
                     ),
@@ -547,7 +642,7 @@
                                             return React.createElement('tr', { key: q.cotacao || q.tarefa, className: "hover:bg-slate-50/80 transition-colors duration-150" },
                                                 React.createElement('td', { className: "px-2 py-3 whitespace-nowrap" },
                                                     (!q.origem || q.origem === 'r_000250') ? React.createElement('span', { title: "Inspeção", className: "inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help" }, React.createElement(InspectIcon))
-                                                    : q.origem === 'iw_cpc_975_net' ? React.createElement('span', { title: "Input", className: "inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help" }, React.createElement(InputIcon))
+                                                    : q.origem === 'iw_cpc_975_net' ? React.createElement('span', { title: "NET", className: "inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help" }, React.createElement(InputIcon))
                                                     : q.origem === 'iw_cpc_975_top' ? React.createElement('span', { title: "TOP", className: "inline-flex items-center justify-center w-8 h-8 bg-purple-50 rounded-lg cursor-help" }, React.createElement(TopIcon))
                                                     : React.createElement('span', { title: "Inspeção", className: "inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help" }, React.createElement(InspectIcon))
                                                 ),

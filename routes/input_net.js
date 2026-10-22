@@ -21,17 +21,17 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
       let whereData = '';
       if (dataInicio && dataFim) {
         // Range de datas - converter para timestamp para comparação correta
-        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI') 
-                      AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP($${params.length + 2}, 'DD/MM/YYYY HH24:MI')`;
+        whereData = ` AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::timestamp ELSE TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') END) >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI') 
+                      AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::timestamp ELSE TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') END) <= TO_TIMESTAMP($${params.length + 2}, 'DD/MM/YYYY HH24:MI')`;
         params.push(dataInicio.trim() + ' 00:00', dataFim.trim() + ' 23:59');
       } else if (dataInicio) {
-        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+        whereData = ` AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::timestamp ELSE TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') END) >= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
         params.push(dataInicio.trim() + ' 00:00');
       } else if (dataFim) {
-        whereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+        whereData = ` AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::timestamp ELSE TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') END) <= TO_TIMESTAMP($${params.length + 1}, 'DD/MM/YYYY HH24:MI')`;
         params.push(dataFim.trim() + ' 23:59');
       } else if (data && data.trim()) {
-        whereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date($${params.length + 1}::text,'dd/MM/yyyy')`;
+        whereData = ` AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::date ELSE to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') END) = to_date($${params.length + 1}::text,'dd/MM/yyyy')`;
         params.push(data.trim());
       }
 
@@ -78,17 +78,17 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
           const slaParams = [row.usuario_login];
           let slaWhereData = '';
           if (dataInicio && dataFim) {
-            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI') 
-                             AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP(${slaParams.length + 2}, 'DD/MM/YYYY HH24:MI')`;
+            slaWhereData = ` AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::timestamp ELSE TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') END) >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')
+                             AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::timestamp ELSE TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') END) <= TO_TIMESTAMP(${slaParams.length + 2}, 'DD/MM/YYYY HH24:MI')`;
             slaParams.push(dataInicio.trim() + ' 00:00', dataFim.trim() + ' 23:59');
           } else if (dataInicio) {
-            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+            slaWhereData = ` AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::timestamp ELSE TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') END) >= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
             slaParams.push(dataInicio.trim() + ' 00:00');
           } else if (dataFim) {
-            slaWhereData = ` AND TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') <= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
+            slaWhereData = ` AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::timestamp ELSE TO_TIMESTAMP(c.data_de_criacao, 'DD/MM/YYYY HH24:MI') END) <= TO_TIMESTAMP(${slaParams.length + 1}, 'DD/MM/YYYY HH24:MI')`;
             slaParams.push(dataFim.trim() + ' 23:59');
           } else if (data && data.trim()) {
-            slaWhereData = ` AND to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') = to_date(${slaParams.length + 1}::text,'dd/MM/yyyy')`;
+            slaWhereData = ` AND (CASE WHEN c.data_de_criacao LIKE '%T%' THEN c.data_de_criacao::date ELSE to_date(LEFT(c.data_de_criacao,10),'dd/MM/yyyy') END) = to_date(${slaParams.length + 1}::text,'dd/MM/yyyy')`;
             slaParams.push(data.trim());
           }
           const slaRes = await pool.query(`

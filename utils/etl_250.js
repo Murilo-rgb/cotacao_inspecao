@@ -26,6 +26,31 @@ const R_000250_COLUMNS = [
     "qtd_reprovacao"
 ];
 
+// ===== REGRA DE PORTABILIDADE (r_000250) =====
+// Fonte de verdade única: o indicador de portabilidade é DERIVADO do tipo do pedido
+// (tipo_pedido contém "Port", ex.: "2907 - Portabilidade Cruzada PF/PJ").
+// O valor que vem na planilha / db_claro NÃO é confiável e é sobrescrito por esta regra
+// no ETL de upload e no endpoint /api/inspecao/atualizar_r_000250.
+// Valores gravados: 'SIM' / 'NAO' (sem acento, alinhado ao que a tela já consome).
+const PORTABILIDADE_IF_SQL = `(tipo_pedido ILIKE '%port%')`;
+const PORTABILIDADE_CASE_SQL = `CASE WHEN ${PORTABILIDADE_IF_SQL} THEN 'SIM' ELSE 'NAO' END`;
+const PORTABILIDADE_SIM = 'SIM';
+const PORTABILIDADE_NAO = 'NAO';
+
+// SQL (idempotente) que normaliza a coluna ind_portabilidade em uma tabela r_000250.
+function buildNormalizarPortabilidadeSQL(fullTablePath) {
+    return `UPDATE ${fullTablePath} SET ind_portabilidade = ${PORTABILIDADE_CASE_SQL}`;
+}
+
+// Réplica em JS da regra (mesma semântica do SQL), usada nas respostas da API.
+function isPortabilidade(tipoPedido) {
+    return /port/i.test(String(tipoPedido || ''));
+}
+
+function classificarPortabilidade(tipoPedido) {
+    return isPortabilidade(tipoPedido) ? PORTABILIDADE_SIM : PORTABILIDADE_NAO;
+}
+
 const R_000250_CREATE_TABLE_SQL = `
 CREATE TABLE IF NOT EXISTS db_bloco_de_notas.r_000250 (
     cod_tarefa TEXT NULL,
@@ -289,14 +314,33 @@ async function processarETL_250(csvFilePath, pool) {
         });
         
         console.log('Dados carregados com sucesso via COPY.');
-        
+
+        // Expurgar lojas próprias: não devem compor a base de inspeção
+        let removidasLojaPropria = 0;
+        try {
+            const delRes = await client.query(`DELETE FROM ${fullTablePath} WHERE nom_fila ILIKE 'CPC - Loja Pr_pria' OR nom_fila ILIKE 'CPC - Loja Propria'`);
+            removidasLojaPropria = delRes.rowCount || 0;
+            if (removidasLojaPropria > 0) console.log(`Loja Própria expurgada do ETL: ${removidasLojaPropria} registro(s) removido(s).`);
+        } catch (delErr) {
+            console.error(`Erro ao expurgar Loja Própria no ETL: ${delErr.message}`);
+        }
+
+        // Normalizar o indicador de portabilidade derivando-o do tipo do pedido.
+        // O valor da planilha é ignorado (ver PORTABILIDADE_CASE_SQL).
+        try {
+            const portRes = await client.query(buildNormalizarPortabilidadeSQL(fullTablePath));
+            console.log(`Portabilidade normalizada pelo ETL: ${portRes.rowCount || 0} registro(s) atualizado(s).`);
+        } catch (portErr) {
+            console.error(`Erro ao normalizar Portabilidade no ETL: ${portErr.message}`);
+        }
+
         // Contar registros
         const countResult = await client.query(`SELECT COUNT(*) as total FROM ${fullTablePath}`);
         const totalRows = parseInt(countResult.rows[0].total);
-        
+
         console.log(`--- ETL R_000250 CONCLUÍDO: ${totalRows} registros ---`);
-        
-        return { success: true, totalRows };
+
+        return { success: true, totalRows, removidasLojaPropria };
         
     } catch (error) {
         console.error(`Erro no ETL: ${error.message}`);
@@ -309,5 +353,13 @@ async function processarETL_250(csvFilePath, pool) {
 module.exports = {
     processarETL_250,
     R_000250_COLUMNS,
-    R_000250_CREATE_TABLE_SQL
+    R_000250_CREATE_TABLE_SQL,
+    // Regra de portabilidade (fonte de verdade compartilhada)
+    PORTABILIDADE_IF_SQL,
+    PORTABILIDADE_CASE_SQL,
+    PORTABILIDADE_SIM,
+    PORTABILIDADE_NAO,
+    buildNormalizarPortabilidadeSQL,
+    isPortabilidade,
+    classificarPortabilidade
 };

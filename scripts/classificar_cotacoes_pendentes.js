@@ -45,25 +45,27 @@ async function classificarPendentes() {
         client = await pool.connect();
         console.log('[CLASSIFICACAO] Conectado ao banco de dados.');
 
+        // REGRA DE PROTECAO (fix reversao input_net/top): status especifico ja
+        // atribuido pelo operador NUNCA e rebaixado. So entra na fila de
+        // classificacao o que ainda esta sem tratamento: NULL, vazio ou
+        // 'pendente' puro (mais variantes legadas 'pendiente', 'pendentes').
+        // Qualquer outro valor (em-tratamento, troca-*, cadastro-*, aguardando-*,
+        // pendente-*, aprovado, reprovado, etc.) e preservado.
         const updateQuery = `
             UPDATE db_bloco_de_notas.cotacao c
-            SET 
+            SET
                 status = $1,
                 data_da_ultima_atualizacao = TO_CHAR(NOW(), 'DD/MM/YYYY HH24:MI')
-            WHERE 
+            WHERE
                 c.validacao = 'Ativo'
-                AND c.status NOT LIKE 'aprovado'
-                AND c.status NOT LIKE 'reprovado'
-                AND c.status NOT LIKE 'correcao-efetivada'
-                AND c.status NOT LIKE 'pendente-qualidade'
-                AND c.status NOT LIKE 'pendente-correcao-cadastral'
-                AND c.status NOT LIKE 'pendente-correcao-efetuada'
-                AND c.status NOT LIKE 'pendente-iphone'
-                -- Não reprocessa o valor canônico nem legados já classificados
-                -- (ex.: 'Pendente - Classificação', 'pendiente-clasificacion', etc.)
-                AND lower(trim(c.status)) NOT LIKE 'pendente%classifica%'
+                AND (
+                    c.status IS NULL
+                    OR trim(c.status) = ''
+                    OR lower(trim(c.status)) = 'pendente'
+                    OR lower(trim(c.status)) IN ('pendiente', 'pendientes')
+                )
                 AND NOT EXISTS (
-                    SELECT 1 FROM db_bloco_de_notas.r_000250 r 
+                    SELECT 1 FROM db_bloco_de_notas.r_000250 r
                     WHERE r.cod_tarefa = c.tarefa
                 )
                 AND c.tarefa IS NOT NULL

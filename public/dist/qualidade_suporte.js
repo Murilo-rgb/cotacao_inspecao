@@ -1,5 +1,3 @@
-"use strict";
-
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1219,7 +1217,7 @@ function App() {
       title: "Inspe\xE7\xE3o",
       className: "inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"
     }, /*#__PURE__*/React.createElement(InspectIcon, null)) : quotation.origem === 'iw_cpc_975_net' ? /*#__PURE__*/React.createElement("span", {
-      title: "Input",
+      title: "NET",
       className: "inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"
     }, /*#__PURE__*/React.createElement(InputIcon, null)) : quotation.origem === 'iw_cpc_975_top' ? /*#__PURE__*/React.createElement("span", {
       title: "TOP",

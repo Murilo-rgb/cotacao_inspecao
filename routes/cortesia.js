@@ -14,11 +14,16 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
   pool = deps.pool; authenticateToken = deps.authenticateToken; authorizeRoute = deps.authorizeRoute;
   formatDateBR = deps.formatDateBR; path = deps.path; fs = deps.fs; config = deps.config || require('../app/config');
 
-  const JIRA_SITE = config.JIRA_SITE;
-  const JIRA_EMAIL = config.JIRA_EMAIL;
-  const JIRA_FILTRO = config.JIRA_FILTRO;
+  // Config do Jira: mescla o app/config.js com o objeto recebido. O server.js
+  // pode passar um objeto parcial (apenas SITE/EMAIL); sem este merge o
+  // JIRA_FILTRO ficava undefined, a JQL virava 'filter = undefined' e o Jira
+  // respondia HTTP 200 com zero issues - o sync "funcionava" sem atualizar nada.
+  const cfgJira = Object.assign({}, require('../app/config'), config || {});
+  const JIRA_SITE = cfgJira.JIRA_SITE || 'https://clarobr-jsm-negocios.atlassian.net';
+  const JIRA_EMAIL = cfgJira.JIRA_EMAIL || 'felipe.holanda.terceiros@claro.com.br';
+  const JIRA_FILTRO = cfgJira.JIRA_FILTRO || '10288';
   // Dias de retrospectiva quando a tabela ainda nao foi populada (primeira sincronizacao)
-  const JIRA_DIAS_ATRAS = config.JIRA_DIAS_ATRAS;
+  const JIRA_DIAS_ATRAS = parseInt(cfgJira.JIRA_DIAS_ATRAS, 10) || 60;
   const FIELDS = 'summary,status,priority,assignee,creator,created,updated,customfield_10038';
 
   // Helper para buscar uma pagina no Jira (Basic Auth com o token informado)
@@ -262,12 +267,20 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
   // Lista tarefas de cortesia (distribuidas e em fila) - padrao tarefas_net
   router.get('/tarefas', authenticateToken, async (req, res) => {
     try {
-      // foto_recente por chave (DISTINCT ON) + s� APR5 + JOIN cotacao por tarefa+data
+      // foto_recente por chave (DISTINCT ON) + somente APR5 + vinculo da cotacao por tarefa
       const query = `
         WITH foto AS (
           SELECT DISTINCT ON (chave) *
           FROM db_bloco_de_notas.cortesia
           ORDER BY chave, atualizada_em DESC
+        ),
+        cot AS (
+          -- Vinculo por tarefa (linha mais recente), sem depender de data_historico:
+          -- a cortesia.atualizada_em muda a cada sync do Jira e quebrava o JOIN.
+          SELECT DISTINCT ON (tarefa) tarefa, status, data_historico, usuario_id
+          FROM db_bloco_de_notas.cotacao
+          WHERE origem = 'cortesia' AND validacao = 'Ativo'
+          ORDER BY tarefa, data_da_ultima_atualizacao DESC NULLS LAST, id_cotacao DESC
         )
         SELECT f.chave AS cod_tarefa,
                f.status AS etapa_atual,
@@ -275,17 +288,13 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
                f.approver_groups,
                f.atualizada_em,
                f.criada_em,
-               cc.status AS cotacao_status,
+               cot.status AS cotacao_status,
                COALESCE(NULLIF(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')), ''), '-'::text) AS usuario_distribuido_nome,
-               cc.data_historico,
-               CASE WHEN cc.id_cotacao IS NULL THEN 'pendente' ELSE 'em andamento' END AS status_distribuicao
+               cot.data_historico,
+               CASE WHEN cot.tarefa IS NULL THEN 'pendente' ELSE 'em andamento' END AS status_distribuicao
         FROM foto f
-        LEFT JOIN db_bloco_de_notas.cotacao cc
-          ON cc.tarefa = f.chave
-         AND cc.origem = 'cortesia'
-         AND cc.validacao = 'Ativo'
-         AND cc.data_historico IS NOT DISTINCT FROM f.atualizada_em::timestamp
-        LEFT JOIN db_automacao.usuarios u ON u.id::text = cc.usuario_id::text
+        LEFT JOIN cot ON cot.tarefa = f.chave
+        LEFT JOIN db_automacao.usuarios u ON u.id::text = cot.usuario_id::text
         WHERE f.status ILIKE '%apr5%'
         ORDER BY f.criada_em DESC
       `;
@@ -310,7 +319,18 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
         desconsiderar: 0
       };
 
-      res.json({ data: rows, total: rows.length, stats, statusCounts });
+      // Indicador de frescor: data do ultimo sync que gravou dados na tabela.
+      // Serve para a pagina avisar quando a sincronizacao ficar velha (foi o que
+      // aconteceu quando a JQL passou a ir como 'filter = undefined').
+      let ultimaSincronizacao = null;
+      try {
+        const ult = await pool.query('SELECT MAX(importada_em) AS ultima FROM db_bloco_de_notas.cortesia');
+        ultimaSincronizacao = (ult.rows[0] && ult.rows[0].ultima) || null;
+      } catch (frescoErr) {
+        console.error('[CORTESIA TAREFAS] Erro ao ler ultima sincronizacao:', frescoErr.message);
+      }
+
+      res.json({ data: rows, total: rows.length, stats, statusCounts, ultima_sincronizacao: ultimaSincronizacao });
     } catch (error) {
       console.error('[CORTESIA TAREFAS] Erro:', error.message);
       res.status(500).json({ error: 'Erro ao carregar tarefas cortesia' });
@@ -484,6 +504,11 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
     if (!tokenJira) {
       return res.status(400).json({ error: 'Chave da API não informada' });
     }
+    if (!JIRA_FILTRO) {
+      return res.status(500).json({ error: 'Filtro do Jira (JIRA_FILTRO) não configurado no servidor' });
+    }
+    // completo = true ignora a janela incremental (re-sincronizacao integral)
+    const completo = !!(req.body && req.body.completo);
     try {
       // Sincronizacao incremental: busca apenas issues atualizadas desde o
       // ultimo import (evita baixar/processar a fila inteira a cada clique).
@@ -504,6 +529,12 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
         const d = new Date();
         d.setDate(d.getDate() - JIRA_DIAS_ATRAS);
         cut = d.toISOString().substring(0, 10);
+      }
+      // Re-sincronizacao integral solicitada explicitamente pelo operador
+      if (completo) {
+        const dCompleto = new Date();
+        dCompleto.setDate(dCompleto.getDate() - JIRA_DIAS_ATRAS);
+        cut = dCompleto.toISOString().substring(0, 10);
       }
       const jqlExtra = 'updated >= "' + cut + '"';
 
@@ -546,15 +577,29 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
       }
 
       // Executa a limpeza dos dados nao necessarios apos cada sincronizacao.
+      // Somente quando o Jira retornou chamados: com zero issues a limpeza
+      // poderia encolher a tabela silenciosamente (ex.: filtro/JQL invalidos).
       let limpos = 0;
-      try {
-        const r = await pool.query('CALL db_bloco_de_notas.sp_limpar_iw_cortesia()');
-        limpos = (r && r.rowCount) ? r.rowCount : 0;
-      } catch (cleanErr) {
-        console.error('[CORTESIA SYNC] Erro ao executar sp_limpar_iw_cortesia:', cleanErr.message);
+      if (todas.length > 0) {
+        try {
+          const r = await pool.query('CALL db_bloco_de_notas.sp_limpar_iw_cortesia()');
+          limpos = (r && r.rowCount) ? r.rowCount : 0;
+        } catch (cleanErr) {
+          console.error('[CORTESIA SYNC] Erro ao executar sp_limpar_iw_cortesia:', cleanErr.message);
+        }
+      } else {
+        console.warn('[CORTESIA SYNC] Jira retornou 0 chamados (' + jqlExtra + '); limpeza nao executada.');
       }
 
-      res.json({ success: true, total: todas.length, mensagem: todas.length + ' chamados sincronizados', limpos });
+      res.json({
+        success: true,
+        total: todas.length,
+        limpos,
+        jql: 'filter = ' + JIRA_FILTRO + ' AND ' + jqlExtra,
+        mensagem: todas.length > 0
+          ? todas.length + ' chamados sincronizados'
+          : 'Nenhum chamado retornado pelo Jira - verifique a chave da API e o filtro'
+      });
     } catch (error) {
       console.error('[CORTESIA SYNC] Erro:', error.message);
       res.status(500).json({ error: 'Erro ao sincronizar: ' + error.message });

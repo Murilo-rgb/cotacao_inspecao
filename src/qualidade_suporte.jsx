@@ -556,7 +556,7 @@ function App() {
                                                     {!quotation.origem || quotation.origem === 'r_000250' ? (
                                                         <span title="Inspeção" className="inline-flex items-center justify-center w-8 h-8 bg-blue-50 rounded-lg cursor-help"><InspectIcon /></span>
                                                     ) : quotation.origem === 'iw_cpc_975_net' ? (
-                                                        <span title="Input" className="inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"><InputIcon /></span>
+                                                        <span title="NET" className="inline-flex items-center justify-center w-8 h-8 bg-emerald-50 rounded-lg cursor-help"><InputIcon /></span>
                                                     ) : quotation.origem === 'iw_cpc_975_top' ? (
                                                         <span title="TOP" className="inline-flex items-center justify-center w-8 h-8 bg-purple-50 rounded-lg cursor-help"><TopIcon /></span>
                                                     ) : (

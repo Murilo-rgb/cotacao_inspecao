@@ -190,6 +190,7 @@
             const [toast, setToast] = useState(null);
             const [stats, setStats] = useState({ total: 0, em_tratamento: 0, aprovado: 0, reprovado: 0, pendente: 0, cancelado: 0, desconsiderar: 0 });
             const [statusCounts, setStatusCounts] = useState({});
+            const [ultimaSincronizacao, setUltimaSincronizacao] = useState(null);
             const [selectedIds, setSelectedIds] = useState(new Set());
             const [massAssignUsuario, setMassAssignUsuario] = useState('');
             const [redistribuirMode, setRedistribuirMode] = useState(false);
@@ -252,6 +253,7 @@
                       desconsiderar: data.stats?.desconsiderar || 0
                     });
                     setStatusCounts(data.statusCounts || {});
+                    setUltimaSincronizacao(data.ultima_sincronizacao || null);
                 } catch (err) {
                     console.error('Erro ao buscar tarefas:', err);
                     showToast('Erro ao carregar tarefas', 'error');
@@ -483,7 +485,13 @@
                     });
                     const data = await res.json();
                     if (res.ok) {
-                        showToast(data.message || 'Chamados sincronizados com sucesso!', 'success');
+                        const qtd = Number(data.total);
+                        if (Number.isFinite(qtd) && qtd > 0) {
+                            showToast(data.mensagem || (qtd + ' chamados sincronizados'), 'success');
+                        } else {
+                            // Sync sem retorno: indica chave/filtro do Jira invalidos (antes passava como sucesso)
+                            showToast('Nenhum chamado retornado pelo Jira. Verifique a chave da API e o filtro.', 'error');
+                        }
                         fetchTarefas();
                     } else {
                         showToast(data.error || 'Erro ao sincronizar chamados', 'error');
@@ -653,6 +661,20 @@
             const visiveisApr5 = filteredTarefas.filter(ehApr5);
             const allSelected = visiveisApr5.length > 0 && selectedIds.size === visiveisApr5.length && Array.from(selectedIds).every(id => visiveisApr5.some(t => t.cod_tarefa === id));
 
+            const resumoTempoDesde = (iso) => {
+                // Classifica o frescor da sincronizacao para avisar na tela
+                if (!iso) return { label: 'Nunca sincronizado', cls: 'bg-red-50 text-red-700 border-red-200', titulo: 'Tabela sem registro de sincronizacao - clique em sincronizar' };
+                const t = new Date(iso).getTime();
+                if (!Number.isFinite(t)) return { label: 'Sync sem data', cls: 'bg-slate-100 text-slate-600 border-slate-200', titulo: 'Ultimo import: ' + String(iso) };
+                const horas = (Date.now() - t) / 3600000;
+                const quando = new Date(t).toLocaleString('pt-BR');
+                if (horas < 24) return { label: 'Sync ' + Math.max(0, Math.round(horas)) + 'h', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', titulo: 'Ultima sincronizacao: ' + quando };
+                if (horas < 48) return { label: 'Sync ' + Math.round(horas) + 'h (atencao)', cls: 'bg-amber-50 text-amber-700 border-amber-200', titulo: 'Ultima sincronizacao: ' + quando + ' - clique em sincronizar' };
+                return { label: 'Sync ' + Math.floor(horas / 24) + 'd (atrasado)', cls: 'bg-red-50 text-red-700 border-red-200', titulo: 'Ultima sincronizacao: ' + quando + ' - sincronize para atualizar os chamados' };
+            };
+
+            const frescor = resumoTempoDesde(ultimaSincronizacao);
+
             return React.createElement('div', { className: 'min-h-screen bg-slate-50/80' },
                 React.createElement('header', { className: 'bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30' },
                     React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8' },
@@ -669,6 +691,10 @@
                                 )
                             ),
                             React.createElement('div', { className: 'flex items-center gap-3' },
+                                React.createElement('span', {
+                                    className: 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border rounded-lg cursor-default ' + frescor.cls,
+                                    title: frescor.titulo
+                                }, frescor.label),
                                 React.createElement('button', {
                                     onClick: toggleDarkMode,
                                     className: `p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
