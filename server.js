@@ -21,7 +21,7 @@ const JWT_SECRET = 'Lenovo!Hitss!Global';
 const LEGACY_SECRET = JWT_SECRET;
 const SENHA_PADRAO_TROCA = 'Hitss@2026';
 
-// Fun????o para formatar data no formato brasileiro
+// Função para formatar data no formato brasileiro
 function formatDateBR(date) {
     if (typeof date === 'string' && /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}$/.test(date)) {
         return date;
@@ -41,7 +41,7 @@ function formatDateBR(date) {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-// Fun????o para calcular a semana do ano (1-53)
+// Função para calcular a semana do ano (1-53)
 function calcularSemana(date) {
     if (!date) return null;
     const d = new Date(date);
@@ -49,13 +49,13 @@ function calcularSemana(date) {
     const day = d.getDate();
     const month = d.getMonth();
     const year = d.getFullYear();
-    // Primeiro dia do m??s
+    // Primeiro dia do mês
     const firstDay = new Date(year, month, 1);
     // Dia da semana do primeiro dia (0-6)
     const firstDayWeek = firstDay.getDay();
     // Ajuste para iniciar a semana no domingo
     const startDay = firstDayWeek === 0 ? 0 : firstDayWeek;
-    // Calcular semana do m??s (1-5)
+    // Calcular semana do mês (1-5)
     const weekOfMonth = Math.ceil((day + startDay) / 7);
     return weekOfMonth;
 }
@@ -84,7 +84,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Configura????o do multer para upload de arquivos r_000250
+// Configuração do multer para upload de arquivos r_000250
 const filesDir = path.join(__dirname, 'files');
 if (!fs.existsSync(filesDir)) {
     fs.mkdirSync(filesDir, { recursive: true });
@@ -103,13 +103,13 @@ const upload = multer({
         if (ext === '.csv' || ext === '.zip') {
             cb(null, true);
         } else {
-            cb(new Error('Apenas arquivos .csv ou .zip s??o permitidos'));
+            cb(new Error('Apenas arquivos .csv ou .zip são permitidos'));
         }
     },
     limits: { fileSize: 100 * 1024 * 1024 } // 100MB
 });
 
-// Configura????o do multer para upload de arquivos input (IW_CPC_975)
+// Configuração do multer para upload de arquivos input (IW_CPC_975)
 const inputFilesDir = path.join(__dirname, 'files');
 if (!fs.existsSync(inputFilesDir)) {
     fs.mkdirSync(inputFilesDir, { recursive: true });
@@ -128,7 +128,7 @@ const inputUpload = multer({
         if (ext === '.csv' || ext === '.zip') {
             cb(null, true);
         } else {
-            cb(new Error('Apenas arquivos .csv ou .zip s??o permitidos'));
+            cb(new Error('Apenas arquivos .csv ou .zip são permitidos'));
         }
     },
     limits: { fileSize: 100 * 1024 * 1024 } // 100MB
@@ -139,7 +139,7 @@ const { createPermissions } = require('./app/auth/permissions');
 const permissions = createPermissions(pool);
 const authorizeRoute = permissions.authorizeRoute;
 
-// Middleware de autentica????o (retorna JSON para APIs)
+// Middleware de autenticação (retorna JSON para APIs)
 function authenticateToken(req, res, next) {
     let token = null;
     const authHeader = req.headers['authorization'];
@@ -153,18 +153,18 @@ function authenticateToken(req, res, next) {
         token = req.query.token;
     }
     if (!token) {
-        return res.status(401).json({ error: 'Token n??o fornecido' });
+        return res.status(401).json({ error: 'Token não fornecido' });
     }
     jwt.verify(token, JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({ error: 'Token inv??lido' });
+            return res.status(403).json({ error: 'Token inválido' });
         }
         req.user = user;
         next();
     });
 }
 
-// Middleware de autentica????o para p??ginas (redireciona para login externo)
+// Middleware de autenticação para páginas (redireciona para login externo)
 const LOGIN_URL = 'https://elpis.globalhitss.com.br/pme_notas/login.html';
 function authenticatePage(req, res, next) {
     let token = null;
@@ -190,7 +190,7 @@ function authenticatePage(req, res, next) {
     });
 }
 
-// Fun????o auxiliar para registrar auditoria (usada nas rotas PUT de cota????o)
+// Função auxiliar para registrar auditoria (usada nas rotas PUT de cotação)
 async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
   try {
     await pool.query(
@@ -204,7 +204,7 @@ async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuar
   }
 }
 
-// Inicializar rotas de inspe????o ap??s definir authenticateToken e authorizeRoute
+// Inicializar rotas de inspeção após definir authenticateToken e authorizeRoute
 var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage, processarETL_HoteisHospitais);
 
 // Inicializar rotas de input_net
@@ -236,7 +236,7 @@ app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.status(400).json({ error: 'Usu??rio e senha s??o obrigat??rios' });
+      return res.status(400).json({ error: 'Usuário e senha são obrigatórios' });
     }
 
     const result = await pool.query(
@@ -245,16 +245,16 @@ app.post('/api/login', async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(401).json({ error: 'Usu??rio n??o encontrado' });
+      return res.status(401).json({ error: 'Usuário não encontrado' });
     }
 
     const user = result.rows[0];
 
     if (!user.ativo) {
-      return res.status(401).json({ error: 'Usu??rio inativo' });
+      return res.status(401).json({ error: 'Usuário inativo' });
     }
 
-    // Regra: usu??rios marcados para troca de senha s?? autenticam com a senha padr??o
+    // Regra: usuários marcados para troca de senha só autenticam com a senha padrão
     if (user.deve_trocar_senha) {
       if (password !== SENHA_PADRAO_TROCA) {
         return res.status(401).json({ error: 'Senha incorreta' });
@@ -385,18 +385,20 @@ app.post('/api/login', async (req, res) => {
   } catch (error) {
     console.error('Erro ao fazer login:', error);
     res.status(500).json({ error: 'Erro ao fazer login' });
+  }
+});
 
-// API: Listar cota????es para corre????o cadastral
+// API: Listar cotações para correção cadastral
 app.get('/api/quotations/suporte', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem, status } = req.query;
+    const { search, dateStart, origem } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
       LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
       WHERE c.validacao = $1 AND (c.status = $2 OR c.status = $3)`;
-    const params = ['Ativo', origem ? origem.trim() : ''];
-    let paramIndex = 3;
+    const params = ['Ativo', 'pendente-correcao-cadastral', 'pendente-iphone'];
+    let paramIndex = 4;
 
     if (search && search.trim()) {
       query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
@@ -441,8 +443,8 @@ const serialized = result.rows.map(row => ({
 
     res.json(serialized);
   } catch (error) {
-    console.error('[CORRECAO_CAD] Erro ao buscar cota????es:', error);
-    res.status(500).json({ error: 'Erro ao buscar cota????es para corre????o cadastral' });
+    console.error('[CORRECAO_CAD] Erro ao buscar cotações:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
   }
 });
 
@@ -496,8 +498,7 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
     query += ' ORDER BY c.data_de_criacao DESC';
 
     const result = await pool.query(query, params);
-
-    const serialized = result.rows.map(row => ({
+const serialized = result.rows.map(row => ({
       tarefa: row.tarefa,
       cotacao: row.cotacao,
       cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
@@ -517,13 +518,11 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
     res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
   }
 });
-  }
-});
 
-// API: Listar cota????es pendentes de Qualidade/Suporte
+// API: Listar cotações pendentes de Qualidade/Suporte
 app.get('/api/quotations/qualidade/suporte', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem, status } = req.query;
+    const { search, dateStart, origem } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
@@ -575,15 +574,15 @@ const serialized = result.rows.map(row => ({
 
     res.json(serialized);
   } catch (error) {
-    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cota????es:', error);
-    res.status(500).json({ error: 'Erro ao buscar cota????es de qualidade/suporte' });
+    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cotações:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotações de qualidade/suporte' });
   }
 });
 
 // Duplicate route with /pme_notas prefix
 app.get('/pme_notas/api/quotations/qualidade/suporte', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem, status } = req.query;
+    const { search, dateStart, origem } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
@@ -635,8 +634,8 @@ const serialized = result.rows.map(row => ({
 
     res.json(serialized);
   } catch (error) {
-    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cota????es:', error);
-    res.status(500).json({ error: 'Erro ao buscar cota????es de qualidade/suporte' });
+    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cotações:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotações de qualidade/suporte' });
   }
 });
 
@@ -683,8 +682,8 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
 
     res.json(serialized);
   } catch (error) {
-    console.error('Erro ao buscar cota????es:', error);
-    res.status(500).json({ error: 'Erro ao buscar cota????es' });
+    console.error('Erro ao buscar cotações:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotações' });
   }
 });
 
@@ -697,7 +696,7 @@ app.get('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+      return res.status(404).json({ error: 'Cotação não encontrada' });
     }
 
     const row = result.rows[0];
@@ -710,8 +709,8 @@ app.get('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
       updatedAt: row.data_da_ultima_atualizacao
     });
   } catch (error) {
-    console.error('Erro ao buscar cota????o:', error);
-    res.status(500).json({ error: 'Erro ao buscar cota????o' });
+    console.error('Erro ao buscar cotação:', error);
+    res.status(500).json({ error: 'Erro ao buscar cotação' });
   }
 });
 
@@ -723,11 +722,11 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
     const usuarioId = req.user.id;
     const now = formatDateBR(new Date());
 
-    console.log(`[PUT] Atualizando cota????o: ${req.params.cotacao}`);
-    console.log(`[PUT] Usu??rio: ${usuarioLogin}`);
+    console.log(`[PUT] Atualizando cotação: ${req.params.cotacao}`);
+    console.log(`[PUT] Usuário: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
-    // Buscar status anterior antes de atualizar (TODAS as cota????es, n??o apenas do usu??rio)
+    // Buscar status anterior antes de atualizar (TODAS as cotações, não apenas do usuário)
     const beforeRes = await pool.query(
       "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo'",
       [req.params.cotacao]
@@ -742,8 +741,8 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
     console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
 
     if (result.rows.length === 0) {
-      console.log(`[PUT] Cota????o n??o encontrada ou usu??rio n??o ?? dono: ${req.params.cotacao}`);
-      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+      console.log(`[PUT] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cotação não encontrada' });
     }
 
     const row = result.rows[0];
@@ -751,7 +750,7 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
     // Salvar dados de auditoria se fornecidos
     if (auditoria_anotacao !== undefined || auditoria_status !== undefined) {
       try {
-        // Verificar se j?? existe v??nculo de auditoria para esta cota????o
+        // Verificar se já existe vínculo de auditoria para esta cotação
         const checkAudit = await pool.query(
           'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND id_qldd IS NOT NULL',
           [req.params.cotacao]
@@ -779,7 +778,7 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
       }
     }
 
-    // Registrar auditoria de mudan??a de status
+    // Registrar auditoria de mudança de status
     if (status && String(statusAnterior || '').toLowerCase() !== String(status).toLowerCase()) {
         try {
             await registrarAuditoria(pool, {
@@ -794,11 +793,11 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
                 criado_por: usuarioLogin
             });
         } catch (auditErr) {
-            console.error('[PUT] Erro ao registrar auditoria (n??o cr??tico):', auditErr.message);
+            console.error('[PUT] Erro ao registrar auditoria (não crítico):', auditErr.message);
         }
     }
 
-    console.log(`[PUT] Cota????o atualizada com sucesso:`, row);
+    console.log(`[PUT] Cotação atualizada com sucesso:`, row);
     
     res.json({
       cotacao: row.tarefa,
@@ -810,8 +809,8 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
       usuarioLogin: row.usuario_login
     });
   } catch (error) {
-    console.error('[PUT] Erro ao atualizar cota????o:', error);
-    res.status(500).json({ error: 'Erro ao atualizar cota????o' });
+    console.error('[PUT] Erro ao atualizar cotação:', error);
+    res.status(500).json({ error: 'Erro ao atualizar cotação' });
   }
 });
 
@@ -823,11 +822,11 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     const usuarioId = req.user.id;
     const now = formatDateBR(new Date());
 
-    console.log(`[PUT] Atualizando cota????o: ${req.params.cotacao}`);
-    console.log(`[PUT] Usu??rio: ${usuarioLogin}`);
+    console.log(`[PUT] Atualizando cotação: ${req.params.cotacao}`);
+    console.log(`[PUT] Usuário: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
-    // Buscar status anterior antes de atualizar (TODAS as cota????es, n??o apenas do usu??rio)
+    // Buscar status anterior antes de atualizar (TODAS as cotações, não apenas do usuário)
     const beforeRes = await pool.query(
       "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo'",
       [req.params.cotacao]
@@ -842,8 +841,8 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
 
     if (result.rows.length === 0) {
-      console.log(`[PUT] Cota????o n??o encontrada ou usu??rio n??o ?? dono: ${req.params.cotacao}`);
-      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+      console.log(`[PUT] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cotação não encontrada' });
     }
 
     const row = result.rows[0];
@@ -851,7 +850,7 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     // Salvar dados de auditoria se fornecidos
     if (auditoria_anotacao !== undefined || auditoria_status !== undefined) {
       try {
-        // Verificar se j?? existe v??nculo de auditoria para esta cota????o
+        // Verificar se já existe vínculo de auditoria para esta cotação
         const checkAudit = await pool.query(
           'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND id_qldd IS NOT NULL',
           [req.params.cotacao]
@@ -879,7 +878,7 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
       }
     }
 
-    // Registrar auditoria de mudan??a de status
+    // Registrar auditoria de mudança de status
     if (status && String(statusAnterior || '').toLowerCase() !== String(status).toLowerCase()) {
         try {
             await registrarAuditoria(pool, {
@@ -894,11 +893,11 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
                 criado_por: usuarioLogin
             });
         } catch (auditErr) {
-            console.error('[PUT] Erro ao registrar auditoria (n??o cr??tico):', auditErr.message);
+            console.error('[PUT] Erro ao registrar auditoria (não crítico):', auditErr.message);
         }
     }
 
-    console.log(`[PUT] Cota????o atualizada com sucesso:`, row);
+    console.log(`[PUT] Cotação atualizada com sucesso:`, row);
     
     res.json({
       cotacao: row.tarefa,
@@ -910,8 +909,8 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
       usuarioLogin: row.usuario_login
     });
   } catch (error) {
-    console.error('[PUT] Erro ao atualizar cota????o:', error);
-    res.status(500).json({ error: 'Erro ao atualizar cota????o' });
+    console.error('[PUT] Erro ao atualizar cotação:', error);
+    res.status(500).json({ error: 'Erro ao atualizar cotação' });
   }
 });
 
@@ -920,8 +919,8 @@ app.delete('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, 
   try {
     const usuarioLogin = req.user.username;
     const usuarioId = req.user.id;
-    console.log(`[DELETE] Soft delete cota????o: ${req.params.cotacao}`);
-    console.log(`[DELETE] Usu??rio: ${usuarioLogin}`);
+    console.log(`[DELETE] Soft delete cotação: ${req.params.cotacao}`);
+    console.log(`[DELETE] Usuário: ${usuarioLogin}`);
 
     const result = await pool.query(
       "UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE tarefa = $3 AND usuario_id = $4 RETURNING *",
@@ -931,15 +930,15 @@ app.delete('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, 
     console.log(`[DELETE] Linhas afetadas: ${result.rowCount}`);
 
     if (result.rows.length === 0) {
-      console.log(`[DELETE] Cota????o n??o encontrada ou usu??rio n??o ?? dono: ${req.params.cotacao}`);
-      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+      console.log(`[DELETE] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cotação não encontrada' });
     }
 
-    console.log(`[DELETE] Cota????o deletada com sucesso:`, result.rows[0]);
-    res.json({ message: 'Cota????o deletada com sucesso' });
+    console.log(`[DELETE] Cotação deletada com sucesso:`, result.rows[0]);
+    res.json({ message: 'Cotação deletada com sucesso' });
   } catch (error) {
-    console.error('[DELETE] Erro ao deletar cota????o:', error);
-    res.status(500).json({ error: 'Erro ao deletar cota????o' });
+    console.error('[DELETE] Erro ao deletar cotação:', error);
+    res.status(500).json({ error: 'Erro ao deletar cotação' });
   }
 });
 
@@ -948,8 +947,8 @@ app.delete('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
     const usuarioLogin = req.user.username;
     const usuarioId = req.user.id;
-    console.log(`[DELETE] Soft delete cota????o: ${req.params.cotacao}`);
-    console.log(`[DELETE] Usu??rio: ${usuarioLogin}`);
+    console.log(`[DELETE] Soft delete cotação: ${req.params.cotacao}`);
+    console.log(`[DELETE] Usuário: ${usuarioLogin}`);
 
     const result = await pool.query(
       "UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE tarefa = $3 AND usuario_id = $4 RETURNING *",
@@ -959,15 +958,15 @@ app.delete('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[DELETE] Linhas afetadas: ${result.rowCount}`);
 
     if (result.rows.length === 0) {
-      console.log(`[DELETE] Cota????o n??o encontrada ou usu??rio n??o ?? dono: ${req.params.cotacao}`);
-      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+      console.log(`[DELETE] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cotação não encontrada' });
     }
 
-    console.log(`[DELETE] Cota????o deletada com sucesso:`, result.rows[0]);
-    res.json({ message: 'Cota????o deletada com sucesso' });
+    console.log(`[DELETE] Cotação deletada com sucesso:`, result.rows[0]);
+    res.json({ message: 'Cotação deletada com sucesso' });
   } catch (error) {
-    console.error('[DELETE] Erro ao deletar cota????o:', error);
-    res.status(500).json({ error: 'Erro ao deletar cota????o' });
+    console.error('[DELETE] Erro ao deletar cotação:', error);
+    res.status(500).json({ error: 'Erro ao deletar cotação' });
   }
 });
 
@@ -978,7 +977,7 @@ app.post('/api/trocar-senha', async (req, res) => {
     const { senhaAtual, novaSenha } = req.body;
 
     if (!token || !senhaAtual || !novaSenha) {
-      return res.status(400).json({ success: false, message: 'Token, senha atual e nova senha s??o obrigat??rios' });
+      return res.status(400).json({ success: false, message: 'Token, senha atual e nova senha são obrigatórios' });
     }
 
     // Verificar token
@@ -986,29 +985,29 @@ app.post('/api/trocar-senha', async (req, res) => {
     try {
       decoded = jwt.verify(token, JWT_SECRET);
     } catch (err) {
-      return res.status(401).json({ success: false, message: 'Token inv??lido ou expirado' });
+      return res.status(401).json({ success: false, message: 'Token inválido ou expirado' });
     }
 
-    // Buscar usu??rio
+    // Buscar usuário
     const userResult = await pool.query(
       'SELECT id, login, nome, sobrenome, email, senha, ativo, deve_trocar_senha FROM db_automacao.usuarios WHERE id = $1',
       [decoded.id]
     );
 
     if (userResult.rows.length === 0) {
-      return res.status(401).json({ success: false, message: 'Usu??rio n??o encontrado' });
+      return res.status(401).json({ success: false, message: 'Usuário não encontrado' });
     }
 
     const user = userResult.rows[0];
 
     if (!user.ativo) {
-      return res.status(401).json({ success: false, message: 'Usu??rio inativo' });
+      return res.status(401).json({ success: false, message: 'Usuário inativo' });
     }
 
     // Verificar senha atual
     let senhaValida = false;
 
-    // Se deve_trocar_senha, aceitar senha padr??o como senha atual
+    // Se deve_trocar_senha, aceitar senha padrão como senha atual
     if (user.deve_trocar_senha && senhaAtual === SENHA_PADRAO_TROCA) {
       senhaValida = true;
     }
@@ -1055,7 +1054,7 @@ app.get('/trocar-senha', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
 });
 
-// Serve trocar-senha page com prefixo /pme_notas (necess??rio para o fluxo de primeiro acesso)
+// Serve trocar-senha page com prefixo /pme_notas (necessário para o fluxo de primeiro acesso)
 app.get('/pme_notas/trocar-senha', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
 });
@@ -1090,9 +1089,9 @@ app.get('/reprova_padrao', (req, res) => {
 app.post('/api/inpecao/atualizar_r_000250', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
   try {
     const startTime = Date.now();
-    console.log('[ATUALIZAR_R_000250] Iniciando atualiza????o...');
+    console.log('[ATUALIZAR_R_000250] Iniciando atualização...');
 
-    // 1. Verificar datas m??ximas
+    // 1. Verificar datas máximas
     const blocoRes = await pool.query("SELECT COALESCE(MAX(CAST(dat_historico AS TIMESTAMP)), '1900-01-01'::TIMESTAMP) AS max_data FROM db_bloco_de_notas.r_000250");
     const claroRes = await pool.query("SELECT COALESCE(MAX(CAST(dat_historico AS TIMESTAMP)), '1900-01-01'::TIMESTAMP) AS max_data FROM db_claro.r_000250");
 
@@ -1103,8 +1102,8 @@ app.post('/api/inpecao/atualizar_r_000250', authenticateToken, authorizeRoute('/
 
     if (!maxClaro || maxClaro <= maxBloco) {
       const elapsedTime = Date.now() - startTime;
-      console.log(`[ATUALIZAR_R_000250] Nenhuma atualiza????o necess??ria. Conclu??do em ${elapsedTime}ms`);
-      return res.json({ success: true, message: 'A tabela j?? est?? atualizada ou db_claro n??o possui dados mais recentes.' });
+      console.log(`[ATUALIZAR_R_000250] Nenhuma atualização necessária. Concluído em ${elapsedTime}ms`);
+      return res.json({ success: true, message: 'A tabela já está atualizada ou db_claro não possui dados mais recentes.' });
     }
 
     // 2. Truncar tabela
@@ -1128,7 +1127,7 @@ app.post('/api/inpecao/atualizar_r_000250', authenticateToken, authorizeRoute('/
     `);
 
     const elapsedTime = Date.now() - startTime;
-    console.log(`[ATUALIZAR_R_000250] Conclu??do em ${elapsedTime}ms`);
+    console.log(`[ATUALIZAR_R_000250] Concluído em ${elapsedTime}ms`);
     res.json({ success: true, message: 'Tabela atualizada com sucesso.' });
   } catch (error) {
     console.error('[ATUALIZAR_R_000250] Erro:', error);
@@ -1140,19 +1139,19 @@ app.post('/api/inpecao/atualizar_r_000250', authenticateToken, authorizeRoute('/
   }
 });
 
-// Classificar cota????es pendentes manualmente
+// Classificar cotações pendentes manualmente
 app.post('/api/inpecao/classificar-pendentes', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
   try {
     const result = await classificarPendentes();
     
     res.json({
       success: true,
-      message: `${result.classificados} cota????es classificadas como "Pendente - Classifica????o"`,
+      message: `${result.classificados} cotações classificadas como "Pendente - Classificação"`,
       ...result
     });
   } catch (error) {
-    console.error('[GESTAO] Erro na classifica????o manual:', error);
-    res.status(500).json({ error: `Erro ao classificar cota????es: ${error.message}` });
+    console.error('[GESTAO] Erro na classificação manual:', error);
+    res.status(500).json({ error: `Erro ao classificar cotações: ${error.message}` });
   }
 });
 
@@ -1179,10 +1178,10 @@ app.get('/devolucoes-padrao', authenticatePage, (req, res) => {
 
 // ===== ROTAS DE QUALIDADE (auditoria_qualidade) =====
 
-// API: Listar todas as cota????es para auditoria de qualidade
+// API: Listar todas as cotações para auditoria de qualidade
 app.get('/api/qualidade', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem, status } = req.query;
+    const { search, dateStart, origem } = req.query;
     const params = [];
     let paramIndex = 1;
     const normalizedSearch = search && search.trim() ? search.trim() : '';
@@ -1246,7 +1245,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
 
     const result = await pool.query(query, params);
 
-    // Para cada cota????o, verificar se j?? existe auditoria
+    // Para cada cotação, verificar se já existe auditoria
     const rows = await Promise.all(result.rows.map(async (row) => {
       let auditoria = null;
       try {
@@ -1282,7 +1281,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
           };
         }
       } catch (e) {
-        // Tabela pode n??o existir ainda
+        // Tabela pode não existir ainda
       }
 
       return {
@@ -1304,8 +1303,8 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
 
     res.json(rows);
   } catch (error) {
-    console.error('[QUALIDADE] Erro ao listar cota????es:', error);
-    res.status(500).json({ error: 'Erro ao listar cota????es para auditoria' });
+    console.error('[QUALIDADE] Erro ao listar cotações:', error);
+    res.status(500).json({ error: 'Erro ao listar cotações para auditoria' });
   }
 });
 
@@ -1315,19 +1314,19 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
     const { id_cotacao, anotacao, status } = req.body;
 
     if (!id_cotacao) {
-      return res.status(400).json({ error: 'ID da cota????o ?? obrigat??rio' });
+      return res.status(400).json({ error: 'ID da cotação é obrigatório' });
     }
 
     if (!status) {
-      return res.status(400).json({ error: 'Status ?? obrigat??rio' });
+      return res.status(400).json({ error: 'Status é obrigatório' });
     }
 
-    const statusPermitidos = ['Procedimento Correto', 'Devolu????o Parcial', 'Devolu????o Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprova????o Indevida - Qualidade'];
+    const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
     if (!statusPermitidos.includes(status)) {
-      return res.status(400).json({ error: 'Status inv??lido' });
+      return res.status(400).json({ error: 'Status inválido' });
     }
 
-    // Verificar se j?? existe auditoria para esta cota????o
+    // Verificar se já existe auditoria para esta cotação
     const cotacaoRow = await pool.query(
       'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
       [id_cotacao]
@@ -1351,7 +1350,7 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
       );
     }
 
-    // Atualizar o status na tabela cotacao tamb??m
+    // Atualizar o status na tabela cotacao também
     await pool.query(
       "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
       [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
@@ -1375,7 +1374,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
     try {
         const rawBody = req.body;
         const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
-        // Se Motivo 1 for "Isento", for??ar Motivo 2 e Motivo 3 como "Isento"
+        // Se Motivo 1 for "Isento", forçar Motivo 2 e Motivo 3 como "Isento"
         const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
         let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
         let motivo_2_erro = rawBody.motivo_2_erro || '';
@@ -1387,14 +1386,14 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
         const usuarioLogadoId = req.user.id;
 
         if (!id_cotacao) {
-            return res.status(400).json({ error: 'ID da cota????o ?? obrigat??rio' });
+            return res.status(400).json({ error: 'ID da cotação é obrigatório' });
         }
         if (!status) {
-            return res.status(400).json({ error: 'Status ?? obrigat??rio' });
+            return res.status(400).json({ error: 'Status é obrigatório' });
         }
-        const statusPermitidos = ['Procedimento Correto', 'Devolu????o Parcial', 'Devolu????o Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprova????o Indevida - Qualidade', 'RCV'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV'];
         if (!statusPermitidos.includes(status)) {
-            return res.status(400).json({ error: 'Status inv??lido' });
+            return res.status(400).json({ error: 'Status inválido' });
         }
 
         const cotacaoRow = await pool.query(
@@ -1402,7 +1401,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
             [id_cotacao]
         );
         if (cotacaoRow.rows.length === 0) {
-            return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+            return res.status(404).json({ error: 'Cotação não encontrada' });
         }
         const cotacao = cotacaoRow.rows[0];
         const analistaRes = await pool.query(
@@ -1484,7 +1483,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
     }
 });
 
-// API: Estat??sticas de qualidade para o usu??rio logado
+// API: Estatísticas de qualidade para o usuário logado
 app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
   try {
     const usuarioId = req.user.id;
@@ -1525,16 +1524,16 @@ app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
       stats.total += qtd;
       const s = (row.status || '').trim().toLowerCase();
       if (s === 'procedimento correto') stats.procedimento_correto = qtd;
-      else if (s === 'devolu????o parcial') stats.devolucao_parcial = qtd;
-      else if (s === 'devolu????o indevida') stats.devolucao_indevida = qtd;
-      else if (s === 'aprovacao indevida' || s === 'aprova????o indevida') stats.aprovacao_indevida = qtd;
+      else if (s === 'devolução parcial') stats.devolucao_parcial = qtd;
+      else if (s === 'devolução indevida') stats.devolucao_indevida = qtd;
+      else if (s === 'aprovacao indevida' || s === 'aprovação indevida') stats.aprovacao_indevida = qtd;
       else stats.outros += qtd;
     }
 
     res.json(stats);
   } catch (error) {
     console.error('[QUALIDADE STATS] Erro:', error);
-    res.status(500).json({ error: 'Erro ao carregar estat??sticas de qualidade' });
+    res.status(500).json({ error: 'Erro ao carregar estatísticas de qualidade' });
   }
 });
 
@@ -1569,7 +1568,7 @@ app.get('/pme_notas/api/qualidade/auditoria/:id_cotacao', authenticateToken, asy
   }
 });
 
-// API: Buscar auditoria de uma cota????o espec??fica
+// API: Buscar auditoria de uma cotação específica
 app.get('/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, res) => {
   try {
     const row = await pool.query(
@@ -1608,7 +1607,7 @@ app.post('/api/qualidade/auditoria/:id_cotacao/ler', authenticateToken, async (r
       [req.params.id_cotacao]
     );
     if (row.rows.length === 0 || !row.rows[0].id_qldd) {
-      return res.status(404).json({ error: 'Auditoria n??o encontrada para esta cota????o' });
+      return res.status(404).json({ error: 'Auditoria não encontrada para esta cotação' });
     }
     const idQldd = row.rows[0].id_qldd;
     await pool.query(
@@ -1630,7 +1629,7 @@ app.post('/pme_notas/api/qualidade/auditoria/:id_cotacao/ler', authenticateToken
       [req.params.id_cotacao]
     );
     if (row.rows.length === 0 || !row.rows[0].id_qldd) {
-      return res.status(404).json({ error: 'Auditoria n??o encontrada para esta cota????o' });
+      return res.status(404).json({ error: 'Auditoria não encontrada para esta cotação' });
     }
     const idQldd = row.rows[0].id_qldd;
     await pool.query(
@@ -1647,7 +1646,7 @@ app.post('/pme_notas/api/qualidade/auditoria/:id_cotacao/ler', authenticateToken
 // Duplicate route with /pme_notas prefix
 app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem, status } = req.query;
+    const { search, dateStart, origem } = req.query;
     const params = [];
     let paramIndex = 1;
     const normalizedSearch = search && search.trim() ? search.trim() : '';
@@ -1711,7 +1710,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
 
     const result = await pool.query(query, params);
 
-    // Para cada cota????o, verificar se j?? existe auditoria
+    // Para cada cotação, verificar se já existe auditoria
     const rows = await Promise.all(result.rows.map(async (row) => {
       let auditoria = null;
       try {
@@ -1747,7 +1746,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
           };
         }
       } catch (e) {
-        // Tabela pode n??o existir ainda
+        // Tabela pode não existir ainda
       }
 
       return {
@@ -1769,8 +1768,8 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
 
     res.json(rows);
   } catch (error) {
-    console.error('[QUALIDADE] Erro ao listar cota????es:', error);
-    res.status(500).json({ error: 'Erro ao listar cota????es para auditoria' });
+    console.error('[QUALIDADE] Erro ao listar cotações:', error);
+    res.status(500).json({ error: 'Erro ao listar cotações para auditoria' });
   }
 });
 
@@ -1780,19 +1779,19 @@ app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res)
         const { id_cotacao, anotacao, status } = req.body;
 
         if (!id_cotacao) {
-            return res.status(400).json({ error: 'ID da cota????o ?? obrigat??rio' });
+            return res.status(400).json({ error: 'ID da cotação é obrigatório' });
         }
 
         if (!status) {
-            return res.status(400).json({ error: 'Status ?? obrigat??rio' });
+            return res.status(400).json({ error: 'Status é obrigatório' });
         }
 
-        const statusPermitidos = ['Procedimento Correto', 'Devolu????o Parcial', 'Devolu????o Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprova????o Indevida - Qualidade'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
         if (!statusPermitidos.includes(status)) {
-            return res.status(400).json({ error: 'Status inv??lido' });
+            return res.status(400).json({ error: 'Status inválido' });
         }
 
-        // Verificar se j?? existe auditoria para esta cota????o
+        // Verificar se já existe auditoria para esta cotação
         const cotacaoRow = await pool.query(
             'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
             [id_cotacao]
@@ -1816,7 +1815,7 @@ app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res)
             );
         }
 
-        // Atualizar o status na tabela cotacao tamb??m
+        // Atualizar o status na tabela cotacao também
         await pool.query(
             "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
             [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
@@ -1840,7 +1839,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
     try {
         const rawBody = req.body;
         const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
-        // Se Motivo 1 for "Isento", for??ar Motivo 2 e Motivo 3 como "Isento"
+        // Se Motivo 1 for "Isento", forçar Motivo 2 e Motivo 3 como "Isento"
         const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
         let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
         let motivo_2_erro = rawBody.motivo_2_erro || '';
@@ -1852,14 +1851,14 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         const usuarioLogadoId = req.user.id;
 
         if (!id_cotacao) {
-            return res.status(400).json({ error: 'ID da cota????o ?? obrigat??rio' });
+            return res.status(400).json({ error: 'ID da cotação é obrigatório' });
         }
         if (!status) {
-            return res.status(400).json({ error: 'Status ?? obrigat??rio' });
+            return res.status(400).json({ error: 'Status é obrigatório' });
         }
-        const statusPermitidos = ['Procedimento Correto', 'Devolu????o Parcial', 'Devolu????o Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprova????o Indevida - Qualidade'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
         if (!statusPermitidos.includes(status)) {
-            return res.status(400).json({ error: 'Status inv??lido' });
+            return res.status(400).json({ error: 'Status inválido' });
         }
 
         const cotacaoRow = await pool.query(
@@ -1867,7 +1866,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
             [id_cotacao]
         );
         if (cotacaoRow.rows.length === 0) {
-            return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+            return res.status(404).json({ error: 'Cotação não encontrada' });
         }
         const cotacao = cotacaoRow.rows[0];
 
@@ -1950,14 +1949,14 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
     }
 });
 
-// API: Calend??rio de qualidade (tarefas x auditadas por dia do m??s)
+// API: Calendário de qualidade (tarefas x auditadas por dia do mês)
 app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
     try {
         const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
         const ano = parseInt(req.query.ano) || new Date().getFullYear();
         const origem = req.query.origem && req.query.origem !== 'todos' ? req.query.origem : null;
 
-        // Total de tarefas criadas por dia no m??s, considerando apenas uma tarefa por usu??rio por dia
+        // Total de tarefas criadas por dia no mês, considerando apenas uma tarefa por usuário por dia
         const tarefasQuery = await pool.query(`
             WITH base AS (
                 SELECT
@@ -1986,7 +1985,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
             ORDER BY dia
         `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
 
-        // Tarefas auditadas por dia no m??s, considerando apenas uma tarefa por usu??rio por dia
+        // Tarefas auditadas por dia no mês, considerando apenas uma tarefa por usuário por dia
         const auditadasQuery = await pool.query(`
             WITH base AS (
                 SELECT
@@ -2028,7 +2027,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
             diasMap[row.dia].auditadas = row.auditadas;
         }
 
-        // Calcular total do m??s
+        // Calcular total do mês
         let totalTarefas = 0;
         let totalAuditadas = 0;
         const dias = Object.keys(diasMap).sort((a, b) => a - b).map(d => {
@@ -2053,7 +2052,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
         });
     } catch (error) {
         console.error('[QUALIDADE CALENDARIO] Erro:', error);
-        res.status(500).json({ error: 'Erro ao carregar calend??rio de qualidade' });
+        res.status(500).json({ error: 'Erro ao carregar calendário de qualidade' });
     }
 });
 
@@ -2164,11 +2163,11 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
         });
     } catch (error) {
         console.error('[QUALIDADE CALENDARIO] Erro:', error);
-        res.status(500).json({ error: 'Erro ao carregar calend??rio de qualidade' });
+        res.status(500).json({ error: 'Erro ao carregar calendário de qualidade' });
     }
 });
 
-// Serve calend??rio page (com autoriza????o de qualidade)
+// Serve calendário page (com autorização de qualidade)
 app.get('/qualidade/calendario', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
@@ -2177,7 +2176,7 @@ app.get('/pme_notas/qualidade/calendario', authenticatePage, authorizeRoute('/pm
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
 
-// ===== ROTAS DE RCV (R??plica) =====
+// ===== ROTAS DE RCV (Réplica) =====
 
 // API: Listar registros RCV com join em cotacao e usuarios
 app.get('/api/rcv', authenticateToken, async (req, res) => {
@@ -2298,7 +2297,7 @@ app.get('/pme_notas/rcv', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
 });
 
-// Serve qualidade page (com autoriza????o de qualidade)
+// Serve qualidade page (com autorização de qualidade)
 app.get('/qualidade', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
@@ -2307,25 +2306,25 @@ app.get('/pme_notas/qualidade', authenticatePage, authorizeRoute('/pme_notas/qua
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
-// ===== ROTAS DE RELAT??RIOS (auditoria_qualidade) =====
+// ===== ROTAS DE RELATÓRIOS (auditoria_qualidade) =====
 
-// API: Extrair dados de auditoria_qualidade por per??odo de data_qualidade
+// API: Extrair dados de auditoria_qualidade por período de data_qualidade
 app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), async (req, res) => {
   try {
     const { dataInicio, dataFim } = req.query;
 
     if (!dataInicio || !dataFim) {
-      return res.status(400).json({ error: 'Datas de in??cio e fim s??o obrigat??rias' });
+      return res.status(400).json({ error: 'Datas de início e fim são obrigatórias' });
     }
 
     // Validar formato das datas (YYYY-MM-DD)
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(dataInicio) || !dateRegex.test(dataFim)) {
-      return res.status(400).json({ error: 'Formato de data inv??lido. Use YYYY-MM-DD' });
+      return res.status(400).json({ error: 'Formato de data inválido. Use YYYY-MM-DD' });
     }
 
     if (dataFim < dataInicio) {
-      return res.status(400).json({ error: 'A data final n??o pode ser anterior ?? data inicial' });
+      return res.status(400).json({ error: 'A data final não pode ser anterior à data inicial' });
     }
 
     // dataFim + 1 dia para incluir todo o dia final
@@ -2351,8 +2350,8 @@ app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'
 
     res.json(result.rows);
   } catch (error) {
-    console.error('[REPORTS] Erro ao extrair relat??rio:', error);
-    res.status(500).json({ error: 'Erro ao extrair relat??rio' });
+    console.error('[REPORTS] Erro ao extrair relatório:', error);
+    res.status(500).json({ error: 'Erro ao extrair relatório' });
   }
 });
 
@@ -2362,16 +2361,16 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
     const { dataInicio, dataFim } = req.query;
 
     if (!dataInicio || !dataFim) {
-      return res.status(400).json({ error: 'Datas de in??cio e fim s??o obrigat??rias' });
+      return res.status(400).json({ error: 'Datas de início e fim são obrigatórias' });
     }
 
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(dataInicio) || !dateRegex.test(dataFim)) {
-      return res.status(400).json({ error: 'Formato de data inv??lido. Use YYYY-MM-DD' });
+      return res.status(400).json({ error: 'Formato de data inválido. Use YYYY-MM-DD' });
     }
 
     if (dataFim < dataInicio) {
-      return res.status(400).json({ error: 'A data final n??o pode ser anterior ?? data inicial' });
+      return res.status(400).json({ error: 'A data final não pode ser anterior à data inicial' });
     }
 
     const dataFimExclusivo = new Date(dataFim);
@@ -2396,12 +2395,12 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
 
     res.json(result.rows);
   } catch (error) {
-    console.error('[REPORTS] Erro ao extrair relat??rio:', error);
-    res.status(500).json({ error: 'Erro ao extrair relat??rio' });
+    console.error('[REPORTS] Erro ao extrair relatório:', error);
+    res.status(500).json({ error: 'Erro ao extrair relatório' });
   }
 });
 
-// Serve reports page (com autoriza????o de qualidade)
+// Serve reports page (com autorização de qualidade)
 app.get('/reports', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'reports.html'));
 });
@@ -2455,19 +2454,19 @@ app.get('/pme_notas/hh/dashboard', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_h_x_h.html'));
 });
 
-// Usar rotas de inspe????o
+// Usar rotas de inspeção
 app.use(inspecaoRoutes);
 
-// ===== ROTAS DE ACESSOS (gerenciamento de permiss??es) =====
+// ===== ROTAS DE ACESSOS (gerenciamento de permissões) =====
 
-// Mapeamento de op????es para rotas
+// Mapeamento de opções para rotas
 const OPCOES_ROTAS = {
     gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/hh', '/pme_notas/inspecao', '/pme_notas/dashboard', '/pme_notas/gestao'],
     qualidade: ['/pme_notas/qualidade', '/pme_notas/rcv', '/pme_notas/reports'],
     admin: ['/pme_notas/acessos']
 };
 
-// Espelho das rotas de acessos com prefixo /pme_notas (acess??vel tanto por /pme_notas/api/acessos/... quanto por /api/acessos/...)
+// Espelho das rotas de acessos com prefixo /pme_notas (acessível tanto por /pme_notas/api/acessos/... quanto por /api/acessos/...)
 app.get('/pme_notas/api/acessos/usuarios', authenticateToken, async (req, res) => {
     req.url = req.url.replace(/^\/pme_notas/, '');
     req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
@@ -2486,7 +2485,7 @@ app.post('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, as
     app._router.handle(req, res);
 });
 
-// API: Buscar usu??rios por nome/sobrenome
+// API: Buscar usuários por nome/sobrenome
 app.get('/api/acessos/usuarios', authenticateToken, async (req, res) => {
     try {
         const { q } = req.query;
@@ -2506,12 +2505,12 @@ app.get('/api/acessos/usuarios', authenticateToken, async (req, res) => {
 
         res.json({ usuarios: result.rows });
     } catch (error) {
-        console.error('[ACESSOS] Erro ao buscar usu??rios:', error.message);
-        res.status(500).json({ error: 'Erro ao buscar usu??rios' });
+        console.error('[ACESSOS] Erro ao buscar usuários:', error.message);
+        res.status(500).json({ error: 'Erro ao buscar usuários' });
     }
 });
 
-// API: Listar permiss??es de um usu??rio
+// API: Listar permissões de um usuário
 app.get('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
@@ -2526,8 +2525,8 @@ app.get('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, r
 
         res.json({ permissoes: result.rows });
     } catch (error) {
-        console.error('[ACESSOS] Erro ao listar permiss??es:', error.message);
-        res.status(500).json({ error: 'Erro ao listar permiss??es' });
+        console.error('[ACESSOS] Erro ao listar permissões:', error.message);
+        res.status(500).json({ error: 'Erro ao listar permissões' });
     }
 });
 
@@ -2538,20 +2537,20 @@ app.post('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, as
     app._router.handle(req, res);
 });
 
-// API: Resetar senha de um usu??rio (volta para senha padr??o e marca deve_trocar_senha = true)
+// API: Resetar senha de um usuário (volta para senha padrão e marca deve_trocar_senha = true)
 // Rota implementada diretamente (sem espelho) para evitar erro 500 com app._router.handle
 app.post('/api/acessos/usuarios/:id/resetar-senha', authenticateToken, authorizeRoute('/pme_notas/acessos'), async (req, res) => {
     try {
         const { id } = req.params;
         const alteradoPor = req.user.username || req.user.nome || 'sistema';
 
-        // Validar que o usu??rio existe
+        // Validar que o usuário existe
         const userCheck = await pool.query(
             'SELECT id, login, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
             [id]
         );
         if (userCheck.rows.length === 0) {
-            return res.status(404).json({ success: false, error: 'Usu??rio n??o encontrado ou inativo' });
+            return res.status(404).json({ success: false, error: 'Usuário não encontrado ou inativo' });
         }
 
         const novoHash = await bcrypt.hash(SENHA_PADRAO_TROCA, 10);
@@ -2568,11 +2567,11 @@ app.post('/api/acessos/usuarios/:id/resetar-senha', authenticateToken, authorize
         );
 
         const usuario = userCheck.rows[0];
-        console.log(`[ACESSOS] Senha resetada para usu??rio ${id} (${usuario.login}) por ${alteradoPor}`);
+        console.log(`[ACESSOS] Senha resetada para usuário ${id} (${usuario.login}) por ${alteradoPor}`);
 
         res.json({
             success: true,
-            message: `Senha de ${usuario.nome} ${usuario.sobrenome} resetada para a senha padr??o`,
+            message: `Senha de ${usuario.nome} ${usuario.sobrenome} resetada para a senha padrão`,
             usuario: {
                 id: usuario.id,
                 login: usuario.login,
@@ -2592,13 +2591,13 @@ app.post('/pme_notas/api/acessos/usuarios/:id/resetar-senha', authenticateToken,
         const { id } = req.params;
         const alteradoPor = req.user.username || req.user.nome || 'sistema';
 
-        // Validar que o usu??rio existe
+        // Validar que o usuário existe
         const userCheck = await pool.query(
             'SELECT id, login, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
             [id]
         );
         if (userCheck.rows.length === 0) {
-            return res.status(404).json({ success: false, error: 'Usu??rio n??o encontrado ou inativo' });
+            return res.status(404).json({ success: false, error: 'Usuário não encontrado ou inativo' });
         }
 
         const novoHash = await bcrypt.hash(SENHA_PADRAO_TROCA, 10);
@@ -2615,11 +2614,11 @@ app.post('/pme_notas/api/acessos/usuarios/:id/resetar-senha', authenticateToken,
         );
 
         const usuario = userCheck.rows[0];
-        console.log(`[ACESSOS] Senha resetada para usu??rio ${id} (${usuario.login}) por ${alteradoPor}`);
+        console.log(`[ACESSOS] Senha resetada para usuário ${id} (${usuario.login}) por ${alteradoPor}`);
 
         res.json({
             success: true,
-            message: `Senha de ${usuario.nome} ${usuario.sobrenome} resetada para a senha padr??o`,
+            message: `Senha de ${usuario.nome} ${usuario.sobrenome} resetada para a senha padrão`,
             usuario: {
                 id: usuario.id,
                 login: usuario.login,
@@ -2633,23 +2632,23 @@ app.post('/pme_notas/api/acessos/usuarios/:id/resetar-senha', authenticateToken,
     }
 });
 
-// API: Salvar permiss??es de um usu??rio (sincroniza com base nas op????es selecionadas)
+// API: Salvar permissões de um usuário (sincroniza com base nas opções selecionadas)
 app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const { permissoes: opcoesAtivas } = req.body;
         const alteradoPor = req.user.username || req.user.nome || 'sistema';
 
-        // Validar que o usu??rio existe
+        // Validar que o usuário existe
         const userCheck = await pool.query(
             'SELECT id, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
             [id]
         );
         if (userCheck.rows.length === 0) {
-            return res.status(404).json({ success: false, error: 'Usu??rio n??o encontrado ou inativo' });
+            return res.status(404).json({ success: false, error: 'Usuário não encontrado ou inativo' });
         }
 
-        // Mapear op????es ativas para rotas
+        // Mapear opções ativas para rotas
         const rotasParaAtivar = new Set();
         if (Array.isArray(opcoesAtivas)) {
             for (const opcao of opcoesAtivas) {
@@ -2662,7 +2661,7 @@ app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, 
             }
         }
 
-        // Buscar permiss??es existentes do usu??rio que est??o dentro do nosso dom??nio
+        // Buscar permissões existentes do usuário que estão dentro do nosso domínio
         const todasRotasDominio = new Set([
             ...OPCOES_ROTAS.gestao,
             ...OPCOES_ROTAS.qualidade,
@@ -2680,11 +2679,11 @@ app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, 
             rotasExistentes[row.rota] = row.tem_acesso;
         }
 
-        // Inserir ou atualizar permiss??es
+        // Inserir ou atualizar permissões
         let inseridas = 0;
         let removidas = 0;
 
-        // Para cada rota do dom??nio, decidir se deve ativar ou desativar
+        // Para cada rota do domínio, decidir se deve ativar ou desativar
         for (const rota of todasRotasDominio) {
             const deveEstarAtiva = rotasParaAtivar.has(rota);
             const jaExiste = rotasExistentes[rota] !== undefined;
@@ -2699,24 +2698,24 @@ app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, 
                 await permissions.atualizarPermissao(id, rota, false, alteradoPor);
                 removidas++;
             }
-            // Se j?? est?? no estado correto, ignora
+            // Se já está no estado correto, ignora
         }
 
-        console.log(`[ACESSOS] Permiss??es atualizadas para usu??rio ${id}: ${inseridas} ativadas, ${removidas} desativadas`);
+        console.log(`[ACESSOS] Permissões atualizadas para usuário ${id}: ${inseridas} ativadas, ${removidas} desativadas`);
 
         res.json({
             success: true,
-            message: `${inseridas} permiss??o(??es) adicionada(s), ${removidas} removida(s)`,
+            message: `${inseridas} permissão(ões) adicionada(s), ${removidas} removida(s)`,
             ativadas: inseridas,
             removidas
         });
     } catch (error) {
-        console.error('[ACESSOS] Erro ao salvar permiss??es:', error.message);
-        res.status(500).json({ success: false, error: 'Erro ao salvar permiss??es' });
+        console.error('[ACESSOS] Erro ao salvar permissões:', error.message);
+        res.status(500).json({ success: false, error: 'Erro ao salvar permissões' });
     }
 });
 
-// Serve p??gina de acessos
+// Serve página de acessos
 app.get('/acessos', authenticatePage, authorizeRoute('/pme_notas/acessos'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
@@ -2792,7 +2791,7 @@ app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
           WHEN (da_etapa ILIKE '%04%' AND (para_etapa ILIKE '%01%' OR para_etapa ILIKE '%02%' OR para_etapa ILIKE '%03%' OR para_etapa ILIKE '%Admin%')) THEN codigo_da_tarefa 
         END) as desconsiderar
       FROM db_bloco_de_notas.iw_cpc_975_top 
-      WHERE etapa_atual = '04 - Inspe????o' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
+      WHERE etapa_atual = '04 - Inspeção' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
     `);
     const stats = countResult.rows[0] || {};
     res.json({ 
@@ -2969,7 +2968,7 @@ app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
     const params = [];
     let paramIndex = 1;
     query += ` AND etapa_atual = $${paramIndex}`;
-    params.push('04 - Inspe????o');
+    params.push('04 - Inspeção');
     paramIndex++;
     query += ` AND situacao_sistema = $${paramIndex}`;
     params.push('ATIVO');
@@ -2985,7 +2984,7 @@ app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
     query += ` ORDER BY data_historico DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
     params.push(parseInt(limit), parseInt(offset));
     const result = await pool.query(query, params);
-    const countResult = await pool.query('SELECT COUNT(*) as total FROM db_bloco_de_notas.iw_cpc_975_net WHERE etapa_atual = $1 AND situacao_sistema = $2 AND acao = $3', ['04 - Inspe????o', 'ATIVO', 'Alterar Status']);
+    const countResult = await pool.query('SELECT COUNT(*) as total FROM db_bloco_de_notas.iw_cpc_975_net WHERE etapa_atual = $1 AND situacao_sistema = $2 AND acao = $3', ['04 - Inspeção', 'ATIVO', 'Alterar Status']);
     res.json({ data: result.rows, total: parseInt(countResult.rows[0].total), limit: parseInt(limit), offset: parseInt(offset) });
   } catch (error) {
     console.error('[INPUT_NET] Erro:', error);
@@ -3034,7 +3033,7 @@ app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res)
   try {
     client = await pool.connect();
     // Evita que o ETL fique preso segurando locks por muito tempo, o que degrada a
-    // leitura da p??gina de inspe????o (que consome a tabela cotacao).
+    // leitura da página de inspeção (que consome a tabela cotacao).
     // Usamos um cliente dedicado para que os SETs valham para o mesmo statement.
     await client.query('SET lock_timeout = \'30s\'');
     await client.query('SET statement_timeout = 0');
@@ -3048,10 +3047,10 @@ app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res)
           SELECT MAX(CAST(data_historico AS TIMESTAMP)) INTO v_max_bloco FROM db_bloco_de_notas.iw_cpc_975_net;
 
           IF v_max_esteira > COALESCE(v_max_bloco, '1900-01-01'::timestamp) THEN
-              -- Otimiza????o de IO/lock: em vez de TRUNCATE (AccessExclusiveLock, bloqueia leitores
-              -- da iw_cpc durante toda a transa????o), usamos DELETE (RowExclusiveLock). O resultado
-              -- final ?? o mesmo (tabela passa a conter somente os dados re-carregados abaixo), mas
-              -- as leituras concorrentes (dashboard / distribui????o) n??o ficam bloqueadas.
+              -- Otimização de IO/lock: em vez de TRUNCATE (AccessExclusiveLock, bloqueia leitores
+              -- da iw_cpc durante toda a transação), usamos DELETE (RowExclusiveLock). O resultado
+              -- final é o mesmo (tabela passa a conter somente os dados re-carregados abaixo), mas
+              -- as leituras concorrentes (dashboard / distribuição) não ficam bloqueadas.
               DELETE FROM db_bloco_de_notas.iw_cpc_975_net;
 
               INSERT INTO db_bloco_de_notas.iw_cpc_975_net (
@@ -3074,7 +3073,7 @@ app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res)
 
               RAISE NOTICE 'Sucesso: Tabela truncada e dados atualizados para o dia %.', CURRENT_DATE;
           ELSE
-              RAISE NOTICE 'Aviso: A tabela do bloco de notas j?? est?? atualizada ou a origem n??o possui dados mais recentes.';
+              RAISE NOTICE 'Aviso: A tabela do bloco de notas já está atualizada ou a origem não possui dados mais recentes.';
           END IF;
       END $$;
     `);
@@ -3093,7 +3092,7 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
     const { distribuicoes } = req.body;
     
     if (!distribuicoes || !Array.isArray(distribuicoes) || distribuicoes.length === 0) {
-      return res.status(400).json({ error: 'Lista de distribui????es inv??lida' });
+      return res.status(400).json({ error: 'Lista de distribuições inválida' });
     }
     
     const usuarioLogin = req.user.username;
@@ -3110,18 +3109,18 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
       }
       
       try {
-        // Verificar se j?? foi distribu??da
+        // Verificar se já foi distribuída
         const check = await pool.query(
           "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
           [item.cod_tarefa, 'Ativo']
         );
         
         if (check.rows.length > 0) {
-          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa j?? distribu??da' });
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa já distribuída' });
           continue;
         }
         
-        // Buscar nome da tarefa para anota????o e data_historico
+        // Buscar nome da tarefa para anotação e data_historico
         const tarefaResult = await pool.query(
           'SELECT codigo_da_tarefa, etapa_atual, data_historico FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
           [item.cod_tarefa]
@@ -3137,7 +3136,7 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
           if (tr.data_historico) dataHistorico = tr.data_historico;
         }
 
-        // Buscar nome do usu??rio destino
+        // Buscar nome do usuário destino
         let destinoNome = String(item.usuario_id);
         try {
             const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
@@ -3170,7 +3169,7 @@ app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute(
     
     res.json({
       success: true,
-      message: `${count} tarefa(s) distribu??da(s) com sucesso`,
+      message: `${count} tarefa(s) distribuída(s) com sucesso`,
       distribuidos: count,
       erros: errors
     });
@@ -3187,7 +3186,7 @@ app.post('/api/inpecao/redistribuir_input_net', authenticateToken, authorizeRout
     const { redistribuicoes } = req.body;
     
     if (!redistribuicoes || !Array.isArray(redistribuicoes) || redistribuicoes.length === 0) {
-      return res.status(400).json({ error: 'Lista de redistribui????es inv??lida' });
+      return res.status(400).json({ error: 'Lista de redistribuições inválida' });
     }
     
     const usuarioLogin = req.user.username;
@@ -3204,18 +3203,18 @@ app.post('/api/inpecao/redistribuir_input_net', authenticateToken, authorizeRout
       }
       
       try {
-        // Verificar se a tarefa existe e est?? ativa
+        // Verificar se a tarefa existe e está ativa
         const check = await pool.query(
           "SELECT tarefa, usuario_id FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2 AND origem = 'iw_cpc_975_net'",
           [item.cod_tarefa, 'Ativo']
         );
         
         if (check.rows.length === 0) {
-          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa n??o encontrada ou origem n??o ?? iw_cpc_975_net' });
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa não encontrada ou origem não é iw_cpc_975_net' });
           continue;
         }
 
-        // Buscar nome do usu??rio destino
+        // Buscar nome do usuário destino
         let destinoNome = String(item.usuario_id);
         try {
             const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
@@ -3230,7 +3229,7 @@ app.post('/api/inpecao/redistribuir_input_net', authenticateToken, authorizeRout
             [item.cod_tarefa, 'redistribuido_input_net', usuarioId, usuarioLogin, item.usuario_id, destinoNome, null, null, usuarioLogin]
         );
 
-        // Atualizar usu??rio
+        // Atualizar usuário
         await pool.query(
           `UPDATE db_bloco_de_notas.cotacao 
            SET usuario_id = $1, data_da_ultima_atualizacao = $2, usuario_login = $3
@@ -3246,7 +3245,7 @@ app.post('/api/inpecao/redistribuir_input_net', authenticateToken, authorizeRout
     
     res.json({
       success: true,
-      message: `${count} tarefa(s) redistribu??da(s) com sucesso`,
+      message: `${count} tarefa(s) redistribuída(s) com sucesso`,
       redistribuidos: count,
       erros: errors
     });
@@ -3302,9 +3301,9 @@ app.get('/api/inpecao_input/tarefas', authenticateToken, async (req, res) => {
   }
 });
 
-// ===== ROTA: REPROVAS PADR??O (INSPE????O + INPUT) =====
+// ===== ROTA: REPROVAS PADRÃO (INSPEÇÃO + INPUT) =====
 
-// API: Listar reprovas padr??o com filtro por fonte e termo
+// API: Listar reprovas padrão com filtro por fonte e termo
 app.get('/api/reprovas', async (req, res) => {
   try {
     const { fonte, termo } = req.query;
@@ -3328,10 +3327,10 @@ app.get('/api/reprovas', async (req, res) => {
 
     const fontes = fonte && fonte.trim().toLowerCase() === 'input' 
       ? [{ nome: 'Input', tabela: 'db_qualidade.reprovas_padrao_input' }]
-      : fonte && fonte.trim().toLowerCase() === 'inspe????o'
-        ? [{ nome: 'Inspe????o', tabela: 'db_qualidade.reprovas_padrao' }]
+      : fonte && fonte.trim().toLowerCase() === 'inspeção'
+        ? [{ nome: 'Inspeção', tabela: 'db_qualidade.reprovas_padrao' }]
         : [
-            { nome: 'Inspe????o', tabela: 'db_qualidade.reprovas_padrao' },
+            { nome: 'Inspeção', tabela: 'db_qualidade.reprovas_padrao' },
             { nome: 'Input', tabela: 'db_qualidade.reprovas_padrao_input' }
           ];
 
@@ -3350,7 +3349,7 @@ app.get('/api/reprovas', async (req, res) => {
     res.json(resultados);
   } catch (error) {
     console.error('[REPROVAS] Erro ao buscar reprovas:', error);
-    res.status(500).json({ error: 'Erro ao buscar reprovas padr??o' });
+    res.status(500).json({ error: 'Erro ao buscar reprovas padrão' });
   }
 });
 
@@ -3361,9 +3360,9 @@ app.get('/pme_notas/api/reprovas', async (req, res) => {
   app._router.handle(req, res);
 });
 
-// ===== ROTA P??BLICA: DEVOLU????O PADR??O INPUT =====
+// ===== ROTA PÚBLICA: DEVOLUÇÃO PADRÃO INPUT =====
 
-// P??gina de visualiza????o (p??blica)
+// Página de visualização (pública)
 app.get('/devolucao-padrao', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao.html'));
 });
@@ -3372,7 +3371,7 @@ app.get('/pme_notas/devolucao-padrao', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao.html'));
 });
 
-// API p??blica para listar dados da devolu????o padr??o
+// API pública para listar dados da devolução padrão
 app.get('/api/devolucao-padrao', async (req, res) => {
   try {
     const { search, limit = 100, offset = 0 } = req.query;
@@ -3415,9 +3414,9 @@ app.get('/api/devolucao-padrao', async (req, res) => {
   }
 });
 
-// ===== ROTAS DE SUPORTE (aba Suporte na Corre????o Cadastral) =====
+// ===== ROTAS DE SUPORTE (aba Suporte na Correção Cadastral) =====
 
-// Configura????o do multer para upload de anexos do suporte
+// Configuração do multer para upload de anexos do suporte
 const suporteAnexosDir = path.join(__dirname, 'public', 'anexos');
 if (!fs.existsSync(suporteAnexosDir)) {
   fs.mkdirSync(suporteAnexosDir, { recursive: true });
@@ -3437,7 +3436,7 @@ const suporteUpload = multer({
   limits: { fileSize: 20 * 1024 * 1024 } // 20MB
 });
 
-// GET: Buscar dados de suporte (observa????o + anexos) de uma tarefa
+// GET: Buscar dados de suporte (observação + anexos) de uma tarefa
 app.get('/api/suporte/:tarefa', authenticateToken, async (req, res) => {
   try {
     const { tarefa } = req.params;
@@ -3454,7 +3453,7 @@ app.get('/api/suporte/:tarefa', authenticateToken, async (req, res) => {
 
     const id_cotacao = cotacaoRes.rows[0].id_cotacao;
 
-    // Buscar registros de suporte para esta cota????o
+    // Buscar registros de suporte para esta cotação
     const suporteRes = await pool.query(
       'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
       [id_cotacao]
@@ -3464,7 +3463,7 @@ app.get('/api/suporte/:tarefa', authenticateToken, async (req, res) => {
       return res.json({ observacao: '', anexos: [] });
     }
 
-    // Pega a observa????o do primeiro registro (todos compartilham o mesmo retorno)
+    // Pega a observação do primeiro registro (todos compartilham o mesmo retorno)
     const observacao = suporteRes.rows[0].retorno || '';
 
     // Lista de anexos
@@ -3517,7 +3516,7 @@ app.get('/pme_notas/api/suporte/:tarefa', authenticateToken, async (req, res) =>
   }
 });
 
-// POST: Salvar dados de suporte (observa????o + anexos)
+// POST: Salvar dados de suporte (observação + anexos)
 app.post('/api/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
   try {
     const { tarefa } = req.params;
@@ -3530,12 +3529,12 @@ app.post('/api/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'
     );
 
     if (cotacaoRes.rows.length === 0) {
-      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+      return res.status(404).json({ error: 'Cotação não encontrada' });
     }
 
     const id_cotacao = cotacaoRes.rows[0].id_cotacao;
 
-    // Verificar se j?? existem registros de suporte para esta cota????o
+    // Verificar se já existem registros de suporte para esta cotação
     const existingRes = await pool.query(
       'SELECT COUNT(*) as total FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1',
       [id_cotacao]
@@ -3543,7 +3542,7 @@ app.post('/api/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'
     const hasExisting = parseInt(existingRes.rows[0].total) > 0;
 
     if (hasExisting) {
-      // Atualizar observa????o (retorno) em todos os registros existentes
+      // Atualizar observação (retorno) em todos os registros existentes
       await pool.query(
         'UPDATE db_bloco_de_notas.suporte SET retorno = $1 WHERE id_cotacao = $2',
         [observacao, id_cotacao]
@@ -3567,7 +3566,7 @@ app.post('/api/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'
         }
       }
     } else if (!hasExisting) {
-      // Se n??o havia registros e n??o h?? anexos, inserir apenas a observa????o
+      // Se não havia registros e não há anexos, inserir apenas a observação
       await pool.query(
         'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
         [id_cotacao, '', observacao]
@@ -3610,7 +3609,7 @@ app.post('/pme_notas/api/suporte/:tarefa', authenticateToken, suporteUpload.arra
       [tarefa, 'Ativo']
     );
     if (cotacaoRes.rows.length === 0) {
-      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+      return res.status(404).json({ error: 'Cotação não encontrada' });
     }
     const id_cotacao = cotacaoRes.rows[0].id_cotacao;
     const existingRes = await pool.query(
@@ -3664,7 +3663,7 @@ app.post('/pme_notas/api/suporte/:tarefa', authenticateToken, suporteUpload.arra
   }
 });
 
-// DELETE: Remover um anexo espec??fico
+// DELETE: Remover um anexo específico
 app.delete('/api/suporte/anexo/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -3676,12 +3675,12 @@ app.delete('/api/suporte/anexo/:id', authenticateToken, async (req, res) => {
     );
 
     if (suporteRes.rows.length === 0) {
-      return res.status(404).json({ error: 'Anexo n??o encontrado' });
+      return res.status(404).json({ error: 'Anexo não encontrado' });
     }
 
     const { url: uuid } = suporteRes.rows[0];
 
-    // Deletar o arquivo f??sico se existir
+    // Deletar o arquivo físico se existir
     if (uuid && uuid.trim()) {
       const files = fs.readdirSync(suporteAnexosDir);
       const arquivo = files.find(f => f.startsWith(uuid));
@@ -3709,7 +3708,7 @@ app.delete('/pme_notas/api/suporte/anexo/:id', authenticateToken, async (req, re
       [id]
     );
     if (suporteRes.rows.length === 0) {
-      return res.status(404).json({ error: 'Anexo n??o encontrado' });
+      return res.status(404).json({ error: 'Anexo não encontrado' });
     }
     const { url: uuid } = suporteRes.rows[0];
     if (uuid && uuid.trim()) {
@@ -3735,7 +3734,7 @@ app.get('/api/anexos/:uuid', authenticateToken, async (req, res) => {
     const arquivo = files.find(f => f.startsWith(uuid));
     
     if (!arquivo) {
-      return res.status(404).json({ error: 'Arquivo n??o encontrado' });
+      return res.status(404).json({ error: 'Arquivo não encontrado' });
     }
 
     const filePath = path.join(suporteAnexosDir, arquivo);
@@ -3746,7 +3745,7 @@ app.get('/api/anexos/:uuid', authenticateToken, async (req, res) => {
   }
 });
 
-// Rota p??blica para anexos (sem autentica????o, para acesso via URL direta)
+// Rota pública para anexos (sem autenticação, para acesso via URL direta)
 app.get('/anexos/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
@@ -3754,7 +3753,7 @@ app.get('/anexos/:uuid', async (req, res) => {
     const arquivo = files.find(f => f.startsWith(uuid));
     
     if (!arquivo) {
-      return res.status(404).json({ error: 'Arquivo n??o encontrado' });
+      return res.status(404).json({ error: 'Arquivo não encontrado' });
     }
 
     const filePath = path.join(suporteAnexosDir, arquivo);
@@ -3765,20 +3764,7 @@ app.get('/anexos/:uuid', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
-// Serve rcv page
-app.get('/rcv', authenticatePage, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
-});
-
-// Duplicate route with /pme_notas prefix
-app.get('/pme_notas/rcv', authenticatePage, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
-});
-
-// Serve rcv page
+// Serve suporte/input page
 app.get('/suporte/input', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
 });
@@ -3788,3 +3774,6 @@ app.get('/pme_notas/suporte/input', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
 });
 
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
