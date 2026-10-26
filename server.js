@@ -1543,9 +1543,18 @@ app.get('/pme_notas/acessos', authenticatePage, authorizeRoute('/pme_notas/acess
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
 
-app.get('/suporte', authenticatePage, (req, res) => {
+// Rota principal para Correção Cadastral (nova URL com /inspecao)
+app.get('/suporte/inspecao', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'suporte.html'));
 });
+// Redirecionar URL antiga /suporte para /suporte/inspecao
+app.get('/suporte', (req, res) => {
+    res.redirect('/pme_notas/suporte/inspecao');
+});
+
+// Serve qualidade mensal page (com autorizaÃ§Ã£o de qualidade)
+
+// Serve qualidade page (com autorizaÃ§Ã£o de qualidade)
 
 app.get('/qualidade/suporte', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_suporte.html'));
