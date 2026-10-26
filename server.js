@@ -14,7 +14,6 @@ const { processarETL_975_net } = require('./utils/etl_975_input_net');
 const { processarETL_975_top } = require('./utils/etl_975_input_top');
 const { processarETL_HoteisHospitais } = require('./utils/etl_hoteis_hospitais');
 const { classificarPendentes, STATUS_CLASSIFICACAO } = require('./scripts/classificar_cotacoes_pendentes');
-const { jaDistribuida, inserirDistribuicaoAtomica } = require('./utils/distribuicao');
 
 const app = express();
 const PORT = 3016;
@@ -22,7 +21,7 @@ const JWT_SECRET = 'Lenovo!Hitss!Global';
 const LEGACY_SECRET = JWT_SECRET;
 const SENHA_PADRAO_TROCA = 'Hitss@2026';
 
-// Função para formatar data no formato brasileiro
+// Fun????o para formatar data no formato brasileiro
 function formatDateBR(date) {
     if (typeof date === 'string' && /^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}$/.test(date)) {
         return date;
@@ -42,7 +41,7 @@ function formatDateBR(date) {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-// Função para calcular a semana do ano (1-53)
+// Fun????o para calcular a semana do ano (1-53)
 function calcularSemana(date) {
     if (!date) return null;
     const d = new Date(date);
@@ -50,13 +49,13 @@ function calcularSemana(date) {
     const day = d.getDate();
     const month = d.getMonth();
     const year = d.getFullYear();
-    // Primeiro dia do mês
+    // Primeiro dia do m??s
     const firstDay = new Date(year, month, 1);
     // Dia da semana do primeiro dia (0-6)
     const firstDayWeek = firstDay.getDay();
     // Ajuste para iniciar a semana no domingo
     const startDay = firstDayWeek === 0 ? 0 : firstDayWeek;
-    // Calcular semana do mês (1-5)
+    // Calcular semana do m??s (1-5)
     const weekOfMonth = Math.ceil((day + startDay) / 7);
     return weekOfMonth;
 }
@@ -74,12 +73,8 @@ const pool = new Pool({
 app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
-
-// IMPORTANTE: desabilitar cache ANTES do express.static.
-// O express.static responde e encerra a cadeia (não chama next()), portanto qualquer
-// middleware registrado DEPOIS dele jamais define os headers de cache para .html/.js —
-// o navegador passa a servir o HTML/JS antigo do cache, e correções no front
-// (ex.: coluna PORT) não aparecem para o usuário mesmo com o deploy feito.
+app.use(express.static(path.join(__dirname, 'public'), { index: false }));
+app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
 app.use((req, res, next) => {
     if (req.path.endsWith('.js') || req.path.endsWith('.html')) {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -89,10 +84,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.static(path.join(__dirname, 'public'), { index: false }));
-app.use('/pme_notas', express.static(path.join(__dirname, 'public'), { index: false }));
-
-// Configuração do multer para upload de arquivos r_000250
+// Configura????o do multer para upload de arquivos r_000250
 const filesDir = path.join(__dirname, 'files');
 if (!fs.existsSync(filesDir)) {
     fs.mkdirSync(filesDir, { recursive: true });
@@ -111,13 +103,13 @@ const upload = multer({
         if (ext === '.csv' || ext === '.zip') {
             cb(null, true);
         } else {
-            cb(new Error('Apenas arquivos .csv ou .zip são permitidos'));
+            cb(new Error('Apenas arquivos .csv ou .zip s??o permitidos'));
         }
     },
     limits: { fileSize: 100 * 1024 * 1024 } // 100MB
 });
 
-// Configuração do multer para upload de arquivos input (IW_CPC_975)
+// Configura????o do multer para upload de arquivos input (IW_CPC_975)
 const inputFilesDir = path.join(__dirname, 'files');
 if (!fs.existsSync(inputFilesDir)) {
     fs.mkdirSync(inputFilesDir, { recursive: true });
@@ -136,7 +128,7 @@ const inputUpload = multer({
         if (ext === '.csv' || ext === '.zip') {
             cb(null, true);
         } else {
-            cb(new Error('Apenas arquivos .csv ou .zip são permitidos'));
+            cb(new Error('Apenas arquivos .csv ou .zip s??o permitidos'));
         }
     },
     limits: { fileSize: 100 * 1024 * 1024 } // 100MB
@@ -147,7 +139,7 @@ const { createPermissions } = require('./app/auth/permissions');
 const permissions = createPermissions(pool);
 const authorizeRoute = permissions.authorizeRoute;
 
-// Middleware de autenticação (retorna JSON para APIs)
+// Middleware de autentica????o (retorna JSON para APIs)
 function authenticateToken(req, res, next) {
     let token = null;
     const authHeader = req.headers['authorization'];
@@ -161,18 +153,18 @@ function authenticateToken(req, res, next) {
         token = req.query.token;
     }
     if (!token) {
-        return res.status(401).json({ error: 'Token não fornecido' });
+        return res.status(401).json({ error: 'Token n??o fornecido' });
     }
     jwt.verify(token, JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({ error: 'Token inválido' });
+            return res.status(403).json({ error: 'Token inv??lido' });
         }
         req.user = user;
         next();
     });
 }
 
-// Middleware de autenticação para páginas (redireciona para login externo)
+// Middleware de autentica????o para p??ginas (redireciona para login externo)
 const LOGIN_URL = 'https://elpis.globalhitss.com.br/pme_notas/login.html';
 function authenticatePage(req, res, next) {
     let token = null;
@@ -198,7 +190,7 @@ function authenticatePage(req, res, next) {
     });
 }
 
-// Função auxiliar para registrar auditoria (usada nas rotas PUT de cotação)
+// Fun????o auxiliar para registrar auditoria (usada nas rotas PUT de cota????o)
 async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por }) {
   try {
     await pool.query(
@@ -212,7 +204,7 @@ async function registrarAuditoria(pool, { tarefa, acao, usuario_origem_id, usuar
   }
 }
 
-// Inicializar rotas de inspeção após definir authenticateToken e authorizeRoute
+// Inicializar rotas de inspe????o ap??s definir authenticateToken e authorizeRoute
 var inspecaoRoutes = require('./routes/inspecao')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, upload, inputUpload, processarETL_250, processarETL_975_top, processarETL_975_net, classificarPendentes, authenticatePage, processarETL_HoteisHospitais);
 
 // Inicializar rotas de input_net
@@ -223,25 +215,8 @@ var inputTopRoutes = require('./routes/input_top')(pool, authenticateToken, auth
 
 // Inicializar rotas de h_x_h
 var hXHRoutes = require('./routes/h_x_h')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
-// Inicializar rotas de cortesia
-var cortesiaRoutes = require('./routes/cortesia')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, require('./app/config'));
 
-// Inicializar rotas de parcial PME
-var parcialPmeRoutes = require('./routes/parcial_pme')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, authenticatePage);
-// Inicializar rotas de suporte (aba Suporte na Correção Cadastral)
-var suporteModule = require('./routes/suporte');
-var suporteRoutes = suporteModule(pool, authenticateToken);
-
-// Inicializar rutas legadas /api/inpecao/* (sin deduplicar contra /api/inspecao/*)
-var inpecaoLegadoModule = require('./routes/inpecao_legado');
-var inpecaoLegadoRoutes = inpecaoLegadoModule(pool, authenticateToken, authorizeRoute, formatDateBR, classificarPendentes, inserirDistribuicaoAtomica);
 // Registrar rotas com prefixo /pme_notas (API input_net)
-// Inicializar rotas de acessos (permissões)
-var acessosModule = require('./routes/acessos');
-var acessosRoutes = acessosModule(pool, authenticateToken, authorizeRoute, permissions, { SENHA_PADRAO_TROCA: SENHA_PADRAO_TROCA });
-// Inicializar rotas de qualidade (auditoria_qualidade)
-var qualidadeModule = require('./routes/qualidade');
-var qualidadeRoutes = qualidadeModule(pool, authenticateToken, formatDateBR, calcularSemana);
 app.use('/api/input_net', inputNetRoutes);
 app.use('/pme_notas/api/input_net', inputNetRoutes);
 
@@ -250,25 +225,10 @@ app.use('/api/input_top', inputTopRoutes);
 app.use('/pme_notas/api/input_top', inputTopRoutes);
 
 // Registrar rotas com prefixo /pme_notas (API hh)
-// Registrar rotas de cortesia (API)
-app.use('/api/cortesia', cortesiaRoutes);
-app.use('/pme_notas/api/cortesia', cortesiaRoutes);
 app.use('/api/hh', hXHRoutes);
 app.use('/pme_notas/api/hh', hXHRoutes);
 
-// Registrar rotas de suporte (API) - mesmo router nos prefixos /api e /pme_notas/api
-app.use('/api', suporteRoutes);
-app.use('/pme_notas/api', suporteRoutes);
-// Anexos públicos na raiz (sem autenticação)
-app.use(suporteModule.publicRouter);
-
-// Registrar rutas legadas /api/inpecao/* (API)
-app.use('/api', inpecaoLegadoRoutes);
-app.use('/pme_notas/api', inpecaoLegadoRoutes);
 // API Routes
-// Registrar rutas de acessos (API)
-app.use('/api', acessosRoutes);
-app.use('/pme_notas/api', acessosRoutes);
 
 // Login endpoint
 app.post('/api/login', async (req, res) => {
@@ -276,7 +236,7 @@ app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.status(400).json({ error: 'Usuário e senha são obrigatórios' });
+      return res.status(400).json({ error: 'Usu??rio e senha s??o obrigat??rios' });
     }
 
     const result = await pool.query(
@@ -285,16 +245,16 @@ app.post('/api/login', async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(401).json({ error: 'Usuário não encontrado' });
+      return res.status(401).json({ error: 'Usu??rio n??o encontrado' });
     }
 
     const user = result.rows[0];
 
     if (!user.ativo) {
-      return res.status(401).json({ error: 'Usuário inativo' });
+      return res.status(401).json({ error: 'Usu??rio inativo' });
     }
 
-    // Regra: usuários marcados para troca de senha só autenticam com a senha padrão
+    // Regra: usu??rios marcados para troca de senha s?? autenticam com a senha padr??o
     if (user.deve_trocar_senha) {
       if (password !== SENHA_PADRAO_TROCA) {
         return res.status(401).json({ error: 'Senha incorreta' });
@@ -425,20 +385,18 @@ app.post('/api/login', async (req, res) => {
   } catch (error) {
     console.error('Erro ao fazer login:', error);
     res.status(500).json({ error: 'Erro ao fazer login' });
-  }
-});
 
-// API: Listar cotações para correção cadastral
+// API: Listar cota????es para corre????o cadastral
 app.get('/api/quotations/suporte', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem } = req.query;
+    const { search, dateStart, origem, status } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
       LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
       WHERE c.validacao = $1 AND (c.status = $2 OR c.status = $3)`;
-    const params = ['Ativo', 'pendente-correcao-cadastral', 'pendente-iphone'];
-    let paramIndex = 4;
+    const params = ['Ativo', origem ? origem.trim() : ''];
+    let paramIndex = 3;
 
     if (search && search.trim()) {
       query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
@@ -456,7 +414,7 @@ app.get('/api/quotations/suporte', authenticateToken, async (req, res) => {
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -483,22 +441,22 @@ const serialized = result.rows.map(row => ({
 
     res.json(serialized);
   } catch (error) {
-    console.error('[CORRECAO_CAD] Erro ao buscar cotações:', error);
-    res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
+    console.error('[CORRECAO_CAD] Erro ao buscar cota????es:', error);
+    res.status(500).json({ error: 'Erro ao buscar cota????es para corre????o cadastral' });
   }
 });
 
 // Duplicate route with /pme_notas prefix
 app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem } = req.query;
+    const { search, dateStart, origem, status } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
       LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
-      WHERE c.validacao = $1 AND (c.status = $2 OR c.status = $3)`;
-    const params = ['Ativo', 'pendente-correcao-cadastral', 'pendente-iphone'];
-    let paramIndex = 4;
+      WHERE c.validacao = $1 AND c.origem = $2`;
+    const params = ['Ativo', origem ? origem.trim() : ''];
+    let paramIndex = 3;
 
     if (search && search.trim()) {
       query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
@@ -516,7 +474,7 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -524,10 +482,22 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
       }
     }
 
+    if (status) {
+      const statuses = Array.isArray(status) ? status : [status];
+      const statusPlaceholders = statuses.map(() => `$${paramIndex++}`).join(',');
+      query += ` AND c.status IN (${statusPlaceholders})`;
+      params.push(...statuses);
+    } else {
+      query += ` AND (c.status = $${paramIndex} OR c.status = $${paramIndex + 1})`;
+      params.push('pendente-correcao-cadastral', 'pendente-iphone');
+      paramIndex += 2;
+    }
+
     query += ' ORDER BY c.data_de_criacao DESC';
 
     const result = await pool.query(query, params);
-const serialized = result.rows.map(row => ({
+
+    const serialized = result.rows.map(row => ({
       tarefa: row.tarefa,
       cotacao: row.cotacao,
       cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
@@ -547,11 +517,13 @@ const serialized = result.rows.map(row => ({
     res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
   }
 });
+  }
+});
 
-// API: Listar cotações pendentes de Qualidade/Suporte
+// API: Listar cota????es pendentes de Qualidade/Suporte
 app.get('/api/quotations/qualidade/suporte', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem } = req.query;
+    const { search, dateStart, origem, status } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
@@ -576,7 +548,7 @@ app.get('/api/quotations/qualidade/suporte', authenticateToken, async (req, res)
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -603,15 +575,15 @@ const serialized = result.rows.map(row => ({
 
     res.json(serialized);
   } catch (error) {
-    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cotações:', error);
-    res.status(500).json({ error: 'Erro ao buscar cotações de qualidade/suporte' });
+    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cota????es:', error);
+    res.status(500).json({ error: 'Erro ao buscar cota????es de qualidade/suporte' });
   }
 });
 
 // Duplicate route with /pme_notas prefix
 app.get('/pme_notas/api/quotations/qualidade/suporte', authenticateToken, async (req, res) => {
   try {
-    const { search, dateStart, origem } = req.query;
+    const { search, dateStart, origem, status } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
@@ -636,7 +608,7 @@ app.get('/pme_notas/api/quotations/qualidade/suporte', authenticateToken, async 
 
     if (origem && origem.trim() && origem !== 'todas') {
       if (origem === 'r_000250') {
-        query += ` AND ( c.origem = 'r_000250' OR ( (c.origem IS NULL OR c.origem = '') AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_net inet WHERE inet.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.iw_cpc_975_top itop WHERE itop.codigo_da_tarefa = c.tarefa) AND NOT EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = c.tarefa) ) )`;
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
       } else {
         query += ` AND c.origem = $${paramIndex}`;
         params.push(origem.trim());
@@ -663,8 +635,8 @@ const serialized = result.rows.map(row => ({
 
     res.json(serialized);
   } catch (error) {
-    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cotações:', error);
-    res.status(500).json({ error: 'Erro ao buscar cotações de qualidade/suporte' });
+    console.error('[QUALIDADE_SUPORTE] Erro ao buscar cota????es:', error);
+    res.status(500).json({ error: 'Erro ao buscar cota????es de qualidade/suporte' });
   }
 });
 
@@ -711,8 +683,8 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
 
     res.json(serialized);
   } catch (error) {
-    console.error('Erro ao buscar cotações:', error);
-    res.status(500).json({ error: 'Erro ao buscar cotações' });
+    console.error('Erro ao buscar cota????es:', error);
+    res.status(500).json({ error: 'Erro ao buscar cota????es' });
   }
 });
 
@@ -725,7 +697,7 @@ app.get('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Cotação não encontrada' });
+      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
     }
 
     const row = result.rows[0];
@@ -738,8 +710,8 @@ app.get('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
       updatedAt: row.data_da_ultima_atualizacao
     });
   } catch (error) {
-    console.error('Erro ao buscar cotação:', error);
-    res.status(500).json({ error: 'Erro ao buscar cotação' });
+    console.error('Erro ao buscar cota????o:', error);
+    res.status(500).json({ error: 'Erro ao buscar cota????o' });
   }
 });
 
@@ -751,37 +723,27 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
     const usuarioId = req.user.id;
     const now = formatDateBR(new Date());
 
-    console.log(`[PUT] Atualizando cotação: ${req.params.cotacao}`);
-    console.log(`[PUT] Usuário: ${usuarioLogin}`);
+    console.log(`[PUT] Atualizando cota????o: ${req.params.cotacao}`);
+    console.log(`[PUT] Usu??rio: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
-    // Buscar status anterior antes de atualizar (linha mais recente da tarefa)
+    // Buscar status anterior antes de atualizar (TODAS as cota????es, n??o apenas do usu??rio)
     const beforeRes = await pool.query(
-      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo' ORDER BY data_da_ultima_atualizacao DESC LIMIT 1",
+      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo'",
       [req.params.cotacao]
     );
     const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
 
-    // UPDATE cirurgico (fix "status que nao fixa" input_net/top): mira a linha do
-    // dono (usuario_id); sem linha do dono (redistribuicao/legado), mira a mais
-    // recente da tarefa. Evita sobrescrever N irmas com o mesmo timestamp e a
-    // listagem (DISTINCT ON) exibir linha "errada".
-    let result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' AND usuario_id = $5 RETURNING *",
-      [anotacao, status, now, req.params.cotacao, usuarioId]
+    const result = await pool.query(
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' RETURNING *",
+      [anotacao, status, now, req.params.cotacao]
     );
-    if (result.rows.length === 0) {
-      result = await pool.query(
-        "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE id_cotacao = (SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $4 AND validacao = 'Ativo' ORDER BY data_da_ultima_atualizacao DESC LIMIT 1) RETURNING *",
-        [anotacao, status, now, req.params.cotacao]
-      );
-    }
 
     console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
 
     if (result.rows.length === 0) {
-      console.log(`[PUT] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
-      return res.status(404).json({ error: 'Cotação não encontrada' });
+      console.log(`[PUT] Cota????o n??o encontrada ou usu??rio n??o ?? dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
     }
 
     const row = result.rows[0];
@@ -789,7 +751,7 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
     // Salvar dados de auditoria se fornecidos
     if (auditoria_anotacao !== undefined || auditoria_status !== undefined) {
       try {
-        // Verificar se já existe vínculo de auditoria para esta cotação
+        // Verificar se j?? existe v??nculo de auditoria para esta cota????o
         const checkAudit = await pool.query(
           'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND id_qldd IS NOT NULL',
           [req.params.cotacao]
@@ -817,7 +779,7 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
       }
     }
 
-    // Registrar auditoria de mudança de status
+    // Registrar auditoria de mudan??a de status
     if (status && String(statusAnterior || '').toLowerCase() !== String(status).toLowerCase()) {
         try {
             await registrarAuditoria(pool, {
@@ -832,11 +794,11 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
                 criado_por: usuarioLogin
             });
         } catch (auditErr) {
-            console.error('[PUT] Erro ao registrar auditoria (não crítico):', auditErr.message);
+            console.error('[PUT] Erro ao registrar auditoria (n??o cr??tico):', auditErr.message);
         }
     }
 
-    console.log(`[PUT] Cotação atualizada com sucesso:`, row);
+    console.log(`[PUT] Cota????o atualizada com sucesso:`, row);
     
     res.json({
       cotacao: row.tarefa,
@@ -848,8 +810,8 @@ app.put('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, res
       usuarioLogin: row.usuario_login
     });
   } catch (error) {
-    console.error('[PUT] Erro ao atualizar cotação:', error);
-    res.status(500).json({ error: 'Erro ao atualizar cotação' });
+    console.error('[PUT] Erro ao atualizar cota????o:', error);
+    res.status(500).json({ error: 'Erro ao atualizar cota????o' });
   }
 });
 
@@ -861,37 +823,27 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     const usuarioId = req.user.id;
     const now = formatDateBR(new Date());
 
-    console.log(`[PUT] Atualizando cotação: ${req.params.cotacao}`);
-    console.log(`[PUT] Usuário: ${usuarioLogin}`);
+    console.log(`[PUT] Atualizando cota????o: ${req.params.cotacao}`);
+    console.log(`[PUT] Usu??rio: ${usuarioLogin}`);
     console.log(`[PUT] Dados recebidos:`, { anotacao, status, auditoria_anotacao, auditoria_status });
 
-    // Buscar status anterior antes de atualizar (linha mais recente da tarefa)
+    // Buscar status anterior antes de atualizar (TODAS as cota????es, n??o apenas do usu??rio)
     const beforeRes = await pool.query(
-      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo' ORDER BY data_da_ultima_atualizacao DESC LIMIT 1",
+      "SELECT status FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = 'Ativo'",
       [req.params.cotacao]
     );
     const statusAnterior = beforeRes.rows.length > 0 ? beforeRes.rows[0].status : null;
 
-    // UPDATE cirurgico (fix "status que nao fixa" input_net/top): mira a linha do
-    // dono (usuario_id); sem linha do dono (redistribuicao/legado), mira a mais
-    // recente da tarefa. Evita sobrescrever N irmas com o mesmo timestamp e a
-    // listagem (DISTINCT ON) exibir linha "errada".
-    let result = await pool.query(
-      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' AND usuario_id = $5 RETURNING *",
-      [anotacao, status, now, req.params.cotacao, usuarioId]
+    const result = await pool.query(
+      "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE tarefa = $4 AND validacao = 'Ativo' RETURNING *",
+      [anotacao, status, now, req.params.cotacao]
     );
-    if (result.rows.length === 0) {
-      result = await pool.query(
-        "UPDATE db_bloco_de_notas.cotacao SET anotacao = COALESCE($1, anotacao), status = COALESCE($2, status), data_da_ultima_atualizacao = $3 WHERE id_cotacao = (SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $4 AND validacao = 'Ativo' ORDER BY data_da_ultima_atualizacao DESC LIMIT 1) RETURNING *",
-        [anotacao, status, now, req.params.cotacao]
-      );
-    }
 
     console.log(`[PUT] Linhas afetadas: ${result.rowCount}`);
 
     if (result.rows.length === 0) {
-      console.log(`[PUT] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
-      return res.status(404).json({ error: 'Cotação não encontrada' });
+      console.log(`[PUT] Cota????o n??o encontrada ou usu??rio n??o ?? dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
     }
 
     const row = result.rows[0];
@@ -899,7 +851,7 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     // Salvar dados de auditoria se fornecidos
     if (auditoria_anotacao !== undefined || auditoria_status !== undefined) {
       try {
-        // Verificar se já existe vínculo de auditoria para esta cotação
+        // Verificar se j?? existe v??nculo de auditoria para esta cota????o
         const checkAudit = await pool.query(
           'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND id_qldd IS NOT NULL',
           [req.params.cotacao]
@@ -927,7 +879,7 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
       }
     }
 
-    // Registrar auditoria de mudança de status
+    // Registrar auditoria de mudan??a de status
     if (status && String(statusAnterior || '').toLowerCase() !== String(status).toLowerCase()) {
         try {
             await registrarAuditoria(pool, {
@@ -942,11 +894,11 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
                 criado_por: usuarioLogin
             });
         } catch (auditErr) {
-            console.error('[PUT] Erro ao registrar auditoria (não crítico):', auditErr.message);
+            console.error('[PUT] Erro ao registrar auditoria (n??o cr??tico):', auditErr.message);
         }
     }
 
-    console.log(`[PUT] Cotação atualizada com sucesso:`, row);
+    console.log(`[PUT] Cota????o atualizada com sucesso:`, row);
     
     res.json({
       cotacao: row.tarefa,
@@ -958,8 +910,8 @@ app.put('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
       usuarioLogin: row.usuario_login
     });
   } catch (error) {
-    console.error('[PUT] Erro ao atualizar cotação:', error);
-    res.status(500).json({ error: 'Erro ao atualizar cotação' });
+    console.error('[PUT] Erro ao atualizar cota????o:', error);
+    res.status(500).json({ error: 'Erro ao atualizar cota????o' });
   }
 });
 
@@ -968,8 +920,8 @@ app.delete('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, 
   try {
     const usuarioLogin = req.user.username;
     const usuarioId = req.user.id;
-    console.log(`[DELETE] Soft delete cotação: ${req.params.cotacao}`);
-    console.log(`[DELETE] Usuário: ${usuarioLogin}`);
+    console.log(`[DELETE] Soft delete cota????o: ${req.params.cotacao}`);
+    console.log(`[DELETE] Usu??rio: ${usuarioLogin}`);
 
     const result = await pool.query(
       "UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE tarefa = $3 AND usuario_id = $4 RETURNING *",
@@ -979,15 +931,15 @@ app.delete('/pme_notas/api/quotations/:cotacao', authenticateToken, async (req, 
     console.log(`[DELETE] Linhas afetadas: ${result.rowCount}`);
 
     if (result.rows.length === 0) {
-      console.log(`[DELETE] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
-      return res.status(404).json({ error: 'Cotação não encontrada' });
+      console.log(`[DELETE] Cota????o n??o encontrada ou usu??rio n??o ?? dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
     }
 
-    console.log(`[DELETE] Cotação deletada com sucesso:`, result.rows[0]);
-    res.json({ message: 'Cotação deletada com sucesso' });
+    console.log(`[DELETE] Cota????o deletada com sucesso:`, result.rows[0]);
+    res.json({ message: 'Cota????o deletada com sucesso' });
   } catch (error) {
-    console.error('[DELETE] Erro ao deletar cotação:', error);
-    res.status(500).json({ error: 'Erro ao deletar cotação' });
+    console.error('[DELETE] Erro ao deletar cota????o:', error);
+    res.status(500).json({ error: 'Erro ao deletar cota????o' });
   }
 });
 
@@ -996,8 +948,8 @@ app.delete('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
   try {
     const usuarioLogin = req.user.username;
     const usuarioId = req.user.id;
-    console.log(`[DELETE] Soft delete cotação: ${req.params.cotacao}`);
-    console.log(`[DELETE] Usuário: ${usuarioLogin}`);
+    console.log(`[DELETE] Soft delete cota????o: ${req.params.cotacao}`);
+    console.log(`[DELETE] Usu??rio: ${usuarioLogin}`);
 
     const result = await pool.query(
       "UPDATE db_bloco_de_notas.cotacao SET validacao = $1, data_da_ultima_atualizacao = $2 WHERE tarefa = $3 AND usuario_id = $4 RETURNING *",
@@ -1007,15 +959,15 @@ app.delete('/api/quotations/:cotacao', authenticateToken, async (req, res) => {
     console.log(`[DELETE] Linhas afetadas: ${result.rowCount}`);
 
     if (result.rows.length === 0) {
-      console.log(`[DELETE] Cotação não encontrada ou usuário não é dono: ${req.params.cotacao}`);
-      return res.status(404).json({ error: 'Cotação não encontrada' });
+      console.log(`[DELETE] Cota????o n??o encontrada ou usu??rio n??o ?? dono: ${req.params.cotacao}`);
+      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
     }
 
-    console.log(`[DELETE] Cotação deletada com sucesso:`, result.rows[0]);
-    res.json({ message: 'Cotação deletada com sucesso' });
+    console.log(`[DELETE] Cota????o deletada com sucesso:`, result.rows[0]);
+    res.json({ message: 'Cota????o deletada com sucesso' });
   } catch (error) {
-    console.error('[DELETE] Erro ao deletar cotação:', error);
-    res.status(500).json({ error: 'Erro ao deletar cotação' });
+    console.error('[DELETE] Erro ao deletar cota????o:', error);
+    res.status(500).json({ error: 'Erro ao deletar cota????o' });
   }
 });
 
@@ -1026,7 +978,7 @@ app.post('/api/trocar-senha', async (req, res) => {
     const { senhaAtual, novaSenha } = req.body;
 
     if (!token || !senhaAtual || !novaSenha) {
-      return res.status(400).json({ success: false, message: 'Token, senha atual e nova senha são obrigatórios' });
+      return res.status(400).json({ success: false, message: 'Token, senha atual e nova senha s??o obrigat??rios' });
     }
 
     // Verificar token
@@ -1034,29 +986,29 @@ app.post('/api/trocar-senha', async (req, res) => {
     try {
       decoded = jwt.verify(token, JWT_SECRET);
     } catch (err) {
-      return res.status(401).json({ success: false, message: 'Token inválido ou expirado' });
+      return res.status(401).json({ success: false, message: 'Token inv??lido ou expirado' });
     }
 
-    // Buscar usuário
+    // Buscar usu??rio
     const userResult = await pool.query(
       'SELECT id, login, nome, sobrenome, email, senha, ativo, deve_trocar_senha FROM db_automacao.usuarios WHERE id = $1',
       [decoded.id]
     );
 
     if (userResult.rows.length === 0) {
-      return res.status(401).json({ success: false, message: 'Usuário não encontrado' });
+      return res.status(401).json({ success: false, message: 'Usu??rio n??o encontrado' });
     }
 
     const user = userResult.rows[0];
 
     if (!user.ativo) {
-      return res.status(401).json({ success: false, message: 'Usuário inativo' });
+      return res.status(401).json({ success: false, message: 'Usu??rio inativo' });
     }
 
     // Verificar senha atual
     let senhaValida = false;
 
-    // Se deve_trocar_senha, aceitar senha padrão como senha atual
+    // Se deve_trocar_senha, aceitar senha padr??o como senha atual
     if (user.deve_trocar_senha && senhaAtual === SENHA_PADRAO_TROCA) {
       senhaValida = true;
     }
@@ -1103,7 +1055,7 @@ app.get('/trocar-senha', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
 });
 
-// Serve trocar-senha page com prefixo /pme_notas (necessário para o fluxo de primeiro acesso)
+// Serve trocar-senha page com prefixo /pme_notas (necess??rio para o fluxo de primeiro acesso)
 app.get('/pme_notas/trocar-senha', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'trocar-senha.html'));
 });
@@ -1135,8 +1087,74 @@ app.get('/reprova_padrao', (req, res) => {
 
 
 // Atualizar tabela r_000250 a partir do db_claro
+app.post('/api/inpecao/atualizar_r_000250', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
+  try {
+    const startTime = Date.now();
+    console.log('[ATUALIZAR_R_000250] Iniciando atualiza????o...');
 
-// Classificar cotações pendentes manualmente
+    // 1. Verificar datas m??ximas
+    const blocoRes = await pool.query("SELECT COALESCE(MAX(CAST(dat_historico AS TIMESTAMP)), '1900-01-01'::TIMESTAMP) AS max_data FROM db_bloco_de_notas.r_000250");
+    const claroRes = await pool.query("SELECT COALESCE(MAX(CAST(dat_historico AS TIMESTAMP)), '1900-01-01'::TIMESTAMP) AS max_data FROM db_claro.r_000250");
+
+    const maxBloco = blocoRes.rows[0]?.max_data;
+    const maxClaro = claroRes.rows[0]?.max_data;
+
+    console.log(`[ATUALIZAR_R_000250] max_bloco=${maxBloco}, max_claro=${maxClaro}`);
+
+    if (!maxClaro || maxClaro <= maxBloco) {
+      const elapsedTime = Date.now() - startTime;
+      console.log(`[ATUALIZAR_R_000250] Nenhuma atualiza????o necess??ria. Conclu??do em ${elapsedTime}ms`);
+      return res.json({ success: true, message: 'A tabela j?? est?? atualizada ou db_claro n??o possui dados mais recentes.' });
+    }
+
+    // 2. Truncar tabela
+    await pool.query('TRUNCATE TABLE db_bloco_de_notas.r_000250 RESTART IDENTITY CASCADE');
+    console.log('[ATUALIZAR_R_000250] Tabela truncada');
+
+    // 3. Inserir dados do db_claro
+    await pool.query(`
+      INSERT INTO db_bloco_de_notas.r_000250 (
+          cod_tarefa, dat_criacao, dat_historico, criado_por, pendente_com,
+          nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
+          tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
+          ind_portabilidade, qtd_reprovacao, data_carga
+      )
+      SELECT
+          cod_tarefa, dat_criacao, dat_historico, criado_por, pendente_com,
+          nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
+          tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
+          ind_portabilidade, qtd_reprovacao, CURRENT_DATE
+      FROM db_claro.r_000250 where data_carga = CURRENT_DATE
+    `);
+
+    const elapsedTime = Date.now() - startTime;
+    console.log(`[ATUALIZAR_R_000250] Conclu??do em ${elapsedTime}ms`);
+    res.json({ success: true, message: 'Tabela atualizada com sucesso.' });
+  } catch (error) {
+    console.error('[ATUALIZAR_R_000250] Erro:', error);
+    res.status(500).json({ 
+      error: 'Erro ao atualizar tabela',
+      details: error.message || 'Erro desconhecido',
+      code: error.code
+    });
+  }
+});
+
+// Classificar cota????es pendentes manualmente
+app.post('/api/inpecao/classificar-pendentes', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
+  try {
+    const result = await classificarPendentes();
+    
+    res.json({
+      success: true,
+      message: `${result.classificados} cota????es classificadas como "Pendente - Classifica????o"`,
+      ...result
+    });
+  } catch (error) {
+    console.error('[GESTAO] Erro na classifica????o manual:', error);
+    res.status(500).json({ error: `Erro ao classificar cota????es: ${error.message}` });
+  }
+});
 
 // Serve dashboard page
 app.get('/inpecao/dashboard', authenticatePage, authorizeRoute('/pme_notas/inpecao'), (req, res) => {
@@ -1144,7 +1162,14 @@ app.get('/inpecao/dashboard', authenticatePage, authorizeRoute('/pme_notas/inpec
 });
 
 
+app.get('/api/inpecao/dashboard', authenticateToken, async (req, res) => {
+  res.json([]);
+});
 
+app.get('/api/inpecao/historico', authenticateToken, async (req, res) => {
+  const { limit = 200, tarefa } = req.query;
+  res.json([]);
+});
 
 // Serve devolucao padrao page
 app.get('/devolucoes-padrao', authenticatePage, (req, res) => {
@@ -1154,27 +1179,996 @@ app.get('/devolucoes-padrao', authenticatePage, (req, res) => {
 
 // ===== ROTAS DE QUALIDADE (auditoria_qualidade) =====
 
-// API: Listar todas as cotações para auditoria de qualidade
+// API: Listar todas as cota????es para auditoria de qualidade
+app.get('/api/qualidade', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, origem, status } = req.query;
+    const params = [];
+    let paramIndex = 1;
+    const normalizedSearch = search && search.trim() ? search.trim() : '';
+    const hasSearch = Boolean(normalizedSearch);
+    let innerQuery = `
+      SELECT DISTINCT ON (c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) 
+        c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
+        c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
+        c.usuario_id, c.origem, c.id_qldd,
+        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+      FROM db_bloco_de_notas.cotacao c 
+      LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+      WHERE c.validacao = 'Ativo'`;
+
+    if (hasSearch) {
+      innerQuery += ` AND (
+        LOWER(COALESCE(c.tarefa, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(COALESCE(c.cotacao, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(COALESCE(c.usuario_login, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, ''))) LIKE LOWER($${paramIndex})
+      )`;
+      params.push(`%${normalizedSearch}%`);
+      paramIndex++;
+    }
+
+    if (!hasSearch) {
+      const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+      const [year, month, day] = effectiveDate.split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      innerQuery += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
+
+    if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        innerQuery += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        innerQuery += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
+    }
+
+    if (!hasSearch) {
+      const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim() : '';
+      if (statusFilter) {
+        if (statusFilter.toLowerCase() === 'reprovado') {
+          innerQuery += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
+        } else {
+          innerQuery += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+          params.push(statusFilter);
+          paramIndex++;
+        }
+      }
+    }
+
+    innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
+
+    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
+
+    const result = await pool.query(query, params);
+
+    // Para cada cota????o, verificar se j?? existe auditoria
+    const rows = await Promise.all(result.rows.map(async (row) => {
+      let auditoria = null;
+      try {
+        const auditRes = await pool.query(
+          `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.apontamento,
+                  aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento,
+                  aq.contestacao, aq.obs, aq.regional, aq.tipo_de_pedido,
+                  aq.enviado, aq.data_envio, aq.data_qualidade, aq.semana, aq.analista
+           FROM db_bloco_de_notas.auditoria_qualidade aq
+           LEFT JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+           WHERE c.id_cotacao = $1`,
+          [row.id_cotacao]
+        );
+        if (auditRes.rows.length > 0) {
+          const a = auditRes.rows[0];
+          auditoria = {
+            anotacao: a.anotacao,
+            status: a.status,
+            reprova_bko: a.reprova_bko,
+            apontamento: a.apontamento,
+            motivo_1_sistema_documento: a.motivo_1_sistema_documento,
+            motivo_2_erro: a.motivo_2_erro,
+            motivo_3_detalhamento: a.motivo_3_detalhamento,
+            contestacao: a.contestacao,
+            obs: a.obs,
+            regional: a.regional,
+            tipo_de_pedido: a.tipo_de_pedido,
+            enviado: a.enviado,
+            data_envio: a.data_envio,
+            data_qualidade: a.data_qualidade,
+            semana: a.semana,
+            analista: a.analista
+          };
+        }
+      } catch (e) {
+        // Tabela pode n??o existir ainda
+      }
+
+      return {
+        id_cotacao: row.id_cotacao,
+        tarefa: row.tarefa,
+        cotacao: row.cotacao,
+        anotacao: row.anotacao,
+        status: row.status,
+        validacao: row.validacao,
+        data_de_criacao: formatDateBR(row.data_de_criacao),
+        data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
+        usuario_login: row.usuario_login,
+        usuario_nome: row.usuario_nome || null,
+        usuario_id: row.usuario_id,
+        origem: row.origem || null,
+        auditoria
+      };
+    }));
+
+    res.json(rows);
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao listar cota????es:', error);
+    res.status(500).json({ error: 'Erro ao listar cota????es para auditoria' });
+  }
+});
 
 // API: Salvar auditoria de qualidade (insere ou atualiza na auditoria_qualidade)
+app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
+  try {
+    const { id_cotacao, anotacao, status } = req.body;
+
+    if (!id_cotacao) {
+      return res.status(400).json({ error: 'ID da cota????o ?? obrigat??rio' });
+    }
+
+    if (!status) {
+      return res.status(400).json({ error: 'Status ?? obrigat??rio' });
+    }
+
+    const statusPermitidos = ['Procedimento Correto', 'Devolu????o Parcial', 'Devolu????o Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprova????o Indevida - Qualidade'];
+    if (!statusPermitidos.includes(status)) {
+      return res.status(400).json({ error: 'Status inv??lido' });
+    }
+
+    // Verificar se j?? existe auditoria para esta cota????o
+    const cotacaoRow = await pool.query(
+      'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+      [id_cotacao]
+    );
+    const idQldd = cotacaoRow.rows.length > 0 ? cotacaoRow.rows[0].id_qldd : null;
+
+    if (idQldd) {
+      await pool.query(
+        'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = $1, status = $2 WHERE id_qldd = $3',
+        [anotacao || '', status, idQldd]
+      );
+    } else {
+      const insertAudit = await pool.query(
+        'INSERT INTO db_bloco_de_notas.auditoria_qualidade (anotacao, status) VALUES ($1, $2) RETURNING id_qldd',
+        [anotacao || '', status]
+      );
+      const newIdQldd = insertAudit.rows[0].id_qldd;
+      await pool.query(
+        'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE id_cotacao = $2',
+        [newIdQldd, id_cotacao]
+      );
+    }
+
+    // Atualizar o status na tabela cotacao tamb??m
+    await pool.query(
+      "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
+      [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
+    );
+
+    res.json({
+      success: true,
+      message: 'Auditoria salva com sucesso',
+      id_cotacao,
+      anotacao: anotacao || '',
+      status
+    });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
+    res.status(500).json({ error: 'Erro ao salvar auditoria' });
+  }
+});
 
 // API: Salvar auditoria de qualidade completa (todos os campos)
+app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
+    try {
+        const rawBody = req.body;
+        const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
+        // Se Motivo 1 for "Isento", for??ar Motivo 2 e Motivo 3 como "Isento"
+        const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
+        let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
+        let motivo_2_erro = rawBody.motivo_2_erro || '';
+        let motivo_3_detalhamento = rawBody.motivo_3_detalhamento || '';
+        if (isIsento) {
+            motivo_2_erro = 'Isento';
+            motivo_3_detalhamento = 'Isento';
+        }
+        const usuarioLogadoId = req.user.id;
 
-// API: Estatísticas de qualidade para o usuário logado
+        if (!id_cotacao) {
+            return res.status(400).json({ error: 'ID da cota????o ?? obrigat??rio' });
+        }
+        if (!status) {
+            return res.status(400).json({ error: 'Status ?? obrigat??rio' });
+        }
+        const statusPermitidos = ['Procedimento Correto', 'Devolu????o Parcial', 'Devolu????o Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprova????o Indevida - Qualidade', 'RCV'];
+        if (!statusPermitidos.includes(status)) {
+            return res.status(400).json({ error: 'Status inv??lido' });
+        }
 
+        const cotacaoRow = await pool.query(
+            'SELECT tarefa, cotacao, usuario_id, data_de_criacao FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        if (cotacaoRow.rows.length === 0) {
+            return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+        }
+        const cotacao = cotacaoRow.rows[0];
+        const analistaRes = await pool.query(
+            "SELECT TRIM(COALESCE(nome, '') || ' ' || COALESCE(sobrenome, '')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1",
+            [usuarioLogadoId]
+        );
+        const analistaNome = analistaRes.rows.length > 0 ? analistaRes.rows[0].nome : null;
 
-// API: Buscar auditoria de uma cotação específica
+        const now = new Date();
+        const parseBRDate = (value) => {
+            if (!value) return now;
+            const text = String(value).trim();
+            if (!text) return now;
+            const m = text.match(/^(\d{2})\/(\d{2})\/(\d{4})(?:[ T](\d{2}):(\d{2}))?$/);
+            if (!m) return now;
+            const [ , day, month, year, hour = '00', minute = '00' ] = m;
+            return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
+        };
+        const dataCriacao = parseBRDate(cotacao.data_de_criacao);
+        const dataQualidade = formatDateBR(dataCriacao);
+        const semana = calcularSemana(dataCriacao);
+        const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
+
+        const existingAudit = await pool.query(
+            'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        const idQldd = existingAudit.rows.length > 0 ? existingAudit.rows[0].id_qldd : null;
+
+        if (idQldd) {
+            await pool.query(
+                `UPDATE db_bloco_de_notas.auditoria_qualidade SET
+                    anotacao = $1, status = $2, data_qualidade = $3, analista_qualidade_id = $4,
+                    reprova_bko = $5, codigo_tarefa = $6, analista = $7, data_analise = $8,
+                    cotacao = $9, regional = $10, tipo_de_pedido = $11,
+                    motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
+                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
+                WHERE id_qldd = $21`,
+                [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                 motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
+                 apontamento || '', contestacao || '', obs || '', enviado || false,
+                 data_envio ? new Date(data_envio) : null, semana, idQldd]
+            );
+        } else {
+            const insertAudit = await pool.query(
+                `INSERT INTO db_bloco_de_notas.auditoria_qualidade
+                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
+                [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                 motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
+                 apontamento || '', contestacao || '', obs || '', enviado || false,
+                 data_envio ? new Date(data_envio) : null, semana]
+            );
+            const newIdQldd = insertAudit.rows[0].id_qldd;
+            await pool.query(
+                'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE id_cotacao = $2',
+                [newIdQldd, id_cotacao]
+            );
+        }
+
+        await pool.query(
+            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
+            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
+        );
+
+        res.json({
+            success: true,
+            message: 'Auditoria salva com sucesso',
+            id_cotacao,
+            data_qualidade: dataQualidade,
+            semana,
+            status
+        });
+    } catch (error) {
+        console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
+        res.status(500).json({ error: 'Erro ao salvar auditoria' });
+    }
+});
+
+// API: Estat??sticas de qualidade para o usu??rio logado
+app.get('/api/qualidade/stats', authenticateToken, async (req, res) => {
+  try {
+    const usuarioId = req.user.id;
+    const result = await pool.query(`
+      SELECT aq.status, COUNT(*)::int as qtd
+      FROM db_bloco_de_notas.auditoria_qualidade aq
+      INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+      WHERE c.usuario_id = $1 AND c.validacao = 'Ativo'
+      GROUP BY aq.status
+    `, [usuarioId]);
+
+    // Contar total de RCV
+    let rcvTotal = 0;
+    try {
+      const rcvResult = await pool.query(`
+        SELECT COUNT(*)::int as total
+        FROM db_qualidade.rcv rcv
+        JOIN db_automacao.usuarios u ON rcv.nome = u.nome || ' ' || u.sobrenome
+        WHERE u.id = $1
+      `, [usuarioId]);
+      rcvTotal = rcvResult.rows.length > 0 ? rcvResult.rows[0].total : 0;
+    } catch (rcvErr) {
+      console.error('[QUALIDADE STATS] Erro ao contar RCV:', rcvErr.message);
+    }
+
+    const stats = {
+      total: 0,
+      rcv_total: rcvTotal,
+      procedimento_correto: 0,
+      devolucao_parcial: 0,
+      devolucao_indevida: 0,
+      aprovacao_indevida: 0,
+      outros: 0
+    };
+
+    for (const row of result.rows) {
+      const qtd = parseInt(row.qtd);
+      stats.total += qtd;
+      const s = (row.status || '').trim().toLowerCase();
+      if (s === 'procedimento correto') stats.procedimento_correto = qtd;
+      else if (s === 'devolu????o parcial') stats.devolucao_parcial = qtd;
+      else if (s === 'devolu????o indevida') stats.devolucao_indevida = qtd;
+      else if (s === 'aprovacao indevida' || s === 'aprova????o indevida') stats.aprovacao_indevida = qtd;
+      else stats.outros += qtd;
+    }
+
+    res.json(stats);
+  } catch (error) {
+    console.error('[QUALIDADE STATS] Erro:', error);
+    res.status(500).json({ error: 'Erro ao carregar estat??sticas de qualidade' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, res) => {
+  try {
+    const row = await pool.query(
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
+      [req.params.id_cotacao]
+    );
+    let result = { rows: [] };
+    if (row.rows.length > 0 && row.rows[0].id_qldd) {
+      result = await pool.query(
+        'SELECT * FROM db_bloco_de_notas.auditoria_qualidade WHERE id_qldd = $1',
+        [row.rows[0].id_qldd]
+      );
+    }
+
+    if (result.rows.length === 0) {
+      return res.json(null);
+    }
+
+    res.json({
+      cotacao: result.rows[0].cotacao,
+      anotacao: result.rows[0].anotacao,
+      status: result.rows[0].status,
+      data_leitura: result.rows[0].data_leitura || null
+    });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao buscar auditoria:', error);
+    res.status(500).json({ error: 'Erro ao buscar auditoria' });
+  }
+});
+
+// API: Buscar auditoria de uma cota????o espec??fica
+app.get('/api/qualidade/auditoria/:id_cotacao', authenticateToken, async (req, res) => {
+  try {
+    const row = await pool.query(
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
+      [req.params.id_cotacao]
+    );
+    let result = { rows: [] };
+    if (row.rows.length > 0 && row.rows[0].id_qldd) {
+      result = await pool.query(
+        'SELECT * FROM db_bloco_de_notas.auditoria_qualidade WHERE id_qldd = $1',
+        [row.rows[0].id_qldd]
+      );
+    }
+
+    if (result.rows.length === 0) {
+      return res.json(null);
+    }
+
+    res.json({
+      cotacao: result.rows[0].cotacao,
+      anotacao: result.rows[0].anotacao,
+      status: result.rows[0].status,
+      data_leitura: result.rows[0].data_leitura || null
+    });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao buscar auditoria:', error);
+    res.status(500).json({ error: 'Erro ao buscar auditoria' });
+  }
+});
 
 // API: Marcar auditoria como lida (atualiza data_leitura)
+app.post('/api/qualidade/auditoria/:id_cotacao/ler', authenticateToken, async (req, res) => {
+  try {
+    const row = await pool.query(
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
+      [req.params.id_cotacao]
+    );
+    if (row.rows.length === 0 || !row.rows[0].id_qldd) {
+      return res.status(404).json({ error: 'Auditoria n??o encontrada para esta cota????o' });
+    }
+    const idQldd = row.rows[0].id_qldd;
+    await pool.query(
+      'UPDATE db_bloco_de_notas.auditoria_qualidade SET data_leitura = CURRENT_TIMESTAMP WHERE id_qldd = $1',
+      [idQldd]
+    );
+    res.json({ success: true, message: 'Auditoria marcada como lida', data_leitura: new Date() });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao marcar auditoria como lida:', error);
+    res.status(500).json({ error: 'Erro ao marcar auditoria como lida' });
+  }
+});
 
+// Duplicate route with /pme_notas prefix
+app.post('/pme_notas/api/qualidade/auditoria/:id_cotacao/ler', authenticateToken, async (req, res) => {
+  try {
+    const row = await pool.query(
+      'SELECT c.id_qldd FROM db_bloco_de_notas.cotacao c WHERE c.tarefa = $1',
+      [req.params.id_cotacao]
+    );
+    if (row.rows.length === 0 || !row.rows[0].id_qldd) {
+      return res.status(404).json({ error: 'Auditoria n??o encontrada para esta cota????o' });
+    }
+    const idQldd = row.rows[0].id_qldd;
+    await pool.query(
+      'UPDATE db_bloco_de_notas.auditoria_qualidade SET data_leitura = CURRENT_TIMESTAMP WHERE id_qldd = $1',
+      [idQldd]
+    );
+    res.json({ success: true, message: 'Auditoria marcada como lida', data_leitura: new Date() });
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao marcar auditoria como lida:', error);
+    res.status(500).json({ error: 'Erro ao marcar auditoria como lida' });
+  }
+});
 
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
+  try {
+    const { search, dateStart, origem, status } = req.query;
+    const params = [];
+    let paramIndex = 1;
+    const normalizedSearch = search && search.trim() ? search.trim() : '';
+    const hasSearch = Boolean(normalizedSearch);
+    let innerQuery = `
+      SELECT DISTINCT ON (c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) 
+        c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
+        c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
+        c.usuario_id, c.origem, c.id_qldd,
+        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+      FROM db_bloco_de_notas.cotacao c 
+      LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
+      WHERE c.validacao = 'Ativo'`;
 
+    if (hasSearch) {
+      innerQuery += ` AND (
+        LOWER(COALESCE(c.tarefa, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(COALESCE(c.cotacao, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(COALESCE(c.usuario_login, '')) LIKE LOWER($${paramIndex})
+        OR LOWER(TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, ''))) LIKE LOWER($${paramIndex})
+      )`;
+      params.push(`%${normalizedSearch}%`);
+      paramIndex++;
+    }
 
+    if (!hasSearch) {
+      const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+      const [year, month, day] = effectiveDate.split('-');
+      const dateStartBR = `${day}/${month}/${year}`;
+      innerQuery += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+      params.push(`${dateStartBR}%`);
+      paramIndex++;
+    }
 
-// API: Calendário de qualidade (tarefas x auditadas por dia do mês)
+    if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        innerQuery += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        innerQuery += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
+    }
 
+    if (!hasSearch) {
+      const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim() : '';
+      if (statusFilter) {
+        if (statusFilter.toLowerCase() === 'reprovado') {
+          innerQuery += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
+        } else {
+          innerQuery += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+          params.push(statusFilter);
+          paramIndex++;
+        }
+      }
+    }
 
-// Serve calendário page (com autorização de qualidade)
+    innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
+
+    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
+
+    const result = await pool.query(query, params);
+
+    // Para cada cota????o, verificar se j?? existe auditoria
+    const rows = await Promise.all(result.rows.map(async (row) => {
+      let auditoria = null;
+      try {
+        const auditRes = await pool.query(
+          `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.apontamento,
+                  aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento,
+                  aq.contestacao, aq.obs, aq.regional, aq.tipo_de_pedido,
+                  aq.enviado, aq.data_envio, aq.data_qualidade, aq.semana, aq.analista
+           FROM db_bloco_de_notas.auditoria_qualidade aq
+           LEFT JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+           WHERE c.id_cotacao = $1`,
+          [row.id_cotacao]
+        );
+        if (auditRes.rows.length > 0) {
+          const a = auditRes.rows[0];
+          auditoria = {
+            anotacao: a.anotacao,
+            status: a.status,
+            reprova_bko: a.reprova_bko,
+            apontamento: a.apontamento,
+            motivo_1_sistema_documento: a.motivo_1_sistema_documento,
+            motivo_2_erro: a.motivo_2_erro,
+            motivo_3_detalhamento: a.motivo_3_detalhamento,
+            contestacao: a.contestacao,
+            obs: a.obs,
+            regional: a.regional,
+            tipo_de_pedido: a.tipo_de_pedido,
+            enviado: a.enviado,
+            data_envio: a.data_envio,
+            data_qualidade: a.data_qualidade,
+            semana: a.semana,
+            analista: a.analista
+          };
+        }
+      } catch (e) {
+        // Tabela pode n??o existir ainda
+      }
+
+      return {
+        id_cotacao: row.id_cotacao,
+        tarefa: row.tarefa,
+        cotacao: row.cotacao,
+        anotacao: row.anotacao,
+        status: row.status,
+        validacao: row.validacao,
+        data_de_criacao: formatDateBR(row.data_de_criacao),
+        data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
+        usuario_login: row.usuario_login,
+        usuario_nome: row.usuario_nome || null,
+        usuario_id: row.usuario_id,
+        origem: row.origem || null,
+        auditoria
+      };
+    }));
+
+    res.json(rows);
+  } catch (error) {
+    console.error('[QUALIDADE] Erro ao listar cota????es:', error);
+    res.status(500).json({ error: 'Erro ao listar cota????es para auditoria' });
+  }
+});
+
+// Duplicate route with /pme_notas prefix
+app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res) => {
+    try {
+        const { id_cotacao, anotacao, status } = req.body;
+
+        if (!id_cotacao) {
+            return res.status(400).json({ error: 'ID da cota????o ?? obrigat??rio' });
+        }
+
+        if (!status) {
+            return res.status(400).json({ error: 'Status ?? obrigat??rio' });
+        }
+
+        const statusPermitidos = ['Procedimento Correto', 'Devolu????o Parcial', 'Devolu????o Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprova????o Indevida - Qualidade'];
+        if (!statusPermitidos.includes(status)) {
+            return res.status(400).json({ error: 'Status inv??lido' });
+        }
+
+        // Verificar se j?? existe auditoria para esta cota????o
+        const cotacaoRow = await pool.query(
+            'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        const idQldd = cotacaoRow.rows.length > 0 ? cotacaoRow.rows[0].id_qldd : null;
+
+        if (idQldd) {
+            await pool.query(
+                'UPDATE db_bloco_de_notas.auditoria_qualidade SET anotacao = $1, status = $2 WHERE id_qldd = $3',
+                [anotacao || '', status, idQldd]
+            );
+        } else {
+            const insertAudit = await pool.query(
+                'INSERT INTO db_bloco_de_notas.auditoria_qualidade (anotacao, status) VALUES ($1, $2) RETURNING id_qldd',
+                [anotacao || '', status]
+            );
+            const newIdQldd = insertAudit.rows[0].id_qldd;
+            await pool.query(
+                'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE id_cotacao = $2',
+                [newIdQldd, id_cotacao]
+            );
+        }
+
+        // Atualizar o status na tabela cotacao tamb??m
+        await pool.query(
+            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
+            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
+        );
+
+        res.json({
+            success: true,
+            message: 'Auditoria salva com sucesso',
+            id_cotacao,
+            anotacao: anotacao || '',
+            status
+        });
+    } catch (error) {
+        console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
+        res.status(500).json({ error: 'Erro ao salvar auditoria' });
+    }
+});
+
+// Duplicate route with /pme_notas prefix
+app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
+    try {
+        const rawBody = req.body;
+        const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
+        // Se Motivo 1 for "Isento", for??ar Motivo 2 e Motivo 3 como "Isento"
+        const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
+        let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
+        let motivo_2_erro = rawBody.motivo_2_erro || '';
+        let motivo_3_detalhamento = rawBody.motivo_3_detalhamento || '';
+        if (isIsento) {
+            motivo_2_erro = 'Isento';
+            motivo_3_detalhamento = 'Isento';
+        }
+        const usuarioLogadoId = req.user.id;
+
+        if (!id_cotacao) {
+            return res.status(400).json({ error: 'ID da cota????o ?? obrigat??rio' });
+        }
+        if (!status) {
+            return res.status(400).json({ error: 'Status ?? obrigat??rio' });
+        }
+        const statusPermitidos = ['Procedimento Correto', 'Devolu????o Parcial', 'Devolu????o Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprova????o Indevida - Qualidade'];
+        if (!statusPermitidos.includes(status)) {
+            return res.status(400).json({ error: 'Status inv??lido' });
+        }
+
+        const cotacaoRow = await pool.query(
+            'SELECT tarefa, cotacao, usuario_id, data_de_criacao FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        if (cotacaoRow.rows.length === 0) {
+            return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+        }
+        const cotacao = cotacaoRow.rows[0];
+
+        const parseBRDate = (value) => {
+            if (!value) return null;
+            const text = String(value).trim();
+            if (!text) return null;
+            const m = text.match(/^(\d{2})\/(\d{2})\/(\d{4})(?:[ T](\d{2}):(\d{2}))?$/);
+            if (!m) return null;
+            const [ , day, month, year, hour = '00', minute = '00' ] = m;
+            return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
+        };
+        const dataCriacao = parseBRDate(cotacao.data_de_criacao) || new Date();
+        const analistaRes = await pool.query(
+            "SELECT TRIM(COALESCE(nome, '') || ' ' || COALESCE(sobrenome, '')) as nome FROM db_automacao.usuarios WHERE id::TEXT = $1",
+            [usuarioLogadoId]
+        );
+        const analistaNome = analistaRes.rows.length > 0 ? analistaRes.rows[0].nome : null;
+
+        const now = new Date();
+        const dataQualidade = formatDateBR(dataCriacao);
+        const semana = calcularSemana(dataCriacao);
+        const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
+
+        const existingAudit = await pool.query(
+            'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
+            [id_cotacao]
+        );
+        const idQldd = existingAudit.rows.length > 0 ? existingAudit.rows[0].id_qldd : null;
+
+        if (idQldd) {
+            await pool.query(
+                `UPDATE db_bloco_de_notas.auditoria_qualidade SET
+                    anotacao = $1, status = $2, data_qualidade = $3, analista_qualidade_id = $4,
+                    reprova_bko = $5, codigo_tarefa = $6, analista = $7, data_analise = $8,
+                    cotacao = $9, regional = $10, tipo_de_pedido = $11,
+                    motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
+                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
+                WHERE id_qldd = $21`,
+                [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                 motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
+                 apontamento || '', contestacao || '', obs || '', enviado || false,
+                 data_envio ? new Date(data_envio) : null, semana, idQldd]
+            );
+        } else {
+            const insertAudit = await pool.query(
+                `INSERT INTO db_bloco_de_notas.auditoria_qualidade
+                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
+                [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
+                 now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
+                 motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
+                 apontamento || '', contestacao || '', obs || '', enviado || false,
+                 data_envio ? new Date(data_envio) : null, semana]
+            );
+            const newIdQldd = insertAudit.rows[0].id_qldd;
+            await pool.query(
+                'UPDATE db_bloco_de_notas.cotacao SET id_qldd = $1 WHERE id_cotacao = $2',
+                [newIdQldd, id_cotacao]
+            );
+        }
+
+        await pool.query(
+            "UPDATE db_bloco_de_notas.cotacao SET status = $1, data_da_ultima_atualizacao = $2 WHERE id_cotacao = $3 AND validacao = 'Ativo'",
+            [status.toLowerCase(), formatDateBR(new Date()), id_cotacao]
+        );
+
+        res.json({
+            success: true,
+            message: 'Auditoria salva com sucesso',
+            id_cotacao,
+            data_qualidade: dataQualidade,
+            semana,
+            status
+        });
+    } catch (error) {
+        console.error('[QUALIDADE] Erro ao salvar auditoria:', error);
+        res.status(500).json({ error: 'Erro ao salvar auditoria' });
+    }
+});
+
+// API: Calend??rio de qualidade (tarefas x auditadas por dia do m??s)
+app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
+    try {
+        const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
+        const ano = parseInt(req.query.ano) || new Date().getFullYear();
+        const origem = req.query.origem && req.query.origem !== 'todos' ? req.query.origem : null;
+
+        // Total de tarefas criadas por dia no m??s, considerando apenas uma tarefa por usu??rio por dia
+        const tarefasQuery = await pool.query(`
+            WITH base AS (
+                SELECT
+                    c.usuario_id,
+                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    c.id_qldd
+                FROM db_bloco_de_notas.cotacao c
+                WHERE c.validacao = 'Ativo'
+                  AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
+                  AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+                  ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
+            ),
+            dedup AS (
+                SELECT DISTINCT ON (usuario_id, data_base)
+                    usuario_id,
+                    data_base,
+                    id_qldd
+                FROM base
+                ORDER BY usuario_id, data_base, CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+            )
+            SELECT
+                EXTRACT(DAY FROM data_base)::int AS dia,
+                COUNT(*)::int AS total
+            FROM dedup
+            GROUP BY dia
+            ORDER BY dia
+        `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
+
+        // Tarefas auditadas por dia no m??s, considerando apenas uma tarefa por usu??rio por dia
+        const auditadasQuery = await pool.query(`
+            WITH base AS (
+                SELECT
+                    c.usuario_id,
+                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    c.id_qldd
+                FROM db_bloco_de_notas.auditoria_qualidade aq
+                INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+                WHERE c.validacao = 'Ativo'
+                  AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
+                  AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+                  ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
+            ),
+            dedup AS (
+                SELECT DISTINCT ON (usuario_id, data_base)
+                    usuario_id,
+                    data_base,
+                    id_qldd
+                FROM base
+                ORDER BY usuario_id, data_base, CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+            )
+            SELECT
+                EXTRACT(DAY FROM data_base)::int AS dia,
+                COUNT(*)::int AS auditadas
+            FROM dedup
+            GROUP BY dia
+            ORDER BY dia
+        `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
+
+        // Montar mapa de dias
+        const diasMap = {};
+        for (const row of tarefasQuery.rows) {
+            diasMap[row.dia] = { total: row.total, auditadas: 0 };
+        }
+        for (const row of auditadasQuery.rows) {
+            if (!diasMap[row.dia]) {
+                diasMap[row.dia] = { total: 0, auditadas: 0 };
+            }
+            diasMap[row.dia].auditadas = row.auditadas;
+        }
+
+        // Calcular total do m??s
+        let totalTarefas = 0;
+        let totalAuditadas = 0;
+        const dias = Object.keys(diasMap).sort((a, b) => a - b).map(d => {
+            totalTarefas += diasMap[d].total;
+            totalAuditadas += diasMap[d].auditadas;
+            return {
+                dia: parseInt(d),
+                total: diasMap[d].total,
+                auditadas: diasMap[d].auditadas
+            };
+        });
+
+        res.json({
+            mes,
+            ano,
+            dias,
+            resumo: {
+                total_tarefas: totalTarefas,
+                total_auditadas: totalAuditadas,
+                percentual: totalTarefas > 0 ? Math.round((totalAuditadas / totalTarefas) * 100) : 0
+            }
+        });
+    } catch (error) {
+        console.error('[QUALIDADE CALENDARIO] Erro:', error);
+        res.status(500).json({ error: 'Erro ao carregar calend??rio de qualidade' });
+    }
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, res) => {
+    try {
+        const mes = parseInt(req.query.mes) || (new Date().getMonth() + 1);
+        const ano = parseInt(req.query.ano) || new Date().getFullYear();
+        const origem = req.query.origem && req.query.origem !== 'todos' ? req.query.origem : null;
+
+        const tarefasQuery = await pool.query(`
+            WITH base AS (
+                SELECT
+                    c.usuario_id,
+                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    c.id_qldd
+                FROM db_bloco_de_notas.cotacao c
+                WHERE c.validacao = 'Ativo'
+                  AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
+                  AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+                  ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
+            ),
+            ranked AS (
+                SELECT
+                    usuario_id,
+                    data_base,
+                    id_qldd,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY usuario_id, data_base
+                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+                    ) AS rn
+                FROM base
+            )
+            SELECT
+                EXTRACT(DAY FROM data_base)::int AS dia,
+                COUNT(*)::int AS total
+            FROM ranked
+            WHERE rn = 1
+            GROUP BY dia
+            ORDER BY dia
+        `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
+
+        const auditadasQuery = await pool.query(`
+            WITH base AS (
+                SELECT
+                    c.usuario_id,
+                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    c.id_qldd
+                FROM db_bloco_de_notas.auditoria_qualidade aq
+                INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
+                WHERE c.validacao = 'Ativo'
+                  AND EXTRACT(YEAR FROM aq.data_qualidade) = $1
+                  AND EXTRACT(MONTH FROM aq.data_qualidade) = $2
+                  ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
+            ),
+            ranked AS (
+                SELECT
+                    usuario_id,
+                    data_base,
+                    id_qldd,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY usuario_id, data_base
+                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+                    ) AS rn
+                FROM base
+            )
+            SELECT
+                EXTRACT(DAY FROM data_base)::int AS dia,
+                COUNT(*)::int AS auditadas
+            FROM ranked
+            WHERE rn = 1
+            GROUP BY dia
+            ORDER BY dia
+        `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
+
+        const diasMap = {};
+        for (const row of tarefasQuery.rows) {
+            diasMap[row.dia] = { total: row.total, auditadas: 0 };
+        }
+        for (const row of auditadasQuery.rows) {
+            if (!diasMap[row.dia]) {
+                diasMap[row.dia] = { total: 0, auditadas: 0 };
+            }
+            diasMap[row.dia].auditadas = row.auditadas;
+        }
+
+        let totalTarefas = 0;
+        let totalAuditadas = 0;
+        const dias = Object.keys(diasMap).sort((a, b) => a - b).map(d => {
+            totalTarefas += diasMap[d].total;
+            totalAuditadas += diasMap[d].auditadas;
+            return {
+                dia: parseInt(d),
+                total: diasMap[d].total,
+                auditadas: diasMap[d].auditadas
+            };
+        });
+
+        res.json({
+            mes,
+            ano,
+            dias,
+            resumo: {
+                total_tarefas: totalTarefas,
+                total_auditadas: totalAuditadas,
+                percentual: totalTarefas > 0 ? Math.round((totalAuditadas / totalTarefas) * 100) : 0
+            }
+        });
+    } catch (error) {
+        console.error('[QUALIDADE CALENDARIO] Erro:', error);
+        res.status(500).json({ error: 'Erro ao carregar calend??rio de qualidade' });
+    }
+});
+
+// Serve calend??rio page (com autoriza????o de qualidade)
 app.get('/qualidade/calendario', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
@@ -1183,7 +2177,7 @@ app.get('/pme_notas/qualidade/calendario', authenticatePage, authorizeRoute('/pm
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
 });
 
-// ===== ROTAS DE RCV (Réplica) =====
+// ===== ROTAS DE RCV (R??plica) =====
 
 // API: Listar registros RCV com join em cotacao e usuarios
 app.get('/api/rcv', authenticateToken, async (req, res) => {
@@ -1304,7 +2298,7 @@ app.get('/pme_notas/rcv', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
 });
 
-// Serve qualidade page (com autorização de qualidade)
+// Serve qualidade page (com autoriza????o de qualidade)
 app.get('/qualidade', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
@@ -1313,34 +2307,25 @@ app.get('/pme_notas/qualidade', authenticatePage, authorizeRoute('/pme_notas/qua
   res.sendFile(path.join(__dirname, 'public', 'qualidade.html'));
 });
 
-// Serve qualidade mensal page (com autorização de qualidade)
-app.get('/qualidade/mensal', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'qualidade_mensal.html'));
-});
+// ===== ROTAS DE RELAT??RIOS (auditoria_qualidade) =====
 
-app.get('/pme_notas/qualidade/mensal', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'qualidade_mensal.html'));
-});
-
-// ===== ROTAS DE RELATÓRIOS (auditoria_qualidade) =====
-
-// API: Extrair dados de auditoria_qualidade por período de data_qualidade
+// API: Extrair dados de auditoria_qualidade por per??odo de data_qualidade
 app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), async (req, res) => {
   try {
     const { dataInicio, dataFim } = req.query;
 
     if (!dataInicio || !dataFim) {
-      return res.status(400).json({ error: 'Datas de início e fim são obrigatórias' });
+      return res.status(400).json({ error: 'Datas de in??cio e fim s??o obrigat??rias' });
     }
 
     // Validar formato das datas (YYYY-MM-DD)
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(dataInicio) || !dateRegex.test(dataFim)) {
-      return res.status(400).json({ error: 'Formato de data inválido. Use YYYY-MM-DD' });
+      return res.status(400).json({ error: 'Formato de data inv??lido. Use YYYY-MM-DD' });
     }
 
     if (dataFim < dataInicio) {
-      return res.status(400).json({ error: 'A data final não pode ser anterior à data inicial' });
+      return res.status(400).json({ error: 'A data final n??o pode ser anterior ?? data inicial' });
     }
 
     // dataFim + 1 dia para incluir todo o dia final
@@ -1349,12 +2334,9 @@ app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'
     const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
 
     const result = await pool.query(
-      `SELECT * FROM (
-      SELECT DISTINCT ON (aq.codigo_tarefa)
-             aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+      `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
               aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
               aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
-              aq.tipo_apontamento,
               aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
               TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
               TRIM(COALESCE(u_auditado.nome, '') || ' ' || COALESCE(u_auditado.sobrenome, '')) AS auditado_nome
@@ -1363,20 +2345,14 @@ app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'
        LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
        LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
        WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
-       ORDER BY aq.codigo_tarefa,
-                CASE WHEN c.id_qldd IS NOT NULL AND c.id_qldd = aq.id_qldd THEN 0
-                     WHEN COALESCE(aq.anotacao, '') <> '' THEN 1
-                     ELSE 2 END,
-                aq.id_qldd DESC
-       ) sub
-       ORDER BY sub.data_qualidade DESC`,
+       ORDER BY aq.data_qualidade DESC`,
       [dataInicio, dataFimISO]
     );
 
     res.json(result.rows);
   } catch (error) {
-    console.error('[REPORTS] Erro ao extrair relatório:', error);
-    res.status(500).json({ error: 'Erro ao extrair relatório' });
+    console.error('[REPORTS] Erro ao extrair relat??rio:', error);
+    res.status(500).json({ error: 'Erro ao extrair relat??rio' });
   }
 });
 
@@ -1386,16 +2362,16 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
     const { dataInicio, dataFim } = req.query;
 
     if (!dataInicio || !dataFim) {
-      return res.status(400).json({ error: 'Datas de início e fim são obrigatórias' });
+      return res.status(400).json({ error: 'Datas de in??cio e fim s??o obrigat??rias' });
     }
 
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(dataInicio) || !dateRegex.test(dataFim)) {
-      return res.status(400).json({ error: 'Formato de data inválido. Use YYYY-MM-DD' });
+      return res.status(400).json({ error: 'Formato de data inv??lido. Use YYYY-MM-DD' });
     }
 
     if (dataFim < dataInicio) {
-      return res.status(400).json({ error: 'A data final não pode ser anterior à data inicial' });
+      return res.status(400).json({ error: 'A data final n??o pode ser anterior ?? data inicial' });
     }
 
     const dataFimExclusivo = new Date(dataFim);
@@ -1403,11 +2379,8 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
     const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
 
     const result = await pool.query(
-      `SELECT * FROM (
-      SELECT DISTINCT ON (aq.codigo_tarefa)
-             aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+      `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
               aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
-              aq.tipo_apontamento,
               aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
               aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
               TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
@@ -1417,24 +2390,18 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
        LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
        LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
        WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
-       ORDER BY aq.codigo_tarefa,
-                CASE WHEN c.id_qldd IS NOT NULL AND c.id_qldd = aq.id_qldd THEN 0
-                     WHEN COALESCE(aq.anotacao, '') <> '' THEN 1
-                     ELSE 2 END,
-                aq.id_qldd DESC
-       ) sub
-       ORDER BY sub.data_qualidade DESC`,
+       ORDER BY aq.data_qualidade DESC`,
       [dataInicio, dataFimISO]
     );
 
     res.json(result.rows);
   } catch (error) {
-    console.error('[REPORTS] Erro ao extrair relatório:', error);
-    res.status(500).json({ error: 'Erro ao extrair relatório' });
+    console.error('[REPORTS] Erro ao extrair relat??rio:', error);
+    res.status(500).json({ error: 'Erro ao extrair relat??rio' });
   }
 });
 
-// Serve reports page (com autorização de qualidade)
+// Serve reports page (com autoriza????o de qualidade)
 app.get('/reports', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'reports.html'));
 });
@@ -1488,53 +2455,268 @@ app.get('/pme_notas/hh/dashboard', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard_h_x_h.html'));
 });
 
-// Serve cortesia page (distribuicao - padrao gestao_input_net)
-app.get('/cortesia', authenticatePage, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'gestao_cortesia.html'));
-});
-
-app.get('/pme_notas/cortesia', authenticatePage, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'gestao_cortesia.html'));
-});
-
-app.get('/cortesia/dashboard', authenticatePage, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'dashboard_cortesia.html'));
-});
-
-app.get('/pme_notas/cortesia/dashboard', authenticatePage, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'dashboard_cortesia.html'));
-});
-// Usar rotas de inspeção
+// Usar rotas de inspe????o
 app.use(inspecaoRoutes);
-// Usar rotas de parcial PME
-app.use(parcialPmeRoutes);
-// Usar rotas de qualidade (montado em /api e /pme_notas/api;
-// o router define '/qualidade', '/qualidade/stats', etc.)
-app.use('/api', qualidadeRoutes);
-app.use('/pme_notas/api', qualidadeRoutes);
 
-// ===== ROTAS DE ACESSOS (gerenciamento de permissões) =====
+// ===== ROTAS DE ACESSOS (gerenciamento de permiss??es) =====
 
-// Mapeamento de opções para rotas
+// Mapeamento de op????es para rotas
+const OPCOES_ROTAS = {
+    gestao: ['/pme_notas/input_net', '/pme_notas/input_top', '/pme_notas/hh', '/pme_notas/inspecao', '/pme_notas/dashboard', '/pme_notas/gestao'],
+    qualidade: ['/pme_notas/qualidade', '/pme_notas/rcv', '/pme_notas/reports'],
+    admin: ['/pme_notas/acessos']
+};
 
-// Espelho das rotas de acessos com prefixo /pme_notas (acessível tanto por /pme_notas/api/acessos/... quanto por /api/acessos/...)
+// Espelho das rotas de acessos com prefixo /pme_notas (acess??vel tanto por /pme_notas/api/acessos/... quanto por /api/acessos/...)
+app.get('/pme_notas/api/acessos/usuarios', authenticateToken, async (req, res) => {
+    req.url = req.url.replace(/^\/pme_notas/, '');
+    req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
+    app._router.handle(req, res);
+});
 
+app.get('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    req.url = req.url.replace(/^\/pme_notas/, '');
+    req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
+    app._router.handle(req, res);
+});
 
+app.post('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    req.url = req.url.replace(/^\/pme_notas/, '');
+    req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
+    app._router.handle(req, res);
+});
 
-// API: Buscar usuários por nome/sobrenome
+// API: Buscar usu??rios por nome/sobrenome
+app.get('/api/acessos/usuarios', authenticateToken, async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q || q.trim().length < 2) {
+            return res.json({ usuarios: [] });
+        }
 
-// API: Listar permissões de um usuário
+        const result = await pool.query(
+            `SELECT id, nome, sobrenome, login 
+             FROM db_automacao.usuarios 
+             WHERE ativo = true 
+               AND (LOWER(nome) LIKE LOWER($1) OR LOWER(sobrenome) LIKE LOWER($1) OR LOWER(CONCAT(nome, ' ', sobrenome)) LIKE LOWER($1))
+             ORDER BY nome ASC 
+             LIMIT 20`,
+            [`%${q.trim()}%`]
+        );
+
+        res.json({ usuarios: result.rows });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao buscar usu??rios:', error.message);
+        res.status(500).json({ error: 'Erro ao buscar usu??rios' });
+    }
+});
+
+// API: Listar permiss??es de um usu??rio
+app.get('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await pool.query(
+            `SELECT rota, tem_acesso, atualizado_em, atualizado_por
+             FROM db_automacao.usuario_permissoes 
+             WHERE usuario_id = $1
+             ORDER BY rota`,
+            [id]
+        );
+
+        res.json({ permissoes: result.rows });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao listar permiss??es:', error.message);
+        res.status(500).json({ error: 'Erro ao listar permiss??es' });
+    }
+});
 
 // Espelho da rota POST /api/acessos/usuarios/:id/permissoes com prefixo /pme_notas
+app.post('/pme_notas/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    req.url = req.url.replace(/^\/pme_notas/, '');
+    req.originalUrl = req.originalUrl.replace(/^\/pme_notas/, '');
+    app._router.handle(req, res);
+});
 
-// API: Resetar senha de um usuário (volta para senha padrão e marca deve_trocar_senha = true)
+// API: Resetar senha de um usu??rio (volta para senha padr??o e marca deve_trocar_senha = true)
 // Rota implementada diretamente (sem espelho) para evitar erro 500 com app._router.handle
+app.post('/api/acessos/usuarios/:id/resetar-senha', authenticateToken, authorizeRoute('/pme_notas/acessos'), async (req, res) => {
+    try {
+        const { id } = req.params;
+        const alteradoPor = req.user.username || req.user.nome || 'sistema';
+
+        // Validar que o usu??rio existe
+        const userCheck = await pool.query(
+            'SELECT id, login, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
+            [id]
+        );
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({ success: false, error: 'Usu??rio n??o encontrado ou inativo' });
+        }
+
+        const novoHash = await bcrypt.hash(SENHA_PADRAO_TROCA, 10);
+
+        await pool.query(
+            `UPDATE db_automacao.usuarios 
+             SET senha = $1,
+                 deve_trocar_senha = true,
+                 data_ultima_troca_senha = NULL,
+                 atualizado_por = $2,
+                 atualizado_em = CURRENT_TIMESTAMP
+             WHERE id = $3`,
+            [novoHash, alteradoPor, id]
+        );
+
+        const usuario = userCheck.rows[0];
+        console.log(`[ACESSOS] Senha resetada para usu??rio ${id} (${usuario.login}) por ${alteradoPor}`);
+
+        res.json({
+            success: true,
+            message: `Senha de ${usuario.nome} ${usuario.sobrenome} resetada para a senha padr??o`,
+            usuario: {
+                id: usuario.id,
+                login: usuario.login,
+                nome: usuario.nome,
+                sobrenome: usuario.sobrenome
+            }
+        });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao resetar senha:', error.message);
+        res.status(500).json({ success: false, error: 'Erro ao resetar senha' });
+    }
+});
 
 // Rota com prefixo /pme_notas implementada diretamente (sem espelho)
+app.post('/pme_notas/api/acessos/usuarios/:id/resetar-senha', authenticateToken, authorizeRoute('/pme_notas/acessos'), async (req, res) => {
+    try {
+        const { id } = req.params;
+        const alteradoPor = req.user.username || req.user.nome || 'sistema';
 
-// API: Salvar permissões de um usuário (sincroniza com base nas opções selecionadas)
+        // Validar que o usu??rio existe
+        const userCheck = await pool.query(
+            'SELECT id, login, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
+            [id]
+        );
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({ success: false, error: 'Usu??rio n??o encontrado ou inativo' });
+        }
 
-// Serve página de acessos
+        const novoHash = await bcrypt.hash(SENHA_PADRAO_TROCA, 10);
+
+        await pool.query(
+            `UPDATE db_automacao.usuarios 
+             SET senha = $1,
+                 deve_trocar_senha = true,
+                 data_ultima_troca_senha = NULL,
+                 atualizado_por = $2,
+                 atualizado_em = CURRENT_TIMESTAMP
+             WHERE id = $3`,
+            [novoHash, alteradoPor, id]
+        );
+
+        const usuario = userCheck.rows[0];
+        console.log(`[ACESSOS] Senha resetada para usu??rio ${id} (${usuario.login}) por ${alteradoPor}`);
+
+        res.json({
+            success: true,
+            message: `Senha de ${usuario.nome} ${usuario.sobrenome} resetada para a senha padr??o`,
+            usuario: {
+                id: usuario.id,
+                login: usuario.login,
+                nome: usuario.nome,
+                sobrenome: usuario.sobrenome
+            }
+        });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao resetar senha:', error.message);
+        res.status(500).json({ success: false, error: 'Erro ao resetar senha' });
+    }
+});
+
+// API: Salvar permiss??es de um usu??rio (sincroniza com base nas op????es selecionadas)
+app.post('/api/acessos/usuarios/:id/permissoes', authenticateToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { permissoes: opcoesAtivas } = req.body;
+        const alteradoPor = req.user.username || req.user.nome || 'sistema';
+
+        // Validar que o usu??rio existe
+        const userCheck = await pool.query(
+            'SELECT id, nome, sobrenome FROM db_automacao.usuarios WHERE id = $1 AND ativo = true',
+            [id]
+        );
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({ success: false, error: 'Usu??rio n??o encontrado ou inativo' });
+        }
+
+        // Mapear op????es ativas para rotas
+        const rotasParaAtivar = new Set();
+        if (Array.isArray(opcoesAtivas)) {
+            for (const opcao of opcoesAtivas) {
+                const rotas = OPCOES_ROTAS[opcao];
+                if (rotas) {
+                    for (const rota of rotas) {
+                        rotasParaAtivar.add(rota);
+                    }
+                }
+            }
+        }
+
+        // Buscar permiss??es existentes do usu??rio que est??o dentro do nosso dom??nio
+        const todasRotasDominio = new Set([
+            ...OPCOES_ROTAS.gestao,
+            ...OPCOES_ROTAS.qualidade,
+            ...OPCOES_ROTAS.admin
+        ]);
+
+        const existentesResult = await pool.query(
+            `SELECT rota, tem_acesso FROM db_automacao.usuario_permissoes 
+             WHERE usuario_id = $1 AND rota = ANY($2)`,
+            [id, Array.from(todasRotasDominio)]
+        );
+
+        const rotasExistentes = {};
+        for (const row of existentesResult.rows) {
+            rotasExistentes[row.rota] = row.tem_acesso;
+        }
+
+        // Inserir ou atualizar permiss??es
+        let inseridas = 0;
+        let removidas = 0;
+
+        // Para cada rota do dom??nio, decidir se deve ativar ou desativar
+        for (const rota of todasRotasDominio) {
+            const deveEstarAtiva = rotasParaAtivar.has(rota);
+            const jaExiste = rotasExistentes[rota] !== undefined;
+            const estaAtiva = rotasExistentes[rota] === true;
+
+            if (deveEstarAtiva && (!jaExiste || !estaAtiva)) {
+                // Precisa ativar
+                await permissions.atualizarPermissao(id, rota, true, alteradoPor);
+                inseridas++;
+            } else if (!deveEstarAtiva && jaExiste && estaAtiva) {
+                // Precisa desativar
+                await permissions.atualizarPermissao(id, rota, false, alteradoPor);
+                removidas++;
+            }
+            // Se j?? est?? no estado correto, ignora
+        }
+
+        console.log(`[ACESSOS] Permiss??es atualizadas para usu??rio ${id}: ${inseridas} ativadas, ${removidas} desativadas`);
+
+        res.json({
+            success: true,
+            message: `${inseridas} permiss??o(??es) adicionada(s), ${removidas} removida(s)`,
+            ativadas: inseridas,
+            removidas
+        });
+    } catch (error) {
+        console.error('[ACESSOS] Erro ao salvar permiss??es:', error.message);
+        res.status(500).json({ success: false, error: 'Erro ao salvar permiss??es' });
+    }
+});
+
+// Serve p??gina de acessos
 app.get('/acessos', authenticatePage, authorizeRoute('/pme_notas/acessos'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
@@ -1543,18 +2725,9 @@ app.get('/pme_notas/acessos', authenticatePage, authorizeRoute('/pme_notas/acess
     res.sendFile(path.join(__dirname, 'public', 'acessos.html'));
 });
 
-// Rota principal para Correção Cadastral (nova URL com /inspecao)
-app.get('/suporte/inspecao', authenticatePage, (req, res) => {
+app.get('/suporte', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'suporte.html'));
 });
-// Redirecionar URL antiga /suporte para /suporte/inspecao
-app.get('/suporte', (req, res) => {
-    res.redirect('/pme_notas/suporte/inspecao');
-});
-
-// Serve qualidade mensal page (com autorizaÃ§Ã£o de qualidade)
-
-// Serve qualidade page (com autorizaÃ§Ã£o de qualidade)
 
 app.get('/qualidade/suporte', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_suporte.html'));
@@ -1568,8 +2741,225 @@ app.get('/pme_notas/qualidade/suporte', authenticatePage, authorizeRoute('/pme_n
 
 
 // API Tarefas Input TOP (antes do fallback SPA)
+app.get('/api/inpecao/tarefas_top', authenticateToken, async (req, res) => {
+  try {
+    const { search, limit, offset = 0 } = req.query;
+    const params = [];
+    let query = `
+      SELECT DISTINCT ON (iw.codigo_da_tarefa)
+             iw.codigo_da_tarefa cod_tarefa,
+             iw.data_historico,
+             iw.para_usuario_nome assumido_por,
+             iw.*,
+             c.usuario_id,
+             u_dist.nome as usuario_distribuido_nome
+      FROM db_bloco_de_notas.iw_cpc_975_top iw
+      LEFT JOIN db_bloco_de_notas.cotacao c ON iw.codigo_da_tarefa = c.tarefa
+      LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
+      WHERE etapa_atual ilike '%01%' or etapa_atual ilike '%02%'
+        AND situacao_sistema = 'ATIVO'
+        AND acao = 'Alterar Status'
+    `;
+    if (search) {
+      query += ` AND (fila ILIKE $1 OR codigo_da_tarefa ILIKE $1 OR razao_social_cliente ILIKE $1 OR situacao_sistema ILIKE $1)`;
+      params.push(`%${search}%`);
+    }
+    query += ` ORDER BY iw.codigo_da_tarefa, iw.data_historico::timestamp DESC`;
+    params.push(parseInt(limit), parseInt(offset));
+    query += ` LIMIT $${params.length - 1} OFFSET $${params.length}`;
+    const result = await pool.query(query, params);
+    const countResult = await pool.query(`
+      SELECT 
+        COUNT(DISTINCT CASE 
+          WHEN (da_etapa ILIKE '%01%' AND para_etapa ILIKE '%02%') THEN codigo_da_tarefa 
+        END) as em_tratamento,
+        COUNT(DISTINCT CASE 
+          WHEN (da_etapa ILIKE '%02%' AND para_etapa ILIKE '%04%') THEN codigo_da_tarefa 
+        END) as aprovado,
+        COUNT(DISTINCT CASE 
+          WHEN (da_etapa ILIKE '%02%' AND para_etapa ILIKE '%03%') THEN codigo_da_tarefa 
+        END) as reprovado,
+        COUNT(DISTINCT CASE 
+          WHEN (
+            (da_etapa ILIKE '%Abert%' AND para_etapa ILIKE '%01%')
+            OR (da_etapa ILIKE '%03%' AND para_etapa ILIKE '%01%')
+          ) AND COALESCE(qtd_producao_futura, 0) = 0 THEN codigo_da_tarefa 
+        END) as pendente,
+        COUNT(DISTINCT CASE 
+          WHEN (acao ILIKE 'Cancelar' OR situacao_sistema ILIKE 'CANCELADO') THEN codigo_da_tarefa 
+        END) as cancelado,
+        COUNT(DISTINCT CASE 
+          WHEN (da_etapa ILIKE '%04%' AND (para_etapa ILIKE '%01%' OR para_etapa ILIKE '%02%' OR para_etapa ILIKE '%03%' OR para_etapa ILIKE '%Admin%')) THEN codigo_da_tarefa 
+        END) as desconsiderar
+      FROM db_bloco_de_notas.iw_cpc_975_top 
+      WHERE etapa_atual = '04 - Inspe????o' AND situacao_sistema = 'ATIVO' AND acao = 'Alterar Status'
+    `);
+    const stats = countResult.rows[0] || {};
+    res.json({ 
+      data: result.rows, 
+      total: parseInt(countResult.rows[0].total || 0),
+      stats,
+      limit: parseInt(limit), 
+      offset: parseInt(offset) 
+    });
+  } catch (error) {
+    console.error('[GESTAO_TOP] Erro:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
+});
 
 // API Tarefas Input NET (antes do fallback SPA)
+app.get('/api/inpecao/tarefas_net', authenticateToken, async (req, res) => {
+  try {
+    const { search, limit, offset = 0 } = req.query;
+    const params = [];
+    const filters = [];
+    let paramIndex = 1;
+
+    let query = `
+      WITH historico_calculado AS (
+        SELECT 
+          iw.codigo_da_tarefa AS cod_tarefa,
+          iw.data_historico,
+          iw.para_usuario_nome AS assumido_por,
+          iw.da_etapa,
+          iw.para_etapa,
+          iw.acao,
+          iw.situacao_sistema,
+          iw.etapa_atual,
+          COUNT(*) FILTER (WHERE para_etapa LIKE '%02%') OVER (
+            PARTITION BY iw.codigo_da_tarefa 
+            ORDER BY iw.data_historico 
+            ROWS BETWEEN 1 PRECEDING AND UNBOUNDED FOLLOWING
+          ) AS qtd_producao_futura
+        FROM db_bloco_de_notas.iw_cpc_975_net iw
+      )
+      SELECT DISTINCT ON (hc.cod_tarefa)
+        hc.cod_tarefa,
+        hc.data_historico,
+        hc.assumido_por,
+        hc.etapa_atual,
+        c.usuario_id,
+        u_dist.nome AS usuario_distribuido_nome,
+        CASE WHEN (hc.da_etapa LIKE '%01%' AND hc.para_etapa LIKE '%02%') THEN 1 ELSE 0 END AS em_tratamento,
+        CASE WHEN (hc.da_etapa LIKE '%02%' AND hc.para_etapa LIKE '%04%') THEN 1 ELSE 0 END AS aprovado,
+        CASE WHEN (hc.da_etapa LIKE '%02%' AND hc.para_etapa LIKE '%03%') THEN 1 ELSE 0 END AS reprovado,
+        CASE 
+          WHEN (
+            (hc.da_etapa ILIKE '%Abert%' AND hc.para_etapa LIKE '%01%')
+            OR (hc.da_etapa LIKE '%03%' AND hc.para_etapa LIKE '%01%')
+          ) AND hc.qtd_producao_futura = 0 THEN 1 
+          ELSE 0 
+        END AS pendente,
+        CASE WHEN (hc.acao ILIKE 'Cancelar' OR hc.situacao_sistema ILIKE 'CANCELADO') THEN 1 ELSE 0 END AS cancelado,
+        CASE 
+          WHEN (
+            hc.da_etapa LIKE '%04%' AND (
+              hc.para_etapa LIKE '%01%' OR 
+              hc.para_etapa LIKE '%02%' OR 
+              hc.para_etapa LIKE '%03%' OR 
+              hc.para_etapa ILIKE '%Admin%'
+            )
+          ) THEN 1 ELSE 0 END AS desconsiderar,
+        hc.*
+      FROM historico_calculado hc
+      LEFT JOIN db_bloco_de_notas.cotacao c ON hc.cod_tarefa = c.tarefa
+      LEFT JOIN db_automacao.usuarios u_dist ON u_dist.id::TEXT = c.usuario_id AND u_dist.ativo = true
+      WHERE 
+        hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
+        AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+    `;
+
+    if (search) {
+      query += ` AND (hc.fila ILIKE $${paramIndex} OR hc.codigo_da_tarefa ILIKE $${paramIndex} OR hc.razao_social_cliente ILIKE $${paramIndex} OR hc.situacao_sistema ILIKE $${paramIndex})`;
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+
+    if (limit) {
+      query += ` LIMIT $${paramIndex}`;
+      params.push(parseInt(limit));
+      paramIndex++;
+    }
+    if (parseInt(offset) > 0) {
+      query += ` OFFSET $${paramIndex}`;
+      params.push(parseInt(offset));
+    }
+    query += ` ORDER BY hc.cod_tarefa, hc.data_historico DESC`;
+
+    const result = await pool.query(query, params);
+
+    const statsResult = await pool.query(`
+      WITH historico_calculado AS (
+        SELECT 
+          iw.codigo_da_tarefa AS cod_tarefa,
+          iw.data_historico,
+          iw.para_usuario_nome AS assumido_por,
+          iw.da_etapa,
+          iw.para_etapa,
+          iw.acao,
+          iw.situacao_sistema,
+          iw.etapa_atual,
+          COUNT(*) FILTER (WHERE para_etapa LIKE '%02%') OVER (
+            PARTITION BY iw.codigo_da_tarefa 
+            ORDER BY iw.data_historico 
+            ROWS BETWEEN 1 PRECEDING AND UNBOUNDED FOLLOWING
+          ) AS qtd_producao_futura
+        FROM db_bloco_de_notas.iw_cpc_975_net iw
+      ),
+      foto_recente AS (
+        SELECT DISTINCT ON (hc.cod_tarefa) hc.cod_tarefa, hc.data_historico, hc.assumido_por, hc.da_etapa, hc.para_etapa, hc.acao, hc.situacao_sistema, hc.etapa_atual, hc.qtd_producao_futura
+        FROM historico_calculado hc
+        WHERE hc.etapa_atual NOT ILIKE '%Demanda Expirada%'
+          AND (hc.data_historico::date = CURRENT_DATE OR (hc.etapa_atual ILIKE '%01%' OR hc.etapa_atual ILIKE '%02%'))
+        ORDER BY hc.cod_tarefa, hc.data_historico DESC
+      )
+      SELECT 
+        COUNT(DISTINCT CASE WHEN (foto_recente.da_etapa LIKE '%01%' AND foto_recente.para_etapa LIKE '%02%') THEN foto_recente.cod_tarefa END) as em_tratamento,
+        COUNT(DISTINCT CASE WHEN (foto_recente.da_etapa LIKE '%02%' AND foto_recente.para_etapa LIKE '%04%') THEN foto_recente.cod_tarefa END) as aprovado,
+        COUNT(DISTINCT CASE WHEN (foto_recente.da_etapa LIKE '%02%' AND foto_recente.para_etapa LIKE '%03%') THEN foto_recente.cod_tarefa END) as reprovado,
+        COUNT(DISTINCT CASE 
+          WHEN (
+            (foto_recente.da_etapa ILIKE '%Abert%' AND foto_recente.para_etapa LIKE '%01%')
+            OR (foto_recente.da_etapa LIKE '%03%' AND foto_recente.para_etapa LIKE '%01%')
+          ) AND foto_recente.qtd_producao_futura = 0 
+          THEN foto_recente.cod_tarefa 
+        END) as pendente,
+        COUNT(DISTINCT CASE WHEN (foto_recente.acao ILIKE 'Cancelar' OR foto_recente.situacao_sistema ILIKE 'CANCELADO') THEN foto_recente.cod_tarefa END) as cancelado,
+        COUNT(DISTINCT CASE 
+          WHEN (foto_recente.da_etapa LIKE '%04%' AND (foto_recente.para_etapa LIKE '%01%' OR foto_recente.para_etapa LIKE '%02%' OR foto_recente.para_etapa LIKE '%03%' OR foto_recente.para_etapa ILIKE '%Admin%'))
+          THEN foto_recente.cod_tarefa 
+        END) as desconsiderar,
+        COUNT(DISTINCT foto_recente.cod_tarefa) as total
+      FROM foto_recente
+    `);
+
+    const stats = statsResult.rows[0] || {};
+    res.json({ 
+      data: result.rows, 
+      total: parseInt(stats.total || 0),
+      stats,
+      limit: parseInt(limit), 
+      offset: parseInt(offset) 
+    });
+  } catch (error) {
+    console.error('[GESTAO_NET] Erro:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
+});
+
+// Upload CSV/ZIP e processar ETL para iw_cpc_975
+app.post('/api/inpecao/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    const result = await processarETL_975_top(req.file.path, pool);
+    await pool.query(`UPDATE db_bloco_de_notas.iw_cpc_975_top SET fila = 'Input de Pedidos PME'`);
+    res.json({ success: true, message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`, totalRows: result.totalRows });
+  } catch (error) {
+    console.error('[INPUT_TOP] Erro:', error);
+    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+  }
+});
 
 // API Input NET
 app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
@@ -1579,7 +2969,7 @@ app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
     const params = [];
     let paramIndex = 1;
     query += ` AND etapa_atual = $${paramIndex}`;
-    params.push('04 - Inspeção');
+    params.push('04 - Inspe????o');
     paramIndex++;
     query += ` AND situacao_sistema = $${paramIndex}`;
     params.push('ATIVO');
@@ -1595,7 +2985,7 @@ app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
     query += ` ORDER BY data_historico DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
     params.push(parseInt(limit), parseInt(offset));
     const result = await pool.query(query, params);
-    const countResult = await pool.query('SELECT COUNT(*) as total FROM db_bloco_de_notas.iw_cpc_975_net WHERE etapa_atual = $1 AND situacao_sistema = $2 AND acao = $3', ['04 - Inspeção', 'ATIVO', 'Alterar Status']);
+    const countResult = await pool.query('SELECT COUNT(*) as total FROM db_bloco_de_notas.iw_cpc_975_net WHERE etapa_atual = $1 AND situacao_sistema = $2 AND acao = $3', ['04 - Inspe????o', 'ATIVO', 'Alterar Status']);
     res.json({ data: result.rows, total: parseInt(countResult.rows[0].total), limit: parseInt(limit), offset: parseInt(offset) });
   } catch (error) {
     console.error('[INPUT_NET] Erro:', error);
@@ -1603,17 +2993,318 @@ app.get('/api/input_net/tarefas', authenticateToken, async (req, res) => {
   }
 });
 
+app.post('/api/input_net/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    const result = await processarETL_975_net(req.file.path, pool);
+    res.json({ success: true, message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`, totalRows: result.totalRows });
+  } catch (error) {
+    console.error('[INPUT_NET] Erro:', error);
+    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+  }
+});
+
+// Upload CSV/ZIP e processar ETL para iw_cpc_975
+app.post('/api/inpecao_input/upload', authenticateToken, inputUpload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    }
+    
+    const filePath = req.file.path;
+    console.log(`[GESTAO_INPUT] Upload recebido: ${req.file.originalname} -> ${filePath}`);
+    
+    const result = await processarETL_975_net(filePath, pool);
+    
+    res.json({
+      success: true,
+      message: `Arquivo processado com sucesso. ${result.totalRows} registros carregados.`,
+      totalRows: result.totalRows
+    });
+    
+  } catch (error) {
+    console.error('[GESTAO_INPUT] Erro no upload/ETL:', error);
+    res.status(500).json({ error: `Erro ao processar arquivo: ${error.message}` });
+  }
+});
+
 // Atualizar tabela iw_cpc_975_net a partir da esteira (somente dados do dia)
+app.post('/api/inpecao/atualizar_input_net', authenticateToken, async (req, res) => {
+  let client;
+  try {
+    client = await pool.connect();
+    // Evita que o ETL fique preso segurando locks por muito tempo, o que degrada a
+    // leitura da p??gina de inspe????o (que consome a tabela cotacao).
+    // Usamos um cliente dedicado para que os SETs valham para o mesmo statement.
+    await client.query('SET lock_timeout = \'30s\'');
+    await client.query('SET statement_timeout = 0');
+    await client.query(`
+      DO $$
+      DECLARE
+          v_max_esteira TIMESTAMP;
+          v_max_bloco   TIMESTAMP;
+      BEGIN
+          SELECT MAX(CAST(data_historico AS TIMESTAMP)) INTO v_max_esteira FROM db_esteira_gross.historico_input_pedido_pme_net;
+          SELECT MAX(CAST(data_historico AS TIMESTAMP)) INTO v_max_bloco FROM db_bloco_de_notas.iw_cpc_975_net;
+
+          IF v_max_esteira > COALESCE(v_max_bloco, '1900-01-01'::timestamp) THEN
+              -- Otimiza????o de IO/lock: em vez de TRUNCATE (AccessExclusiveLock, bloqueia leitores
+              -- da iw_cpc durante toda a transa????o), usamos DELETE (RowExclusiveLock). O resultado
+              -- final ?? o mesmo (tabela passa a conter somente os dados re-carregados abaixo), mas
+              -- as leituras concorrentes (dashboard / distribui????o) n??o ficam bloqueadas.
+              DELETE FROM db_bloco_de_notas.iw_cpc_975_net;
+
+              INSERT INTO db_bloco_de_notas.iw_cpc_975_net (
+                  fila, codigo_da_tarefa, data_criacao, data_finalizacao, etapa_atual,
+                  data_historico, da_etapa, do_usuario_login, do_usuario_nome, para_etapa,
+                  para_usuario_login, para_usuario_nome, acao, canal_cliente, segmento_cliente,
+                  cnpj_cliente, razao_social_cliente, cliente_cpc, login_gerente_conta,
+                  nome_gerente_conta, id_cor, id_cotacao, id_ped, descricao, situacao_sistema,
+                    data_carga
+              )
+              SELECT
+                  fila, codigo_da_tarefa, data_criacao, data_finalizacao, etapa_atual,
+                  data_historico, da_etapa, do_usuario_login, do_usuario_nome, para_etapa,
+                  para_usuario_login, para_usuario_nome, acao, canal_cliente, segmento_cliente,
+                  cnpj_cliente, razao_social_cliente, cliente_cpc, login_gerente_conta,
+                  nome_gerente_conta, id_cor, id_cotacao, id_ped, descricao, situacao_sistema,
+                  CURRENT_DATE AS data_carga
+              FROM db_esteira_gross.historico_input_pedido_pme_net
+              WHERE CAST(data_historico AS TIMESTAMP)::date = CURRENT_DATE;
+
+              RAISE NOTICE 'Sucesso: Tabela truncada e dados atualizados para o dia %.', CURRENT_DATE;
+          ELSE
+              RAISE NOTICE 'Aviso: A tabela do bloco de notas j?? est?? atualizada ou a origem n??o possui dados mais recentes.';
+          END IF;
+      END $$;
+    `);
+    res.json({ success: true, message: 'Dados atualizados com sucesso.' });
+  } catch (error) {
+    console.error('[ATUALIZAR_INPUT_NET] Erro:', error);
+    res.status(500).json({ error: 'Erro ao atualizar dados' });
+  } finally {
+    if (client) client.release();
+  }
+});
 
 // Distribuir tarefas input_net (iw_cpc_975_net)
+app.post('/api/inpecao/distribuir_input_net', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
+  try {
+    const { distribuicoes } = req.body;
+    
+    if (!distribuicoes || !Array.isArray(distribuicoes) || distribuicoes.length === 0) {
+      return res.status(400).json({ error: 'Lista de distribui????es inv??lida' });
+    }
+    
+    const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
+    const now = formatDateBR(new Date());
+    
+    let count = 0;
+    let errors = [];
+    
+    for (const item of distribuicoes) {
+      if (!item.cod_tarefa || !item.usuario_id) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+        continue;
+      }
+      
+      try {
+        // Verificar se j?? foi distribu??da
+        const check = await pool.query(
+          "SELECT tarefa FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2",
+          [item.cod_tarefa, 'Ativo']
+        );
+        
+        if (check.rows.length > 0) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa j?? distribu??da' });
+          continue;
+        }
+        
+        // Buscar nome da tarefa para anota????o e data_historico
+        const tarefaResult = await pool.query(
+          'SELECT codigo_da_tarefa, etapa_atual, data_historico FROM db_bloco_de_notas.iw_cpc_975_net WHERE codigo_da_tarefa = $1',
+          [item.cod_tarefa]
+        );
+        
+        let anotacao = '';
+        let dataHistorico = null;
+        let tarefaValue = item.cod_tarefa;
+        let cotacaoDsc = item.cod_tarefa;
+        if (tarefaResult.rows.length > 0) {
+          const tr = tarefaResult.rows[0];
+          anotacao = `Origem: iw_cpc_975_net | Etapa: ${tr.etapa_atual || ''}`;
+          if (tr.data_historico) dataHistorico = tr.data_historico;
+        }
+
+        // Buscar nome do usu??rio destino
+        let destinoNome = String(item.usuario_id);
+        try {
+            const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+        } catch {}
+
+        await pool.query(
+          `INSERT INTO db_bloco_de_notas.cotacao (tarefa, cotacao, anotacao, status, validacao, data_de_criacao, data_da_ultima_atualizacao, usuario_login, usuario_id, origem, data_historico) 
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+          [tarefaValue, cotacaoDsc, anotacao, 'pendente', 'Ativo', now, now, usuarioLogin, item.usuario_id, 'iw_cpc_975_net', dataHistorico]
+        );
+
+        // Registrar auditoria
+        try {
+            await pool.query(
+                `INSERT INTO db_bloco_de_notas.cotacao_audit 
+                 (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+                [item.cod_tarefa, 'distribuido_input_net', usuarioId, usuarioLogin, item.usuario_id, destinoNome, '-', 'pendente', usuarioLogin]
+            );
+        } catch (auditErr) {
+            console.error('[DISTRIBUIR_INPUT_NET] Erro ao registrar auditoria:', auditErr.message);
+        }
+        
+        count++;
+      } catch (err) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+      }
+    }
+    
+    res.json({
+      success: true,
+      message: `${count} tarefa(s) distribu??da(s) com sucesso`,
+      distribuidos: count,
+      erros: errors
+    });
+    
+  } catch (error) {
+    console.error('[DISTRIBUIR_INPUT_NET] Erro:', error);
+    res.status(500).json({ error: `Erro ao distribuir tarefas: ${error.message}` });
+  }
+});
 
 // Redistribuir tarefas input_net (iw_cpc_975_net)
+app.post('/api/inpecao/redistribuir_input_net', authenticateToken, authorizeRoute('/pme_notas/inpecao'), async (req, res) => {
+  try {
+    const { redistribuicoes } = req.body;
+    
+    if (!redistribuicoes || !Array.isArray(redistribuicoes) || redistribuicoes.length === 0) {
+      return res.status(400).json({ error: 'Lista de redistribui????es inv??lida' });
+    }
+    
+    const usuarioLogin = req.user.username;
+    const usuarioId = req.user.id;
+    const now = formatDateBR(new Date());
+    
+    let count = 0;
+    let errors = [];
+    
+    for (const item of redistribuicoes) {
+      if (!item.cod_tarefa || !item.usuario_id) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: 'Dados incompletos' });
+        continue;
+      }
+      
+      try {
+        // Verificar se a tarefa existe e est?? ativa
+        const check = await pool.query(
+          "SELECT tarefa, usuario_id FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2 AND origem = 'iw_cpc_975_net'",
+          [item.cod_tarefa, 'Ativo']
+        );
+        
+        if (check.rows.length === 0) {
+          errors.push({ cod_tarefa: item.cod_tarefa, error: 'Tarefa n??o encontrada ou origem n??o ?? iw_cpc_975_net' });
+          continue;
+        }
+
+        // Buscar nome do usu??rio destino
+        let destinoNome = String(item.usuario_id);
+        try {
+            const uRes = await pool.query('SELECT nome FROM db_automacao.usuarios WHERE id = $1', [item.usuario_id]);
+            if (uRes.rows.length > 0) destinoNome = uRes.rows[0].nome;
+        } catch {}
+
+        // Registrar auditoria
+        await pool.query(
+            `INSERT INTO db_bloco_de_notas.cotacao_audit 
+             (tarefa, acao, usuario_origem_id, usuario_origem_nome, usuario_destino_id, usuario_destino_nome, status_anterior, status_novo, criado_por) 
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+            [item.cod_tarefa, 'redistribuido_input_net', usuarioId, usuarioLogin, item.usuario_id, destinoNome, null, null, usuarioLogin]
+        );
+
+        // Atualizar usu??rio
+        await pool.query(
+          `UPDATE db_bloco_de_notas.cotacao 
+           SET usuario_id = $1, data_da_ultima_atualizacao = $2, usuario_login = $3
+           WHERE tarefa = $4 AND validacao = 'Ativo' AND origem = 'iw_cpc_975_net'`,
+          [item.usuario_id, now, usuarioLogin, item.cod_tarefa]
+        );
+
+        count++;
+      } catch (err) {
+        errors.push({ cod_tarefa: item.cod_tarefa, error: err.message });
+      }
+    }
+    
+    res.json({
+      success: true,
+      message: `${count} tarefa(s) redistribu??da(s) com sucesso`,
+      redistribuidos: count,
+      erros: errors
+    });
+    
+  } catch (error) {
+    console.error('[REDISTRIBUIR_INPUT_NET] Erro:', error);
+    res.status(500).json({ error: `Erro ao redistribuir tarefas: ${error.message}` });
+  }
+});
 
 // Listar dados da iw_cpc_975
+app.get('/api/inpecao_input/tarefas', authenticateToken, async (req, res) => {
+  try {
+    const { search, limit = 100, offset = 0 } = req.query;
+    
+    let query = `
+      SELECT * FROM db_bloco_de_notas.iw_cpc_975_net 
+      WHERE 1=1
+    `;
+    const params = [];
+    let paramIndex = 1;
+    
+    if (search) {
+      query += ` AND (
+        fila ILIKE $${paramIndex} OR 
+        codigo_da_tarefa ILIKE $${paramIndex} OR 
+        razao_social_cliente ILIKE $${paramIndex} OR
+        situacao_sistema ILIKE $${paramIndex}
+      )`;
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+    
+    query += ` ORDER BY data_historico DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(parseInt(limit), parseInt(offset));
+    
+    const result = await pool.query(query, params);
+    
+    // Contar total
+    const countResult = await pool.query('SELECT COUNT(*) as total FROM db_bloco_de_notas.iw_cpc_975_net');
+    const total = parseInt(countResult.rows[0].total);
+    
+    res.json({
+      data: result.rows,
+      total,
+      limit: parseInt(limit),
+      offset: parseInt(offset)
+    });
+    
+  } catch (error) {
+    console.error('[GESTAO_INPUT] Erro ao buscar dados:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados' });
+  }
+});
 
-// ===== ROTA: REPROVAS PADRÃO (INSPEÇÃO + INPUT) =====
+// ===== ROTA: REPROVAS PADR??O (INSPE????O + INPUT) =====
 
-// API: Listar reprovas padrão com filtro por fonte e termo
+// API: Listar reprovas padr??o com filtro por fonte e termo
 app.get('/api/reprovas', async (req, res) => {
   try {
     const { fonte, termo } = req.query;
@@ -1637,10 +3328,10 @@ app.get('/api/reprovas', async (req, res) => {
 
     const fontes = fonte && fonte.trim().toLowerCase() === 'input' 
       ? [{ nome: 'Input', tabela: 'db_qualidade.reprovas_padrao_input' }]
-      : fonte && fonte.trim().toLowerCase() === 'inspeção'
-        ? [{ nome: 'Inspeção', tabela: 'db_qualidade.reprovas_padrao' }]
+      : fonte && fonte.trim().toLowerCase() === 'inspe????o'
+        ? [{ nome: 'Inspe????o', tabela: 'db_qualidade.reprovas_padrao' }]
         : [
-            { nome: 'Inspeção', tabela: 'db_qualidade.reprovas_padrao' },
+            { nome: 'Inspe????o', tabela: 'db_qualidade.reprovas_padrao' },
             { nome: 'Input', tabela: 'db_qualidade.reprovas_padrao_input' }
           ];
 
@@ -1659,7 +3350,7 @@ app.get('/api/reprovas', async (req, res) => {
     res.json(resultados);
   } catch (error) {
     console.error('[REPROVAS] Erro ao buscar reprovas:', error);
-    res.status(500).json({ error: 'Erro ao buscar reprovas padrão' });
+    res.status(500).json({ error: 'Erro ao buscar reprovas padr??o' });
   }
 });
 
@@ -1670,9 +3361,9 @@ app.get('/pme_notas/api/reprovas', async (req, res) => {
   app._router.handle(req, res);
 });
 
-// ===== ROTA PÚBLICA: DEVOLUÇÃO PADRÃO INPUT =====
+// ===== ROTA P??BLICA: DEVOLU????O PADR??O INPUT =====
 
-// Página de visualização (pública)
+// P??gina de visualiza????o (p??blica)
 app.get('/devolucao-padrao', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao.html'));
 });
@@ -1681,7 +3372,7 @@ app.get('/pme_notas/devolucao-padrao', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'devolucao_padrao.html'));
 });
 
-// API pública para listar dados da devolução padrão
+// API p??blica para listar dados da devolu????o padr??o
 app.get('/api/devolucao-padrao', async (req, res) => {
   try {
     const { search, limit = 100, offset = 0 } = req.query;
@@ -1724,6 +3415,376 @@ app.get('/api/devolucao-padrao', async (req, res) => {
   }
 });
 
+// ===== ROTAS DE SUPORTE (aba Suporte na Corre????o Cadastral) =====
+
+// Configura????o do multer para upload de anexos do suporte
+const suporteAnexosDir = path.join(__dirname, 'public', 'anexos');
+if (!fs.existsSync(suporteAnexosDir)) {
+  fs.mkdirSync(suporteAnexosDir, { recursive: true });
+}
+
+const suporteStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, suporteAnexosDir),
+  filename: (req, file, cb) => {
+    const { v4: uuidv4 } = require('crypto');
+    const uuid = crypto.randomUUID();
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `${uuid}${ext}`);
+  }
+});
+const suporteUpload = multer({
+  storage: suporteStorage,
+  limits: { fileSize: 20 * 1024 * 1024 } // 20MB
+});
+
+// GET: Buscar dados de suporte (observa????o + anexos) de uma tarefa
+app.get('/api/suporte/:tarefa', authenticateToken, async (req, res) => {
+  try {
+    const { tarefa } = req.params;
+
+    // Buscar id_cotacao a partir da tarefa
+    const cotacaoRes = await pool.query(
+      'SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2',
+      [tarefa, 'Ativo']
+    );
+
+    if (cotacaoRes.rows.length === 0) {
+      return res.json({ observacao: '', anexos: [] });
+    }
+
+    const id_cotacao = cotacaoRes.rows[0].id_cotacao;
+
+    // Buscar registros de suporte para esta cota????o
+    const suporteRes = await pool.query(
+      'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
+      [id_cotacao]
+    );
+
+    if (suporteRes.rows.length === 0) {
+      return res.json({ observacao: '', anexos: [] });
+    }
+
+    // Pega a observa????o do primeiro registro (todos compartilham o mesmo retorno)
+    const observacao = suporteRes.rows[0].retorno || '';
+
+    // Lista de anexos
+    const anexos = suporteRes.rows
+      .filter(row => row.url && row.url.trim())
+      .map(row => ({
+        id: row.id,
+        uuid: row.url,
+        url: `/api/anexos/${row.url}`
+      }));
+
+    res.json({ observacao, anexos });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao buscar dados:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados de suporte' });
+  }
+});
+
+// Duplicate with /pme_notas prefix
+app.get('/pme_notas/api/suporte/:tarefa', authenticateToken, async (req, res) => {
+  try {
+    const { tarefa } = req.params;
+    const cotacaoRes = await pool.query(
+      'SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2',
+      [tarefa, 'Ativo']
+    );
+    if (cotacaoRes.rows.length === 0) {
+      return res.json({ observacao: '', anexos: [] });
+    }
+    const id_cotacao = cotacaoRes.rows[0].id_cotacao;
+    const suporteRes = await pool.query(
+      'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
+      [id_cotacao]
+    );
+    if (suporteRes.rows.length === 0) {
+      return res.json({ observacao: '', anexos: [] });
+    }
+    const observacao = suporteRes.rows[0].retorno || '';
+    const anexos = suporteRes.rows
+      .filter(row => row.url && row.url.trim())
+      .map(row => ({
+        id: row.id,
+        uuid: row.url,
+        url: `/api/anexos/${row.url}`
+      }));
+    res.json({ observacao, anexos });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao buscar dados:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados de suporte' });
+  }
+});
+
+// POST: Salvar dados de suporte (observa????o + anexos)
+app.post('/api/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
+  try {
+    const { tarefa } = req.params;
+    const observacao = req.body.observacao || '';
+
+    // Buscar id_cotacao a partir da tarefa
+    const cotacaoRes = await pool.query(
+      'SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2',
+      [tarefa, 'Ativo']
+    );
+
+    if (cotacaoRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+    }
+
+    const id_cotacao = cotacaoRes.rows[0].id_cotacao;
+
+    // Verificar se j?? existem registros de suporte para esta cota????o
+    const existingRes = await pool.query(
+      'SELECT COUNT(*) as total FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1',
+      [id_cotacao]
+    );
+    const hasExisting = parseInt(existingRes.rows[0].total) > 0;
+
+    if (hasExisting) {
+      // Atualizar observa????o (retorno) em todos os registros existentes
+      await pool.query(
+        'UPDATE db_bloco_de_notas.suporte SET retorno = $1 WHERE id_cotacao = $2',
+        [observacao, id_cotacao]
+      );
+    }
+
+    // Inserir novos anexos
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const uuid = path.parse(file.filename).name; // Remove extension to get just the UUID
+        if (hasExisting) {
+          await pool.query(
+            'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+            [id_cotacao, uuid, observacao]
+          );
+        } else {
+          await pool.query(
+            'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+            [id_cotacao, uuid, observacao]
+          );
+        }
+      }
+    } else if (!hasExisting) {
+      // Se n??o havia registros e n??o h?? anexos, inserir apenas a observa????o
+      await pool.query(
+        'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+        [id_cotacao, '', observacao]
+      );
+    }
+
+    // Retornar dados atualizados
+    const suporteRes = await pool.query(
+      'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
+      [id_cotacao]
+    );
+
+    const anexosAtualizados = suporteRes.rows
+      .filter(row => row.url && row.url.trim())
+      .map(row => ({
+        id: row.id,
+        uuid: row.url,
+        url: `/api/anexos/${row.url}`
+      }));
+
+    res.json({
+      success: true,
+      message: 'Suporte salvo com sucesso',
+      observacao: observacao,
+      anexos: anexosAtualizados
+    });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao salvar dados:', error);
+    res.status(500).json({ error: 'Erro ao salvar dados de suporte' });
+  }
+});
+
+// Duplicate with /pme_notas prefix
+app.post('/pme_notas/api/suporte/:tarefa', authenticateToken, suporteUpload.array('anexos'), async (req, res) => {
+  try {
+    const { tarefa } = req.params;
+    const observacao = req.body.observacao || '';
+    const cotacaoRes = await pool.query(
+      'SELECT id_cotacao FROM db_bloco_de_notas.cotacao WHERE tarefa = $1 AND validacao = $2',
+      [tarefa, 'Ativo']
+    );
+    if (cotacaoRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Cota????o n??o encontrada' });
+    }
+    const id_cotacao = cotacaoRes.rows[0].id_cotacao;
+    const existingRes = await pool.query(
+      'SELECT COUNT(*) as total FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1',
+      [id_cotacao]
+    );
+    const hasExisting = parseInt(existingRes.rows[0].total) > 0;
+
+    if (hasExisting) {
+      await pool.query(
+        'UPDATE db_bloco_de_notas.suporte SET retorno = $1 WHERE id_cotacao = $2',
+        [observacao, id_cotacao]
+      );
+    }
+
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const uuid = path.parse(file.filename).name;
+        await pool.query(
+          'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+          [id_cotacao, uuid, observacao]
+        );
+      }
+    } else if (!hasExisting) {
+      await pool.query(
+        'INSERT INTO db_bloco_de_notas.suporte (id_cotacao, url, retorno) VALUES ($1, $2, $3)',
+        [id_cotacao, '', observacao]
+      );
+    }
+
+    const suporteRes = await pool.query(
+      'SELECT id, url, retorno FROM db_bloco_de_notas.suporte WHERE id_cotacao = $1 ORDER BY id',
+      [id_cotacao]
+    );
+    const anexosAtualizados = suporteRes.rows
+      .filter(row => row.url && row.url.trim())
+      .map(row => ({
+        id: row.id,
+        uuid: row.url,
+        url: `/api/anexos/${row.url}`
+      }));
+    res.json({
+      success: true,
+      message: 'Suporte salvo com sucesso',
+      observacao: observacao,
+      anexos: anexosAtualizados
+    });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao salvar dados:', error);
+    res.status(500).json({ error: 'Erro ao salvar dados de suporte' });
+  }
+});
+
+// DELETE: Remover um anexo espec??fico
+app.delete('/api/suporte/anexo/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Buscar o registro para saber o uuid do arquivo
+    const suporteRes = await pool.query(
+      'SELECT id, url, id_cotacao FROM db_bloco_de_notas.suporte WHERE id = $1',
+      [id]
+    );
+
+    if (suporteRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Anexo n??o encontrado' });
+    }
+
+    const { url: uuid } = suporteRes.rows[0];
+
+    // Deletar o arquivo f??sico se existir
+    if (uuid && uuid.trim()) {
+      const files = fs.readdirSync(suporteAnexosDir);
+      const arquivo = files.find(f => f.startsWith(uuid));
+      if (arquivo) {
+        fs.unlinkSync(path.join(suporteAnexosDir, arquivo));
+      }
+    }
+
+    // Deletar o registro do banco
+    await pool.query('DELETE FROM db_bloco_de_notas.suporte WHERE id = $1', [id]);
+
+    res.json({ success: true, message: 'Anexo removido com sucesso' });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao remover anexo:', error);
+    res.status(500).json({ error: 'Erro ao remover anexo' });
+  }
+});
+
+// Duplicate with /pme_notas prefix
+app.delete('/pme_notas/api/suporte/anexo/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const suporteRes = await pool.query(
+      'SELECT id, url FROM db_bloco_de_notas.suporte WHERE id = $1',
+      [id]
+    );
+    if (suporteRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Anexo n??o encontrado' });
+    }
+    const { url: uuid } = suporteRes.rows[0];
+    if (uuid && uuid.trim()) {
+      const files = fs.readdirSync(suporteAnexosDir);
+      const arquivo = files.find(f => f.startsWith(uuid));
+      if (arquivo) {
+        fs.unlinkSync(path.join(suporteAnexosDir, arquivo));
+      }
+    }
+    await pool.query('DELETE FROM db_bloco_de_notas.suporte WHERE id = $1', [id]);
+    res.json({ success: true, message: 'Anexo removido com sucesso' });
+  } catch (error) {
+    console.error('[SUPORTE] Erro ao remover anexo:', error);
+    res.status(500).json({ error: 'Erro ao remover anexo' });
+  }
+});
+
+// GET: Servir arquivo de anexo pelo UUID
+app.get('/api/anexos/:uuid', authenticateToken, async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const files = fs.readdirSync(suporteAnexosDir);
+    const arquivo = files.find(f => f.startsWith(uuid));
+    
+    if (!arquivo) {
+      return res.status(404).json({ error: 'Arquivo n??o encontrado' });
+    }
+
+    const filePath = path.join(suporteAnexosDir, arquivo);
+    res.sendFile(filePath);
+  } catch (error) {
+    console.error('[ANEXOS] Erro ao servir arquivo:', error);
+    res.status(500).json({ error: 'Erro ao servir arquivo' });
+  }
+});
+
+// Rota p??blica para anexos (sem autentica????o, para acesso via URL direta)
+app.get('/anexos/:uuid', async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const files = fs.readdirSync(suporteAnexosDir);
+    const arquivo = files.find(f => f.startsWith(uuid));
+    
+    if (!arquivo) {
+      return res.status(404).json({ error: 'Arquivo n??o encontrado' });
+    }
+
+    const filePath = path.join(suporteAnexosDir, arquivo);
+    res.sendFile(filePath);
+  } catch (error) {
+    console.error('[ANEXOS] Erro ao servir arquivo:', error);
+    res.status(500).json({ error: 'Erro ao servir arquivo' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+// Serve rcv page
+app.get('/rcv', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/rcv', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'rcv.html'));
+});
+
+// Serve rcv page
+app.get('/suporte/input', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
+});
+
+// Duplicate route with /pme_notas prefix
+app.get('/pme_notas/suporte/input', authenticatePage, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
+});
+
