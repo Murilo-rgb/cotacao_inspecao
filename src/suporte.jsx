@@ -1,4 +1,4 @@
-const { useState, useEffect, useCallback } = React;
+﻿const { useState, useEffect, useCallback } = React;
 
 // Icons as SVG components
 const SearchIcon = () => (
@@ -152,10 +152,10 @@ function App() {
 
     // Detecta a tela atual: /suporte/input (Input) ou /suporte/inspecao (Inspeção)
     const isInputPage = window.location.pathname.includes('/suporte/input');
-    const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+    const BASE_PATH = '/pme_notas';
 
     useEffect(() => {
-        const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+        const BASE_PATH = '/pme_notas';
         const token = localStorage.getItem('token');
         if (!token) {
             window.location.href = BASE_PATH + '/login.html';
@@ -166,7 +166,7 @@ function App() {
         fetchQuotations();
 
         const handlePopState = (event) => {
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const BASE_PATH = '/pme_notas';
             const currentToken = localStorage.getItem('token');
             if (!currentToken) window.location.href = BASE_PATH + '/login.html';
         };
@@ -193,7 +193,7 @@ function App() {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const BASE_PATH = '/pme_notas';
             let url = `${BASE_PATH}/api/quotations/suporte`;
             if (isInputPage) {
                 const params = new URLSearchParams();
@@ -223,7 +223,7 @@ function App() {
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
+        window.location.href = '/pme_notas' + '/login.html';
     };
 
     const handleFormSubmit = async (e) => {
@@ -231,7 +231,7 @@ function App() {
         const token = localStorage.getItem('token');
         try {
             if (editingQuotation) {
-                const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+                const BASE_PATH = '/pme_notas';
                 const tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
                 const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
                     method: 'PUT',
@@ -281,7 +281,7 @@ function App() {
                     showToast('Cotação atualizada com sucesso');
                 }
             } else {
-                const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+                const BASE_PATH = '/pme_notas';
                 const response = await fetch(`${BASE_PATH}/api/quotations`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -316,7 +316,7 @@ function App() {
         // Buscar dados de auditoria se existirem
         try {
             const token = localStorage.getItem('token');
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const BASE_PATH = '/pme_notas';
             const tarefaCode = quotation.tarefa || (quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao);
             const response = await fetch(`${BASE_PATH}/api/qualidade/auditoria/${encodeURIComponent(tarefaCode)}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -344,7 +344,7 @@ function App() {
         if (!deleteModal) return;
         const token = localStorage.getItem('token');
         try {
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const BASE_PATH = '/pme_notas';
             const tarefaCode = deleteModal.tarefa || (deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao);
                 const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
                     method: 'DELETE',
@@ -371,7 +371,7 @@ function App() {
         setSuporteLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const BASE_PATH = '/pme_notas';
             const tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
             const response = await fetch(`${BASE_PATH}/api/suporte/${encodeURIComponent(tarefaCode)}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -397,7 +397,7 @@ function App() {
     const handleRemoveExistingAnexo = async (anexoId) => {
         try {
             const token = localStorage.getItem('token');
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const BASE_PATH = '/pme_notas';
             const response = await fetch(`${BASE_PATH}/api/suporte/anexo/${anexoId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -428,7 +428,7 @@ function App() {
         if (!statusModal) return;
         const token = localStorage.getItem('token');
         try {
-            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            const BASE_PATH = '/pme_notas';
                 const tarefaCode = statusModal.tarefa || (statusModal.cotacao.includes(' - ') ? statusModal.cotacao.split(' - ')[1] : statusModal.cotacao);
                 const response = await fetch(`${BASE_PATH}/api/quotations/${encodeURIComponent(tarefaCode)}`, {
                     method: 'PUT',
@@ -475,6 +475,15 @@ function App() {
         if (normalized === 'correcao-efetivada') {
             return { label: 'Correção Efetivada', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
         }
+        if (normalized === 'troca-de-territorio') {
+            return { label: 'Troca de Território', className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100', dotClass: 'bg-blue-500' };
+        }
+        if (normalized === 'cadastro-de-membro') {
+            return { label: 'Cadastro de Membro', className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100', dotClass: 'bg-cyan-500' };
+        }
+        if (normalized === 'aguardando-bilhete') {
+            return { label: 'Aguardando Bilhete', className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100', dotClass: 'bg-rose-500' };
+        }
         return { label: 'Pendente', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
     };
 
@@ -510,7 +519,7 @@ function App() {
                                 </svg>
                             </div>
                             <div>
-                                <h1 className="text-xl font-bold text-slate-800 dark:text-white">Correção Cadastral</h1>
+                                <h1 className="text-xl font-bold text-slate-800 dark:text-white">{isInputPage ? 'Suporte Input' : 'Suporte Inspeção'}</h1>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">Efetivação de correções cadastrais</p>
                             </div>
                         </div>

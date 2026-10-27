@@ -400,66 +400,6 @@ app.post('/api/login', async (req, res) => {
 });
 
 // API: Listar cotações para correção cadastral
-app.get('/api/quotations/suporte', authenticateToken, async (req, res) => {
-  try {
-    const { search, dateStart, origem } = req.query;
-    let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
-      FROM db_bloco_de_notas.cotacao c 
-      LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
-      LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
-      WHERE c.validacao = $1 AND (c.status = $2 OR c.status = $3)`;
-    const params = ['Ativo', 'pendente-correcao-cadastral', 'pendente-iphone'];
-    let paramIndex = 4;
-
-    if (search && search.trim()) {
-      query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
-      params.push(`%${search.trim()}%`);
-      paramIndex++;
-    }
-
-    if (dateStart && dateStart.trim()) {
-      const [year, month, day] = dateStart.trim().split('-');
-      const dateStartBR = `${day}/${month}/${year}`;
-      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
-      params.push(`${dateStartBR}%`);
-      paramIndex++;
-    }
-
-    if (origem && origem.trim() && origem !== 'todas') {
-      if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
-      } else {
-        query += ` AND c.origem = $${paramIndex}`;
-        params.push(origem.trim());
-        paramIndex++;
-      }
-    }
-
-    query += ' ORDER BY c.data_de_criacao DESC';
-
-    const result = await pool.query(query, params);
-const serialized = result.rows.map(row => ({
-      tarefa: row.tarefa,
-      cotacao: row.cotacao,
-      cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
-      anotacao: row.anotacao,
-      status: row.status,
-      data_de_criacao: formatDateBR(row.data_de_criacao),
-      data_da_ultima_atualizacao: formatDateBR(row.data_da_ultima_atualizacao),
-      usuario_login: row.usuario_login,
-      origem: row.origem || null,
-      dsc_cotacao: row.dsc_cotacao || null,
-      auditoria: row.auditoria_status ? { status: row.auditoria_status, anotacao: row.auditoria_anotacao || '' } : null
-    }));
-
-    res.json(serialized);
-  } catch (error) {
-    console.error('[CORRECAO_CAD] Erro ao buscar cotações:', error);
-    res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
-  }
-});
-
-// Duplicate route with /pme_notas prefix
 app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res) => {
   try {
     const { search, dateStart, origem, status } = req.query;
@@ -496,9 +436,9 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
     }
 
     if (status) {
-      const statuses = Array.isArray(status) ? status : [status];
+      const statuses = [].concat(status).map(s => String(s || '').toLowerCase().replace(/ /g, ''));
       const statusPlaceholders = statuses.map(() => `$${paramIndex++}`).join(',');
-      query += ` AND c.status IN (${statusPlaceholders})`;
+      query += ` AND LOWER(REPLACE(c.status,' ','')) IN (${statusPlaceholders})`;
       params.push(...statuses);
     } else {
       query += ` AND (c.status = $${paramIndex} OR c.status = $${paramIndex + 1})`;
@@ -2746,9 +2686,9 @@ app.get('/suporte', (req, res) => {
     res.redirect('/pme_notas/suporte/inspecao');
 });
 
-// Servir rota antiga /suporte/inspecao diretamente (sem redirect para evitar loop)
-app.get('/suporte/inspecao', authenticatePage, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'suporte.html'));
+// Redirecionar URL antiga /suporte/inspecao para a rota padronizada com prefixo /pme_notas
+app.get('/suporte/inspecao', (req, res) => {
+    res.redirect('/pme_notas/suporte/inspecao');
 });
 
 app.get('/qualidade/suporte', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
@@ -3445,9 +3385,9 @@ app.get('/pme_notas/suporte/input', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
 });
 
-// Servir rota antiga /suporte/input diretamente (sem redirect para evitar loop)
-app.get('/suporte/input', authenticatePage, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
+// Redirecionar URL antiga /suporte/input para a rota padronizada com prefixo /pme_notas
+app.get('/suporte/input', (req, res) => {
+  res.redirect('/pme_notas/suporte/input');
 });
 
 app.listen(PORT, () => {

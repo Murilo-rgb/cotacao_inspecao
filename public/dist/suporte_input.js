@@ -447,9 +447,9 @@ function App() {
 
   // Detecta a tela atual: /suporte/input (Input) ou /suporte/inspecao (Inspeção)
   var isInputPage = window.location.pathname.includes('/suporte/input');
-  var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+  var BASE_PATH = '/pme_notas';
   useEffect(function () {
-    var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+    var BASE_PATH = '/pme_notas';
     var token = localStorage.getItem('token');
     if (!token) {
       window.location.href = BASE_PATH + '/login.html';
@@ -459,7 +459,7 @@ function App() {
     if (storedUsername) setUsername(storedUsername);
     fetchQuotations();
     var handlePopState = function handlePopState(event) {
-      var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+      var BASE_PATH = '/pme_notas';
       var currentToken = localStorage.getItem('token');
       if (!currentToken) window.location.href = BASE_PATH + '/login.html';
     };
@@ -498,7 +498,7 @@ function App() {
             _context.p = 0;
             setLoading(true);
             token = localStorage.getItem('token');
-            _BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH = '/pme_notas';
             url = "".concat(_BASE_PATH, "/api/quotations/suporte");
             if (isInputPage) {
               params = new URLSearchParams();
@@ -553,7 +553,7 @@ function App() {
   var handleLogout = function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    window.location.href = (window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '') + '/login.html';
+    window.location.href = '/pme_notas' + '/login.html';
   };
   var handleFormSubmit = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
@@ -568,7 +568,7 @@ function App() {
               _context2.n = 10;
               break;
             }
-            _BASE_PATH2 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH2 = '/pme_notas';
             tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
             _context2.n = 2;
             return fetch("".concat(_BASE_PATH2, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
@@ -655,7 +655,7 @@ function App() {
             _context2.n = 13;
             break;
           case 10:
-            _BASE_PATH3 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH3 = '/pme_notas';
             _context2.n = 11;
             return fetch("".concat(_BASE_PATH3, "/api/quotations"), {
               method: 'POST',
@@ -728,7 +728,7 @@ function App() {
             // Buscar dados de auditoria se existirem
             _context3.p = 1;
             token = localStorage.getItem('token');
-            _BASE_PATH4 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH4 = '/pme_notas';
             tarefaCode = quotation.tarefa || (quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao);
             _context3.n = 2;
             return fetch("".concat(_BASE_PATH4, "/api/qualidade/auditoria/").concat(encodeURIComponent(tarefaCode)), {
@@ -804,7 +804,7 @@ function App() {
           case 1:
             token = localStorage.getItem('token');
             _context4.p = 2;
-            _BASE_PATH5 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH5 = '/pme_notas';
             tarefaCode = deleteModal.tarefa || (deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao);
             _context4.n = 3;
             return fetch("".concat(_BASE_PATH5, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
@@ -860,7 +860,7 @@ function App() {
             setSuporteLoading(true);
             _context5.p = 2;
             token = localStorage.getItem('token');
-            _BASE_PATH6 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH6 = '/pme_notas';
             tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
             _context5.n = 3;
             return fetch("".concat(_BASE_PATH6, "/api/suporte/").concat(encodeURIComponent(tarefaCode)), {
@@ -915,7 +915,7 @@ function App() {
           case 0:
             _context6.p = 0;
             token = localStorage.getItem('token');
-            _BASE_PATH7 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH7 = '/pme_notas';
             _context6.n = 1;
             return fetch("".concat(_BASE_PATH7, "/api/suporte/anexo/").concat(anexoId), {
               method: 'DELETE',
@@ -977,7 +977,7 @@ function App() {
           case 1:
             token = localStorage.getItem('token');
             _context7.p = 2;
-            _BASE_PATH8 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH8 = '/pme_notas';
             tarefaCode = statusModal.tarefa || (statusModal.cotacao.includes(' - ') ? statusModal.cotacao.split(' - ')[1] : statusModal.cotacao);
             _context7.n = 3;
             return fetch("".concat(_BASE_PATH8, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
@@ -1064,6 +1064,27 @@ function App() {
         dotClass: 'bg-emerald-500'
       };
     }
+    if (normalized === 'troca-de-territorio') {
+      return {
+        label: 'Troca de Território',
+        className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
+        dotClass: 'bg-blue-500'
+      };
+    }
+    if (normalized === 'cadastro-de-membro') {
+      return {
+        label: 'Cadastro de Membro',
+        className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100',
+        dotClass: 'bg-cyan-500'
+      };
+    }
+    if (normalized === 'aguardando-bilhete') {
+      return {
+        label: 'Aguardando Bilhete',
+        className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
+        dotClass: 'bg-rose-500'
+      };
+    }
     return {
       label: 'Pendente',
       className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
@@ -1144,7 +1165,7 @@ function App() {
     d: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
     className: "text-xl font-bold text-slate-800 dark:text-white"
-  }, "Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("p", {
+  }, isInputPage ? 'Suporte Input' : 'Suporte Inspeção'), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500 dark:text-slate-400"
   }, "Efetiva\xE7\xE3o de corre\xE7\xF5es cadastrais"))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-4"
