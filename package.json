@@ -21,9 +21,10 @@
     "build:login": "babel src/login.jsx --out-file public/dist/login.js",
     "build:index": "babel src/app.jsx --out-file public/dist/index.js",
     "build:suporte": "babel src/suporte.jsx --out-file public/dist/suporte.js",
+    "build:suporte_input": "babel src/suporte.jsx --out-file public/dist/suporte_input.js",
     "build:qualidade_suporte": "babel src/qualidade_suporte.jsx --out-file public/dist/qualidade_suporte.js",
     "build:tailwind": "tailwindcss -i ./src/input.css -o ./public/dist/tailwind.css",
-    "build:all": "npm run build:login && npm run build:index && npm run build:suporte && npm run build:qualidade_suporte && npm run build:tailwind"
+    "build:all": "npm run build:login && npm run build:index && npm run build:suporte && npm run build:suporte_input && npm run build:qualidade_suporte && npm run build:tailwind"
   },
   "dependencies": {
     "acorn": "^8.17.0",

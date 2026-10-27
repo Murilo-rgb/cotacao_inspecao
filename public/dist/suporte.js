@@ -444,6 +444,10 @@ function App() {
     _useState32 = _slicedToArray(_useState31, 2),
     darkMode = _useState32[0],
     setDarkMode = _useState32[1];
+
+  // Detecta a tela atual: /suporte/input (Input) ou /suporte/inspecao (Inspeção)
+  var isInputPage = window.location.pathname.includes('/suporte/input');
+  var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
   useEffect(function () {
     var BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
     var token = localStorage.getItem('token');
@@ -487,16 +491,25 @@ function App() {
   };
   var fetchQuotations = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-      var token, BASE_PATH, response, data, _t;
+      var token, _BASE_PATH, url, params, response, data, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
             _context.p = 0;
             setLoading(true);
             token = localStorage.getItem('token');
-            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            url = "".concat(_BASE_PATH, "/api/quotations/suporte");
+            if (isInputPage) {
+              params = new URLSearchParams();
+              params.append('origem', 'iw_cpc_975_net');
+              params.append('status', 'troca-de-territorio');
+              params.append('status', 'cadastro-de-membro');
+              params.append('status', 'aguardando-bilhete');
+              url += "?".concat(params);
+            }
             _context.n = 1;
-            return fetch("".concat(BASE_PATH, "/api/quotations/suporte"), {
+            return fetch(url, {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
@@ -509,7 +522,7 @@ function App() {
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
-            window.location.href = BASE_PATH + '/login.html';
+            window.location.href = _BASE_PATH + '/login.html';
             return _context.a(2);
           case 2:
             _context.n = 3;
@@ -544,7 +557,7 @@ function App() {
   };
   var handleFormSubmit = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
-      var token, BASE_PATH, tarefaCode, response, formDataSuporte, suporteResponse, _BASE_PATH, _response, _t2, _t3;
+      var token, _BASE_PATH2, tarefaCode, response, formDataSuporte, suporteResponse, _BASE_PATH3, _response, _t2, _t3;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.p = _context2.n) {
           case 0:
@@ -555,10 +568,10 @@ function App() {
               _context2.n = 10;
               break;
             }
-            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH2 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
             _context2.n = 2;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
+            return fetch("".concat(_BASE_PATH2, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -579,7 +592,7 @@ function App() {
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
-            window.location.href = BASE_PATH + '/login.html';
+            window.location.href = _BASE_PATH2 + '/login.html';
             return _context2.a(2);
           case 3:
             if (!response.ok) {
@@ -598,7 +611,7 @@ function App() {
               formDataSuporte.append('anexos', file);
             });
             _context2.n = 5;
-            return fetch("".concat(BASE_PATH, "/api/suporte/").concat(encodeURIComponent(tarefaCode)), {
+            return fetch("".concat(_BASE_PATH2, "/api/suporte/").concat(encodeURIComponent(tarefaCode)), {
               method: 'POST',
               headers: {
                 'Authorization': "Bearer ".concat(token)
@@ -642,9 +655,9 @@ function App() {
             _context2.n = 13;
             break;
           case 10:
-            _BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH3 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context2.n = 11;
-            return fetch("".concat(_BASE_PATH, "/api/quotations"), {
+            return fetch("".concat(_BASE_PATH3, "/api/quotations"), {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -660,7 +673,7 @@ function App() {
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
-            window.location.href = _BASE_PATH + '/login.html';
+            window.location.href = _BASE_PATH3 + '/login.html';
             return _context2.a(2);
           case 12:
             if (_response.ok) {
@@ -700,7 +713,7 @@ function App() {
   }();
   var handleEditClick = /*#__PURE__*/function () {
     var _ref4 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(quotation) {
-      var token, BASE_PATH, tarefaCode, response, data, _t4;
+      var token, _BASE_PATH4, tarefaCode, response, data, _t4;
       return _regenerator().w(function (_context3) {
         while (1) switch (_context3.p = _context3.n) {
           case 0:
@@ -715,10 +728,10 @@ function App() {
             // Buscar dados de auditoria se existirem
             _context3.p = 1;
             token = localStorage.getItem('token');
-            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH4 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             tarefaCode = quotation.tarefa || (quotation.cotacao.includes(' - ') ? quotation.cotacao.split(' - ')[1] : quotation.cotacao);
             _context3.n = 2;
-            return fetch("".concat(BASE_PATH, "/api/qualidade/auditoria/").concat(encodeURIComponent(tarefaCode)), {
+            return fetch("".concat(_BASE_PATH4, "/api/qualidade/auditoria/").concat(encodeURIComponent(tarefaCode)), {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
@@ -779,7 +792,7 @@ function App() {
   };
   var confirmDelete = /*#__PURE__*/function () {
     var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
-      var token, BASE_PATH, tarefaCode, response, _t5;
+      var token, _BASE_PATH5, tarefaCode, response, _t5;
       return _regenerator().w(function (_context4) {
         while (1) switch (_context4.p = _context4.n) {
           case 0:
@@ -791,10 +804,10 @@ function App() {
           case 1:
             token = localStorage.getItem('token');
             _context4.p = 2;
-            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH5 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             tarefaCode = deleteModal.tarefa || (deleteModal.cotacao.includes(' - ') ? deleteModal.cotacao.split(' - ')[1] : deleteModal.cotacao);
             _context4.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
+            return fetch("".concat(_BASE_PATH5, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
               method: 'DELETE',
               headers: {
                 'Authorization': "Bearer ".concat(token)
@@ -808,7 +821,7 @@ function App() {
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
-            window.location.href = BASE_PATH + '/login.html';
+            window.location.href = _BASE_PATH5 + '/login.html';
             return _context4.a(2);
           case 4:
             if (response.ok) {
@@ -834,7 +847,7 @@ function App() {
   }();
   var fetchSuporteData = /*#__PURE__*/function () {
     var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-      var token, BASE_PATH, tarefaCode, response, data, _t6;
+      var token, _BASE_PATH6, tarefaCode, response, data, _t6;
       return _regenerator().w(function (_context5) {
         while (1) switch (_context5.p = _context5.n) {
           case 0:
@@ -847,10 +860,10 @@ function App() {
             setSuporteLoading(true);
             _context5.p = 2;
             token = localStorage.getItem('token');
-            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH6 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             tarefaCode = editingQuotation.tarefa || (editingQuotation.cotacao.includes(' - ') ? editingQuotation.cotacao.split(' - ')[1] : editingQuotation.cotacao);
             _context5.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/suporte/").concat(encodeURIComponent(tarefaCode)), {
+            return fetch("".concat(_BASE_PATH6, "/api/suporte/").concat(encodeURIComponent(tarefaCode)), {
               headers: {
                 'Authorization': "Bearer ".concat(token)
               }
@@ -869,7 +882,7 @@ function App() {
               observacao: data.observacao || '',
               anexos: (data.anexos || []).map(function (a) {
                 return _objectSpread(_objectSpread({}, a), {}, {
-                  url: "".concat(BASE_PATH, "/api/anexos/").concat(a.uuid)
+                  url: "".concat(_BASE_PATH6, "/api/anexos/").concat(a.uuid)
                 });
               }),
               novosAnexos: []
@@ -896,15 +909,15 @@ function App() {
   }();
   var handleRemoveExistingAnexo = /*#__PURE__*/function () {
     var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(anexoId) {
-      var token, BASE_PATH, response, _t7;
+      var token, _BASE_PATH7, response, _t7;
       return _regenerator().w(function (_context6) {
         while (1) switch (_context6.p = _context6.n) {
           case 0:
             _context6.p = 0;
             token = localStorage.getItem('token');
-            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH7 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             _context6.n = 1;
-            return fetch("".concat(BASE_PATH, "/api/suporte/anexo/").concat(anexoId), {
+            return fetch("".concat(_BASE_PATH7, "/api/suporte/anexo/").concat(anexoId), {
               method: 'DELETE',
               headers: {
                 'Authorization': "Bearer ".concat(token)
@@ -952,7 +965,7 @@ function App() {
   };
   var handleStatusChange = /*#__PURE__*/function () {
     var _ref8 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7(newStatus) {
-      var token, BASE_PATH, tarefaCode, response, _t8;
+      var token, _BASE_PATH8, tarefaCode, response, _t8;
       return _regenerator().w(function (_context7) {
         while (1) switch (_context7.p = _context7.n) {
           case 0:
@@ -964,10 +977,10 @@ function App() {
           case 1:
             token = localStorage.getItem('token');
             _context7.p = 2;
-            BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+            _BASE_PATH8 = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
             tarefaCode = statusModal.tarefa || (statusModal.cotacao.includes(' - ') ? statusModal.cotacao.split(' - ')[1] : statusModal.cotacao);
             _context7.n = 3;
-            return fetch("".concat(BASE_PATH, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
+            return fetch("".concat(_BASE_PATH8, "/api/quotations/").concat(encodeURIComponent(tarefaCode)), {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -985,7 +998,7 @@ function App() {
             }
             localStorage.removeItem('token');
             localStorage.removeItem('username');
-            window.location.href = BASE_PATH + '/login.html';
+            window.location.href = _BASE_PATH8 + '/login.html';
             return _context7.a(2);
           case 4:
             if (response.ok) {
@@ -1135,7 +1148,13 @@ function App() {
     className: "text-xs text-slate-500 dark:text-slate-400"
   }, "Efetiva\xE7\xE3o de corre\xE7\xF5es cadastrais"))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-4"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "".concat(BASE_PATH).concat(isInputPage ? '/suporte/inspecao' : '/suporte/input'),
+    className: "inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:scale-110 border ".concat(isInputPage ? 'bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800 dark:hover:bg-blue-900/50' : 'bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-800 dark:hover:bg-emerald-900/50'),
+    title: isInputPage ? 'Ir para Suporte Inspeção' : 'Ir para Suporte Input'
+  }, isInputPage ? /*#__PURE__*/React.createElement(InspectIcon, null) : /*#__PURE__*/React.createElement(InputIcon, null), /*#__PURE__*/React.createElement("span", {
+    className: "hidden sm:inline"
+  }, isInputPage ? 'Suporte Inspeção' : 'Suporte Input')), /*#__PURE__*/React.createElement("button", {
     onClick: toggleDarkMode,
     className: "p-2 rounded-lg transition-all duration-200 hover:scale-110 ".concat(darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200 dark:text-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600'),
     title: darkMode ? 'Modo claro' : 'Modo escuro'

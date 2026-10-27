@@ -150,6 +150,10 @@ function App() {
         return saved === 'true';
     });
 
+    // Detecta a tela atual: /suporte/input (Input) ou /suporte/inspecao (Inspeção)
+    const isInputPage = window.location.pathname.includes('/suporte/input');
+    const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
     useEffect(() => {
         const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
         const token = localStorage.getItem('token');
@@ -190,7 +194,16 @@ function App() {
             setLoading(true);
             const token = localStorage.getItem('token');
             const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
-            const response = await fetch(`${BASE_PATH}/api/quotations/suporte`, { headers: { 'Authorization': `Bearer ${token}` } });
+            let url = `${BASE_PATH}/api/quotations/suporte`;
+            if (isInputPage) {
+                const params = new URLSearchParams();
+                params.append('origem', 'iw_cpc_975_net');
+                params.append('status', 'troca-de-territorio');
+                params.append('status', 'cadastro-de-membro');
+                params.append('status', 'aguardando-bilhete');
+                url += `?${params}`;
+            }
+            const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.status === 401 || response.status === 403) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('username');
@@ -502,6 +515,18 @@ function App() {
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
+                            <a
+                                href={`${BASE_PATH}${isInputPage ? '/suporte/inspecao' : '/suporte/input'}`}
+                                className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:scale-110 border ${
+                                    isInputPage
+                                        ? 'bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800 dark:hover:bg-blue-900/50'
+                                        : 'bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-800 dark:hover:bg-emerald-900/50'
+                                }`}
+                                title={isInputPage ? 'Ir para Suporte Inspeção' : 'Ir para Suporte Input'}
+                            >
+                                {isInputPage ? <InspectIcon /> : <InputIcon />}
+                                <span className="hidden sm:inline">{isInputPage ? 'Suporte Inspeção' : 'Suporte Input'}</span>
+                            </a>
                             <button onClick={toggleDarkMode} className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
                                 darkMode
                                     ? 'text-amber-400 bg-slate-700 hover:bg-slate-600'
