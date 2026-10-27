@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabela Parcial Inspeção Maratona</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      align-items: flex-start;
+      margin: 20px;
+    }
+
+    /* Sidebar Esquerda */
+    .sidebar {
+      background-color: #b52223;
+      color: #ffffff;
+      width: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 15px 5px;
+      box-sizing: border-box;
+    }
+
+    .sidebar-logo {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-title {
+      font-weight: bold;
+      font-size: 16px;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* Layout da Tabela */
+    .table-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    table.maratona-table {
+      border-collapse: collapse;
+      background-color: #f4f4f6;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* Cabeçalho */
+    table.maratona-table th {
+      background-color: #b52223;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 8px 14px;
+      border-right: 1px solid #ffffff;
+      text-transform: uppercase;
+      font-size: 13px;
+      min-width: 85px;
+    }
+
+    table.maratona-table th:last-child {
+      border-right: none;
+    }
+
+    /* Células do Corpo */
+    table.maratona-table td {
+      border: 1px dotted #888888;
+      padding: 5px 10px;
+      color: #000000;
+      font-weight: bold;
+      height: 24px;
+    }
+
+    /* Estilo para a linha % VOL. */
+    table.maratona-table tr.row-vol td {
+      font-weight: bold;
+    }
+
+    /* Rodapé / Total */
+    table.maratona-table tfoot td {
+      background-color: #b52223;
+      color: #ffffff;
+      font-weight: bold;
+      border: 1px solid #b52223;
+      border-right: 1px solid #ffffff;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    table.maratona-table tfoot td:last-child {
+      border-right: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Faixa Lateral Vermelha -->
+    <div class="sidebar" id="sidebar">
+      <svg class="sidebar-logo" viewBox="0 0 100 100" fill="white">
+        <circle cx="35" cy="35" r="8" />
+        <circle cx="55" cy="25" r="6" />
+        <circle cx="70" cy="40" r="5" />
+        <circle cx="25" cy="55" r="7" />
+        <circle cx="45" cy="55" r="9" />
+        <circle cx="65" cy="65" r="6" />
+        <circle cx="35" cy="75" r="5" />
+      </svg>
+      <div class="sidebar-title">PARCIAL INSPEÇÃO MARATONA</div>
+    </div>
+
+    <!-- Tabela Principal -->
+    <div class="table-wrapper">
+      <table class="maratona-table" id="dataTable">
+        <thead>
+          <tr>
+            <th>REGIONAL</th>
+            <th>GROSS</th>
+            <th>PORT.</th>
+            <th>RENOVAÇÃO</th>
+            <th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Estrutura pronta para popular via JS/API -->
+          <tr data-region="SP1"><td class="col-regional">SP1</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="SP2"><td class="col-regional">SP2</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="RJ/ES"><td class="col-regional">RJ/ES</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="CO"><td class="col-regional">CO</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="MG"><td class="col-regional">MG</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="NE"><td class="col-regional">NE</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="NO"><td class="col-regional">NO</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="BA/SE"><td class="col-regional">BA/SE</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="PR/SC"><td class="col-regional">PR/SC</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="RS"><td class="col-regional">RS</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr data-region="E-COMMERCE"><td class="col-regional">E-COMMERCE</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+          <tr class="row-vol" data-region="% VOL."><td class="col-regional">% VOL.</td><td class="col-gross"></td><td class="col-port"></td><td class="col-renovacao"></td><td class="col-total"></td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>TOTAL</td>
+            <td id="total-gross"></td>
+            <td id="total-port"></td>
+            <td id="total-renovacao"></td>
+            <td id="total-final"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Ajusta dinamicamente a altura da sidebar para alinhar ao final do corpo da tabela
+    window.addEventListener('DOMContentLoaded', () => {
+      const table = document.getElementById('dataTable');
+      const sidebar = document.getElementById('sidebar');
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
+
+      if (thead && tbody && sidebar) {
+        sidebar.style.height = (thead.offsetHeight + tbody.offsetHeight) + 'px';
+      }
+    });
+  </script>
+
+</body>
+</html>

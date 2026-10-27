@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <title>Parcial PME</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
+    /* ===== DARK MODE (igual às outras páginas) ===== */
+    html, html *, html *::before, html *::after { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+    html.dark { background-color: #0f172a; }
+    html.dark body { background-color: #0f172a; }
+    html.dark .bg-white { background-color: #1e293b !important; }
+    html.dark .bg-slate-50, html.dark .bg-slate-50\/80 { background-color: #0f172a !important; }
+    html.dark .bg-slate-100 { background-color: #1e293b !important; }
+    html.dark .bg-slate-800 { background-color: #334155 !important; }
+    html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
+    html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8 !important; }
+    html.dark .text-slate-700 { color: #e2e8f0 !important; }
+    html.dark .text-slate-800, html.dark .text-slate-900 { color: #f1f5f9 !important; }
+    html.dark header { background-color: #1e293b !important; border-color: #334155 !important; }
+    html.dark .shadow-sm, html.dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }
+    html.dark table { background-color: #1e293b !important; }
+    html.dark th, html.dark td { border-color: #334155; color: #e2e8f0; }
+    html.dark .bg-red { background-color: #7f1d1d !important; }
+    html.dark .vertical-banner { background-color: #7f1d1d !important; }
+    html.dark .text-left { color: #e2e8f0; }
+    html.dark .side-tag { background-color: #1e293b !important; color: #e2e8f0; border-color: #334155; }
+    html.dark main { background-color: #0f172a; }
+
+    /* ===== ESTILOS DAS TABELAS ===== */
+    table { border-collapse: collapse; width: 100%; background-color: #fff; }
+    th, td { border: 1px dotted #cbd5e1; padding: 4px 8px; text-align: center; white-space: nowrap; font-size: 12px; }
+    .bg-red { background-color: #A42828; color: #fff; }
+    .bg-gray { background-color: #D9D9D9; color: #000; }
+    .text-left { text-align: left; padding-left: 6px; font-weight: 600; }
+    .side-tag { background-color: #fff; color: #000; writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-size: 10px; border: 1px dotted #999; padding: 2px; }
+    .tbl-input th { white-space: normal; line-height: 1.2; }
+    .vertical-banner { background-color: #A42828; color: #fff; writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; padding: 10px 4px; font-size: 12px; letter-spacing: 2px; display: flex; align-items: center; justify-content: center; text-transform: uppercase; white-space: nowrap; }
+
+    /* ===== FOOTER ===== */
+    #footer { border-top: 1px solid #e2e8f0; padding: 12px 24px; font-size: 12px; color: #64748b; text-align: center; }
+    #footer .footer-item { display: inline-block; margin: 0 18px; }
+    #footer .footer-label { font-weight: 600; color: #475569; }
+  </style>
+  <script>
+    (function() {
+      var saved = localStorage.getItem('darkMode');
+      if (saved === 'true') document.documentElement.classList.add('dark');
+    })();
+  </script>
+</head>
+<body class="bg-slate-50/80 min-h-screen">
+
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30">
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-violet-600 to-purple-700 rounded-xl flex items-center justify-center shadow-md">
+            <span class="text-white font-bold">P</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold text-slate-800">Parcial PME</h1>
+            <p class="text-xs text-slate-500">Inspeção, Input e Maratona</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="usernameDisplay" class="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm text-sm font-semibold text-white"></span>
+          <button onclick="goBack()" class="text-xs text-slate-500 hover:text-violet-600 underline">← Voltar</button>
+          <button id="toggleDark" onclick="toggleDarkMode()" class="p-2 rounded-lg transition-all duration-200 hover:scale-110 text-slate-600 bg-slate-100 hover:bg-slate-200" title="Modo escuro">🌙</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- SEÇÃO: PARCIAL INSPEÇÃO PME -->
+    <section class="mb-8 overflow-x-auto">
+      <div class="flex items-stretch gap-3">
+        <div class="vertical-banner">PARCIAL INSPEÇÃO PME</div>
+        <table class="tbl-inspecao">
+          <thead id="inspecao-thead">
+            <tr>
+              <th class="bg-red">REGIONAL</th>
+              <th class="bg-red">Cargando…</th>
+            </tr>
+          </thead>
+          <tbody id="inspecao-tbody">
+            <tr>
+              <td class="text-left" colspan="2">Carregando datos…</td>
+            </tr>
+          </tbody>
+          <tfoot id="inspecao-tfoot"></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- SEÇÃO: PARCIAL INPUT PME -->
+    <section class="mb-8 overflow-x-auto">
+      <div class="flex items-stretch gap-3">
+        <div class="vertical-banner">PARCIAL INPUT PME</div>
+        <table class="tbl-input">
+          <thead id="input-thead">
+            <tr>
+              <th colspan="2" class="bg-red">STATUS</th>
+              <th class="bg-red">Cargando…</th>
+            </tr>
+          </thead>
+          <tbody id="input-tbody">
+            <tr>
+              <td colspan="2" class="text-left">Carregando datos…</td>
+            </tr>
+          </tbody>
+          <tfoot id="input-tfoot"></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- SEÇÃO: MARATONA I -->
+    <section class="mb-8 overflow-x-auto">
+      <div class="flex items-stretch gap-3">
+        <div class="vertical-banner">MARATONA I</div>
+        <table class="tbl-input">
+          <thead>
+            <tr>
+              <th class="bg-red">REGIONAL</th>
+              <th class="bg-red">GROSS</th>
+              <th class="bg-red">PORT.</th>
+              <th class="bg-red">RENOVAÇÃO</th>
+              <th class="bg-red">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody id="maratona-tbody">
+            <tr><td colspan="5" class="text-left">Carregando datos…</td></tr>
+          </tbody>
+          <tfoot id="maratona-tfoot"></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- SEÇÃO: MARATONA II -->
+    <section class="mb-8 overflow-x-auto">
+      <div class="flex items-stretch gap-3">
+        <div class="vertical-banner">MARATONA II</div>
+        <table class="tbl-input">
+          <thead id="maratona2-thead">
+            <tr>
+              <th class="bg-red">REGIONAL</th>
+              <th class="bg-red">GROSS</th>
+              <th class="bg-red">RENOV.</th>
+              <th class="bg-red">PORT.</th>
+              <th class="bg-red">GROSS<br>RENOV.</th>
+              <th class="bg-red">GROSS<br>PORT.</th>
+              <th class="bg-red">RENOV.<br>PORT.</th>
+              <th class="bg-red">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody id="maratona2-tbody">
+            <tr><td colspan="8" class="text-left">Carregando datos…</td></tr>
+          </tbody>
+          <tfoot id="maratona2-tfoot"></tfoot>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="bg-slate-100 border-t border-slate-200">
+    <span class="footer-item"><span class="footer-label">Inspección:</span> <span id="footerInspecao">-</span></span>
+    <span class="footer-item"><span class="footer-label">Input:</span> <span id="footerInput">-</span></span>
+    <span class="footer-item"><span class="footer-label">Maratona:</span> <span id="footerMaratona">-</span></span>
+  </footer>
+
+  <script>
+    (function () {
+      var getBasePath = function () {
+        return window.location.pathname.indexOf('/pme_notas') === 0 ? '/pme_notas' : '';
+      };
+
+      var esc = function (v) {
+        return String(v == null ? '-' : v);
+      };
+
+      // ===== DARK MODE =====
+      function toggleDarkMode() {
+        var isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('darkMode', isDark);
+        document.getElementById('toggleDark').textContent = isDark ? '☀️' : '🌙';
+      }
+
+      // ===== VOLVER =====
+      window.goBack = function() {
+        if (document.referrer && document.referrer.includes('pme_notas')) {
+          window.history.back();
+        } else {
+          window.location.href = getBasePath() + '/index.html';
+        }
+      };
+
+      // ===== USERNAME =====
+      var storedUsername = localStorage.getItem('username');
+      if (storedUsername) {
+        document.getElementById('usernameDisplay').textContent = '👤 ' + storedUsername;
+      }
+
+      var token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = getBasePath() + '/login.html';
+        return;
+      }
+
+      function cargarInspecao() {
+        var tab = document.getElementById('inspecao-thead');
+        var tbody = document.getElementById('inspecao-tbody');
+        var tfoot = document.getElementById('inspecao-tfoot');
+
+        fetch(getBasePath() + '/api/reports/parcial_pme', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+          .then(function (res) {
+            if (res.status === 401 || res.status === 403) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('username');
+              window.location.href = getBasePath() + '/login.html';
+              return;
+            }
+            if (!res.ok) { throw new Error('Erro HTTP ' + res.status); }
+            return res.json();
+          })
+          .then(function (data) {
+            if (!data) { return; }
+            var columnas = data.columnas || [];
+            var filas = data.filas || [];
+            var totalGlobal = data.totalGlobal;
+
+            // Footer: max dat_historico
+            if (data.maxDato) {
+              document.getElementById('footerInspecao').textContent = String(data.maxDato);
+            }
+
+            // ---- THEAD ----
+            var headHtml = '<tr><th class="bg-red">REGIONAL</th>';
+            columnas.forEach(function (c) { headHtml += '<th class="bg-red">' + esc(c) + '</th>'; });
+            headHtml += '<th class="bg-red">TOTAL</th>' +
+              '<th colspan="2" class="bg-gray">SOLAR</th>' +
+              '<th colspan="2" class="bg-red">MANUAL</th></tr>';
+            tab.innerHTML = headHtml;
+
+            // ---- TBODY ----
+            if (filas.length === 0) {
+              tbody.innerHTML = '<tr><td class="text-left" colspan="' + (columnas.length + 6) + '">Sin datos</td></tr>';
+              tfoot.innerHTML = '';
+              return;
+            }
+            var bodyHtml = '';
+            filas.forEach(function (f) {
+              bodyHtml += '<tr><td class="text-left">' + esc(f.regional) + '</td>';
+              columnas.forEach(function (c) { bodyHtml += '<td>' + esc(f[c]) + '</td>'; });
+              bodyHtml += '<td>' + esc(f.total) + '</td>' +
+                '<td>' + esc(f.solar_qtd) + '</td>' +
+                '<td>' + esc(f.solar_pct) + '</td>' +
+                '<td>' + esc(f.manual_qtd) + '</td>' +
+                '<td>' + esc(f.manual_pct) + '</td></tr>';
+            });
+            tbody.innerHTML = bodyHtml;
+
+            // ---- TFOOT (fila TOTAL) ----
+            if (totalGlobal) {
+              var footHtml = '<tr><th class="bg-red">TOTAL</th>';
+              columnas.forEach(function (c) { footHtml += '<td class="bg-red">' + esc(totalGlobal[c]) + '</td>'; });
+              footHtml += '<td class="bg-red">' + esc(totalGlobal.total) + '</td>' +
+                '<td class="bg-gray">' + esc(totalGlobal.solar_qtd) + '</td>' +
+                '<td class="bg-gray">' + esc(totalGlobal.solar_pct) + '</td>' +
+                '<td class="bg-red">' + esc(totalGlobal.manual_qtd) + '</td>' +
+                '<td class="bg-red">' + esc(totalGlobal.manual_pct) + '</td></tr>';
+              tfoot.innerHTML = footHtml;
+            }
+          })
+          .catch(function (err) {
+            tbody.innerHTML = '<tr><td class="text-left" colspan="2">Erro ao cargar: ' + esc(err.message) + '</td></tr>';
+          });
+      }
+
+      function cargarInput() {
+        var tab = document.getElementById('input-thead');
+        var tbody = document.getElementById('input-tbody');
+        var tfoot = document.getElementById('input-tfoot');
+
+        fetch(getBasePath() + '/api/reports/parcial_pme/input', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+          .then(function (res) {
+            if (res.status === 401 || res.status === 403) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('username');
+              window.location.href = getBasePath() + '/login.html';
+              return;
+            }
+            if (!res.ok) { throw new Error('Erro HTTP ' + res.status); }
+            return res.json();
+          })
+          .then(function (data) {
+            if (!data) { return; }
+            var colunas = data.colunas || [];
+            var blocos = data.blocos || [];
+            var totalGeral = data.totalGeral;
+
+            // Footer: max data_historico das fontes
+            if (data.maxDato) {
+              document.getElementById('footerInput').textContent = String(data.maxDato);
+            }
+
+            // ---- FILTRAR COLUMNAS CON TOTAL 0 ----
+            var colunasVisibles = colunas.filter(function (c) {
+              var totalCol = 0;
+              blocos.forEach(function (b) {
+                var tb = b.totalBloco || {};
+                totalCol += parseInt(tb.valores[c], 10) || 0;
+              });
+              return totalCol > 0;
+            });
+
+            // ---- THEAD ----
+            var headHtml = '<tr><th colspan="2" class="bg-red">STATUS</th>';
+            colunasVisibles.forEach(function (c) { headHtml += '<th class="bg-red">' + esc(c) + '</th>'; });
+            headHtml += '<th class="bg-red">TOTAL</th>' +
+              '<th class="bg-red" style="width: 15px;"></th></tr>';
+            tab.innerHTML = headHtml;
+
+            if (blocos.length === 0) {
+              tbody.innerHTML = '<tr><td colspan="2" class="text-left">Sin datos</td></tr>';
+              tfoot.innerHTML = '';
+              return;
+            }
+
+            var bodyHtml = '';
+            blocos.forEach(function (bloque) {
+              var grupos = bloque.grupos || [];
+              // Nº total de filas del bloque = filas de grupos + 1 (total)
+              var nFilas = 1;
+              grupos.forEach(function (g) { nFilas += (g.subfilas && g.subfilas.length) ? g.subfilas.length : 1; });
+
+              var primerFilaBloque = true;
+              grupos.forEach(function (g) {
+                if (g.subfilas && g.subfilas.length > 0) {
+                  g.subfilas.forEach(function (sub, idx) {
+                    var fila = '<tr>';
+                    if (idx === 0) {
+                      fila += '<td rowspan="' + g.subfilas.length + '" class="text-left">' + esc(g.label) + '</td>';
+                    }
+                    fila += '<td class="text-left">' + esc(sub.label) + '</td>';
+                    colunasVisibles.forEach(function (c) { fila += '<td>' + esc(sub.valores[c]) + '</td>'; });
+                    fila += '<td>' + esc(sub.total) + '</td>';
+                    if (primerFilaBloque) {
+                      fila += '<td rowspan="' + nFilas + '" class="side-tag">' + esc(bloque.sideTag) + '</td>';
+                    }
+                    fila += '</tr>';
+                    bodyHtml += fila;
+                    primerFilaBloque = false;
+                  });
+                } else {
+                  var fila2 = '<tr><td colspan="2" class="text-left">' + esc(g.label) + '</td>';
+                  colunasVisibles.forEach(function (c) { fila2 += '<td>' + esc(g.valores[c]) + '</td>'; });
+                  fila2 += '<td>' + esc(g.total) + '</td>';
+                  if (primerFilaBloque) {
+                    fila2 += '<td rowspan="' + nFilas + '" class="side-tag">' + esc(bloque.sideTag) + '</td>';
+                  }
+                  fila2 += '</tr>';
+                  bodyHtml += fila2;
+                  primerFilaBloque = false;
+                }
+              });
+
+              // Fila TOTAL del bloque
+              var tb = bloque.totalBloco || {};
+              var filaTot = '<tr class="bg-red"><td colspan="2" class="text-left">' + esc(tb.label) + '</td>';
+              colunasVisibles.forEach(function (c) { filaTot += '<td>' + esc(tb.valores[c]) + '</td>'; });
+              filaTot += '<td>' + esc(tb.total) + '</td></tr>';
+              bodyHtml += filaTot;
+            });
+            tbody.innerHTML = bodyHtml;
+
+            // ---- TFOOT: TOTAL GERAL ----
+            if (totalGeral) {
+              var footHtml = '<tr class="bg-red"><td colspan="2" class="text-left">TOTAL GERAL</td>';
+              colunasVisibles.forEach(function (c) { footHtml += '<td>' + esc(totalGeral.valores[c]) + '</td>'; });
+              footHtml += '<td>' + esc(totalGeral.total) + '</td>' +
+                '<td class="bg-red"></td></tr>';
+              tfoot.innerHTML = footHtml;
+            }
+          })
+          .catch(function (err) {
+            tbody.innerHTML = '<tr><td colspan="2" class="text-left">Erro ao cargar: ' + esc(err.message) + '</td></tr>';
+          });
+      }
+
+      // ---- Cargar datos de la Maratona ----
+      function cargarMaratona() {
+        fetch(`${getBasePath()}/api/reports/parcial_pme/maratona`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+          .then(function (res) {
+            if (res.status === 401 || res.status === 403) {
+              localStorage.removeItem('token');
+              window.location.href = getBasePath() + '/login.html';
+              return null;
+            }
+            return res.json();
+          })
+          .then(function (json) {
+            if (!json) return;
+            // Footer: max dat_historico (fonte r_000250)
+            if (json.maxDato) {
+              document.getElementById('footerMaratona').textContent = String(json.maxDato);
+            }
+            var tbody = document.getElementById('maratona-tbody');
+            var tfoot = document.getElementById('maratona-tfoot');
+            var html = '';
+            var totalGross = 0, totalPort = 0, totalRenov = 0, totalAll = 0;
+
+            json.data.forEach(function (r) {
+              html += '<tr>' +
+                '<td class="text-left">' + esc(r.regional) + '</td>' +
+                '<td>' + esc(String(r.gross)) + '</td>' +
+                '<td>' + esc(String(r.portabilidade)) + '</td>' +
+                '<td>' + esc(String(r.renovacao)) + '</td>' +
+                '<td>' + esc(String(r.total)) + '</td>' +
+                '</tr>';
+              totalGross += (parseInt(r.gross, 10) || 0);
+              totalPort += (parseInt(r.portabilidade, 10) || 0);
+              totalRenov += (parseInt(r.renovacao, 10) || 0);
+              totalAll += (parseInt(r.total, 10) || 0);
+            });
+
+            tbody.innerHTML = html;
+            tfoot.innerHTML = '<tr class="bg-red">' +
+              '<td class="text-left">TOTAL</td>' +
+              '<td>' + esc(String(totalGross)) + '</td>' +
+              '<td>' + esc(String(totalPort)) + '</td>' +
+              '<td>' + esc(String(totalRenov)) + '</td>' +
+              '<td>' + esc(String(totalAll)) + '</td>' +
+              '</tr>';
+          })
+          .catch(function (err) {
+            document.getElementById('maratona-tbody').innerHTML =
+              '<tr><td colspan="5" class="text-left">Erro ao cargar: ' + esc(err.message) + '</td></tr>';
+          });
+      }
+
+      // ---- Cargar datos de la Maratona II ----
+      function cargarMaratona2() {
+        fetch(`${getBasePath()}/api/reports/parcial_pme/maratona_v2`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+          .then(function (res) {
+            if (res.status === 401 || res.status === 403) {
+              localStorage.removeItem('token');
+              window.location.href = getBasePath() + '/login.html';
+              return null;
+            }
+            return res.json();
+          })
+          .then(function (json) {
+            if (!json) return;
+            var tbody = document.getElementById('maratona2-tbody');
+            var tfoot = document.getElementById('maratona2-tfoot');
+            var html = '';
+            var tGross = 0, tRenov = 0, tPort = 0, tGR = 0, tGP = 0, tRP = 0, tTotal = 0;
+
+            json.data.forEach(function (r) {
+              html += '<tr>' +
+                '<td class="text-left">' + esc(r.regional) + '</td>' +
+                '<td>' + esc(String(r.gross)) + '</td>' +
+                '<td>' + esc(String(r.renovacao)) + '</td>' +
+                '<td>' + esc(String(r.portabilidade)) + '</td>' +
+                '<td>' + esc(String(r.gross_renovacao)) + '</td>' +
+                '<td>' + esc(String(r.gross_portabilidade)) + '</td>' +
+                '<td>' + esc(String(r.renovacao_portabilidade)) + '</td>' +
+                '<td>' + esc(String(r.total)) + '</td>' +
+                '</tr>';
+              tGross += parseInt(r.gross, 10) || 0;
+              tRenov += parseInt(r.renovacao, 10) || 0;
+              tPort += parseInt(r.portabilidade, 10) || 0;
+              tGR += parseInt(r.gross_renovacao, 10) || 0;
+              tGP += parseInt(r.gross_portabilidade, 10) || 0;
+              tRP += parseInt(r.renovacao_portabilidade, 10) || 0;
+              tTotal += parseInt(r.total, 10) || 0;
+            });
+
+            tbody.innerHTML = html;
+            tfoot.innerHTML = '<tr class="bg-red">' +
+              '<td class="text-left">TOTAL</td>' +
+              '<td>' + esc(String(tGross)) + '</td>' +
+              '<td>' + esc(String(tRenov)) + '</td>' +
+              '<td>' + esc(String(tPort)) + '</td>' +
+              '<td>' + esc(String(tGR)) + '</td>' +
+              '<td>' + esc(String(tGP)) + '</td>' +
+              '<td>' + esc(String(tRP)) + '</td>' +
+              '<td>' + esc(String(tTotal)) + '</td>' +
+              '</tr>';
+          })
+          .catch(function (err) {
+            document.getElementById('maratona2-tbody').innerHTML =
+              '<tr><td colspan="8" class="text-left">Erro ao cargar: ' + esc(err.message) + '</td></tr>';
+          });
+      }
+
+      cargarInspecao();
+      cargarInput();
+      cargarMaratona();
+      cargarMaratona2();
+    })();
+  </script>
+
+  <!-- MENU NAVEGACIÓN GLOBAL -->
+  <script src="/pme_notas/menu_navegacao.js"></script>
+
+</body>
+</html>

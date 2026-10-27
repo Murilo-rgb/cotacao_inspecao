@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cálculo mensal das métricas de auditoria de qualidade">
+    <meta name="theme-color" content="#2563eb">
+    <title>Auditoria de Qualidade - Mensal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: pulse 1.5s infinite; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        html, html *, html *::before, html *::after {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+        html.dark { background-color: #0f172a; }
+        html.dark body { background-color: #0f172a; }
+        html.dark .bg-white { background-color: #1e293b !important; }
+        html.dark .bg-slate-50, html.dark .bg-slate-50\/80 { background-color: #0f172a !important; }
+        html.dark .bg-slate-100 { background-color: #1e293b !important; }
+        html.dark .bg-slate-800 { background-color: #334155 !important; }
+        html.dark .border-slate-200, html.dark .border-slate-300 { border-color: #334155 !important; }
+        html.dark .border-slate-700 { border-color: #475569 !important; }
+        html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8 !important; }
+        html.dark .text-slate-600 { color: #cbd5e1 !important; }
+        html.dark .text-slate-700 { color: #e2e8f0 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-900 { color: #f1f5f9 !important; }
+        html.dark .text-white { color: #f8fafc !important; }
+        html.dark header { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark input, html.dark select { background-color: #1e293b !important; border-color: #475569 !important; color: #e2e8f0 !important; }
+        html.dark input:focus, html.dark select:focus { border-color: #8b5cf6 !important; box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important; }
+        html.dark .shadow-sm, html.dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3) !important; }
+        html.dark .bg-emerald-50 { background-color: rgba(5, 150, 105, 0.15) !important; }
+        html.dark .text-emerald-700, html.dark .text-emerald-600 { color: #34d399 !important; }
+        html.dark .bg-red-50 { background-color: rgba(220, 38, 38, 0.15) !important; }
+        html.dark .text-red-700, html.dark .text-red-600 { color: #f87171 !important; }
+        html.dark .bg-amber-50 { background-color: rgba(217, 119, 6, 0.15) !important; }
+        html.dark .text-amber-700, html.dark .text-amber-600 { color: #fbbf24 !important; }
+        html.dark .info-tooltip, html.dark .info-tooltip-arrow { background-color: #475569 !important; }
+    </style>
+    <script>
+    (function() {
+        const saved = localStorage.getItem('darkMode');
+        if (saved === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    })();
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const { useState, useEffect, useCallback } = React;
+var TIPO_APONTAMENTO_STATUS = {
+            'APROVAÇÃO INDEVIDA': ['Aprovação Indevida - Qualidade'],
+            'APROVADO': ['Procedimento Correto', 'Aprovação Indevida - Qualidade'],
+            'DEVOLUÇÃO PARCIAL/INDEVIDA': ['Devolução Indevida', 'Procedimento Correto', 'Devolução Parcial'],
+            'ERRO INTERNO': ['Erro Interno - Inspeção'],
+            'RCV': ['Apontamento RCV']
+        };
+        var TIPO_APONTAMENTO_LABELS = {
+            'APROVAÇÃO INDEVIDA': '🚫 Aprovação Indevida',
+            'APROVADO': '✅ Aprovado',
+            'DEVOLUÇÃO PARCIAL/INDEVIDA': '↩️ Devolução Parcial/Indevida',
+            'ERRO INTERNO': '🛠️ Erro Interno',
+            'RCV': '📋 RCV'
+        };
+        var TIPO_APONTAMENTO_CORES = {
+            'APROVAÇÃO INDEVIDA': { barra: 'bg-red-500', texto: 'text-red-600', borda: 'border-red-200' },
+            'DEVOLUÇÃO PARCIAL/INDEVIDA': { barra: 'bg-amber-500', texto: 'text-amber-600', borda: 'border-amber-200' },
+            'ERRO INTERNO': { barra: 'bg-purple-500', texto: 'text-purple-600', borda: 'border-purple-200' },
+            'RCV': { barra: 'bg-sky-500', texto: 'text-sky-600', borda: 'border-sky-200' },
+            'SEM TIPO': { barra: 'bg-slate-400', texto: 'text-slate-600', borda: 'border-slate-200' }
+        };
+        // Status que representam devolucao efetiva da cotacao. Usado APENAS no card
+        // DEVOLUÇÃO PARCIAL/INDEVIDA (numerador do percentual de erro).
+        var STATUS_DEVOLUCAO_EFETIVA = ['Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida'];
+        // Tipos exibidos como card. O tipo 'APROVADO' continua existindo em
+        // TIPO_APONTAMENTO_STATUS (usado em inferencias de registros antigos), mas NAO
+        // e renderizado como card.
+        var TIPOS_CARD_EXIBIDOS = Object.keys(TIPO_APONTAMENTO_STATUS).filter(function (t) { return t !== 'APROVADO'; });
+        var MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+        const buildMonthOptions = () => {
+            const opts = [];
+            const now = new Date();
+            for (let i = 23; i >= 0; i--) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                opts.push({ val, nome: `${MESES[d.getMonth()]} ${d.getFullYear()}` });
+            }
+            return opts;
+        };
+const CalendarIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('rect', { x: "3", y: "4", width: "18", height: "18", rx: "2", ry: "2" }), React.createElement('line', { x1: "16", y1: "2", x2: "16", y2: "6" }), React.createElement('line', { x1: "8", y1: "2", x2: "8", y2: "6" }), React.createElement('line', { x1: "3", y1: "10", x2: "21", y2: "10" }));
+        const UserIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('path', { d: "M19 21v-2a4 4 0 0 0-4-4H9a2 2 0 0 0-4 4v2" }), React.createElement('circle', { cx: "12", cy: "7", r: "4" }));
+        const LogoutIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement('path', { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" }), React.createElement('polyline', { points: "16 17 21 12 16 7" }), React.createElement('line', { x1: "21", x2: "9", y1: "12", y2: "12" }));
+        const ShieldIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5 text-white", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2 }, React.createElement('path', { strokeLinecap: "round", strokeLinejoin: "round", d: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" }));
+        const SunIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('circle', { cx: "12", cy: "12", r: "5" }),
+            React.createElement('line', { x1: "12", y1: "1", x2: "12", y2: "3" }),
+            React.createElement('line', { x1: "12", y1: "21", x2: "12", y2: "23" }),
+            React.createElement('line', { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }),
+            React.createElement('line', { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }),
+            React.createElement('line', { x1: "1", y1: "12", x2: "3", y2: "12" }),
+            React.createElement('line', { x1: "21", y1: "12", x2: "23", y2: "12" }),
+            React.createElement('line', { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }),
+            React.createElement('line', { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" })
+        );
+        const MoonIcon = () => React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+            React.createElement('path', { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" })
+        );
+        // Icone discreto de informacao com tooltip. Abre por hover, clique/toque e foco
+        // (a pagina e usada em tablet, onde nao existe hover), fecha no Esc ou ao sair.
+        // ATENCAO: os textos explicam a regra de deduplicacao do backend —
+        // routes/qualidade.js usa DISTINCT ON (c.usuario_id, DATA_BASE_SQL), ou seja,
+        // conta 1 auditoria por pessoa por dia. Se essa regra mudar no servidor,
+        // revise os textos dos tooltips e os numeros dos cards.
+        const InfoTooltip = ({ text }) => {
+            const [open, setOpen] = React.useState(false);
+            React.useEffect(() => {
+                if (!open) return;
+                const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+                window.addEventListener('keydown', onKey);
+                return () => window.removeEventListener('keydown', onKey);
+            }, [open]);
+            const stop = (e) => { e.stopPropagation(); };
+            return React.createElement('span', {
+                className: "relative inline-flex items-center",
+                onMouseEnter: () => setOpen(true),
+                onMouseLeave: () => setOpen(false),
+                onClick: stop,
+                onDoubleClick: stop
+            },
+                React.createElement('button', {
+                    type: "button",
+                    tabIndex: 0,
+                    'aria-label': 'Explicação deste indicador',
+                    'aria-expanded': open ? 'true' : 'false',
+                    onFocus: () => setOpen(true),
+                    onBlur: () => setOpen(false),
+                    onClick: (e) => { e.stopPropagation(); setOpen(o => !o); },
+                    onDoubleClick: stop,
+                    className: "inline-flex items-center justify-center text-slate-400 hover:text-slate-600 focus:text-slate-600 focus:outline-none transition-colors duration-200 cursor-help"
+                },
+                    React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
+                        React.createElement('circle', { cx: "12", cy: "12", r: "10" }),
+                        React.createElement('line', { x1: "12", y1: "16", x2: "12", y2: "12" }),
+                        React.createElement('line', { x1: "12", y1: "8", x2: "12.01", y2: "8" })
+                    )
+                ),
+                open && React.createElement('span', {
+                    role: "tooltip",
+                    className: "info-tooltip absolute z-50 left-0 top-full mt-2 w-64 sm:w-72 max-w-[calc(100vw-2rem)] bg-slate-800 text-white text-xs leading-relaxed rounded-lg p-3 shadow-xl font-normal normal-case tracking-normal text-left block"
+                },
+                    React.createElement('span', { className: "info-tooltip-arrow absolute left-3 -top-1 w-2 h-2 bg-slate-800 rotate-45" }),
+                    React.createElement('span', { className: "block" }, text)
+                )
+            );
+        };
+        // Rotulo do card + icone de informacao opcional.
+        const CardLabel = ({ text, className, tooltip }) => React.createElement('p', { className: `${className || ''} flex items-center gap-1.5` },
+            React.createElement('span', null, text),
+            tooltip ? React.createElement(InfoTooltip, { text: tooltip }) : null
+        );
+function App() {
+            const [quotations, setQuotations] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [month, setMonth] = useState(() => { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}`; });
+            const [filtroOrigem, setFiltroOrigem] = useState('');
+            const [filtroStatus, setFiltroStatus] = useState('base');
+            const [username, setUsername] = useState('');
+            const [darkMode, setDarkMode] = useState(() => { const saved = localStorage.getItem('darkMode'); return saved === 'true'; });
+            const BASE_PATH = window.location.pathname.startsWith('/pme_notas') ? '/pme_notas' : '';
+
+            useEffect(() => {
+                if (darkMode) { document.documentElement.classList.add('dark'); } else { document.documentElement.classList.remove('dark'); }
+                localStorage.setItem('darkMode', darkMode);
+            }, [darkMode]);
+
+            const toggleDarkMode = () => setDarkMode(prev => !prev);
+
+            useEffect(() => {
+                const token = localStorage.getItem('token');
+                if (!token) { window.location.href = BASE_PATH + '/login.html'; return; }
+                const storedUsername = localStorage.getItem('username');
+                if (storedUsername) setUsername(storedUsername);
+            }, [BASE_PATH]);
+
+            const handleLogout = useCallback(() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                window.location.href = BASE_PATH + '/login.html';
+            }, [BASE_PATH]);
+
+            const fetchMensal = useCallback(async () => {
+                setLoading(true);
+                setQuotations([]);
+                const token = localStorage.getItem('token');
+                if (!token) { window.location.href = BASE_PATH + '/login.html'; return; }
+                const params = new URLSearchParams();
+                if (month) params.append('month', month);
+                if (filtroOrigem) params.append('origem', filtroOrigem);
+                if (filtroStatus) params.append('status', filtroStatus);
+                try {
+                    const response = await fetch(`${BASE_PATH}/api/qualidade?${params}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('token'); localStorage.removeItem('username'); window.location.href = BASE_PATH + '/login.html'; return;
+                    }
+                    const data = await response.json();
+                    setQuotations(data);
+                } catch (error) {
+                    console.error('Erro ao buscar métricas mensais:', error);
+                } finally {
+                    setLoading(false);
+                }
+            }, [month, filtroOrigem, filtroStatus, BASE_PATH]);
+
+            useEffect(() => { const timer = setTimeout(fetchMensal, 300); return () => clearTimeout(timer); }, [fetchMensal]);
+const filteredQuotations = quotations;
+            const totalCotacoes = filteredQuotations.length;
+            const totalAuditadas = filteredQuotations.filter(q => q.auditoria).length;
+            const totalNaoAuditadas = filteredQuotations.filter(q => !q.auditoria).length;
+
+            const auditadasNoRecorte = filteredQuotations.filter(q => q.auditoria);
+            const totalAuditorias = auditadasNoRecorte.length;
+            const porTipoApontamento = {};
+            const statusDentroDoTipo = {};
+            for (const q of auditadasNoRecorte) {
+                const tipo = (q.auditoria.tipo_apontamento || '').trim();
+                const chave = tipo && TIPO_APONTAMENTO_STATUS[tipo] ? tipo : 'SEM TIPO';
+                porTipoApontamento[chave] = (porTipoApontamento[chave] || 0) + 1;
+                if (!statusDentroDoTipo[chave]) statusDentroDoTipo[chave] = {};
+                const st = (q.auditoria.status || '').trim();
+                statusDentroDoTipo[chave][st] = (statusDentroDoTipo[chave][st] || 0) + 1;
+            }
+            // Percentual de erro do card DEVOLUÇÃO PARCIAL/INDEVIDA: devolucoes efetivas
+            // (numerador) sobre TODAS as auditorias do tipo (denominador = volume do card).
+            // Auditorias do tipo com status 'Procedimento Correto' entram so no denominador,
+            // pois pertencem ao tipo de amostra mas nao geraram devolucao. Nao confundir com
+            // o percentual dos demais cards, que usa totalAuditorias como base.
+            const qtdDevolucaoTipo = porTipoApontamento['DEVOLUÇÃO PARCIAL/INDEVIDA'] || 0;
+            const statusDev = statusDentroDoTipo['DEVOLUÇÃO PARCIAL/INDEVIDA'] || {};
+            const qtdDevolucaoEfetiva = STATUS_DEVOLUCAO_EFETIVA.reduce((acc, s) => acc + (statusDev[s] || 0), 0);
+            const pctDevolucaoEfetiva = qtdDevolucaoTipo > 0 ? (qtdDevolucaoEfetiva / qtdDevolucaoTipo) * 100 : 0;
+            const pctDevolucaoFmt = qtdDevolucaoTipo > 0 ? `${pctDevolucaoEfetiva.toFixed(1).replace('.', ',')}%` : '—';
+            const ordemTipos = TIPOS_CARD_EXIBIDOS
+                .concat(porTipoApontamento['SEM TIPO'] > 0 ? ['SEM TIPO'] : []);
+
+            const monthOptions = buildMonthOptions();
+            const monthLabel = (() => {
+                const split = (month || '').split('-');
+                const y = Number(split[0]);
+                const mo = Number(split[1]);
+                return (y && mo && mo >= 1 && mo <= 12) ? `${MESES[mo - 1]} ${y}` : '';
+            })();
+            // Aviso de mes em andamento: a mensal cobre o mes inteiro (inclusive
+            // criacoes futuras sem auditoria), enquanto o reports extrai so o
+            // intervalo informado. Evita comparar "mes cheio" x "01-16".
+            const avisoMesParcial = (() => {
+                const split = (month || '').split('-');
+                const y = Number(split[0]);
+                const mo = Number(split[1]);
+                if (!y || !mo) return '';
+                const hoje = new Date();
+                if (y === hoje.getFullYear() && mo === hoje.getMonth() + 1) {
+                    const dia = String(hoje.getDate()).padStart(2, '0');
+                    return `Mes em andamento — parcial ate ${dia}/${String(mo).padStart(2, '0')}/${y}. Para comparar com a página Relatórios, extraia o mesmo intervalo (01/${String(mo).padStart(2, '0')} a ${dia}/${String(mo).padStart(2, '0')}). Obs.: os cards contam 1 auditoria por pessoa por dia, então o total tende a ser menor que o extrato tarefa por tarefa da página Relatórios.`;
+                }
+                return '';
+            })();
+
+            return React.createElement('div', { className: "min-h-screen bg-slate-50/80" },
+React.createElement('header', { className: "bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30" },
+                    React.createElement('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" },
+                        React.createElement('div', { className: "flex justify-between items-center h-16" },
+                            React.createElement('div', { className: "flex items-center gap-3" },
+                                React.createElement('div', { className: "w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md" },
+                                    React.createElement(ShieldIcon)
+                                ),
+                                React.createElement('div', null,
+                                    React.createElement('h1', { className: "text-xl font-bold text-slate-800" }, 'Auditoria de Qualidade'),
+                                    React.createElement('p', { className: "text-xs text-slate-500" }, 'Cálculo mensal das métricas de auditoria')
+                                )
+                            ),
+                            React.createElement('div', { className: "flex items-center gap-2" },
+                                React.createElement('a', { href: `${BASE_PATH}/qualidade`, className: "flex items-center gap-1.5 px-3.5 py-2 text-sm font-semibold text-blue-600 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 hover:border-blue-300 transition-all duration-200" }, 'Visão diária'),
+                                React.createElement('button', {
+                                    onClick: toggleDarkMode,
+                                    className: `p-2 rounded-lg transition-all duration-200 hover:scale-110 ${darkMode ? 'text-amber-400 bg-slate-700 hover:bg-slate-600' : 'text-slate-600 bg-slate-100 hover:bg-slate-200'}`
+                                }, darkMode ? React.createElement(SunIcon) : React.createElement(MoonIcon)),
+                                React.createElement('div', { className: "flex items-center gap-4" },
+                                    React.createElement('div', { className: "hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-800 border border-slate-700 rounded-full shadow-sm" },
+                                        React.createElement('div', { className: "w-7 h-7 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white shadow-sm" }, React.createElement(UserIcon)),
+                                        React.createElement('span', { className: "text-sm font-semibold text-white" }, username)
+                                    ),
+                                    React.createElement('button', { onClick: handleLogout, className: "flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200" }, React.createElement(LogoutIcon), React.createElement('span', { className: "hidden sm:inline" }, 'Sair'))
+                                )
+                            )
+                        )
+                    )
+                ),
+                React.createElement('main', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" },
+React.createElement('div', { className: "flex flex-wrap items-end gap-4 mb-6" },
+                        React.createElement('div', { className: "relative group" },
+                            React.createElement('label', { className: "block text-sm font-medium text-slate-600 mb-1.5" }, 'Mês'),
+                            React.createElement('div', { className: "relative" },
+                                React.createElement('div', { className: "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" }, React.createElement(CalendarIcon)),
+                                React.createElement('select', { value: month, onChange: (e) => setMonth(e.target.value), className: "w-48 pl-10 pr-3 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" },
+                                    monthOptions.map(m => React.createElement('option', { key: m.val, value: m.val }, m.nome))
+                                )
+                            )
+                        ),
+                        React.createElement('div', { className: "relative group" },
+                            React.createElement('label', { className: "block text-sm font-medium text-slate-600 mb-1.5" }, 'Origem'),
+                            React.createElement('select', { value: filtroOrigem, onChange: (e) => setFiltroOrigem(e.target.value), className: "w-44 px-3.5 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" },
+                                React.createElement('option', { value: '' }, 'Todas as origens'),
+                                React.createElement('option', { value: 'r_000250' }, '🔍 Inspeção'),
+                                React.createElement('option', { value: 'iw_cpc_975_net' }, '📄 Input'),
+                                React.createElement('option', { value: 'iw_cpc_975_top' }, '⬆️ TOP')
+                            )
+                        ),
+                        React.createElement('div', { className: "relative group" },
+                            React.createElement('label', { className: "block text-sm font-medium text-slate-600 mb-1.5" }, 'Status'),
+                            React.createElement('select', { value: filtroStatus, onChange: (e) => setFiltroStatus(e.target.value), className: "w-44 px-3.5 py-3 bg-white border-2 border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:shadow-lg shadow-sm transition-all duration-200 group-hover:border-slate-300" },
+                                React.createElement('option', { value: '' }, 'Todos os status'),
+                                React.createElement('option', { value: 'base' }, 'Base do mes (reprovadas + auditadas)'),
+                                React.createElement('option', { value: 'reprovado' }, 'Reprovado (somente)'),
+                                React.createElement('option', { value: 'aprovado' }, 'Aprovado (somente)'),
+                                React.createElement('option', { value: 'pendente' }, 'Pendente (somente)')
+                            )
+                        )
+                    ),
+                    avisoMesParcial ? React.createElement('div', { className: "mb-4 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800" }, avisoMesParcial) : null,
+React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4" },
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
+                            React.createElement(CardLabel, { text: 'Total de Cotações', className: "text-sm font-medium text-slate-500", tooltip: 'Cotações consideradas no mês e no recorte selecionado. Quando a mesma pessoa possui mais de uma cotação no mesmo dia, apenas uma é contada — por isso este número pode ser menor que a extração completa da página Relatórios.' }),
+                            loading ? React.createElement('div', { className: "h-7 w-20 skeleton rounded mt-1" }) : React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" }, totalCotacoes)
+                        ),
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
+                            React.createElement(CardLabel, { text: 'Auditadas', className: "text-sm font-medium text-emerald-600", tooltip: 'Conta 1 auditoria por pessoa por dia. Se a mesma pessoa teve mais de uma cotação auditada no mesmo dia, o excedente não entra neste card. Portanto este NÃO é o total absoluto de auditorias do período: a página Relatórios exibe o extrato completo, tarefa por tarefa.' }),
+                            loading ? React.createElement('div', { className: "h-7 w-20 skeleton rounded mt-1" }) : React.createElement('p', { className: "text-2xl font-bold text-emerald-700 mt-1" }, totalAuditadas)
+                        ),
+                        React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
+                            React.createElement(CardLabel, { text: 'Não Auditadas', className: "text-sm font-medium text-amber-600", tooltip: 'Cotações do recorte que ainda não possuem auditoria registrada. Aplica a mesma regra de uma cotação por pessoa por dia usada nos demais cards.' }),
+                            loading ? React.createElement('div', { className: "h-7 w-20 skeleton rounded mt-1" }) : React.createElement('p', { className: "text-2xl font-bold text-amber-700 mt-1" }, totalNaoAuditadas)
+                        )
+                    ),
+React.createElement('div', { className: "flex flex-wrap gap-4 mb-4" },
+                        ordemTipos.map(t => {
+                            const cores = TIPO_APONTAMENTO_CORES[t] || TIPO_APONTAMENTO_CORES['SEM TIPO'];
+                            const qtd = porTipoApontamento[t] || 0;
+                            const isDevolucao = t === 'DEVOLUÇÃO PARCIAL/INDEVIDA';
+                            const pct = totalAuditorias > 0 ? (qtd / totalAuditorias) * 100 : 0;
+                            const pctFmt = totalAuditorias > 0 ? `${pct.toFixed(1).replace('.', ',')}%` : '—';
+                            // Card de devolucao: exibe o percentual de erro do proprio tipo
+                            // (devolucoes efetivas / total do tipo), e nao o volume do tipo.
+                            const valorExibido = isDevolucao ? qtdDevolucaoEfetiva : qtd;
+                            const pctExibido = isDevolucao ? pctDevolucaoFmt : pctFmt;
+                            const pctBarra = isDevolucao ? pctDevolucaoEfetiva : pct;
+                            const tooltip = isDevolucao
+                                ? `Percentual de erro do tipo: ${qtdDevolucaoEfetiva} de ${qtd} auditorias deste tipo tiveram status de devolução (Devolução Parcial/Indevida, Reprova Parcial/Indevida). As ${qtd - qtdDevolucaoEfetiva} auditorias do tipo com status "Procedimento Correto" entram apenas no denominador — o tipo de amostra foi registrado, mas a cotação foi considerada correta. Elas aparecem em outro indicador e não são somadas aqui. Base: auditorias contadas no mês com o filtro de origem aplicado (1 auditoria por pessoa por dia).`
+                                : 'Percentual calculado sobre as auditorias contadas no mês com o filtro de origem aplicado (1 auditoria por pessoa por dia). Auditorias excedentes do mesmo dia não entram no cálculo.';
+                            return React.createElement('div', { key: t, className: `flex-1 min-w-[180px] bg-white rounded-xl p-4 border ${cores.borda} shadow-sm` },
+                                React.createElement('div', { className: "flex items-center gap-1.5" },
+                                    React.createElement('p', { className: `text-sm font-medium ${cores.texto}` }, TIPO_APONTAMENTO_LABELS[t] || t),
+                                    React.createElement(InfoTooltip, { text: tooltip })
+                                ),
+                                React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" },
+                                    valorExibido,
+                                    React.createElement('span', { className: "text-sm font-semibold text-slate-400 ml-1.5" }, pctExibido)
+                                ),
+                                isDevolucao ? React.createElement('p', { className: "text-xs text-slate-400 mt-0.5" }, `${qtdDevolucaoEfetiva} de ${qtd} auditorias do tipo`) : null,
+                                React.createElement('div', { className: "w-full h-1.5 bg-slate-100 rounded-full mt-2 overflow-hidden" },
+                                    React.createElement('div', { className: `h-full rounded-full transition-all duration-300 ${cores.barra}`, style: { width: `${pctBarra}%` } })
+                                )
+                            );
+                        })
+                    ),
+                    React.createElement('p', { className: "text-xs text-slate-400 mt-1" }, monthLabel ? `Referência: ${monthLabel}` : ''),
+                    React.createElement('footer', { className: "mt-8 text-xs text-slate-400" }, 'Métricas calculadas sobre as cotações criadas no mês selecionado. Os cards de auditoria contam 1 auditoria por pessoa por dia — para o total absoluto de auditorias, use a página Relatórios.')
+                )
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(App));
+    </script>
+</body>
+</html>
