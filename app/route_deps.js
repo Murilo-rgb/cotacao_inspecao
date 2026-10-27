@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // ============================================================
 // Deps compartilhadas dos routers (item 3): um unico objeto, sem
 // mudar comportamento. O server.js monta via getRouteDeps() e cada
@@ -18,17 +17,3 @@ function buildRouteDeps(values) {
 }
 
 module.exports = { asDeps, buildRouteDeps };
-=======
-function asDeps(args, names) {
-    const deps = {};
-    let index = 0;
-    for (const name of names) {
-        deps[name] = args[index++];
-    }
-    return deps;
-}
-
-module.exports = {
-    asDeps
-};
->>>>>>> bb278a0d5e088ad7a12b876d048719c347f7e2f9
