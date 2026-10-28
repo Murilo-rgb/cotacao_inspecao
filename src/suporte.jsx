@@ -210,7 +210,13 @@ function App() {
                 window.location.href = BASE_PATH + '/login.html';
                 return;
             }
+            if (!response.ok) {
+                setQuotations([])
+                showToast('Erro ao carregar cataçes', 'error')
+                return;
+            }
             const data = await response.json();
+            setQuotations(Array.isArray(data) ? data : []);
             setQuotations(data);
         } catch (error) {
             console.error('Erro ao buscar cotações:', error);
@@ -322,7 +328,13 @@ function App() {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
-                const data = await response.json();
+                if (!response.ok) {
+                setQuotations([])
+                showToast('Erro ao carregar cataçes', 'error')
+                return;
+            }
+            const data = await response.json();
+            setQuotations(Array.isArray(data) ? data : []);
                 if (data) {
                     setAuditoriaData({ anotacao: data.anotacao || '', status: data.status || '' });
                 } else {
@@ -377,7 +389,13 @@ function App() {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
-                const data = await response.json();
+                if (!response.ok) {
+                setQuotations([])
+                showToast('Erro ao carregar cataçes', 'error')
+                return;
+            }
+            const data = await response.json();
+            setQuotations(Array.isArray(data) ? data : []);
                 setSuporteData({
                     observacao: data.observacao || '',
                     anexos: (data.anexos || []).map(a => ({
