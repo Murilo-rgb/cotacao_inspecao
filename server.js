@@ -2686,9 +2686,9 @@ app.get('/suporte', (req, res) => {
     res.redirect('/pme_notas/suporte/inspecao');
 });
 
-// Redirecionar URL antiga /suporte/inspecao para a rota padronizada com prefixo /pme_notas
+// Servir rota antiga /suporte/inspecao diretamente (sem autenticação, para evitar redirect loop)
 app.get('/suporte/inspecao', (req, res) => {
-    res.redirect('/pme_notas/suporte/inspecao');
+    res.sendFile(path.join(__dirname, 'public', 'suporte.html'));
 });
 
 app.get('/qualidade/suporte', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
@@ -3385,9 +3385,9 @@ app.get('/pme_notas/suporte/input', authenticatePage, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
 });
 
-// Redirecionar URL antiga /suporte/input para a rota padronizada com prefixo /pme_notas
+// Servir rota antiga /suporte/input diretamente (sem autenticação, para evitar redirect loop)
 app.get('/suporte/input', (req, res) => {
-  res.redirect('/pme_notas/suporte/input');
+  res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
 });
 
 app.listen(PORT, () => {
