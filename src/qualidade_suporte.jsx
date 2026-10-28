@@ -197,8 +197,13 @@ function App() {
                 window.location.href = BASE_PATH + '/login.html';
                 return;
             }
+            if (!response.ok) {
+                setQuotations([]);
+                showToast('Erro ao carregar cotações', 'error');
+                return;
+            }
             const data = await response.json();
-            setQuotations(data);
+            setQuotations(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Erro ao buscar cotações:', error);
             showToast('Erro ao carregar cotações', 'error');
@@ -438,7 +443,7 @@ function App() {
         }
     };
 
-    const filteredQuotations = quotations;
+    const filteredQuotations = Array.isArray(quotations) ? quotations : [];
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;

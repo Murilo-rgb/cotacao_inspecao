@@ -525,26 +525,34 @@ function App() {
             window.location.href = _BASE_PATH + '/login.html';
             return _context.a(2);
           case 2:
-            _context.n = 3;
-            return response.json();
+            if (response.ok) {
+              _context.n = 3;
+              break;
+            }
+            setQuotations([]);
+            showToast('Erro ao carregar cotações', 'error');
+            return _context.a(2);
           case 3:
-            data = _context.v;
-            setQuotations(data);
-            _context.n = 5;
-            break;
+            _context.n = 4;
+            return response.json();
           case 4:
-            _context.p = 4;
+            data = _context.v;
+            setQuotations(Array.isArray(data) ? data : []);
+            _context.n = 6;
+            break;
+          case 5:
+            _context.p = 5;
             _t = _context.v;
             console.error('Erro ao buscar cotações:', _t);
             showToast('Erro ao carregar cotações', 'error');
-          case 5:
-            _context.p = 5;
-            setLoading(false);
-            return _context.f(5);
           case 6:
+            _context.p = 6;
+            setLoading(false);
+            return _context.f(6);
+          case 7:
             return _context.a(2);
         }
-      }, _callee, null, [[0, 4, 5, 6]]);
+      }, _callee, null, [[0, 5, 6, 7]]);
     }));
     return function fetchQuotations() {
       return _ref2.apply(this, arguments);
@@ -739,13 +747,22 @@ function App() {
           case 2:
             response = _context3.v;
             if (!response.ok) {
-              _context3.n = 4;
+              _context3.n = 5;
               break;
             }
-            _context3.n = 3;
-            return response.json();
+            if (response.ok) {
+              _context3.n = 3;
+              break;
+            }
+            setQuotations([]);
+            showToast('Erro ao carregar cataçes', 'error');
+            return _context3.a(2);
           case 3:
+            _context3.n = 4;
+            return response.json();
+          case 4:
             data = _context3.v;
+            setQuotations(Array.isArray(data) ? data : []);
             if (data) {
               setAuditoriaData({
                 anotacao: data.anotacao || '',
@@ -757,28 +774,28 @@ function App() {
                 status: ''
               });
             }
-            _context3.n = 5;
+            _context3.n = 6;
             break;
-          case 4:
+          case 5:
             setAuditoriaData({
               anotacao: '',
               status: ''
             });
-          case 5:
-            _context3.n = 7;
-            break;
           case 6:
-            _context3.p = 6;
+            _context3.n = 8;
+            break;
+          case 7:
+            _context3.p = 7;
             _t4 = _context3.v;
             console.error('Erro ao buscar auditoria:', _t4);
             setAuditoriaData({
               anotacao: '',
               status: ''
             });
-          case 7:
+          case 8:
             return _context3.a(2);
         }
-      }, _callee3, null, [[1, 6]]);
+      }, _callee3, null, [[1, 7]]);
     }));
     return function handleEditClick(_x2) {
       return _ref4.apply(this, arguments);
@@ -871,13 +888,22 @@ function App() {
           case 3:
             response = _context5.v;
             if (!response.ok) {
-              _context5.n = 5;
+              _context5.n = 6;
               break;
             }
-            _context5.n = 4;
-            return response.json();
+            if (response.ok) {
+              _context5.n = 4;
+              break;
+            }
+            setQuotations([]);
+            showToast('Erro ao carregar cataçes', 'error');
+            return _context5.a(2);
           case 4:
+            _context5.n = 5;
+            return response.json();
+          case 5:
             data = _context5.v;
+            setQuotations(Array.isArray(data) ? data : []);
             setSuporteData({
               observacao: data.observacao || '',
               anexos: (data.anexos || []).map(function (a) {
@@ -887,21 +913,21 @@ function App() {
               }),
               novosAnexos: []
             });
-          case 5:
-            _context5.n = 7;
-            break;
           case 6:
-            _context5.p = 6;
-            _t6 = _context5.v;
-            console.error('Erro ao buscar dados de suporte:', _t6);
+            _context5.n = 8;
+            break;
           case 7:
             _context5.p = 7;
-            setSuporteLoading(false);
-            return _context5.f(7);
+            _t6 = _context5.v;
+            console.error('Erro ao buscar dados de suporte:', _t6);
           case 8:
+            _context5.p = 8;
+            setSuporteLoading(false);
+            return _context5.f(8);
+          case 9:
             return _context5.a(2);
         }
-      }, _callee5, null, [[2, 6, 7, 8]]);
+      }, _callee5, null, [[2, 7, 8, 9]]);
     }));
     return function fetchSuporteData() {
       return _ref6.apply(this, arguments);
@@ -1022,7 +1048,7 @@ function App() {
       return _ref8.apply(this, arguments);
     };
   }();
-  var filteredQuotations = quotations;
+  var filteredQuotations = Array.isArray(quotations) ? quotations : [];
   var indexOfLastItem = currentPage * itemsPerPage;
   var indexOfFirstItem = indexOfLastItem - itemsPerPage;
   var currentQuotations = filteredQuotations.slice(indexOfFirstItem, indexOfLastItem);

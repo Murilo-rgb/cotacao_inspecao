@@ -530,7 +530,7 @@ function App() {
               break;
             }
             setQuotations([]);
-            showToast('Erro ao carregar cataçes', 'error');
+            showToast('Erro ao carregar cotações', 'error');
             return _context.a(2);
           case 3:
             _context.n = 4;
@@ -538,7 +538,6 @@ function App() {
           case 4:
             data = _context.v;
             setQuotations(Array.isArray(data) ? data : []);
-            setQuotations(data);
             _context.n = 6;
             break;
           case 5:
@@ -1049,7 +1048,7 @@ function App() {
       return _ref8.apply(this, arguments);
     };
   }();
-  var filteredQuotations = quotations;
+  var filteredQuotations = Array.isArray(quotations) ? quotations : [];
   var indexOfLastItem = currentPage * itemsPerPage;
   var indexOfFirstItem = indexOfLastItem - itemsPerPage;
   var currentQuotations = filteredQuotations.slice(indexOfFirstItem, indexOfLastItem);

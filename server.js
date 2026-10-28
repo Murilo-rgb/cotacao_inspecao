@@ -400,16 +400,30 @@ app.post('/api/login', async (req, res) => {
 });
 
 // API: Listar cotações para correção cadastral
-app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res) => {
+// Registrada em /api e /pme_notas/api (a tela suporte pode chamar com ou sem prefixo).
+// - Sem ?origem: retorna todas as cotações ativas dos status de correção cadastral (comportamento legado).
+// - Com ?origem: filtra pela origem ('r_000250' inclui NULL/'').
+// - Suporta múltiplos ?status (array) — usado pela tela de Suporte Input.
+async function listarQuotationsSuporte(req, res) {
   try {
     const { search, dateStart, origem, status } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
       LEFT JOIN db_bloco_de_notas.auditoria_qualidade aq ON aq.id_qldd = c.id_qldd 
-      WHERE c.validacao = $1 AND c.origem = $2`;
-    const params = ['Ativo', origem ? origem.trim() : ''];
-    let paramIndex = 3;
+      WHERE c.validacao = $1`;
+    const params = ['Ativo'];
+    let paramIndex = 2;
+
+    if (origem && origem.trim() && origem !== 'todas') {
+      if (origem === 'r_000250') {
+        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
+      } else {
+        query += ` AND c.origem = $${paramIndex}`;
+        params.push(origem.trim());
+        paramIndex++;
+      }
+    }
 
     if (search && search.trim()) {
       query += ` AND (c.tarefa ILIKE $${paramIndex} OR c.cotacao ILIKE $${paramIndex} OR c.anotacao ILIKE $${paramIndex})`;
@@ -423,16 +437,6 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
       query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
       params.push(`${dateStartBR}%`);
       paramIndex++;
-    }
-
-    if (origem && origem.trim() && origem !== 'todas') {
-      if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
-      } else {
-        query += ` AND c.origem = $${paramIndex}`;
-        params.push(origem.trim());
-        paramIndex++;
-      }
     }
 
     if (status) {
@@ -449,7 +453,7 @@ app.get('/pme_notas/api/quotations/suporte', authenticateToken, async (req, res)
     query += ' ORDER BY c.data_de_criacao DESC';
 
     const result = await pool.query(query, params);
-const serialized = result.rows.map(row => ({
+    const serialized = result.rows.map(row => ({
       tarefa: row.tarefa,
       cotacao: row.cotacao,
       cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
@@ -468,7 +472,10 @@ const serialized = result.rows.map(row => ({
     console.error('[CORRECAO_CAD] Erro ao buscar cotações:', error);
     res.status(500).json({ error: 'Erro ao buscar cotações para correção cadastral' });
   }
-});
+}
+
+app.get('/pme_notas/api/quotations/suporte', authenticateToken, listarQuotationsSuporte);
+app.get('/api/quotations/suporte', authenticateToken, listarQuotationsSuporte);
 
 // API: Listar cotações pendentes de Qualidade/Suporte
 app.get('/api/quotations/qualidade/suporte', authenticateToken, async (req, res) => {

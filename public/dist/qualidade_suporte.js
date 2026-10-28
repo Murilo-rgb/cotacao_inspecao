@@ -512,26 +512,34 @@ function App() {
             window.location.href = BASE_PATH + '/login.html';
             return _context.a(2);
           case 2:
-            _context.n = 3;
-            return response.json();
+            if (response.ok) {
+              _context.n = 3;
+              break;
+            }
+            setQuotations([]);
+            showToast('Erro ao carregar cotações', 'error');
+            return _context.a(2);
           case 3:
-            data = _context.v;
-            setQuotations(data);
-            _context.n = 5;
-            break;
+            _context.n = 4;
+            return response.json();
           case 4:
-            _context.p = 4;
+            data = _context.v;
+            setQuotations(Array.isArray(data) ? data : []);
+            _context.n = 6;
+            break;
+          case 5:
+            _context.p = 5;
             _t = _context.v;
             console.error('Erro ao buscar cotações:', _t);
             showToast('Erro ao carregar cotações', 'error');
-          case 5:
-            _context.p = 5;
-            setLoading(false);
-            return _context.f(5);
           case 6:
+            _context.p = 6;
+            setLoading(false);
+            return _context.f(6);
+          case 7:
             return _context.a(2);
         }
-      }, _callee, null, [[0, 4, 5, 6]]);
+      }, _callee, null, [[0, 5, 6, 7]]);
     }));
     return function fetchQuotations() {
       return _ref2.apply(this, arguments);
@@ -1009,7 +1017,7 @@ function App() {
       return _ref8.apply(this, arguments);
     };
   }();
-  var filteredQuotations = quotations;
+  var filteredQuotations = Array.isArray(quotations) ? quotations : [];
   var indexOfLastItem = currentPage * itemsPerPage;
   var indexOfFirstItem = indexOfLastItem - itemsPerPage;
   var currentQuotations = filteredQuotations.slice(indexOfFirstItem, indexOfLastItem);
