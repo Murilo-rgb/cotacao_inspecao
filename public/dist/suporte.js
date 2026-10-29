@@ -1069,32 +1069,32 @@ function App() {
         dotClass: 'bg-amber-500'
       };
     }
-    if (normalized === 'bilhete-cancelado') {
+    if (normalized === 'correcao-efetuada') {
       return {
-        label: 'Bilhete cancelado',
-        className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
-        dotClass: 'bg-rose-500'
+        label: 'Correção efetuada',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
       };
     }
-    if (normalized === 'membro-cadastrado') {
+    if (normalized === 'iphone-aprovado') {
       return {
-        label: 'Membro cadastrado',
-        className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100',
-        dotClass: 'bg-cyan-500'
+        label: 'Iphone aprovado',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
       };
     }
-    if (normalized === 'territorio-cadastrado') {
+    if (normalized === 'iphone-reprovado') {
       return {
-        label: 'Território cadastrado',
-        className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
-        dotClass: 'bg-blue-500'
-      };
-    }
-    if (normalized === 'solicitação-reprovada') {
-      return {
-        label: 'Solicitação reprovada',
+        label: 'Iphone reprovado',
         className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100',
         dotClass: 'bg-red-500'
+      };
+    }
+    if (normalized === 'suporte-em-tratamento') {
+      return {
+        label: 'Suporte - Em tratamento',
+        className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
+        dotClass: 'bg-blue-500'
       };
     }
     if (normalized === 'troca-de-territorio') {
@@ -1694,33 +1694,33 @@ function App() {
     className: "space-y-2.5"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return handleStatusChange('bilhete-cancelado');
+      return handleStatusChange('correcao-efetuada');
     },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl hover:bg-rose-100 transition-all duration-200 font-semibold text-sm dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-700 dark:hover:bg-rose-900/60"
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-rose-500"
-  }), "Bilhete cancelado"), /*#__PURE__*/React.createElement("button", {
+    className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
+  }), "Corre\xE7\xE3o efetuada"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return handleStatusChange('membro-cadastrado');
+      return handleStatusChange('iphone-aprovado');
     },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-xl hover:bg-cyan-100 transition-all duration-200 font-semibold text-sm dark:bg-cyan-900/40 dark:text-cyan-300 dark:border-cyan-700 dark:hover:bg-cyan-900/60"
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-cyan-500"
-  }), "Membro cadastrado"), /*#__PURE__*/React.createElement("button", {
+    className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
+  }), "Iphone aprovado"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return handleStatusChange('territorio-cadastrado');
-    },
-    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-900/60"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-blue-500"
-  }), "Territ\xF3rio cadastrado"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return handleStatusChange('solicitação-reprovada');
+      return handleStatusChange('iphone-reprovado');
     },
     className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-red-500"
-  }), "Solicita\xE7\xE3o reprovada")), /*#__PURE__*/React.createElement("button", {
+  }), "Iphone reprovado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('suporte-em-tratamento');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-900/60"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-blue-500"
+  }), "Suporte - Em tratamento")), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setStatusModal(null);
     },
