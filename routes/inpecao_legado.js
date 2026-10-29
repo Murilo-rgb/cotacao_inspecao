@@ -49,12 +49,13 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
             tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
             ind_portabilidade, qtd_reprovacao, data_carga
         )
-        SELECT
+        SELECT DISTINCT ON (cod_tarefa)
             cod_tarefa, dat_criacao, dat_historico, criado_por, pendente_com,
             nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
             tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
             ind_portabilidade, qtd_reprovacao, CURRENT_DATE
         FROM db_claro.r_000250 where data_carga = CURRENT_DATE AND nom_fila NOT ILIKE 'CPC - Loja Pr_pria' AND nom_fila NOT ILIKE 'CPC - Loja Propria'
+        ORDER BY cod_tarefa, dat_historico DESC NULLS LAST
       `);
   
       const elapsedTime = Date.now() - startTime;

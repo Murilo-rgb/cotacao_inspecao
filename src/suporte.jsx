@@ -483,14 +483,17 @@ function App() {
         if (normalized === 'pendente-iphone') {
             return { label: 'Pendente - iPhone', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
         }
-        if (normalized === 'pendente-iphone-aprovado') {
-            return { label: 'Pendente - iPhone Aprovado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        if (normalized === 'bilhete-cancelado') {
+            return { label: 'Bilhete cancelado', className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100', dotClass: 'bg-rose-500' };
         }
-        if (normalized === 'pendente-iphone-reprovado') {
-            return { label: 'Pendente - iPhone Reprovado', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
+        if (normalized === 'membro-cadastrado') {
+            return { label: 'Membro cadastrado', className: 'bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100', dotClass: 'bg-cyan-500' };
         }
-        if (normalized === 'correcao-efetivada') {
-            return { label: 'Correção Efetivada', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        if (normalized === 'territorio-cadastrado') {
+            return { label: 'Território cadastrado', className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100', dotClass: 'bg-blue-500' };
+        }
+        if (normalized === 'solicitação-reprovada') {
+            return { label: 'Solicitação reprovada', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
         }
         if (normalized === 'troca-de-territorio') {
             return { label: 'Troca de Território', className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100', dotClass: 'bg-blue-500' };
@@ -898,14 +901,17 @@ function App() {
                         <h2 className="text-lg font-bold text-slate-800 mb-2 dark:text-white">Efetivar Correção Cadastral</h2>
                         <p className="text-sm text-slate-500 mb-5 dark:text-slate-400">Confirme a efetivação da correção cadastral para a cotação <span className="font-semibold text-slate-800 font-mono dark:text-white">{statusModal.cotacao}</span>.</p>
                         <div className="space-y-2.5">
-                            <button onClick={() => handleStatusChange('pendente-iphone-aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
-                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Pendente - iPhone Aprovado
+                            <button onClick={() => handleStatusChange('bilhete-cancelado')} className="w-full flex items-center gap-3 px-4 py-3 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl hover:bg-rose-100 transition-all duration-200 font-semibold text-sm dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-700 dark:hover:bg-rose-900/60">
+                                <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>Bilhete cancelado
                             </button>
-                            <button onClick={() => handleStatusChange('pendente-iphone-reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60">
-                                <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Pendente - iPhone Reprovado
+                            <button onClick={() => handleStatusChange('membro-cadastrado')} className="w-full flex items-center gap-3 px-4 py-3 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-xl hover:bg-cyan-100 transition-all duration-200 font-semibold text-sm dark:bg-cyan-900/40 dark:text-cyan-300 dark:border-cyan-700 dark:hover:bg-cyan-900/60">
+                                <span className="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>Membro cadastrado
                             </button>
-                            <button onClick={() => handleStatusChange('pendente-correcao-efetuada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
-                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção - Efetuada
+                            <button onClick={() => handleStatusChange('territorio-cadastrado')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-900/60">
+                                <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Território cadastrado
+                            </button>
+                            <button onClick={() => handleStatusChange('solicitação-reprovada')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60">
+                                <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Solicitação reprovada
                             </button>
                         </div>
                         <button onClick={() => setStatusModal(null)} className="w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>
@@ -920,3 +926,5 @@ function App() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
+
+

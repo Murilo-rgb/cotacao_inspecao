@@ -267,6 +267,21 @@ async function processarETL_250(csvFilePath, pool) {
         processedLines.push(outLine);
     }
     
+    // Deduplicacao por cod_tarefa (primeira coluna): o arquivo de entrada pode conter
+    // a mesma tarefa repetida (ex.: acumululo de cargas/linhas duplicadas). Mantemos a
+    // primeira ocorrencia para nao gerar linhas duplicadas na r_000250, que inflam os
+    // murals de cotacoes das telas de suporte.
+    const tarefasVistas = new Set();
+    const linhasSemDuplicatas = [processedLines[0]];
+    for (let i = 1; i < processedLines.length; i++) {
+        const campos = processedLines[i].split(usedDelimiter);
+        const codTarefa = (campos[0] || String()).trim();
+        if (!codTarefa || tarefasVistas.has(codTarefa)) continue;
+        tarefasVistas.add(codTarefa);
+        linhasSemDuplicatas.push(processedLines[i]);
+    }
+    processedLines.splice(0, processedLines.length, ...linhasSemDuplicatas);
+
     // Escrever arquivo limpo
     const outputFile = path.join(FILES_DIR, 'r_000250_cleaned.csv');
     fs.writeFileSync(outputFile, processedLines.join('\n'), 'utf8');

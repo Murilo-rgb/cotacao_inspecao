@@ -677,13 +677,14 @@ module.exports = function(pool, authenticateToken, authorizeRoute, formatDateBR,
             tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
             ind_portabilidade, qtd_reprovacao, data_carga
         )
-        SELECT
+        SELECT DISTINCT ON (cod_tarefa)
             cod_tarefa, dat_criacao, dat_historico, criado_por, pendente_com,
             nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
             tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
             ${PORTABILIDADE_CASE_SQL}, qtd_reprovacao, CURRENT_DATE
         FROM db_claro.r_000250 where data_carga = CURRENT_DATE
           ${FILTRO_SEM_LOJA_PROPRIA}
+        ORDER BY cod_tarefa, dat_historico DESC NULLS LAST
       `);
 
       // Reforço: normaliza a portabilidade de TODA a tabela (cobre registros legados e

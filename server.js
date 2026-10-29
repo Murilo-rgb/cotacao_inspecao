@@ -453,7 +453,12 @@ async function listarQuotationsSuporte(req, res) {
     query += ' ORDER BY c.data_de_criacao DESC';
 
     const result = await pool.query(query, params);
-    const serialized = result.rows.map(row => ({
+    const serialized = [];
+    const tarefasVistasS = new Set();
+    for (const row of result.rows) {
+      if (!row.tarefa || tarefasVistasS.has(row.tarefa)) continue;
+      tarefasVistasS.add(row.tarefa);
+      serialized.push({
       tarefa: row.tarefa,
       cotacao: row.cotacao,
       cotacao_display: row.dsc_cotacao ? `${row.dsc_cotacao} - ${row.tarefa}` : row.tarefa,
@@ -465,7 +470,8 @@ async function listarQuotationsSuporte(req, res) {
       origem: row.origem || null,
       dsc_cotacao: row.dsc_cotacao || null,
       auditoria: row.auditoria_status ? { status: row.auditoria_status, anotacao: row.auditoria_anotacao || '' } : null
-    }));
+      });
+    }
 
     res.json(serialized);
   } catch (error) {
@@ -1076,12 +1082,13 @@ app.post('/api/inpecao/atualizar_r_000250', authenticateToken, authorizeRoute('/
           tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
           ind_portabilidade, qtd_reprovacao, data_carga
       )
-      SELECT
+      SELECT DISTINCT ON (cod_tarefa)
           cod_tarefa, dat_criacao, dat_historico, criado_por, pendente_com,
           nom_statuswf, regional, nom_tarefa, nom_fila, dsc_cotacao,
           tipo_pedido, qtd_linhas, qtd_linhas_novas, nom_territorio,
           ind_portabilidade, qtd_reprovacao, CURRENT_DATE
       FROM db_claro.r_000250 where data_carga = CURRENT_DATE
+      ORDER BY cod_tarefa, dat_historico DESC NULLS LAST
     `);
 
     const elapsedTime = Date.now() - startTime;
