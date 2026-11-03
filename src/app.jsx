@@ -756,6 +756,18 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
         if (normalized === 'aguardando-bilhete') {
             return { label: 'Aguardando Bilhete', className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100', dotClass: 'bg-rose-500' };
         }
+        if (normalized === 'bilhete-cancelado') {
+            return { label: 'Bilhete cancelado', className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100', dotClass: 'bg-rose-500' };
+        }
+        if (normalized === 'territorio-cadastrado') {
+            return { label: 'Território cadastrado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        if (normalized === 'membro-cadastrado') {
+            return { label: 'Membro cadastrado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        if (normalized === 'solicitacao-reprovada') {
+            return { label: 'Solicitação reprovada', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
+        }
         return { label: 'Pendente', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
     };
 

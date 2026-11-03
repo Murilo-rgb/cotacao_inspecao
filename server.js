@@ -402,7 +402,7 @@ app.post('/api/login', async (req, res) => {
 // API: Listar cotações para correção cadastral
 // Registrada em /api e /pme_notas/api (a tela suporte pode chamar com ou sem prefixo).
 // - Sem ?origem: retorna todas as cotações ativas dos status de correção cadastral (comportamento legado).
-// - Com ?origem: filtra pela origem ('r_000250' inclui NULL/'').
+// - Com ?origem: filtra ESTRITAMENTE pela origem informada (NULL/'' nao entram como r_000250).
 // - Suporta múltiplos ?status (array) — usado pela tela de Suporte Input.
 async function listarQuotationsSuporte(req, res) {
   try {
@@ -416,13 +416,11 @@ async function listarQuotationsSuporte(req, res) {
     let paramIndex = 2;
 
     if (origem && origem.trim() && origem !== 'todas') {
-      if (origem === 'r_000250') {
-        query += ` AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')`;
-      } else {
-        query += ` AND c.origem = $${paramIndex}`;
-        params.push(origem.trim());
-        paramIndex++;
-      }
+      // Filtro ESTRITO por origem: nao equipara NULL/'' a r_000250.
+      // /suporte/inspecao envia origem=r_000250; /suporte/input envia origem=iw_cpc_975_net.
+      query += ` AND c.origem = $${paramIndex}`;
+      params.push(origem.trim());
+      paramIndex++;
     }
 
     if (search && search.trim()) {

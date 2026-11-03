@@ -235,7 +235,8 @@
                 const counts = {
                     fila: 0, em_tratamento: 0, troca_de_territorio: 0, troca_de_segmento: 0,
                     cadastro_de_membro: 0, aguardando_chamado: 0, aguardando_qualidade: 0,
-                    aguardando_bilhete: 0, renovacao_aparelho: 0, aprovado: 0, reprovado: 0
+                    aguardando_bilhete: 0, renovacao_aparelho: 0, aprovado: 0, reprovado: 0,
+                    bilhete_cancelado: 0, territorio_cadastrado: 0, membro_cadastrado: 0, solicitacao_reprovada: 0
                 };
                 (rows || []).forEach(t => {
                     const raw = t.cotacao_status ? String(t.cotacao_status) : '';
@@ -251,6 +252,10 @@
                     else if (st.includes('aparelho')) { counts.renovacao_aparelho++; }
                     else if (st === 'aprovado') { counts.aprovado++; }
                     else if (st === 'reprovado') { counts.reprovado++; }
+                    else if (st === 'bilhete-cancelado') { counts.bilhete_cancelado++; }
+                    else if (st === 'territorio-cadastrado') { counts.territorio_cadastrado++; }
+                    else if (st === 'membro-cadastrado') { counts.membro_cadastrado++; }
+                    else if (st === 'solicitacao-reprovada') { counts.solicitacao_reprovada++; }
                 });
                 return counts;
             };
@@ -591,7 +596,11 @@
                 { key: 'aguardando_bilhete', label: 'Aguardando Bilhete', color: 'text-rose-600' },
                 { key: 'renovacao_aparelho', label: 'Renovação/Aparelho', color: 'text-teal-600' },
                 { key: 'aprovado', label: 'Aprovado', color: 'text-emerald-700' },
-                { key: 'reprovado', label: 'Reprovado', color: 'text-red-700' }
+                { key: 'reprovado', label: 'Reprovado', color: 'text-red-700' },
+                { key: 'bilhete_cancelado', label: 'Bilhete cancelado', color: 'text-rose-600' },
+                { key: 'territorio_cadastrado', label: 'Território cadastrado', color: 'text-emerald-700' },
+                { key: 'membro_cadastrado', label: 'Membro cadastrado', color: 'text-emerald-700' },
+                { key: 'solicitacao_reprovada', label: 'Solicitação reprovada', color: 'text-red-700' }
             ];
             const allSelected = filteredTarefas.length > 0 && selectedIds.size === filteredTarefas.length;
 // ===== SLA (24h a partir do Histórico) - replicando layout inspecao =====

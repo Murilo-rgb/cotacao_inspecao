@@ -500,14 +500,19 @@ function App() {
             token = localStorage.getItem('token');
             _BASE_PATH = '/pme_notas';
             url = "".concat(_BASE_PATH, "/api/quotations/suporte");
+            params = new URLSearchParams();
             if (isInputPage) {
-              params = new URLSearchParams();
               params.append('origem', 'iw_cpc_975_net');
               params.append('status', 'troca-de-territorio');
               params.append('status', 'cadastro-de-membro');
               params.append('status', 'aguardando-bilhete');
-              url += "?".concat(params);
+            } else {
+              // Tela de Inspeção: apenas cotações da origem r_000250.
+              // Os status (pendente-correcao-cadastral / pendente-iphone) são aplicados
+              // pelo backend (listarQuotationsSuporte) quando nenhum ?status é enviado.
+              params.append('origem', 'r_000250');
             }
+            url += "?".concat(params);
             _context.n = 1;
             return fetch(url, {
               headers: {
@@ -1030,7 +1035,7 @@ function App() {
             if (response.ok) {
               fetchQuotations();
               setStatusModal(null);
-              showToast('Correção efetivada com sucesso');
+              showToast(isInputPage ? 'Status atualizado com sucesso' : 'Correção efetivada com sucesso');
             }
             _context7.n = 6;
             break;
@@ -1038,7 +1043,7 @@ function App() {
             _context7.p = 5;
             _t8 = _context7.v;
             console.error('Erro ao efetivar correção:', _t8);
-            showToast('Erro ao efetivar correção', 'error');
+            showToast(isInputPage ? 'Erro ao atualizar status' : 'Erro ao efetivar correção', 'error');
           case 6:
             return _context7.a(2);
         }
@@ -1116,6 +1121,34 @@ function App() {
         label: 'Aguardando Bilhete',
         className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
         dotClass: 'bg-rose-500'
+      };
+    }
+    if (normalized === 'bilhete-cancelado') {
+      return {
+        label: 'Bilhete cancelado',
+        className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
+        dotClass: 'bg-rose-500'
+      };
+    }
+    if (normalized === 'territorio-cadastrado') {
+      return {
+        label: 'Território cadastrado',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
+    }
+    if (normalized === 'membro-cadastrado') {
+      return {
+        label: 'Membro cadastrado',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
+    }
+    if (normalized === 'solicitacao-reprovada') {
+      return {
+        label: 'Solicitação reprovada',
+        className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100',
+        dotClass: 'bg-red-500'
       };
     }
     return {
@@ -1686,13 +1719,41 @@ function App() {
     className: "bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content dark:bg-slate-800"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "text-lg font-bold text-slate-800 mb-2 dark:text-white"
-  }, "Efetivar Corre\xE7\xE3o Cadastral"), /*#__PURE__*/React.createElement("p", {
+  }, isInputPage ? 'Efetivar Suporte Input' : 'Efetivar Correção Cadastral'), /*#__PURE__*/React.createElement("p", {
     className: "text-sm text-slate-500 mb-5 dark:text-slate-400"
-  }, "Confirme a efetiva\xE7\xE3o da corre\xE7\xE3o cadastral para a cota\xE7\xE3o ", /*#__PURE__*/React.createElement("span", {
+  }, isInputPage ? 'Selecione o desfecho do suporte Input para a cotação' : 'Confirme a efetivação da correção cadastral para a cotação', " ", /*#__PURE__*/React.createElement("span", {
     className: "font-semibold text-slate-800 font-mono dark:text-white"
   }, statusModal.cotacao), "."), /*#__PURE__*/React.createElement("div", {
     className: "space-y-2.5"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, isInputPage ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('bilhete-cancelado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl hover:bg-rose-100 transition-all duration-200 font-semibold text-sm dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-700 dark:hover:bg-rose-900/60"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-rose-500"
+  }), "Bilhete cancelado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('territorio-cadastrado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
+  }), "Territ\xF3rio cadastrado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('membro-cadastrado');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-emerald-500"
+  }), "Membro cadastrado"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return handleStatusChange('solicitacao-reprovada');
+    },
+    className: "w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-red-500"
+  }), "Solicita\xE7\xE3o reprovada")) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return handleStatusChange('correcao-efetuada');
     },
@@ -1720,7 +1781,7 @@ function App() {
     className: "w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-900/60"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-blue-500"
-  }), "Suporte - Em tratamento")), /*#__PURE__*/React.createElement("button", {
+  }), "Suporte - Em tratamento"))), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setStatusModal(null);
     },

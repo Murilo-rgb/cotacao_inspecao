@@ -102,7 +102,7 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
             WHERE u.login = $1 
               AND c.validacao = 'Ativo' 
               AND c.status IS NOT NULL AND c.status != '' AND c.status != 'pendente'
-              AND LOWER(c.status) IN ('em-tratamento', 'aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'pendente-input-hitss', 'aguardando-qualidade', 'aguardando-chamado', 'aguardando-dupla-validacao', 'aguardando-pre-analise', 'aguardando-bilhete')${slaWhereData}
+              AND LOWER(c.status) IN ('em-tratamento', 'aprovado', 'reprovado', 'pendente-classificacao', 'pendente-iphone', 'pendente-iphone-aprovado', 'pendente-iphone-reprovado', 'pendente-qualidade', 'pendente-qualidade/suporte', 'pendente-correcao-cadastral', 'pendente-correcao-efetuada', 'pendente-suporte', 'pendente-input-hitss', 'aguardando-qualidade', 'aguardando-chamado', 'aguardando-dupla-validacao', 'aguardando-pre-analise', 'aguardando-bilhete', 'bilhete-cancelado', 'territorio-cadastrado', 'membro-cadastrado', 'solicitacao-reprovada')${slaWhereData}
           `, slaParams);
           slaHoras = slaRes.rows[0]?.sla_medio ? parseFloat(slaRes.rows[0].sla_medio).toFixed(1) : null;
         } catch (slaErr) {

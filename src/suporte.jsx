@@ -195,14 +195,19 @@ function App() {
             const token = localStorage.getItem('token');
             const BASE_PATH = '/pme_notas';
             let url = `${BASE_PATH}/api/quotations/suporte`;
+            const params = new URLSearchParams();
             if (isInputPage) {
-                const params = new URLSearchParams();
                 params.append('origem', 'iw_cpc_975_net');
                 params.append('status', 'troca-de-territorio');
                 params.append('status', 'cadastro-de-membro');
                 params.append('status', 'aguardando-bilhete');
-                url += `?${params}`;
+            } else {
+                // Tela de Inspeção: apenas cotações da origem r_000250.
+                // Os status (pendente-correcao-cadastral / pendente-iphone) são aplicados
+                // pelo backend (listarQuotationsSuporte) quando nenhum ?status é enviado.
+                params.append('origem', 'r_000250');
             }
+            url += `?${params}`;
             const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.status === 401 || response.status === 403) {
                 localStorage.removeItem('token');
@@ -460,11 +465,11 @@ function App() {
             if (response.ok) {
                 fetchQuotations();
                 setStatusModal(null);
-                showToast('Correção efetivada com sucesso');
+                showToast(isInputPage ? 'Status atualizado com sucesso' : 'Correção efetivada com sucesso');
             }
         } catch (error) {
             console.error('Erro ao efetivar correção:', error);
-            showToast('Erro ao efetivar correção', 'error');
+            showToast(isInputPage ? 'Erro ao atualizar status' : 'Erro ao efetivar correção', 'error');
         }
     };
 
@@ -503,6 +508,18 @@ function App() {
         }
         if (normalized === 'aguardando-bilhete') {
             return { label: 'Aguardando Bilhete', className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100', dotClass: 'bg-rose-500' };
+        }
+        if (normalized === 'bilhete-cancelado') {
+            return { label: 'Bilhete cancelado', className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100', dotClass: 'bg-rose-500' };
+        }
+        if (normalized === 'territorio-cadastrado') {
+            return { label: 'Território cadastrado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        if (normalized === 'membro-cadastrado') {
+            return { label: 'Membro cadastrado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        if (normalized === 'solicitacao-reprovada') {
+            return { label: 'Solicitação reprovada', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
         }
         return { label: 'Pendente', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
     };
@@ -898,21 +915,40 @@ function App() {
             {statusModal && (
                 <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay p-4" onClick={(e) => { if (e.target === e.currentTarget) setStatusModal(null); }}>
                     <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl modal-content dark:bg-slate-800">
-                        <h2 className="text-lg font-bold text-slate-800 mb-2 dark:text-white">Efetivar Correção Cadastral</h2>
-                        <p className="text-sm text-slate-500 mb-5 dark:text-slate-400">Confirme a efetivação da correção cadastral para a cotação <span className="font-semibold text-slate-800 font-mono dark:text-white">{statusModal.cotacao}</span>.</p>
+                        <h2 className="text-lg font-bold text-slate-800 mb-2 dark:text-white">{isInputPage ? 'Efetivar Suporte Input' : 'Efetivar Correção Cadastral'}</h2>
+                        <p className="text-sm text-slate-500 mb-5 dark:text-slate-400">{isInputPage ? 'Selecione o desfecho do suporte Input para a cotação' : 'Confirme a efetivação da correção cadastral para a cotação'} <span className="font-semibold text-slate-800 font-mono dark:text-white">{statusModal.cotacao}</span>.</p>
                         <div className="space-y-2.5">
-                            <button onClick={() => handleStatusChange('correcao-efetuada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
-                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção efetuada
-                            </button>
-                            <button onClick={() => handleStatusChange('iphone-aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
-                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Iphone aprovado
-                            </button>
-                            <button onClick={() => handleStatusChange('iphone-reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60">
-                                <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Iphone reprovado
-                            </button>
-                            <button onClick={() => handleStatusChange('suporte-em-tratamento')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-900/60">
-                                <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Suporte - Em tratamento
-                            </button>
+                            {isInputPage ? (
+                                <>
+                                    <button onClick={() => handleStatusChange('bilhete-cancelado')} className="w-full flex items-center gap-3 px-4 py-3 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl hover:bg-rose-100 transition-all duration-200 font-semibold text-sm dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-700 dark:hover:bg-rose-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>Bilhete cancelado
+                                    </button>
+                                    <button onClick={() => handleStatusChange('territorio-cadastrado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Território cadastrado
+                                    </button>
+                                    <button onClick={() => handleStatusChange('membro-cadastrado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Membro cadastrado
+                                    </button>
+                                    <button onClick={() => handleStatusChange('solicitacao-reprovada')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Solicitação reprovada
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <button onClick={() => handleStatusChange('correcao-efetuada')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Correção efetuada
+                                    </button>
+                                    <button onClick={() => handleStatusChange('iphone-aprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition-all duration-200 font-semibold text-sm dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-700 dark:hover:bg-emerald-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Iphone aprovado
+                                    </button>
+                                    <button onClick={() => handleStatusChange('iphone-reprovado')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Iphone reprovado
+                                    </button>
+                                    <button onClick={() => handleStatusChange('suporte-em-tratamento')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Suporte - Em tratamento
+                                    </button>
+                                </>
+                            )}
                         </div>
                         <button onClick={() => setStatusModal(null)} className="w-full mt-4 px-4 py-2.5 bg-white text-slate-700 border border-slate-300 rounded-xl hover:bg-slate-50 text-sm font-semibold transition-all duration-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancelar</button>
                     </div>

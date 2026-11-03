@@ -515,7 +515,8 @@ const displayCodTarefa = (t) => {
                 const counts = {
                     fila: 0, em_tratamento: 0, troca_de_territorio: 0, troca_de_segmento: 0,
                     cadastro_de_membro: 0, aguardando_chamado: 0, aguardando_qualidade: 0,
-                    aguardando_bilhete: 0, renovacao_aparelho: 0, aprovado: 0, reprovado: 0
+                    aguardando_bilhete: 0, renovacao_aparelho: 0, aprovado: 0, reprovado: 0,
+                    bilhete_cancelado: 0, territorio_cadastrado: 0, membro_cadastrado: 0, solicitacao_reprovada: 0
                 };
                 (rows || []).forEach(t => {
                     const raw = t.cotacao_status ? String(t.cotacao_status) : '';
@@ -531,6 +532,10 @@ const displayCodTarefa = (t) => {
                     else if (st.includes('aparelho')) { counts.renovacao_aparelho++; }
                     else if (st === 'aprovado') { counts.aprovado++; }
                     else if (st === 'reprovado') { counts.reprovado++; }
+                    else if (st === 'bilhete-cancelado') { counts.bilhete_cancelado++; }
+                    else if (st === 'territorio-cadastrado') { counts.territorio_cadastrado++; }
+                    else if (st === 'membro-cadastrado') { counts.membro_cadastrado++; }
+                    else if (st === 'solicitacao-reprovada') { counts.solicitacao_reprovada++; }
                 });
                 return counts;
             };
@@ -667,7 +672,11 @@ const displayCodTarefa = (t) => {
                                 'Aguardando Bilhete': statusCountsLocal.aguardando_bilhete || 0,
                                 'Renovação/Aparelho': statusCountsLocal.renovacao_aparelho || 0,
                                 Aprovado: statusCountsLocal.aprovado || 0,
-                                Reprovado: statusCountsLocal.reprovado || 0
+                                Reprovado: statusCountsLocal.reprovado || 0,
+                                'Bilhete cancelado': statusCountsLocal.bilhete_cancelado || 0,
+                                'Território cadastrado': statusCountsLocal.territorio_cadastrado || 0,
+                                'Membro cadastrado': statusCountsLocal.membro_cadastrado || 0,
+                                'Solicitação reprovada': statusCountsLocal.solicitacao_reprovada || 0
                             }).filter(entry => entry[1] > 0).map(([status, count]) => {
                                 let colorClass = 'text-slate-500';
                                 const s = (status || '').toLowerCase();

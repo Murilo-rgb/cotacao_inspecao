@@ -479,6 +479,18 @@ function App() {
         if (normalized === 'suporte-em-tratamento') {
             return { label: 'Suporte - Em tratamento', className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100', dotClass: 'bg-blue-500' };
         }
+        if (normalized === 'bilhete-cancelado') {
+            return { label: 'Bilhete cancelado', className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100', dotClass: 'bg-rose-500' };
+        }
+        if (normalized === 'territorio-cadastrado') {
+            return { label: 'Território cadastrado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        if (normalized === 'membro-cadastrado') {
+            return { label: 'Membro cadastrado', className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100', dotClass: 'bg-emerald-500' };
+        }
+        if (normalized === 'solicitacao-reprovada') {
+            return { label: 'Solicitação reprovada', className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', dotClass: 'bg-red-500' };
+        }
         return { label: 'Pendente', className: 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100', dotClass: 'bg-amber-500' };
     };
 

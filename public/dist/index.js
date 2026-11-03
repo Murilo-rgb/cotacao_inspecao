@@ -1583,6 +1583,34 @@ function App() {
         dotClass: 'bg-emerald-500'
       };
     }
+    if (normalized === 'correcao-efetuada') {
+      return {
+        label: 'Correção efetuada',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
+    }
+    if (normalized === 'iphone-aprovado') {
+      return {
+        label: 'Iphone aprovado',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
+    }
+    if (normalized === 'iphone-reprovado') {
+      return {
+        label: 'Iphone reprovado',
+        className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100',
+        dotClass: 'bg-red-500'
+      };
+    }
+    if (normalized === 'suporte-em-tratamento') {
+      return {
+        label: 'Suporte - Em tratamento',
+        className: 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
+        dotClass: 'bg-blue-500'
+      };
+    }
     if (normalized === 'assumido') {
       return {
         label: 'Assumido',
@@ -1679,6 +1707,34 @@ function App() {
         label: 'Aguardando Bilhete',
         className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
         dotClass: 'bg-rose-500'
+      };
+    }
+    if (normalized === 'bilhete-cancelado') {
+      return {
+        label: 'Bilhete cancelado',
+        className: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
+        dotClass: 'bg-rose-500'
+      };
+    }
+    if (normalized === 'territorio-cadastrado') {
+      return {
+        label: 'Território cadastrado',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
+    }
+    if (normalized === 'membro-cadastrado') {
+      return {
+        label: 'Membro cadastrado',
+        className: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+        dotClass: 'bg-emerald-500'
+      };
+    }
+    if (normalized === 'solicitacao-reprovada') {
+      return {
+        label: 'Solicitação reprovada',
+        className: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100',
+        dotClass: 'bg-red-500'
       };
     }
     return {
