@@ -21,8 +21,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var _React = React,
   useState = _React.useState,
   useEffect = _React.useEffect,
-  useCallback = _React.useCallback,
-  useRef = _React.useRef;
+  useCallback = _React.useCallback;
 
 // Icons as SVG components
 var SearchIcon = function SearchIcon() {
@@ -380,79 +379,71 @@ function App() {
   var _useState7 = useState(10),
     _useState8 = _slicedToArray(_useState7, 1),
     itemsPerPage = _useState8[0];
-  var _useState9 = useState(''),
+  var _useState9 = useState(null),
     _useState0 = _slicedToArray(_useState9, 2),
-    dateStart = _useState0[0],
-    setDateStart = _useState0[1];
-  var _useState1 = useState(''),
-    _useState10 = _slicedToArray(_useState1, 2),
-    dateEnd = _useState10[0],
-    setDateEnd = _useState10[1];
-  var _useState11 = useState(null),
-    _useState12 = _slicedToArray(_useState11, 2),
-    editingQuotation = _useState12[0],
-    setEditingQuotation = _useState12[1];
-  var _useState13 = useState({
+    editingQuotation = _useState0[0],
+    setEditingQuotation = _useState0[1];
+  var _useState1 = useState({
       cotacao: '',
       anotacao: ''
     }),
+    _useState10 = _slicedToArray(_useState1, 2),
+    formData = _useState10[0],
+    setFormData = _useState10[1];
+  var _useState11 = useState(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    showModal = _useState12[0],
+    setShowModal = _useState12[1];
+  var _useState13 = useState('anotacao'),
     _useState14 = _slicedToArray(_useState13, 2),
-    formData = _useState14[0],
-    setFormData = _useState14[1];
-  var _useState15 = useState(false),
-    _useState16 = _slicedToArray(_useState15, 2),
-    showModal = _useState16[0],
-    setShowModal = _useState16[1];
-  var _useState17 = useState('anotacao'),
-    _useState18 = _slicedToArray(_useState17, 2),
-    activeTab = _useState18[0],
-    setActiveTab = _useState18[1];
-  var _useState19 = useState({
+    activeTab = _useState14[0],
+    setActiveTab = _useState14[1];
+  var _useState15 = useState({
       anotacao: '',
       status: ''
     }),
-    _useState20 = _slicedToArray(_useState19, 2),
-    auditoriaData = _useState20[0],
-    setAuditoriaData = _useState20[1];
-  var _useState21 = useState({
+    _useState16 = _slicedToArray(_useState15, 2),
+    auditoriaData = _useState16[0],
+    setAuditoriaData = _useState16[1];
+  var _useState17 = useState({
       observacao: '',
       anexos: [],
       novosAnexos: []
     }),
+    _useState18 = _slicedToArray(_useState17, 2),
+    suporteData = _useState18[0],
+    setSuporteData = _useState18[1];
+  var _useState19 = useState(false),
+    _useState20 = _slicedToArray(_useState19, 2),
+    suporteLoading = _useState20[0],
+    setSuporteLoading = _useState20[1];
+  var _useState21 = useState(false),
     _useState22 = _slicedToArray(_useState21, 2),
-    suporteData = _useState22[0],
-    setSuporteData = _useState22[1];
-  var _useState23 = useState(false),
+    suporteSaving = _useState22[0],
+    setSuporteSaving = _useState22[1];
+  var _useState23 = useState(null),
     _useState24 = _slicedToArray(_useState23, 2),
-    suporteLoading = _useState24[0],
-    setSuporteLoading = _useState24[1];
-  var _useState25 = useState(false),
+    deleteModal = _useState24[0],
+    setDeleteModal = _useState24[1];
+  var _useState25 = useState(null),
     _useState26 = _slicedToArray(_useState25, 2),
-    suporteSaving = _useState26[0],
-    setSuporteSaving = _useState26[1];
-  var _useState27 = useState(null),
+    statusModal = _useState26[0],
+    setStatusModal = _useState26[1];
+  var _useState27 = useState(''),
     _useState28 = _slicedToArray(_useState27, 2),
-    deleteModal = _useState28[0],
-    setDeleteModal = _useState28[1];
+    username = _useState28[0],
+    setUsername = _useState28[1];
   var _useState29 = useState(null),
     _useState30 = _slicedToArray(_useState29, 2),
-    statusModal = _useState30[0],
-    setStatusModal = _useState30[1];
-  var _useState31 = useState(''),
-    _useState32 = _slicedToArray(_useState31, 2),
-    username = _useState32[0],
-    setUsername = _useState32[1];
-  var _useState33 = useState(null),
-    _useState34 = _slicedToArray(_useState33, 2),
-    toast = _useState34[0],
-    setToast = _useState34[1];
-  var _useState35 = useState(function () {
+    toast = _useState30[0],
+    setToast = _useState30[1];
+  var _useState31 = useState(function () {
       var saved = localStorage.getItem('darkMode');
       return saved === 'true';
     }),
-    _useState36 = _slicedToArray(_useState35, 2),
-    darkMode = _useState36[0],
-    setDarkMode = _useState36[1];
+    _useState32 = _slicedToArray(_useState31, 2),
+    darkMode = _useState32[0],
+    setDarkMode = _useState32[1];
 
   // Detecta a tela atual: /suporte/input (Input) ou /suporte/inspecao (Inspeção)
   var isInputPage = window.location.pathname.includes('/suporte/input');
@@ -520,8 +511,6 @@ function App() {
               // Os status (pendente-correcao-cadastral / pendente-iphone) são aplicados
               // pelo backend (listarQuotationsSuporte) quando nenhum ?status é enviado.
               params.append('origem', 'r_000250');
-              if (dateStart) params.append('dateStart', dateStart);
-              if (dateEnd) params.append('dateEnd', dateEnd);
             }
             url += "?".concat(params);
             _context.n = 1;
@@ -574,15 +563,6 @@ function App() {
       return _ref2.apply(this, arguments);
     };
   }();
-  var didMountDates = useRef(false);
-  useEffect(function () {
-    if (!didMountDates.current) {
-      didMountDates.current = true;
-      return;
-    }
-    setCurrentPage(1);
-    fetchQuotations();
-  }, [dateStart, dateEnd]);
   var handleLogout = function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -1296,33 +1276,7 @@ function App() {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
   }, /*#__PURE__*/React.createElement("div", {
     className: "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden dark:bg-slate-800 dark:border-slate-700"
-  }, !isInputPage && /*#__PURE__*/React.createElement("div", {
-    className: "px-6 py-4 border-b border-slate-200 bg-slate-50/60 dark:bg-slate-800/60 dark:border-slate-700 flex flex-wrap items-end gap-3"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 dark:text-slate-400"
-  }, "Data in\xEDcio"), /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    value: dateStart,
-    onChange: function onChange(e) {
-      return setDateStart(e.target.value);
-    },
-    className: "px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 dark:text-slate-400"
-  }, "Data fim"), /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    value: dateEnd,
-    onChange: function onChange(e) {
-      return setDateEnd(e.target.value);
-    },
-    className: "px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
-  })), (dateStart || dateEnd) && /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      setDateStart('');
-      setDateEnd('');
-    },
-    className: "px-3 py-2 text-sm font-semibold text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
-  }, "Limpar filtro")), loading ? /*#__PURE__*/React.createElement("div", {
+  }, loading ? /*#__PURE__*/React.createElement("div", {
     className: "overflow-x-auto"
   }, /*#__PURE__*/React.createElement("table", {
     className: "min-w-full divide-y divide-slate-200 dark:divide-slate-700"

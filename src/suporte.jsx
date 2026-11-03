@@ -1,4 +1,4 @@
-﻿const { useState, useEffect, useCallback, useRef } = React;
+﻿const { useState, useEffect, useCallback } = React;
 
 // Icons as SVG components
 const SearchIcon = () => (
@@ -133,8 +133,6 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
-    const [dateStart, setDateStart] = useState('');
-    const [dateEnd, setDateEnd] = useState('');
     const [editingQuotation, setEditingQuotation] = useState(null);
     const [formData, setFormData] = useState({ cotacao: '', anotacao: '' });
     const [showModal, setShowModal] = useState(false);
@@ -208,8 +206,6 @@ function App() {
                 // Os status (pendente-correcao-cadastral / pendente-iphone) são aplicados
                 // pelo backend (listarQuotationsSuporte) quando nenhum ?status é enviado.
                 params.append('origem', 'r_000250');
-                if (dateStart) params.append('dateStart', dateStart);
-                if (dateEnd) params.append('dateEnd', dateEnd);
             }
             url += `?${params}`;
             const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
@@ -233,13 +229,6 @@ function App() {
             setLoading(false);
         }
     };
-
-    const didMountDates = useRef(false);
-    useEffect(() => {
-        if (!didMountDates.current) { didMountDates.current = true; return; }
-        setCurrentPage(1);
-        fetchQuotations();
-    }, [dateStart, dateEnd]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -618,21 +607,6 @@ function App() {
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden dark:bg-slate-800 dark:border-slate-700">
-                    {!isInputPage && (
-                        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/60 dark:bg-slate-800/60 dark:border-slate-700 flex flex-wrap items-end gap-3">
-                            <div>
-                                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 dark:text-slate-400">Data início</label>
-                                <input type="date" value={dateStart} onChange={(e) => setDateStart(e.target.value)} className="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200" />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 dark:text-slate-400">Data fim</label>
-                                <input type="date" value={dateEnd} onChange={(e) => setDateEnd(e.target.value)} className="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200" />
-                            </div>
-                            {(dateStart || dateEnd) && (
-                                <button onClick={() => { setDateStart(''); setDateEnd(''); }} className="px-3 py-2 text-sm font-semibold text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 dark:text-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600">Limpar filtro</button>
-                            )}
-                        </div>
-                    )}
                     {loading ? (
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
