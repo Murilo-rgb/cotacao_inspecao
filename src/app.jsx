@@ -774,6 +774,16 @@ const suporteResponse = await fetch(`${BASE_PATH}/api/suporte/${encodeURICompone
     const formatDate = (dateString) => {
         if (!dateString || dateString === '-') return '-';
         try {
+            // O banco armazena datas como texto no formato "DD/MM/YYYY HH:MM".
+            // new Date("03/11/2026") seria interpretado como MM/DD (11 de março),
+            // trocando dia/mês. Faz o parse explícito do formato brasileiro primeiro.
+            const br = String(dateString).match(/^(\d{2})\/(\d{2})\/(\d{4})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?/);
+            if (br) {
+                const date = new Date(Number(br[3]), Number(br[2]) - 1, Number(br[1]), Number(br[4] || 0), Number(br[5] || 0), Number(br[6] || 0));
+                if (!isNaN(date.getTime())) {
+                    return date.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                }
+            }
             const date = new Date(dateString);
             if (isNaN(date.getTime())) return dateString;
             return date.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });

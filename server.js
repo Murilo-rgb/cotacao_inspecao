@@ -406,7 +406,7 @@ app.post('/api/login', async (req, res) => {
 // - Suporta múltiplos ?status (array) — usado pela tela de Suporte Input.
 async function listarQuotationsSuporte(req, res) {
   try {
-    const { search, dateStart, origem, status } = req.query;
+    const { search, dateStart, dateEnd, origem, status } = req.query;
     let query = `SELECT c.*, r.dsc_cotacao, r.qtd_linhas, r.qtd_linhas_novas, r.qtd_reprovacao, aq.status as auditoria_status, aq.anotacao as auditoria_anotacao 
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_bloco_de_notas.r_000250 r ON c.tarefa = r.cod_tarefa 
@@ -430,10 +430,16 @@ async function listarQuotationsSuporte(req, res) {
     }
 
     if (dateStart && dateStart.trim()) {
-      const [year, month, day] = dateStart.trim().split('-');
-      const dateStartBR = `${day}/${month}/${year}`;
-      query += ` AND c.data_de_criacao LIKE $${paramIndex}`;
-      params.push(`${dateStartBR}%`);
+      // data_de_criacao é texto no formato DD/MM/YYYY HH:MM; normaliza para YYYY-MM-DD
+      // (texto) para comparar intervalos de forma segura, sem depender de to_date.
+      query += ` AND (substring(c.data_de_criacao from 7 for 4) || '-' || substring(c.data_de_criacao from 4 for 2) || '-' || substring(c.data_de_criacao from 1 for 2)) >= $${paramIndex}`;
+      params.push(dateStart.trim());
+      paramIndex++;
+    }
+
+    if (dateEnd && dateEnd.trim()) {
+      query += ` AND (substring(c.data_de_criacao from 7 for 4) || '-' || substring(c.data_de_criacao from 4 for 2) || '-' || substring(c.data_de_criacao from 1 for 2)) <= $${paramIndex}`;
+      params.push(dateEnd.trim());
       paramIndex++;
     }
 
@@ -448,7 +454,9 @@ async function listarQuotationsSuporte(req, res) {
       paramIndex += 2;
     }
 
-    query += ' ORDER BY c.data_de_criacao DESC';
+    // Ordena cronologicamente: data_de_criacao é texto DD/MM/YYYY, então a ordenação
+    // alfabética direta embaralharia (ex.: 30/10 antes de 03/11). Extrai ano/mês/dia.
+    query += ' ORDER BY substring(c.data_de_criacao from 7 for 4) DESC, substring(c.data_de_criacao from 4 for 2) DESC, substring(c.data_de_criacao from 1 for 2) DESC, c.data_da_ultima_atualizacao DESC';
 
     const result = await pool.query(query, params);
     const serialized = [];
