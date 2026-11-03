@@ -942,6 +942,9 @@ function App() {
                                     <button onClick={() => handleStatusChange('solicitacao-reprovada')} className="w-full flex items-center gap-3 px-4 py-3 bg-red-50 text-red-700 border border-red-200 rounded-xl hover:bg-red-100 transition-all duration-200 font-semibold text-sm dark:bg-red-900/40 dark:text-red-300 dark:border-red-700 dark:hover:bg-red-900/60">
                                         <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>Solicitação reprovada
                                     </button>
+                                    <button onClick={() => handleStatusChange('suporte-em-tratamento')} className="w-full flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all duration-200 font-semibold text-sm dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-900/60">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>Suporte - Em tratamento
+                                    </button>
                                 </>
                             ) : (
                                 <>

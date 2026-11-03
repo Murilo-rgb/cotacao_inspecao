@@ -565,7 +565,8 @@
                 { key: 'aguardando_dupla_validacao', label: 'Aguardando Dupla Validação', color: 'text-cyan-600' },
                 { key: 'aguardando_pre_analise', label: 'Aguardando Pré-Análise', color: 'text-blue-700' },
                 { key: 'aguardando_bilhete', label: 'Aguardando Bilhete', color: 'text-rose-600' },
-                { key: 'em_tratamento', label: 'Em Tratamento', color: 'text-blue-600' }
+                { key: 'em_tratamento', label: 'Em Tratamento', color: 'text-blue-600' },
+                { key: 'suporte_em_tratamento', label: 'Suporte - Em tratamento', color: 'text-blue-600' }
             ];
             const allSelected = filteredTarefas.length > 0 && selectedIds.size === filteredTarefas.length;
 // ===== Contagem de status a partir das MESMAS filas da tabela =====
@@ -574,7 +575,8 @@
                     fila: 0, em_tratamento: 0, troca_de_territorio: 0, troca_de_segmento: 0,
                     cadastro_de_membro: 0, aguardando_chamado: 0, aguardando_qualidade: 0,
                     aguardando_bilhete: 0, renovacao_aparelho: 0, aprovado: 0, reprovado: 0,
-                    aguardando_dupla_validacao: 0, aguardando_pre_analise: 0
+                    aguardando_dupla_validacao: 0, aguardando_pre_analise: 0,
+                    suporte_em_tratamento: 0
                 };
                 (rows || []).forEach(t => {
                     const raw = t.cotacao_status ? String(t.cotacao_status) : '';
@@ -592,6 +594,7 @@
                     else if (st.includes('aparelho')) { counts.renovacao_aparelho++; }
                     else if (st === 'aprovado') { counts.aprovado++; }
                     else if (st === 'reprovado') { counts.reprovado++; }
+                    else if (st === 'suporte-em-tratamento') { counts.suporte_em_tratamento++; }
                 });
                 return counts;
             };
