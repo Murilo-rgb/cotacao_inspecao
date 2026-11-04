@@ -2273,6 +2273,50 @@ app.get('/pme_notas/qualidade', authenticatePage, authorizeRoute('/pme_notas/qua
 
 // ===== ROTAS DE RELATÓRIOS (auditoria_qualidade) =====
 
+// SQL compartilhado pelas duas rotas de relatório (/api/reports e /pme_notas/api/reports).
+// A coluna "origem" NÃO existe em auditoria_qualidade: ela é derivada de db_bloco_de_notas.cotacao.origem.
+// O LEFT JOIN LATERAL ... LIMIT 1 é obrigatório: uma mesma tarefa pode ter várias linhas em cotacao
+// (até 16), então um JOIN direto multiplicaria as linhas do relatório.
+// Regras: r_000250 -> Inspeção | iw_cpc_975_net -> Input NET | iw_cpc_975_top -> Input TOP |
+// h_x_h/hoteis_x_hospitais ou presença em hoteis_x_hospitais -> HH | cortesia -> Cortesia |
+// manual -> Manual | origem NULL/vazia -> Inspeção | sem linha em cotacao -> Não identificado.
+const SQL_REPORTS_AUDITORIA = `
+  SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
+         aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
+         aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
+         aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura, aq.tipo_apontamento,
+         TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
+         TRIM(COALESCE(u_auditado.nome, '') || ' ' || COALESCE(u_auditado.sobrenome, '')) AS auditado_nome,
+         o.origem_codigo,
+         COALESCE(o.origem, 'Não identificado') AS origem
+  FROM db_bloco_de_notas.auditoria_qualidade aq
+  LEFT JOIN db_bloco_de_notas.cotacao c ON c.tarefa = aq.codigo_tarefa
+  LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
+  LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
+  LEFT JOIN LATERAL (
+    SELECT c2.origem AS origem_codigo,
+           CASE
+             WHEN EXISTS (SELECT 1 FROM db_bloco_de_notas.hoteis_x_hospitais hh WHERE hh.id_tarefa = aq.codigo_tarefa) THEN 'HH'
+             WHEN c2.origem = 'r_000250' THEN 'Inspeção'
+             WHEN c2.origem = 'iw_cpc_975_net' THEN 'Input NET'
+             WHEN c2.origem = 'iw_cpc_975_top' THEN 'Input TOP'
+             WHEN c2.origem IN ('h_x_h', 'hoteis_x_hospitais') THEN 'HH'
+             WHEN c2.origem = 'cortesia' THEN 'Cortesia'
+             WHEN c2.origem = 'manual' THEN 'Manual'
+             WHEN c2.origem IS NULL OR TRIM(c2.origem) = '' THEN 'Inspeção'
+             ELSE c2.origem
+           END AS origem
+    FROM db_bloco_de_notas.cotacao c2
+    WHERE c2.tarefa = aq.codigo_tarefa
+    ORDER BY (c2.origem IS NOT NULL AND TRIM(c2.origem) <> '') DESC,
+             (c2.id_qldd IS NOT NULL AND c2.id_qldd = aq.id_qldd) DESC,
+             c2.id_cotacao DESC
+    LIMIT 1
+  ) o ON TRUE
+  WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
+  ORDER BY aq.data_qualidade DESC
+`;
+
 // API: Extrair dados de auditoria_qualidade por período de data_qualidade
 app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'), async (req, res) => {
   try {
@@ -2297,21 +2341,7 @@ app.get('/api/reports', authenticateToken, authorizeRoute('/pme_notas/qualidade'
     dataFimExclusivo.setDate(dataFimExclusivo.getDate() + 1);
     const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
 
-    const result = await pool.query(
-      `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
-              aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
-              aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
-              aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
-              TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
-              TRIM(COALESCE(u_auditado.nome, '') || ' ' || COALESCE(u_auditado.sobrenome, '')) AS auditado_nome
-       FROM db_bloco_de_notas.auditoria_qualidade aq
-       LEFT JOIN db_bloco_de_notas.cotacao c ON c.tarefa = aq.codigo_tarefa
-       LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
-       LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
-       WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
-       ORDER BY aq.data_qualidade DESC`,
-      [dataInicio, dataFimISO]
-    );
+    const result = await pool.query(SQL_REPORTS_AUDITORIA, [dataInicio, dataFimISO]);
 
     res.json(result.rows);
   } catch (error) {
@@ -2342,21 +2372,7 @@ app.get('/pme_notas/api/reports', authenticateToken, authorizeRoute('/pme_notas/
     dataFimExclusivo.setDate(dataFimExclusivo.getDate() + 1);
     const dataFimISO = dataFimExclusivo.toISOString().split('T')[0];
 
-    const result = await pool.query(
-      `SELECT aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
-              aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
-              aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
-              aq.contestacao, aq.obs, aq.enviado, aq.data_envio, aq.semana, aq.data_leitura,
-              TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
-              TRIM(COALESCE(u_auditado.nome, '') || ' ' || COALESCE(u_auditado.sobrenome, '')) AS auditado_nome
-       FROM db_bloco_de_notas.auditoria_qualidade aq
-       LEFT JOIN db_bloco_de_notas.cotacao c ON c.tarefa = aq.codigo_tarefa
-       LEFT JOIN db_automacao.usuarios u_analista ON u_analista.id::TEXT = c.usuario_id::TEXT
-       LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
-       WHERE aq.data_qualidade >= $1::date AND aq.data_qualidade < $2::date
-       ORDER BY aq.data_qualidade DESC`,
-      [dataInicio, dataFimISO]
-    );
+    const result = await pool.query(SQL_REPORTS_AUDITORIA, [dataInicio, dataFimISO]);
 
     res.json(result.rows);
   } catch (error) {
