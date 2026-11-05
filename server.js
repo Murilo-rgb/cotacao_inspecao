@@ -1184,12 +1184,21 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
     }
 
     if (!hasSearch) {
-      const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
-      const [year, month, day] = effectiveDate.split('-');
-      const dateStartBR = `${day}/${month}/${year}`;
-      innerQuery += ` AND c.data_de_criacao LIKE $${paramIndex}`;
-      params.push(`${dateStartBR}%`);
-      paramIndex++;
+      const monthParam = req.query.month && /^\d{4}-\d{2}$/.test(String(req.query.month).trim()) ? String(req.query.month).trim() : '';
+      if (monthParam) {
+        // Mes inteiro (YYYY-MM) na mesma base do calendario: data de criacao
+        const [mYear, mMonth] = monthParam.split('-').map(Number);
+        innerQuery += ` AND EXTRACT(YEAR FROM ${DATA_CRIACAO_DATE_SQL}) = $${paramIndex} AND EXTRACT(MONTH FROM ${DATA_CRIACAO_DATE_SQL}) = $${paramIndex + 1}`;
+        params.push(mYear, mMonth);
+        paramIndex += 2;
+      } else {
+        const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+        const [year, month, day] = effectiveDate.split('-');
+        const dateStartBR = `${day}/${month}/${year}`;
+        innerQuery += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+        params.push(`${dateStartBR}%`);
+        paramIndex++;
+      }
     }
 
     if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
@@ -1203,15 +1212,14 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
     }
 
     if (!hasSearch) {
-      const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim() : '';
-      if (statusFilter) {
-        if (statusFilter.toLowerCase() === 'reprovado') {
-          innerQuery += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
-        } else {
-          innerQuery += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
-          params.push(statusFilter);
-          paramIndex++;
-        }
+      const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim().toLowerCase() : '';
+      if (statusFilter === 'reprovado' || statusFilter === 'dia' || statusFilter === 'base') {
+        // Visao base (lista do dia, calendario e mensal): reprovadas + todas as auditadas do recorte
+        innerQuery += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
+      } else if (statusFilter && statusFilter !== 'todos' && statusFilter !== 'todas') {
+        innerQuery += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+        params.push(statusFilter);
+        paramIndex++;
       }
     }
 
@@ -1226,7 +1234,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       let auditoria = null;
       try {
         const auditRes = await pool.query(
-          `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.apontamento,
+          `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.tipo_apontamento, aq.apontamento,
                   aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento,
                   aq.contestacao, aq.obs, aq.regional, aq.tipo_de_pedido,
                   aq.enviado, aq.data_envio, aq.data_qualidade, aq.semana, aq.analista
@@ -1241,6 +1249,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
             anotacao: a.anotacao,
             status: a.status,
             reprova_bko: a.reprova_bko,
+            tipo_apontamento: a.tipo_apontamento,
             apontamento: a.apontamento,
             motivo_1_sistema_documento: a.motivo_1_sistema_documento,
             motivo_2_erro: a.motivo_2_erro,
@@ -1349,7 +1358,7 @@ app.post('/api/qualidade/auditar', authenticateToken, async (req, res) => {
 app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
     try {
         const rawBody = req.body;
-        const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
+        const { id_cotacao, reprova_bko, apontamento, tipo_apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
         // Se Motivo 1 for "Isento", forçar Motivo 2 e Motivo 3 como "Isento"
         const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
         let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
@@ -1367,7 +1376,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
         if (!status) {
             return res.status(400).json({ error: 'Status é obrigatório' });
         }
-        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV', 'Erro Interno - Inspeção', 'Apontamento RCV'];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({ error: 'Status inválido' });
         }
@@ -1399,7 +1408,7 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
         const dataCriacao = parseBRDate(cotacao.data_de_criacao);
         const dataQualidade = formatDateBR(dataCriacao);
         const semana = calcularSemana(dataCriacao);
-        const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
+        const anotacao = [reprova_bko, tipo_apontamento, apontamento].filter(Boolean).join('\n');
 
         const existingAudit = await pool.query(
             'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
@@ -1414,24 +1423,25 @@ app.post('/api/qualidade/auditar-completo', authenticateToken, async (req, res) 
                     reprova_bko = $5, codigo_tarefa = $6, analista = $7, data_analise = $8,
                     cotacao = $9, regional = $10, tipo_de_pedido = $11,
                     motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
-                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
+                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20,
+                    tipo_apontamento = $22
                 WHERE id_qldd = $21`,
                 [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
                  now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
-                 data_envio ? new Date(data_envio) : null, semana, idQldd]
+                 data_envio ? new Date(data_envio) : null, semana, idQldd, tipo_apontamento || '']
             );
         } else {
             const insertAudit = await pool.query(
                 `INSERT INTO db_bloco_de_notas.auditoria_qualidade
-                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
-                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
+                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana, tipo_apontamento)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21) RETURNING id_qldd`,
                 [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
                  now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
-                 data_envio ? new Date(data_envio) : null, semana]
+                 data_envio ? new Date(data_envio) : null, semana, tipo_apontamento || '']
             );
             const newIdQldd = insertAudit.rows[0].id_qldd;
             await pool.query(
@@ -1649,12 +1659,21 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
     }
 
     if (!hasSearch) {
-      const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
-      const [year, month, day] = effectiveDate.split('-');
-      const dateStartBR = `${day}/${month}/${year}`;
-      innerQuery += ` AND c.data_de_criacao LIKE $${paramIndex}`;
-      params.push(`${dateStartBR}%`);
-      paramIndex++;
+      const monthParam = req.query.month && /^\d{4}-\d{2}$/.test(String(req.query.month).trim()) ? String(req.query.month).trim() : '';
+      if (monthParam) {
+        // Mes inteiro (YYYY-MM) na mesma base do calendario: data de criacao
+        const [mYear, mMonth] = monthParam.split('-').map(Number);
+        innerQuery += ` AND EXTRACT(YEAR FROM ${DATA_CRIACAO_DATE_SQL}) = $${paramIndex} AND EXTRACT(MONTH FROM ${DATA_CRIACAO_DATE_SQL}) = $${paramIndex + 1}`;
+        params.push(mYear, mMonth);
+        paramIndex += 2;
+      } else {
+        const effectiveDate = dateStart || new Date().toISOString().split('T')[0];
+        const [year, month, day] = effectiveDate.split('-');
+        const dateStartBR = `${day}/${month}/${year}`;
+        innerQuery += ` AND c.data_de_criacao LIKE $${paramIndex}`;
+        params.push(`${dateStartBR}%`);
+        paramIndex++;
+      }
     }
 
     if (!hasSearch && origem && origem.trim() && origem !== 'todas') {
@@ -1668,15 +1687,14 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
     }
 
     if (!hasSearch) {
-      const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim() : '';
-      if (statusFilter) {
-        if (statusFilter.toLowerCase() === 'reprovado') {
-          innerQuery += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
-        } else {
-          innerQuery += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
-          params.push(statusFilter);
-          paramIndex++;
-        }
+      const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim().toLowerCase() : '';
+      if (statusFilter === 'reprovado' || statusFilter === 'dia' || statusFilter === 'base') {
+        // Visao base (lista do dia, calendario e mensal): reprovadas + todas as auditadas do recorte
+        innerQuery += ` AND (LOWER(c.status) = 'reprovado' OR c.id_qldd IS NOT NULL)`;
+      } else if (statusFilter && statusFilter !== 'todos' && statusFilter !== 'todas') {
+        innerQuery += ` AND LOWER(c.status) = LOWER($${paramIndex})`;
+        params.push(statusFilter);
+        paramIndex++;
       }
     }
 
@@ -1691,7 +1709,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
       let auditoria = null;
       try {
         const auditRes = await pool.query(
-          `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.apontamento,
+          `SELECT aq.anotacao, aq.status, aq.reprova_bko, aq.tipo_apontamento, aq.apontamento,
                   aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento,
                   aq.contestacao, aq.obs, aq.regional, aq.tipo_de_pedido,
                   aq.enviado, aq.data_envio, aq.data_qualidade, aq.semana, aq.analista
@@ -1706,6 +1724,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
             anotacao: a.anotacao,
             status: a.status,
             reprova_bko: a.reprova_bko,
+            tipo_apontamento: a.tipo_apontamento,
             apontamento: a.apontamento,
             motivo_1_sistema_documento: a.motivo_1_sistema_documento,
             motivo_2_erro: a.motivo_2_erro,
@@ -1814,7 +1833,7 @@ app.post('/pme_notas/api/qualidade/auditar', authenticateToken, async (req, res)
 app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (req, res) => {
     try {
         const rawBody = req.body;
-        const { id_cotacao, reprova_bko, apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
+        const { id_cotacao, reprova_bko, apontamento, tipo_apontamento, contestacao, obs, regional, tipo_de_pedido, enviado, data_envio, status } = rawBody;
         // Se Motivo 1 for "Isento", forçar Motivo 2 e Motivo 3 como "Isento"
         const isIsento = rawBody.motivo_1_sistema_documento === 'Isento';
         let motivo_1_sistema_documento = rawBody.motivo_1_sistema_documento || '';
@@ -1832,7 +1851,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         if (!status) {
             return res.status(400).json({ error: 'Status é obrigatório' });
         }
-        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade'];
+        const statusPermitidos = ['Procedimento Correto', 'Devolução Parcial', 'Devolução Indevida', 'Reprova Parcial', 'Reprova Indevida', 'Aprovacao Indevida', 'Aprovação Indevida - Qualidade', 'RCV', 'Erro Interno - Inspeção', 'Apontamento RCV'];
         if (!statusPermitidos.includes(status)) {
             return res.status(400).json({ error: 'Status inválido' });
         }
@@ -1865,7 +1884,7 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
         const now = new Date();
         const dataQualidade = formatDateBR(dataCriacao);
         const semana = calcularSemana(dataCriacao);
-        const anotacao = [reprova_bko, apontamento].filter(Boolean).join('\n');
+        const anotacao = [reprova_bko, tipo_apontamento, apontamento].filter(Boolean).join('\n');
 
         const existingAudit = await pool.query(
             'SELECT id_qldd FROM db_bloco_de_notas.cotacao WHERE id_cotacao = $1',
@@ -1880,24 +1899,25 @@ app.post('/pme_notas/api/qualidade/auditar-completo', authenticateToken, async (
                     reprova_bko = $5, codigo_tarefa = $6, analista = $7, data_analise = $8,
                     cotacao = $9, regional = $10, tipo_de_pedido = $11,
                     motivo_1_sistema_documento = $12, motivo_2_erro = $13, motivo_3_detalhamento = $14,
-                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20
+                    apontamento = $15, contestacao = $16, obs = $17, enviado = $18, data_envio = $19, semana = $20,
+                    tipo_apontamento = $22
                 WHERE id_qldd = $21`,
                 [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
                  now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
-                 data_envio ? new Date(data_envio) : null, semana, idQldd]
+                 data_envio ? new Date(data_envio) : null, semana, idQldd, tipo_apontamento || '']
             );
         } else {
             const insertAudit = await pool.query(
                 `INSERT INTO db_bloco_de_notas.auditoria_qualidade
-                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana)
-                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id_qldd`,
+                    (anotacao, status, data_qualidade, analista_qualidade_id, reprova_bko, codigo_tarefa, analista, data_analise, cotacao, regional, tipo_de_pedido, motivo_1_sistema_documento, motivo_2_erro, motivo_3_detalhamento, apontamento, contestacao, obs, enviado, data_envio, semana, tipo_apontamento)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21) RETURNING id_qldd`,
                 [anotacao, status, dataCriacao, usuarioLogadoId, reprova_bko || '', cotacao.tarefa, analistaNome,
                  now, cotacao.cotacao, regional || '', tipo_de_pedido || '',
                  motivo_1_sistema_documento || '', motivo_2_erro || '', motivo_3_detalhamento || '',
                  apontamento || '', contestacao || '', obs || '', enviado || false,
-                 data_envio ? new Date(data_envio) : null, semana]
+                 data_envio ? new Date(data_envio) : null, semana, tipo_apontamento || '']
             );
             const newIdQldd = insertAudit.rows[0].id_qldd;
             await pool.query(
@@ -2150,6 +2170,15 @@ app.get('/qualidade/calendario', authenticatePage, authorizeRoute('/pme_notas/qu
 
 app.get('/pme_notas/qualidade/calendario', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'qualidade_calendario.html'));
+});
+
+// Serve pagina mensal de qualidade (com autorizacao de qualidade)
+app.get('/qualidade/mensal', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qualidade_mensal.html'));
+});
+
+app.get('/pme_notas/qualidade/mensal', authenticatePage, authorizeRoute('/pme_notas/qualidade'), (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'qualidade_mensal.html'));
 });
 
 // ===== ROTAS DE RCV (Réplica) =====
