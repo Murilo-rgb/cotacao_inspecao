@@ -216,6 +216,9 @@ var inputTopRoutes = require('./routes/input_top')(pool, authenticateToken, auth
 // Inicializar rotas de h_x_h
 var hXHRoutes = require('./routes/h_x_h')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs);
 
+// Inicializar rotas de parcial_pme (Página Parcial PME + APIs /api/reports/parcial_pme*)
+var parcialPmeRoutes = require('./routes/parcial_pme')(pool, authenticateToken, authorizeRoute, formatDateBR, path, fs, authenticatePage);
+
 // Registrar rotas com prefixo /pme_notas (API input_net)
 app.use('/api/input_net', inputNetRoutes);
 app.use('/pme_notas/api/input_net', inputNetRoutes);
@@ -2437,6 +2440,9 @@ app.get('/pme_notas/hh/dashboard', authenticatePage, (req, res) => {
 
 // Usar rotas de inspeção
 app.use(inspecaoRoutes);
+
+// Usar rotas de parcial_pme (página /reports/parcial_pme e /pme_notas/reports/parcial_pme)
+app.use(parcialPmeRoutes);
 
 // ===== ROTAS DE ACESSOS (gerenciamento de permissões) =====
 

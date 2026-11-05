@@ -49,6 +49,15 @@ module.exports = function (pool, authenticateToken, authorizeRoute, formatDateBR
     return `${dia}/${mes}`;
   }
 
+  // Registra a rota na raiz e também com o prefixo /pme_notas (mesmo handler).
+  // Necessário porque as telas acessam via /pme_notas/... e o proxy pode entregar sem o prefixo.
+  function registrarGet(rota, ...handlers) {
+    router.get(rota, ...handlers);
+    if (rota.indexOf('/api/') === 0) {
+      router.get('/pme_notas' + rota, ...handlers);
+    }
+  }
+
   // ---- PÁGINA: PARCIAL PME ----
   router.get('/reports/parcial_pme', authenticatePage, authorizeRoute('/pme_notas/gestao'), (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'parcial_pme.html'));
@@ -451,7 +460,7 @@ const handlerParcialInput = async (req, res) => {
   router.get('/pme_notas/api/reports/parcial_pme/input', authenticateToken, authorizeRoute('/pme_notas/gestao'), handlerParcialInput);
 
   // ---- API: datos dinámicos para a táboa MARATONA ----
-  router.get('/api/reports/parcial_pme/maratona', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  registrarGet('/api/reports/parcial_pme/maratona', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
       const query = `
         SELECT
@@ -485,7 +494,7 @@ const handlerParcialInput = async (req, res) => {
   });
 
   // ---- API: datos dinámicos para a táboa MARATONA II (6 escenarios) ----
-  router.get('/api/reports/parcial_pme/maratona_v2', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
+  registrarGet('/api/reports/parcial_pme/maratona_v2', authenticateToken, authorizeRoute('/pme_notas/gestao'), async (req, res) => {
     try {
       const query = `
         SELECT
