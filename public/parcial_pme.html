@@ -252,7 +252,7 @@
             var headHtml = '<tr><th class="bg-red">REGIONAL</th>';
             columnas.forEach(function (c) { headHtml += '<th class="bg-red">' + esc(c) + '</th>'; });
             headHtml += '<th class="bg-red">TOTAL</th>' +
-              '<th colspan="2" class="bg-gray">SOLAR</th>' +
+              '<th colspan="2" class="bg-red">SOLAR</th>' +
               '<th colspan="2" class="bg-red">MANUAL</th></tr>';
             tab.innerHTML = headHtml;
 
@@ -279,8 +279,8 @@
               var footHtml = '<tr><th class="bg-red">TOTAL</th>';
               columnas.forEach(function (c) { footHtml += '<td class="bg-red">' + esc(totalGlobal[c]) + '</td>'; });
               footHtml += '<td class="bg-red">' + esc(totalGlobal.total) + '</td>' +
-                '<td class="bg-gray">' + esc(totalGlobal.solar_qtd) + '</td>' +
-                '<td class="bg-gray">' + esc(totalGlobal.solar_pct) + '</td>' +
+                '<td class="bg-red">' + esc(totalGlobal.solar_qtd) + '</td>' +
+                '<td class="bg-red">' + esc(totalGlobal.solar_pct) + '</td>' +
                 '<td class="bg-red">' + esc(totalGlobal.manual_qtd) + '</td>' +
                 '<td class="bg-red">' + esc(totalGlobal.manual_pct) + '</td></tr>';
               tfoot.innerHTML = footHtml;
