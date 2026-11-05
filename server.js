@@ -69,6 +69,14 @@ const pool = new Pool({
     port: 5432,
 });
 
+// Conversao segura de data (coluna text): aceita DD/MM/YYYY e ISO 8601 (fluxo cortesia/legado).
+// Mesma expressao usada em routes/qualidade.js (DATA_BASE_SQL). Registro em formato
+// desconhecido vira NULL, em vez de derrubar a rota inteira com erro de TO_DATE.
+const DATA_CRIACAO_DATE_SQL = `(CASE
+    WHEN c.data_de_criacao ~ '^[0-9]{2}/[0-9]{2}/[0-9]{4}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'DD/MM/YYYY')
+    WHEN c.data_de_criacao ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'YYYY-MM-DD')
+    ELSE NULL END)`;
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -1155,7 +1163,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
     const normalizedSearch = search && search.trim() ? search.trim() : '';
     const hasSearch = Boolean(normalizedSearch);
     let innerQuery = `
-      SELECT DISTINCT ON (c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) 
+      SELECT DISTINCT ON (c.usuario_id, ${DATA_CRIACAO_DATE_SQL}) 
         c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
         c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
         c.usuario_id, c.origem, c.id_qldd,
@@ -1207,7 +1215,7 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
+    innerQuery += " ORDER BY c.usuario_id, " + DATA_CRIACAO_DATE_SQL + ", CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
 
     const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
 
@@ -1620,7 +1628,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
     const normalizedSearch = search && search.trim() ? search.trim() : '';
     const hasSearch = Boolean(normalizedSearch);
     let innerQuery = `
-      SELECT DISTINCT ON (c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) 
+      SELECT DISTINCT ON (c.usuario_id, ${DATA_CRIACAO_DATE_SQL}) 
         c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
         c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
         c.usuario_id, c.origem, c.id_qldd,
@@ -1672,7 +1680,7 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    innerQuery += " ORDER BY c.usuario_id, TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY'), CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
+    innerQuery += " ORDER BY c.usuario_id, " + DATA_CRIACAO_DATE_SQL + ", CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
 
     const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
 
@@ -1929,12 +1937,12 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
             WITH base AS (
                 SELECT
                     c.usuario_id,
-                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    ${DATA_CRIACAO_DATE_SQL} AS data_base,
                     c.id_qldd
                 FROM db_bloco_de_notas.cotacao c
                 WHERE c.validacao = 'Ativo'
-                  AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
-                  AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+                  AND EXTRACT(YEAR FROM ${DATA_CRIACAO_DATE_SQL}) = $1
+                  AND EXTRACT(MONTH FROM ${DATA_CRIACAO_DATE_SQL}) = $2
                   ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
             ),
             dedup AS (
@@ -1958,7 +1966,7 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
             WITH base AS (
                 SELECT
                     c.usuario_id,
-                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    ${DATA_CRIACAO_DATE_SQL} AS data_base,
                     c.id_qldd
                 FROM db_bloco_de_notas.auditoria_qualidade aq
                 INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
@@ -2035,12 +2043,12 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
             WITH base AS (
                 SELECT
                     c.usuario_id,
-                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    ${DATA_CRIACAO_DATE_SQL} AS data_base,
                     c.id_qldd
                 FROM db_bloco_de_notas.cotacao c
                 WHERE c.validacao = 'Ativo'
-                  AND EXTRACT(YEAR FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $1
-                  AND EXTRACT(MONTH FROM TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY')) = $2
+                  AND EXTRACT(YEAR FROM ${DATA_CRIACAO_DATE_SQL}) = $1
+                  AND EXTRACT(MONTH FROM ${DATA_CRIACAO_DATE_SQL}) = $2
                   ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
             ),
             ranked AS (
@@ -2067,7 +2075,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
             WITH base AS (
                 SELECT
                     c.usuario_id,
-                    TO_DATE(REGEXP_REPLACE(c.data_de_criacao, '\\s.*$', ''), 'DD/MM/YYYY') AS data_base,
+                    ${DATA_CRIACAO_DATE_SQL} AS data_base,
                     c.id_qldd
                 FROM db_bloco_de_notas.auditoria_qualidade aq
                 INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
