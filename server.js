@@ -14,6 +14,7 @@ const { processarETL_975_net } = require('./utils/etl_975_input_net');
 const { processarETL_975_top } = require('./utils/etl_975_input_top');
 const { processarETL_HoteisHospitais } = require('./utils/etl_hoteis_hospitais');
 const { classificarPendentes, STATUS_CLASSIFICACAO } = require('./scripts/classificar_cotacoes_pendentes');
+const { iniciarAgendadorNetAte3Linhas } = require('./app/scheduler');
 
 const app = express();
 const PORT = 3016;
@@ -76,6 +77,17 @@ const DATA_CRIACAO_DATE_SQL = `(CASE
     WHEN c.data_de_criacao ~ '^[0-9]{2}/[0-9]{2}/[0-9]{4}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'DD/MM/YYYY')
     WHEN c.data_de_criacao ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' THEN TO_DATE(LEFT(c.data_de_criacao, 10), 'YYYY-MM-DD')
     ELSE NULL END)`;
+
+// Regra de negocio da tela de qualidade (/api/qualidade e /pme_notas/api/qualidade):
+// nas origens de Input (NET/TOP) so aparecem cotacoes com ATE 3 linhas.
+// qtd_linhas vem de db_bloco_de_notas.cotacao.qtd_linhas, alimentado pela procedure
+// db_bloco_de_notas.net_ate_3_linhas() (agendada as 03:00 em app/scheduler.js).
+// As demais origens (Inspecao, HH, Cortesia e sem origem) nao sao afetadas.
+// O COALESCE e obrigatorio: origem NULL no NOT IN resulta em NULL e a linha sumiria.
+const ORIGENS_INPUT_SQL = `('iw_cpc_975_net','iw_cpc_975_top')`;
+const QTD_LINHAS_MAX_INPUT = 3;
+const FILTRO_QTD_LINHAS_INPUT_SQL =
+    ` AND (COALESCE(c.origem, '') NOT IN ${ORIGENS_INPUT_SQL} OR c.qtd_linhas <= ${QTD_LINHAS_MAX_INPUT})`;
 
 // Middleware
 app.use(cors());
@@ -1211,6 +1223,10 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
+    // Regra de negocio: vale SEMPRE para NET/TOP, inclusive em "Todas as origens"
+    // e na busca; cotacao fora do range de linhas nao pertence a esta lista.
+    innerQuery += FILTRO_QTD_LINHAS_INPUT_SQL;
+
     if (!hasSearch) {
       const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim().toLowerCase() : '';
       if (statusFilter === 'reprovado' || statusFilter === 'dia' || statusFilter === 'base') {
@@ -1685,6 +1701,10 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
         paramIndex++;
       }
     }
+
+    // Regra de negocio: vale SEMPRE para NET/TOP, inclusive em "Todas as origens"
+    // e na busca; cotacao fora do range de linhas nao pertence a esta lista.
+    innerQuery += FILTRO_QTD_LINHAS_INPUT_SQL;
 
     if (!hasSearch) {
       const statusFilter = req.query.status && req.query.status.trim() ? req.query.status.trim().toLowerCase() : '';
@@ -3481,6 +3501,11 @@ app.get('/pme_notas/suporte/input', authenticatePage, (req, res) => {
 app.get('/suporte/input', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'suporte_input.html'));
 });
+
+// Agendador diario (03:00, horario do servidor) da procedure que mantem
+// cotacao.qtd_linhas/cotacao atualizados para os filtros da tela de qualidade.
+// Desligar com NET_ATE_3_LINHAS_AGENDADOR=off.
+iniciarAgendadorNetAte3Linhas(pool);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
