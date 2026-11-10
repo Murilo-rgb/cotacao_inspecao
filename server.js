@@ -79,15 +79,16 @@ const DATA_CRIACAO_DATE_SQL = `(CASE
     ELSE NULL END)`;
 
 // Regra de negocio da tela de qualidade (/api/qualidade e /pme_notas/api/qualidade):
-// nas origens de Input (NET/TOP) so aparecem cotacoes com ATE 3 linhas.
+// nas origens de Input (NET/TOP) so aparecem cotacoes com 1 a 3 linhas (qtd_linhas = 0 e NULL ficam fora).
 // qtd_linhas vem de db_bloco_de_notas.cotacao.qtd_linhas, alimentado pela procedure
 // db_bloco_de_notas.net_ate_3_linhas() (agendada as 03:00 em app/scheduler.js).
 // As demais origens (Inspecao, HH, Cortesia e sem origem) nao sao afetadas.
 // O COALESCE e obrigatorio: origem NULL no NOT IN resulta em NULL e a linha sumiria.
 const ORIGENS_INPUT_SQL = `('iw_cpc_975_net','iw_cpc_975_top')`;
+const QTD_LINHAS_MIN_INPUT = 1;
 const QTD_LINHAS_MAX_INPUT = 3;
 const FILTRO_QTD_LINHAS_INPUT_SQL =
-    ` AND (COALESCE(c.origem, '') NOT IN ${ORIGENS_INPUT_SQL} OR c.qtd_linhas <= ${QTD_LINHAS_MAX_INPUT})`;
+    ` AND (COALESCE(c.origem, '') NOT IN ${ORIGENS_INPUT_SQL} OR c.qtd_linhas BETWEEN ${QTD_LINHAS_MIN_INPUT} AND ${QTD_LINHAS_MAX_INPUT})`;
 
 // Middleware
 app.use(cors());
