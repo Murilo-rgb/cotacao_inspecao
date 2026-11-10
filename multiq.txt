@@ -1,0 +1,1 @@
+[{"tarefas_com_q":"5760","multi_q":"2","max_dist":"2"}]
