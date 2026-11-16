@@ -119,8 +119,8 @@ const CalendarIcon = () => React.createElement('svg', { xmlns: "http://www.w3.or
         // Icone discreto de informacao com tooltip. Abre por hover, clique/toque e foco
         // (a pagina e usada em tablet, onde nao existe hover), fecha no Esc ou ao sair.
         // ATENCAO: os textos explicam a regra de deduplicacao do backend —
-        // routes/qualidade.js usa DISTINCT ON (c.usuario_id, DATA_BASE_SQL), ou seja,
-        // conta 1 auditoria por pessoa por dia. Se essa regra mudar no servidor,
+        // a Inspecao (r_000250) conta ate 3 auditorias por pessoa por dia; as demais origens, 1.
+        // Se essa regra mudar no servidor,
         // revise os textos dos tooltips e os numeros dos cards.
         const InfoTooltip = ({ text }) => {
             const [open, setOpen] = React.useState(false);
@@ -271,7 +271,7 @@ const filteredQuotations = quotations;
                 const hoje = new Date();
                 if (y === hoje.getFullYear() && mo === hoje.getMonth() + 1) {
                     const dia = String(hoje.getDate()).padStart(2, '0');
-                    return `Mes em andamento — parcial ate ${dia}/${String(mo).padStart(2, '0')}/${y}. Para comparar com a página Relatórios, extraia o mesmo intervalo (01/${String(mo).padStart(2, '0')} a ${dia}/${String(mo).padStart(2, '0')}). Obs.: os cards contam 1 auditoria por pessoa por dia, então o total tende a ser menor que o extrato tarefa por tarefa da página Relatórios.`;
+                    return `Mes em andamento — parcial ate ${dia}/${String(mo).padStart(2, '0')}/${y}. Para comparar com a página Relatórios, extraia o mesmo intervalo (01/${String(mo).padStart(2, '0')} a ${dia}/${String(mo).padStart(2, '0')}). Obs.: os cards contam até 3 auditorias por pessoa por dia na Inspeção (1 nas demais origens), então o total tende a ser menor que o extrato tarefa por tarefa da página Relatórios.`;
                 }
                 return '';
             })();
@@ -340,15 +340,15 @@ React.createElement('div', { className: "flex flex-wrap items-end gap-4 mb-6" },
                     avisoMesParcial ? React.createElement('div', { className: "mb-4 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800" }, avisoMesParcial) : null,
 React.createElement('div', { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4" },
                         React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
-                            React.createElement(CardLabel, { text: 'Total de Cotações', className: "text-sm font-medium text-slate-500", tooltip: 'Cotações consideradas no mês e no recorte selecionado. Quando a mesma pessoa possui mais de uma cotação no mesmo dia, apenas uma é contada — por isso este número pode ser menor que a extração completa da página Relatórios.' }),
+                            React.createElement(CardLabel, { text: 'Total de Cotações', className: "text-sm font-medium text-slate-500", tooltip: 'Cotações consideradas no mês e no recorte selecionado. Na Inspeção são contadas até 3 cotações por pessoa no mesmo dia; nas demais origens, apenas uma — por isso este número pode ser menor que a extração completa da página Relatórios.' }),
                             loading ? React.createElement('div', { className: "h-7 w-20 skeleton rounded mt-1" }) : React.createElement('p', { className: "text-2xl font-bold text-slate-800 mt-1" }, totalCotacoes)
                         ),
                         React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
-                            React.createElement(CardLabel, { text: 'Auditadas', className: "text-sm font-medium text-emerald-600", tooltip: 'Conta 1 auditoria por pessoa por dia. Se a mesma pessoa teve mais de uma cotação auditada no mesmo dia, o excedente não entra neste card. Portanto este NÃO é o total absoluto de auditorias do período: a página Relatórios exibe o extrato completo, tarefa por tarefa.' }),
+                            React.createElement(CardLabel, { text: 'Auditadas', className: "text-sm font-medium text-emerald-600", tooltip: 'Conta até 3 auditorias por pessoa por dia na Inspeção e 1 nas demais origens. Se a mesma pessoa tiver mais cotações auditadas que esse limite no mesmo dia, o excedente não entra neste card. Portanto este NÃO é o total absoluto de auditorias do período: a página Relatórios exibe o extrato completo, tarefa por tarefa.' }),
                             loading ? React.createElement('div', { className: "h-7 w-20 skeleton rounded mt-1" }) : React.createElement('p', { className: "text-2xl font-bold text-emerald-700 mt-1" }, totalAuditadas)
                         ),
                         React.createElement('div', { className: "bg-white rounded-xl p-4 border border-slate-200 shadow-sm" },
-                            React.createElement(CardLabel, { text: 'Não Auditadas', className: "text-sm font-medium text-amber-600", tooltip: 'Cotações do recorte que ainda não possuem auditoria registrada. Aplica a mesma regra de uma cotação por pessoa por dia usada nos demais cards.' }),
+                            React.createElement(CardLabel, { text: 'Não Auditadas', className: "text-sm font-medium text-amber-600", tooltip: 'Cotações do recorte que ainda não possuem auditoria registrada. Aplica a mesma regra dos demais cards (até 3 por pessoa por dia na Inspeção, 1 nas demais origens).' }),
                             loading ? React.createElement('div', { className: "h-7 w-20 skeleton rounded mt-1" }) : React.createElement('p', { className: "text-2xl font-bold text-amber-700 mt-1" }, totalNaoAuditadas)
                         )
                     ),
@@ -365,8 +365,8 @@ React.createElement('div', { className: "flex flex-wrap gap-4 mb-4" },
                             const pctExibido = isDevolucao ? pctDevolucaoFmt : pctFmt;
                             const pctBarra = isDevolucao ? pctDevolucaoEfetiva : pct;
                             const tooltip = isDevolucao
-                                ? `Percentual de erro do tipo: ${qtdDevolucaoEfetiva} de ${qtd} auditorias deste tipo tiveram status de devolução (Devolução Parcial/Indevida, Reprova Parcial/Indevida). As ${qtd - qtdDevolucaoEfetiva} auditorias do tipo com status "Procedimento Correto" entram apenas no denominador — o tipo de amostra foi registrado, mas a cotação foi considerada correta. Elas aparecem em outro indicador e não são somadas aqui. Base: auditorias contadas no mês com o filtro de origem aplicado (1 auditoria por pessoa por dia).`
-                                : 'Percentual calculado sobre as auditorias contadas no mês com o filtro de origem aplicado (1 auditoria por pessoa por dia). Auditorias excedentes do mesmo dia não entram no cálculo.';
+                                ? `Percentual de erro do tipo: ${qtdDevolucaoEfetiva} de ${qtd} auditorias deste tipo tiveram status de devolução (Devolução Parcial/Indevida, Reprova Parcial/Indevida). As ${qtd - qtdDevolucaoEfetiva} auditorias do tipo com status "Procedimento Correto" entram apenas no denominador — o tipo de amostra foi registrado, mas a cotação foi considerada correta. Elas aparecem em outro indicador e não são somadas aqui. Base: auditorias contadas no mês com o filtro de origem aplicado (até 3 por pessoa por dia na Inspeção; 1 nas demais origens).`
+                                : 'Percentual calculado sobre as auditorias contadas no mês com o filtro de origem aplicado (até 3 por pessoa por dia na Inspeção; 1 nas demais origens). Auditorias excedentes do mesmo dia não entram no cálculo.';
                             return React.createElement('div', { key: t, className: `flex-1 min-w-[180px] bg-white rounded-xl p-4 border ${cores.borda} shadow-sm` },
                                 React.createElement('div', { className: "flex items-center gap-1.5" },
                                     React.createElement('p', { className: `text-sm font-medium ${cores.texto}` }, TIPO_APONTAMENTO_LABELS[t] || t),
@@ -384,7 +384,7 @@ React.createElement('div', { className: "flex flex-wrap gap-4 mb-4" },
                         })
                     ),
                     React.createElement('p', { className: "text-xs text-slate-400 mt-1" }, monthLabel ? `Referência: ${monthLabel}` : ''),
-                    React.createElement('footer', { className: "mt-8 text-xs text-slate-400" }, 'Métricas calculadas sobre as cotações criadas no mês selecionado. Os cards de auditoria contam 1 auditoria por pessoa por dia — para o total absoluto de auditorias, use a página Relatórios.')
+                    React.createElement('footer', { className: "mt-8 text-xs text-slate-400" }, 'Métricas calculadas sobre as cotações criadas no mês selecionado. Os cards de auditoria contam até 3 auditorias por pessoa por dia na Inspeção (1 nas demais origens) — para o total absoluto de auditorias, use a página Relatórios.')
                 )
             );
         }

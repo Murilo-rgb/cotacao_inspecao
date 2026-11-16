@@ -59,8 +59,8 @@
         // Icone discreto de informacao com tooltip. Abre por hover, clique/toque e foco
         // (a pagina e usada em tablet, onde nao existe hover), fecha no Esc ou ao sair.
         // ATENCAO: os textos explicam a regra de deduplicacao do backend —
-        // routes/qualidade.js usa DISTINCT ON (c.usuario_id, DATA_BASE_SQL), ou seja,
-        // conta 1 auditoria por pessoa por dia. Se essa regra mudar no servidor,
+        // a Inspecao (r_000250) conta ate 3 auditorias por pessoa por dia; as demais origens, 1.
+        // Se essa regra mudar no servidor,
         // revise os textos dos tooltips e os numeros dos cards.
         const InfoTooltip = ({ text, align }) => {
             const [open, setOpen] = React.useState(false);
@@ -263,14 +263,14 @@
                                 React.createElement(TargetIcon),
                                 React.createElement('span', { className: "text-sm font-medium text-slate-600" }, 'Tarefas:'),
                                 React.createElement('span', { className: "text-lg font-bold text-slate-800" }, resumo.total_tarefas),
-                                React.createElement(InfoTooltip, { text: 'Cotações do mês exibido. Quando a mesma pessoa possui mais de uma cotação no mesmo dia, apenas uma é contada — por isso este número pode ser menor que a extração completa da página Relatórios.', align: 'left' })
+                                React.createElement(InfoTooltip, { text: 'Cotações do mês exibido. Na Inspeção são contadas até 3 cotações por pessoa no mesmo dia; nas demais origens, apenas uma — por isso este número pode ser menor que a extração completa da página Relatórios.', align: 'left' })
                             ),
                             React.createElement('div', { className: "w-px h-8 bg-slate-300" }),
                             React.createElement('div', { className: "flex items-center gap-2" },
                                 React.createElement(CheckCircleIcon),
                                 React.createElement('span', { className: "text-sm font-medium text-slate-600" }, 'Auditadas:'),
                                 React.createElement('span', { className: "text-lg font-bold text-green-700" }, resumo.total_auditadas),
-                                React.createElement(InfoTooltip, { text: 'Conta 1 auditoria por pessoa por dia. Auditorias excedentes da mesma pessoa no mesmo dia não são somadas, então este NÃO é o total absoluto de auditorias do período: a página Relatórios exibe o extrato completo, tarefa por tarefa.', align: 'left' })
+                                React.createElement(InfoTooltip, { text: 'Conta até 3 auditorias por pessoa por dia na Inspeção e 1 nas demais origens. Auditorias excedentes da mesma pessoa no mesmo dia não são somadas, então este NÃO é o total absoluto de auditorias do período: a página Relatórios exibe o extrato completo, tarefa por tarefa.', align: 'left' })
                             ),
                             React.createElement('div', { className: "w-px h-8 bg-slate-300" }),
                             React.createElement('div', { className: "flex items-center gap-2" },
@@ -282,7 +282,7 @@
                                 React.createElement(ClockIcon),
                                 React.createElement('span', { className: "text-sm font-medium text-slate-600" }, 'Backlog:'),
                                 React.createElement('span', { className: "text-lg font-bold text-amber-600" }, resumo.total_tarefas - resumo.total_auditadas),
-                                React.createElement(InfoTooltip, { text: 'Tarefas do mês que ainda não possuem auditoria registrada. Usa a mesma regra de uma cotação por pessoa por dia aplicada aos indicadores anteriores.', align: 'right' })
+                                React.createElement(InfoTooltip, { text: 'Tarefas do mês que ainda não possuem auditoria registrada. Usa a mesma regra dos indicadores anteriores (até 3 por pessoa por dia na Inspeção, 1 nas demais origens).', align: 'right' })
                             )
                         )
                     ),

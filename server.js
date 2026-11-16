@@ -87,6 +87,20 @@ const DATA_CRIACAO_DATE_SQL = `(CASE
 const ORIGENS_INPUT_SQL = `('iw_cpc_975_net','iw_cpc_975_top')`;
 const QTD_LINHAS_MIN_INPUT = 1;
 const QTD_LINHAS_MAX_INPUT = 3;
+// Amostragem da auditoria de qualidade: a Inspecao (origem r_000250 ou origem NULL/vazia)
+// disponibiliza ate 3 amostras por colaborador/dia; as demais origens continuam com 1.
+// A regra vale so na leitura/dedup (lista, calendario e relatorios); o banco ja aceita varias
+// auditorias por colaborador no mesmo dia, entao nao ha migracao de schema.
+const AMOSTRAS_INSPECAO_POR_DIA = 3;
+const AMOSTRAS_DEMAIS_ORIGENS_POR_DIA = 1;
+// Expressoes reutilizaveis: recebem o alias da tabela de cotacao (c, base, dedup, ranked, subquery).
+function ehOrigemInspecaoSql(alias) {
+  return `(${alias}.origem = 'r_000250' OR ${alias}.origem IS NULL OR ${alias}.origem = '')`;
+}
+function limiteAmostragemSql(alias) {
+  return `(CASE WHEN ${ehOrigemInspecaoSql(alias)} THEN ${AMOSTRAS_INSPECAO_POR_DIA} ELSE ${AMOSTRAS_DEMAIS_ORIGENS_POR_DIA} END)`;
+}
+
 const FILTRO_QTD_LINHAS_INPUT_SQL =
     ` AND (COALESCE(c.origem, '') NOT IN ${ORIGENS_INPUT_SQL} OR c.qtd_linhas BETWEEN ${QTD_LINHAS_MIN_INPUT} AND ${QTD_LINHAS_MAX_INPUT})`;
 
@@ -1176,11 +1190,15 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
     const normalizedSearch = search && search.trim() ? search.trim() : '';
     const hasSearch = Boolean(normalizedSearch);
     let innerQuery = `
-      SELECT DISTINCT ON (c.usuario_id, ${DATA_CRIACAO_DATE_SQL}) 
+      SELECT 
         c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
         c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
         c.usuario_id, c.origem, c.id_qldd,
-        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome,
+        ROW_NUMBER() OVER (
+          PARTITION BY c.usuario_id, ${DATA_CRIACAO_DATE_SQL}, (CASE WHEN ${ehOrigemInspecaoSql('c')} THEN 1 ELSE 0 END)
+          ORDER BY CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()
+        ) AS amostra_rn
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
       WHERE c.validacao = 'Ativo'`;
@@ -1240,9 +1258,8 @@ app.get('/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    innerQuery += " ORDER BY c.usuario_id, " + DATA_CRIACAO_DATE_SQL + ", CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
-
-    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
+    // O limite por colaborador/dia vem do ROW_NUMBER (amostra_rn): 3 na Inspecao, 1 nas demais origens.
+    const query = `SELECT * FROM (${innerQuery}) as subquery WHERE subquery.amostra_rn <= (CASE WHEN (subquery.origem = 'r_000250' OR subquery.origem IS NULL OR subquery.origem = '') THEN ${AMOSTRAS_INSPECAO_POR_DIA} ELSE ${AMOSTRAS_DEMAIS_ORIGENS_POR_DIA} END) ORDER BY subquery.data_de_criacao DESC`;
 
     const result = await pool.query(query, params);
 
@@ -1655,11 +1672,15 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
     const normalizedSearch = search && search.trim() ? search.trim() : '';
     const hasSearch = Boolean(normalizedSearch);
     let innerQuery = `
-      SELECT DISTINCT ON (c.usuario_id, ${DATA_CRIACAO_DATE_SQL}) 
+      SELECT 
         c.id_cotacao, c.cotacao, c.tarefa, c.anotacao, c.status, c.validacao, 
         c.data_de_criacao, c.data_da_ultima_atualizacao, c.usuario_login, 
         c.usuario_id, c.origem, c.id_qldd,
-        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome
+        TRIM(COALESCE(u.nome, '') || ' ' || COALESCE(u.sobrenome, '')) as usuario_nome,
+        ROW_NUMBER() OVER (
+          PARTITION BY c.usuario_id, ${DATA_CRIACAO_DATE_SQL}, (CASE WHEN ${ehOrigemInspecaoSql('c')} THEN 1 ELSE 0 END)
+          ORDER BY CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()
+        ) AS amostra_rn
       FROM db_bloco_de_notas.cotacao c 
       LEFT JOIN db_automacao.usuarios u ON u.id::TEXT = c.usuario_id::TEXT
       WHERE c.validacao = 'Ativo'`;
@@ -1719,9 +1740,8 @@ app.get('/pme_notas/api/qualidade', authenticateToken, async (req, res) => {
       }
     }
 
-    innerQuery += " ORDER BY c.usuario_id, " + DATA_CRIACAO_DATE_SQL + ", CASE WHEN c.id_qldd IS NOT NULL THEN 0 ELSE 1 END, RANDOM()";
-
-    const query = `SELECT * FROM (${innerQuery}) as subquery ORDER BY subquery.data_de_criacao DESC`;
+    // O limite por colaborador/dia vem do ROW_NUMBER (amostra_rn): 3 na Inspecao, 1 nas demais origens.
+    const query = `SELECT * FROM (${innerQuery}) as subquery WHERE subquery.amostra_rn <= (CASE WHEN (subquery.origem = 'r_000250' OR subquery.origem IS NULL OR subquery.origem = '') THEN ${AMOSTRAS_INSPECAO_POR_DIA} ELSE ${AMOSTRAS_DEMAIS_ORIGENS_POR_DIA} END) ORDER BY subquery.data_de_criacao DESC`;
 
     const result = await pool.query(query, params);
 
@@ -1973,13 +1993,14 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
         const ano = parseInt(req.query.ano) || new Date().getFullYear();
         const origem = req.query.origem && req.query.origem !== 'todos' ? req.query.origem : null;
 
-        // Total de tarefas criadas por dia no mês, considerando apenas uma tarefa por usuário por dia
+        // Total de tarefas criadas por dia no mes: ate 3 por usuario/dia na Inspecao (r_000250), 1 nas demais origens
         const tarefasQuery = await pool.query(`
             WITH base AS (
                 SELECT
                     c.usuario_id,
                     ${DATA_CRIACAO_DATE_SQL} AS data_base,
-                    c.id_qldd
+                    c.id_qldd,
+                    c.origem
                 FROM db_bloco_de_notas.cotacao c
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM ${DATA_CRIACAO_DATE_SQL}) = $1
@@ -1987,28 +2008,34 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
                   ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
             ),
             dedup AS (
-                SELECT DISTINCT ON (usuario_id, data_base)
+                SELECT
                     usuario_id,
                     data_base,
-                    id_qldd
+                    id_qldd,
+                    origem,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY usuario_id, data_base, (CASE WHEN ${ehOrigemInspecaoSql('base')} THEN 1 ELSE 0 END)
+                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, id_qldd DESC
+                    ) AS rn
                 FROM base
-                ORDER BY usuario_id, data_base, CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
             )
             SELECT
                 EXTRACT(DAY FROM data_base)::int AS dia,
                 COUNT(*)::int AS total
             FROM dedup
+            WHERE rn <= ${limiteAmostragemSql('dedup')}
             GROUP BY dia
             ORDER BY dia
         `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
 
-        // Tarefas auditadas por dia no mês, considerando apenas uma tarefa por usuário por dia
+        // Tarefas auditadas por dia no mes: ate 3 por usuario/dia na Inspecao (r_000250), 1 nas demais origens
         const auditadasQuery = await pool.query(`
             WITH base AS (
                 SELECT
                     c.usuario_id,
                     ${DATA_CRIACAO_DATE_SQL} AS data_base,
-                    c.id_qldd
+                    c.id_qldd,
+                    c.origem
                 FROM db_bloco_de_notas.auditoria_qualidade aq
                 INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
                 WHERE c.validacao = 'Ativo'
@@ -2017,17 +2044,22 @@ app.get('/api/qualidade/calendario', authenticateToken, async (req, res) => {
                   ${origem === 'r_000250' ? "AND (c.origem = 'r_000250' OR c.origem IS NULL OR c.origem = '')" : origem ? "AND c.origem = $3" : ""}
             ),
             dedup AS (
-                SELECT DISTINCT ON (usuario_id, data_base)
+                SELECT
                     usuario_id,
                     data_base,
-                    id_qldd
+                    id_qldd,
+                    origem,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY usuario_id, data_base, (CASE WHEN ${ehOrigemInspecaoSql('base')} THEN 1 ELSE 0 END)
+                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, id_qldd DESC
+                    ) AS rn
                 FROM base
-                ORDER BY usuario_id, data_base, CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
             )
             SELECT
                 EXTRACT(DAY FROM data_base)::int AS dia,
                 COUNT(*)::int AS auditadas
             FROM dedup
+            WHERE rn <= ${limiteAmostragemSql('dedup')}
             GROUP BY dia
             ORDER BY dia
         `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
@@ -2085,7 +2117,8 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 SELECT
                     c.usuario_id,
                     ${DATA_CRIACAO_DATE_SQL} AS data_base,
-                    c.id_qldd
+                    c.id_qldd,
+                    c.origem
                 FROM db_bloco_de_notas.cotacao c
                 WHERE c.validacao = 'Ativo'
                   AND EXTRACT(YEAR FROM ${DATA_CRIACAO_DATE_SQL}) = $1
@@ -2097,9 +2130,10 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                     usuario_id,
                     data_base,
                     id_qldd,
+                    origem,
                     ROW_NUMBER() OVER (
-                        PARTITION BY usuario_id, data_base
-                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+                        PARTITION BY usuario_id, data_base, (CASE WHEN ${ehOrigemInspecaoSql('base')} THEN 1 ELSE 0 END)
+                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, id_qldd DESC
                     ) AS rn
                 FROM base
             )
@@ -2107,7 +2141,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 EXTRACT(DAY FROM data_base)::int AS dia,
                 COUNT(*)::int AS total
             FROM ranked
-            WHERE rn = 1
+            WHERE rn <= ${limiteAmostragemSql('ranked')}
             GROUP BY dia
             ORDER BY dia
         `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
@@ -2117,7 +2151,8 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 SELECT
                     c.usuario_id,
                     ${DATA_CRIACAO_DATE_SQL} AS data_base,
-                    c.id_qldd
+                    c.id_qldd,
+                    c.origem
                 FROM db_bloco_de_notas.auditoria_qualidade aq
                 INNER JOIN db_bloco_de_notas.cotacao c ON c.id_qldd = aq.id_qldd
                 WHERE c.validacao = 'Ativo'
@@ -2130,9 +2165,10 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                     usuario_id,
                     data_base,
                     id_qldd,
+                    origem,
                     ROW_NUMBER() OVER (
-                        PARTITION BY usuario_id, data_base
-                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, data_base
+                        PARTITION BY usuario_id, data_base, (CASE WHEN ${ehOrigemInspecaoSql('base')} THEN 1 ELSE 0 END)
+                        ORDER BY CASE WHEN id_qldd IS NOT NULL THEN 0 ELSE 1 END, id_qldd DESC
                     ) AS rn
                 FROM base
             )
@@ -2140,7 +2176,7 @@ app.get('/pme_notas/api/qualidade/calendario', authenticateToken, async (req, re
                 EXTRACT(DAY FROM data_base)::int AS dia,
                 COUNT(*)::int AS auditadas
             FROM ranked
-            WHERE rn = 1
+            WHERE rn <= ${limiteAmostragemSql('ranked')}
             GROUP BY dia
             ORDER BY dia
         `, origem === 'r_000250' ? [ano, mes] : origem ? [ano, mes, origem] : [ano, mes]);
@@ -2341,8 +2377,9 @@ app.get('/pme_notas/qualidade', authenticatePage, authorizeRoute('/pme_notas/qua
 // o colaborador auditado (usuario_id) e a origem SAEM DO MESMO LEFT JOIN LATERAL ... LIMIT 1.
 // Não use JOIN direto em cotacao aqui: cada linha extra de cotacao vira uma amostra repetida no CSV.
 //
-// REGRA 2 — 1 amostra por colaborador por dia, igual à tela /pme_notas/qualidade
-// (lá: DISTINCT ON (c.usuario_id, data de criação)). A data-base é (aq.data_qualidade)::date, que o
+// REGRA 2 — amostragem por colaborador/dia: ate 3 amostras/dia na Inspecao (r_000250) e 1 nas demais
+// origens, igual à tela /pme_notas/qualidade (lá: ROW_NUMBER sobre usuario_id + data de criação +
+// flag de Inspeção). A data-base é (aq.data_qualidade)::date, que o
 // auditar-completo grava com a data de criação da cotação. Em empate fica a auditoria mais recente
 // (id_qldd DESC) — determinístico, para o CSV sair igual em toda extração (a tela usa RANDOM()).
 // Auditoria sem linha em cotacao (histórico antigo) NÃO é agrupada com outra: a chave do dedup cai
@@ -2353,10 +2390,7 @@ app.get('/pme_notas/qualidade', authenticatePage, authorizeRoute('/pme_notas/qua
 // manual -> Manual | origem NULL/vazia -> Inspeção | sem linha em cotacao -> Não identificado.
 const SQL_REPORTS_AUDITORIA = `
   SELECT * FROM (
-    SELECT DISTINCT ON (
-             COALESCE(o.usuario_id::TEXT, 'aq:' || aq.id_qldd::TEXT),
-             (aq.data_qualidade)::date
-           )
+    SELECT
            aq.id_qldd, aq.anotacao, aq.status, aq.data_qualidade, aq.analista_qualidade_id, aq.reprova_bko,
            aq.codigo_tarefa, aq.data_analise, aq.cotacao, aq.regional, aq.tipo_de_pedido,
            aq.motivo_1_sistema_documento, aq.motivo_2_erro, aq.motivo_3_detalhamento, aq.apontamento,
@@ -2364,7 +2398,11 @@ const SQL_REPORTS_AUDITORIA = `
            TRIM(COALESCE(u_analista.nome, '') || ' ' || COALESCE(u_analista.sobrenome, '')) AS analista,
            TRIM(COALESCE(u_auditado.nome, '') || ' ' || COALESCE(u_auditado.sobrenome, '')) AS auditado_nome,
            o.origem_codigo,
-           COALESCE(o.origem, 'Não identificado') AS origem
+           COALESCE(o.origem, 'Não identificado') AS origem,
+           ROW_NUMBER() OVER (
+             PARTITION BY COALESCE(o.usuario_id::TEXT, 'aq:' || aq.id_qldd::TEXT), (aq.data_qualidade)::date, (CASE WHEN COALESCE(o.origem, 'Não identificado') = 'Inspeção' THEN 1 ELSE 0 END)
+             ORDER BY aq.id_qldd DESC
+           ) AS amostra_rn
     FROM db_bloco_de_notas.auditoria_qualidade aq
     LEFT JOIN db_automacao.usuarios u_auditado ON u_auditado.id::TEXT = aq.analista_qualidade_id::TEXT
     LEFT JOIN LATERAL (
@@ -2394,6 +2432,7 @@ const SQL_REPORTS_AUDITORIA = `
              (aq.data_qualidade)::date,
              aq.id_qldd DESC
   ) r
+  WHERE r.amostra_rn <= (CASE WHEN r.origem = 'Inspeção' THEN 3 ELSE 1 END)
   ORDER BY r.data_qualidade DESC, r.id_qldd DESC
 `;
 
